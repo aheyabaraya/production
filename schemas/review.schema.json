@@ -1,0 +1,431 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/review.schema.json",
+  "title": "IDOL Generated Branch-Cut Review",
+  "description": "Active v4 review only. It binds every generated source image to the exact approved 02A Branch Cut, its parent Core Cut, its 02B packet, and the active Founder Workbench HTML v12 surface; records observable pixel truth, Core-event fidelity, and the branch's distinct screen contribution. The existing Founder-review route remains unchanged. An optional g2_delegated_cdd close binds the exact Founder G2 envelope, cohort, section writers, provider requests/receipts, pixel-row hashes, and contextual 0--4 vector before a cohort CDD may close only the in-envelope scope. Optional packet- and section-local lineage lets unchanged passed pixels and review rows carry forward after another packet changes without treating a whole 02B SHA as an all-image invalidation key. Every passed source image must also own a validated non-generative 3840-long-edge local upscale receipt before typed Production Cut Review and Audio Production-Cut Placement. The pass does not itself authorize 03V or paid/external video generation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_02a",
+    "source_02b",
+    "section_reviews",
+    "branch_cut_reviews",
+    "review_surface",
+    "automation_boundaries",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_generated_branch_cut_review.v4"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "founder_review", "cdd_review", "passed", "hold", "rejected"]},
+    "source_02a": {"$ref": "#/$defs/artifactRef"},
+    "source_02b": {"$ref": "#/$defs/artifactRef"},
+    "section_reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionReview"}
+    },
+    "branch_cut_reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/branchCutReview"}
+    },
+    "review_surface": {"$ref": "#/$defs/reviewSurface"},
+    "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"},
+    "delegated_pixel_close": {"$ref": "#/$defs/delegatedPixelClose"},
+    "open_questions": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifactValueRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "json_pointer", "value_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "criterionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "result", "locator"],
+      "properties": {
+        "criterion_id": {
+          "enum": [
+            "character_identity_visual_continuity",
+            "scene_visual_package",
+            "action_pose_motion_anchor",
+            "multi_reference_synthesis",
+            "neighbor_cut_distinct_contribution",
+            "artifact_anatomy_crop_provider_input_stability",
+            "material_prop_scale_contact_state_continuity"
+          ]
+        },
+        "result": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0, "maximum": 4},
+            {"enum": ["not_applicable_member_absent", "not_applicable_no_material_prop"]}
+          ]
+        },
+        "locator": {"type": "string", "minLength": 1}
+      }
+    },
+    "generatedProductionCutVector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "criteria",
+        "target_lock_violation",
+        "message_lock_violation",
+        "material_drift"
+      ],
+      "properties": {
+        "criteria": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {"$ref": "#/$defs/criterionResult"}
+        },
+        "target_lock_violation": {"type": "boolean"},
+        "message_lock_violation": {"type": "boolean"},
+        "material_drift": {"type": "boolean"}
+      }
+    },
+    "pixelReviewPacketBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packet_id", "review_value_sha256"],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "review_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "delegatedPixelClose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "mode",
+        "decision",
+        "cdd_owner",
+        "cdd_lane_id",
+        "section_cohort_id",
+        "section_ids",
+        "g2_envelope",
+        "cohort_map",
+        "department_dispatches",
+        "generation_approvals",
+        "image_generation_requests",
+        "execution_receipts",
+        "pixel_review_packet_bindings",
+        "material_drift",
+        "target_lock_violation",
+        "message_lock_violation",
+        "authority_request_reasons",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_g2_delegated_pixel_close.v1"},
+        "mode": {"const": "g2_delegated_cdd"},
+        "decision": {"enum": ["pass", "hold", "authority_request"]},
+        "cdd_owner": {"type": "string", "minLength": 1},
+        "cdd_lane_id": {"type": "string", "pattern": "^section_cluster_v_c[1-9][0-9]*$"},
+        "section_cohort_id": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "g2_envelope": {"$ref": "#/$defs/artifactValueRef"},
+        "cohort_map": {"$ref": "#/$defs/artifactValueRef"},
+        "department_dispatches": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactValueRef"}
+        },
+        "generation_approvals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "image_generation_requests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "execution_receipts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "pixel_review_packet_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/pixelReviewPacketBinding"}
+        },
+        "material_drift": {"type": "boolean"},
+        "target_lock_violation": {"type": "boolean"},
+        "message_lock_violation": {"type": "boolean"},
+        "authority_request_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "automatic_fallback": {"const": "none"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"decision": {"const": "pass"}}, "required": ["decision"]},
+          "then": {
+            "properties": {
+              "material_drift": {"const": false},
+              "target_lock_violation": {"const": false},
+              "message_lock_violation": {"const": false},
+              "authority_request_reasons": {"maxItems": 0}
+            }
+          },
+          "else": {"properties": {"authority_request_reasons": {"minItems": 1}}}
+        }
+      ]
+    },
+    "branchCutReviewLineage": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {"const": "current_source_review"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "source_review",
+            "source_branch_cut_review_value_sha256"
+          ],
+          "properties": {
+            "mode": {"const": "carried_forward_unchanged_packet"},
+            "source_review": {"$ref": "#/$defs/artifactRef"},
+            "source_branch_cut_review_value_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "sectionReviewLineage": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {"const": "current_source_review"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "source_review",
+            "source_section_review_value_sha256"
+          ],
+          "properties": {
+            "mode": {"const": "carried_forward_unchanged_section"},
+            "source_review": {"$ref": "#/$defs/artifactRef"},
+            "source_section_review_value_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "sectionReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "packet_ids",
+        "decision",
+        "continuity_observation",
+        "repetition_observation",
+        "note"
+      ],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "source_section_packet_set_sha256": {"$ref": "#/$defs/sha256"},
+        "review_lineage": {"$ref": "#/$defs/sectionReviewLineage"},
+        "packet_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"}
+        },
+        "decision": {"enum": ["pass", "hold", "reject"]},
+        "continuity_observation": {"type": "string", "minLength": 1},
+        "repetition_observation": {"type": "string", "minLength": 1},
+        "collected_image_camera_angle_pixel_review": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "note": {"type": "string"}
+      }
+    },
+    "branchCutReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_id",
+        "branch_cut_id",
+        "section_id",
+        "core_cut_id",
+        "image_path",
+        "image_sha256",
+        "pixel_dimensions",
+        "observable_pixel_truth",
+        "core_event_fidelity_result",
+        "distinct_screen_contribution_result",
+        "member_visual_result",
+        "scene_reference_result",
+        "still_camera_result",
+        "body_and_object_integrity",
+        "decision",
+        "review_note"
+      ],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "source_02b_branch_cut_packet_value_sha256": {"$ref": "#/$defs/sha256"},
+        "review_lineage": {"$ref": "#/$defs/branchCutReviewLineage"},
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "image_path": {"type": "string", "minLength": 1},
+        "image_sha256": {"$ref": "#/$defs/sha256"},
+        "pixel_dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height"],
+          "properties": {
+            "width": {"type": "integer", "minimum": 1},
+            "height": {"type": "integer", "minimum": 1}
+          }
+        },
+        "observable_pixel_truth": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the pixels prove about subject, action or hold, object/environment state, gaze when visible, placement, crop, depth, light, and wardrobe."
+        },
+        "core_event_fidelity_result": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Whether the image still expresses the parent Core Cut event rather than introducing or stealing a different governing event."
+        },
+        "distinct_screen_contribution_result": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What observable information this branch contributes beyond its siblings; a start/end label or shot-size-only repeat does not qualify."
+        },
+        "member_visual_result": {"type": "string", "minLength": 1},
+        "scene_reference_result": {"type": "string", "minLength": 1},
+        "still_camera_result": {"type": "string", "minLength": 1},
+        "body_and_object_integrity": {"type": "string", "minLength": 1},
+        "generated_production_cut_vector": {"$ref": "#/$defs/generatedProductionCutVector"},
+        "decision": {"enum": ["pass", "hold", "reject"]},
+        "review_note": {"type": "string"}
+      }
+    },
+    "reviewSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["html_contract_version", "hierarchy", "decision_values"],
+      "properties": {
+        "html_contract_version": {"const": "idol-html-review-board.v12"},
+        "hierarchy": {
+          "const": "target_and_message_then_whole_film_and_section_flow_then_sections_then_core_cuts_then_branch_cuts"
+        },
+        "decision_values": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "PASS"},
+            {"const": "HOLD"},
+            {"const": "REJECT"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audio_branch_cut_placement_may_start_after_pass",
+        "paid_video_generation_approved",
+        "external_video_execution_approved",
+        "playback_pass_implied",
+        "edit_readiness_implied"
+      ],
+      "properties": {
+        "audio_branch_cut_placement_may_start_after_pass": {"type": "boolean"},
+        "paid_video_generation_approved": {"const": false},
+        "external_video_execution_approved": {"const": false},
+        "playback_pass_implied": {"const": false},
+        "edit_readiness_implied": {"const": false}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "cdd_review"}},
+        "required": ["status"]
+      },
+      "then": {"required": ["delegated_pixel_close"]}
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "passed"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "section_reviews": {
+            "items": {"properties": {"decision": {"const": "pass"}}}
+          },
+          "branch_cut_reviews": {
+            "items": {"properties": {"decision": {"const": "pass"}}}
+          },
+          "automation_boundaries": {
+            "properties": {"audio_branch_cut_placement_may_start_after_pass": {"const": true}}
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "automation_boundaries": {
+            "properties": {"audio_branch_cut_placement_may_start_after_pass": {"const": false}}
+          }
+        }
+      }
+    }
+  ]
+}

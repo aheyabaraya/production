@@ -1,0 +1,7 @@
+{
+  "evidence_class": "synthetic_fixture",
+  "fixture_notice": "synthetic_test_evidence_not_pixel_inspection_or_production_pass",
+  "sequence_sample_timestamps_seconds": [20, 21, 22, 23, 24],
+  "authored_visible_facts": "Frame contents shift rightward. This fixture does not separate camera translation from subject travel.",
+  "camera_subject_resolution": "unresolved_2d_projection_cannot_separate_camera_from_subject"
+}

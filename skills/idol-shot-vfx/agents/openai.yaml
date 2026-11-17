@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Shot VFX"
+  short_description: "Plan and review optional Blender shot VFX"
+  default_prompt: "Use $idol-shot-vfx to plan and review one optional 04VFX shot without changing the locked 04 edit."

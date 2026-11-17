@@ -1,0 +1,640 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/final-delivery-manifest.schema.json",
+  "title": "IDOL Final Delivery Manifest",
+  "description": "Active pointer-first 05 closeout v2 inventory for final deliverables, exact final-used originals, reference dependencies, and the 05 output-to-04 graph trace. Historical v1 reading is isolated in final-delivery-manifest-v1-legacy.schema.json. It grants no cleanup or release authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "run_root",
+    "status",
+    "purpose",
+    "updated_at",
+    "source_contracts",
+    "deliverables",
+    "used_originals",
+    "reference_dependencies",
+    "lineage_records",
+    "derivative_slate",
+    "quality_preservation",
+    "cleanup"
+  ],
+  "properties": {
+    "schema_version": { "const": "idol-final-delivery-manifest.v2" },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"
+    },
+    "run_root": {
+      "$ref": "#/$defs/repoRelativePath"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "hold",
+        "inventory_complete",
+        "cleanup_completed"
+      ]
+    },
+    "purpose": {
+      "const": "final_delivery_and_final_used_original_inventory"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edit_closeout",
+        "package"
+      ],
+      "properties": {
+        "edit_closeout": {
+          "$ref": "#/$defs/binding"
+        },
+        "package": {
+          "$ref": "#/$defs/binding"
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/deliverable"
+      }
+    },
+    "used_originals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/usedOriginal"
+      }
+    },
+    "reference_dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/referenceDependency"
+      }
+    },
+    "lineage_records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/lineageRecord"
+      }
+    },
+    "production_graph_trace": {
+      "$ref": "#/$defs/finalDeliveryProductionGraphTrace"
+    },
+    "derivative_slate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "planned_deliverable_ids",
+        "closed_deliverable_ids",
+        "unresolved_outputs"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "open",
+            "closed"
+          ]
+        },
+        "planned_deliverable_ids": {
+          "$ref": "#/$defs/nonEmptyUniqueIds"
+        },
+        "closed_deliverable_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "unresolved_outputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "quality_preservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original_generated_image_bytes_preserved",
+        "final_used_raw_video_bytes_preserved",
+        "lossy_proxy_is_not_only_keeper",
+        "final_master_is_hash_and_qc_bound",
+        "delivery_recompression_is_derivative_only"
+      ],
+      "properties": {
+        "original_generated_image_bytes_preserved": {
+          "const": true
+        },
+        "final_used_raw_video_bytes_preserved": {
+          "const": true
+        },
+        "lossy_proxy_is_not_only_keeper": {
+          "const": true
+        },
+        "final_master_is_hash_and_qc_bound": {
+          "const": true
+        },
+        "delivery_recompression_is_derivative_only": {
+          "const": true
+        }
+      }
+    },
+    "cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "automatic_deletion_forbidden",
+        "reverse_reference_status",
+        "cleanup_plan",
+        "founder_approval",
+        "cleanup_receipt"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "not_requested",
+            "plan_ready",
+            "founder_approved",
+            "completed"
+          ]
+        },
+        "automatic_deletion_forbidden": {
+          "const": true
+        },
+        "reverse_reference_status": {
+          "enum": [
+            "pending",
+            "pass",
+            "fail",
+            "stale"
+          ]
+        },
+        "cleanup_plan": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/binding"
+            }
+          ]
+        },
+        "founder_approval": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/binding"
+            }
+          ]
+        },
+        "cleanup_receipt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/binding"
+            }
+          ]
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"const": "idol-final-delivery-manifest.v2"}
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": ["production_graph_trace"],
+        "properties": {
+          "source_contracts": {
+            "properties": {
+              "package": {
+                "properties": {
+                  "schema_version": {"const": "idol_package.v2"}
+                }
+              }
+            }
+          },
+          "deliverables": {
+            "items": {
+              "required": ["package_output_id"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "inventory_complete",
+              "cleanup_completed"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "derivative_slate": {
+            "properties": {
+              "status": {
+                "const": "closed"
+              },
+              "unresolved_outputs": {
+                "maxItems": 0
+              }
+            }
+          },
+          "cleanup": {
+            "properties": {
+              "reverse_reference_status": {
+                "const": "pass"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cleanup": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "founder_approved",
+                  "completed"
+                ]
+              }
+            },
+            "required": [
+              "state"
+            ]
+          }
+        },
+        "required": [
+          "cleanup"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cleanup": {
+            "properties": {
+              "cleanup_plan": {
+                "$ref": "#/$defs/binding"
+              },
+              "founder_approval": {
+                "$ref": "#/$defs/binding"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "cleanup_completed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "cleanup": {
+            "properties": {
+              "state": {
+                "const": "completed"
+              },
+              "cleanup_receipt": {
+                "$ref": "#/$defs/binding"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{1,120}$"
+    },
+    "nonEmptyUniqueIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_version",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "finalDeliveryProductionGraphTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_json_pointer",
+        "package_trace_schema_version",
+        "source_value_sha256",
+        "mutation_boundary"
+      ],
+      "properties": {
+        "package_json_pointer": {"const": "/production_graph_trace"},
+        "package_trace_schema_version": {"const": "idol_05_production_graph_trace.v1"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "mutation_boundary": {
+          "const": "final_delivery_and_post05_are_evidence_only_and_never_mutate_05_or_04_truth"
+        }
+      }
+    },
+    "deliverable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "role",
+        "media_type",
+        "path",
+        "sha256",
+        "size_bytes",
+        "canonical_owner",
+        "derived_from_artifact_ids"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/id"
+        },
+        "package_output_id": {
+          "$ref": "#/$defs/id"
+        },
+        "role": {
+          "enum": [
+            "quality_master",
+            "mezzanine_master",
+            "platform_derivative",
+            "shortform_derivative",
+            "audio_master",
+            "cover_art",
+            "thumbnail",
+            "subtitle",
+            "release_metadata"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "video",
+            "image",
+            "audio",
+            "text",
+            "subtitle",
+            "metadata"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "canonical_owner": {
+          "const": true
+        },
+        "derived_from_artifact_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "usedOriginal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_class",
+        "media_type",
+        "path",
+        "sha256",
+        "size_bytes",
+        "retention_reason",
+        "used_by_artifact_ids",
+        "byte_preservation"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/id"
+        },
+        "source_class": {
+          "enum": [
+            "generated_branch_cut_image",
+            "generated_raw_video",
+            "selected_audio",
+            "external_edit_source",
+            "founder_supplied_source",
+            "other_declared_source"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "video",
+            "image",
+            "audio"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "retention_reason": {
+          "enum": [
+            "used_by_final_recipe",
+            "used_by_delivery_derivative",
+            "required_source_provenance"
+          ]
+        },
+        "used_by_artifact_ids": {
+          "$ref": "#/$defs/nonEmptyUniqueIds"
+        },
+        "byte_preservation": {
+          "const": "exact_original_bytes"
+        }
+      }
+    },
+    "referenceDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_version",
+        "status",
+        "source_identity",
+        "role"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": [
+            "source_manifest",
+            "selected_range_or_frame",
+            "run_owned_analysis",
+            "title_asset_manifest"
+          ]
+        }
+      }
+    },
+    "lineageRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_version",
+        "status",
+        "record_type"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "record_type": {
+          "enum": [
+            "prompt_packet",
+            "video_prompt_manifest",
+            "edit_map",
+            "edit_recipe",
+            "render_manifest",
+            "qc_report",
+            "founder_decision",
+            "skill_application_receipt",
+            "publication_record"
+          ]
+        }
+      }
+    }
+  }
+}

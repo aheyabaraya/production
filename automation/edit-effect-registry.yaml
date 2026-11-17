@@ -1,0 +1,317 @@
+schema_version: idol_edit_effect_registry.v1
+owner_skill: skills/idol-edit-finishing-fx/SKILL.md
+catalog_ref: skills/idol-edit-finishing-fx/references/local-ffmpeg-transition-effect-catalog.md
+renderer: scripts/idol_video_ffmpeg_revise_render.py
+compiler: scripts/idol_04fx_compile_recipe_effects.py
+contract:
+  unknown_effect: fail
+  unknown_parameter: fail
+  unsupported_pass_effect: fail
+  final_xfade_requires_duration_preserving_handles: true
+  program_timeline_unit: frames
+  seconds_are_projection_only: true
+  frame_duration_source: recipe_render_spec
+
+common_parameters:
+  start: {type: number, minimum: 0}
+  duration: {type: number, exclusive_minimum: 0}
+  start_frame: {type: integer, minimum: 0}
+  duration_frames: {type: integer, minimum: 1}
+  fx_id: {type: string}
+  status: {type: string}
+  origin: {type: string}
+  note: {type: string}
+  curve: {type: string, enum: [instant, linear, ease_in_out, attack_hold_release]}
+  attack_frames: {type: integer, minimum: 0, maximum: 240}
+  hold_frames: {type: integer, minimum: 0, maximum: 2400}
+  release_frames: {type: integer, minimum: 0, maximum: 240}
+
+parameter_specs:
+  opacity: {type: number, minimum: 0, maximum: 1}
+  color: {type: color}
+  factor: {type: number, minimum: 1, maximum: 2}
+  anchor_x: {type: number, minimum: 0, maximum: 1}
+  anchor_y: {type: number, minimum: 0, maximum: 1}
+  sigma: {type: number, minimum: 0.1, maximum: 64}
+  sigma_v: {type: number, minimum: 0, maximum: 64}
+  frames: {type: integer, minimum: 2, maximum: 8}
+  luma_amount: {type: number, minimum: -2, maximum: 5}
+  amount: {type: number, minimum: -1, maximum: 1}
+  brightness: {type: number, minimum: -1, maximum: 1}
+  contrast: {type: number, minimum: 0, maximum: 4}
+  saturation: {type: number, minimum: 0, maximum: 4}
+  gamma: {type: number, exclusive_minimum: 0, maximum: 10}
+  degrees: {type: number, minimum: -180, maximum: 180}
+  temperature: {type: number, minimum: 1000, maximum: 40000}
+  vignette_angle: {type: number, minimum: 0.01, maximum: 1.55}
+  strength: {type: integer, minimum: 1, maximum: 30}
+  pixels: {type: integer, minimum: 1, maximum: 8}
+  cbh: {type: integer, minimum: -255, maximum: 255}
+  cbv: {type: integer, minimum: -255, maximum: 255}
+  crh: {type: integer, minimum: -255, maximum: 255}
+  crv: {type: integer, minimum: -255, maximum: 255}
+  amplitude: {type: integer, minimum: 1, maximum: 20}
+  frequency_x: {type: number, minimum: 0, maximum: 120}
+  frequency_y: {type: number, minimum: 0, maximum: 120}
+  text: {type: string, min_length: 1, max_length: 240, forbidden_pattern: '[\r\n\x00]'}
+  fontsize: {type: integer, minimum: 6, maximum: 600}
+  fontcolor: {type: string, min_length: 1, max_length: 64, pattern: '^[A-Za-z0-9#@._-]+$'}
+  x: {type: string, min_length: 1, max_length: 160, pattern: '^[A-Za-z0-9_()+*/. -]+$'}
+  y: {type: string, min_length: 1, max_length: 160, pattern: '^[A-Za-z0-9_()+*/. -]+$'}
+  block: {type: integer, minimum: 2, maximum: 64}
+  transition: {type: string}
+  xfade_transition: {type: string}
+  from_slot: {type: string}
+  to_slot: {type: string}
+  transition_handle_contract: {type: object}
+
+xfade_transitions:
+  - fade
+  - wipeleft
+  - wiperight
+  - wipeup
+  - wipedown
+  - slideleft
+  - slideright
+  - slideup
+  - slidedown
+  - circlecrop
+  - rectcrop
+  - distance
+  - fadeblack
+  - fadewhite
+  - radial
+  - smoothleft
+  - smoothright
+  - smoothup
+  - smoothdown
+  - circleopen
+  - circleclose
+  - vertopen
+  - vertclose
+  - horzopen
+  - horzclose
+  - dissolve
+  - pixelize
+  - diagtl
+  - diagtr
+  - diagbl
+  - diagbr
+  - hlslice
+  - hrslice
+  - vuslice
+  - vdslice
+  - hblur
+  - fadegrays
+  - wipetl
+  - wipetr
+  - wipebl
+  - wipebr
+  - squeezeh
+  - squeezev
+  - zoomin
+  - fadefast
+  - fadeslow
+  - hlwind
+  - hrwind
+  - vuwind
+  - vdwind
+  - coverleft
+  - coverright
+  - coverup
+  - coverdown
+  - revealleft
+  - revealright
+  - revealup
+  - revealdown
+
+effects:
+  hard_cut_note:
+    aliases: []
+    renderer_status: metadata_only
+    timeline_class: metadata
+    duration_behavior: unchanged
+    parameters: [note]
+  flash:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity, color, curve, attack_frames, hold_frames, release_frames]
+  dip_flash:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity, color, curve, attack_frames, hold_frames, release_frames]
+  punch_zoom:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [factor, anchor_x, anchor_y, curve, attack_frames, hold_frames, release_frames]
+  zoom_hold:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [factor, anchor_x, anchor_y, curve, attack_frames, hold_frames, release_frames]
+  micro_freeze:
+    aliases: [impact_hold]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    timing_perception_risk: true
+    parameters: []
+  blur_pulse:
+    aliases: [gblur, blur]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [sigma]
+  horizontal_blur_whip:
+    aliases: [hblur]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [sigma, sigma_v]
+  tmix_smear:
+    aliases: [smear]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [frames]
+  unsharp_pulse:
+    aliases: [unsharp]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [luma_amount]
+  brightness_pulse:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [amount]
+  color_pulse:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [brightness, contrast, saturation, gamma]
+  contrast_pulse:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [contrast]
+  saturation_pulse:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [saturation]
+  hue_pulse:
+    aliases: [hue]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [degrees, saturation]
+  temperature_pulse:
+    aliases: [colortemperature]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [temperature]
+  eq_grade_window:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [brightness, contrast, saturation, gamma]
+  vignette_pulse:
+    aliases: [vignette]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [vignette_angle]
+  grain_pulse:
+    aliases: [noise, grain]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [strength]
+  rgb_split:
+    aliases: [rgbashift]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [pixels]
+  chromatic_shift:
+    aliases: [chromashift]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [cbh, cbv, crh, crv]
+  shake:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [amplitude, frequency_x, frequency_y]
+  edge_flash:
+    aliases: [edgedetect]
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: []
+  drawtext_hit:
+    aliases: [drawtext, text_hit]
+    renderer_status: metadata_only
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    required_parameters: [text]
+    parameters: [text, fontsize, fontcolor, x, y]
+  fade_to_black:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity]
+  fade_from_black:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity]
+  fade_to_white:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity]
+  fade_from_white:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [opacity]
+  negate_flash:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: []
+  pixelize_pulse:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: single_stream
+    duration_behavior: unchanged
+    parameters: [block]
+  xfade:
+    aliases: []
+    renderer_status: supported_now
+    timeline_class: boundary
+    duration_behavior: requires_handle_contract_for_unchanged_program
+    required_parameters: [from_slot, to_slot, transition_handle_contract]
+    parameters: [transition, xfade_transition, from_slot, to_slot, transition_handle_contract]

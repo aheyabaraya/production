@@ -1,0 +1,25 @@
+schema_version: idol_video_prompt_section_qa.v2
+content_id: SYNTHETIC_03V_REVIEW
+review_unit: section
+overall_status: pass
+source_video_prompt_index_path: runs/2099-01-01/SYNTHETIC/video-prompt-index.yaml
+source_video_prompt_index_sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+review_mode: contextual_llm_section_and_whole_timeline
+active_owner_route: codex_sol_xhigh
+sections:
+  - section_key: S00
+    status: pass
+    reviewed_prompt_count: 1
+    packet_ids: [PKT_SYNTHETIC_001]
+    review_summary: Synthetic integrated section review used only for schema testing.
+    findings: []
+    review_execution_record:
+      path: runs/2099-01-01/SYNTHETIC/review/section-S00-execution.yaml
+      sha256: "1111111111111111111111111111111111111111111111111111111111111111"
+whole_timeline_review:
+  status: pass
+  review_summary: Synthetic separate whole-timeline reconciliation used only for schema testing.
+  findings: []
+  review_execution_record:
+    path: runs/2099-01-01/SYNTHETIC/review/whole-timeline-execution.yaml
+    sha256: "2222222222222222222222222222222222222222222222222222222222222222"

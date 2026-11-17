@@ -1,0 +1,55 @@
+schema_version: idol-graph-department-dispatch.v1
+artifact_type: graph_department_dispatch
+dispatch_id: s01_decision_set
+run: runs/fixture-title/fixture-album/FIXTURE_RUN
+lane_id: planning_p3_c1
+section_cohort_id: C1
+section_ids: [S01, S02, S03]
+logical_role: planning_cdd
+assigned_owner: planning_cdd_p3_ci
+output_writer:
+  owner: planning_cdd_p3_ci
+  role: planning_cdd
+  session_id: p3_c1_primary
+reviewer:
+  owner: planning_cdd_p1
+  role: planning_cdd_p1
+  lane_id: planning_p1
+return_recipient:
+  owner: planning_cdd_p1
+  role: planning_cdd_p1
+  return_route: planning_cdd_p1_exact_link
+provider_binding:
+  registered_provider: grok
+  runtime_surface: grok_build_cli_acp
+  logical_profile_alias: frontier_director
+  execution_profile_id: grok_director_frontier
+  resolved_provider_model: grok-4.6
+  reasoning_effort: xhigh
+  provider_capability_snapshot_sha256: 4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5
+  fallback_allowed: false
+  silent_substitution_allowed: false
+goal_evidence:
+  native_goal_id: goal_front_planning_close
+  goal_text_sha256: dbdb70e96a55aefa7370a5de1e32b09ab08d80a36f1b14580fd24eb455f4c11f
+  goal_semantics: grok_goal_completed_admission
+  goal_terminal_state: complete
+  goal_last_event: goal_completed
+  goal_terminal_event_sha256: c179850570d8b75e908079a23cbcedfca6f708e8bb9e6700778cd15cf0e091fe
+  terminal_event:
+    path: work/evidence/contextual-goal-terminal-event.yaml
+    sha256: c179850570d8b75e908079a23cbcedfca6f708e8bb9e6700778cd15cf0e091fe
+input_digest_sha256: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+bounded_output:
+  output_kind: contextual_judgment_fixture
+  expected_paths:
+    - work/evidence/decision-set-output.json
+  maximum_artifact_count: 1
+output_manifest: null
+judgment_profile_id: front_planning_close
+stop_conditions:
+  - stale_bound_source
+lifecycle_state: launched
+legal_next: [returned, hold]
+lifecycle_from: prepared
+assignment_pass: false

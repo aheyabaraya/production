@@ -1,0 +1,40 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: parallel_production_cohort_cdds
+expect: pass
+run:
+  run_class: new_run
+  section_count: 9
+writer:
+  requested: graph_v2
+  active: [graph_v2]
+switch_receipt:
+  receipt_id: GRAPH_SWITCH_FIXTURE_PARALLEL_PRODUCTION_001
+  founder_authority: founder
+  graph_revision: idol-graph-skill-load-profiles.v1
+  switch_boundary: new_runs_only_after_verified_receipt
+  source_set_sha256: 05a6443dda241a3daf42c9a75f4e0caa90d37ef63c1f10092bea8a8fd4d5bdeb
+  verified_at: "2026-09-03T00:00:00Z"
+active_authoring_ids: [section_cluster_cdd_c1, section_cluster_cdd_c2, section_cluster_cdd_c3]
+active_writers:
+  - {scope: section_cluster_v_c1, lane_id: section_cluster_v_c1, role: section_cluster_cdd_ci, section_cohort_id: C1, stage: section_cluster_production, writer_id: v_c1_primary}
+  - {scope: section_cluster_v_c2, lane_id: section_cluster_v_c2, role: section_cluster_cdd_ci, section_cohort_id: C2, stage: section_cluster_production, writer_id: v_c2_primary}
+  - {scope: section_cluster_v_c3, lane_id: section_cluster_v_c3, role: section_cluster_cdd_ci, section_cohort_id: C3, stage: section_cluster_production, writer_id: v_c3_primary}
+sessions:
+  - {lane_id: planning_p3_c1, session_id: p3_c1_primary, role: planning_cdd_p3_ci, section_cohort_id: C1, stage: planning_cell, provider: grok, generation: primary, state: retired_read_only}
+  - {lane_id: planning_p3_c2, session_id: p3_c2_primary, role: planning_cdd_p3_ci, section_cohort_id: C2, stage: planning_cell, provider: grok, generation: primary, state: retired_read_only}
+  - {lane_id: planning_p3_c3, session_id: p3_c3_primary, role: planning_cdd_p3_ci, section_cohort_id: C3, stage: planning_cell, provider: grok, generation: primary, state: retired_read_only}
+  - {lane_id: section_cluster_v_c1, session_id: v_c1_primary, role: section_cluster_cdd_ci, section_cohort_id: C1, stage: section_cluster_production, provider: grok, generation: primary, state: active_writer}
+  - {lane_id: section_cluster_v_c2, session_id: v_c2_primary, role: section_cluster_cdd_ci, section_cohort_id: C2, stage: section_cluster_production, provider: grok, generation: primary, state: active_writer}
+  - {lane_id: section_cluster_v_c3, session_id: v_c3_primary, role: section_cluster_cdd_ci, section_cohort_id: C3, stage: section_cluster_production, provider: grok, generation: primary, state: active_writer}
+cohorts:
+  - {cohort_id: C1, sections: [S01, S02, S03], runtime_stage: section_cluster_production, scheduling_state: active}
+  - {cohort_id: C2, sections: [S04, S05, S06], runtime_stage: section_cluster_production, scheduling_state: active}
+  - {cohort_id: C3, sections: [S07, S08, S09], runtime_stage: section_cluster_production, scheduling_state: active}
+succession:
+  - {from_cohort_id: C1, to_cohort_id: C1}
+  - {from_cohort_id: C2, to_cohort_id: C2}
+  - {from_cohort_id: C3, to_cohort_id: C3}
+pack:
+  source_id: SRC_FIXTURE_PARALLEL_PRODUCTION_001
+  locator: playback:section_cluster_c1
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a

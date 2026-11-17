@@ -1,0 +1,111 @@
+schema_version: idol_harness_improvement_review.v2
+artifact_type: harness_improvement_review
+run: runs/harness-test/department-dispatch/DISPATCH_FIXTURE
+status: open
+created_at: "2026-08-24T00:00:00Z"
+created_by: fixture-director
+authority: non_blocking_review_sidecar_no_stage_gate_creative_or_release_authority
+closeout:
+  trigger: manual_review
+  production_state: active
+  summary: Shadow Founder creative-feedback closure captured as run_followup. Skills are not auto-written.
+  release_gate_effect: none
+issues: []
+briefing:
+  recurring_patterns: []
+  open_issue_ids: []
+  founder_decision_issue_ids: []
+  next_validation: Re-run helper receipt consume path on the next return.
+  founder_creative_closure_ids:
+    - FCF_FIXTURE_LOCAL_001
+founder_creative_closures:
+  - closure_id: FCF_FIXTURE_LOCAL_001
+    status: founder_decided
+    shadow_authority:
+      production_gate_effect: none
+      production_lock_effect: none
+      worker_self_claim_closes: false
+      numeric_or_similarity_approves: false
+      script_approves_creative_truth: false
+      auto_preference_lock: false
+      auto_skill_or_policy_rewrite: false
+      founder_form_required: false
+    named_target:
+      run: runs/harness-test/department-dispatch/DISPATCH_FIXTURE
+      track_key: fixture-track
+      track_resolution: named
+      stage_id: front_planning
+      section_id: S01
+      major_id: MJ01
+      core_id: null
+      cut_id: null
+      baseline_artifact:
+        path: scripts/tests/fixtures/run-followup-sidecar-valid.yaml
+        sha256: bb377b2a054a2f2f0b109f52033d6e09caa6628ad93cc43394201c2cc7616604
+        role: baseline_delivery
+    founder_input:
+      verbatim: The selected still does not carry the section job.
+      authorship: founder
+      captured_at: "2026-08-24T00:00:00Z"
+      surface: grok_task
+      locator: fixture-founder-comment
+    preference_scope: local_named_scope_only
+    recurrence_key: local_section_job_mismatch
+    recurrence_count: 1
+    later_evidence_refs: []
+    director_interpretation:
+      kind: correction
+      author_role: creative_development_director
+      intended_screen_job: Keep the named section job readable in the selected still.
+      founder_perceived_result: The selected still withholds the job the section must show.
+      contextual_weakness: For this song, member, world, and section, the still does not show the required job.
+      observable_evidence_refs:
+        - path: scripts/tests/fixtures/run-followup-sidecar-valid.yaml
+          sha256: bb377b2a054a2f2f0b109f52033d6e09caa6628ad93cc43394201c2cc7616604
+          role: playback_or_still_evidence
+      positive_preservation_evidence:
+        - path: scripts/tests/fixtures/run-followup-sidecar-valid.yaml
+          sha256: bb377b2a054a2f2f0b109f52033d6e09caa6628ad93cc43394201c2cc7616604
+          role: preserve_identity_continuity
+      preferred_alternative: null
+      change_contract:
+        preserve:
+          - Keep the named member identity when that member is visible.
+        change:
+          - Replace the selected still so the named section job is visible.
+        do_not_infer:
+          - Do not infer a studio taste rule from this local comment.
+      ambiguity_notes: ""
+      linked_intervention_receipt: null
+      linked_issue_id: null
+    correction_binding:
+      dispatch_id: DISPATCH_FIXTURE_001
+      path: scripts/tests/fixtures/department-dispatch-correction-source-valid.yaml
+      sha256: 7f7134141b3cc33c9885b4a37139dec1570b258c2b691317ac0d77d35d80a7ac
+      json_pointer: /director_review/correction
+      requirement_ids:
+        - QUALITY-STATED-REASON-SOLVED
+        - HOLD-DO-NOT-INFER
+      acceptance_criteria:
+        - The named section job is visible in the corrected still.
+      frozen_unaffected_outputs:
+        - path: scripts/tests/fixtures/helper-consumption-receipt-valid.yaml
+          sha256: ae1e2f40b285a483415ed404bf490612ec5fdf3ea769cef24c3c3d87d7ec1674
+          role: frozen_unaffected_output
+      command_translation: Reopen only the invalidated still. Keep frozen hashes unchanged.
+    corrected_result:
+      artifact:
+        path: scripts/tests/fixtures/helper-consumption-receipt-valid.yaml
+        sha256: ae1e2f40b285a483415ed404bf490612ec5fdf3ea769cef24c3c3d87d7ec1674
+        role: corrected_result
+      director_reason_solved: not_solved
+      closed_by: director_byte_review
+      verification_note: Director inspected the corrected bytes. The stated reason remains open.
+      worker_claim_refs: []
+    founder_decision:
+      decision: hold
+      verbatim_or_marker: HOLD pending a still that shows the named section job.
+      decided_at: "2026-08-24T00:00:00Z"
+      production_gate_effect: none
+    git_evidence: null
+    preference_candidate: null

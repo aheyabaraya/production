@@ -1,0 +1,334 @@
+{
+  "schema_version": "idol-graph-director-lineage.v1",
+  "artifact_type": "graph_director_lineage",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "phase": "planning_provisional",
+  "overall": {
+    "logical_lineage_id": "OVERALL_LINEAGE_G6",
+    "logical_role": "overall_director",
+    "founder_conversation_owner": true,
+    "canonical_promotion_owner": true,
+    "whole_film_judgment_owner": true,
+    "final_creative_acceptance_owner": true,
+    "macro_stage_id": "planning_cell",
+    "active_writer_session_id": "OVERALL_PRIMARY"
+  },
+  "lanes": [
+    {
+      "lane_id": "overall",
+      "logical_lineage_id": "OVERALL_LINEAGE_G6",
+      "logical_role": "overall_director",
+      "planning_cdd_mode": null,
+      "section_cohort_id": null,
+      "stage_id": "planning_cell",
+      "integration_writer": false,
+      "active_writer_session_id": "OVERALL_PRIMARY",
+      "physical_sessions": [
+        {
+          "generation": "primary",
+          "session_id": "OVERALL_PRIMARY",
+          "state": "active_single_writer",
+          "opened_at": "2026-09-03T00:00:00Z"
+        }
+      ],
+      "succession": {
+        "cas_required": true,
+        "third_session_forbidden": true,
+        "source_session_id": "OVERALL_PRIMARY",
+        "successor_session_id": null,
+        "active_writer_session_id": "OVERALL_PRIMARY",
+        "authority_state": "primary_active"
+      },
+      "write_scopes": [
+        {"field_id": "whole_film_promotion", "scope_kind": "whole_film", "section_ids": []}
+      ],
+      "provider_binding": {
+        "registered_provider": "grok",
+        "runtime_surface": "grok_build_cli_acp",
+        "logical_profile_alias": "frontier_director",
+        "execution_profile_id": "grok_director_frontier",
+        "resolved_provider_model": "grok-4.6",
+        "reasoning_effort": "xhigh",
+        "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+        "fallback_allowed": false,
+        "silent_substitution_allowed": false
+      },
+      "goal_evidence": {
+        "native_goal_id": "GOAL_G6_OVERALL",
+        "goal_text_sha256": "5e49ce64a86dc7cef9a963b5926d32dcfc8eb66ea3066e8a4c4da1d29a7fc10a",
+        "goal_semantics": "grok_goal_completed_admission",
+        "goal_terminal_state": "complete",
+        "goal_last_event": "goal_completed",
+        "goal_terminal_event_sha256": "7d93d0bbeda19b87a87a163831a4fccefde3e533f9ad249d697f513cd341604d",
+        "terminal_event": {
+          "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-overall.yaml",
+          "sha256": "7d93d0bbeda19b87a87a163831a4fccefde3e533f9ad249d697f513cd341604d"
+        }
+      },
+      "return_recipient": {
+        "owner": "fixture-overall",
+        "role": "overall_director",
+        "return_route": "founder_conversation"
+      },
+      "planning_to_production_carry": null
+    },
+    {
+      "lane_id": "planning_p1",
+      "logical_lineage_id": "P1_LINEAGE_G6",
+      "logical_role": "planning_cdd",
+      "planning_cdd_mode": "story_audience_lead",
+      "section_cohort_id": null,
+      "stage_id": "planning_cell",
+      "integration_writer": true,
+      "active_writer_session_id": "P1_SUCCESSOR",
+      "physical_sessions": [
+        {
+          "generation": "primary",
+          "session_id": "P1_PRIMARY",
+          "state": "graph_logically_retired",
+          "opened_at": "2026-09-03T00:00:00Z"
+        },
+        {
+          "generation": "successor",
+          "session_id": "P1_SUCCESSOR",
+          "state": "active_single_writer",
+          "opened_at": "2026-09-03T01:00:00Z"
+        }
+      ],
+      "succession": {
+        "cas_required": true,
+        "third_session_forbidden": true,
+        "source_session_id": "P1_PRIMARY",
+        "successor_session_id": "P1_SUCCESSOR",
+        "active_writer_session_id": "P1_SUCCESSOR",
+        "authority_state": "successor_active"
+      },
+      "write_scopes": [
+        {"field_id": "storyline_descendant", "scope_kind": "whole_film", "section_ids": []},
+        {"field_id": "message_progression", "scope_kind": "whole_film", "section_ids": []},
+        {"field_id": "song_screen_reward", "scope_kind": "whole_film", "section_ids": []},
+        {"field_id": "planning_integration_milestone", "scope_kind": "whole_film", "section_ids": []}
+      ],
+      "provider_binding": {
+        "registered_provider": "grok",
+        "runtime_surface": "grok_build_cli_acp",
+        "logical_profile_alias": "frontier_director",
+        "execution_profile_id": "grok_director_frontier",
+        "resolved_provider_model": "grok-4.6",
+        "reasoning_effort": "xhigh",
+        "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+        "fallback_allowed": false,
+        "silent_substitution_allowed": false
+      },
+      "goal_evidence": {
+        "native_goal_id": "GOAL_G6_P1",
+        "goal_text_sha256": "1c9cd513b8cd0cc9c0874d634e59f666d7792bf976ab97befeffe9ff739a69f4",
+        "goal_semantics": "grok_goal_completed_admission",
+        "goal_terminal_state": "complete",
+        "goal_last_event": "goal_completed",
+        "goal_terminal_event_sha256": "00e63aca5eda96be4873a61548b2c8895523e6c0d03f9ad0e3f279f0c94f3b3d",
+        "terminal_event": {
+          "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-p1.yaml",
+          "sha256": "00e63aca5eda96be4873a61548b2c8895523e6c0d03f9ad0e3f279f0c94f3b3d"
+        }
+      },
+      "return_recipient": {
+        "owner": "fixture-overall",
+        "role": "overall_director",
+        "return_route": "overall_reviewed_milestone"
+      },
+      "planning_to_production_carry": null
+    },
+    {
+      "lane_id": "planning_p2",
+      "logical_lineage_id": "P2_LINEAGE_G6",
+      "logical_role": "planning_cdd",
+      "planning_cdd_mode": "visual_reference_development",
+      "section_cohort_id": null,
+      "stage_id": "planning_cell",
+      "integration_writer": false,
+      "active_writer_session_id": "P2_PRIMARY",
+      "physical_sessions": [
+        {
+          "generation": "primary",
+          "session_id": "P2_PRIMARY",
+          "state": "active_single_writer",
+          "opened_at": "2026-09-03T00:00:00Z"
+        }
+      ],
+      "succession": {
+        "cas_required": true,
+        "third_session_forbidden": true,
+        "source_session_id": "P2_PRIMARY",
+        "successor_session_id": null,
+        "active_writer_session_id": "P2_PRIMARY",
+        "authority_state": "primary_active"
+      },
+      "write_scopes": [
+        {"field_id": "visual_regime", "scope_kind": "whole_film", "section_ids": []},
+        {"field_id": "reference_disposition", "scope_kind": "whole_film", "section_ids": []},
+        {"field_id": "world_look", "scope_kind": "whole_film", "section_ids": []}
+      ],
+      "provider_binding": {
+        "registered_provider": "grok",
+        "runtime_surface": "grok_build_cli_acp",
+        "logical_profile_alias": "frontier_director",
+        "execution_profile_id": "grok_director_frontier",
+        "resolved_provider_model": "grok-4.6",
+        "reasoning_effort": "xhigh",
+        "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+        "fallback_allowed": false,
+        "silent_substitution_allowed": false
+      },
+      "goal_evidence": {
+        "native_goal_id": "GOAL_G6_P2",
+        "goal_text_sha256": "6bfde821670fafe069d7a426e2c70adc5b72477be9b4408b981e963923dc92aa",
+        "goal_semantics": "grok_goal_completed_admission",
+        "goal_terminal_state": "complete",
+        "goal_last_event": "goal_completed",
+        "goal_terminal_event_sha256": "ee5ec54f468a3cf5f701f4754eb12f0702e209636727fb33461b9407e9023e6a",
+        "terminal_event": {
+          "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-p2.yaml",
+          "sha256": "ee5ec54f468a3cf5f701f4754eb12f0702e209636727fb33461b9407e9023e6a"
+        }
+      },
+      "return_recipient": {
+        "owner": "fixture-p1",
+        "role": "planning_cdd_p1",
+        "return_route": "planning_cdd_p1_exact_link"
+      },
+      "planning_to_production_carry": null
+    },
+    {
+      "lane_id": "planning_p3_c1",
+      "logical_lineage_id": "P3C1_LINEAGE_G6",
+      "logical_role": "planning_cdd",
+      "planning_cdd_mode": "section_kinetic_architecture",
+      "section_cohort_id": "C1",
+      "stage_id": "planning_cell",
+      "integration_writer": false,
+      "active_writer_session_id": "P3C1_PRIMARY",
+      "physical_sessions": [
+        {
+          "generation": "primary",
+          "session_id": "P3C1_PRIMARY",
+          "state": "active_single_writer",
+          "opened_at": "2026-09-03T00:00:00Z"
+        }
+      ],
+      "succession": {
+        "cas_required": true,
+        "third_session_forbidden": true,
+        "source_session_id": "P3C1_PRIMARY",
+        "successor_session_id": null,
+        "active_writer_session_id": "P3C1_PRIMARY",
+        "authority_state": "primary_active"
+      },
+      "write_scopes": [
+        {"field_id": "section_jobs", "scope_kind": "section_cohort", "section_ids": ["S01", "S02"]},
+        {"field_id": "major_sequence_core", "scope_kind": "section_cohort", "section_ids": ["S01", "S02"]}
+      ],
+      "provider_binding": {
+        "registered_provider": "grok",
+        "runtime_surface": "grok_build_cli_acp",
+        "logical_profile_alias": "frontier_director",
+        "execution_profile_id": "grok_director_frontier",
+        "resolved_provider_model": "grok-4.6",
+        "reasoning_effort": "xhigh",
+        "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+        "fallback_allowed": false,
+        "silent_substitution_allowed": false
+      },
+      "goal_evidence": {
+        "native_goal_id": "GOAL_G6_P3_C1",
+        "goal_text_sha256": "5ec1a8002b8abc8d22fefa7e7253a95627aa7dc6fe4d41598ab9e0d393fa6351",
+        "goal_semantics": "grok_goal_completed_admission",
+        "goal_terminal_state": "complete",
+        "goal_last_event": "goal_completed",
+        "goal_terminal_event_sha256": "b5a15ac1e4719ff2cc43d09756ebf778e26723d29d989d2d4d374b9c1d9557f1",
+        "terminal_event": {
+          "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-p3-c1.yaml",
+          "sha256": "b5a15ac1e4719ff2cc43d09756ebf778e26723d29d989d2d4d374b9c1d9557f1"
+        }
+      },
+      "return_recipient": {
+        "owner": "fixture-p1",
+        "role": "planning_cdd_p1",
+        "return_route": "planning_cdd_p1_exact_link"
+      },
+      "planning_to_production_carry": null
+    },
+    {
+      "lane_id": "planning_p3_c2",
+      "logical_lineage_id": "P3C2_LINEAGE_G6",
+      "logical_role": "planning_cdd",
+      "planning_cdd_mode": "section_kinetic_architecture",
+      "section_cohort_id": "C2",
+      "stage_id": "planning_cell",
+      "integration_writer": false,
+      "active_writer_session_id": "P3C2_PRIMARY",
+      "physical_sessions": [
+        {
+          "generation": "primary",
+          "session_id": "P3C2_PRIMARY",
+          "state": "active_single_writer",
+          "opened_at": "2026-09-03T00:00:00Z"
+        }
+      ],
+      "succession": {
+        "cas_required": true,
+        "third_session_forbidden": true,
+        "source_session_id": "P3C2_PRIMARY",
+        "successor_session_id": null,
+        "active_writer_session_id": "P3C2_PRIMARY",
+        "authority_state": "primary_active"
+      },
+      "write_scopes": [
+        {"field_id": "section_jobs", "scope_kind": "section_cohort", "section_ids": ["S03", "S04", "S05"]},
+        {"field_id": "major_sequence_core", "scope_kind": "section_cohort", "section_ids": ["S03", "S04", "S05"]}
+      ],
+      "provider_binding": {
+        "registered_provider": "grok",
+        "runtime_surface": "grok_build_cli_acp",
+        "logical_profile_alias": "frontier_director",
+        "execution_profile_id": "grok_director_frontier",
+        "resolved_provider_model": "grok-4.6",
+        "reasoning_effort": "xhigh",
+        "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+        "fallback_allowed": false,
+        "silent_substitution_allowed": false
+      },
+      "goal_evidence": {
+        "native_goal_id": "GOAL_G6_P3_C2",
+        "goal_text_sha256": "cffd5dbddadbff80b367523c0414ecca92c0a1bdcaa583d84d8fe2a98c430fe7",
+        "goal_semantics": "grok_goal_completed_admission",
+        "goal_terminal_state": "complete",
+        "goal_last_event": "goal_completed",
+        "goal_terminal_event_sha256": "a70692b9470a44e1ab22e3e2196d2a833513eac577a7c0cdeb64de28071253fd",
+        "terminal_event": {
+          "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-p3-c2.yaml",
+          "sha256": "a70692b9470a44e1ab22e3e2196d2a833513eac577a7c0cdeb64de28071253fd"
+        }
+      },
+      "return_recipient": {
+        "owner": "fixture-p1",
+        "role": "planning_cdd_p1",
+        "return_route": "planning_cdd_p1_exact_link"
+      },
+      "planning_to_production_carry": null
+    }
+  ],
+  "provider_policy": {
+    "fallback_allowed": false,
+    "silent_substitution_allowed": false,
+    "director_minimum_alias": "frontier_director",
+    "physical_session_caps": {
+      "grok_build_nonroot": 8,
+      "cursor_agent_nonroot": 6,
+      "combined": 14,
+      "lower_live_cap_wins": true
+    }
+  },
+  "section_cohort_map": null,
+  "department_dispatch_pointers": []
+}

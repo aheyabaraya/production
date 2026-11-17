@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/audio-input-lineage.schema.json",
+  "title": "IDOL Preserved Audio Input Lineage",
+  "description": "Run-owned, pointer-only proof that an active run reuses already canonical selected-audio analysis and audio-motion evidence without copying source bytes or inheriting another run's creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "run",
+    "ownership_contract",
+    "inputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-audio-input-lineage.v1"
+    },
+    "status": {
+      "const": "active_pointer_only"
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_root", "content_id"],
+      "properties": {
+        "run_root": {
+          "type": "string",
+          "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"
+        },
+        "content_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+        }
+      }
+    },
+    "ownership_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "byte_ownership",
+        "reuse_mode",
+        "creative_inheritance",
+        "script_boundary"
+      ],
+      "properties": {
+        "byte_ownership": {
+          "const": "canonical_source_path_only"
+        },
+        "reuse_mode": {
+          "const": "path_and_sha256_pointer_no_copy"
+        },
+        "creative_inheritance": {
+          "const": "forbidden"
+        },
+        "script_boundary": {
+          "const": "validate_path_hash_schema_only_never_author_or_infer_creative_truth"
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selected_audio_analysis", "audio_motion_director_map"],
+      "properties": {
+        "selected_audio_analysis": {
+          "$ref": "#/$defs/inputPointer"
+        },
+        "audio_motion_director_map": {
+          "$ref": "#/$defs/inputPointer"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "inputPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_path",
+        "sha256",
+        "source_content_id",
+        "allowed_use",
+        "forbidden_use"
+      ],
+      "properties": {
+        "canonical_path": {
+          "type": "string",
+          "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Za-z0-9][A-Za-z0-9._-]{2,120})/research/.+\\.(?:yaml|yml|json)$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_content_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+        },
+        "allowed_use": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "forbidden_use": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

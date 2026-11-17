@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/signal-deck-traffic.schema.json",
+  "title": "Loom Signal Deck aggregate traffic snapshot",
+  "description": "A privacy-preserving aggregate traffic snapshot. No event-level or personal identifiers are permitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "captured_at",
+    "metric_name",
+    "count",
+    "provider",
+    "environment",
+    "measurement_window",
+    "source",
+    "source_locator",
+    "data_completeness",
+    "collector_version"
+  ],
+  "properties": {
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metric_name": {
+      "const": "visits_count"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "provider": {
+      "const": "vercel_web_analytics_api"
+    },
+    "environment": {
+      "const": "production"
+    },
+    "measurement_window": {
+      "const": "provider_default_window"
+    },
+    "source": {
+      "const": "official_vercel_web_analytics_api"
+    },
+    "source_locator": {
+      "const": "/v1/query/web-analytics/visits/count"
+    },
+    "data_completeness": {
+      "enum": ["complete", "partial"]
+    },
+    "known_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "collector_version": {
+      "const": "loom_metric_collector.v1"
+    }
+  }
+}

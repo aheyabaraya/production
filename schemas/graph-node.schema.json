@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-node.schema.json",
+  "title": "IDOL Graph Engineering Node v1",
+  "description": "Provider-neutral run-graph node. Structural, authority, evidence, and session state only. Creative prose lives in hash-bound authorship receipts, never in this object.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "node_id",
+    "node_class",
+    "view",
+    "logical_id",
+    "scope_id",
+    "state",
+    "owner_role",
+    "truth_kind",
+    "may_write"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-node.v1"},
+    "node_id": {"$ref": "#/$defs/identifier"},
+    "node_class": {"$ref": "#/$defs/nodeClass"},
+    "view": {"$ref": "#/$defs/view"},
+    "logical_id": {"$ref": "#/$defs/identifier"},
+    "scope_id": {"$ref": "#/$defs/identifier"},
+    "state": {"$ref": "#/$defs/state"},
+    "owner_role": {"$ref": "#/$defs/role"},
+    "writer_id": {"$ref": "#/$defs/identifier"},
+    "may_write": {"type": "boolean"},
+    "truth_kind": {"enum": ["structural", "evidence", "authority"]},
+    "judgment_schema_version": {"enum": ["idol_graph_contextual_judgment.v1", "idol_graph_contextual_judgment.v2"]},
+    "judgment_profile_id": {"$ref": "#/$defs/identifier"},
+    "judgment_decision": {"enum": ["eligible_for_director_review", "combine_or_correct", "hold", "reject"]},
+    "lane_id": {"$ref": "#/$defs/identifier"},
+    "stage_id": {"$ref": "#/$defs/identifier"},
+    "cohort_id": {"$ref": "#/$defs/cohortId"},
+    "section_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sectionId"}
+    },
+    "session_role": {"enum": ["primary", "successor"]},
+    "integration_writer": {"type": "boolean"},
+    "write_scope_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "logical_tier": {"enum": ["frontier_director", "worker_high", "research_medium"]},
+    "fallback_policy": {"const": "forbidden"},
+    "resolved_profile_id": {"$ref": "#/$defs/identifier"},
+    "gate_id": {"$ref": "#/$defs/founderGateId"},
+    "required_closed_before": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "next_legal_owner": {"$ref": "#/$defs/role"},
+    "evidence": {"$ref": "#/$defs/evidence"},
+    "authorship": {"$ref": "#/$defs/authorship"},
+    "legacy_source": {"$ref": "#/$defs/legacySource"},
+    "pointers": {"$ref": "#/$defs/pointers"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"may_write": {"const": true}}, "required": ["may_write"]},
+      "then": {"required": ["writer_id"]}
+    },
+    {
+      "if": {"properties": {"node_class": {"const": "founder_gate"}}, "required": ["node_class"]},
+      "then": {"required": ["gate_id", "required_closed_before"]}
+    },
+    {
+      "if": {"properties": {"node_class": {"const": "provider_session"}}, "required": ["node_class"]},
+      "then": {
+        "required": ["lane_id", "stage_id", "session_role", "logical_tier", "fallback_policy", "resolved_profile_id"]
+      }
+    },
+    {
+      "if": {"properties": {"node_class": {"const": "contextual_judgment"}}, "required": ["node_class"]},
+      "then": {
+        "required": ["judgment_schema_version", "judgment_profile_id", "judgment_decision", "authorship", "pointers"],
+        "properties": {
+          "view": {"const": "review_decision"},
+          "truth_kind": {"const": "evidence"},
+          "may_write": {"const": false},
+          "state": {"enum": ["returned", "ready_for_director_review", "hold", "rejected"]}
+        }
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {"required": ["judgment_schema_version"]},
+            {"required": ["judgment_profile_id"]},
+            {"required": ["judgment_decision"]}
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "node_class": {
+            "enum": ["planning_section_cohort_lane", "section_cluster_cdd_lane", "section_cohort"]
+          }
+        },
+        "required": ["node_class"]
+      },
+      "then": {"required": ["cohort_id", "section_ids"]}
+    },
+    {
+      "if": {"properties": {"state": {"const": "promoted"}}, "required": ["state"]},
+      "then": {"required": ["evidence"]}
+    },
+    {
+      "if": {"properties": {"state": {"const": "hold"}}, "required": ["state"]},
+      "then": {"required": ["next_legal_owner"]}
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "sectionId": {
+      "type": "string",
+      "pattern": "^S[0-9]{2}$"
+    },
+    "cohortId": {
+      "type": "string",
+      "pattern": "^C[1-9][0-9]*$"
+    },
+    "founderGateId": {
+      "type": "string",
+      "pattern": "^G[0-4]$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "view": {
+      "enum": [
+        "creative_truth",
+        "evidence_provenance",
+        "authority_ownership",
+        "execution_session",
+        "review_decision",
+        "provider_capability"
+      ]
+    },
+    "nodeClass": {
+      "enum": [
+        "founder_gate",
+        "authority_envelope",
+        "decision_epoch",
+        "overall_lane",
+        "planning_cdd_lane",
+        "planning_section_cohort_lane",
+        "section_cluster_cdd_lane",
+        "edit_director_lane",
+        "worker_package",
+        "stage_checkpoint",
+        "section_cohort",
+        "section",
+        "major",
+        "sequence_unit",
+        "core",
+        "branch",
+        "production_cut",
+        "source",
+        "locator",
+        "derivative",
+        "reference_binding",
+        "attachment_group",
+        "prompt_packet",
+        "generated_image",
+        "motion_storyboard",
+        "video_output",
+        "edit_output",
+        "dispatch",
+        "goal",
+        "provider_session",
+        "attempt",
+        "return",
+        "review",
+        "contextual_judgment",
+        "hold",
+        "artifact_pointer",
+        "context_pack",
+        "output_manifest",
+        "runtime_receipt"
+      ]
+    },
+    "state": {
+      "enum": [
+        "planned",
+        "admitted",
+        "running",
+        "returned",
+        "ready_for_director_review",
+        "reviewed",
+        "promoted",
+        "hold",
+        "invalidated",
+        "stale",
+        "retired",
+        "blocked",
+        "rejected",
+        "successor_pending"
+      ]
+    },
+    "role": {
+      "enum": [
+        "founder",
+        "overall_director",
+        "planning_cdd_p1",
+        "planning_cdd_p2",
+        "planning_cdd_p3",
+        "section_cluster_cdd",
+        "edit_director",
+        "worker_high",
+        "research_medium",
+        "section_image_motion_worker"
+      ]
+    },
+    "authorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["author_kind", "author_role", "receipt"],
+      "properties": {
+        "author_kind": {
+          "enum": ["founder", "assigned_model", "assigned_human", "deterministic_projection"]
+        },
+        "author_role": {"type": "string", "minLength": 1},
+        "receipt": {"$ref": "#/$defs/receipt"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "json_pointer", "value_sha256"],
+      "properties": {
+        "source_path": {"$ref": "#/$defs/repositoryPath"},
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_digest", "result_digest", "output_hash", "review_id"],
+      "properties": {
+        "input_digest": {"$ref": "#/$defs/sha256"},
+        "result_digest": {"$ref": "#/$defs/sha256"},
+        "output_hash": {"$ref": "#/$defs/sha256"},
+        "review_id": {"$ref": "#/$defs/identifier"}
+      }
+    },
+    "legacySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capsule", "path", "legacy_id", "sha256"],
+      "properties": {
+        "capsule": {"const": "parse_only"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "local_fixture_path": {"$ref": "#/$defs/repositoryPath"},
+        "legacy_id": {"type": "string", "minLength": 1},
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "pointers": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "artifact_path": {"$ref": "#/$defs/repositoryPath"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

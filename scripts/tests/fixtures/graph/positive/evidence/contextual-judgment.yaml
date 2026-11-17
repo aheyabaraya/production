@@ -1,0 +1,113 @@
+schema_version: idol_graph_contextual_judgment.v1
+artifact_type: graph_contextual_judgment
+profile_id: front_planning_close
+checkpoint_id: p3_section_kinetic_architecture
+stage_id: front_planning_integration
+scope_id: s01_decision_set
+authoring_owner: human_or_assigned_model
+reviewer_role: planning_cdd_p3_ci
+performance_mode: none
+applicability_tags: []
+applicability_evidence: []
+execution_binding:
+  assignment_id: s01_decision_set
+  author_role: planning_cdd_p3_ci
+  author_session_id: p3_c1_primary
+  dispatch:
+    path: work/evidence/contextual-dispatch.yaml
+    sha256: 0dc3ca9ecdbff971c4753c52c8274b3acab2c014567c38462be4bc1ed103f7d1
+  goal_id: goal_front_planning_close
+  goal_terminal_event_sha256: c179850570d8b75e908079a23cbcedfca6f708e8bb9e6700778cd15cf0e091fe
+  role_context_pack:
+    path: work/evidence/contextual-role-context-pack.yaml
+    sha256: bcd3d11c733e0fec971ca04f1e7ee44e2bbf5c47f426cdb70865b71c9be1e30c
+  profile_release:
+    path: automation/graph-creative-judgment-profile-releases/front_planning_close/78455593bc2ecc0fd1051ed41c11db5b9b2e33dc934bb66dbdd9891d561b95fb.yaml
+    sha256: c04d91388b3eb271053be30250e8997fdd29187d6db22cec401aef81210bcc55
+  profile_value_sha256: cebb0bd53195b5d0b9b3ac07cf872f33f26d6e1c24066001361636cf9c483b0d
+  input_digest_sha256: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+  output_manifest:
+    path: work/evidence/contextual-output-manifest.yaml
+    sha256: fc8a8e96c361bb0ae2787d156eb430605cd3c727cfea4f3f68c1e14a3998f914
+source_artifacts:
+  - path: work/evidence/decision-set-output.json
+    sha256: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d
+    locator: exact promoted decision set bytes
+criteria:
+  - criterion_id: storyline_section_major_causality
+    result: 3
+    evidence_locator: decision set storyline and Major mapping
+    observable_claim: The section event follows the active storyline cause.
+    screen_consequence: The Major has a legible narrative job.
+    preserve: Preserve the causal event order.
+    change: Change only an unsupported connective beat.
+    do_not_infer: Do not infer Founder approval.
+    correction_action: Return the connective beat to its planning owner.
+    acceptance_evidence: Recheck the corrected decision set bytes.
+  - criterion_id: selected_audio_kinetic_edit_usefulness
+    result: 3
+    evidence_locator: decision set selected-audio mapping
+    observable_claim: The screen job exposes a usable edit landing.
+    screen_consequence: The section can cut without flattening the phrase.
+    preserve: Preserve the selected audio trigger.
+    change: Change only an ungrounded landing.
+    do_not_infer: Do not infer a mechanical cutpoint.
+    correction_action: Return the landing to its planning owner.
+    acceptance_evidence: Recheck the corrected audio mapping.
+  - criterion_id: contiguous_motion_change_and_landing
+    result: 4
+    evidence_locator: decision set contiguous motion evidence
+    observable_claim: The selected event contains a visible change and landing.
+    screen_consequence: Motion can govern the section transition.
+    preserve: Preserve the contiguous motion interval.
+    change: Change only a stale locator.
+    do_not_infer: Do not infer motion from a contact sheet.
+    correction_action: Refresh the exact motion locator if stale.
+    acceptance_evidence: Recheck the exact contiguous samples.
+  - criterion_id: still_camera_composition_depth_edit_value
+    result: 4
+    evidence_locator: decision set composition binding
+    observable_claim: Camera height distance direction and depth are explicit.
+    screen_consequence: The still supports the intended edit contrast.
+    preserve: Preserve the governing composition geometry.
+    change: Change only conflicting crop instructions.
+    do_not_infer: Do not infer depth from mood prose.
+    correction_action: Return the conflicting crop to its owner.
+    acceptance_evidence: Recheck the corrected composition binding.
+  - criterion_id: four_role_coverage_and_synthesis
+    result: 3
+    evidence_locator: decision set role plan
+    observable_claim: Required roles are covered without a collage.
+    screen_consequence: The combined image remains visually coherent.
+    preserve: Preserve the smallest governing reference set.
+    change: Change only a redundant attachment.
+    do_not_infer: Do not infer a role from media type.
+    correction_action: Remove redundant role bindings.
+    acceptance_evidence: Recheck the exact attachment order.
+  - criterion_id: major_core_whole_film_non_duplication
+    result: 3
+    evidence_locator: decision set neighbor comparison
+    observable_claim: The Major contributes a distinct visible state change.
+    screen_consequence: The whole-film progression does not repeat one tableau.
+    preserve: Preserve the distinct event consequence.
+    change: Change only an unmotivated repeated angle.
+    do_not_infer: Do not infer novelty from noun replacement.
+    correction_action: Return the repeated screen job to P3.
+    acceptance_evidence: Recheck the neighbor comparison.
+  - criterion_id: transfer_provenance_feasibility
+    result: 3
+    evidence_locator: decision set source transfer boundary
+    observable_claim: The reference function can transfer without direct copying.
+    screen_consequence: The plan remains executable and source-bounded.
+    preserve: Preserve the selected function and exclusion.
+    change: Change only an untraceable source binding.
+    do_not_infer: Do not infer rights or capture approval.
+    correction_action: Return an untraceable binding to P2.
+    acceptance_evidence: Recheck the refreshed path and hash.
+hard_gate_findings: []
+decision: eligible_for_director_review
+next_edge: director_review
+target_message_treatment: inherit_pre_fp_locks_check_progression_only
+aggregate_score_present: false
+automatic_creative_pass: false
+status: ready_for_director_review

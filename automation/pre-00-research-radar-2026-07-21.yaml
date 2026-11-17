@@ -1,0 +1,236 @@
+schema_version: "1.2"
+radar_id: PRE00_RADAR_2026_07_21
+date: "2026-07-21"
+mode: automation
+status: founder_review
+research_policy:
+  method_basis: "idol-research-radar full structured route; public web research plus current local trend, fashion, member, and unit records"
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 3
+  reference_families: [song, media_narrative, fashion, idol]
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: "One distinct usable function per family; keep weak current-idol claims out until the weekly bundle exists."
+  combination_rule: "Every route cites all four families and changes the listener situation, body hook, unit, and screen system rather than merely recoloring one idea."
+  unity_rule: "Song pulse, narrative pressure, wardrobe motion, and member proof must make the same emotional claim."
+  ref_id_integrity_rule: "source_ref_ids and lane_ref_ids resolve only to keyed research_inputs in their matching family."
+  allowed_output: scoped_route_candidate_brief_before_00
+  handoff_target: 00_creative_nucleus_draft
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md freshness windows"
+  recheck_before_00:
+    - "Refresh the July pulse and check the missing weekly idol and short-form reports before route selection is promoted after 2026-08-04."
+    - "Recheck public promotion or platform claims; none are asserted as current evidence here."
+  durable_record_rule: "This automation artifact is short-term route support, not a durable reference promotion."
+  bank_record_rule: "Search found no matching selected hook record; do not add a message-hook bank entry until founder selection or a test."
+research_inputs:
+  REF_SONG_BRIGHT_PROOF_PULSE:
+    title: "2026-07 Pulse 01: pressure-bright / summer-recall song map"
+    path_or_url: source-materials/trend-pulse-records/2026-07-pulse-01.md
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "Calls for a 3-8 second identity signal, pre-hook emotional reason, and crop-safe post-hook body proof."
+    useful_function: "Use a bright surface over a pressure engine; do not use generic empowerment or challenge-only construction."
+    collection_method: trend_record
+    source_use_boundary: "Working local hypothesis; recheck before 00 if selection is delayed."
+  REF_MEDIA_NARRATIVE_TREASURE_EVERYTHING:
+    title: "YG LIFE: TREASURE 'EVERYTHING' MV"
+    path_or_url: https://yg-life.com/archives/194905?lang=en
+    reference_family: media_narrative
+    reference_lane: character_arc
+    short_note: "Official label account describes a refreshing coming-of-age love story grounded in friendship and support."
+    useful_function: "Let a polished performance world contain a concrete relationship turn rather than treating warmth as a decorative mood."
+    collection_method: published_article
+    source_use_boundary: "Narrative-function reference only; no scene, identity, or visual copying."
+  REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY:
+    title: "TIME: KPop Demon Hunters breakthrough profile"
+    path_or_url: https://time.com/7338690/breakthrough-of-the-year-2025-kpop-demon-hunters/
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "The profile attributes the soundtrack's resonance to music being woven into story."
+    useful_function: "Give the hook a visible story consequence, not only a lore label or visual effect."
+    collection_method: published_article
+    source_use_boundary: "Concept-semantics reference only; no character, world, or plot extraction."
+  REF_FASHION_SS26_UTILITY_SCARF:
+    title: "Vogue: Spring 2026 trend report"
+    path_or_url: https://www.vogue.com/article/the-spring-2026-trend-report-a-season-of-uniform-dressing-rococo-flourishes-and-much-more
+    reference_family: fashion
+    reference_lane: accessory_styling
+    short_note: "Reports a remix season with utility dressing and scarf-knot gestures."
+    useful_function: "Use a single motivated scarf or utility layer as a hand-and-airflow cue, never as random decoration."
+    collection_method: published_article
+    source_use_boundary: "Wardrobe and accessory function only; it cannot supply story or choreography."
+  REF_FASHION_SS26_SATIN_COLOR:
+    title: "Vogue: 15 Spring 2026 trends"
+    path_or_url: https://www.vogue.com/article/fall-styling-spring-2026-trends
+    reference_family: fashion
+    reference_lane: color_palette
+    short_note: "Names utility jackets, silk scarves, draped satin, and high-contrast crimson/electric-blue/violet color."
+    useful_function: "Pair one practical base with one liquid or saturated cue layer so brightness reads as a decision."
+    collection_method: published_article
+    source_use_boundary: "Seasonal styling evidence only; match to member identity before a later visual lock."
+  REF_IDOL_UNIT_REGISTRY:
+    title: "AURORA-M active unit registry"
+    path_or_url: assets/unit-registry.yaml
+    reference_family: idol
+    reference_lane: idol_identity
+    short_note: "Defines active units, member lists, center roles, and distinct route risks."
+    useful_function: "Use only active units and their actual member sets; do not infer a full-roster route from scale alone."
+    collection_method: local_asset
+    source_use_boundary: "Internal identity and ownership evidence; not a claim about a current external idol promotion."
+  REF_IDOL_POINT_CHOREO:
+    title: "Marie Claire: KATSEYE choreography directors interview"
+    path_or_url: https://www.marieclaire.com/culture/music/katseye-performance-directors-grant-gilmore-sohey-sugihara-interview/
+    reference_family: idol
+    reference_lane: idol_performance
+    short_note: "Describes point choreography as a recognizable, replicable chorus move and links it to covers and performance versions."
+    useful_function: "Make one gesture legible in a front or three-quarter phone crop, while retaining a full-song performance reason."
+    collection_method: published_article
+    source_use_boundary: "Performance-readability evidence only; do not copy a named choreography."
+research_vectors:
+  - vector_id: trend_hypothesis_fit
+    research_question: "Can the bright-proof hypothesis remain human rather than nostalgia or club imitation?"
+    sample_rule: "Use the active local pulse and one current public narrative source; mark missing weekly evidence as a recheck rather than fill it with claims."
+    extraction_fields: [listener tension, first-15-second reason, reference-application scope]
+    downstream_targets:
+      - {stage: pre00_recommended_00_draft, artifact_or_schema: "00-creative-nucleus.yaml", field_path: target_empathy_seed, handoff_use: "Founder-selected audience hypothesis."}
+    reject_if_missing: "Reject any route whose brightness has no observable pressure or human stake."
+  - vector_id: song_hook_structure
+    research_question: "Which entry, lift, and body response can make a future reference-song fit specific?"
+    sample_rule: "Use the pulse only as a function family until the founder supplies a song and timestamps."
+    extraction_fields: [entry signal, pre-hook lift, post-hook body proof]
+    downstream_targets:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: "reference-song-fit.schema.json", field_path: function_breakdown, handoff_use: "Compare only after founder supplies a sound anchor."}
+    reject_if_missing: "Reject prompt-ready claims without founder-provided reference audio."
+  - vector_id: wardrobe_material_motion
+    research_question: "Which SS26 layer moves with the body and remains performance-safe?"
+    sample_rule: "Use fashion only for silhouette, material, color, or accessory role."
+    extraction_fields: [base layer, motion accent, color limit]
+    downstream_targets:
+      - {stage: 01a_track_visual_board, artifact_or_schema: "01A visual board", field_path: wardrobe_motion, handoff_use: "Later visual-lock candidate, not a lock now."}
+    reject_if_missing: "Reject costume-first routes without a choreography function."
+candidate_routes:
+  - route_id: R01_AFTER_HOURS_HANDOFF
+    route_name: "After-Hours Handoff"
+    recommendation_message: "A bright team relay begins after practice, when one member finally lets the others see the pressure she has been carrying."
+    recommended_unit: {unit_code: TUI_06, unit_purpose: "Public hook strength and chorus identity with tension.", member_codes: [M01, M02, M05, M07, M09, M12], center_roles: {opening_vocal: M01, formation_center: M07, hook_drive: M09}, unit_fit_reason: "Its public-hook shape can carry a crisp first signal while M02/M05 make the admission and lift readable.", unit_risk: "Do not turn the relationship into clean brand polish with no rupture."}
+    member_focus: [M01, M02, M05, M07, M09, M12]
+    source_ref_ids: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_TREASURE_EVERYTHING, REF_FASHION_SS26_UTILITY_SCARF, REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]
+    lane_ref_ids: {song: [REF_SONG_BRIGHT_PROOF_PULSE], media_narrative: [REF_MEDIA_NARRATIVE_TREASURE_EVERYTHING], fashion: [REF_FASHION_SS26_UTILITY_SCARF], idol: [REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]}
+    combined_signal: "Bright hook + friendship turn + utility-scarf relay + front-readable wrist cue."
+    tone_mood_message_unity: {tone_and_manner: "clean, candid, forward", mood: "contained pressure opening into relief", message: "Being seen changes how I carry the weight.", unity_reason: "The scarf passes from private cover to group signal as the vocal lift and formation widen.", mismatch_watch: "Avoid a vague friendship montage or a challenge gesture detached from the confession."}
+    possible_message: "I do not need to look unbroken to stay bright."
+    song_feeling: "124-130 BPM-feel bright bass-pop; clipped verse, an audible pre-hook breath, then a compact chorus release."
+    choreography_hook: "One wrist-cover, open-palm handoff, then a two-step forward that works front-on in phone crop."
+    performance_image: "M01 holds a direct opening gaze; M02 counts the handoff; M05 carries the lift while the unit closes behind her."
+    mv_image: "After-hours mirrored studio; a knotted scarf moves hand to hand and becomes a visible group line at chorus."
+    why_aurora_m_can_own_it: "TUI_06 already combines opening vocal, precision, lift, formation, and hook roles without forcing full-roster coverage."
+    risk_or_gap: "Needs a future sound anchor to prove that the pre-hook deserves the emotional reveal."
+    downstream_handoff_map:
+      - {stage: pre00_recommended_00_draft, artifact_or_schema: "00-creative-nucleus.yaml", field_path: storyline_spine_seed, handoff_use: "Carry the private-cover to group-signal progression."}
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: "reference-song-fit.schema.json", field_path: function_breakdown, handoff_use: "Test breath-to-chorus release and short phrase density."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: R01_AFTER_HOURS_HANDOFF
+      goal: "Make a public hook feel earned by one visible act of member recognition."
+      thesis: {message: "Being seen changes how I carry the weight.", one_line: "The relay begins when the cover comes off.", audience_feel: "Relief with enough pressure to replay the pre-hook.", hook_moment: "Wrist-cover becomes open-palm handoff on the chorus entry."}
+      target_empathy_seed: {target_viewer: "A viewer who performs brightness while holding back a hard day.", viewer_feeling_state: "Composed but close to asking to be noticed.", identification_point: "The private habit of covering the wrist or hands before rejoining people.", desired_aftertaste: "I can accept support without losing my edge.", empathy_risk: "If everyone is happy from frame one, the support has no consequence.", member_bridge: "M02's precise restraint and M05's vocal release make the turn believable.", message_translation: "Brightness becomes a choice after contact, not a costume."}
+      storyline_spine_seed:
+        summary: "A concealed pressure mark moves from one member's private gesture into a six-member relay and final front-facing release."
+        beats:
+          - {order: 1, beat: "cover", primary_member: M01, core_action: "She tightens a scarf over her wrist before rehearsal starts.", visual_function: "Seed the pressure without dialogue.", camera_or_world_cue: "Close three-quarter hand and face hold."}
+          - {order: 2, beat: "notice", primary_member: M02, core_action: "She mirrors the gesture, then opens her palm instead of correcting it.", visual_function: "Make recognition visible.", camera_or_world_cue: "Waist-high lateral two-shot."}
+          - {order: 3, beat: "relay", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "scarf line", core_action: "The unit passes the cue through a moving formation.", visual_function: "Turn private tension into chorus proof.", camera_or_world_cue: "Front-wide then phone-crop insert."}
+      founder_input_seed: {status: "No founder song, timestamp, or explicit lock supplied in this automation request."}
+      asset_alignment_seed: {selected_unit: TUI_06, selected_members: [M01, M02, M05, M07, M09, M12], identity_constraints: "Use registry roles; no member styling or visual lock is implied."}
+      song_structure_seed: {entry: "bright tag plus direct gaze", pre_hook: "breath and admission", chorus: "short group phrase with handoff", post_hook: "two-step relay loop"}
+      choreography_seed: {point_action: "cover-open-handoff", proof_rule: "Readable front-on without losing the full formation route."}
+      visual_world_seed: {space: "after-hours mirror studio", object: "single knotted scarf", wardrobe: "utility base with one motion layer"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Scarf continuity and hands must remain inspectable before any visual prompt work."}
+      derivative_plan_seed: ["6-10 second handoff loop only after a full-song performance reason exists."]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_TREASURE_EVERYTHING, REF_FASHION_SS26_UTILITY_SCARF, REF_IDOL_UNIT_REGISTRY]
+      open_questions_seed: ["Which founder-provided reference song supplies the admission-to-release timing?", "Should the scarf be a personal object or a rehearsal marker?"]
+  - route_id: R02_CITY_SEAT_RELEASE
+    route_name: "City Seat Release"
+    recommendation_message: "A commuter seat becomes the place where a member stops rehearsing her answer and lets the chorus arrive before she does."
+    recommended_unit: {unit_code: CACHE_05, unit_purpose: "Cool groove loop and close-range vocal character.", member_codes: [M01, M02, M03, M04, M09], center_roles: {opening_vocal: M01, rhythm_anchor: M03, emotional_bridge: M04, hook_drive: M09}, unit_fit_reason: "The unit can hold a low-pressure pocket, spoken groove, and intimate release without overplaying the drama.", unit_risk: "It must keep a distinct rhythmic tag, not drift into soft blankness."}
+    member_focus: [M01, M02, M03, M04, M09]
+    source_ref_ids: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY, REF_FASHION_SS26_SATIN_COLOR, REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]
+    lane_ref_ids: {song: [REF_SONG_BRIGHT_PROOF_PULSE], media_narrative: [REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY], fashion: [REF_FASHION_SS26_SATIN_COLOR], idol: [REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]}
+    combined_signal: "Mid-tempo private vocal pocket + a story-causing object + one saturated satin cue + foot-and-seat rhythm."
+    tone_mood_message_unity: {tone_and_manner: "cool, intimate, lightly defiant", mood: "late-day suspension becoming a small decision", message: "I can leave the answer unfinished and still move.", unity_reason: "The seated pause creates lyric space; the color cue only appears when the body starts moving.", mismatch_watch: "Avoid turning transit into a generic melancholy aesthetic or letting the world outrun member intimacy."}
+    possible_message: "I do not owe the perfect answer before I take my next step."
+    song_feeling: "104-116 BPM-feel UKG-lite / bright R&B-pop; conversational verse, delayed pre-hook, then a clipped melodic answer."
+    choreography_hook: "Heel tap under the seat, palm on the window, then a sideways shoulder release that can loop without becoming a challenge bait."
+    performance_image: "M03 anchors the spoken groove; M04 holds the late pre-hook; M09 lands the compact answer as the others enter the aisle line."
+    mv_image: "Night bus or transit-stop bench; a small electric-blue satin lining flashes only when the group leaves the seats."
+    why_aurora_m_can_own_it: "CACHE_05 has the needed close-range vocal/rhythm contrast and does not require a large formation to sell the refrain."
+    risk_or_gap: "Needs a founder-selected sound anchor to decide whether the chorus is a sung lift or a restrained chant."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: R02_CITY_SEAT_RELEASE
+      goal: "Turn an unfinished private answer into a replayable physical release."
+      thesis: {message: "I can move before I have every answer.", one_line: "The seat releases her before the city does.", audience_feel: "A small, useful permission rather than a big victory speech.", hook_moment: "Heel tap becomes sideways shoulder release at the first answer phrase."}
+      target_empathy_seed: {target_viewer: "Someone mentally rehearsing a reply on the way home.", viewer_feeling_state: "Overthinking, tired, still alert to the city around them.", identification_point: "The private loop of typing and deleting an answer.", desired_aftertaste: "A little more room inside the next step.", empathy_risk: "If the song resolves too grandly, the intimate premise becomes false.", member_bridge: "M03's cool spoken groove and M04's breathy bridge make the stalled thought audible.", message_translation: "Motion is permission, not proof of having solved everything."}
+      storyline_spine_seed:
+        summary: "A held transit pause breaks into a five-member aisle route and ends with the answer deliberately left unsent."
+        beats:
+          - {order: 1, beat: "loop", primary_member: M03, core_action: "She taps a heel while a draft message stays unsent.", visual_function: "Give the verse a concrete nervous rhythm.", camera_or_world_cue: "Low seat-level profile."}
+          - {order: 2, beat: "answer", primary_member: M04, core_action: "She looks up as the phrase opens, without sending the message.", visual_function: "Let the pre-hook change the meaning.", camera_or_world_cue: "Still close-up with window reflection."}
+          - {order: 3, beat: "leave", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "electric-blue lining", core_action: "The five move down the aisle in a staggered shoulder route.", visual_function: "Make chorus movement feel like a decision.", camera_or_world_cue: "Front aisle tracking shot."}
+      founder_input_seed: {status: "No founder song or timestamp supplied; this is not a prompt packet."}
+      asset_alignment_seed: {selected_unit: CACHE_05, selected_members: [M01, M02, M03, M04, M09], identity_constraints: "Keep the cool groove and emotional bridge distinct from soft-teen styling."}
+      song_structure_seed: {entry: "heel tap and short vocal tag", verse: "spoken-groove pocket", pre_hook: "one longer held line", chorus: "clipped melodic answer", post_hook: "seat-to-aisle shoulder loop"}
+      choreography_seed: {point_action: "tap-window-shoulder", proof_rule: "Seat-level detail must lead into an actual full-body exit."}
+      visual_world_seed: {space: "night transit", object: "unsent message screen", wardrobe: "utility base with electric-blue satin lining"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Transit and screen text need licensing/safety review before later execution."}
+      derivative_plan_seed: ["A silent heel-tap-to-shoulder transition can become a later teaser only after the song provides its answer phrase."]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY, REF_FASHION_SS26_SATIN_COLOR, REF_IDOL_UNIT_REGISTRY]
+      open_questions_seed: ["Does the founder want Korean-only or hybrid lyric phrasing for the delayed answer?", "Is the city route grounded realism or a slightly stylized night bus?"]
+  - route_id: R03_COLOR_CODE_COLLISION
+    route_name: "Color-Code Collision"
+    recommendation_message: "A polished rehearsal broadcast keeps color-correcting the members until they deliberately break the system with one shared off-count."
+    recommended_unit: {unit_code: SYNC_05, unit_purpose: "Digital concept precision and controlled performance geometry.", member_codes: [M02, M05, M06, M07, M08], center_roles: {precision_guide: M02, vocal_lift: M05, precision_cue: M06, formation_center: M07, low_mid_counter: M08}, unit_fit_reason: "SYNC_05 can make a controlled system readable, then give the final break emotional access through vocal lift and body contrast.", unit_risk: "Without a human interruption it becomes design language without attachment."}
+    member_focus: [M02, M05, M06, M07, M08]
+    source_ref_ids: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY, REF_FASHION_SS26_SATIN_COLOR, REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]
+    lane_ref_ids: {song: [REF_SONG_BRIGHT_PROOF_PULSE], media_narrative: [REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY], fashion: [REF_FASHION_SS26_SATIN_COLOR], idol: [REF_IDOL_UNIT_REGISTRY, REF_IDOL_POINT_CHOREO]}
+    combined_signal: "Cold precision + story-causing system error + saturated color interruption + exact group point move."
+    tone_mood_message_unity: {tone_and_manner: "precise, bright, dryly playful", mood: "controlled pressure cracking into collective relief", message: "I choose the mistake that proves I am here.", unity_reason: "The system's perfect color geometry makes one shared off-count visually and emotionally legible.", mismatch_watch: "Avoid generic glitch effects or a sterile mirror world with no listener situation."}
+    possible_message: "My imperfect timing is still mine."
+    song_feeling: "120-126 BPM-feel cold synth-pop; clipped group phrases, a narrow pre-hook gap, and one chorus answer with a deliberate off-count."
+    choreography_hook: "Five exact finger counts freeze, then all five miss the final count together and turn one shoulder toward camera."
+    performance_image: "M06 leads the count; M02 holds the precision line; M05 breaks the vocal ceiling as M07/M08 pull the formation into the shared error."
+    mv_image: "A color-calibration rehearsal room tries to neutralize every outfit; crimson, electric blue, and violet return only through movement."
+    why_aurora_m_can_own_it: "SYNC_05's established precision roles provide the system, while its vocal and low-mid contrast prevents the concept from becoming only graphic design."
+    risk_or_gap: "The story must stay about self-presence, not abstract AI rebellion; founder sound choice decides whether the off-count is funny, sharp, or tender."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: R03_COLOR_CODE_COLLISION
+      goal: "Make controlled performance precision serve a readable self-presence turn."
+      thesis: {message: "My imperfect timing is still mine.", one_line: "The error becomes the only color the system cannot erase.", audience_feel: "Permission to be visibly human inside polished pressure.", hook_moment: "Perfect finger count freezes; the shared off-count turns one shoulder into the chorus mark."}
+      target_empathy_seed: {target_viewer: "A viewer exhausted by getting every version of themselves presentation-ready.", viewer_feeling_state: "Highly controlled, secretly wanting one permitted break.", identification_point: "The relief of missing a count on purpose after being corrected too long.", desired_aftertaste: "My small deviation can be a choice.", empathy_risk: "If the break is only a visual glitch, it has no emotional cause.", member_bridge: "M06's precision and M05's lift make the break both visible and audible.", message_translation: "The system cannot define the member who chooses the off-count."}
+      storyline_spine_seed:
+        summary: "A calibration room strips five members to neutral tones until a shared off-count restores their chosen color and gaze."
+        beats:
+          - {order: 1, beat: "calibrate", primary_member: M06, core_action: "She counts five fingers as the wall corrects the outfit colors.", visual_function: "State the system's pressure.", camera_or_world_cue: "Front medium, rigid negative space."}
+          - {order: 2, beat: "hold", primary_member: M02, core_action: "She keeps the last count suspended while M05 takes one audible breath.", visual_function: "Create pre-hook tension.", camera_or_world_cue: "Slow push-in through reflected foreground."}
+          - {order: 3, beat: "choose", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "calibration grid", core_action: "All five miss the count together and turn their shoulders to camera.", visual_function: "Release color, formation, and message at once.", camera_or_world_cue: "Front wide to crisp three-quarter crop."}
+      founder_input_seed: {status: "No founder sound anchor or current visual lock supplied."}
+      asset_alignment_seed: {selected_unit: SYNC_05, selected_members: [M02, M05, M06, M07, M08], identity_constraints: "Use precision as contrast; preserve an emotional entry before the system break."}
+      song_structure_seed: {entry: "counting tag", verse: "clipped sync phrase", pre_hook: "one breath and held count", chorus: "shared off-count answer", post_hook: "shoulder-turn color loop"}
+      choreography_seed: {point_action: "five-count-freeze / shared missed count / shoulder turn", proof_rule: "The error must be intentional and readable in both wide and phone crop."}
+      visual_world_seed: {space: "calibration rehearsal room", object: "live color grid", wardrobe: "neutral technical base with hidden crimson, blue, and violet layers"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Do not use abstract glitch language in later prompts; specify grid behavior, color timing, body route, and camera geometry."}
+      derivative_plan_seed: ["Use the final shared off-count as a later hook clip only after the full system-to-choice arc is cut." ]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_BRIGHT_PROOF_PULSE, REF_MEDIA_NARRATIVE_KPDH_MUSIC_STORY, REF_FASHION_SS26_SATIN_COLOR, REF_IDOL_UNIT_REGISTRY]
+      open_questions_seed: ["Should the system be a rehearsal broadcast, a live screen wall, or a photographic color test?", "What reference song makes the held count musically credible?"]
+founder_decision_needed:
+  - "Select one route: R01_AFTER_HOURS_HANDOFF, R02_CITY_SEAT_RELEASE, or R03_COLOR_CODE_COLLISION."
+  - "Combine routes only by naming the primary message and one secondary screen function."
+  - "Request another radar/reference-fit pass if none has the right song lane."
+  - "After selection, provide a reference song, section, timestamps, or sound-anchor note before a PRE-00S fit and any Suno/manual prompt packet."
+  - "Archive this brief if no route should enter intake."
+automation_notes: "No founder-provided song, section, timestamp, or current sound-anchor note was present in this automation request, so no reference-song-fit companion artifact or Suno/manual prompt packet was created. No 00, 00A, paid generation, upload, publication, private connector, or memory write occurred."

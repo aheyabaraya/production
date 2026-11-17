@@ -1,0 +1,15 @@
+{
+  "evidence_class": "synthetic_fixture",
+  "fixture_notice": "synthetic_test_evidence_not_pixel_inspection_or_production_pass",
+  "file_id": "synthetic-same-file",
+  "spans": {
+    "span_10_14": {
+      "sequence_sample_timestamps_seconds": [10, 11, 12, 13, 14],
+      "authored_visible_facts": "Doorway still stance."
+    },
+    "span_40_44": {
+      "sequence_sample_timestamps_seconds": [40, 41, 42, 43, 44],
+      "authored_visible_facts": "Later corridor hold, a different event."
+    }
+  }
+}

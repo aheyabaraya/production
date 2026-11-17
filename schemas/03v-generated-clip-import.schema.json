@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/03v-generated-clip-import.schema.json",
+  "title": "IDOL 03V Generated Clip Import",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "mode",
+    "write",
+    "source_dir",
+    "recursive",
+    "route",
+    "source_intake",
+    "section_range",
+    "section_ids",
+    "clips_root",
+    "summary",
+    "imported_clips",
+    "skipped_existing",
+    "unmatched_sources",
+    "ambiguous_sources",
+    "duplicate_target_sources",
+    "unsupported_sources",
+    "refreshed_outputs",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol_03v_generated_clip_import.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["dry_run", "complete", "partial", "blocked"]
+    },
+    "mode": {
+      "enum": ["copy", "move"]
+    },
+    "write": {
+      "type": "boolean"
+    },
+    "source_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recursive": {
+      "type": "boolean"
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_intake": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_range": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "clips_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "expected_clip_count",
+        "source_file_count",
+        "source_video_count",
+        "matched_source_count",
+        "imported_clip_count",
+        "unmatched_source_count",
+        "ambiguous_source_count",
+        "duplicate_target_count",
+        "skipped_existing_count",
+        "unsupported_source_count",
+        "media_probe_issue_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "expected_clip_count": {"type": "integer", "minimum": 0},
+        "source_file_count": {"type": "integer", "minimum": 0},
+        "source_video_count": {"type": "integer", "minimum": 0},
+        "matched_source_count": {"type": "integer", "minimum": 0},
+        "imported_clip_count": {"type": "integer", "minimum": 0},
+        "unmatched_source_count": {"type": "integer", "minimum": 0},
+        "ambiguous_source_count": {"type": "integer", "minimum": 0},
+        "duplicate_target_count": {"type": "integer", "minimum": 0},
+        "skipped_existing_count": {"type": "integer", "minimum": 0},
+        "unsupported_source_count": {"type": "integer", "minimum": 0},
+        "media_probe_issue_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "imported_clips": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/imported_clip"}
+    },
+    "skipped_existing": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/skipped_existing"}
+    },
+    "unmatched_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source_issue"}
+    },
+    "ambiguous_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/ambiguous_source"}
+    },
+    "duplicate_target_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/duplicate_target"}
+    },
+    "unsupported_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/source_issue"}
+    },
+    "refreshed_outputs": {
+      "type": "object",
+      "required": [
+        "refreshed_intake",
+        "refreshed_worklist",
+        "refreshed_decision_sheet"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "refreshed_intake": {"type": "string"},
+        "refreshed_worklist": {"type": "string"},
+        "refreshed_decision_sheet": {"type": "string"},
+        "refreshed_action_queue": {"type": "string"},
+        "refreshed_next_unit": {"type": "string"},
+        "refreshed_founder_gate": {"type": "string"},
+        "refreshed_current_next": {"type": "string"}
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "source_issue": {
+      "type": "object",
+      "required": ["source_path", "source_size_bytes", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_size_bytes": {"type": "integer", "minimum": 0},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "ambiguous_source": {
+      "type": "object",
+      "required": [
+        "source_path",
+        "source_size_bytes",
+        "reason",
+        "candidate_packet_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_size_bytes": {"type": "integer", "minimum": 0},
+        "reason": {"type": "string", "minLength": 1},
+        "candidate_packet_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "duplicate_target": {
+      "type": "object",
+      "required": ["packet_id", "section_key", "source_paths", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "packet_id": {"type": "string", "minLength": 1},
+        "section_key": {"type": "string", "minLength": 1},
+        "source_paths": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "imported_clip": {
+      "type": "object",
+      "required": [
+        "source_path",
+        "source_size_bytes",
+        "packet_id",
+        "section_key",
+        "timeline",
+        "destination_path",
+        "match_method",
+        "matched_stem",
+        "status",
+        "destination_existed_before",
+        "destination_size_bytes",
+        "media_probe"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_size_bytes": {"type": "integer", "minimum": 0},
+        "packet_id": {"type": "string", "minLength": 1},
+        "section_key": {"type": "string", "minLength": 1},
+        "timeline": {"type": "string"},
+        "destination_path": {"type": "string", "minLength": 1},
+        "match_method": {"type": "string", "minLength": 1},
+        "matched_stem": {"type": "string", "minLength": 1},
+        "status": {
+          "enum": ["copied", "moved", "would_copy", "would_move"]
+        },
+        "destination_existed_before": {"type": "boolean"},
+        "destination_size_bytes": {"type": "integer", "minimum": 0},
+        "media_probe": {"$ref": "#/$defs/media_probe"}
+      }
+    },
+    "skipped_existing": {
+      "type": "object",
+      "required": [
+        "source_path",
+        "source_size_bytes",
+        "packet_id",
+        "section_key",
+        "timeline",
+        "destination_path",
+        "match_method",
+        "matched_stem",
+        "destination_existed_before",
+        "reason",
+        "media_probe"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_size_bytes": {"type": "integer", "minimum": 0},
+        "packet_id": {"type": "string", "minLength": 1},
+        "section_key": {"type": "string", "minLength": 1},
+        "timeline": {"type": "string"},
+        "destination_path": {"type": "string", "minLength": 1},
+        "match_method": {"type": "string", "minLength": 1},
+        "matched_stem": {"type": "string", "minLength": 1},
+        "destination_existed_before": {"type": "boolean"},
+        "reason": {"type": "string", "minLength": 1},
+        "media_probe": {"$ref": "#/$defs/media_probe"}
+      }
+    },
+    "media_probe": {
+      "type": "object",
+      "required": [
+        "status",
+        "playable",
+        "duration_seconds",
+        "video_stream_count",
+        "audio_stream_count",
+        "width",
+        "height",
+        "codec_name",
+        "error"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["ok", "probe_failed"]},
+        "playable": {"type": "boolean"},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "video_stream_count": {"type": "integer", "minimum": 0},
+        "audio_stream_count": {"type": "integer", "minimum": 0},
+        "width": {"type": "integer", "minimum": 0},
+        "height": {"type": "integer", "minimum": 0},
+        "codec_name": {"type": "string"},
+        "error": {"type": "string"}
+      }
+    }
+  }
+}

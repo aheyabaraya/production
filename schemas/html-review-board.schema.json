@@ -1,0 +1,1185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/html-review-board.schema.json",
+  "title": "IDOL Founder Production Workbench v12",
+  "description": "One cumulative image-first Founder Production Workbench for G-00 through G-70. New authoring uses only canonical G-cycle ids; discovery, direction_synthesis, and fp_final are read/display aliases. G-30 fails closed unless FP-A, FP-B, and FP-C are complete and materially distinct, every required actual visual is present, every material Core has an exact selected reference or Founder-authored waiver, and the required Hero proof exists. video_playback_internal is a CDD checkpoint rather than a Founder gate. The HTML is a stable derived read model and never canonical creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run",
+    "board",
+    "sources",
+    "decision_options",
+    "sections"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-html-review-board.v12"},
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_root", "content_id"],
+      "properties": {
+        "run_root": {"type": "string", "minLength": 1},
+        "content_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "board_id",
+        "stage_id",
+        "review_mode",
+        "status",
+        "layout_profile",
+        "revision",
+        "active_cycle_id",
+        "storage_scope",
+        "output_policy",
+        "title",
+        "purpose",
+        "review_question",
+        "target_summary",
+        "message_summary",
+        "whole_film_flow_summary",
+        "section_flow_summary",
+        "storyline_alignment_policy",
+        "output_path"
+      ],
+      "properties": {
+        "board_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "stage_id": {"type": "string", "minLength": 1},
+        "review_mode": {"$ref": "#/$defs/cycleKind"},
+        "status": {"enum": ["draft", "internal_review", "founder_review", "hold", "passed", "rejected", "superseded"]},
+        "layout_profile": {"const": "founder-production-workbench-v12"},
+        "legacy_cycle_aliases": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["discovery", "direction_synthesis", "fp_final"],
+          "properties": {
+            "discovery": {"const": "g00_direction_draft"},
+            "direction_synthesis": {"const": "g30_fp_final"},
+            "fp_final": {"const": "g40_core_branch_authorization"}
+          }
+        },
+        "revision": {"type": "integer", "minimum": 1},
+        "projection_profile": {"const": "founder-workbench-continuity-v1"},
+        "projection_revision": {"type": "integer", "minimum": 1},
+        "last_reviewed_revision": {"type": "integer", "minimum": 0},
+        "source_set_digest": {"$ref": "#/$defs/sourceSetDigest"},
+        "active_cycle_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "storage_scope": {"const": "stable_board_lineage"},
+        "output_policy": {"const": "replace_generated_projection_same_path"},
+        "density": {"enum": ["comfortable", "compact"]},
+        "title": {"$ref": "#/$defs/scalarBinding"},
+        "eyebrow": {"$ref": "#/$defs/scalarBinding"},
+        "purpose": {"$ref": "#/$defs/scalarBinding"},
+        "review_question": {"$ref": "#/$defs/scalarBinding"},
+        "target_summary": {"$ref": "#/$defs/scalarBinding"},
+        "message_summary": {"$ref": "#/$defs/scalarBinding"},
+        "whole_film_flow_summary": {"$ref": "#/$defs/scalarBinding"},
+        "section_flow_summary": {"$ref": "#/$defs/scalarBinding"},
+        "storyline_alignment_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["progression_rule", "visual_mismatch_action", "exact_source_projection"],
+          "properties": {
+            "progression_rule": {
+              "const": "g00_through_g70_cumulative_exact_storyline_and_screen_progression_projection"
+            },
+            "visual_mismatch_action": {
+              "const": "reinspect_exact_bound_pixels_with_founder_reconcile_the_smallest_storyline_owner_then_reproject_only_affected_descendants"
+            },
+            "exact_source_projection": {"const": true}
+          }
+        },
+        "output_path": {"type": "string", "pattern": "^runs/.+/review/founder-workbench\\.html$"},
+        "review_sequence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {"$ref": "#/$defs/reviewPhase"}
+        },
+        "rollback_pair": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["last_passed_manifest", "last_passed_html"],
+          "properties": {
+            "last_passed_manifest": {"$ref": "#/$defs/artifactBinding"},
+            "last_passed_html": {"$ref": "#/$defs/artifactBinding"}
+          }
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tone", "text"],
+            "properties": {
+              "tone": {"enum": ["info", "warning", "hold", "pass"]},
+              "text": {"$ref": "#/$defs/scalarBinding"}
+            }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "decision_options": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/decisionOption"}
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/reviewCycle"}
+    },
+    "review_assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/reviewAsset"}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"board": {"properties": {"review_mode": {"const": "g00_direction_draft"}}}}},
+      "then": {
+        "properties": {
+          "decision_options": {
+            "minItems": 7,
+            "maxItems": 7,
+            "prefixItems": [
+              {"$ref": "#/$defs/discoveryAttracted"},
+              {"$ref": "#/$defs/rejectOption"},
+              {"$ref": "#/$defs/holdOption"},
+              {"$ref": "#/$defs/discoveryConnect"},
+              {"$ref": "#/$defs/discoveryKeepOnly"},
+              {"$ref": "#/$defs/discoverySearch"},
+              {"$ref": "#/$defs/directCommentOption"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"board": {"properties": {"review_mode": {"const": "g30_fp_final"}}}}},
+      "then": {
+        "properties": {
+          "decision_options": {
+            "minItems": 4,
+            "maxItems": 4,
+            "prefixItems": [
+              {"$ref": "#/$defs/directionSelectOption"},
+              {"$ref": "#/$defs/holdOption"},
+              {"$ref": "#/$defs/rejectOption"},
+              {"$ref": "#/$defs/directCommentOption"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"board": {"properties": {"review_mode": {"enum": ["g10_song_lock", "g20_visual_identity_lock", "g40_core_branch_authorization", "g50_branch_results", "g60_playback_edit", "g70_release"]}}}}},
+      "then": {
+        "properties": {
+          "decision_options": {
+            "minItems": 3,
+            "maxItems": 3,
+            "prefixItems": [
+              {"$ref": "#/$defs/passOption"},
+              {"$ref": "#/$defs/holdOption"},
+              {"$ref": "#/$defs/rejectOption"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"board": {"properties": {"review_mode": {"const": "g30_experiment_disposition"}}}}},
+      "then": {
+        "properties": {
+          "decision_options": {
+            "minItems": 6,
+            "maxItems": 6,
+            "prefixItems": [
+              {"$ref": "#/$defs/rejectArchiveOption"},
+              {"$ref": "#/$defs/reviseExperimentOption"},
+              {"$ref": "#/$defs/teaserOnlyOption"},
+              {"$ref": "#/$defs/teaserFirstHoldOption"},
+              {"$ref": "#/$defs/fullMvDevelopmentOption"},
+              {"$ref": "#/$defs/holdOption"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"board": {"properties": {"review_mode": {"const": "video_playback_internal"}}}}},
+      "then": {
+        "properties": {
+          "decision_options": {
+            "minItems": 3,
+            "maxItems": 3,
+            "prefixItems": [
+              {"$ref": "#/$defs/internalPassOption"},
+              {"$ref": "#/$defs/internalHoldOption"},
+              {"$ref": "#/$defs/internalExceptionOption"}
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "board": {
+            "properties": {"projection_profile": {"const": "founder-workbench-continuity-v1"}},
+            "required": ["projection_profile"]
+          }
+        }
+      },
+      "then": {
+        "required": ["review_assets"],
+        "properties": {
+          "board": {
+            "required": ["last_reviewed_revision", "projection_revision", "review_sequence", "rollback_pair", "legacy_cycle_aliases"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourceSetDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "basis", "sha256", "entry_count"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "basis": {"const": "canonical_projection_query_and_owner_bindings_v1"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "entry_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "decisionOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "tone"],
+      "properties": {
+        "id": {
+          "enum": [
+            "attracted",
+            "reject",
+            "hold",
+            "connect_these",
+            "keep_only",
+            "search_further",
+            "direct_comment",
+            "select_candidate",
+            "lock_fields",
+            "pass",
+            "reject_archive",
+            "revise_experiment",
+            "teaser_only",
+            "teaser_first_full_mv_hold",
+            "full_mv_development",
+            "internal_pass",
+            "internal_hold",
+            "material_exception"
+          ]
+        },
+        "label": {"type": "string", "minLength": 1},
+        "tone": {"enum": ["neutral", "pass", "hold", "revise", "reject"]}
+      }
+    },
+    "passOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "pass"}, "label": {"const": "PASS"}, "tone": {"const": "pass"}}},
+    "holdOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "hold"}, "label": {"const": "HOLD"}, "tone": {"const": "hold"}}},
+    "rejectOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "reject"}, "label": {"const": "REJECT"}, "tone": {"const": "reject"}}},
+    "directCommentOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "direct_comment"}, "label": {"const": "DIRECT COMMENT"}, "tone": {"const": "neutral"}}},
+    "discoveryAttracted": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "attracted"}, "label": {"const": "ATTRACTED"}, "tone": {"const": "pass"}}},
+    "discoveryConnect": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "connect_these"}, "label": {"const": "CONNECT THESE"}, "tone": {"const": "neutral"}}},
+    "discoveryKeepOnly": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "keep_only"}, "label": {"const": "KEEP ONLY"}, "tone": {"const": "neutral"}}},
+    "discoverySearch": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "search_further"}, "label": {"const": "SEARCH FURTHER"}, "tone": {"const": "revise"}}},
+    "directionLockOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "lock_fields"}, "label": {"const": "LOCK NAMED FIELDS"}, "tone": {"const": "pass"}}},
+    "directionSelectOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "select_candidate"}, "label": {"const": "SELECT COMPLETE ROUTE"}, "tone": {"const": "pass"}}},
+    "rejectArchiveOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "reject_archive"}, "label": {"const": "REJECT ARCHIVE"}, "tone": {"const": "reject"}}},
+    "reviseExperimentOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "revise_experiment"}, "label": {"const": "REVISE EXPERIMENT"}, "tone": {"const": "revise"}}},
+    "teaserOnlyOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "teaser_only"}, "label": {"const": "TEASER ONLY"}, "tone": {"const": "pass"}}},
+    "teaserFirstHoldOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "teaser_first_full_mv_hold"}, "label": {"const": "TEASER FIRST · FULL MV HOLD"}, "tone": {"const": "hold"}}},
+    "fullMvDevelopmentOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "full_mv_development"}, "label": {"const": "FULL MV DEVELOPMENT"}, "tone": {"const": "pass"}}},
+    "internalPassOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "internal_pass"}, "label": {"const": "CDD PLAYBACK PASS"}, "tone": {"const": "pass"}}},
+    "internalHoldOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "internal_hold"}, "label": {"const": "CDD PLAYBACK HOLD"}, "tone": {"const": "hold"}}},
+    "internalExceptionOption": {"type": "object", "additionalProperties": false, "required": ["id", "label", "tone"], "properties": {"id": {"const": "material_exception"}, "label": {"const": "MATERIAL EXCEPTION"}, "tone": {"const": "revise"}}},
+    "sourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "pointer"],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "pointer": {"type": "string", "pattern": "^(|/.*)$"},
+        "join": {"type": "string"}
+      }
+    },
+    "scalarBinding": {
+      "oneOf": [
+        {"type": ["string", "number", "boolean"]},
+        {"$ref": "#/$defs/sourcePointer"}
+      ]
+    },
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "identifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "cycleKind": {
+      "enum": [
+        "g00_direction_draft",
+        "g10_song_lock",
+        "g20_visual_identity_lock",
+        "g30_fp_final",
+        "g30_experiment_disposition",
+        "g40_core_branch_authorization",
+        "g50_branch_results",
+        "video_playback_internal",
+        "g60_playback_edit",
+        "g70_release"
+      ]
+    },
+    "decisionOwner": {
+      "oneOf": [
+        {"enum": ["creative_development_director", "overall_director", "edit_director"]},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role"],
+          "properties": {
+            "role": {"enum": ["creative_development_director", "overall_director", "edit_director"]},
+            "surface": {"enum": ["overall_founder_conversation", "cdd_internal_checkpoint"]},
+            "promotion_authority": {"enum": ["cannot_promote", "overall_final_acceptance"]},
+            "owner_id": {"$ref": "#/$defs/nonEmptyString"},
+            "owner": {"$ref": "#/$defs/nonEmptyString"},
+            "task_id": {"$ref": "#/$defs/nonEmptyString"}
+          }
+        }
+      ]
+    },
+    "legalActions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "attracted",
+          "reject",
+          "hold",
+          "connect_these",
+          "keep_only",
+          "search_further",
+          "direct_comment",
+          "select_candidate",
+          "lock_fields",
+          "pass",
+          "reject_archive",
+          "revise_experiment",
+          "teaser_only",
+          "teaser_first_full_mv_hold",
+          "full_mv_development",
+          "internal_pass",
+          "internal_hold",
+          "material_exception"
+        ]
+      }
+    },
+    "blockingEffect": {
+      "enum": [
+        "non_gating_signal_only",
+        "only_explicitly_named_field_or_card_is_fixed",
+        "advances_or_holds_only_bound_scope",
+        "routes_derivative_scope_without_discarding_other_derivatives",
+        "internal_playback_checkpoint_only"
+      ]
+    },
+    "g30Readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_ids", "complete_route_count", "route_candidate_set_complete", "routes_materially_distinct", "actual_visuals_present", "reference_complete", "hero_generated", "controls_enabled", "hold_reasons"],
+      "properties": {
+        "route_ids": {"type": "array", "const": ["FP-A", "FP-B", "FP-C"]},
+        "complete_route_count": {"const": 3},
+        "route_candidate_set_complete": {"type": "boolean"},
+        "routes_materially_distinct": {"type": "boolean"},
+        "actual_visuals_present": {"type": "boolean"},
+        "reference_complete": {"type": "boolean"},
+        "hero_generated": {"type": "boolean"},
+        "controls_enabled": {"type": "boolean"},
+        "hold_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["fp_route_candidate_set_incomplete", "visual_missing", "reference_incomplete", "g30_prepared_generation_authority_missing", "consecutive_same_flow"]}
+        }
+      }
+    },
+    "routeReadiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opening_to_ending_story_complete", "section_major_stacks_complete", "sequence_composition_sets_complete", "core_visual_candidate_sets_complete", "selected_exact_reference_or_waiver_complete", "required_hero_proof_complete", "actual_visual_present", "materially_distinct"],
+      "properties": {
+        "opening_to_ending_story_complete": {"const": true},
+        "section_major_stacks_complete": {"const": true},
+        "sequence_composition_sets_complete": {"const": true},
+        "core_visual_candidate_sets_complete": {"const": true},
+        "selected_exact_reference_or_waiver_complete": {"type": "boolean"},
+        "required_hero_proof_complete": {"type": "boolean"},
+        "actual_visual_present": {"type": "boolean"},
+        "materially_distinct": {"const": true}
+      }
+    },
+    "reviewPhase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "order", "stage_id", "gate"],
+      "properties": {
+        "phase": {"enum": ["fp_close", "planning_02a", "post_02a"]},
+        "order": {"type": "integer", "minimum": 1, "maximum": 10},
+        "stage_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "gate": {
+          "enum": [
+            "read_only_fp_close_lineage",
+            "active_02a_final_planning",
+            "read_only_projection"
+          ]
+        }
+      }
+    },
+    "affectedScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_mode", "stage_id", "section_ids", "chunk_ids", "target_ids"],
+      "properties": {
+        "scope_mode": {"enum": ["sectionless", "single_section", "multi_section", "whole_film"]},
+        "stage_id": {"$ref": "#/$defs/nonEmptyString"},
+        "section_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}},
+        "chunk_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "target_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "core_cut_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "planning_cut_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "branch_cut_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "edit_shard_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "directorReviewBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "row"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "row": {"$ref": "#/$defs/nonEmptyString"},
+        "pointer": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "dispatchIndexBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "row", "pointer"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "row": {"$ref": "#/$defs/nonEmptyString"},
+        "pointer": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "workerEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "lineage_id", "attempt_id", "session_id", "director_dispatch_index"],
+      "properties": {
+        "applicability": {"enum": ["worker_return", "mechanical_no_worker"]},
+        "lineage_id": {"$ref": "#/$defs/nonEmptyString"},
+        "attempt_id": {"$ref": "#/$defs/nonEmptyString"},
+        "session_id": {"oneOf": [{"$ref": "#/$defs/nonEmptyString"}, {"type": "null"}]},
+        "director_dispatch_index": {"$ref": "#/$defs/dispatchIndexBinding"}
+      }
+    },
+    "founderLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["founder_receipt", "decision_export", "decision_intake"],
+      "properties": {
+        "founder_receipt": {"$ref": "#/$defs/artifactBinding"},
+        "decision_export": {"$ref": "#/$defs/artifactBinding"},
+        "decision_intake": {"$ref": "#/$defs/artifactBinding"}
+      }
+    },
+    "fragmentOwnership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "path", "sha256"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "scope": {"$ref": "#/$defs/affectedScope"}
+      }
+    },
+    "boardMerge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["coordinator", "path", "sha256", "single_writer"],
+      "properties": {
+        "coordinator": {"const": "board_coordinator"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "single_writer": {"const": true}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "path", "sha256", "role"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "value"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "value": {"$ref": "#/$defs/scalarBinding"},
+        "style": {"enum": ["text", "mono"]}
+      }
+    },
+    "referenceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "source_identity",
+        "disposition",
+        "function",
+        "follow_strength",
+        "preserve",
+        "discard"
+      ],
+      "properties": {
+        "receipt_id": {"$ref": "#/$defs/scalarBinding"},
+        "source_identity": {"$ref": "#/$defs/scalarBinding"},
+        "disposition": {
+          "oneOf": [
+            {"enum": ["applied", "combined", "held", "rejected"]},
+            {"$ref": "#/$defs/sourcePointer"}
+          ]
+        },
+        "function": {"$ref": "#/$defs/scalarBinding"},
+        "follow_strength": {
+          "oneOf": [
+            {"enum": ["bounded_surface_direct", "full_scene_direct", "sequence_direct"]},
+            {"$ref": "#/$defs/sourcePointer"}
+          ]
+        },
+        "preserve": {"$ref": "#/$defs/scalarBinding"},
+        "discard": {"$ref": "#/$defs/scalarBinding"}
+      }
+    },
+    "surfaceLocator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_asset_id", "selected_cell_or_frame_id", "surface_kind"],
+      "properties": {
+        "source_asset_id": {"$ref": "#/$defs/scalarBinding"},
+        "selected_cell_or_frame_id": {"$ref": "#/$defs/scalarBinding"},
+        "surface_kind": {
+          "oneOf": [
+            {
+              "enum": [
+                "full_image",
+                "sequence_sheet",
+                "sequence_sheet_cell",
+                "scene_crop",
+                "video_frame",
+                "video_clip",
+                "generated_branch_cut",
+                "storyboard_board",
+                "playback",
+                "edit_output",
+                "diagnostic"
+              ]
+            },
+            {"$ref": "#/$defs/sourcePointer"}
+          ]
+        },
+        "source_timecode": {"$ref": "#/$defs/scalarBinding"}
+      }
+    },
+    "media": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "surface_locator",
+        "path",
+        "sha256",
+        "alt",
+        "label",
+        "media_type",
+        "role",
+        "inspection_action"
+      ],
+      "properties": {
+        "asset_id": {"$ref": "#/$defs/scalarBinding"},
+        "surface_locator": {"$ref": "#/$defs/surfaceLocator"},
+        "path": {"$ref": "#/$defs/scalarBinding"},
+        "sha256": {"$ref": "#/$defs/scalarBinding"},
+        "alt": {"$ref": "#/$defs/scalarBinding"},
+        "label": {"$ref": "#/$defs/scalarBinding"},
+        "media_type": {"enum": ["image", "video"]},
+        "note": {"$ref": "#/$defs/scalarBinding"},
+        "display_lane": {
+          "enum": ["member_face", "member_styling", "reference", "output"]
+        },
+        "role": {
+          "enum": [
+            "member_visual",
+            "primary_reference",
+            "supporting_reference",
+            "context_reference",
+            "generated_branch_cut",
+            "storyboard_board",
+            "playback",
+            "edit_output",
+            "diagnostic"
+          ]
+        },
+        "inspection_action": {
+          "enum": [
+            "consume_bound_interpretation",
+            "inspect_and_create_or_revise_receipt",
+            "pixel_review_generated_output",
+            "playback_review",
+            "context_only"
+          ]
+        },
+        "receipt": {"$ref": "#/$defs/referenceReceipt"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {"enum": ["primary_reference", "supporting_reference", "context_reference"]}
+            },
+            "required": ["role"]
+          },
+          "then": {"required": ["receipt"]}
+        }
+      ]
+    },
+    "assetReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "binding_id"],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+        "binding_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
+      }
+    },
+    "reviewAssetBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "assignment_state",
+        "target_id",
+        "target_level",
+        "source_stage",
+        "declared_order",
+        "lane_role",
+        "disposition",
+        "review_state",
+        "new_since_last_review",
+        "latest_binding_revision",
+        "state_receipt"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+        "assignment_state": {"enum": ["unassigned", "assigned"]},
+        "target_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
+          ]
+        },
+        "target_level": {"enum": ["unassigned", "discovery", "direction", "whole_film", "section", "planning_cut", "core_cut", "branch_cut", "03v", "edit"]},
+        "source_stage": {"enum": ["front_planning", "01", "02A", "02B", "generated_branch_review", "03V", "04"]},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "declared_order": {"type": "integer", "minimum": 0},
+        "lane_role": {
+          "enum": [
+            "unassigned",
+            "member_identity",
+            "governing_main",
+            "support_job",
+            "context_alternative",
+            "generated_output",
+            "storyboard_output",
+            "playback_output",
+            "edit_output",
+            "diagnostic"
+          ]
+        },
+        "disposition": {"enum": ["new", "active_used", "candidate", "held", "rejected", "superseded", "passed_output"]},
+        "review_state": {"enum": ["pending", "reviewed_pass", "reviewed_hold", "reviewed_reject", "superseded"]},
+        "new_since_last_review": {"type": "boolean"},
+        "latest_binding_revision": {"type": "integer", "minimum": 1},
+        "state_receipt": {"$ref": "#/$defs/artifactBinding"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"assignment_state": {"const": "unassigned"}}, "required": ["assignment_state"]},
+          "then": {
+            "properties": {
+              "target_id": {"type": "null"},
+              "target_level": {"const": "unassigned"},
+              "lane_role": {"const": "unassigned"},
+              "disposition": {"const": "new"},
+              "review_state": {"const": "pending"},
+              "new_since_last_review": {"const": true}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"assignment_state": {"const": "assigned"}}, "required": ["assignment_state"]},
+          "then": {
+            "properties": {"target_id": {"type": "string"}},
+            "not": {
+              "anyOf": [
+                {"properties": {"target_level": {"const": "unassigned"}}},
+                {"properties": {"lane_role": {"const": "unassigned"}}}
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "reviewAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "surface_locator",
+        "canonical_path",
+        "sha256",
+        "alt",
+        "label",
+        "media_kind",
+        "original_owner",
+        "role",
+        "inspection_action",
+        "display_lane",
+        "first_seen_board_revision",
+        "supersedes_asset_id",
+        "superseded_by_asset_id",
+        "bindings"
+      ],
+      "properties": {
+        "asset_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+        "surface_locator": {"$ref": "#/$defs/surfaceLocator"},
+        "canonical_path": {"$ref": "#/$defs/scalarBinding"},
+        "sha256": {"$ref": "#/$defs/scalarBinding"},
+        "alt": {"$ref": "#/$defs/scalarBinding"},
+        "label": {"$ref": "#/$defs/scalarBinding"},
+        "note": {"$ref": "#/$defs/scalarBinding"},
+        "media_kind": {"enum": ["image", "video"]},
+        "original_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {
+          "enum": [
+            "member_visual",
+            "primary_reference",
+            "supporting_reference",
+            "context_reference",
+            "generated_branch_cut",
+            "storyboard_board",
+            "playback",
+            "edit_output",
+            "diagnostic"
+          ]
+        },
+        "inspection_action": {
+          "enum": [
+            "consume_bound_interpretation",
+            "inspect_and_create_or_revise_receipt",
+            "pixel_review_generated_output",
+            "playback_review",
+            "context_only"
+          ]
+        },
+        "display_lane": {"enum": ["member_face", "member_styling", "reference", "output"]},
+        "receipt": {"$ref": "#/$defs/referenceReceipt"},
+        "first_seen_board_revision": {"type": "integer", "minimum": 1},
+        "supersedes_asset_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
+          ]
+        },
+        "superseded_by_asset_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
+          ]
+        },
+        "bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/reviewAssetBinding"}
+        }
+      }
+    },
+    "storylineReadout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alignment_level",
+        "progression_depth",
+        "title",
+        "source_field_ref",
+        "source_value_sha256",
+        "visual_relationship",
+        "exact_source_projection",
+        "visual_mismatch_action",
+        "mismatch_state"
+      ],
+      "properties": {
+        "alignment_level": {
+          "enum": ["whole_film", "section", "planning_cut", "core_cut", "branch_cut"]
+        },
+        "progression_depth": {
+          "enum": ["whole_film", "whole_film_and_sections", "whole_film_sections_and_cuts"]
+        },
+        "title": {"$ref": "#/$defs/scalarBinding"},
+        "source_field_ref": {"$ref": "#/$defs/sourcePointer"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "visual_relationship": {"$ref": "#/$defs/scalarBinding"},
+        "exact_source_projection": {"const": true},
+        "visual_mismatch_action": {
+          "const": "reinspect_exact_bound_pixels_with_founder_reconcile_the_smallest_storyline_owner_then_reproject_only_affected_descendants"
+        },
+        "mismatch_state": {"enum": ["aligned", "reinspect_required", "reconciled"]},
+        "mismatch_note": {"$ref": "#/$defs/scalarBinding"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mismatch_state": {"const": "reinspect_required"}}, "required": ["mismatch_state"]},
+          "then": {"required": ["mismatch_note"]}
+        }
+      ]
+    },
+    "reviewTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "level", "display_number", "label"],
+      "properties": {
+        "target_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "parent_target_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "level": {"enum": ["discovery", "direction", "whole_film", "section", "planning_cut", "core_cut", "branch_cut"]},
+        "display_number": {"type": "string", "pattern": "^(?:D[0-9]+|R[0-9]+|[0-9]+(?:\\.[0-9]+){0,3})$"},
+        "label": {"type": "string", "minLength": 1},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"level": {"enum": ["discovery", "direction"]}}, "required": ["level"]},
+          "then": {
+            "not": {
+              "anyOf": [
+                {"required": ["parent_target_id"]},
+                {"required": ["section_id"]},
+                {"required": ["planning_cut_id"]},
+                {"required": ["core_cut_id"]},
+                {"required": ["branch_cut_id"]}
+              ]
+            }
+          }
+        },
+        {
+          "if": {"properties": {"level": {"const": "whole_film"}}, "required": ["level"]},
+          "then": {
+            "not": {
+              "anyOf": [
+                {"required": ["parent_target_id"]},
+                {"required": ["section_id"]},
+                {"required": ["planning_cut_id"]},
+                {"required": ["core_cut_id"]},
+                {"required": ["branch_cut_id"]}
+              ]
+            }
+          }
+        },
+        {
+          "if": {"properties": {"level": {"const": "section"}}, "required": ["level"]},
+          "then": {
+            "required": ["parent_target_id", "section_id"],
+            "not": {"anyOf": [{"required": ["planning_cut_id"]}, {"required": ["core_cut_id"]}, {"required": ["branch_cut_id"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"level": {"const": "core_cut"}}, "required": ["level"]},
+          "then": {
+            "required": ["parent_target_id", "section_id", "core_cut_id"],
+            "not": {"anyOf": [{"required": ["planning_cut_id"]}, {"required": ["branch_cut_id"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"level": {"const": "planning_cut"}}, "required": ["level"]},
+          "then": {
+            "required": ["parent_target_id", "section_id", "planning_cut_id"],
+            "not": {"anyOf": [{"required": ["core_cut_id"]}, {"required": ["branch_cut_id"]}]}
+          }
+        },
+        {
+          "if": {"properties": {"level": {"const": "branch_cut"}}, "required": ["level"]},
+          "then": {
+            "required": ["parent_target_id", "section_id", "core_cut_id", "branch_cut_id"],
+            "not": {"required": ["planning_cut_id"]}
+          }
+        }
+      ]
+    },
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "card_id",
+        "title",
+        "direction",
+        "screen_proof",
+        "storyline_readout",
+        "review_question",
+        "decision_question",
+        "decision_owner",
+        "legal_actions",
+        "affected_scope",
+        "blocking_effect",
+        "decision_epoch",
+        "dispatch_id",
+        "returned_output",
+        "director_review",
+        "founder_lineage",
+        "worker_evidence",
+        "decision_scope",
+        "revision_scope",
+        "affected_section_ids",
+        "review_target",
+        "source_field_refs",
+        "media"
+      ],
+      "properties": {
+        "card_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "card_type": {
+          "enum": ["candidate_route", "section_major_stack", "major_scene", "sequence_unit", "scene_phase", "creative_experiment", "sequence_candidate_set", "sequence_composition", "core_visual_candidate_set", "derivative_route", "production_scope", "core_slot", "core_cut", "branch_cut", "source_candidate", "member_visual", "prompt_packet", "video_input"]
+        },
+        "route_id": {"enum": ["FP-A", "FP-B", "FP-C"]},
+        "route_readiness": {"$ref": "#/$defs/routeReadiness"},
+        "eyebrow": {"$ref": "#/$defs/scalarBinding"},
+        "title": {"$ref": "#/$defs/scalarBinding"},
+        "variant": {"enum": ["primary", "alternate", "context", "hold", "recommendation", "candidate_alternative", "incompatible_alternative"]},
+        "direction": {"$ref": "#/$defs/scalarBinding"},
+        "screen_proof": {"$ref": "#/$defs/scalarBinding"},
+        "screen_summary": {"$ref": "#/$defs/scalarBinding"},
+        "storyline_readout": {"$ref": "#/$defs/storylineReadout"},
+        "review_question": {"$ref": "#/$defs/scalarBinding"},
+        "decision_question": {"$ref": "#/$defs/scalarBinding"},
+        "decision_owner": {"$ref": "#/$defs/decisionOwner"},
+        "legal_actions": {"$ref": "#/$defs/legalActions"},
+        "affected_scope": {"$ref": "#/$defs/affectedScope"},
+        "blocking_effect": {"$ref": "#/$defs/blockingEffect"},
+        "decision_epoch": {"$ref": "#/$defs/nonEmptyString"},
+        "dispatch_id": {"$ref": "#/$defs/identifier"},
+        "returned_output": {"$ref": "#/$defs/artifactBinding"},
+        "director_review": {"$ref": "#/$defs/directorReviewBinding"},
+        "founder_lineage": {"$ref": "#/$defs/founderLineage"},
+        "worker_evidence": {"$ref": "#/$defs/workerEvidence"},
+        "fragment_ownership": {"$ref": "#/$defs/fragmentOwnership"},
+        "board_merge": {"$ref": "#/$defs/boardMerge"},
+        "review_phase": {"enum": ["fp_close", "planning_02a", "post_02a"]},
+        "phase_state": {"enum": ["active", "provisional", "read_only"]},
+        "decision_scope": {
+          "enum": [
+            "creative_selection",
+            "reference_link",
+            "screen_truth",
+            "render_candidate",
+            "video_prompt",
+            "playback",
+            "edit"
+          ]
+        },
+        "revision_scope": {"enum": ["none", "whole_film", "section", "planning_cut", "core_cut", "branch_cut"]},
+        "affected_section_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "review_target": {"$ref": "#/$defs/reviewTarget"},
+        "source_field_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sourcePointer"}
+        },
+        "facts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fact"}
+        },
+        "media": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/media"},
+              {"$ref": "#/$defs/assetReference"}
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "discovery"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "none"}, "affected_section_ids": {"maxItems": 0}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "direction"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "none"}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "whole_film"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "whole_film"}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "section"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "section"}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "core_cut"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "core_cut"}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "planning_cut"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "planning_cut"}}}
+        },
+        {
+          "if": {"properties": {"review_target": {"properties": {"level": {"const": "branch_cut"}}}}},
+          "then": {"properties": {"revision_scope": {"const": "branch_cut"}}}
+        }
+      ]
+    },
+    "reviewCycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cycle_id",
+        "cycle_kind",
+        "review_mode",
+        "scope_mode",
+        "covered_section_ids",
+        "stage_id",
+        "revision_id",
+        "status",
+        "open_by_default",
+        "decision_owner",
+        "decision_question",
+        "legal_actions",
+        "affected_scope",
+        "blocking_effect",
+        "decision_epoch",
+        "dispatch_id",
+        "returned_output",
+        "director_review",
+        "founder_lineage",
+        "worker_evidence",
+        "label",
+        "headline",
+        "summary",
+        "cards"
+      ],
+      "properties": {
+        "cycle_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "cycle_kind": {"$ref": "#/$defs/cycleKind"},
+        "review_mode": {"$ref": "#/$defs/cycleKind"},
+        "section_id": {"type": "string", "pattern": "^(WHOLE_FILM|S[0-9]{2,}[A-Z]?)$"},
+        "scope_mode": {"enum": ["sectionless", "single_section", "multi_section", "whole_film"]},
+        "covered_section_ids": {
+          "type": "array",
+          "minItems": 0,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "stage_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "revision_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "status": {"enum": ["draft", "internal_review", "founder_review", "hold", "passed", "rejected", "superseded"]},
+        "open_by_default": {"type": "boolean"},
+        "decision_owner": {"$ref": "#/$defs/decisionOwner"},
+        "decision_question": {"$ref": "#/$defs/scalarBinding"},
+        "legal_actions": {"$ref": "#/$defs/legalActions"},
+        "affected_scope": {"$ref": "#/$defs/affectedScope"},
+        "blocking_effect": {"$ref": "#/$defs/blockingEffect"},
+        "decision_epoch": {"$ref": "#/$defs/nonEmptyString"},
+        "dispatch_id": {"$ref": "#/$defs/identifier"},
+        "returned_output": {"$ref": "#/$defs/artifactBinding"},
+        "director_review": {"$ref": "#/$defs/directorReviewBinding"},
+        "founder_lineage": {"$ref": "#/$defs/founderLineage"},
+        "worker_evidence": {"$ref": "#/$defs/workerEvidence"},
+        "g30_readiness": {"$ref": "#/$defs/g30Readiness"},
+        "fragment_ownership": {"$ref": "#/$defs/fragmentOwnership"},
+        "board_merge": {"$ref": "#/$defs/boardMerge"},
+        "supersedes_revision_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"},
+        "label": {"$ref": "#/$defs/scalarBinding"},
+        "headline": {"$ref": "#/$defs/scalarBinding"},
+        "summary": {"$ref": "#/$defs/scalarBinding"},
+        "facts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fact"}
+        },
+        "audit_notes": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/scalarBinding"}
+        },
+        "cards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/card"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"cycle_kind": {"const": "g30_fp_final"}}, "required": ["cycle_kind"]},
+          "then": {"required": ["g30_readiness"]}
+        }
+      ]
+    }
+  }
+}

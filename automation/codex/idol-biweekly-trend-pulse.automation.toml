@@ -1,0 +1,12 @@
+version = 1
+id = "idol-biweekly-trend-pulse"
+kind = "cron"
+name = "IDOL Biweekly Trend Pulse"
+prompt = "Inside the IDOL repository, refresh the active biweekly Trend Pulse for the current KST period. Read AGENTS.md, skills/idol-research-radar/SKILL.md, automation/biweekly-trend-pulse-refresh.md, the active audience baseline, latest completed weekly idol bundle, latest completed weekly short-form report, prior pulse, and current public verification needed for unstable claims. Use gpt-5.6-luna at max effort. Keep idol and short-form reports as parallel evidence; do not substitute one for the other. Accept, revise, reject, or hold signals with durability, current opportunity, lifecycle, platform scope, freshness, proxy limits, counterevidence, expiry/volatility, and do-not-copy boundaries. Write the dated pulse and repoint latest.md only when the pulse is complete; if a required lane is missing or stale, preserve the last completed pointer and write a named hold without claiming current behavior. Create no PRE-00 route, song lock, generation, publishing plan, upload, or external write."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;INTERVAL=2;BYDAY=TU;BYHOUR=9;BYMINUTE=0"
+model = "gpt-5.6-luna"
+reasoning_effort = "max"
+execution_environment = "local"
+target = { type = "project", project_id = "local-110dbb500bf4c69c04c7d514a05555a3" }
+cwds = ["/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL"]

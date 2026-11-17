@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-artifact-routing.schema.json",
+  "title": "IDOL Active Graph Engineering Artifact Routing",
+  "description": "Maps the unchanged active stage registry to canonical run-relative artifact locations. It has no authority to add, remove, reorder, merge, or split stages or gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "scope",
+    "stage_registry",
+    "artifact_lifecycle_policy",
+    "active_run_template",
+    "stage_ids_must_exact_cover_active_registry",
+    "routing_never_changes_stage_order_scope_input_or_founder_gate",
+    "stages"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-artifact-routing.v2"},
+    "status": {"const": "active"},
+    "scope": {"const": "active_song_mv_run_artifact_placement"},
+    "stage_registry": {"const": "automation/harness-stage-registry.yaml"},
+    "artifact_lifecycle_policy": {"const": "automation/artifact-lifecycle-policy.yaml"},
+    "active_run_template": {"const": "runs/ALBUM_KEY/TITLE_KEY/RUN_ID"},
+    "stage_ids_must_exact_cover_active_registry": {"const": true},
+    "routing_never_changes_stage_order_scope_input_or_founder_gate": {"const": true},
+    "stages": {
+      "type": "array",
+      "minItems": 19,
+      "maxItems": 19,
+      "items": {"$ref": "#/$defs/stageRouting"}
+    }
+  },
+  "$defs": {
+    "stageRouting": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "canonical_owner",
+        "artifact_class",
+        "canonical_patterns",
+        "supporting_roots"
+      ],
+      "properties": {
+        "stage_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "canonical_owner": {"type": "string", "pattern": "^idol-[a-z0-9-]+$"},
+        "artifact_class": {
+          "enum": [
+            "canonical_stage_truth",
+            "research",
+            "review",
+            "export",
+            "generated",
+            "package"
+          ]
+        },
+        "canonical_patterns": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "not": {"pattern": "^/"}
+          }
+        },
+        "supporting_roots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "not": {"pattern": "^/"}
+          }
+        }
+      }
+    }
+  }
+}

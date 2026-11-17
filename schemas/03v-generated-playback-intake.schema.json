@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/03v-generated-playback-intake.schema.json",
+  "title": "IDOL 03V Generated Playback Intake",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "route",
+    "source_worklist",
+    "source_section_qa",
+    "section_range",
+    "section_ids",
+    "clips_root",
+    "summary",
+    "clip_queue",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol_03v_generated_playback_intake.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["archived", "waiting_for_generated_clips", "pending_playback_review", "partial_clip_intake"]
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_worklist": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_section_qa": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_range": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "clips_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "section_count",
+        "packet_count",
+        "expected_clip_count",
+        "found_clip_file_count",
+        "discovered_clip_count",
+        "missing_clip_count",
+        "media_probe_issue_count",
+        "playback_reviewed_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "section_count": {"type": "integer", "minimum": 0},
+        "packet_count": {"type": "integer", "minimum": 0},
+        "expected_clip_count": {"type": "integer", "minimum": 0},
+        "found_clip_file_count": {"type": "integer", "minimum": 0},
+        "discovered_clip_count": {"type": "integer", "minimum": 0},
+        "missing_clip_count": {"type": "integer", "minimum": 0},
+        "media_probe_issue_count": {"type": "integer", "minimum": 0},
+        "playback_reviewed_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "clip_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "packet_id",
+          "section_key",
+          "timeline",
+          "upload_pack",
+          "upload_prompt",
+          "start_image",
+          "end_image",
+          "candidate_clip_paths",
+          "generated_clip_path",
+          "clip_status",
+          "clip_file_status",
+          "media_probe",
+          "playback_review_status",
+          "generation_playback_probe",
+          "review_action"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "packet_id": {"type": "string", "minLength": 1},
+          "section_key": {"type": "string", "minLength": 1},
+          "timeline": {"type": "string"},
+          "upload_pack": {"type": "string"},
+          "upload_prompt": {"type": "string"},
+          "start_image": {"type": "string"},
+          "end_image": {"type": "string"},
+          "candidate_clip_paths": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "generated_clip_path": {"type": "string"},
+          "generated_clip_sha256": {"type": "string", "pattern": "^(?:[a-f0-9]{64})?$"},
+          "clip_status": {
+            "enum": ["missing", "present"]
+          },
+          "clip_file_status": {
+            "enum": ["missing", "present_probe_ok", "present_probe_failed"]
+          },
+          "media_probe": {"$ref": "#/$defs/media_probe"},
+          "playback_review_status": {
+            "enum": ["waiting_clip", "pending_review", "reviewed"]
+          },
+          "generation_playback_probe": {
+            "enum": ["archived", "needs_founder", "not_run", "pass"]
+          },
+          "review_action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "media_probe": {
+      "type": "object",
+      "required": [
+        "status",
+        "playable",
+        "duration_seconds",
+        "video_stream_count",
+        "audio_stream_count",
+        "width",
+        "height",
+        "codec_name",
+        "error"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["ok", "probe_failed", "not_run"]},
+        "playable": {"type": "boolean"},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "video_stream_count": {"type": "integer", "minimum": 0},
+        "audio_stream_count": {"type": "integer", "minimum": 0},
+        "width": {"type": "integer", "minimum": 0},
+        "height": {"type": "integer", "minimum": 0},
+        "codec_name": {"type": "string"},
+        "error": {"type": "string"}
+      }
+    }
+  }
+}

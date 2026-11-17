@@ -1,0 +1,30 @@
+schema_version: idol-codex-native-media-provider-profiles.v2
+status: legacy_pinned
+provider: codex
+runtime_surface: retired_codex_app_session
+profile_source_policy:
+  exact_native_tool_owner: this_file
+  backend_model_identity_claim: forbidden
+  current_assignment_provider_match_required: true
+  runtime_tool_inventory_match_required: true
+  provider_specific_capability_only: true
+  cross_provider_tool_aliasing: forbidden
+  cross_provider_auth_inheritance: forbidden
+  automatic_fallback: none
+  new_assignment_selection: forbidden
+
+profiles:
+  codex_current_session_imagegen:
+    execution_adapter_id: codex_imagegen
+    provider_model_or_tool: codex_imagegen
+    selected_native_tool: imagegen
+    auth_lane: codex_session
+    capability_status: historical_only
+    harness_status: hold
+    current_session_binding_required: false
+    exact_tool_inventory_required: false
+    prompt_rewrite_policy: forbidden
+    output_contract: exact_expected_output_path_sha256_pixel_review
+    output_count: 1
+    automatic_fallback: none
+    unavailable_or_mismatch_action: hold_and_report

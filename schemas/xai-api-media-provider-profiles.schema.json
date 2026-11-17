@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/xai-api-media-provider-profiles.schema.json",
+  "title": "IDOL xAI API Media Provider Profiles",
+  "description": "Provider-owned exact xAI image API profiles. A profile is inert and default-disabled until the literal-free central media lane points to its exact tracked path and SHA-256. It defines transport only and grants no paid or external authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "provider",
+    "runtime_surface",
+    "profile_source_policy",
+    "profiles"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-xai-api-media-provider-profiles.v1"},
+    "status": {"const": "active"},
+    "provider": {"const": "xai_api"},
+    "runtime_surface": {"const": "xai_media_api"},
+    "profile_source_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_model_owner",
+        "exact_endpoint_owner",
+        "resolved_snapshot_required",
+        "requested_observed_match_required",
+        "silent_model_or_auth_fallback"
+      ],
+      "properties": {
+        "exact_model_owner": {"const": "this_file"},
+        "exact_endpoint_owner": {"const": "this_file"},
+        "resolved_snapshot_required": {"const": true},
+        "requested_observed_match_required": {"const": true},
+        "silent_model_or_auth_fallback": {"const": "forbidden"}
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {"$ref": "#/$defs/profile"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{2,120}$"},
+    "fieldName": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.\\[\\]-]{0,120}$"},
+    "endpointPath": {
+      "type": "string",
+      "pattern": "^/[A-Za-z0-9][A-Za-z0-9._~!$&'()*+,;=:@%/-]{0,240}$"
+    },
+    "fixedValue": {
+      "oneOf": [
+        {"type": ["string", "number", "integer", "boolean", "null"]},
+        {
+          "type": "array",
+          "maxItems": 32,
+          "items": {"type": ["string", "number", "integer", "boolean", "null"]}
+        }
+      ]
+    },
+    "requestContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_field",
+        "prompt_field",
+        "output_count_field",
+        "attachment_field",
+        "fixed_fields"
+      ],
+      "properties": {
+        "model_field": {"$ref": "#/$defs/fieldName"},
+        "prompt_field": {"$ref": "#/$defs/fieldName"},
+        "output_count_field": {"$ref": "#/$defs/fieldName"},
+        "attachment_field": {
+          "oneOf": [{"$ref": "#/$defs/fieldName"}, {"type": "null"}]
+        },
+        "fixed_fields": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/fieldName"},
+          "additionalProperties": {"$ref": "#/$defs/fixedValue"}
+        }
+      }
+    },
+    "responseContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "image_encoding",
+        "exact_output_count",
+        "items_json_pointer",
+        "image_value_json_pointer",
+        "output_url_allowed_hosts"
+      ],
+      "properties": {
+        "image_encoding": {"enum": ["base64_json", "https_url", "raw_body"]},
+        "exact_output_count": {"const": 1},
+        "items_json_pointer": {
+          "oneOf": [{"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$"}, {"type": "null"}]
+        },
+        "image_value_json_pointer": {
+          "oneOf": [{"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])+)*$"}, {"type": "null"}]
+        },
+        "output_url_allowed_hosts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Za-z0-9.-]+$"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"image_encoding": {"enum": ["base64_json", "https_url"]}}},
+          "then": {
+            "properties": {
+              "items_json_pointer": {"type": "string"},
+              "image_value_json_pointer": {"type": "string"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"image_encoding": {"const": "base64_json"}}},
+          "then": {"properties": {"output_url_allowed_hosts": {"maxItems": 0}}}
+        },
+        {
+          "if": {"properties": {"image_encoding": {"const": "https_url"}}},
+          "then": {"properties": {"output_url_allowed_hosts": {"minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"image_encoding": {"const": "raw_body"}}},
+          "then": {
+            "properties": {
+              "items_json_pointer": {"const": null},
+              "image_value_json_pointer": {"const": null},
+              "output_url_allowed_hosts": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "endpoint_path",
+        "transport",
+        "attachment_policy",
+        "request_contract",
+        "response_contract"
+      ],
+      "properties": {
+        "endpoint_path": {"$ref": "#/$defs/endpointPath"},
+        "transport": {
+          "enum": ["json", "json_data_url_array", "json_base64_array", "multipart_form_data_image_array"]
+        },
+        "attachment_policy": {"enum": ["forbidden", "required_all_ordered"]},
+        "request_contract": {"$ref": "#/$defs/requestContract"},
+        "response_contract": {"$ref": "#/$defs/responseContract"}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_model",
+        "image_adapter_id",
+        "auth_lane",
+        "api_version",
+        "api_base_url",
+        "authorization_scheme",
+        "capability_status",
+        "harness_status",
+        "default_enabled",
+        "automatic_fallback",
+        "unavailable_or_mismatch_action",
+        "operations"
+      ],
+      "properties": {
+        "exact_model": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"const": "unregistered_selection_only"}
+        },
+        "image_adapter_id": {"const": "xai_api_media"},
+        "auth_lane": {"const": "founder_approved_api"},
+        "api_version": {"type": "string", "minLength": 1},
+        "api_base_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "authorization_scheme": {"const": "bearer"},
+        "capability_status": {"const": "active"},
+        "harness_status": {"const": "active"},
+        "default_enabled": {"const": false},
+        "automatic_fallback": {"const": "none"},
+        "unavailable_or_mismatch_action": {"const": "hold_and_report"},
+        "operations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["image_gen", "image_edit"],
+          "properties": {
+            "image_gen": {
+              "allOf": [
+                {"$ref": "#/$defs/operation"},
+                {
+                  "properties": {
+                    "transport": {"const": "json"},
+                    "attachment_policy": {"const": "forbidden"},
+                    "request_contract": {"properties": {"attachment_field": {"const": null}}}
+                  }
+                }
+              ]
+            },
+            "image_edit": {
+              "allOf": [
+                {"$ref": "#/$defs/operation"},
+                {
+                  "properties": {
+                    "transport": {"enum": ["json_data_url_array", "json_base64_array", "multipart_form_data_image_array"]},
+                    "attachment_policy": {"const": "required_all_ordered"},
+                    "request_contract": {"properties": {"attachment_field": {"type": "string"}}}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-event.schema.json",
+  "title": "IDOL Graph Engineering Append-Only Event v1",
+  "description": "One append-only ledger event. Events record structural, authority, session, review, promotion, invalidation, and Founder-gate facts. They never author creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "sequence",
+    "event_type",
+    "actor_role",
+    "actor_id",
+    "payload_kind",
+    "node_ids",
+    "edge_ids"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-event.v1"},
+    "event_id": {"$ref": "#/$defs/identifier"},
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "event_type": {"$ref": "#/$defs/eventType"},
+    "actor_role": {"$ref": "#/$defs/role"},
+    "actor_id": {"$ref": "#/$defs/identifier"},
+    "payload_kind": {"const": "structural"},
+    "node_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "edge_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/identifier"}
+    },
+    "input_digest": {"$ref": "#/$defs/sha256"},
+    "result_digest": {"$ref": "#/$defs/sha256"},
+    "output_hash": {"$ref": "#/$defs/sha256"},
+    "legacy_source": {"$ref": "#/$defs/legacySource"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": ["review_recorded", "promotion_recorded", "invalidated", "successor_cas_committed"]
+          }
+        },
+        "required": ["event_type"]
+      },
+      "then": {"required": ["input_digest", "result_digest"]}
+    },
+    {
+      "if": {
+        "properties": {"event_type": {"const": "promotion_recorded"}},
+        "required": ["event_type"]
+      },
+      "then": {"required": ["output_hash"]}
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "eventType": {
+      "enum": [
+        "node_recorded",
+        "edge_recorded",
+        "dispatch_opened",
+        "goal_admitted",
+        "session_started",
+        "attempt_returned",
+        "review_recorded",
+        "promotion_recorded",
+        "hold_recorded",
+        "invalidated",
+        "successor_cas_committed",
+        "lane_retired",
+        "founder_gate_recorded",
+        "cohort_bound"
+      ]
+    },
+    "role": {
+      "enum": [
+        "founder",
+        "overall_director",
+        "planning_cdd_p1",
+        "planning_cdd_p2",
+        "planning_cdd_p3",
+        "section_cluster_cdd",
+        "edit_director",
+        "worker_high",
+        "research_medium",
+        "section_image_motion_worker"
+      ]
+    },
+    "legacySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capsule", "path", "legacy_id", "sha256"],
+      "properties": {
+        "capsule": {"const": "parse_only"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "local_fixture_path": {"$ref": "#/$defs/repositoryPath"},
+        "legacy_id": {"type": "string", "minLength": 1},
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

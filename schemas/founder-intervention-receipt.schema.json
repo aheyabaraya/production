@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/founder-intervention-receipt.schema.json",
+  "title": "IDOL Founder Intervention Receipt",
+  "description": "Captures an in-progress Founder correction as typed feedback, routes it back to the smallest owning creative surface, and records exact downstream invalidation and revalidation. V2 adds a Founder-direct production delta: the Founder decision replaces an additional creative advisory review only for its named fields while deterministic integrity, identity/reference, safety, feasibility, pixel/playback, and external-approval checks remain.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "intervention_id",
+    "run",
+    "recorded_at",
+    "source",
+    "authority",
+    "routing",
+    "change_contract",
+    "status",
+    "integration_receipt"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-founder-intervention-receipt.v2"
+    },
+    "artifact_type": {"const": "founder_intervention_receipt"},
+    "intervention_id": {"type": "string", "pattern": "^FI_[A-Z0-9][A-Z0-9_-]{2,79}$"},
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surface", "locator", "founder_input_verbatim"],
+      "properties": {
+        "surface": {"enum": ["codex_task", "grok_task", "founder_review_artifact", "other"]},
+        "locator": {"$ref": "#/$defs/nonEmptyString"},
+        "founder_input_verbatim": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "explicit_lock", "scope_statement"],
+      "properties": {
+        "classification": {"enum": ["clarification", "preference", "explicit_lock", "unlock", "rejection", "approval"]},
+        "explicit_lock": {"type": "boolean"},
+        "scope_statement": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "intervention_mode": {
+      "enum": ["advisory_feedback", "founder_direct_update"]
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owning_stage_id",
+        "required_owner_skill",
+        "affected_section_ids",
+        "affected_artifacts",
+        "earliest_reauthor_stage_id",
+        "downstream_invalidation_targets",
+        "integration_order"
+      ],
+      "properties": {
+        "owning_stage_id": {"$ref": "#/$defs/identifier"},
+        "required_owner_skill": {"type": "string", "pattern": "^idol-[a-z0-9-]+$"},
+        "affected_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "affected_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifactBinding"}
+        },
+        "earliest_reauthor_stage_id": {"$ref": "#/$defs/identifier"},
+        "downstream_invalidation_targets": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/invalidationBinding"}
+        },
+        "integration_order": {"const": "revise_owning_upstream_section_then_reproject_and_revalidate_only_affected_downstream"}
+      }
+    },
+    "change_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preserve", "change", "do_not_infer"],
+      "properties": {
+        "preserve": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "change": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "do_not_infer": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "founder_direct_update": {
+      "$ref": "#/$defs/founderDirectUpdate"
+    },
+    "status": {"enum": ["captured", "routed", "integrated", "held", "superseded"]},
+    "integration_receipt": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["integrated_at", "revised_artifacts", "revalidation_results", "resumable_from_stage_id"],
+          "properties": {
+            "integrated_at": {"type": "string", "format": "date-time"},
+            "revised_artifacts": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"$ref": "#/$defs/artifactBinding"}
+            },
+            "revalidation_results": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["check_id", "status", "evidence"],
+                "properties": {
+                  "check_id": {"$ref": "#/$defs/identifier"},
+                  "status": {"const": "pass"},
+                  "evidence": {"$ref": "#/$defs/nonEmptyString"}
+                }
+              }
+            },
+            "resumable_from_stage_id": {"$ref": "#/$defs/identifier"}
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"const": "idol-founder-intervention-receipt.v2"}
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": ["intervention_mode"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "intervention_mode": {"const": "founder_direct_update"}
+        },
+        "required": ["intervention_mode"]
+      },
+      "then": {
+        "required": ["founder_direct_update"],
+        "properties": {
+          "schema_version": {"const": "idol-founder-intervention-receipt.v2"},
+          "authority": {
+            "properties": {
+              "explicit_lock": {"const": true}
+            }
+          }
+        }
+      },
+      "else": {
+        "not": {"required": ["founder_direct_update"]}
+      }
+    },
+    {
+      "if": {"properties": {"authority": {"properties": {"classification": {"const": "explicit_lock"}}}}},
+      "then": {"properties": {"authority": {"properties": {"explicit_lock": {"const": true}}}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "integrated"}}},
+      "then": {"properties": {"integration_receipt": {"type": "object"}}},
+      "else": {"properties": {"integration_receipt": {"type": "null"}}}
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonEmptyString"}
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "invalidationBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_id", "path", "sha256", "reason"],
+      "properties": {
+        "stage_id": {"$ref": "#/$defs/identifier"},
+        "path": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "reason": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "fieldBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "pointer", "value_sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "pointer": {"type": "string", "pattern": "^(|/.*)$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "founderDirectUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correction_kind",
+        "owning_truth_surface",
+        "decision",
+        "decision_note",
+        "baseline_review",
+        "baseline_source",
+        "authoritative_field_bindings",
+        "creative_review_policy",
+        "mandatory_check_ids",
+        "downstream_policy"
+      ],
+      "properties": {
+        "correction_kind": {
+          "enum": [
+            "reference_lineage_repair",
+            "image_truth_or_prompt_revision",
+            "video_prompt_revision",
+            "sequence_reorder_and_instruction"
+          ]
+        },
+        "owning_truth_surface": {
+          "enum": [
+            "front_planning_sequence",
+            "reference_binding",
+            "storyboard_02a",
+            "prompt_02b",
+            "generated_image_candidate",
+            "video_prompt_03v"
+          ]
+        },
+        "decision": {"enum": ["pass", "reject", "revise"]},
+        "decision_note": {"$ref": "#/$defs/nonEmptyString"},
+        "baseline_review": {"$ref": "#/$defs/artifactBinding"},
+        "baseline_source": {"$ref": "#/$defs/artifactBinding"},
+        "authoritative_field_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/fieldBinding"}
+        },
+        "creative_review_policy": {
+          "const": "founder_decision_no_creative_advisory_rereview"
+        },
+        "mandatory_check_ids": {
+          "const": [
+            "schema_and_hash_integrity",
+            "reference_and_identity_integrity",
+            "safety_and_feasibility",
+            "pixel_or_playback_qa_when_output_exists",
+            "external_and_paid_approval_when_applicable"
+          ]
+        },
+        "downstream_policy": {
+          "const": "patch_smallest_owner_and_reproject_affected_dependents_only"
+        }
+      }
+    }
+  }
+}

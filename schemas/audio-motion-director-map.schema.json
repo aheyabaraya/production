@@ -1,0 +1,522 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/audio-motion-director-map.schema.json",
+  "title": "IDOL Audio Motion Evidence Map",
+  "description": "Active idol_audio_motion_director_map.v1 contract. Despite the retained contract name, this is an audio-timing evidence map, not a scene, choreography, camera, or prompt authoring surface. It converts the selected take into section pulse, trigger, density, reset, and readability questions for 00A and Front Planning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_selected_audio_analysis",
+    "purpose",
+    "stable_audio_extracts",
+    "section_rhythm_map",
+    "trigger_map",
+    "downstream_boundary",
+    "song_lock_handoff",
+    "open_questions",
+    "hold_reasons"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_audio_motion_director_map.v1"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "ready_for_00a",
+        "hold"
+      ]
+    },
+    "source_selected_audio_analysis": {
+      "$ref": "#/$defs/artifactRef"
+    },
+    "purpose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "use_rule"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "use_rule": {
+          "const": "map_audible_timing_pressure_and_leave_screen_answers_downstream"
+        }
+      }
+    },
+    "stable_audio_extracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duration_seconds",
+        "tempo",
+        "meter",
+        "signals",
+        "precision_marker_sources",
+        "evidence_only_rule"
+      ],
+      "properties": {
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "tempo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "main_grid_bpm",
+            "perceived_pulse",
+            "alternate_grid_or_uncertainty"
+          ],
+          "properties": {
+            "main_grid_bpm": {
+              "type": [
+                "number",
+                "string",
+                "null"
+              ]
+            },
+            "perceived_pulse": {
+              "type": "string",
+              "minLength": 1
+            },
+            "alternate_grid_or_uncertainty": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "meter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "signals": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/audioSignal"
+          }
+        },
+        "precision_marker_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/markerRef"
+          }
+        },
+        "evidence_only_rule": {
+          "const": "measurements_support_listening_and_never_author_creative_truth"
+        }
+      }
+    },
+    "section_rhythm_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sectionRhythm"
+      }
+    },
+    "trigger_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/trigger"
+      }
+    },
+    "downstream_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provides_audio_pressure_only",
+        "front_planning_owns_target_message_visual_members_references_and_section_scene_flow",
+        "front_planning_01_02a_own_still_frame_truth",
+        "video_prompt_03v_owns_temporal_camera_after_passed_pixels",
+        "image_prompt_02b_translates_passed_02a",
+        "prompt_prose_forbidden_here"
+      ],
+      "properties": {
+        "provides_audio_pressure_only": {
+          "const": true
+        },
+        "front_planning_owns_target_message_visual_members_references_and_section_scene_flow": {
+          "const": true
+        },
+        "front_planning_01_02a_own_still_frame_truth": {
+          "const": true
+        },
+        "video_prompt_03v_owns_temporal_camera_after_passed_pixels": {
+          "const": true
+        },
+        "image_prompt_02b_translates_passed_02a": {
+          "const": true
+        },
+        "prompt_prose_forbidden_here": {
+          "const": true
+        }
+      }
+    },
+    "song_lock_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_ids",
+        "audible_pressure_summary",
+        "timing_risks",
+        "front_planning_questions"
+      ],
+      "properties": {
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^S[0-9]{2,}(?:[A-Z])?$"
+          }
+        },
+        "audible_pressure_summary": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "timing_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "front_planning_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ready_for_00a"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "hold_reasons": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "hold"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "hold_reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "markerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "marker_id",
+        "marker_type",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "marker_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "marker_type": {
+          "enum": [
+            "beat_grid",
+            "onset_candidates",
+            "pitch_contour_proxy",
+            "motif_candidates",
+            "manual_cue_sheet"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "audioSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_id",
+        "signal_type",
+        "time_seconds",
+        "observed_audio_fact",
+        "confidence",
+        "evidence_refs"
+      ],
+      "properties": {
+        "signal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "signal_type": {
+          "enum": [
+            "beat",
+            "onset",
+            "vocal_entry",
+            "vocal_hold",
+            "drum_or_percussion",
+            "bass",
+            "high_transient",
+            "texture_change",
+            "silence_or_breath",
+            "motif_return",
+            "section_boundary"
+          ]
+        },
+        "time_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "observed_audio_fact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "sectionRhythm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "start_seconds",
+        "end_seconds",
+        "main_pulse",
+        "energy_density",
+        "accent_grid",
+        "onset_stop_reset",
+        "vocal_or_lyric_trigger",
+        "motif_return",
+        "audible_state_change_pressure",
+        "screen_readability_questions",
+        "editability_evidence",
+        "temporal_camera_deferred_to_03v"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2,}(?:[A-Z])?$"
+        },
+        "start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "main_pulse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "energy_density": {
+          "type": "string",
+          "minLength": 1
+        },
+        "accent_grid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "onset_stop_reset": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vocal_or_lyric_trigger": {
+          "type": "string",
+          "minLength": 1
+        },
+        "motif_return": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audible_state_change_pressure": {
+          "enum": [
+            "sustain",
+            "accent",
+            "reset",
+            "release",
+            "contrast",
+            "none"
+          ]
+        },
+        "screen_readability_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "editability_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "temporal_camera_deferred_to_03v": {
+          "const": true
+        }
+      }
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_id",
+        "section_id",
+        "time_seconds",
+        "trigger_type",
+        "audio_fact",
+        "candidate_state_change_question",
+        "precision_source_ids"
+      ],
+      "properties": {
+        "trigger_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2,}(?:[A-Z])?$"
+        },
+        "time_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "trigger_type": {
+          "enum": [
+            "lyric",
+            "vocal_entry",
+            "vocal_hold",
+            "adlib",
+            "drum_or_percussion",
+            "bass",
+            "high_transient",
+            "texture_change",
+            "silence_or_breath",
+            "motif_return",
+            "section_boundary"
+          ]
+        },
+        "audio_fact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_state_change_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "precision_source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

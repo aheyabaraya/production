@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-action-queue.schema.json",
+  "title": "IDOL Graph Engineering Action Queue",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "album_key",
+    "title_key",
+    "status",
+    "state_summary",
+    "source_state_report",
+    "active_founder_gate_decision",
+    "queues",
+    "founder_decisions_needed",
+    "automation_boundaries",
+    "refresh_commands"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "harness-action-queue.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "album_key": {
+      "type": "string"
+    },
+    "title_key": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "archived",
+        "validator_pass",
+        "actionable_blocked",
+        "blocked_without_current_worklists"
+      ]
+    },
+    "source_state_report": {
+      "type": "string"
+    },
+    "state_summary": {
+      "type": "object",
+      "required": ["overall_status", "pass", "fail", "missing", "blocking"],
+      "additionalProperties": false,
+      "properties": {
+        "overall_status": {"type": "string"},
+        "pass": {"type": "integer", "minimum": 0},
+        "fail": {"type": "integer", "minimum": 0},
+        "missing": {"type": "integer", "minimum": 0},
+        "blocking": {"type": "integer", "minimum": 0}
+      }
+    },
+    "active_founder_gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"type": "string"},
+        "status": {"type": "string"},
+        "source_decision": {"type": "string"},
+        "source_founder_gate": {"type": "string"},
+        "source_next_unit": {"type": "string"},
+        "source_action_queue": {"type": "string"},
+        "gate_id": {"type": "string"},
+        "gate_type": {"type": "string"},
+        "section_range": {"type": "string"},
+        "decision_id": {"type": "string"},
+        "allows_paid_generation": {"type": "boolean"},
+        "allows_external_execution": {"type": "boolean"},
+        "continues_local_qa": {"type": "boolean"},
+        "marks_section_qa_pass": {"type": "boolean"},
+        "approved_execution_route": {"type": "string"},
+        "next_local_section": {"type": "string"},
+        "next_action": {"type": "string"}
+      }
+    },
+    "queues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "priority",
+          "type",
+          "owner",
+          "status",
+          "source_check",
+          "source_artifact",
+          "worklist_artifact",
+          "action",
+          "next_command",
+          "requires_founder_decision",
+          "founder_gate",
+          "forbidden_actions",
+          "worklist_summary",
+          "next_units"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "priority": {"type": "integer", "minimum": 1},
+          "type": {
+            "enum": ["validator_blocker", "founder_decision", "local_followup"]
+          },
+          "owner": {
+            "enum": ["codex", "founder", "grok", "automation", "mixed"]
+          },
+          "status": {
+            "enum": ["pending", "current", "blocked", "not_approved"]
+          },
+          "source_check": {"type": "string"},
+          "source_artifact": {"type": "string"},
+          "worklist_artifact": {"type": "string"},
+          "action": {"type": "string", "minLength": 1},
+          "next_command": {"type": "string"},
+          "requires_founder_decision": {"type": "boolean"},
+          "founder_gate": {"type": "string"},
+          "forbidden_actions": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "worklist_summary": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["string", "integer", "number", "boolean", "null"]
+            }
+          },
+          "next_units": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/next_unit"}
+          }
+        }
+      }
+    },
+    "founder_decisions_needed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "decision", "gate", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string"},
+          "decision": {"type": "string"},
+          "gate": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "refresh_commands": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "next_unit": {
+      "type": "object",
+      "required": [
+        "id",
+        "unit_type",
+        "status",
+        "action",
+        "requires_founder_decision",
+        "source_ref",
+        "details"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "unit_type": {
+          "enum": [
+            "section_qa",
+            "edit_manual_field",
+            "edit_shard",
+            "rough_output",
+            "founder_decision",
+            "local_followup"
+          ]
+        },
+        "status": {"type": "string"},
+        "action": {"type": "string", "minLength": 1},
+        "requires_founder_decision": {"type": "boolean"},
+        "source_ref": {"type": "string"},
+        "details": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "integer", "number", "boolean", "null", "array"],
+            "items": {
+              "type": ["string", "integer", "number", "boolean", "null"]
+            }
+          }
+        }
+      }
+    }
+  }
+}

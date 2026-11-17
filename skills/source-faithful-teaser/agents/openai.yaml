@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source-Faithful Teaser"
+  short_description: "원작 패널과 기존 곡으로 재현 중심 팬 티저를 설계합니다"
+  default_prompt: "Use $source-faithful-teaser to plan a source-faithful fanmade teaser from verified canon and actual visual references."

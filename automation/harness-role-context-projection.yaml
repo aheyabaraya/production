@@ -1,0 +1,233 @@
+schema_version: idol-harness-role-context-projection.v1
+status: active
+authority: derived_read_only_no_creative_or_promotion_authority
+
+source_registry:
+  path: automation/harness-skill-load-profiles.yaml
+  schema_version: idol-harness-skill-load-profiles.v2
+
+defaults:
+  skill_mode: full_file
+  markdown_read_mode: full_file
+  structured_read_mode: pointer_only
+  ambiguous_locator_action: hold_never_guess
+  missing_source_action: hold_never_default
+
+rules:
+  - binding_id: orchestrator
+    profile_ids: [overall_director]
+    mode: markdown_headings
+    headings:
+      - Active Stage Route
+      - Frontier Discovery
+      - Model Routing
+      - Department Dispatch Contract
+      - Context
+      - Founder Intervention
+      - Stop Gates
+    reason: Overall receives its active route, model binding, dispatch, context, intervention, and stop method; exact skill and output routing are already projected as structured pack fields.
+
+  - binding_id: provider_neutral_studio_kernel
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Purpose
+      - Who Authors And Who Reads
+      - Department Instruction Delivery
+      - Fixed Twelve-Block Command
+      - Same-Session Checkpoint Progression
+      - Return Review
+    reason: Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton.
+
+  - binding_id: front_planning_director
+    profile_ids: [creative_development_director]
+    mode: markdown_headings
+    headings:
+      - Studio Session Topology
+      - Planning Method
+      - Active Output
+      - Sequence Parent, Majors, And Cores
+      - Founder Review
+      - Handoff To 01
+      - Quality Gate
+    reason: CDD receives the complete planning, Active Output, Sequence-parent Core marks, review, handoff, and quality method while exact reads, start state, and output routing come from the pack fields.
+
+  - binding_id: research_radar
+    profile_ids: [pre_song_research]
+    mode: markdown_headings
+    headings:
+      - Default Posture
+      - Active Route
+      - Boundaries
+      - Mandatory PRE-00 Story Spine
+      - Output
+      - Checks
+    reason: PRE-00 research receives the active method, Mandatory PRE-00 Story Spine, and quality boundary while exact reads and output shape come from the pack and schema pointer.
+
+  - binding_id: media_security_policy
+    profile_ids: [creative_development_director]
+    mode: markdown_headings
+    headings:
+      - Mandatory Starting Ritual
+      - Security and Sensitive Information Rule (Non-Overridable)
+      - Project-Confined Grok CLI Runtime
+    reason: CDD startup receives repository, secret, and Grok runtime boundaries; media-lane chapters activate only at their exact checkpoint.
+
+  - binding_id: media_security_policy
+    profile_ids: [pre_song_research]
+    mode: markdown_headings
+    headings:
+      - Mandatory Starting Ritual
+      - Security and Sensitive Information Rule (Non-Overridable)
+      - Project-Confined Grok CLI Runtime
+      - "`yt-dlp` Source Safety Rule"
+    reason: PRE-00 research receives local security, Grok confinement, and exact public-source capture boundaries without 02B or 03V procedure.
+
+  - binding_id: creative_constitution
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Selected Reference Direct-Follow Preservation
+      - Current-Run Creative Source Isolation
+      - Concrete Review And Prompt Language
+      - Contextual Creative Review Authority
+      - Authoring Method Versus Transport Contract
+      - Asset Alignment
+    reason: Runtime roles receive selected-reference direct-follow, current-source, observable-language, contextual-review, authorship, and asset rules.
+
+  - binding_id: fp_operating_contract
+    profile_ids: [creative_development_director]
+    mode: markdown_headings
+    headings:
+      - Studio Roles And Evidence Lifecycle
+      - Department Dispatch v8 And Return Lifecycle
+      - Director Readout
+      - Music–MV Crosscheck
+      - Challenge Protocol
+      - Visual Flow Rules
+      - Reference Interpretation Checkpoint
+      - Image-Proposal Rule
+      - File And Session Rule
+    reason: CDD receives directing-room, lifecycle, readout, music, challenge, flow, reference, image, and file rules without the inactive 02B-shaped source-observation teaching subtree.
+
+  - binding_id: fp_reference_management
+    profile_ids: [creative_development_director]
+    mode: markdown_headings
+    headings:
+      - One Source, One Analysis Owner, One Current-Run Binding
+      - Dedicated World / Still Department
+      - Retrieval View Pointers
+      - Reuse Order
+      - Direct Image Reference Route
+      - Front Planning To Prompt
+      - Validation
+    reason: CDD receives reference ownership, retrieval, reuse, direct-image, downstream, and validation rules without unrelated storage and delivery chapters.
+
+  - binding_id: radar_authoring_detail
+    profile_ids: [pre_song_research]
+    mode: markdown_headings
+    headings:
+      - Boundary
+      - Smallest Useful Route
+      - Evidence And Connection Method
+      - Target And Trend Foundation
+      - Candidate Route Standard
+      - Full-Storyline Original And Append-Only Revisions
+      - Founder Selection Handoff
+      - Public Video Capture Boundary
+      - Hold And Finish Checks
+    reason: PRE-00 research receives evidence, target, candidate, storyline, handoff, capture, and finish method while the structured YAML shape stays schema-owned.
+
+  - binding_id: routing_policy
+    profile_ids: [pre_song_research]
+    mode: markdown_headings
+    headings:
+      - Audience And Trend Foundation To Front Planning
+      - Role Ownership Summary
+      - Role Assignment Binding And Adapter Evidence
+      - Provider Resolution, Goal Admission, And No Fallback
+      - Department Dispatch And Compiled Command
+      - Founder Gates
+    reason: PRE-00 research receives its audience, storyline, source, assignment, provider, Dispatch, and Founder boundaries; the complete audience chapter already includes its nested storyline and source-eligibility sections.
+
+  - binding_id: routing_policy
+    profile_ids:
+      - song_room_prompt
+      - song_room_00a
+      - reference_research_generalist
+      - world_still_reference_department
+      - pinterest_visual_composition_worker
+      - source_hub_registration
+    mode: markdown_headings
+    headings:
+      - Active Route
+      - Source Layers
+      - Front Planning Source Route
+      - Audience And Trend Foundation To Front Planning
+      - Reference Connection Inside Front Planning
+      - Reference Interpretation Carry
+      - Role Ownership Summary
+      - Role Assignment Binding And Adapter Evidence
+      - Provider Resolution, Goal Admission, And No Fallback
+      - Studio Role Topology And Review
+      - Review Identity, Events, And Attempt Closure
+      - CDD Successor And Same-Session Continuation
+      - Department Dispatch And Compiled Command
+      - Founder Review Surfaces And Promotion Boundary
+      - Smallest-Owner Routing
+      - Founder Gates
+    reason: Source-facing roles receive the complete source, audience, reference, provider, ownership, and Founder-gate chapters; the audience chapter already includes its nested storyline, source-eligibility, reference-wave, and working-index sections.
+
+  - binding_id: routing_policy
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Active Route
+      - Pointer-Only Runtime Projections
+      - Role Ownership Summary
+      - Role Assignment Binding And Adapter Evidence
+      - Provider Resolution, Goal Admission, And No Fallback
+      - Studio Role Topology And Review
+      - Review Identity, Events, And Attempt Closure
+      - CDD Successor And Same-Session Continuation
+      - Department Dispatch And Compiled Command
+      - Founder Review Surfaces And Promotion Boundary
+      - Context Pack Policy
+      - Section Resume
+      - Smallest-Owner Routing
+      - Founder Gates
+    reason: Non-source roles need active route, projection, provider, review, resume, smallest-owner, and Founder-gate instructions only.
+
+  - binding_id: production_system
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Active Route
+      - Dispatch, Context, Review, And Revision
+      - Founder Gates And Detail Sources
+    reason: The pack already carries role and stage ownership; runtime receives only the active route, Dispatch/review flow, and Founder gate map.
+
+  - binding_id: section_production_policy
+    profile_ids: ['*']
+    mode: pointer_only
+    reason: The section owner index stays hash-bound and recoverable; each checkpoint already loads its exact active chapter, so the receiver does not reread the broad index.
+
+  - binding_id: orchestration_routing_detail
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Readiness Matrix
+      - Hold Classification
+      - Dispatch Packet
+      - Resume
+      - Pointer-Only Recovery Surfaces
+      - Grok
+      - Completion Record
+    reason: Runtime routing needs readiness, dispatch, recovery, provider, and completion procedure without unrelated scheduling detail.
+
+invalidation:
+  whole_file_hash_role: source_inventory_and_locator_revalidation
+  fragment_hash_role: localized_runtime_instruction_invalidation
+  founder_change: invalidate_affected_semantic_descendants_only
+  provider_change: invalidate_assignments_resolved_to_changed_provider_snapshot_only
+  unrelated_scope_change: preserve_pack_when_bound_source_set_is_unchanged

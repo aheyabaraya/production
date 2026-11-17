@@ -1,0 +1,900 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/generation-map.schema.json",
+  "title": "IDOL Generation Map",
+  "description": "Retired evidence-only 02 contract. New generation coverage is owned by the active 02A Master Storyboard and 02B Prompt Packets; this schema is preserved only for historical interpretation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "source_map",
+    "source_song_lock",
+    "storyboard_output",
+    "prompt_packet_output",
+    "status",
+    "output_intent",
+    "generation_policy",
+    "target_empathy_policy",
+    "active_visual_system",
+    "asset_inputs",
+    "image_reference_plan",
+    "video_clip_plan",
+    "clip_budget",
+    "output_registry",
+    "review_surface",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "source_map": {
+      "type": "string"
+    },
+    "source_song_lock": {
+      "type": "string"
+    },
+    "direction_handoff_contract": {
+      "type": "object",
+      "description": "Pointer-only projection from the 01 research synthesis and selected director decisions. Raw observations, contact-sheet prose, crop paths, and held/rejected reference material remain in their upstream owners and must not be recopied here.",
+      "additionalProperties": false,
+      "required": [
+        "source_01_path",
+        "source_01_sha256",
+        "research_synthesis_id",
+        "projection_mode",
+        "section_routes",
+        "no_new_creative_decisions"
+      ],
+      "properties": {
+        "source_01_path": {"type": "string", "minLength": 1},
+        "source_01_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "research_synthesis_id": {"type": "string", "pattern": "^RSI_[A-Z0-9_]{2,80}$"},
+        "projection_mode": {"const": "selected_01_decisions_only"},
+        "section_routes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["section_id", "source_01_field_refs", "reference_application_ids", "camera_route_refs", "generation_coverage_job", "must_preserve"],
+            "properties": {
+              "section_id": {"type": "string", "pattern": "^S[0-9]{2}[A-Z]?$"},
+              "source_01_field_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^[^#]+#/.*$"}, "uniqueItems": true},
+              "reference_application_ids": {"type": "array", "items": {"type": "string", "pattern": "^APP_[A-Z0-9_]{2,80}$"}, "uniqueItems": true},
+              "camera_route_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+              "generation_coverage_job": {"type": "string", "minLength": 1},
+              "must_preserve": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+              "must_not_reopen": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+            }
+          }
+        },
+        "no_new_creative_decisions": {"const": true}
+      }
+    },
+    "storyboard_output": {
+      "type": "string"
+    },
+    "prompt_packet_output": {
+      "type": "string"
+    },
+    "frame_subject_mix_policy": {
+      "type": "string",
+      "description": "Optional 02-level policy for preserving the intended mix of member-led, unit/group-led, world/object-led, environment-insert, system-transition, and mixed generation work."
+    },
+    "section_shards": {
+      "type": "array",
+      "description": "Optional downstream authoring shards for large 02/02A/02B passes. Shards let Codex or sub-agents work by selected-audio section range, then merge into the canonical generation map, master storyboard, and prompt packets before founder review, export, or API preflight.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "shard_id",
+          "section_ids",
+          "time_range",
+          "section_goal",
+          "rhythm_or_lyric_trigger",
+          "status",
+          "outputs",
+          "transition_in",
+          "transition_out",
+          "merge_checks"
+        ],
+        "properties": {
+          "shard_id": {
+            "type": "string",
+            "pattern": "^SHARD_[A-Z0-9_]{2,40}$"
+          },
+          "section_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^S[0-9]{2}[A-Z]?$"
+            }
+          },
+          "time_range": {
+            "type": "string"
+          },
+          "section_goal": {
+            "type": "string",
+            "description": "What this section shard must finish for the next downstream worker."
+          },
+          "rhythm_or_lyric_trigger": {
+            "type": "string",
+            "description": "Concrete primary audio/section cue, vocal entry, onset, or lyric cue when it is the audible or meaning turn that anchors the shard."
+          },
+          "member_owner": {
+            "type": "string",
+            "description": "Identity, unit, or part owner when members are visible. Member-led shards remain valid; non-member-led shards do not need to invent a member owner."
+          },
+          "frame_subject_mode": {
+            "type": "string",
+            "enum": ["member_led", "unit_or_group_led", "world_object_led", "environment_insert", "system_transition", "mixed_member_world"],
+            "description": "Routing category for what primarily carries this generation shard. Preserve it downstream, but do not treat this closed transport category as the creative subject, action, composition, or camera direction; those remain scene-specific authored prose."
+          },
+          "visual_system_anchor": {
+            "type": "string",
+            "description": "Physical screen system, object, space, surface, route, light, crowd, screen, vehicle, portal, or environment state the generation plan must preserve."
+          },
+          "visible_response": {
+            "type": "string",
+            "description": "Observable composition, body, camera, space, object, or edit response that proves the cue was preserved."
+          },
+          "composition_lock": {
+            "type": "string",
+            "description": "Optional while drafting; required before status becomes ready_for_merge or merged. Names the section/cut composition seed for 02A: shot scale, subject/object placement, foreground/background depth, crop pressure, color/light balance, or transition geometry."
+          },
+          "section_visual_quality_note": {
+            "type": "string",
+            "description": "Optional while drafting; required before status becomes ready_for_merge or merged. Notes image quality: composition strength, shot-scale rhythm, foreground/depth, color/light coherence, continuity/variation, world/object progression, and lyric-literalism risk."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "ready_for_merge", "merged", "hold", "blocked", "needs_founder"]
+          },
+          "outputs": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "generation_map_fragment": { "type": "string" },
+              "master_storyboard_fragment": { "type": "string" },
+              "prompt_packet_fragment": { "type": "string" },
+              "prompt_export_index_fragment": { "type": "string" },
+              "notes_path": { "type": "string" }
+            }
+          },
+          "transition_in": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": {
+                "type": "string",
+                "description": "Primary audio/section trigger, with lyric cue only when it is the audible or meaning turn."
+              },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": {
+                "type": "string",
+                "description": "Camera, composition, or edit bridge that carries this shard in."
+              },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "transition_out": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": {
+                "type": "string",
+                "description": "Primary audio/section trigger, with lyric cue only when it is the audible or meaning turn."
+              },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": {
+                "type": "string",
+                "description": "Camera, composition, or edit bridge that carries this shard out."
+              },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "open_questions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "merge_checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "section_boundary_timing",
+                "repeated_hook_variation",
+                "member_balance",
+                "frame_subject_variety",
+                "section_visual_quality",
+                "space_variety",
+                "world_object_system_continuity",
+                "wardrobe_rotation",
+                "source_trace_consistency",
+                "rhythm_preservation",
+                "packet_count_alignment",
+                "03_motion_continuity",
+                "04_audio_marker_alignment",
+                "founder_gate_preserved",
+                "packet_expansion_alignment",
+                "founder_review_readability",
+                "intro_to_s00_object_continuity"
+              ]
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "founder_review", "approved", "generated", "hold", "rejected"]
+    },
+    "output_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_output", "storyboard_policy", "board_count_policy", "music_timing_distribution_policy", "role_balance_guide"],
+      "anyOf": [
+        { "required": ["master_cut_target", "cut_roles"] },
+        { "required": ["master_beat_target", "beat_roles"] }
+      ],
+      "properties": {
+        "primary_output": {
+          "type": "string",
+          "const": "90s_mv_version"
+        },
+        "storyboard_policy": {
+          "type": "string"
+        },
+        "parallel_lane_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "lane_strategy",
+            "lanes",
+            "stage_motion_background_policy",
+            "review_policy"
+          ],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "lane_strategy": { "type": "string" },
+            "lanes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": ["mv_lane", "stage_motion_lane"]
+              },
+              "uniqueItems": true
+            },
+            "stage_motion_background_policy": { "type": "string" },
+            "review_policy": { "type": "string" }
+          }
+        },
+        "master_beat_target": {
+          "type": "string",
+          "description": "Compatibility alias for older beat-first generation maps. New active work should use master_cut_target."
+        },
+        "master_cut_target": {
+          "type": "string",
+          "description": "Preferred active field: planned pre-image cut coverage before still-image generation."
+        },
+        "board_count_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["unit_default", "full_group_max", "expansion_rule"],
+          "properties": {
+            "unit_default": {
+              "type": "string",
+              "description": "Run-local current review/export scope or authoring default. Do not use old range wording as a global cap."
+            },
+            "full_group_max": {
+              "description": "Optional run-local review cap. Use null when there is no fixed cap; counts are controlled by visible split evidence, founder review, budget scope, paid approval, and merge QC rather than a global schema maximum.",
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "current_high_density_review_target": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1,
+              "description": "Optional current-run review target when 02A intentionally expands beyond old local defaults. This is a review-scope count, not a global cap."
+            },
+            "current_high_density_review_scope": {
+              "enum": [
+                "current_review_scope",
+                "current_export_scope",
+                "founder_selected_scope",
+                "budget_scope",
+                "partial_authoring_scope"
+              ],
+              "description": "Declares what current_high_density_review_target represents so old local review shapes are not mistaken for global limits."
+            },
+            "count_is_global_cap": {
+              "const": false,
+              "description": "Must remain false when present. IDOL has no global 02A/02B Core-Cut, Branch-Cut, or 03V board cap."
+            },
+            "count_decision_basis": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Concrete reasons for the current Core-Cut, Branch-Cut, or 03V board count, such as visible-job need, section merge QC, founder review scope, budget scope, or paid-generation approval status."
+            },
+            "review_scope_note": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Model-readable note clarifying that this count is the current review/export surface, not an upper limit for future expansion."
+            },
+            "expansion_rule": {
+              "type": "string"
+            }
+          }
+        },
+        "music_timing_distribution_policy": {
+          "type": "string",
+          "description": "Describe how the master beat plan follows selected-audio cues, lyric/no-lyric triggers, pulse density, accent/onset clusters, body phrases, camera attention, story state, space/object state, and edit handoffs. This must not describe equal-second slicing, prompt-count filling, PACK_INDEX matching, or copying a prior sample beat shape."
+        },
+        "role_balance_guide": {
+          "type": "object",
+          "description": "Human/model-authored distribution of the screen jobs this song actually needs. The legacy named properties remain readable examples, not mandatory roles or an exhaustive vocabulary; additional current-song role names are allowed.",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          },
+          "properties": {
+            "world_message_beats": {
+              "type": "string",
+              "description": "Selected world/message anchor cuts across the whole film. This is not a requirement that every cut carry an explicit message function."
+            },
+            "performance_choreo_beats": {
+              "type": "string"
+            },
+            "closeup_transition_memory_beats": {
+              "type": "string"
+            },
+            "intro_arrival_beats": {
+              "type": "string",
+              "description": "Optional pre-song or intro-prologue cut group used when the current run adds founder-approved arrival/story setup before the selected audio starts."
+            }
+          }
+        },
+        "storyline_balance_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["core_storyline", "phase_arc", "lyric_balance_rule", "screen_variation_rule", "review_failure"],
+          "properties": {
+            "core_storyline": {
+              "type": "string"
+            },
+            "phase_arc": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["phase_id", "beats", "story_job", "lyric_meaning_or_visible_feeling", "dominant_proof", "do_not_repeat"],
+                "properties": {
+                  "phase_id": { "type": "string" },
+                  "beats": { "type": "string" },
+                  "story_job": { "type": "string" },
+                  "lyric_meaning_or_visible_feeling": { "type": "string" },
+                  "dominant_proof": { "type": "string" },
+                  "do_not_repeat": { "type": "string" }
+                }
+              }
+            },
+            "lyric_balance_rule": {
+              "type": "string"
+            },
+            "screen_variation_rule": {
+              "type": "string"
+            },
+            "review_failure": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "beat_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Legacy beat-first screen-job label authored for the current song. Existing labels are optional vocabulary, not an exhaustive enum."
+          },
+          "uniqueItems": true
+        },
+        "cut_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Current-song dominant screen job authored by the director. Existing labels are optional vocabulary, not an exhaustive enum or a required role mix."
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "generation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary_engine", "paid_generation_gate", "publish_gate", "direction_priority"],
+      "properties": {
+        "primary_engine": {
+          "type": "string",
+          "enum": ["grok_imagine", "gpt_image", "sora", "manual", "mixed"]
+        },
+        "secondary_engines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["grok_imagine", "gpt_image", "sora", "manual", "mixed"]
+          },
+          "uniqueItems": true
+        },
+        "paid_generation_gate": {
+          "type": "string",
+          "enum": ["requires_founder_approval", "approved_for_current_run", "not_required"]
+        },
+        "publish_gate": {
+          "type": "string",
+          "enum": ["not_allowed_from_generation_map", "requires_founder_approval"]
+        },
+        "direction_priority": {
+          "type": "string"
+        }
+      }
+    },
+    "target_empathy_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_target_empathy_lock",
+        "generation_rule",
+        "beat_requirement",
+        "review_failure"
+      ],
+      "properties": {
+        "source_target_empathy_lock": {
+          "type": "string"
+        },
+        "generation_rule": {
+          "type": "string"
+        },
+        "beat_requirement": {
+          "type": "string",
+          "description": "Compatibility field name. Describe selected empathy-anchor cuts or phase-level reception changes, and state that individual cuts need empathy prose only when the viewer-member relationship materially changes; do not require the same empathy function on every cut."
+        },
+        "review_failure": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "active_visual_system": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_system_id",
+        "palette",
+        "light_behavior",
+        "material_language",
+        "spatial_continuity_rule",
+        "diversity_rule",
+        "stale_visual_terms_blocklist",
+        "retired_visual_systems"
+      ],
+      "properties": {
+        "visual_system_id": {
+          "type": "string"
+        },
+        "palette": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "light_behavior": {
+          "type": "string"
+        },
+        "material_language": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "spatial_continuity_rule": {
+          "type": "string"
+        },
+        "diversity_rule": {
+          "type": "string"
+        },
+        "stale_visual_terms_blocklist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "retired_visual_systems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "asset_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["member_registry", "voice_style_index", "member_references"],
+      "properties": {
+        "member_registry": {
+          "type": "string",
+          "const": "assets/member-registry.yaml"
+        },
+        "voice_style_index": {
+          "type": "string",
+          "const": "assets/voice-style-index.md"
+        },
+        "member_references": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["character_board", "face_reference"],
+            "properties": {
+              "character_board": {
+                "type": "string"
+              },
+              "face_reference": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "image_reference_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "reference_packets", "founder_gate"],
+      "properties": {
+        "purpose": {
+          "type": "string"
+        },
+        "reference_packets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "role", "subject_focus", "frame_subject_mode", "visual_system_anchor", "frame_goal", "must_preserve", "avoid"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "member_focus": {
+                "type": "array",
+                "description": "Members involved when a member face/body is visible. Leave empty or omit for no-member reference packets.",
+                "items": {
+                  "type": "string",
+                  "pattern": "^M(0[1-9]|1[0-3])$"
+                },
+                "uniqueItems": true
+              },
+              "subject_focus": {
+                "type": "string",
+                "description": "Who-or-what carries the reference packet: member, unit/group, object, environment insert, camera route, system transition, or mixed member/world."
+              },
+              "frame_subject_mode": {
+                "type": "string",
+                "enum": ["member_led", "unit_or_group_led", "world_object_led", "environment_insert", "system_transition", "mixed_member_world"],
+                "description": "Routing category only. subject_focus, frame_goal, must_preserve, and avoid own the actual scene-specific creative direction."
+              },
+              "visual_system_anchor": {
+                "type": "string",
+                "description": "Physical screen system, object, surface, route, light, crowd, screen, vehicle, portal, floor, or environment state the reference packet must preserve."
+              },
+              "frame_goal": {
+                "type": "string"
+              },
+              "must_preserve": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "avoid": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "founder_gate": {
+          "type": "string"
+        },
+        "image_references": {
+          "type": "array",
+          "description": "Optional run-owned image reference rows used as text locks or founder-gated scene references.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["reference_id", "path", "use"],
+            "properties": {
+              "reference_id": { "type": "string" },
+              "path": { "type": "string" },
+              "use": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "video_clip_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clip_families", "assembly_intent"],
+      "properties": {
+        "clip_families": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "source_section",
+              "beat_role",
+              "subject_focus",
+              "frame_subject_mode",
+              "visual_system_anchor",
+              "duration_seconds",
+              "quantity_floor",
+              "quantity_target",
+              "camera_composition_goal",
+              "motion_goal",
+              "image_reference_dependency",
+              "success_criteria",
+              "rejection_triggers"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "source_section": {
+                "type": "string"
+              },
+              "beat_role": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Compatibility field name for the director-authored clip-family screen job. Existing role labels are optional vocabulary, not an exhaustive enum."
+              },
+              "member_focus": {
+                "type": "array",
+                "description": "Members involved when a member face/body is visible. Leave empty or omit for no-member clip families.",
+                "items": {
+                  "type": "string",
+                  "pattern": "^M(0[1-9]|1[0-3])$"
+                },
+                "uniqueItems": true
+              },
+              "subject_focus": {
+                "type": "string",
+                "description": "Who-or-what carries this clip family: member, unit/group, object, environment insert, camera route, system transition, or mixed member/world."
+              },
+              "frame_subject_mode": {
+                "type": "string",
+                "enum": ["member_led", "unit_or_group_led", "world_object_led", "environment_insert", "system_transition", "mixed_member_world"],
+                "description": "Routing category only. subject_focus, camera_composition_goal, motion_goal, and success criteria own the actual creative direction."
+              },
+              "visual_system_anchor": {
+                "type": "string",
+                "description": "Physical screen system, object, surface, route, light, crowd, screen, vehicle, portal, floor, or environment state this clip family must preserve."
+              },
+              "duration_seconds": {
+                "type": "string"
+              },
+              "quantity_floor": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "quantity_target": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "camera_composition_goal": {
+                "type": "string"
+              },
+              "motion_goal": {
+                "type": "string"
+              },
+              "image_reference_dependency": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "success_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rejection_triggers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "assembly_intent": {
+          "type": "object"
+        }
+      }
+    },
+    "clip_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_attempt_floor",
+        "raw_attempt_target",
+        "raw_attempt_ceiling",
+        "selected_clip_target",
+        "final_edit_clip_target",
+        "master_duration_seconds",
+        "cutdown_duration_seconds"
+      ],
+      "properties": {
+        "raw_attempt_floor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_attempt_target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_attempt_ceiling": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selected_clip_target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "final_edit_clip_target": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "master_duration_seconds": {
+          "type": "integer",
+          "minimum": 90,
+          "description": "IDOL master policy is 90s+; shorter outputs belong to cutdown or short derivative lanes."
+        },
+        "cutdown_duration_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "budget_scope_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Clarifies whether clip-budget counts are video/source attempt budgeting rather than 02A/02B Branch-Cut packet counts."
+        },
+        "count_is_branch_cut_packet_scope": {
+          "const": false,
+          "description": "Use false when clip-budget counts are not Branch-Cut packet review counts."
+        }
+      }
+    },
+    "output_registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["image_references", "video_clips"],
+      "properties": {
+        "title_catalog": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Stable album/title registry for 02B+ outputs; run-owned paths remain the source files, but generated outputs must also be registered here.",
+          "required": [
+            "album_key",
+            "title_key",
+            "title_display_name",
+            "title_root",
+            "output_registry_path",
+            "post_02b_registration_required"
+          ],
+          "properties": {
+            "album_key": {
+              "type": "string",
+              "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+            },
+            "title_key": {
+              "type": "string",
+              "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+            },
+            "title_display_name": {
+              "type": "string"
+            },
+            "title_root": {
+              "type": "string",
+              "pattern": "^catalog/albums/[^/]+/[^/]+$"
+            },
+            "output_registry_path": {
+              "type": "string",
+              "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$"
+            },
+            "post_02b_registration_required": {
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "image_references": {
+          "type": "array"
+        },
+        "video_clips": {
+          "type": "array"
+        }
+      }
+    },
+    "review_surface": {
+      "type": "object",
+      "description": "Compatibility field name for review material and QC checks.",
+      "additionalProperties": false,
+      "required": ["founder_decisions", "auto_qc_checks"],
+      "properties": {
+        "founder_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto_qc_checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

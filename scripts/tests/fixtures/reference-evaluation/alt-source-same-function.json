@@ -1,0 +1,7 @@
+{
+  "evidence_class": "synthetic_fixture",
+  "fixture_notice": "synthetic_test_evidence_not_pixel_inspection_or_production_pass",
+  "sequence_sample_timestamps_seconds": [2, 3, 4, 5, 6],
+  "authored_visible_facts": "A different source records a doorway still beat with a distinct costume.",
+  "authored_scene_function": "doorway hold as a still beat"
+}

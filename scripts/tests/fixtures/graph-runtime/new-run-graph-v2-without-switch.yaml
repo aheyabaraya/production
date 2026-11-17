@@ -1,0 +1,26 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: new_run_graph_v2_without_switch
+expect: fail
+expect_error_substrings:
+  - graph v2 requires a verified default-switch receipt
+run:
+  run_class: new_run
+  section_count: 2
+writer:
+  requested: graph_v2
+  active: [legacy_harness]
+switch_receipt: null
+active_authoring_ids: [overall_director]
+active_writers:
+  - {scope: overall, lane_id: overall, role: overall_director, stage: planning_cell, writer_id: overall_primary}
+sessions:
+  - {lane_id: overall, session_id: overall_primary, role: overall_director, stage: planning_cell, provider: grok, generation: primary, state: active_writer}
+cohorts:
+  - {cohort_id: C1, sections: [S01, S02], runtime_stage: planning_cell, scheduling_state: active}
+succession:
+  - from_cohort_id: C1
+    to_cohort_id: C1
+pack:
+  source_id: SRC_FIXTURE_003
+  locator: still:frame_01
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a

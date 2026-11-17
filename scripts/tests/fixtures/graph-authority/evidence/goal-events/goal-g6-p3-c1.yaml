@@ -1,0 +1,12 @@
+---
+schema_version: idol-graph-provider-goal-terminal-event.v1
+artifact_type: graph_provider_goal_terminal_event
+evidence_class: synthetic_fixture
+fixture_notice: synthetic_test_evidence_not_runtime_attestation
+provider: grok
+native_goal_id: GOAL_G6_P3_C1
+goal_text: Synthetic fixture Goal objective for GOAL_G6_P3_C1.
+goal_text_sha256: 5ec1a8002b8abc8d22fefa7e7253a95627aa7dc6fe4d41598ab9e0d393fa6351
+goal_semantics: grok_goal_completed_admission
+terminal_state: complete
+last_event: goal_completed

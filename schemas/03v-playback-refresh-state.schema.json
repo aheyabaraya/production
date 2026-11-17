@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/03v-playback-refresh-state.schema.json",
+  "title": "IDOL 03V Focused Playback Refresh State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "route",
+    "section_range",
+    "source_worklist",
+    "source_worklist_sha256",
+    "clips_root",
+    "clip_sources",
+    "refresh_contract",
+    "input_sha256",
+    "outputs",
+    "summary",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_03v_playback_refresh_state.v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "run": {"type": "string", "minLength": 1},
+    "status": {"const": "current"},
+    "route": {"type": "string", "minLength": 1},
+    "section_range": {"type": "string", "minLength": 1},
+    "source_worklist": {"type": "string", "minLength": 1},
+    "source_worklist_sha256": {"$ref": "#/$defs/sha256"},
+    "clips_root": {"type": "string", "minLength": 1},
+    "clip_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/clip_source"}
+    },
+    "refresh_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "implementation_fingerprint_sha256", "implementation_sources"],
+      "properties": {
+        "contract_version": {"const": "idol_03v_playback_refresh.v1"},
+        "implementation_fingerprint_sha256": {"$ref": "#/$defs/sha256"},
+        "implementation_sources": {
+          "type": "array",
+          "minItems": 8,
+          "items": {"$ref": "#/$defs/implementation_source"}
+        }
+      }
+    },
+    "input_sha256": {"$ref": "#/$defs/sha256"},
+    "outputs": {
+      "type": "array",
+      "minItems": 6,
+      "items": {"$ref": "#/$defs/output"}
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clip_source_count", "output_count", "refresh_reason"],
+      "properties": {
+        "clip_source_count": {"type": "integer", "minimum": 0},
+        "output_count": {"const": 6},
+        "refresh_reason": {"enum": ["first_refresh", "source_changed", "implementation_changed", "derived_output_stale", "forced"]}
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "clip_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "implementation_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256"],
+      "properties": {
+        "role": {
+          "enum": [
+            "generated_playback_intake_yaml",
+            "generated_playback_intake_md",
+            "playback_review_worklist_yaml",
+            "playback_review_worklist_md",
+            "playback_decision_sheet_yaml",
+            "playback_decision_sheet_md"
+          ]
+        },
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

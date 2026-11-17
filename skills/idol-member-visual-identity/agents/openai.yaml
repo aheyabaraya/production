@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Member Visual Identity"
+  short_description: "얼굴 고정·스타일 전면 전환 3패널 멤버 비주얼 카드"
+  default_prompt: "Use $idol-member-visual-identity to build a current-title member card that preserves only the approved face and replaces hair, makeup, accessories, and wardrobe from selected styling references."

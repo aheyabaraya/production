@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-request-v10-legacy.schema.json",
+  "title": "IDOL Provider-Conditional Image Generation Request v10 Legacy Reader",
+  "description": "Pinned read-only copy of the committed v10 request contract. It preserves pre-session-native request evidence and must never author or execute new work; active authoring uses image-generation-request.schema.json v11.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "content_id", "run", "prompt_profile", "mode", "packet_id", "production_scope_id", "cut_pointer", "section_id", "source_prompt_packet", "prompt", "attachments", "attachment_order_sha256", "execution", "quality_contract", "expected_output", "integrity_contract", "approval", "status", "hold_reasons"],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_request.v10"},
+    "artifact_type": {"const": "image_generation_request"},
+    "content_id": {"type": "string", "minLength": 1},
+    "run": {"type": "string", "pattern": "^runs/"},
+    "prompt_profile": {"const": "idol_one_cut_one_image.v1"},
+    "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+    "packet_id": {"type": "string", "minLength": 1},
+    "production_scope_id": {"type": "string", "minLength": 1},
+    "cut_pointer": {"$ref": "#/$defs/cutPointer"},
+    "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "source_prompt_packet": {"$ref": "#/$defs/artifactValueRef"},
+    "prompt": {"$ref": "#/$defs/renderedFiveLines"},
+    "attachments": {"type": "array", "items": {"$ref": "#/$defs/attachment"}},
+    "attachment_order_sha256": {"$ref": "#/$defs/sha256"},
+    "execution": {"$ref": "#/$defs/execution"},
+    "quality_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quality", "render_quality_terms", "output_count", "full_size_pixel_review_required"],
+      "properties": {
+        "quality": {"const": "highest_available"},
+        "render_quality_terms": {
+          "type": "array",
+          "prefixItems": [{"const": "4K"}, {"const": "high quality"}, {"const": "high detail"}],
+          "items": false
+        },
+        "output_count": {"const": 1},
+        "full_size_pixel_review_required": {"const": true}
+      }
+    },
+    "expected_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256_required", "canonical_ingest_required", "motion_handoff"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256_required": {"const": true},
+        "canonical_ingest_required": {"const": true},
+        "motion_handoff": {"const": "only_after_passed_full_size_pixels"}
+      }
+    },
+    "integrity_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_rewrite_policy", "attachment_omission_policy", "provider_auth_model_fallback", "one_request_one_output"],
+      "properties": {
+        "prompt_rewrite_policy": {"const": "forbidden"},
+        "attachment_omission_policy": {"const": "locked_attachment_missing_hold_no_prose_substitution"},
+        "provider_auth_model_fallback": {"const": "none"},
+        "one_request_one_output": {"const": true}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["founder_generation_authority_id", "external_execution_approved", "paid_generation_approved", "approval_source"],
+      "properties": {
+        "founder_generation_authority_id": {"type": ["string", "null"]},
+        "external_execution_approved": {"type": "boolean"},
+        "paid_generation_approved": {"type": "boolean"},
+        "approval_source": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/artifactRef"}]}
+      }
+    },
+    "status": {"enum": ["ready", "hold"]},
+    "hold_reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "cutPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cut_id", "cut_type", "section_id", "major_scene_id", "source_path", "source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "cut_id": {"type": "string", "minLength": 1},
+        "cut_type": {"enum": ["hero_core", "official_core", "branch"]},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "parent_core_cut_id": {"type": "string", "minLength": 1},
+        "source_path": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "renderedFiveLines": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity_reference_rule", "scene_intent", "visible_details", "action_cue", "avoid", "full_prompt_text", "full_prompt_sha256", "label_order"],
+      "properties": {
+        "identity_reference_rule": {"type": "string", "minLength": 1},
+        "scene_intent": {"type": "string", "minLength": 1},
+        "visible_details": {"type": "string", "minLength": 1},
+        "action_cue": {"type": "string", "minLength": 1},
+        "avoid": {"type": "string", "minLength": 1},
+        "full_prompt_text": {"type": "string", "minLength": 1},
+        "full_prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "label_order": {"const": ["Identity reference rule", "Scene intent", "Visible details", "Action cue", "Avoid"]}
+      }
+    },
+    "attachment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "role", "actual_path", "sha256", "pixel_inspection_status", "locked"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1},
+        "role": {"enum": ["current_title_member_visual", "governing_scene_or_sequence_reference", "supporting_component_reference"]},
+        "binding_id": {"type": "string", "minLength": 1},
+        "asset_id": {"type": "string", "minLength": 1},
+        "actual_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "pixel_inspection_status": {"const": "passed"},
+        "locked": {"const": true}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_adapter_id", "provider", "provider_model_or_tool", "selected_native_tool", "auth_lane", "provider_profile_id", "provider_profile_sha256", "provider_capability_snapshot_sha256", "cli_or_api_version", "founder_generation_authority_id", "prompt_rewrite_policy", "automatic_fallback", "expected_output_path", "output_count"],
+      "properties": {
+        "execution_adapter_id": {"enum": ["openai_api_gpt_image_2", "grok_image", "xai_api_media"]},
+        "provider": {"enum": ["openai", "xai_grok_build", "xai_api"]},
+        "provider_model_or_tool": {"type": "string", "minLength": 1},
+        "selected_native_tool": {"enum": ["image_edit", "image_gen", null]},
+        "auth_lane": {"enum": ["subscription_oauth", "founder_approved_api"]},
+        "provider_profile_id": {"type": "string", "minLength": 1},
+        "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "cli_or_api_version": {"type": "string", "minLength": 1},
+        "founder_generation_authority_id": {"type": ["string", "null"]},
+        "prompt_rewrite_policy": {"const": "forbidden"},
+        "automatic_fallback": {"const": "none"},
+        "expected_output_path": {"type": "string", "minLength": 1},
+        "output_count": {"const": 1}
+      },
+      "oneOf": [
+        {"properties": {"execution_adapter_id": {"const": "openai_api_gpt_image_2"}, "provider": {"const": "openai"}, "provider_model_or_tool": {"const": "gpt-image-2"}, "selected_native_tool": {"const": null}, "auth_lane": {"const": "founder_approved_api"}}},
+        {"properties": {"execution_adapter_id": {"const": "grok_image"}, "provider": {"const": "xai_grok_build"}, "provider_model_or_tool": {"const": "grok_image"}, "selected_native_tool": {"enum": ["image_edit", "image_gen"]}, "auth_lane": {"const": "subscription_oauth"}}},
+        {"properties": {"execution_adapter_id": {"const": "xai_api_media"}, "provider": {"const": "xai_api"}, "provider_model_or_tool": {"type": "string", "minLength": 1, "not": {"const": "unregistered_selection_only"}}, "selected_native_tool": {"const": null}, "auth_lane": {"const": "founder_approved_api"}}}
+      ]
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "artifactValueRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "json_pointer", "value_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "2.4"},
+        "json_pointer": {"type": "string", "pattern": "^/prompt_packets/[0-9]+$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "ready"}}},
+      "then": {
+        "properties": {
+          "hold_reasons": {"maxItems": 0},
+          "approval": {
+            "properties": {
+              "founder_generation_authority_id": {"type": "string", "minLength": 1},
+              "external_execution_approved": {"const": true},
+              "paid_generation_approved": {"const": true},
+              "approval_source": {"$ref": "#/$defs/artifactRef"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"execution": {"properties": {"execution_adapter_id": {"const": "grok_image"}}}}},
+      "then": {
+        "if": {"properties": {"attachments": {"minItems": 1}}},
+        "then": {"properties": {"execution": {"properties": {"selected_native_tool": {"const": "image_edit"}}}}},
+        "else": {"properties": {"execution": {"properties": {"selected_native_tool": {"const": "image_gen"}}}}}
+      }
+    }
+  ]
+}

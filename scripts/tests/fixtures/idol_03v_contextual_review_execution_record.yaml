@@ -1,0 +1,11 @@
+schema_version: idol-03v-creative-context-review-execution-record.v1
+producer: registered_codex_03v_reviewer_runner
+surface_owner: codex
+session_type: codex_section_review
+role_id: idol-03v-section-context-reviewer
+session_id: synthetic-section-session
+profile: sol_xhigh
+source_video_prompt_index_sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+assigned_section_ids: [S00]
+completion_state: completed
+canonical_semantic_write_performed: false

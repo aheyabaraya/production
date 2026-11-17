@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-stage-registry.schema.json",
+  "title": "IDOL Graph Stage Registry",
+  "description": "Shadow-only Graph Engineering stage, authority, cohort, and Founder-gate registry. It never selects a canonical writer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "default_writer", "legacy_capsule", "authority",
+    "creative_truth_policy", "studio_execution", "migration_policy",
+    "decision_ownership_policy", "validation_authority_policy", "views",
+    "node_classes", "edge_families", "founder_gates",
+    "existing_founder_gates_preserved", "cohort_policy", "director_lanes",
+    "legacy_source_pointers", "phases", "stages"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-stage-registry.v1"},
+    "status": {"const": "shadow_read_only"},
+    "default_writer": {"const": "forbidden"},
+    "legacy_capsule": {"const": "parse_only"},
+    "authority": {"const": "read_only_projection"},
+    "creative_truth_policy": {"const": "graph_scripts_never_author"},
+    "studio_execution": {
+      "type": "object",
+      "minProperties": 10,
+      "required": ["active_director_binding_rule", "physical_session_ceiling", "cross_cohort_cdd_parallelism", "successor_before_cas"],
+      "properties": {
+        "active_director_binding_rule": {"const": "exactly_one_logical_overall_and_one_active_writer_per_lane_stage"},
+        "physical_session_ceiling": {"const": "primary_plus_successor_maximum_two_per_lane_stage"},
+        "cross_cohort_cdd_parallelism": {"const": "disjoint_p3_ci_or_v_ci_lanes_within_lower_capacity_and_backpressure"},
+        "successor_before_cas": {"const": "read_only_not_active_writer"}
+      }
+    },
+    "migration_policy": {
+      "type": "object",
+      "required": ["active_default_switch", "dual_active_writer"],
+      "properties": {
+        "active_default_switch": {"const": "forbidden"},
+        "dual_active_writer": {"const": "fail_closed"}
+      }
+    },
+    "decision_ownership_policy": {
+      "type": "object",
+      "minProperties": 6,
+      "required": ["one_active_writer_per_lane_stage"],
+      "properties": {"one_active_writer_per_lane_stage": {"const": true}}
+    },
+    "validation_authority_policy": {"type": "object", "minProperties": 3},
+    "views": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["view_id", "path"],
+        "properties": {
+          "view_id": {"enum": ["creative_truth", "evidence_provenance", "authority_ownership", "execution_session", "review_decision", "provider_capability"]},
+          "path": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "node_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}},
+    "edge_families": {"type": "object", "minProperties": 6},
+    "founder_gates": {
+      "type": "array", "minItems": 5, "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "name", "founder_judges", "must_already_be_closed", "maps_legacy_stage_id"],
+        "properties": {"gate_id": {"pattern": "^G[0-4]$"}}
+      }
+    },
+    "existing_founder_gates_preserved": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "cohort_policy": {
+      "type": "object",
+      "required": ["capacity_creates_cohort", "singleton_allowed", "contiguous", "sizes", "partition_rule", "examples", "carry_rule", "every_section_maps_once", "disjoint_lane_parallelism"],
+      "properties": {
+        "capacity_creates_cohort": {"const": false},
+        "contiguous": {"const": true},
+        "sizes": {"const": [2, 3]},
+        "partition_rule": {"const": "remainder_two_at_front_then_threes"},
+        "carry_rule": {"const": "exact_p3_cohort_id_to_v_cohort"},
+        "every_section_maps_once": {"const": true},
+        "disjoint_lane_parallelism": {"const": "allowed_within_lower_provider_combined_capacity_and_backpressure"}
+      }
+    },
+    "director_lanes": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["lane_id", "node_class", "logical_tier"]}},
+    "legacy_source_pointers": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["capsule", "path", "legacy_id", "purpose"]}},
+    "phases": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["phase_id", "order", "name", "stage_ids"]}},
+    "stages": {
+      "type": "array", "minItems": 19, "maxItems": 19,
+      "items": {
+        "type": "object",
+        "required": ["stage_id", "order", "code", "name", "node_class", "founder_gate", "legacy_stage_id", "active"]
+      }
+    }
+  }
+}

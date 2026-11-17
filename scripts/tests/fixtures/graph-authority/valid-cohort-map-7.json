@@ -1,0 +1,49 @@
+{
+  "schema_version": "idol-graph-section-cohort-map.v1",
+  "artifact_type": "graph_section_cohort_map",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "phase": "planning_provisional",
+  "partition_basis": "roster_derived_not_capacity",
+  "section_roster": ["S01", "S02", "S03", "S04", "S05", "S06", "S07"],
+  "cohorts": [
+    {
+      "section_cohort_id": "C1",
+      "planning_lane_id": "planning_p3_c1",
+      "production_lane_id": null,
+      "section_ids": ["S01", "S02"],
+      "cdd_reviewer": {"owner": "fixture-cdd-p3-c1", "role": "creative_development_director", "lane_id": "planning_p3_c1", "session_id": "P3C1_PRIMARY", "logical_lineage_id": "P3C1_LINEAGE_G6"},
+      "return_recipient": {"owner": "fixture-overall", "role": "overall_director", "return_route": "overall_reviewed_milestone"},
+      "section_output_writers": [
+        {"section_id": "S01", "owner": "fixture-section-s01-writer", "role": "section_image_motion_worker"},
+        {"section_id": "S02", "owner": "fixture-section-s02-writer", "role": "section_image_motion_worker"}
+      ]
+    },
+    {
+      "section_cohort_id": "C2",
+      "planning_lane_id": "planning_p3_c2",
+      "production_lane_id": null,
+      "section_ids": ["S03", "S04"],
+      "cdd_reviewer": {"owner": "fixture-cdd-p3-c2", "role": "creative_development_director", "lane_id": "planning_p3_c2", "session_id": "P3C2_PRIMARY", "logical_lineage_id": "P3C2_LINEAGE_G6"},
+      "return_recipient": {"owner": "fixture-overall", "role": "overall_director", "return_route": "overall_reviewed_milestone"},
+      "section_output_writers": [
+        {"section_id": "S03", "owner": "fixture-section-s03-writer", "role": "section_image_motion_worker"},
+        {"section_id": "S04", "owner": "fixture-section-s04-writer", "role": "section_image_motion_worker"}
+      ]
+    },
+    {
+      "section_cohort_id": "C3",
+      "planning_lane_id": "planning_p3_c3",
+      "production_lane_id": null,
+      "section_ids": ["S05", "S06", "S07"],
+      "cdd_reviewer": {"owner": "fixture-cdd-p3-c3", "role": "creative_development_director", "lane_id": "planning_p3_c3", "session_id": "P3C3_PRIMARY", "logical_lineage_id": "P3C3_LINEAGE_G6"},
+      "return_recipient": {"owner": "fixture-overall", "role": "overall_director", "return_route": "overall_reviewed_milestone"},
+      "section_output_writers": [
+        {"section_id": "S05", "owner": "fixture-section-s05-writer", "role": "section_image_motion_worker"},
+        {"section_id": "S06", "owner": "fixture-section-s06-writer", "role": "section_image_motion_worker"},
+        {"section_id": "S07", "owner": "fixture-section-s07-writer", "role": "section_image_motion_worker"}
+      ]
+    }
+  ],
+  "p3_to_v_carry": [],
+  "founder_partition_waiver": null
+}

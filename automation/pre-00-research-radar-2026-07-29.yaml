@@ -1,0 +1,264 @@
+schema_version: "1.3"
+radar_id: RADAR_20260729
+date: "2026-07-29"
+mode: automation
+status: founder_review
+
+research_policy:
+  method_basis: "Founder-approved public-web pass plus active local trend, fashion, unit, member, and voice-function records."
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 3
+  reference_families: [song, media_narrative, fashion, idol]
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: "Three non-duplicate route hypotheses, each anchored by one separate function from song, narrative, fashion, and idol evidence."
+  combination_rule: "A route may proceed only when its sound question, viewer tension, visible world action, and unit function reinforce one another."
+  unity_rule: "tone_mood_message_unity is stated inside each combined_signal; recommended_00_seed remains a question-only seed inside route_seed, never a 00 artifact."
+  ref_id_integrity_rule: "Every family-prefixed id resolves exactly once and each lane_ref_ids entry points to its matching family."
+  allowed_output: scoped_route_candidate_brief_before_song_selection
+  handoff_target: song_direction_and_candidate_audio_path
+
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md freshness windows; active 2026-07 pulse is a working hypothesis, not a song lock."
+  recheck_before_song_selection:
+    - "Recheck all release- and tour-dependent public pages if selection occurs after 2026-08-12."
+    - "Read a current weekly short-form report before making a platform-behavior claim; it is currently unavailable."
+    - "Require a founder-provided song, section, timestamp, or sound-anchor note before PRE-00S/reference-song-fit or any Suno/manual packet."
+  durable_record_rule: "Keep this file as short-term source-bound route support; do not promote a route or public-release fact to a title lock."
+  bank_record_rule: "Only founder-selected and repeated review-proven functions may enter a durable bank."
+
+research_vectors:
+  - vector_id: song_hook_structure
+    research_question: "Which compact hook function can provide a first-contact payoff without copying a current release?"
+    sample_rule: "Use public release reporting for context only; leave tempo, lyric density, arrangement, and melody to a later founder-anchored PRE-00S pass."
+    extraction_fields: [release framing, transferable hook job, prohibited inference]
+    downstream_roles: [song_direction_design, candidate_audio_evaluation_question]
+    reject_if_missing: "Reject a route that only names a mood and cannot state what the hook changes."
+  - vector_id: target_empathy_message
+    research_question: "Which everyday adult pressure can turn a hook into a visible decision rather than a generic confidence slogan?"
+    sample_rule: "Use narrative references for situation and action only; retain an explicit mismatch risk."
+    extraction_fields: [listener situation, object or boundary, action consequence, rejection trigger]
+    downstream_roles: [song_direction_design, front_planning_audience_message_candidate]
+    reject_if_missing: "Reject a route without a concrete viewer situation and screen consequence."
+  - vector_id: wardrobe_material_motion
+    research_question: "Which SS26 material or silhouette supplies motion evidence rather than decorative styling?"
+    sample_rule: "Use the active SS26 record and named public fashion pages; keep every suggestion contemporary and performance-safe."
+    extraction_fields: [silhouette, material behavior, color timing, over-style risk]
+    downstream_roles: [front_planning_visual_world_candidate, front_planning_current_title_asset_candidate]
+    reject_if_missing: "Reject a route whose clothes have no body, object, or transition function."
+  - vector_id: unit_member_identity_fit
+    research_question: "Which active unit can carry the proposed contrast while respecting current production voice functions?"
+    sample_rule: "Use the local member, unit, and voice summaries; never infer real-artist identity or final section allocation."
+    extraction_fields: [unit purpose, voice-function contrast, unit risk]
+    downstream_roles: [song_direction_design, candidate_audio_evaluation_question]
+    reject_if_missing: "Reject a route that uses a unit as an aesthetic label rather than an audible-function hypothesis."
+
+research_inputs:
+  REF_SONG_BLACKPINK_DEADLINE:
+    title: "BLACKPINK - Deadline review and release context"
+    path_or_url: "https://au.rollingstone.com/music/music-album-reviews/blackpink-deadline-new-music-jump-review-91733/"
+    reference_family: song
+    reference_lane: hook_mechanics
+    short_note: "A current group-return release is described as using a sharp, public-facing lead single and a more aggressive album-cut contrast."
+    useful_function: "Test a clean, identifiable opening statement against a later pressure increase; do not transfer genre details, lyrics, melody, or arrangement."
+    collection_method: published_article
+    source_use_boundary: "Current release context only. Any musical claim requires a founder-provided reference-song fit or selected-audio analysis."
+  REF_SONG_YOUTUBE_CONFESSIONS_FILM:
+    title: "YouTube - Confessions II visual companion announcement"
+    path_or_url: "https://jp.youtube.com/blog?entry=QzjwaeAh8b0"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "The official announcement describes six song chapters that repeatedly return to one place: the dancefloor."
+    useful_function: "Test a whole-song return point: each section alters one shared place rather than switching to unrelated concepts."
+    collection_method: browser_public_page
+    source_use_boundary: "Structure function only; no music, visual, title, artist, or choreography copying."
+  REF_MEDIA_NARRATIVE_BEAR_CRAFT:
+    title: "FX - The Bear character and team premise"
+    path_or_url: "https://www.fxnetworks.com/shows/the-bear/cast"
+    reference_family: media_narrative
+    reference_lane: character_arc
+    short_note: "The official context centers craft, responsibility, and people trying to make a demanding shared environment work."
+    useful_function: "A group story can become legible through distinct handoffs on one deadline instead of exposition."
+    collection_method: browser_public_page
+    source_use_boundary: "Use only the work-pressure function; no characters, dialogue, restaurant setting, or plot recreation."
+  REF_MEDIA_NARRATIVE_SEVERANCE_PREMISE:
+    title: "Apple TV+ - Severance series premise"
+    path_or_url: "https://tv.apple.com/us/show/severance/umc.cmc.1srk2d0u7m2x1f2w2y4u6r6tq"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "The public premise separates parts of a person's life, making a boundary between performed and private selves visible."
+    useful_function: "Use one original threshold or duplicate note as a visible choice between a rehearsed and a truthful answer."
+    collection_method: browser_public_page
+    source_use_boundary: "Premise function only; no office design, characters, plot, or visual shorthand transfer."
+  REF_FASHION_SS26_TRENDS:
+    title: "Vogue - Spring 2026 fashion trends"
+    path_or_url: "https://www.vogue.com/article/spring-2026-fashion-trends"
+    reference_family: fashion
+    reference_lane: wardrobe_construction
+    short_note: "The active local SS26 record maps this public trend source to updated trench, utility, scarf, satin, and movement-safe layers."
+    useful_function: "Use one structured outer layer and one mobile inner accent so a gesture or threshold crossing changes the silhouette."
+    collection_method: published_article
+    source_use_boundary: "Seasonal styling support only; final member appearance belongs to a later title package."
+  REF_FASHION_LOEWE_SS26:
+    title: "LOEWE - SS26 women's runway"
+    path_or_url: "https://www.loewe.com/usa/en/women/ss-womens-runway"
+    reference_family: fashion
+    reference_lane: material_texture
+    short_note: "The active SS26 record cites sculptural form, technical jacket/cargo options, elemental color, and shield-accessory detail."
+    useful_function: "Use one precise technical or reflective surface as a readable object-response cue, not a full chrome concept."
+    collection_method: browser_public_page
+    source_use_boundary: "Material and silhouette function only; no collection reproduction or brand implication."
+  REF_IDOL_KATSEYE_LIVE_CONTEXT:
+    title: "Billboard - KATSEYE 2026 tour and live five-piece context"
+    path_or_url: "https://ca.billboard.com/music/pop/katseye-dates-2026-wildworld-global-arena-tour-tickets-1236246929/"
+    reference_family: idol
+    reference_lane: idol_performance
+    short_note: "Current reporting describes a five-member live configuration, festival-to-arena scale, and a recent dance-hype single."
+    useful_function: "Test whether a compact unit can make the first chorus read as an actual group decision before any large-scale finale."
+    collection_method: published_article
+    source_use_boundary: "Industry/performance context only; no statistic, choreography, identity, or market-performance claim is transferred."
+  REF_IDOL_AURORA_M_FUNCTIONS:
+    title: "AURORA-M active member, unit, and voice-function summaries"
+    path_or_url: "assets/member-registry.yaml; assets/unit-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_identity
+    short_note: "Active unit membership and production voice functions constrain the recommendation; they do not assign a final title or real-artist likeness."
+    useful_function: "Match a route's audible contrast to documented opening, groove, emotional lift, low-mid, rap, and formation jobs."
+    collection_method: local_asset
+    source_use_boundary: "Internal routing summary only; final member allocation follows selected audio and the owning later stage."
+
+candidate_routes:
+  - route_id: ROUTE_RETURN_LINE
+    route_name: "Return Line"
+    situation_feeling: "A group keeps being pulled back to the same marked floor after each member has tried to leave the decision to someone else."
+    provisional_message: "A shared answer becomes believable when everyone returns with one visible change."
+    provisional_song_direction: "Test a clean opening tag, restrained verse handoffs, and a chorus that restores one recurring group point; exact tempo, lyrics, and arrangement remain open."
+    provisional_audience_hypothesis:
+      listener_situation: "Someone who has postponed a group decision because every option feels like a public commitment."
+      desire_or_tension: "They want a chorus that feels like an earned return, not a triumphal command."
+      attraction_trigger: "A repeatable floor-mark action that changes slightly each time it returns."
+      likely_rejection: "A generic dancefloor montage with no reason for the members to come back."
+      validation_question: "Does a candidate song supply clear return points and enough verse space for different handoffs?"
+    recommended_unit:
+      unit_code: TUI_06
+      unit_purpose: "Public hook strength and stage-readable chorus identity with tension."
+      member_codes: [M01, M02, M05, M07, M09, M12]
+      unit_fit_reason: "M01/M09 can establish an immediate hook, M02 controls the lift, M05 carries release, and M07/M12 make the return read as a group cue."
+      unit_risk: "Without a distinct pre-hook tension, the route could become polished but emotionally weightless."
+    source_ref_ids: [REF_SONG_YOUTUBE_CONFESSIONS_FILM, REF_MEDIA_NARRATIVE_BEAR_CRAFT, REF_FASHION_SS26_TRENDS, REF_IDOL_KATSEYE_LIVE_CONTEXT, REF_IDOL_AURORA_M_FUNCTIONS]
+    lane_ref_ids:
+      song: [REF_SONG_YOUTUBE_CONFESSIONS_FILM]
+      media_narrative: [REF_MEDIA_NARRATIVE_BEAR_CRAFT]
+      fashion: [REF_FASHION_SS26_TRENDS]
+      idol: [REF_IDOL_KATSEYE_LIVE_CONTEXT, REF_IDOL_AURORA_M_FUNCTIONS]
+    combined_signal: "tone_mood_message_unity: clear, buoyant, and quietly tense; the recurring floor mark makes a shared decision visible, structured outer layers open into mobile accents on each return, and TUI_06 makes the chorus a readable group answer rather than an empty dance cue."
+    visual_world_candidate: "A contemporary rehearsal hall with one taped floor line, practical work lights, and a small queue of cue cards that moves between members."
+    first_screen_hook: "A shoe stops exactly on the tape line; the member removes one cue card and the next person steps into the same mark."
+    primary_screen_driver: unit_or_group_led
+    why_aurora_m_can_own_it: "TUI_06's documented public-hook and formation-center functions support a compact unit return without prematurely requiring the full roster."
+    risk_or_gap: "The shared-floor metaphor fails if the selected take has no repeatable landing; it must not be promoted as choreography before a real song proves the timing."
+    route_seed:
+      song_direction_questions: ["Can the chorus restore one short tag without copying a reference melody?", "Where does the verse make room for separate member handoffs before the return?"]
+      candidate_audio_validation_questions: ["Does the take contain two or more audible return points?", "Is the release bright because the tension was heard first?"]
+      front_planning_candidate:
+        target_message_hypothesis: "Test whether shared responsibility can feel freeing when it is shown as a sequence of small returns."
+        visual_identity_hypothesis: "Test contemporary rehearsal tailoring with one moving accent rather than stage-costume spectacle."
+        whole_film_progression_hypothesis: "Test avoidance, individual handoff, first collective return, complication, and a final open line."
+        reference_connection_questions: ["Which return should stay a floor action and which should become an edit or object variation?"]
+        current_title_asset_questions: ["Which title-local silhouettes preserve each member's movement while keeping the line readable?"]
+      source_links: [REF_SONG_YOUTUBE_CONFESSIONS_FILM, REF_MEDIA_NARRATIVE_BEAR_CRAFT, REF_FASHION_SS26_TRENDS, REF_IDOL_KATSEYE_LIVE_CONTEXT, REF_IDOL_AURORA_M_FUNCTIONS]
+      risks: ["Do not mistake a recurring dancefloor image for a complete narrative."]
+      open_questions: ["recommended_00_seed: Should the line be a rehearsal boundary, a stage mark, or a transit-platform safety stripe after the song is selected?"]
+
+  - route_id: ROUTE_SECOND_NOTE
+    route_name: "Second Note"
+    situation_feeling: "Five members make a polished reply in one room, then decide whether the less tidy version crosses a glass threshold."
+    provisional_message: "A response can be precise without being the version that keeps everyone comfortable."
+    provisional_song_direction: "Test close spoken-rhythm verses, one held pre-chorus lift, and a concise answer-hook with space around it; all source-song specifics remain unclaimed."
+    provisional_audience_hypothesis:
+      listener_situation: "Someone who has rehearsed a safe answer before saying what they actually mean."
+      desire_or_tension: "They want maturity and agency without melodrama or generic noir."
+      attraction_trigger: "The exact moment a folded note is left behind and a second door opens."
+      likely_rejection: "Sci-fi shorthand, abstract glitch imagery, or a chorus that explains the choice instead of staging it."
+      validation_question: "Can a candidate song make one pause before the hook feel like an actual decision?"
+    recommended_unit:
+      unit_code: ECHO_05
+      unit_purpose: "Mature R&B/dance mood and vocal-rap character with a close-range answer."
+      member_codes: [M03, M04, M05, M08, M11]
+      unit_fit_reason: "M03 holds the conversational groove, M08/M11 supply resistance, M04 makes the threshold intimate, and M05 clears the final answer."
+      unit_risk: "The route needs daylight, a practical task, and restraint so it does not collapse into undifferentiated dark mood."
+    source_ref_ids: [REF_SONG_BLACKPINK_DEADLINE, REF_MEDIA_NARRATIVE_SEVERANCE_PREMISE, REF_FASHION_SS26_TRENDS, REF_IDOL_AURORA_M_FUNCTIONS]
+    lane_ref_ids:
+      song: [REF_SONG_BLACKPINK_DEADLINE]
+      media_narrative: [REF_MEDIA_NARRATIVE_SEVERANCE_PREMISE]
+      fashion: [REF_FASHION_SS26_TRENDS]
+      idol: [REF_IDOL_AURORA_M_FUNCTIONS]
+    combined_signal: "tone_mood_message_unity: close, composed, then deliberate; a public-release contrast supports testing a clean statement against later pressure, the divided-self premise supplies a single glass threshold, and softened tailoring makes the crossing physical rather than cybernetic."
+    visual_world_candidate: "Two connected contemporary rehearsal rooms: one has neat note cards and aligned chairs; the other has open windows, tape marks, and the unsent second note."
+    first_screen_hook: "M11 writes a clean sentence on a folded card; M08 closes it while one hand remains on the glass-door handle."
+    primary_screen_driver: mixed_member_world
+    why_aurora_m_can_own_it: "ECHO_05 can make a small verbal choice carry through low-mid counter, intimate bridge, and clean vocal lift without using full-group scale as a substitute."
+    risk_or_gap: "The reply-shaped hook is a hypothesis only; a founder sound anchor must decide whether it is sung, spoken, or carried by an instrumental stop."
+    route_seed:
+      song_direction_questions: ["Should the chorus answer land as a short sung phrase, an answered call, or a clean silence?", "How can the verse preserve conversational pressure without becoming rap-first?"]
+      candidate_audio_validation_questions: ["Does the take provide a credible held threshold before the chorus?", "Can the final lift feel open without changing the route into generic empowerment?"]
+      front_planning_candidate:
+        target_message_hypothesis: "Test whether an honest response can be staged as a controlled crossing rather than a confession speech."
+        visual_identity_hypothesis: "Test softened contemporary tailoring, paper texture, glass, and one restrained color change."
+        whole_film_progression_hypothesis: "Test rehearsal of the safe reply, tension at the boundary, crossing, and a later return to the now-empty first room."
+        reference_connection_questions: ["How can the threshold remain human-scale and avoid the source's office or science-fiction surface?"]
+        current_title_asset_questions: ["Which member styling uses an outer layer and mobile inner accent to make the crossing visible?"]
+      source_links: [REF_SONG_BLACKPINK_DEADLINE, REF_MEDIA_NARRATIVE_SEVERANCE_PREMISE, REF_FASHION_SS26_TRENDS, REF_IDOL_AURORA_M_FUNCTIONS]
+      risks: ["The double-room device must preserve everyday pressure and cannot become a generic 'two selves' concept."]
+      open_questions: ["recommended_00_seed: Is the second note a lyric draft, a voice memo, or a rehearsal instruction after a sound anchor exists?"]
+
+  - route_id: ROUTE_STEEL_TIDE
+    route_name: "Steel Tide"
+    situation_feeling: "A compact team keeps a moving technical curtain from closing before the last member reaches the shared worktable."
+    provisional_message: "Momentum is not leaving someone behind; it is changing the system's speed together."
+    provisional_song_direction: "Test a clipped first signal, a low-pressure verse pocket, a chorus with a collective body hit, and one late melodic lift; no BPM or genre claim is locked."
+    provisional_audience_hypothesis:
+      listener_situation: "Someone who feels a group pace accelerating before they have found their place in it."
+      desire_or_tension: "They want intensity with human consequence instead of a hard-attitude performance loop."
+      attraction_trigger: "A moving boundary that changes direction when one member's hand makes contact."
+      likely_rejection: "Generic chrome, stock EDM-drop imagery, or choreography that treats the slowest person as a prop."
+      validation_question: "Does the take create a real late lift that turns pressure into coordinated release?"
+    recommended_unit:
+      unit_code: SYNC_05
+      unit_purpose: "Digital concept precision and controlled performance geometry with an emotional access point."
+      member_codes: [M02, M05, M06, M07, M08]
+      unit_fit_reason: "M06 can cue a clipped interruption, M02 organizes the rise, M08 grounds the pressure, M07 holds the visual axis, and M05 makes the late release human."
+      unit_risk: "SYNC_05 can become cold system design; the final reach and table handoff must remain emotionally readable."
+    source_ref_ids: [REF_SONG_BLACKPINK_DEADLINE, REF_MEDIA_NARRATIVE_BEAR_CRAFT, REF_FASHION_LOEWE_SS26, REF_IDOL_AURORA_M_FUNCTIONS]
+    lane_ref_ids:
+      song: [REF_SONG_BLACKPINK_DEADLINE]
+      media_narrative: [REF_MEDIA_NARRATIVE_BEAR_CRAFT]
+      fashion: [REF_FASHION_LOEWE_SS26]
+      idol: [REF_IDOL_AURORA_M_FUNCTIONS]
+    combined_signal: "tone_mood_message_unity: precise, kinetic, and protective; a clean-to-pressure song question meets a craft-team handoff, while technical material and a controlled reflective surface make one moving boundary readable without turning the world into generic AI chrome."
+    visual_world_candidate: "A daylight fabrication studio with a long worktable and a narrow reflective technical curtain that travels on a ceiling rail."
+    first_screen_hook: "The curtain starts closing; M06 catches its edge with one palm while the others slide a small marked object across the table."
+    primary_screen_driver: world_object_led
+    why_aurora_m_can_own_it: "SYNC_05's precision and formation functions fit the moving-system grammar, while its documented coldness risk creates a clear requirement for M05's late emotional lift."
+    risk_or_gap: "The kinetic world needs an actual late release and a human object purpose; otherwise it becomes an empty technical set."
+    route_seed:
+      song_direction_questions: ["What first-signal sound can cue a hand interruption without copying a current release?", "Where should the late melodic lift arrive so the pressure changes meaning rather than merely getting louder?"]
+      candidate_audio_validation_questions: ["Does the song contain a body-readable interruption and later release?", "Does the verse pocket leave room for coordinated rather than constant movement?"]
+      front_planning_candidate:
+        target_message_hypothesis: "Test collective pace as an adjustable system rather than a survival-of-the-fastest metaphor."
+        visual_identity_hypothesis: "Test technical jackets, one reflective surface, daylight, and a marked work object instead of all-over chrome."
+        whole_film_progression_hypothesis: "Test closing pressure, first interruption, shared reroute, late lift, and a final table handoff."
+        reference_connection_questions: ["Which object gives the curtain a human consequence and prevents a generic digital-concept read?"]
+        current_title_asset_questions: ["Which title-local technical and soft counter-materials preserve member movement and individual continuity?"]
+      source_links: [REF_SONG_BLACKPINK_DEADLINE, REF_MEDIA_NARRATIVE_BEAR_CRAFT, REF_FASHION_LOEWE_SS26, REF_IDOL_AURORA_M_FUNCTIONS]
+      risks: ["Do not let the moving curtain become a visual effect without a task, body route, or later emotional change."]
+      open_questions: ["recommended_00_seed: What object must reach the table for the group action to matter after the selected song is known?"]
+
+founder_decision_needed:
+  - "Select one route: ROUTE_RETURN_LINE, ROUTE_SECOND_NOTE, or ROUTE_STEEL_TIDE."
+  - "Combine named routes only by naming one primary message and one secondary screen function."
+  - "Request another paired radar/reference-song-fit pass if this spread misses the desired song lane."
+  - "After selecting a route, provide a reference song, section, timestamps, or current sound-anchor note before PRE-00S and any Suno/manual prompt packet."
+  - "Archive this brief if no route should enter intake."
+
+automation_notes: "Combined founder selection view: no founder-provided song, section, timestamp, or current sound-anchor note was supplied in this run. Therefore no schemas/reference-song-fit artifact or companion run note was created; each route records only the needed reference-song functions, rejected inferences, and recommended active unit. No 00-creative-nucleus.yaml, 00A-song-lock.yaml, Suno/manual packet, paid generation request, publication, upload, private connector, or external write was created. The active 2026-07-01-to-14 pulse and current SS26 fashion record were read; the weekly short-form report remains unavailable, so this radar makes no platform-behavior claim."

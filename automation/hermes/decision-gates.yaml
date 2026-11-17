@@ -1,0 +1,84 @@
+schema_version: hermes_decision_gates.v1
+created_at_kst: "2026-06-08T00:00:00+09:00"
+policy_sources:
+  - AGENTS.md
+  - wiki/production-system.md
+  - wiki/social-automation-system.md
+  - analytics/README.md
+
+gates:
+  founder_selection:
+    owner: Founder
+    required_for:
+      - choosing or combining PRE-00 routes
+      - choosing the active run when more than one route could proceed
+      - selecting source images, cue replacements, Grok scope, or review path
+    evidence_required: "Explicit founder instruction or run-owned founder-selection record."
+    without_gate: "Record needs_founder_selection and stop."
+
+  song_lock:
+    owner: Founder
+    required_for:
+      - treating selected audio as production-locked
+      - advancing from candidate-selected audio into locked downstream production
+      - resolving `00A-song-lock.yaml` from review state into locked state
+    historical_low_observation:
+      run: runs/2026-05-26/0526_SONG_SELECTION
+      status_observed: "LOW was founder-discarded on 2026-06-14 and is no longer an active song-lock cleanup target."
+    evidence_required: "Explicit founder lock in `00A-song-lock.yaml` or a founder instruction to update it."
+    without_gate: "Do not claim final song lock."
+
+  generated_board_pass:
+    owner: Founder
+    required_for:
+      - using generated Branch-Cut images as passed visual locks
+      - moving passed visuals into post-review video prompt authoring
+    historical_low_observation:
+      video_prompt_index_status: archived_discarded
+      section_qa_status: archived_discarded
+      note: "LOW prompt readiness is historical only after founder discard."
+    evidence_required: "Run-owned Generated Branch-Cut Review with pass status for the exact Branch Cut and cue."
+    without_gate: "Do not promote unreviewed, hold, or rejected images into prompt authoring."
+
+  paid_generation_approval:
+    owner: Founder
+    required_for:
+      - paid image generation
+      - paid video generation
+      - API submit or external generator execution
+    historical_low_observation:
+      status: blocked_founder_discarded
+    evidence_required: "Explicit founder approval for the exact paid generation task."
+    without_gate: "Prepare local files only; do not submit or execute paid generation."
+
+  package_approval:
+    owner: Founder
+    required_for:
+      - treating `05-package.yaml` and package outputs as release-ready
+      - moving package outputs into public-facing release preparation
+    evidence_required: "Run-owned package approval record or explicit founder approval."
+    without_gate: "Do not mark package as approved."
+
+  publish_approval:
+    owner: Founder
+    required_for:
+      - upload
+      - scheduling
+      - publishing
+      - public release
+      - platform API action
+    evidence_required: "Explicit founder approval for the platform, content, and action."
+    without_gate: "Prepare local publishing notes only."
+
+  external_sync_approval:
+    owner: Founder
+    required_for:
+      - Drive sync
+      - Grok handoff write/sync
+      - GitHub or repo-external connector use
+      - platform or sheet mutation
+    historical_low_observation:
+      grok_drive_sync: "Old LOW video prompt Drive mirror, if present, is archive transport only."
+      status: "LOW external sync is blocked after founder discard."
+    evidence_required: "Explicit founder approval for the exact sync target and task."
+    without_gate: "Use local repo state only."

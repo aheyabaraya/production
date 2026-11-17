@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/platform-release-approval.schema.json",
+  "title": "IDOL Platform Release Approval",
+  "description": "Run-owned, hash-bound Founder approval proof for an exact social queue and explicit external action scope.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "approval_id",
+    "status",
+    "run_root",
+    "content_id",
+    "queue_path",
+    "queue_sha256",
+    "package_contract_path",
+    "package_contract_sha256",
+    "package_deliverable_manifest_sha256",
+    "allowed_actions",
+    "approved_platforms",
+    "approved_post_ids",
+    "approved_assets",
+    "founder_explicit_approval",
+    "approval_source",
+    "approved_at_kst"
+  ],
+  "properties": {
+    "schema_version": { "const": "idol_platform_release_approval.v1" },
+    "approval_id": {
+      "type": "string",
+      "pattern": "^APPROVAL_[A-Z0-9_-]{3,120}$"
+    },
+    "status": { "type": "string", "enum": ["active", "revoked", "superseded"] },
+    "run_root": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"
+    },
+    "queue_path": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)/.+\\.jsonl$"
+    },
+    "queue_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of canonical action-bearing queue rows after required public hashtag normalization. Upload-result and release-projection fields are excluded so the approval remains bound to unchanged post IDs, assets, copy, platforms, and scheduling truth across local projection/result updates."
+    },
+    "package_contract_path": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)/05-package\\.yaml$",
+      "description": "Exact owning run-root 05-package.yaml. Runtime validation also resolves the path and rejects aliases, cross-run paths, and any noncanonical filename."
+    },
+    "package_contract_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 of the exact schema-valid 05-package.yaml whose content_id matches this approval."
+    },
+    "package_deliverable_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Canonical digest of the package schema version, content_id, and declared deliverable output_id/role/path/locator/hash surface. Approved asset bytes remain separately bound one-to-one in approved_assets."
+    },
+    "allowed_actions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["platform_draft_upload", "manual_draft_upload", "public_publish"]
+      }
+    },
+    "approved_platforms": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["x", "tiktok", "youtube", "youtube_shorts", "instagram_reels"]
+      }
+    },
+    "approved_post_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "approved_assets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Exact approved media bytes. Runtime validation requires one unique row per approved_post_id, exact queue-path equality, and a live SHA-256 match immediately before external execution.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["post_id", "path", "sha256"],
+        "properties": {
+          "post_id": { "type": "string", "minLength": 1 },
+          "path": {
+            "type": "string",
+            "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)/.+"
+          },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "founder_explicit_approval": { "const": true },
+    "approval_source": { "type": "string", "minLength": 1 },
+    "approved_at_kst": { "type": "string", "minLength": 1 },
+    "approval_note": { "type": "string" }
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://aheyabaraya.local/schemas/idol-script-registry.schema.json",
+  "title": "IDOL script discovery registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "script_roots",
+    "documentation_surfaces",
+    "authority_profiles",
+    "script_entries"
+  ],
+  "properties": {
+    "schema_version": { "const": "idol-script-registry.v1" },
+    "status": { "const": "active" },
+    "script_roots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scriptRoot" }
+    },
+    "documentation_surfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_here", "index", "role_guides"],
+      "properties": {
+        "start_here": { "$ref": "#/$defs/documentationSurface" },
+        "index": { "$ref": "#/$defs/documentationSurface" },
+        "role_guides": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/roleGuide" }
+        }
+      }
+    },
+    "authority_profiles": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/authorityProfile" }
+    },
+    "local_optional_entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/scriptEntry" }
+    },
+    "script_entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scriptEntry" }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "scriptRoot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "include_globs", "exclude_paths"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "$ref": "#/$defs/relativePath" },
+        "include_globs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "exclude_paths": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/relativePath" }
+        }
+      }
+    },
+    "documentationSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "kind", "required"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "$ref": "#/$defs/relativePath" },
+        "kind": { "type": "string", "enum": ["start_here", "full_index", "role_guide"] },
+        "required": { "type": "boolean" }
+      }
+    },
+    "roleGuide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "kind", "required", "role"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "path": { "$ref": "#/$defs/relativePath" },
+        "kind": { "const": "role_guide" },
+        "required": { "type": "boolean" },
+        "role": { "type": "string", "minLength": 1 }
+      }
+    },
+    "authorityProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_truth", "founder_approval", "external_action", "caveat"],
+      "properties": {
+        "creative_truth": { "type": "string", "minLength": 1 },
+        "founder_approval": { "type": "string", "minLength": 1 },
+        "external_action": { "type": "string", "minLength": 1 },
+        "caveat": { "type": "string", "minLength": 1 }
+      }
+    },
+    "scriptEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "guide_id", "status", "authority_profile"],
+      "properties": {
+        "path": { "$ref": "#/$defs/relativePath" },
+        "guide_id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "status": { "type": "string", "enum": ["active", "historical", "one_off", "compatibility", "internal"] },
+        "authority_profile": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }
+      }
+    }
+  }
+}

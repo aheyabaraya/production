@@ -1,0 +1,408 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/03v-authoring-source-pack-v4-legacy.schema.json",
+  "title": "IDOL 03V Authoring Source Pack v4 Legacy",
+  "description": "Read-only legacy v4 compatibility contract. New authoring uses 03v-authoring-source-pack.schema.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "content_id", "status", "run_root",
+    "source_set_sha256", "sources", "storyline_lineage_projection",
+    "read_order", "authoring_policy", "section_shards", "boards",
+    "canonical_manifest_path", "validation_command",
+    "automation_boundaries", "errors"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_03v_authoring_source_pack.v4"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["ready_for_model_authoring", "hold"]},
+    "run_root": {"type": "string", "minLength": 1},
+    "source_set_sha256": {"$ref": "#/$defs/sha256"},
+    "sources": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/sourceArtifact"}
+    },
+    "storyline_lineage_projection": {
+      "oneOf": [
+        {"type": "object", "maxProperties": 0},
+        {"$ref": "#/$defs/storylineLineageProjection"}
+      ]
+    },
+    "read_order": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "storyline_lineage_projection.projected_value.pre00_storyline_original"},
+        {"const": "storyline_lineage_projection.projected_value.pre00_storyline_revisions"},
+        {"const": "storyline_lineage_projection.projected_value.active_storyline_version"},
+        {"const": "storyline_lineage_projection.projected_value.contextual_density_review"},
+        {"const": "storyline_lineage_projection.projected_value.reference_bindings"},
+        {"const": "section_shards_and_boards"}
+      ],
+      "items": false
+    },
+    "authoring_policy": {"$ref": "#/$defs/authoringPolicy"},
+    "section_shards": {"type": "array", "items": {"$ref": "#/$defs/sectionShard"}},
+    "boards": {"type": "array", "items": {"$ref": "#/$defs/board"}},
+    "canonical_manifest_path": {"type": "string", "minLength": 1},
+    "validation_command": {"type": "string", "minLength": 1},
+    "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"},
+    "errors": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "ready_for_model_authoring"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "sources": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "prefixItems": [
+              {"allOf": [{"$ref": "#/$defs/sourceArtifact"}, {"properties": {"role": {"const": "audio_branch_cut_placement"}}}]},
+              {"allOf": [{"$ref": "#/$defs/sourceArtifact"}, {"properties": {"role": {"const": "master_storyboard"}}}]},
+              {"allOf": [{"$ref": "#/$defs/sourceArtifact"}, {"properties": {"role": {"const": "production_cut_review"}}}]},
+              {"allOf": [{"$ref": "#/$defs/sourceArtifact"}, {"properties": {"role": {"const": "prompt_packets"}}}]},
+              {"allOf": [{"$ref": "#/$defs/sourceArtifact"}, {"properties": {"role": {"const": "storyboard_assist"}}}]}
+            ],
+            "items": false
+          },
+          "storyline_lineage_projection": {"$ref": "#/$defs/storylineLineageProjection"},
+          "section_shards": {"minItems": 1},
+          "boards": {"minItems": 1},
+          "errors": {"maxItems": 0}
+        }
+      },
+      "else": {"properties": {"errors": {"minItems": 1}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256"],
+      "properties": {
+        "role": {"enum": ["audio_branch_cut_placement", "master_storyboard", "production_cut_review", "prompt_packets", "storyboard_assist"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "storylineLineageProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_01_json_pointer", "source_front_planning_json_pointer", "source_value_sha256", "projected_value"],
+      "properties": {
+        "source_01_json_pointer": {"const": "/storyline_lineage_projection/projected_value"},
+        "source_front_planning_json_pointer": {"const": "/storyline_lineage"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object", "minProperties": 1}
+      }
+    },
+    "valueBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "activeStorylineBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "active_version_id", "active_full_text_sha256"],
+      "properties": {
+        "source_json_pointer": {"const": "/storyline_lineage_projection/projected_value/active_version"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "active_version_id": {"type": "string", "minLength": 1},
+        "active_full_text_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "majorSceneBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "major_scene_id"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/major_scene_catalog/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"}
+      }
+    },
+    "sequenceUnitSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_unit_id", "source_json_pointer", "source_value_sha256", "flow_reading_sha256"],
+      "properties": {
+        "sequence_unit_id": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"type": "string", "pattern": "^/reference_connection_research/reference_units/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "flow_reading_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sequenceMotionAnalysisBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "json_pointer", "value_sha256", "independent_cdd_review_binding"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol_sequence_motion_analysis.v1"},
+        "json_pointer": {"type": "string", "pattern": "^/candidate_analyses/(?:0|[1-9][0-9]*)$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"},
+        "independent_cdd_review_binding": {"$ref": "#/$defs/sequenceMotionReviewBinding"}
+      }
+    },
+    "sequenceMotionReviewBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "json_pointer", "value_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol-department-dispatch.v8"}, "json_pointer": {"const": "/director_review"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "selectedSequenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selected_sequence_composition_id", "source_json_pointer", "source_value_sha256", "sequence_flow_reading_sha256", "sequence_unit_sources", "sequence_motion_analysis_binding"],
+      "properties": {
+        "selected_sequence_composition_id": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"type": "string", "pattern": "^/major_scene_catalog/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "sequence_flow_reading_sha256": {"$ref": "#/$defs/sha256"},
+        "sequence_unit_sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sequenceUnitSource"}},
+        "sequence_motion_analysis_binding": {"$ref": "#/$defs/sequenceMotionAnalysisBinding"}
+      }
+    },
+    "screenNodeSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["screen_progression_node_id", "source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"type": "string", "pattern": "^/screen_progression_map_projection/projected_value/nodes/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "screenProgressionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["screen_progression_map_id", "source_json_pointer", "source_value_sha256", "node_sources"],
+      "properties": {
+        "screen_progression_map_id": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"const": "/screen_progression_map_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "node_sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/screenNodeSource"}}
+      }
+    },
+    "screenJobBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "value"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "value": {"type": "string", "minLength": 1}
+      }
+    },
+    "productionCutImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_cut_id", "production_cut_type", "parent_core_cut_id",
+        "packet_id", "path", "sha256", "board_order", "attachment_slot",
+        "pixel_review_status", "passed_pixel_review_ref",
+        "source_production_cut_review", "source_02a_cut", "section_id",
+        "major_scene_id", "active_storyline_version_id",
+        "screen_progression_node_id", "scene_phase_context",
+        "primary_audio_cue", "sequence_phase_binding_ids",
+        "core_reference_binding_id", "screen_job_binding", "visible_state",
+        "unique_state_role"
+      ],
+      "properties": {
+        "production_cut_id": {"type": "string", "minLength": 1},
+        "production_cut_type": {"enum": ["official_core", "branch"]},
+        "parent_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "packet_id": {"type": ["string", "null"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "board_order": {"type": "integer", "minimum": 1, "maximum": 3},
+        "attachment_slot": {"enum": ["@image2", "@image3", "@image4"]},
+        "pixel_review_status": {"const": "passed_production_cut"},
+        "passed_pixel_review_ref": {"type": "string", "minLength": 1},
+        "source_production_cut_review": {"$ref": "#/$defs/valueBinding"},
+        "source_02a_cut": {"$ref": "#/$defs/valueBinding"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "scene_phase_context": {"type": "string", "minLength": 1},
+        "primary_audio_cue": {"type": "string", "minLength": 1},
+        "sequence_phase_binding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "core_reference_binding_id": {"type": "string", "minLength": 1},
+        "screen_job_binding": {"$ref": "#/$defs/screenJobBinding"},
+        "visible_state": {"type": "string", "minLength": 1},
+        "unique_state_role": {"enum": ["start", "transition", "arrival", "supporting_state"]}
+      }
+    },
+    "boardImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "attachment_slot", "panel_count", "pixel_truth_policy"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "attachment_slot": {"const": "@image1"},
+        "panel_count": {"type": "integer", "minimum": 1, "maximum": 3},
+        "pixel_truth_policy": {"const": "navigation_and_motion_map_only_ordered_production_cut_originals_remain_pixel_truth"}
+      }
+    },
+    "crossCoreTransition": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["from_core_cut_id", "to_core_cut_id", "continuity_reason"],
+          "properties": {
+            "from_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+            "to_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+            "continuity_reason": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "oneImageBoardReason": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["reason", "temporal_route_sufficiency"],
+          "properties": {
+            "reason": {"type": "string", "minLength": 1},
+            "temporal_route_sufficiency": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "cameraMotionRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_view", "movement_family", "movement_direction", "speed", "motion_envelope", "depth_parallax_focus_change", "stop_trigger", "landing_state_or_reveal", "readability_reason"],
+      "properties": {
+        "start_view": {"type": "string", "minLength": 1},
+        "movement_family": {"enum": ["locked_hold", "push", "pull", "track", "pan", "tilt", "orbit", "follow", "handheld", "crane", "rack_focus", "combined_motivated_route"]},
+        "movement_direction": {"type": "string", "minLength": 1},
+        "speed": {"type": "string", "minLength": 1},
+        "motion_envelope": {"type": "string", "minLength": 1},
+        "depth_parallax_focus_change": {"type": "string", "minLength": 1},
+        "stop_trigger": {"type": "string", "minLength": 1},
+        "landing_state_or_reveal": {"type": "string", "minLength": 1},
+        "readability_reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "promptHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attachment_order", "board_use", "production_cut_original_use", "subject_motion_route", "camera_motion_route", "prompt_text", "negative", "prompt_rewrite_policy"],
+      "properties": {
+        "attachment_order": {"type": "array", "minItems": 2, "maxItems": 4, "prefixItems": [{"const": "@image1"}, {"const": "@image2"}], "items": {"enum": ["@image3", "@image4"]}},
+        "board_use": {"const": "@image1_controls_order_timing_blocking_subject_route_and_camera_motion_map"},
+        "production_cut_original_use": {"const": "@image2_to_@image4_control_exact_pixels_identity_style_light_still_composition_and_visible_states"},
+        "subject_motion_route": {"type": "string", "minLength": 1},
+        "camera_motion_route": {"$ref": "#/$defs/cameraMotionRoute"},
+        "prompt_text": {"type": "string", "minLength": 1, "allOf": [{"pattern": "@image1"}, {"pattern": "@image2"}]},
+        "negative": {"type": "string", "minLength": 1},
+        "prompt_rewrite_policy": {"const": "forbidden"}
+      }
+    },
+    "board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "storyboard_id", "section_id", "major_scene_id", "core_cut_id",
+        "board_order", "active_storyline_passage_pointer",
+        "active_storyline_binding", "selected_sequence_composition_id",
+        "selected_sequence_unit_ids", "sequence_flow_reading_sha256",
+        "selected_sequence_binding", "major_scene_binding",
+        "screen_progression_binding", "screen_progression_node_ids",
+        "selected_core_reference_binding_ids", "relationship_mode",
+        "cross_core_transition", "board_image", "source_production_cut_images",
+        "one_image_board_reason", "previous_board_id", "next_board_id",
+        "audio_cue", "motion_derivation_note", "prompt_handoff"
+      ],
+      "properties": {
+        "storyboard_id": {"type": "string", "pattern": "^03VSB_[A-Z0-9_]{2,80}$"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "board_order": {"type": "integer", "minimum": 1},
+        "active_storyline_passage_pointer": {"type": "string", "pattern": "^/"},
+        "active_storyline_binding": {"$ref": "#/$defs/activeStorylineBinding"},
+        "selected_sequence_composition_id": {"type": "string", "minLength": 1},
+        "selected_sequence_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sequence_flow_reading_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_sequence_binding": {"$ref": "#/$defs/selectedSequenceBinding"},
+        "major_scene_binding": {"$ref": "#/$defs/majorSceneBinding"},
+        "screen_progression_binding": {"$ref": "#/$defs/screenProgressionBinding"},
+        "screen_progression_node_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "selected_core_reference_binding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "relationship_mode": {"enum": ["same_parent_core", "cross_core_transition"]},
+        "cross_core_transition": {"$ref": "#/$defs/crossCoreTransition"},
+        "board_image": {"$ref": "#/$defs/boardImage"},
+        "source_production_cut_images": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/productionCutImage"}},
+        "one_image_board_reason": {"$ref": "#/$defs/oneImageBoardReason"},
+        "previous_board_id": {"type": ["string", "null"]},
+        "next_board_id": {"type": ["string", "null"]},
+        "audio_cue": {"type": "string", "minLength": 1},
+        "motion_derivation_note": {"type": "string", "minLength": 1},
+        "prompt_handoff": {"$ref": "#/$defs/promptHandoff"}
+      }
+    },
+    "authoringPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_gate", "standard_attachment_order", "board_authority", "production_cut_original_authority", "source_union", "same_parent_default", "cross_core_rule", "sequence_motion_analysis_role", "camera_motion_owner", "one_image_rule", "more_than_three_rule", "choreography_rule", "creative_authorship", "script_role"],
+      "properties": {
+        "source_gate": {"const": "passed_hash_bound_pixels_and_passed_storyboard_boards_only"},
+        "standard_attachment_order": {"const": "@image1_storyboard_then_@image2_@image3_optional_@image4_ordered_production_cut_originals"},
+        "board_authority": {"const": "authoring_and_review_evidence_for_order_timing_blocking_subject_route_and_camera_motion"},
+        "production_cut_original_authority": {"const": "pixels_identity_style_light_still_composition_and_visible_states"},
+        "source_union": {"const": "official_core_or_branch"},
+        "same_parent_default": {"const": true},
+        "cross_core_rule": {"const": "both_core_ids_and_continuity_reason_required"},
+        "sequence_motion_analysis_role": {"const": "selected_exact_advisory_input_only_never_final_temporal_camera_truth"},
+        "camera_motion_owner": {"const": "03V_after_passed_production_cut_review_and_audio_production_cut_placement"},
+        "one_image_rule": {"const": "allowed_when_one_passed_production_cut_is_a_sufficient_motion_anchor_with_authored_reason_and_temporal_route"},
+        "more_than_three_rule": {"const": "split_into_ordered_linked_boards"},
+        "choreography_rule": {"const": "primary_or_supporting_only_from_bound_actual_choreography_performance_or_fancam_reference"},
+        "creative_authorship": {"const": "assigned_model_or_human_only"},
+        "script_role": {"const": "validate_hash_and_project_exact_source_values_only"}
+      }
+    },
+    "sectionShard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "storyboard_ids", "board_count", "authoring_scope"],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "storyboard_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^03VSB_[A-Z0-9_]{2,80}$"}},
+        "board_count": {"type": "integer", "minimum": 1},
+        "authoring_scope": {"const": "one_section_only"}
+      }
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_prompt_authored", "camera_motion_authored_by_script", "paid_video_generation_approved", "external_video_execution_approved", "playback_pass_implied", "edit_readiness_implied"],
+      "properties": {
+        "creative_prompt_authored": {"const": false},
+        "camera_motion_authored_by_script": {"const": false},
+        "paid_video_generation_approved": {"const": false},
+        "external_video_execution_approved": {"const": false},
+        "playback_pass_implied": {"const": false},
+        "edit_readiness_implied": {"const": false}
+      }
+    }
+  }
+}

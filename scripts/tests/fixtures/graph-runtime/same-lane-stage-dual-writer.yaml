@@ -1,0 +1,32 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: same_lane_stage_dual_writer
+expect: fail
+expect_error_substrings:
+  - dual active writer for lane/stage
+run:
+  run_class: new_run
+  section_count: 2
+writer:
+  requested: graph_v2
+  active: [graph_v2]
+switch_receipt:
+  receipt_id: GRAPH_SWITCH_FIXTURE_WRITER_001
+  founder_authority: founder
+  graph_revision: idol-graph-skill-load-profiles.v1
+  switch_boundary: new_runs_only_after_verified_receipt
+  source_set_sha256: 05a6443dda241a3daf42c9a75f4e0caa90d37ef63c1f10092bea8a8fd4d5bdeb
+  verified_at: "2026-09-03T00:00:00Z"
+active_authoring_ids: [planning_cdd_p3_c1]
+active_writers:
+  - {scope: p3_c1_decision, lane_id: planning_cdd_p3_c1, stage: planning_cell, writer_id: p3_c1_primary}
+  - {scope: p3_c1_shadow, lane_id: planning_cdd_p3_c1, stage: planning_cell, writer_id: p3_c1_successor}
+sessions:
+  - {lane_id: planning_cdd_p3_c1, stage: planning_cell, generation: primary, state: active_writer}
+cohorts:
+  - {cohort_id: C1, sections: [S01, S02]}
+succession:
+  - {from_cohort_id: C1, to_cohort_id: C1}
+pack:
+  source_id: SRC_FIXTURE_WRITER_001
+  locator: still:frame_01
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a

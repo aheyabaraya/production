@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-reference-sequence-unit-registry.schema.json",
+  "title": "IDOL source-owned reusable Sequence Unit batch and pointer registry",
+  "description": "Source-global reusable Sequence Units. Scripts exact-project authored values only. No album, Section, MJ, or current-title disposition fields.",
+  "oneOf": [
+    {"$ref": "#/$defs/batch"},
+    {"$ref": "#/$defs/registry"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "path", "sha256", "source_timestamp_seconds"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1, "maximum": 5},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_timestamp_seconds": {"type": "number"}
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_sequence_unit_id",
+        "source_key",
+        "source_manifest",
+        "analysis_ref",
+        "event_identity",
+        "source_time_range",
+        "frames",
+        "source_flow_reading",
+        "observed_facts",
+        "purpose_classes",
+        "search_terms",
+        "transfer_boundary",
+        "do_not_transfer",
+        "authoring_receipt",
+        "source_analysis_review_receipt"
+      ],
+      "properties": {
+        "source_sequence_unit_id": {"type": "string", "minLength": 1},
+        "source_key": {"type": "string", "minLength": 1},
+        "source_manifest": {"$ref": "#/$defs/pointer"},
+        "analysis_ref": {"$ref": "#/$defs/pointer"},
+        "event_identity": {"type": "string", "minLength": 1},
+        "source_time_range": {"type": "string", "minLength": 1},
+        "frames": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/frame"}
+        },
+        "source_flow_reading": {"type": "string", "minLength": 1},
+        "observed_facts": {"type": "string", "minLength": 1},
+        "purpose_classes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "search_terms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "transfer_boundary": {"type": "string", "minLength": 1},
+        "do_not_transfer": {"type": "string", "minLength": 1},
+        "linked_previous_unit_id": {"type": ["string", "null"]},
+        "linked_next_unit_id": {"type": ["string", "null"]},
+        "authoring_receipt": {"type": "string", "minLength": 1},
+        "source_analysis_review_receipt": {"type": "string", "minLength": 1}
+      },
+      "not": {
+        "anyOf": [
+          {"required": ["album_key"]},
+          {"required": ["section_id"]},
+          {"required": ["mj_id"]},
+          {"required": ["disposition"]}
+        ]
+      }
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "source_key",
+        "source_manifest",
+        "units"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_video_reference_sequence_unit_registry.v1"},
+        "artifact_type": {"const": "reusable_sequence_unit_batch"},
+        "source_key": {"type": "string", "minLength": 1},
+        "source_manifest": {"$ref": "#/$defs/pointer"},
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/unit"}
+        }
+      }
+    },
+    "registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "registry_path",
+        "units"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_video_reference_sequence_unit_registry.v1"},
+        "artifact_type": {"const": "sequence_unit_pointer_registry"},
+        "registry_path": {
+          "const": "source-materials/video-sources/sequence-unit-registry.yaml"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_sequence_unit_id",
+              "source_key",
+              "source_time_range",
+              "purpose_classes",
+              "batch_pointer"
+            ],
+            "properties": {
+              "source_sequence_unit_id": {"type": "string", "minLength": 1},
+              "source_key": {"type": "string", "minLength": 1},
+              "source_time_range": {"type": "string", "minLength": 1},
+              "purpose_classes": {
+                "type": "array",
+                "items": {"type": "string", "minLength": 1}
+              },
+              "batch_pointer": {"$ref": "#/$defs/pointer"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

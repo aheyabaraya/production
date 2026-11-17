@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/html-review-decision-export.schema.json",
+  "title": "IDOL Founder Production Workbench Review Export v12",
+  "description": "Active v12 only. Captures decisions from canonical G-cycle workbench projections. Legacy cycle names are read/display aliases and are never exported. video_playback_internal is a CDD checkpoint; all Founder-facing decisions retain Overall Director conversation ownership.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "review_mode", "board_id", "board_revision", "manifest_path", "manifest_sha256", "decisions"],
+  "properties": {
+    "schema_version": {"const": "idol-html-review-board.decision-export.v12"},
+    "review_mode": {"$ref": "#/$defs/cycleKind"},
+    "board_id": {"type": "string", "minLength": 1},
+    "board_revision": {"type": "integer", "minimum": 1},
+    "manifest_path": {"type": "string", "minLength": 1},
+    "manifest_sha256": {"$ref": "#/$defs/sha256"},
+    "decisions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/decision"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "cycleKind": {
+      "enum": [
+        "g00_direction_draft",
+        "g10_song_lock",
+        "g20_visual_identity_lock",
+        "g30_fp_final",
+        "g30_experiment_disposition",
+        "g40_core_branch_authorization",
+        "g50_branch_results",
+        "video_playback_internal",
+        "g60_playback_edit",
+        "g70_release"
+      ]
+    },
+    "decisionOwner": {
+      "oneOf": [
+        {"enum": ["creative_development_director", "overall_director", "edit_director"]},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role"],
+          "properties": {
+            "role": {"enum": ["creative_development_director", "overall_director", "edit_director"]},
+            "surface": {"enum": ["overall_founder_conversation", "cdd_internal_checkpoint"]},
+            "promotion_authority": {"enum": ["cannot_promote", "overall_final_acceptance"]},
+            "owner_id": {"type": "string", "minLength": 1},
+            "owner": {"type": "string", "minLength": 1},
+            "task_id": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "legalActions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["attracted", "reject", "hold", "connect_these", "keep_only", "search_further", "direct_comment", "select_candidate", "pass", "reject_archive", "revise_experiment", "teaser_only", "teaser_first_full_mv_hold", "full_mv_development", "internal_pass", "internal_hold", "material_exception"]}
+    },
+    "blockingEffect": {
+      "enum": ["non_gating_signal_only", "only_explicitly_named_field_or_card_is_fixed", "advances_or_holds_only_bound_scope", "routes_derivative_scope_without_discarding_other_derivatives", "internal_playback_checkpoint_only"]
+    },
+    "affectedScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_mode", "stage_id", "section_ids", "chunk_ids", "target_ids"],
+      "properties": {
+        "scope_mode": {"enum": ["sectionless", "single_section", "multi_section", "whole_film"]},
+        "stage_id": {"type": "string", "minLength": 1},
+        "section_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}},
+        "chunk_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "target_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "core_cut_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "planning_cut_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "branch_cut_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "edit_shard_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    },
+    "directorReviewBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "row"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "row": {"type": "string", "minLength": 1},
+        "pointer": {"type": "string", "minLength": 1},
+        "role": {"type": "string", "minLength": 1}
+      }
+    },
+    "dispatchIndexBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "row", "pointer"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "row": {"type": "string", "minLength": 1},
+        "pointer": {"type": "string", "minLength": 1}
+      }
+    },
+    "workerEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicability", "lineage_id", "attempt_id", "session_id", "director_dispatch_index"],
+      "properties": {
+        "applicability": {"enum": ["worker_return", "mechanical_no_worker"]},
+        "lineage_id": {"type": "string", "minLength": 1},
+        "attempt_id": {"type": "string", "minLength": 1},
+        "session_id": {"oneOf": [{"type": "string", "minLength": 1}, {"type": "null"}]},
+        "director_dispatch_index": {"$ref": "#/$defs/dispatchIndexBinding"}
+      }
+    },
+    "founderLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["founder_receipt", "decision_export", "decision_intake"],
+      "properties": {
+        "founder_receipt": {"$ref": "#/$defs/artifactBinding"},
+        "decision_export": {"$ref": "#/$defs/artifactBinding"},
+        "decision_intake": {"$ref": "#/$defs/artifactBinding"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_key",
+        "cycle_kind",
+        "review_mode",
+        "action",
+        "card_id",
+        "scope_mode",
+        "affected_section_ids",
+        "stage_id",
+        "revision_id",
+        "decision_scope",
+        "revision_scope",
+        "review_target_id",
+        "review_target_level",
+        "review_target_number"
+        ,"decision_owner",
+        "decision_question",
+        "legal_actions",
+        "affected_scope",
+        "blocking_effect",
+        "decision_epoch",
+        "dispatch_id",
+        "returned_output",
+        "director_review",
+        "founder_lineage",
+        "worker_evidence"
+      ],
+      "properties": {
+        "review_key": {"type": "string", "minLength": 1},
+        "cycle_kind": {"$ref": "#/$defs/cycleKind"},
+        "review_mode": {"$ref": "#/$defs/cycleKind"},
+        "action": {
+          "enum": [
+            "attracted",
+            "reject",
+            "hold",
+            "connect_these",
+            "keep_only",
+            "search_further",
+            "direct_comment",
+            "select_candidate",
+            "pass",
+            "reject_archive",
+            "revise_experiment",
+            "teaser_only",
+            "teaser_first_full_mv_hold",
+            "full_mv_development",
+            "internal_pass",
+            "internal_hold",
+            "material_exception"
+          ]
+        },
+        "note": {"type": "string"},
+        "related_card_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "named_field_locks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^/[A-Za-z0-9_~./-]+$"}
+        },
+        "card_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": ["string", "null"]},
+        "scope_mode": {"enum": ["sectionless", "single_section", "multi_section", "whole_film"]},
+        "affected_section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "stage_id": {"type": "string", "minLength": 1},
+        "revision_id": {"type": "string", "minLength": 1},
+        "decision_scope": {
+          "enum": [
+            "creative_selection",
+            "reference_link",
+            "screen_truth",
+            "render_candidate",
+            "video_prompt",
+            "playback",
+            "edit"
+          ]
+        },
+        "revision_scope": {"enum": ["none", "whole_film", "section", "planning_cut", "core_cut", "branch_cut"]},
+        "review_target_id": {"type": "string", "minLength": 1},
+        "review_target_level": {"enum": ["discovery", "direction", "whole_film", "section", "planning_cut", "core_cut", "branch_cut"]},
+        "review_target_number": {"type": "string", "pattern": "^(?:D[0-9]+|R[0-9]+|[0-9]+(?:\\.[0-9]+){0,3})$"},
+        "planning_cut_id": {"type": ["string", "null"]},
+        "core_cut_id": {"type": ["string", "null"]},
+        "branch_cut_id": {"type": ["string", "null"]},
+        "decision_owner": {"$ref": "#/$defs/decisionOwner"},
+        "decision_question": {"type": "string", "minLength": 1},
+        "legal_actions": {"$ref": "#/$defs/legalActions"},
+        "affected_scope": {"$ref": "#/$defs/affectedScope"},
+        "blocking_effect": {"$ref": "#/$defs/blockingEffect"},
+        "decision_epoch": {"type": "string", "minLength": 1},
+        "dispatch_id": {"type": "string", "minLength": 1},
+        "returned_output": {"$ref": "#/$defs/artifactBinding"},
+        "director_review": {"$ref": "#/$defs/directorReviewBinding"},
+        "founder_lineage": {"$ref": "#/$defs/founderLineage"},
+        "worker_evidence": {"$ref": "#/$defs/workerEvidence"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"review_mode": {"const": "g00_direction_draft"}}, "required": ["review_mode"]},
+          "then": {
+            "properties": {
+              "action": {"enum": ["attracted", "reject", "hold", "connect_these", "keep_only", "search_further", "direct_comment"]},
+              "revision_scope": {"const": "none"},
+              "review_target_level": {"const": "discovery"},
+              "affected_section_ids": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"review_mode": {"const": "g30_fp_final"}}, "required": ["review_mode"]},
+          "then": {
+            "properties": {
+              "action": {"enum": ["select_candidate", "hold", "reject", "direct_comment"]},
+              "revision_scope": {"const": "none"},
+              "review_target_level": {"const": "direction"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"review_mode": {"enum": ["g10_song_lock", "g20_visual_identity_lock", "g40_core_branch_authorization", "g50_branch_results", "g60_playback_edit", "g70_release"]}}, "required": ["review_mode"]},
+          "then": {"properties": {"action": {"enum": ["pass", "hold", "reject"]}}}
+        },
+        {
+          "if": {"properties": {"review_mode": {"const": "g30_experiment_disposition"}}, "required": ["review_mode"]},
+          "then": {"properties": {"action": {"enum": ["reject_archive", "revise_experiment", "teaser_only", "teaser_first_full_mv_hold", "full_mv_development", "hold"]}}}
+        },
+        {
+          "if": {"properties": {"review_mode": {"const": "video_playback_internal"}}, "required": ["review_mode"]},
+          "then": {"properties": {"action": {"enum": ["internal_pass", "internal_hold", "material_exception"]}}}
+        },
+        {
+          "if": {"properties": {"action": {"enum": ["hold", "reject", "search_further", "direct_comment", "reject_archive", "revise_experiment", "teaser_first_full_mv_hold", "internal_hold", "material_exception"]}}, "required": ["action"]},
+          "then": {"required": ["note"], "properties": {"note": {"type": "string", "minLength": 1}}}
+        },
+        {
+          "if": {"properties": {"action": {"const": "connect_these"}}, "required": ["action"]},
+          "then": {"required": ["related_card_ids"], "properties": {"related_card_ids": {"minItems": 2}}}
+        },
+        {
+          "if": {"properties": {"action": {"const": "keep_only"}}, "required": ["action"]},
+          "then": {"required": ["related_card_ids"], "properties": {"related_card_ids": {"minItems": 1}}}
+        }
+      ]
+    }
+  }
+}

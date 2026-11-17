@@ -1,0 +1,812 @@
+schema_version: idol-harness-shadow-eval-suite.v15
+status: active
+purpose: >-
+  Compare the current accepted GPT-5.6-family graph-engineering profile with an
+  operator-supplied GPT-5.6-family candidate without allowing token or latency
+  gains to compensate for creative-quality loss.
+
+profile_policy:
+  profile_labels_are_operator_supplied: true
+  model_descriptors_are_operator_supplied: true
+  model_descriptors_are_local_execution_metadata: true
+  same_source_snapshot_required: true
+  same_task_and_active_sections_required: true
+  same_harness_commit_required: true
+  same_harness_snapshot_required: true
+  harness_commit_resolves_to_local_git_commit_required: true
+  hash_bound_artifact_refs_required: true
+  profile_specific_artifact_root_required: true
+  distinct_profile_artifact_roots_required: true
+  no_shared_case_artifact_paths_required: true
+  execution_manifest_descriptor_commit_match_required: true
+  execution_manifest_harness_snapshot_match_required: true
+  task_fit_route_required: true
+  adaptive_upper_two_effort_required: true
+  per_agent_usage_required: true
+  per_agent_usage_must_reconcile: true
+  blind_creative_review_recommended: true
+
+operator_profile_policy:
+  active_model_family: gpt-5.6
+  comparison_scope: gpt_5_6_family_internal_only
+  routing_policy:
+    policy_id: provider_registry_adaptive_runtime_v31
+    automatic_lower_effort_allowed: false
+    activation_contract:
+      default_state: inactive
+      session_default_source: user_selected_session_or_invocation
+      project_root_model_pin_allowed: false
+      activation_evidence: execution_scope_flag
+      allowed_execution_scopes: [direction_discovery, weekly_research_report, stage_execution, multi_stage_execution, run_resume, full_flow]
+      non_activation_intents: [casual_conversation, question_or_explanation, plan_or_analysis_only, status_only]
+      ambiguous_intent_action: remain_inactive
+      scope_lifetime: single_route_resolution
+      scope_route_allowlist:
+        direction_discovery: [initial_direction_discovery]
+        weekly_research_report: [weekly_visual_idol_research]
+        stage_execution: [creative_core_and_founder_direction, creative_development_direction, physical_song_room, media_research_department, member_visual_identity, development_block, high_stakes_repair_and_final_qc, physical_section_shard, edit_director, edit_shard]
+        multi_stage_execution: [creative_core_and_founder_direction, creative_development_direction, full_flow_integration]
+        run_resume: [creative_core_and_founder_direction, creative_development_direction, physical_song_room, media_research_department, member_visual_identity, development_block, high_stakes_repair_and_final_qc, physical_section_shard, edit_director, edit_shard]
+        full_flow: [initial_direction_discovery, creative_core_and_founder_direction, creative_development_direction, physical_song_room, media_research_department, member_visual_identity, development_block, high_stakes_repair_and_final_qc, physical_section_shard, edit_director, edit_shard, full_flow_integration, complete_full_flow]
+    effort_policy:
+      mode: provider_registry_logical_aliases_v31
+      effort_order: [xhigh, max, ultra]
+      allowed_efforts_by_model:
+        gpt-5.6-sol: [xhigh, max, ultra]
+        gpt-5.6-luna: [max]
+        gpt-5.6-terra: [xhigh]
+      minimum_sufficient_registered_effort_required: true
+      ultra_for_routine_or_bounded_clear_work_allowed: false
+      automatic_ultra_selection_allowed: false
+      ultra_founder_selection_required: true
+      ultra_founder_selection_evidence: founder_explicit_current_request
+      ultra_selection_basis_required: true
+      ultra_default_route_ids: []
+      ultra_trigger_required_for_default_and_alternative: true
+      ultra_alternative_requires_matching_escalation_trigger: true
+      ultra_allowed_escalation_triggers_by_agent:
+        idol_sol_complete_full_flow: [founder_explicit_ultra_complete_full_flow_locked_front_planning]
+      ultra_allowed_execution_scopes: [full_flow]
+      ultra_allowed_route_ids: [complete_full_flow]
+      complexity_selected_lower_effort_allowed: true
+      availability_only_downgrade_allowed: false
+      effort_below_one_step_from_ceiling_allowed: true
+      registered_agent_profiles_only: true
+      listed_escalation_only: true
+    capability_check:
+      catalog_command: [codex, debug, models]
+      dispatch_preflight_required: true
+      active_model_effort_pair_must_be_supported: true
+      ledger_binding_required: false
+      unsupported_pairing_action: hold_and_report
+    agent_governance:
+      project_config_path: .codex/config.toml
+      agents_directory: .codex/agents
+      provider_native_helper_availability: default
+      project_numeric_gate: none
+      depth_gate: none
+      physical_session_selection: adaptive_registered_assignment
+      internal_and_physical_active_owner_overlap: forbidden
+      session_root_profile_source: user_selected_session_or_invocation
+      project_root_model_pin_allowed: false
+      canonical_creative_authority_role: overall_director
+      standing_final_director_allowed: false
+      provider_contract_rewrite_allowed: false
+      root_canonical_write_executor: true
+      session_root_model_authority: false
+      canonical_write_exception_agent_names: [idol_sol_creative_development_director, idol_sol_edit_director, idol_luna_studio_department, idol_luna_section_image_motion]
+      canonical_write_exception_paths:
+        - source-materials/idol-activity-reports/weekly/YYYY-WW-idol-activity-report.html
+        - source-materials/idol-activity-reports/weekly/YYYY-WW-{idol-brand-slug}-brand-deep-dive-report.html
+        - source-materials/idol-activity-reports/weekly/YYYY-WW-reference-image-ledger.md
+        - source-materials/idol-activity-reports/weekly/latest.md
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/work/department-dispatches/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/work/development-blocks/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/work/director-dispatch-index.yaml
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/work/director-dispatch-views/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/research/reference-working-index.yaml
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/04-edit-map.yaml
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/work/physical_section_shards/Sxx/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/exports/02B/sections/Sxx/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/generations/
+        - runs/ALBUM_KEY/TITLE_KEY/RUN_ID/review/
+      read_only_agent_names:
+        - idol_terra_direction_scout
+        - idol_terra_weekly_idol_research
+        - idol_terra_routine_judgment
+        - idol_sol_primary_validation
+        - idol_sol_bounded_synthesis
+        - idol_sol_complete_full_flow
+      no_nested_worker_delegation: true
+      inactive_legacy_exception_agent_names: [idol_terra_direction_scout, idol_terra_routine_judgment, idol_terra_weekly_idol_research]
+      codex_role_adapters:
+        overall_director:
+          standard: idol_sol_creative_synthesis
+        creative_development_director:
+          standard: idol_sol_creative_development_director
+        department_worker:
+          standard: idol_luna_studio_department
+        song_room:
+          standard: idol_luna_studio_department
+        member_visual_identity_owner:
+          standard: idol_luna_studio_department
+        section_owner:
+          standard: idol_luna_section_image_motion
+        edit_director:
+          standard: idol_sol_edit_director
+        edit_shard_worker:
+          standard: idol_luna_studio_department
+        mechanical_coordinator:
+          standard: registered_direct_scripts
+        bounded_adversarial_advisor:
+          standard: idol_sol_primary_validation
+      grok_role_adapters:
+        same_dispatch_contract_as_codex: true
+        creative_contract_rewrite_allowed: false
+        fallback_to_codex_allowed: false
+        overall_director: continuing_grok_root_with_matching_native_goal
+        creative_development_director: separate_durable_tui_goal_or_acp_native_goal_session
+        song_room: founder_visible_durable_tui_goal_or_acp_native_goal_session
+        department_worker: bounded_tui_goal_or_acp_native_goal_department_session
+        member_visual_identity_owner: founder_visible_durable_tui_goal_or_acp_native_goal_session
+        section_owner: fresh_exact_section_tui_goal_or_acp_native_goal_session
+        edit_director: founder_visible_durable_tui_goal_or_acp_native_goal_session
+        edit_shard_worker: bounded_tui_goal_or_acp_native_goal_edit_session
+        mechanical_coordinator: registered_direct_scripts
+      grok_worker_session_governance:
+        logical_profile_alias: worker_high
+        provider_registry_path: automation/harness-provider-profile-registry.yaml
+        provider_profile_source: automation/providers/grok-build-profiles.yaml
+        fallback_policy: forbidden
+        execution_skill_path: .grok/skills/idol-grok-harness-owner/SKILL.md
+        role_registry_path: .grok/skills/idol-grok-harness-owner/references/subagent-roster.md
+        visual_prompt_core_contract_path: .grok/skills/idol-grok-harness-owner/references/visual-prompt-core-receipt.yaml
+        api_multi_agent_route: excluded
+        goal_admission:
+          admissible_surfaces: [interactive_tui_slash_goal, acp_matching_native_goal_event]
+          objective_match_required: true
+          headless_without_matching_native_goal_event: forbidden
+          goal_surface_unavailable_action: hold_zero_work_zero_output
+        root_session:
+          concurrent_count: 1
+          excluded_from_nonroot_worker_cap: true
+          canonical_merge_required: true
+          single_writer_per_logical_artifact_required: true
+        native_subagents:
+          session_kind: parent_managed_child
+          max_concurrent: 8
+          ordinary_max_concurrent: 6
+          reviewed_max_concurrent: 8
+          max_depth: 1
+          direct_only: true
+          nested_delegation_allowed: false
+          default_authority: read_only
+          disjoint_noncanonical_section_draft_allowed: true
+          default_nontrivial_count: 0
+          activation_bands:
+            locked_execution: {minimum: 0, recommended: 0, maximum: 1}
+            bounded_creative_stage: {minimum: 0, recommended: 1, maximum: 2}
+            multi_stage_or_full_flow: {minimum: 0, recommended: 2, maximum: 4}
+          creative_context_review:
+            role_id: idol-02a-section-context-reviewer
+            session_type: continuing_root_director
+            assignment_count_policy: not_derived_from_section_count
+            native_subagent_policy: named_risk_only_optional
+            maximum_concurrent: 2
+            max_depth: 1
+            persistent_root_session_across_sections: true
+            canonical_section_judgment_owner: grok_root
+            composer_role_allowed: false
+            peer_headless_substitution_allowed: false
+        peer_headless_sessions:
+          session_kind: independent_top_level_or_peer
+          admission_requires: matching_acp_native_goal_event
+          goal_surface_unavailable_action: hold_zero_work_zero_output
+          counted_as_native_subagent: false
+          default_concurrent: 0
+          complex_01r_recommended: {minimum: 1, recommended: 2, maximum: 2}
+          max_concurrent: 4
+          fresh_named_headless_preferred: true
+          fork_only_when_full_conversation_copy_is_required: true
+          disjoint_evidence_or_noncanonical_record_write_allowed: true
+          canonical_semantic_write_allowed: false
+          nested_worker_creation_allowed: false
+        combined_nonroot_workers:
+          max_concurrent: 8
+          ordinary_max_concurrent: 6
+          reviewed_max_concurrent: 8
+          included_types: [native_subagent, peer_headless_session]
+          provider_lower_capacity_takes_precedence: true
+          one_wave_at_a_time: true
+          no_quality_equivalence_claim_without_same_source_eval: true
+        visual_analysis:
+          assignment_policy: adaptive_to_named_unresolved_observation_leaves_and_material_disagreement
+          bound_interpretation_action: no_panel_consume_bound_interpretation
+          reader_selection_policy: smallest_role_set_needed_for_professional_decision_readiness
+          capacity_policy: provider_capacity_and_root_review_backpressure_are_ceilings_not_quality_quotas
+          consensus_buckets: [single_observation, corroborated, contested]
+          critical_conflicts_require_root_pixel_adjudication: [identity, subject_count, primary_action, weapon_prop_or_collision, camera_direction]
+        registered_role_ids:
+          - overall_director
+          - creative_development_director
+          - song_room
+          - department_worker
+          - member_visual_identity_owner
+          - section_owner
+          - edit_director
+          - edit_shard_worker
+          - mechanical_coordinator
+          - idol-source-contract-guard
+          - idol-reference-evidence-recorder
+          - idol-audio-message-director
+          - idol-visual-forensic-reader
+          - idol-camera-composition-reader
+          - idol-identity-style-reader
+          - idol-screen-camera-choreography-director
+          - idol-section-contract-worker
+          - idol-02a-section-context-reviewer
+          - idol-whole-film-adversarial-reviewer
+    routing_continuity_contract:
+      default_semantic_owner: overall_director
+      sticky_work_unit: one_bounded_section_or_coherent_adjacent_section_bundle
+      single_stage_scope_includes_all_sections: true
+      multi_stage_integration_scope: multi_stage_execution
+      keep_one_semantic_owner_through: [selected_reference_pixel_read, bounded_authoring, 02a_to_02b_render_prompt_translation, local_self_review]
+      switch_only_after: [hash_bound_artifact_boundary, schema_or_contract_check, recorded_complete_or_hold_state]
+      forbidden_switch_points: [mid_reference_interpretation, mid_core_cut_direction, mid_branch_cut_prompt, mid_cue_motion_prompt]
+      central_coordinator_retains: [whole_film_spine, section_order, founder_reference_dispositions, cross_section_merge, final_authority]
+      overall_director_session_contract:
+        persistent_across_sections: true
+        per_section_new_overall_session_allowed: false
+        allowed_profiles: [idol_sol_creative_synthesis]
+        standing_final_director_allowed: false
+        owns: [startup_routing, founder_recommendation, canonical_promotion, whole_film_story, 02a_approval, cross_section_creative_decisions, final_whole_film_review]
+      creative_development_director_session_contract:
+        opens_at_startup: true
+        agent_name: idol_sol_creative_development_director
+        distinct_from_overall_director: true
+        founder_visible_pre02a: true
+        persistent_through: 03v_playback_reviewed_handoff
+        owns: [song_room_direction, reference_direction, member_visual_identity_direction, front_planning_development, department_dispatch, decision_set_synthesis, development_block_review, pre02a_founder_conversation, generated_pixel_review, production_cut_review, motion_storyboard_review, 03v_playback_review]
+        worker_return_recipient: creative_development_director
+        reviewed_milestone_recipient: overall_director
+        final_founder_recommendation_allowed: false
+      luna_department_contract:
+        agent_name: idol_luna_studio_department
+        maximum_active_sessions: 14
+        reference_assignment_policy: adaptive_named_gap_assignments_no_fixed_worker_or_source_count
+        reference_generalist_assignments:
+          cardinality: adaptive_to_disjoint_named_gaps_under_capacity_and_backpressure
+          primary_source_count: adaptive_to_professional_decision_readiness
+          video_capable: true
+        integrated_reference_functions: [motion, sequence, styling, member_visual, selected_still]
+        world_still_assignments:
+          launch: only_for_named_standalone_image_gap
+          cardinality: adaptive_to_disjoint_named_gaps_under_capacity_and_backpressure
+          physical: true
+          image_only: true
+          every_multi_image_comparison_requires_contact_sheet: true
+        world_still_functions: [space_set, world_system, object_environment, material_light, still_composition]
+        followup_reference_assignment_policy: reuse_existing_owner_or_add_disjoint_assignment_only_for_remaining_named_gap
+        development_blocks: {minimum: 2, ordinary_maximum: 4, reviewed_exception_maximum: 5}
+        pre_02a_section_count: {minimum: 1, maximum: 3}
+        connected_group_required_when_multiple: true
+        separate_section_results_required: true
+        return_recipient: creative_development_director
+        creative_grandchildren_allowed: false
+        post_02a_continuation_allowed: false
+      song_room_contract:
+        agent_name: idol_luna_studio_department
+        physical_founder_visible_task: true
+        created_by: creative_development_director
+        continues_same_task_through: [pre_00s, candidate_track_analysis, audio_screen_motion_map, song_production_lock, 00a_preparation]
+        return_recipient: creative_development_director
+      member_visual_identity_contract:
+        agent_name: idol_luna_studio_department
+        physical_founder_visible_task: true
+        create_only_when: missing_current_title_card_or_authorized_full_restyle
+        return_recipient: creative_development_director
+        passed_card_reopen_allowed: false
+      luna_section_lifecycle_contract:
+        lineage_boundary: overall_promoted_02a_section_boundary
+        exactly_one_section_required: true
+        same_physical_session_required: false
+        durable_checkpoint_resume_allowed: true
+        second_creative_lineage_after_02b_forbidden: true
+        unchanged_owner_sources_reread_required: false
+        required_context: [whole_film_message_storyline_scene_flow_atmosphere, active_section, adjacent_boundaries, approved_02a, selected_actual_references, source_hashes]
+        owns_in_order: [02a_validation, section_02b_compile_and_review, hero_core_branch_image_generation_and_review, typed_production_cut_review, 03v_motion_video_work_and_handoff]
+        typed_production_cut_cdd_review_gate:
+          required_once: true
+          pause_stage: production_cut_review
+          review_owner: continuing_creative_development_director
+          resume_same_lineage_required: true
+          same_physical_session_required: false
+          iterative_advisory_loop_allowed: false
+        founder_final_selection_is_separate: true
+        overall_promotion_is_separate: true
+        selection_or_promotion_may_be_inferred: false
+        mandatory_completion_handoff_to_creative_development_director: true
+        ordinary_maximum_live_sections: 14
+        reviewed_maximum_live_sections: 14
+        provider_lower_capacity_takes_precedence: true
+        upstream_creative_hold_route: exact_scope_to_continuing_cdd_then_overall_after_review
+        department_dispatch_required: true
+        forbidden_behavior: [reinterpret_missing_creative_truth, touch_another_section, whole_film_rewrite]
+      edit_qc_04_execution_contract:
+        starts_after: all_required_hash_bound_03v_completion_handoffs
+        founder_visible_edit_director_required: true
+        edit_director_agent_name: idol_sol_edit_director
+        canonical_edit_map_owner: edit_director
+        edit_shard_agent_name: idol_luna_studio_department
+        edit_shard_scope: one_section_or_connected_chunk
+        edit_shard_return_recipient: edit_director
+        ordinary_edit_shards: 4
+        reviewed_maximum_edit_shards: 6
+        final_merge_recipient: overall_director
+        separate_section_execution_unit_required: true
+        same_physical_session_as_image_motion_required: false
+        owns_in_order: [04_marker_plan, edit_shard_map, shard_review, full_film_merge, boundary_playback_review, 04fx, 05_handoff]
+        prompt_or_generation_replanning_forbidden: true
+      capacity_and_backpressure_contract:
+        codex_nonroot_workers_maximum: 4
+        grok_nonroot_workers: {ordinary: 8, reviewed_maximum: 8}
+        cursor_nonroot_workers: {ordinary: 6, reviewed_maximum: 6}
+        combined_creative_workers: {ordinary: 14, reviewed_maximum: 14}
+        lower_provider_runtime_cap_wins: true
+        pause_when_director_review_waits: true
+        pause_when_board_or_index_writer_lags: true
+        free_slot_requires_launch: false
+      direct_script_validation_contract:
+        required_before_advancing: [schema, hash, path, exact_copy, output_presence]
+        llm_validator_route_allowed: false
+        creative_judgment_allowed: false
+      stage_final_authority_contract:
+        overall_director_final_creative_authority_stages: [pre_00, selected_audio_analysis, audio_motion_director_map, 00a, front_planning, '01', 02a, generated_branch_cut_review, 03v, '04', 04fx, '05']
+        overall_director_final_decisions: [direction, reference_application, message_and_screen_consequence, prompt_and_motion_intent, creative_candidate_selection, section_acceptance, whole_film_acceptance, edit_fx_and_release_recommendation]
+        overall_director_decision_set_delivery_contract:
+          delivery_unit: one_song_and_section_specific_decision_set
+          permitted_payload_to_overall_director: [selected_actual_frames_per_decision_set, time_bounded_sequence_evidence, hash_bound_03v_04_playback_clip, reviewed_department_dispatch]
+          forbidden_payload_to_overall_director: [whole_contact_sheet, unbounded_reference_pool, every_generated_frame, text_only_visual_substitute]
+          actual_frame_count_per_still_decision_set: {minimum: 1, maximum: 10}
+          target_average_actual_frames_per_decision_set_over_run: {minimum: 4, maximum: 5}
+          target_average_is_not_a_per_section_quota: true
+          selection_unit: current_song_and_section_core_cut_decision_anchor
+          core_cut_family_definition: contiguous_production_cuts_with_one_shared_cdd_review_basis_for_action_camera_composition_world_and_reference_application
+          fixed_composition_profiles_allowed: false
+          selection_rule: current_song_audio_turns_and_production_cut_composition_determine_anchor_count_with_one_actual_surface_per_cdd_review_bearing_production_cut_family_or_transition
+          coverage_rule: every_directionally_distinct_action_camera_composition_world_reference_or_boundary_decision_needing_cdd_pixel_judgment_is_mapped_to_a_delivered_actual_frame
+          overflow_rule: more_than_ten_directionally_distinct_decision_anchors_requires_ordered_additional_decision_sets_in_the_same_continuing_overall_session_not_omission_or_text_substitution
+          required_frame_receipt_fields: [actual_path, sha256, source_or_generated_asset_id, maps_to_core_cut_ids, maps_to_branch_cut_ids, decision_anchor_role, audio_or_section_cue, inspected_observable_fact, relevant_boundary]
+          motion_edit_evidence_rule: direct_scene_and_sequence_use_time_bounded_clip_or_ordered_start_change_peak_end_bundle_and_completed_03v_04_use_hash_bound_playback_clip
+          full_asset_inspection_owner: route_scoped_luna
+          deterministic_hash_schema_path_owner: direct_scripts
+          bounded_evidence_and_final_creative_owner: overall_director
+        luna_image_motion_observation_stages: [generated_branch_cut_review, 03v]
+        04fx_and_05_default: direct_scripts_first_then_overall_director_final_decision
+      inactive_terra_forensic_profiles:
+        ordinary_production_route_allowed: false
+        profiles: [idol_terra_direction_scout, idol_terra_routine_judgment, idol_terra_weekly_idol_research]
+      weekly_research_automation_contract:
+        owner_agent: idol_luna_studio_department
+        execution_scope: weekly_research_report
+        required_reasoning_effort: max
+        effort_substitution_allowed: false
+        inline_image_optimization_required: true
+        weekly_reference_image_ledger_required: true
+        weekly_album_visual_reference_intake_required: true
+        weekly_embedded_image_direct_reference_after_selection_required: true
+        schedule_timezone: Asia/Seoul
+        integrated_report_run_at: monday_22_00
+        representative_report_run_at: monday_23_00
+        stagger_interval_hours: 1
+        bundle_expected_complete_at: monday_23_00
+        external_scheduler_created_by_contract: false
+        per_report_status_fields_required: [integrated_report_status, representative_report_status]
+        paired_reports_required: [integrated_idol_activity, representative_idol_brand_deep_dive]
+        representative_brand_count: 1
+        representative_brand_eligibility: official_comeback_released_in_coverage_window
+        ineligible_representative_states: [debut, upcoming_or_unconfirmed_comeback, tour_only, sns_only, reissue_only, older_active_promotion]
+        report_scoped_pre00_bridge_required: true
+        founder_requested_independent_concepts_only: true
+        routine_sol_handoff_allowed: false
+        general_pre00_front_planning_mv_authority_allowed: false
+      switching_for_availability_only_allowed: false
+    model_routes:
+      - model_id: gpt-5.6-sol
+        role: overall_creative_development_and_bounded_integration
+        agent_profiles:
+          - {agent_name: idol_sol_creative_synthesis, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_sol_creative_development_director, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_sol_edit_director, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_sol_primary_validation, model_reasoning_effort: max, model_verbosity: high, tier_from_ceiling: whole_flow}
+          - {agent_name: idol_sol_bounded_synthesis, model_reasoning_effort: max, model_verbosity: high, tier_from_ceiling: one_step_below_ceiling}
+          - {agent_name: idol_sol_complete_full_flow, model_reasoning_effort: ultra, model_verbosity: high, tier_from_ceiling: ceiling}
+      - model_id: gpt-5.6-terra
+        role: inactive_legacy_forensic_profiles
+        agent_profiles:
+          - {agent_name: idol_terra_direction_scout, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_terra_weekly_idol_research, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_terra_routine_judgment, model_reasoning_effort: xhigh, model_verbosity: high, tier_from_ceiling: general}
+      - model_id: gpt-5.6-luna
+        role: ordinary_department_pre02a_development_post02a_section_and_weekly_research_automation
+        agent_profiles:
+          - {agent_name: idol_luna_studio_department, model_reasoning_effort: max, model_verbosity: high, tier_from_ceiling: general}
+          - {agent_name: idol_luna_section_image_motion, model_reasoning_effort: max, model_verbosity: high, tier_from_ceiling: general}
+    route_classes:
+      - route_id: initial_direction_discovery
+        purpose: Explicit first-conversation direction and idea proposals before any creative lock or graph-engineering execution.
+        default_route: {agent_name: idol_sol_creative_synthesis, model_id: gpt-5.6-sol, model_reasoning_effort: xhigh, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: The Overall Director frames the first direction and immediately opens the separate Creative Development Director for source-backed expansion.
+        escalation_triggers: [founder_selects_route, founder_requests_lock, whole_song_synthesis_required, production_decision_required]
+        output_authority: ideation_only
+        owner_review_required_for_canonical_write: true
+      - route_id: weekly_visual_idol_research
+        purpose: One KST weekly bundle of a current public-source integrated-idol report and exactly one representative-brand deep dive selected only from idols with an official comeback released inside the coverage window, including both report-scoped PRE-00 bridges but no creative lock.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: The Founder-locked weekly automation keeps public research, one evidence-selected official comeback idol brand, both self-contained reports, and their PRE-00 evidence bridges on one fresh Luna/Max owner with no effort substitution.
+        escalation_triggers: [missing_required_source_or_image, incomplete_companion_report, founder_requests_concept_conversion]
+        output_authority: canonical_weekly_research_report_bundle
+        owner_review_required_for_canonical_write: false
+      - route_id: creative_core_and_founder_direction
+        purpose: New creative choices, founder-facing direction, one-owner artistic synthesis, or a tightly coupled two-stage abstract integration.
+        default_route: {agent_name: idol_sol_creative_synthesis, model_id: gpt-5.6-sol, model_reasoning_effort: xhigh, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: The single production Overall Director resolves `director_deep/xhigh`; Sol/Max is available only as a bounded advisory route and never replaces Overall.
+        escalation_triggers: [founder_selects_route, whole_song_synthesis_required, production_decision_required]
+        output_authority: canonical_creative_owner
+        owner_review_required_for_canonical_write: false
+      - route_id: creative_development_direction
+        purpose: Separate durable Founder-visible development room for Song, reference, identity, Front Planning, image, Motion Storyboard, and 03V playback review, returning reviewed milestones to Overall while Overall alone owns Founder conversation and promotion.
+        default_route: {agent_name: idol_sol_creative_development_director, model_id: gpt-5.6-sol, model_reasoning_effort: xhigh, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: A distinct Sol/XHigh session keeps detailed development out of the Overall Director context while reporting one curated recommendation upward.
+        escalation_triggers: [material_founder_direction_conflict, whole_work_collision_requires_overall_director]
+        output_authority: advisory_development_report_to_overall_director
+        owner_review_required_for_canonical_write: true
+      - route_id: physical_song_room
+        purpose: One Founder-visible physical Luna/Max Song Room continuing from PRE-00S through 00A and returning its reviewed package only to the CDD.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Song iteration stays in one physical task so audio, lyrics, message, and 00A evidence do not pollute Overall context or fragment across rooms.
+        escalation_triggers: [missing_song_lock, material_target_song_mismatch, founder_requests_song_revision]
+        output_authority: bounded_song_package_to_cdd_only
+        owner_review_required_for_canonical_write: true
+      - route_id: media_research_department
+        purpose: One bounded integrated Luna/Max reference-generalist assignment for a nonoverlapping named gap, using only the source identities needed for professional decision readiness under provider capacity and CDD backpressure.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Luna/Max is the ordinary source-backed department worker; one CDD checkpoint selects the governing candidates.
+        escalation_triggers: [named_gap_after_pass_b, identity_claim_safety_or_permission_conflict]
+        output_authority: bounded_decision_set_only
+        owner_review_required_for_canonical_write: true
+      - route_id: member_visual_identity
+        purpose: Conditional Founder-visible physical Luna/Max current-title Member Visual Identity task for a missing card or authorized full restyle, returning only to CDD.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Repeated identity review stays outside the CDD transcript while the CDD owns selection context and passed cards remain closed.
+        escalation_triggers: [missing_current_title_card, explicit_full_restyle, material_identity_conflict]
+        output_authority: bounded_identity_candidates_to_cdd_only
+        owner_review_required_for_canonical_write: true
+      - route_id: high_stakes_repair_and_final_qc
+        purpose: One named cross-artifact or playback-risk adversarial review that reports to the continuing Overall Director.
+        default_route: {agent_name: idol_sol_primary_validation, model_id: gpt-5.6-sol, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Sol/Max may advise at one named boundary, but it never becomes a standing Final Director or bypasses the Overall Director.
+        escalation_triggers: [production_verdict, cross_artifact_failure, irreversible_release_risk]
+        output_authority: advisory_to_overall_director
+        owner_review_required_for_canonical_write: true
+      - route_id: development_block
+        purpose: One bounded pre-02A development block owning one section by default or two to three connected sections with separate results.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: A selected-evidence development block keeps related section decisions coherent while returning separate section shards for director review.
+        escalation_triggers: [group_loses_section_boundary, unmergeable_distinct_world_identity_sequence_or_mechanism]
+        output_authority: noncanonical_pre02a_section_shards
+        owner_review_required_for_canonical_write: true
+      - route_id: physical_section_shard
+        purpose: "One fresh exactly-one-section provider-resolved section_image_motion_worker / worker_high lineage after an Overall-promoted 02A boundary: validate 02A, compile and review Hero/Core/Branch 02B work, inspect typed Official Core or Official Branch Production Cuts, return first to CDD review, and proceed through 03V only after the separate Founder selection and Overall promotion gates. It never infers either gate; pre-02A chat reuse is forbidden and 04 is separate."
+        logical_profile_alias: worker_high
+        logical_role: section_image_motion_worker
+        provider_registry_path: automation/harness-provider-profile-registry.yaml
+        provider_resolution: exact_run_snapshot_no_fallback
+        codex_physical_realization: idol_luna_section_image_motion
+        grok_physical_realization: grok_worker_high
+        provider_native_media_tools_must_remain_distinct: true
+        default_route: {agent_name: idol_luna_section_image_motion, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: The immutable run snapshot selects one ready Codex or Grok worker_high physical session; the Codex descriptor above is only the Codex shadow realization, never a global Luna-only pin.
+        escalation_triggers: [unresolved_new_creative_truth, whole_film_spine_change]
+        output_authority: section_image_motion_outputs_and_handoff_only
+        owner_review_required_for_canonical_write: true
+      - route_id: edit_director
+        purpose: One fresh Founder-visible Sol/XHigh Edit Director task after required 03V handoffs, owning the single canonical edit map and full-film merge through 05 handoff.
+        default_route: {agent_name: idol_sol_edit_director, model_id: gpt-5.6-sol, model_reasoning_effort: xhigh, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Repeated edit review remains in one durable room while Overall retains final whole-work acceptance.
+        escalation_triggers: [source_heavy_edit, repeated_edit_revision, full_film_boundary_conflict]
+        output_authority: reviewed_edit_merge_to_overall_only
+        owner_review_required_for_canonical_write: true
+      - route_id: edit_shard
+        purpose: One bounded physical Luna/Max section or connected-chunk 04 shard returning only to the continuing Edit Director and never writing the canonical edit map.
+        default_route: {agent_name: idol_luna_studio_department, model_id: gpt-5.6-luna, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Disjoint heavy edit work may parallelize while one Edit Director remains the single merge owner.
+        escalation_triggers: [long_section_source_set, connected_transition_chunk, repeated_local_edit_revision]
+        output_authority: noncanonical_edit_shard_only
+        owner_review_required_for_canonical_write: true
+      - route_id: full_flow_integration
+        purpose: Genuinely broad integration across three or more named graph-engineering stages or a whole flow, without Ultra eligibility.
+        default_route: {agent_name: idol_sol_bounded_synthesis, model_id: gpt-5.6-sol, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives: []
+        default_selection_basis: Three or more named stages or a whole-flow reconciliation use Sol/Max; a tightly coupled two-stage abstract integration stays Sol/XHigh.
+        escalation_triggers: [complete_full_flow_ready]
+        output_authority: flow_integration
+        owner_review_required_for_canonical_write: true
+      - route_id: complete_full_flow
+        purpose: Complete end-to-end flow after Front Planning and all creative, source, boundary, and approval locks are ready.
+        default_route: {agent_name: idol_sol_bounded_synthesis, model_id: gpt-5.6-sol, model_reasoning_effort: max, model_verbosity: high}
+        explicit_alternatives:
+          - {agent_name: idol_sol_complete_full_flow, model_id: gpt-5.6-sol, model_reasoning_effort: ultra, model_verbosity: high}
+        default_selection_basis: Max remains the default; Ultra requires the Founder's explicit current-request selection plus complete-flow readiness and is never an assistant-selected escalation.
+        escalation_triggers: [founder_explicit_ultra_complete_full_flow_locked_front_planning]
+        output_authority: complete_flow_integration
+        owner_review_required_for_canonical_write: true
+  surface_contract:
+    active_execution_surface: legacy_codex_comparison_only
+    codex_effort_field: model_reasoning_effort
+    codex_effort_policy: provider_registry_logical_aliases_v31
+    codex_verbosity_field: model_verbosity
+    responses_api_effort_field: reasoning.effort
+    responses_api_highest_documented_effort: max
+    cross_surface_effort_translation_allowed: false
+    responses_api_harness_route_active: false
+  delegation_policy:
+    minimum_independent_workstreams: 2
+    material_speed_or_quality_gain_required: true
+    direct_subagents_only: true
+    root_reconciliation_required: true
+    root_canonical_merge_required: true
+    duplicate_work_forbidden: true
+    avoid_task_shapes: [ordered_chain, small_task, shared_mutable_state, single_slow_external_operation]
+    required_worker_contract: [bounded_task, exact_sources_or_context_pack, owned_files_or_read_only, output_shape, stop_condition]
+  tool_calling_policy:
+    direct_tool_calls_default: true
+    repo_harness_responses_ptc_status: not_implemented
+    future_ptc_eligible_route_ids: []
+    required_ptc_contract: [read_only_tool_allowlist, exact_output_schema, evidence_fields, max_concurrency, retry_limit, stop_condition, direct_judgment_handoff]
+    ptc_forbidden_work: [creative_judgment, founder_approval, side_effect_or_external_write, adaptive_semantic_search, citation_or_native_artifact_preservation, final_validation]
+    single_handoff_required: true
+    direct_replay_after_ptc_forbidden: true
+    overall_director_final_acceptance_required: true
+  optional_responses_features:
+    adoption_status: separate_measured_eval_required
+    inactive_features: [pro_mode, persisted_reasoning, explicit_prompt_caching, programmatic_tool_calling, responses_multi_agent_beta]
+  official_guidance_snapshot:
+    reviewed_on: "2026-07-14"
+    urls:
+      - https://developers.openai.com/api/docs/guides/latest-model
+      - https://developers.openai.com/api/docs/guides/upgrading-to-gpt-5p6-sol
+      - https://developers.openai.com/api/docs/guides/prompt-guidance-gpt-5p6
+      - https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling
+      - https://developers.openai.com/api/docs/guides/responses-multi-agent
+      - https://learn.chatgpt.com/docs/agent-configuration/subagents
+      - https://docs.x.ai/build/features/skills-plugins-marketplaces
+      - https://docs.x.ai/build/modes-and-commands
+      - https://docs.x.ai/build/features/sessions
+      - https://docs.x.ai/build/cli/headless-scripting
+      - https://docs.x.ai/build/features/dashboard
+      - https://docs.x.ai/developers/grok-4-5
+      - https://docs.x.ai/developers/model-capabilities/images/understanding
+  current_baseline:
+    profile_label: codex_gpt_5_6_sol_xhigh_creative_synthesis
+    model_family: gpt-5.6
+    model_id: gpt-5.6-sol
+    agent_name: idol_sol_creative_synthesis
+    model_reasoning_effort: xhigh
+    effort_policy: provider_registry_logical_aliases_v31
+    model_verbosity: high
+    execution_surface: codex
+    harness_variant: current_default
+    profile_role: current_baseline
+  candidate_descriptor_source: operator_supplied_at_execution
+  selection_status: explicit_scope_provider_registry_adaptive_runtime_v31
+  selection_basis: The single production Overall Director resolves director_deep/xhigh and immediately opens a separate Sol/XHigh Creative Development Director. Overall alone owns Founder conversation and promotion; CDD reviews adaptive named-gap departments, connected pre-02A development blocks, actual images, Motion Storyboards, and 03V playback. After exact 02A approval, each physical section starts a fresh provider-resolved section_image_motion_worker / worker_high lineage through 03V and returns to CDD. Provider capacity supplies backpressure, never a launch quota. Sol/Max is one bounded adviser only, never Overall or a standing Final Director. Ultra remains unavailable unless the Founder explicitly selects the locked complete-full-flow route.
+  primary_for_new_harness_runs: true
+  cross_family_comparison_allowed: false
+  enforce_profile_roles_on_compare: true
+  distinct_operational_descriptors_required: true
+  documented_behavior_claim_requires_real_paired_eval: true
+  current_evidence_boundary: >-
+    The recorded Overall-XHigh profile is the evaluation baseline, not the
+    interactive conversation default. Founder-observed Luna efficiency is a
+    routing decision, not a universal pricing or quality claim. Do not claim a
+    measured difference until this same-source paired suite uses real hash-bound
+    artifacts, one graph-engineering snapshot, a locally resolvable commit, reconciled
+    per-agent usage, task-fit descriptors, and complete case artifacts.
+  fallback_rule: >-
+    Preserve the Founder-selected Overall profile while routing is inactive. On
+    an authorized run, open the separate CDD and use only the registered
+    provider-resolved department, development-block, or fresh post-02A section route.
+    Sol/Max is one named advisory pass only; it is never the production Overall
+    Director or a standing Final Director. Weekly research remains the
+    only active Terra route. Unavailability never authorizes substitution: hold
+    and report. Ultra still requires the Founder's explicit current-request
+    selection and complete-flow readiness.
+
+score_scale:
+  minimum: 0
+  maximum: 5
+
+quality_dimensions:
+  creative_rationale: 1.2
+  song_message_target_alignment: 1.3
+  observable_screen_specificity: 1.2
+  whole_song_and_boundary_continuity: 1.1
+  professional_craft_depth: 1.4
+  downstream_executability: 1.3
+  source_founder_lock_fidelity: 1.5
+
+hard_gates:
+  - schema_valid
+  - source_hashes_verified
+  - founder_gate_not_inferred
+  - stage_ownership_preserved
+  - identity_policy_preserved
+  - no_downstream_invention
+
+evidence_counts:
+  - concrete_audio_cues
+  - observable_actions
+  - camera_geometry_decisions
+  - explicit_transitions
+  - choice_fit_rationales
+  - specialist_execution_records
+
+thresholds:
+  maximum_dimension_regression: 0.25
+  maximum_case_weighted_regression: 0.10
+  maximum_evidence_count_regression: 0
+  minimum_candidate_quality: 3.75
+  target_input_token_reduction_percent: 30
+  target_wall_time_reduction_percent: 15
+  maximum_output_token_increase_percent: 0
+  maximum_tool_call_increase: 0
+  maximum_retry_increase: 0
+
+cases:
+  - case_id: initial_direction_route_cards
+    stage_id: creative_route_discovery
+    route_id: initial_direction_discovery
+    objective: Offer distinct first-conversation directions without creating a lock, run artifact, or production decision.
+    required_evidence: [founder_input_preserved, distinct_route_functions, concrete_song_or_screen_consequence, tradeoff_or_risk, next_evidence, no_lock_or_run_write]
+  - case_id: section_resume_bootstrap
+    stage_id: mv_storyboard_direction
+    route_id: development_block
+    objective: Resume one middle song section while preserving whole-song and adjacent-boundary truth.
+    required_evidence: [whole_song_signature, previous_boundary, next_boundary, founder_truth, readiness_axes]
+  - case_id: song_candidate_craft
+    stage_id: candidate_track_analysis
+    route_id: creative_development_direction
+    objective: Evaluate returned song craft and compare actual candidates without inventing unheard evidence.
+    required_evidence: [hook_prosody, singability, topline_harmony, section_density, candidate_scorecard]
+  - case_id: mv_direction_control
+    stage_id: mv_performance_direction
+    route_id: creative_core_and_founder_direction
+    objective: Direct a story-led section as part of one film with a justified camera route and section-state change.
+    required_evidence: [director_storyline_spine, camera_strategy, founder_reference_dispositions, independent_director_assessment, current_song_specific_reference_consequence, selected_route, rejected_route_risk, transition]
+  - case_id: storyboard_camera_coverage
+    stage_id: mv_storyboard_direction
+    route_id: development_block
+    objective: Resolve a dense or repeated-angle cut with observable action, composition, and camera coverage.
+    required_evidence: [audio_trigger, visible_event, four_axis_camera_geometry, coverage_comparison, split_adequacy_review, no_numeric_cap, review_question]
+  - case_id: prompt_compile_fidelity
+    stage_id: image_prompt_compilation
+    route_id: physical_section_shard
+    objective: Compile a 02A cut into a generator packet without creating new upstream creative decisions.
+    required_evidence: [parent_digest, packet_delta, deterministic_compile, no_new_camera_action_wardrobe, export_guard]
+  - case_id: choreography_execution
+    stage_id: mv_performance_direction
+    route_id: development_block
+    objective: Make a primary/supporting choreography section performable and camera-readable.
+    required_evidence: [count_grid, floor_route, formation_entry_exit, difficulty_safety, transition_feasibility]
+  - case_id: motion_prompt_compile_fidelity
+    stage_id: video_motion_direction
+    route_id: physical_section_shard
+    objective: Compile rich image, audio, planning, and continuity truth into a compact motion/camera-first prompt without losing the visible bridge or inventing appearance.
+    required_evidence: [source_branch_cut_authority, audio_branch_cut_placement_digest, start_trigger, body_route, camera_capture, pacing_endpoint, adjacent_continuity, no_appearance_inventory]
+  - case_id: motion_playback_decision
+    stage_id: video_playback_review
+    route_id: high_stakes_repair_and_final_qc
+    objective: Review an actual generated clip against its source images and cue timing, recording pass, hold, or a packet-specific fix without inferring Founder approval.
+    required_evidence: [generated_clip_digest, media_probe, start_frame_lock, endpoint_lock, audio_timing, body_camera_route, identity_space_stability, explicit_review_decision]
+  - case_id: edit_playback_qc
+    stage_id: edit_assembly_playback_qc
+    route_id: high_stakes_repair_and_final_qc
+    objective: Lock an edit from selected-audio and actual source-motion evidence rather than inherited seconds.
+    required_evidence: [audio_marker, source_action_marker, cue_function, story_flow, playback_qc]
+  - case_id: finishing_fx_dependency_guard
+    stage_id: edit_finishing_fx
+    route_id: high_stakes_repair_and_final_qc
+    objective: Keep a passed finishing effect bound to the exact passed edit recipe and preview, and return to 04 when either dependency or perceived timing changes.
+    required_evidence: [recipe_digest, preview_digest, visible_effect_job, identity_body_space_guard, preview_qc, stale_dependency_rejection, timing_change_return]
+  - case_id: release_projection_safety
+    stage_id: master_package_release
+    route_id: high_stakes_repair_and_final_qc
+    objective: Compile package and publishing projections from one run-owned release scope while refusing upload, publish, or external mutation without matching Founder approval proof.
+    required_evidence: [run_content_scope, deliverable_source, queue_digest, approval_artifact_digest, destination_owner_check, no_external_action_by_implication]
+
+decision_policy:
+  pass: Candidate clears every hard gate, quality non-regression, evidence non-regression, and minimum quality.
+  conditional_pass: Candidate clears quality and hard gates but misses an efficiency target; optimize later without weakening output.
+  fail: Any hard-gate failure, quality regression beyond tolerance, evidence-count regression, or thin-output minimum-quality failure.
+
+runtime_route_shadow:
+  schema_version: idol-harness-runtime-route-shadow.v2
+  mode: offline_deterministic_dry_run
+  execution_contract_path: automation/harness-execution-contract.yaml
+  provider_registry_path: automation/harness-provider-profile-registry.yaml
+  live_model_calls: forbidden
+  external_actions: forbidden
+  generative_actions: forbidden
+  fallback_policy: forbidden
+  exact_active_route_required: true
+  stage_reachability_semantics: route_order_only_never_provider_ownership_or_generation_authority
+  registered_media_lane_expectation:
+    lane_id: grok_build_oauth_subscription
+    required_harness_status: active
+    nonmedia_activation_may_promote_lane: false
+    registered_lane_is_not_generation_or_playback_pass: true
+  registered_media_generation_handoffs: &runtime_media_generation_handoffs
+    - stage_id: branch_cut_generation
+      action_scope: 02b_image_generation_execution
+      route: existing_registered_image_generation_lane
+      nonmedia_provider_ownership: false
+      fallback_counted: false
+    - stage_id: video_motion_direction
+      action_scope: 03v_video_generation_execution_only
+      route: existing_registered_video_generation_lane
+      nonmedia_provider_ownership: false
+      fallback_counted: false
+  required_return_checkpoints:
+    image_and_03v_recipient_role: creative_development_director
+    stage_04_shards_recipient_role: edit_director
+    reviewed_director_milestones_recipient_role: overall_director
+    founder_conversation_owner_role: overall_director
+  offline_fixtures:
+    - fixture_id: grok_only_pre00_to_05
+      provider_lane: grok
+      provider_scope: nonmedia_only_with_registered_media_generation_handoffs
+      resolved_logical_aliases: [director_deep, worker_high]
+      ready_logical_aliases_expected: [director_deep, worker_high]
+      held_logical_aliases_expected: []
+      founder_default_switch_review_allowed_expected: true
+      fallback_providers: []
+      codex_fallback_count_expected: 0
+      live_model_call_count_expected: 0
+      external_action_count_expected: 0
+      generative_action_count_expected: 0
+      unauthorized_media_generation_count_expected: 0
+      registered_media_handoff_count_expected: 2
+      stages: [creative_route_discovery, song_direction_design, candidate_track_analysis, audio_screen_motion_map, song_production_lock, front_planning_integration, mv_performance_direction, mv_storyboard_direction, storyboard_review, image_prompt_compilation, image_generation_release_gate, branch_cut_generation, generated_branch_cut_review, audio_branch_cut_placement, video_motion_direction, video_playback_review, edit_assembly_playback_qc, edit_finishing_fx, master_package_release]
+      nonmedia_provider_stages: [creative_route_discovery, song_direction_design, candidate_track_analysis, audio_screen_motion_map, song_production_lock, front_planning_integration, mv_performance_direction, mv_storyboard_direction, storyboard_review, image_prompt_compilation, image_generation_release_gate, generated_branch_cut_review, audio_branch_cut_placement, video_motion_direction, video_playback_review, edit_assembly_playback_qc, edit_finishing_fx, master_package_release]
+      media_generation_handoffs: *runtime_media_generation_handoffs
+    - fixture_id: cursor_reference_pre00_to_05
+      provider_lane: cursor
+      provider_scope: nonmedia_reference_control_with_registered_media_generation_handoffs
+      resolved_logical_aliases: [director_deep, worker_high]
+      ready_logical_aliases_expected: [director_deep, worker_high]
+      held_logical_aliases_expected: []
+      founder_default_switch_review_allowed_expected: true
+      fallback_providers: []
+      codex_fallback_count_expected: 0
+      live_model_call_count_expected: 0
+      external_action_count_expected: 0
+      generative_action_count_expected: 0
+      unauthorized_media_generation_count_expected: 0
+      registered_media_handoff_count_expected: 2
+      stages: [creative_route_discovery, song_direction_design, candidate_track_analysis, audio_screen_motion_map, song_production_lock, front_planning_integration, mv_performance_direction, mv_storyboard_direction, storyboard_review, image_prompt_compilation, image_generation_release_gate, branch_cut_generation, generated_branch_cut_review, audio_branch_cut_placement, video_motion_direction, video_playback_review, edit_assembly_playback_qc, edit_finishing_fx, master_package_release]
+      nonmedia_provider_stages: [creative_route_discovery, song_direction_design, candidate_track_analysis, audio_screen_motion_map, song_production_lock, front_planning_integration, mv_performance_direction, mv_storyboard_direction, storyboard_review, image_prompt_compilation, image_generation_release_gate, generated_branch_cut_review, audio_branch_cut_placement, video_motion_direction, video_playback_review, edit_assembly_playback_qc, edit_finishing_fx, master_package_release]
+      media_generation_handoffs: *runtime_media_generation_handoffs

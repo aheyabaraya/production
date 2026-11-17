@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-request-selection-v2-legacy.schema.json",
+  "title": "IDOL Active Image Generation Request Selection v2 Legacy Reader",
+  "description": "Pinned read-only copy of the committed v2 selection contract. It preserves pre-session-native selection evidence and must never select new work; active authoring uses image-generation-request-selection.schema.json v3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "source_02b",
+    "status",
+    "selection_policy",
+    "requests"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_request_selection.v2"},
+    "artifact_type": {"const": "active_image_generation_request_selection"},
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "source_02b": {"$ref": "#/$defs/sourcePointer"},
+    "status": {"const": "active"},
+    "selection_policy": {"const": "exact_paths_and_hashes_only_no_directory_inference"},
+    "requests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/requestPointer"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "requestPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "section_id",
+        "packet_id",
+        "mode",
+        "cut_id",
+        "cut_type",
+        "execution_adapter_id",
+        "provider",
+        "auth_lane",
+        "provider_profile_id",
+        "provider_profile_sha256",
+        "provider_capability_snapshot_sha256",
+        "expected_output_path"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "section_id": {"type": "string", "minLength": 1},
+        "packet_id": {"type": "string", "minLength": 1},
+        "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+        "cut_id": {"type": "string", "minLength": 1},
+        "cut_type": {"enum": ["hero_core", "official_core", "branch"]},
+        "execution_adapter_id": {"enum": ["openai_api_gpt_image_2", "grok_image", "xai_api_media"]},
+        "provider": {"enum": ["openai", "xai_grok_build", "xai_api"]},
+        "auth_lane": {"enum": ["subscription_oauth", "founder_approved_api"]},
+        "provider_profile_id": {"type": "string", "minLength": 1},
+        "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "expected_output_path": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

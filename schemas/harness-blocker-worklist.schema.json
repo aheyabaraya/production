@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-blocker-worklist.schema.json",
+  "title": "IDOL Graph Engineering Blocker Worklist",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "worklist_type",
+    "source_artifact",
+    "status",
+    "summary",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "harness-blocker-worklist.v2"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "worklist_type": {
+      "enum": ["video_prompt_section_qa", "edit_readiness"]
+    },
+    "source_artifact": {
+      "type": "string",
+      "minLength": 1
+    },
+    "founder_operator_surface": {
+      "type": "string"
+    },
+    "related_artifacts": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "status": {
+      "const": "worklist_only_not_a_pass_record"
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "integer", "number", "boolean", "null"]
+      }
+    },
+    "unfinished_check_counts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "blocking_reasons": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "manual_fields": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/manual_field"}
+    },
+    "section_queue": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/video_section"}
+    },
+    "section_shard_queue": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/edit_shard"}
+    },
+    "rough_output_queue": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/rough_output"}
+    },
+    "final_promotion_guard": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "review_action": {
+      "type": "object",
+      "required": ["field", "status", "action"],
+      "additionalProperties": false,
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "status": {"type": "string"},
+        "action": {"type": "string", "minLength": 1}
+      }
+    },
+    "video_packet": {
+      "type": "object",
+      "required": ["packet_id"],
+      "additionalProperties": false,
+      "properties": {
+        "packet_id": {"type": "string", "minLength": 1},
+        "timeline": {"type": "string"},
+        "audio_motion_slot": {"type": "string"},
+        "prompt_path": {"type": "string"},
+        "start_image": {"type": "string"},
+        "end_image": {"type": "string"},
+        "upload_pack_type": {"type": "string"},
+        "upload_pack": {"type": "string"},
+        "upload_ready": {"type": "string"},
+        "upload_ready_prompt": {"type": "string"},
+        "upload_ready_image1": {"type": "string"},
+        "upload_ready_image2": {"type": "string"},
+        "start_audio_cue": {"type": "string"},
+        "end_audio_cue": {"type": "string"},
+        "prev_end_to_start": {"type": "string"},
+        "end_to_next_start": {"type": "string"},
+        "edit_point_basis": {"type": "string"}
+      }
+    },
+    "video_section": {
+      "type": "object",
+      "required": [
+        "section_key",
+        "status",
+        "packet_ids",
+        "unfinished_checks",
+        "review_actions",
+        "packets"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "section_key": {"type": "string", "minLength": 1},
+        "section_label": {"type": "string"},
+        "status": {"type": "string"},
+        "packet_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "unfinished_checks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "entry_continuity": {"type": "string"},
+        "exit_continuity": {"type": "string"},
+        "review_actions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/review_action"}
+        },
+        "packets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/video_packet"}
+        }
+      }
+    },
+    "manual_field": {
+      "type": "object",
+      "required": ["field", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "field": {"type": "string", "minLength": 1},
+        "status": {"type": "string"},
+        "value": {"type": "string"}
+      }
+    },
+    "edit_shard": {
+      "type": "object",
+      "required": ["shard_id", "status", "required_action"],
+      "additionalProperties": false,
+      "properties": {
+        "shard_id": {"type": "string", "minLength": 1},
+        "status": {"type": "string"},
+        "section_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "time_range": {"type": "string"},
+        "cut_trigger": {"type": "string"},
+        "source_action_marker": {"type": "string"},
+        "audio_marker_alignment": {"type": "string"},
+        "transition_in": {"type": "string"},
+        "transition_out": {"type": "string"},
+        "paths": {
+          "type": "object",
+          "additionalProperties": {"type": "string"}
+        },
+        "merge_checks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "required_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "rough_output": {
+      "type": "object",
+      "required": ["output_id", "status", "action"],
+      "additionalProperties": false,
+      "properties": {
+        "output_id": {"type": "string", "minLength": 1},
+        "status": {"type": "string"},
+        "duration_seconds": {"type": ["number", "integer", "string", "null"]},
+        "preview": {"type": "string"},
+        "recipe": {"type": "string"},
+        "review_or_qc": {"type": "string"},
+        "qc_note": {"type": "string"},
+        "action": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

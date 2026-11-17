@@ -1,0 +1,66 @@
+schema_version: idol-harness-standing-constraint-catalog.v1
+status: active
+authority: index_only_no_second_rulebook
+forbidden_imports:
+  - CONSTRAINTS.md
+  - auto_skill_save
+  - weekly_harness_swarm
+promotion_policy:
+  run_followup_owner: schemas/harness-improvement-review.schema.json
+  standing_constraint_requires: founder_promotion_after_overfit_guard
+  catalog_may_copy_owner_prose: false
+constraints:
+  - constraint_id: SC-HELPER-CONSUMPTION-RECEIPT
+    grade: standing_constraint
+    status: active_when_helpers_used
+    owner_path: scripts/lib/idol_helper_consumption_receipts.rb
+    activation: Require a helper_consumption_receipt before a helper return counts as a graph edge. Floor counts are not contribution.
+    graph_gap: helper_consumption_receipt
+  - constraint_id: SC-RUN-FOLLOWUP-SIDECAR
+    grade: run_followup
+    status: active
+    owner_path: scripts/lib/idol_run_followup_sidecar.rb
+    activation: Open run_followup on material recurrence. Founder promotion is required before a standing_constraint owner changes.
+    graph_gap: run_followup
+  - constraint_id: SC-ROLE-CONTEXT-PACK
+    grade: standing_constraint
+    status: active
+    owner_path: schemas/role-context-pack.schema.json
+    activation: Dispatched receivers load the validated role_context_pack for the current node instead of a broad reread.
+    graph_gap: role_context_pack
+  - constraint_id: SC-ROLE-CONTEXT-LIVE-RUN-STATE
+    grade: indexed_not_required
+    status: active
+    owner_path: schemas/role-context-pack.schema.json
+    activation: Optional live_run_state projects open HOLDs, consumed helper ids, and the run_followup path. Not in required[].
+    graph_gap: role_context_pack
+  - constraint_id: SC-LOCAL-PAIRWISE-GLOBAL
+    grade: standing_constraint
+    status: active
+    owner_path: scripts/lib/idol_front_planning_local_pairwise_global.rb
+    activation: New Front Planning must declare CDD Local+Pairwise and Overall Global. Frozen COLOR STAY v17 skips unless --admission-graph.
+    graph_gap: local_pairwise_global_review
+  - constraint_id: SC-NO-CONSTRAINTS-MD
+    grade: standing_constraint
+    status: active
+    owner_path: wiki/harness-standing-constraint-index.md
+    activation: Do not add CONSTRAINTS.md or any second always-on rulebook.
+    graph_gap: anti_import
+  - constraint_id: SC-NO-AUTO-SKILL-SAVE
+    grade: standing_constraint
+    status: active
+    owner_path: wiki/harness-improvement-review-loop.md
+    activation: Do not auto-write skills from a verify pass. Skills change only through founder_promotion.
+    graph_gap: anti_import
+  - constraint_id: SC-NO-WEEKLY-HARNESS-SWARM
+    grade: standing_constraint
+    status: active
+    owner_path: wiki/harness-standing-constraint-index.md
+    activation: Weekly research jobs are not graph-engineering mutation. Do not batch-patch owners from a swarm.
+    graph_gap: anti_import
+  - constraint_id: SC-COLOR-STAY-V17-PIN
+    grade: standing_constraint
+    status: frozen_title_pin
+    owner_path: policies/section-production-front-planning.md
+    activation: Frozen COLOR STAY front-planning.yaml stays Front Planning v17. Do not raise v17 required arrays in this catalog patch.
+    graph_gap: color_stay_v17_pin

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-next-unit.schema.json",
+  "title": "IDOL Graph Engineering Next Unit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "album_key",
+    "title_key",
+    "status",
+    "source_action_queue",
+    "queue_status",
+    "state_summary",
+    "selected_queue_id",
+    "selected_unit_id",
+    "selected_unit_type",
+    "selected_unit_status",
+    "priority",
+    "selection_order",
+    "owner",
+    "source_check",
+    "source_artifact",
+    "worklist_artifact",
+    "unit_source_ref",
+    "action",
+    "validate_after",
+    "requires_founder_decision",
+    "founder_gate",
+    "forbidden_actions",
+    "details",
+    "reason_for_selection",
+    "automation_boundaries",
+    "refresh_commands"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "harness-next-unit.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "album_key": {
+      "type": "string"
+    },
+    "title_key": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "selected",
+        "founder_input_needed",
+        "no_actionable_units",
+        "action_queue_missing_or_empty"
+      ]
+    },
+    "source_action_queue": {
+      "type": "string"
+    },
+    "queue_status": {
+      "type": "string"
+    },
+    "state_summary": {
+      "type": "object",
+      "required": ["overall_status", "pass", "fail", "missing", "blocking"],
+      "additionalProperties": false,
+      "properties": {
+        "overall_status": {"type": "string"},
+        "pass": {"type": "integer", "minimum": 0},
+        "fail": {"type": "integer", "minimum": 0},
+        "missing": {"type": "integer", "minimum": 0},
+        "blocking": {"type": "integer", "minimum": 0}
+      }
+    },
+    "selected_queue_id": {
+      "type": "string"
+    },
+    "selected_unit_id": {
+      "type": "string"
+    },
+    "selected_unit_type": {
+      "enum": [
+        "",
+        "section_qa",
+        "edit_manual_field",
+        "edit_shard",
+        "rough_output",
+        "founder_decision",
+        "local_followup"
+      ]
+    },
+    "selected_unit_status": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "selection_order": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "owner": {
+      "enum": ["", "codex", "founder", "grok", "automation", "mixed"]
+    },
+    "source_check": {
+      "type": "string"
+    },
+    "source_artifact": {
+      "type": "string"
+    },
+    "worklist_artifact": {
+      "type": "string"
+    },
+    "unit_source_ref": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "validate_after": {
+      "type": "string"
+    },
+    "requires_founder_decision": {
+      "type": "boolean"
+    },
+    "founder_gate": {
+      "type": "string"
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "details": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "integer", "number", "boolean", "null", "array"],
+        "items": {
+          "type": ["string", "integer", "number", "boolean", "null"]
+        }
+      }
+    },
+    "reason_for_selection": {
+      "type": "string"
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "refresh_commands": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

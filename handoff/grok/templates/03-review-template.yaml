@@ -1,0 +1,33 @@
+schema_version: "1.0"
+content_id:
+input_files:
+  master_storyboard:
+  prompt_packets:
+status: review_recorded
+
+review_batch:
+  reviewed_at_kst:
+  reviewed_by: founder
+  review_source: chat
+  summary:
+
+grok_video_prompt_gate:
+  eligible_after_founder_pass: true
+  codex_grok_cli_approval: codex_authoring
+  approval_phrase: Codex writes post-review video prompts from passed typed Production Cut review records; optional Grok app/TUI/CLI refinement requires a separate founder request.
+  approval_scope: text_video_prompt_creation_only
+  request_packet_path:
+  video_prompt_index_path:
+
+board_reviews:
+  - beat_id:
+    packet_id:
+    review_image_path:
+    founder_review_status: pass
+    review_note:
+    grok_video_prompt_status: ready_for_codex_authoring
+    grok_video_prompt_request_path:
+    grok_video_prompt_output_path:
+    open_decisions: []
+
+open_questions: []

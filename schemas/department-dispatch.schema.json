@@ -1,0 +1,1479 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/department-dispatch.schema.json",
+  "title": "IDOL Provider-Neutral Department Dispatch v8",
+  "description": "Goal-first v8 dispatch contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "dispatch_id",
+    "run",
+    "lineage",
+    "review_submission",
+    "lifecycle",
+    "review_control",
+    "launch",
+    "routing_identity",
+    "internal_delegation_summary",
+    "runtime_return",
+    "director_review",
+    "promotion"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-department-dispatch.v8"},
+    "artifact_type": {"const": "department_dispatch"},
+    "dispatch_id": {"$ref": "#/$defs/taskId"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "lineage": {"$ref": "#/$defs/lineage"},
+    "review_submission": {"$ref": "#/$defs/reviewSubmission"},
+    "lifecycle": {"$ref": "#/$defs/lifecycle"},
+    "review_control": {"$ref": "#/$defs/reviewControl"},
+    "launch": {"$ref": "#/$defs/launch"},
+    "routing_identity": {"$ref": "#/$defs/routingIdentity"},
+    "internal_delegation_summary": {"$ref": "#/$defs/internalDelegationSummary"},
+    "runtime_return": {
+      "oneOf": [
+        {"$ref": "#/$defs/runtimeReturn"},
+        {"type": "null"}
+      ]
+    },
+    "director_review": {
+      "oneOf": [
+        {"$ref": "#/$defs/directorReview"},
+        {"type": "null"}
+      ]
+    },
+    "promotion": {
+      "oneOf": [
+        {"$ref": "#/$defs/promotion"},
+        {"type": "null"}
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"const": "prepared"}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "launch": {"properties": {"launched_at": {"type": "null"}}},
+          "review_control": {"properties": {"queue_state": {"const": "not_eligible"}}},
+          "runtime_return": {"type": "null"},
+          "director_review": {"type": "null"},
+          "promotion": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"const": "launched"}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "launch": {"properties": {"launched_at": {"$ref": "#/$defs/timestamp"}}},
+          "review_control": {"properties": {"queue_state": {"const": "not_eligible"}}},
+          "runtime_return": {"type": "null"},
+          "director_review": {"type": "null"},
+          "promotion": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"const": "returned"}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "launch": {"properties": {"launched_at": {"$ref": "#/$defs/timestamp"}}},
+          "review_control": {"properties": {"queue_state": {"enum": ["queued", "in_review"]}}},
+          "runtime_return": {"$ref": "#/$defs/runtimeReturn"},
+          "director_review": {"type": "null"},
+          "promotion": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"const": "reviewed"}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "launch": {"properties": {"launched_at": {"$ref": "#/$defs/timestamp"}}},
+          "review_control": {"properties": {"queue_state": {"enum": ["disposition_recorded", "promotion_in_progress"]}}},
+          "runtime_return": {"$ref": "#/$defs/runtimeReturn"},
+          "director_review": {"$ref": "#/$defs/directorReview"},
+          "promotion": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"enum": ["promoted", "hold"]}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "launch": {"properties": {"launched_at": {"$ref": "#/$defs/timestamp"}}},
+          "review_control": {"properties": {"queue_state": {"const": "released"}}},
+          "runtime_return": {"$ref": "#/$defs/runtimeReturn"},
+          "director_review": {"$ref": "#/$defs/directorReview"},
+          "promotion": {"$ref": "#/$defs/promotion"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle": {
+            "properties": {"current_state": {"enum": ["launched", "returned", "reviewed", "promoted", "hold"]}},
+            "required": ["current_state"]
+          }
+        },
+        "required": ["lifecycle"]
+      },
+      "then": {
+        "properties": {
+          "lineage": {
+            "properties": {"session_id": {"$ref": "#/$defs/nonEmptyString"}}
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "launch": {
+            "required": [
+              "instruction_delivery"
+            ],
+            "properties": {
+              "instruction_delivery": {
+                "const": "role_context_pack"
+              }
+            }
+          }
+        },
+        "required": [
+          "launch"
+        ]
+      },
+      "then": {
+        "properties": {
+          "runtime_return": {
+            "if": {
+              "type": "object"
+            },
+            "then": {
+              "required": [
+                "role_context_receipt"
+              ],
+              "properties": {
+                "skill_revisions": {
+                  "maxItems": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "runtime_return": {
+            "not": {
+              "type": "object",
+              "required": [
+                "role_context_receipt"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "taskId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+    "timestamp": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\uac00-\ud7a3][a-z0-9\uac00-\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "nullableTaskId": {
+      "oneOf": [
+        {"$ref": "#/$defs/taskId"},
+        {"type": "null"}
+      ]
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lineage_id",
+        "attempt_id",
+        "attempt_number",
+        "provider",
+        "runtime_surface",
+        "session_id",
+        "parent_session_id",
+        "parent_lineage_id",
+        "parent_dispatch_id",
+        "previous_attempt_id",
+        "delegation_depth",
+        "lineage_state",
+        "successor_attempt_id"
+      ],
+      "properties": {
+        "lineage_id": {"$ref": "#/$defs/taskId"},
+        "attempt_id": {"$ref": "#/$defs/taskId"},
+        "attempt_number": {"type": "integer", "minimum": 1},
+        "provider": {"enum": ["codex", "grok", "cursor", "manual", "automation"]},
+        "runtime_surface": {"$ref": "#/$defs/nonEmptyString"},
+        "session_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/nonEmptyString"},
+            {"type": "null"}
+          ]
+        },
+        "parent_session_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/nonEmptyString"},
+            {"type": "null"}
+          ]
+        },
+        "parent_lineage_id": {"$ref": "#/$defs/nullableTaskId"},
+        "parent_dispatch_id": {"$ref": "#/$defs/nullableTaskId"},
+        "previous_attempt_id": {"$ref": "#/$defs/nullableTaskId"},
+        "delegation_depth": {"type": "integer", "minimum": 0, "maximum": 1},
+        "lineage_state": {"enum": ["active", "completed", "retired", "replaced"]},
+        "successor_attempt_id": {"$ref": "#/$defs/nullableTaskId"}
+      }
+    },
+    "correctionSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id", "path", "sha256", "json_pointer"],
+      "properties": {
+        "dispatch_id": {"$ref": "#/$defs/taskId"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "json_pointer": {"const": "/director_review/correction"}
+      }
+    },
+    "reviewSubmission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_cycle_id",
+        "submission_number",
+        "maximum_submissions",
+        "submission_kind",
+        "root_attempt_id",
+        "previous_submission_attempt_id",
+        "correction_source",
+        "repair_targets",
+        "repair_acceptance_criteria",
+        "frozen_outputs"
+      ],
+      "properties": {
+        "review_cycle_id": {"$ref": "#/$defs/taskId"},
+        "submission_number": {"type": "integer", "minimum": 1, "maximum": 3},
+        "maximum_submissions": {"const": 3},
+        "submission_kind": {"enum": ["initial", "targeted_correction"]},
+        "root_attempt_id": {"$ref": "#/$defs/taskId"},
+        "previous_submission_attempt_id": {"$ref": "#/$defs/nullableTaskId"},
+        "correction_source": {
+          "oneOf": [
+            {"$ref": "#/$defs/correctionSource"},
+            {"type": "null"}
+          ]
+        },
+        "repair_targets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "repair_acceptance_criteria": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "frozen_outputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"submission_kind": {"const": "initial"}}, "required": ["submission_kind"]},
+          "then": {
+            "properties": {
+              "submission_number": {"const": 1},
+              "previous_submission_attempt_id": {"type": "null"},
+              "correction_source": {"type": "null"},
+              "repair_targets": {"maxItems": 0},
+              "repair_acceptance_criteria": {"maxItems": 0},
+              "frozen_outputs": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"submission_kind": {"const": "targeted_correction"}}, "required": ["submission_kind"]},
+          "then": {
+            "properties": {
+              "submission_number": {"type": "integer", "minimum": 2, "maximum": 3},
+              "previous_submission_attempt_id": {"$ref": "#/$defs/taskId"},
+              "correction_source": {"$ref": "#/$defs/correctionSource"},
+              "repair_targets": {"minItems": 1},
+              "repair_acceptance_criteria": {"minItems": 1}
+            }
+          }
+        }
+      ]
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.codex/|\\.cursor/|\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "outputKind": {
+      "enum": [
+        "bounded_artifact",
+        "decision_set",
+        "director_development_report",
+        "section_dispatch_map",
+        "section_reference_set",
+        "reference_working_index_delta",
+        "pre_02a_section_working_shard",
+        "founder_briefing_projection",
+        "stage_progress_record"
+      ]
+    },
+    "bindingKind": {
+      "enum": [
+        "selected_source_evidence",
+        "decision_set",
+        "selected_audio_analysis",
+        "audio_motion_map",
+        "section_dispatch_map",
+        "reference_working_index",
+        "section_reference_set",
+        "section_slice_schema",
+        "founder_briefing_source_set",
+        "other_upstream"
+      ]
+    },
+    "logicalOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "bindingEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_kind", "source_id", "path", "sha256"],
+      "properties": {
+        "binding_kind": {"$ref": "#/$defs/bindingKind"},
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "hashedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"},
+        "output_kind": {"$ref": "#/$defs/outputKind"},
+        "logical_owner": {"$ref": "#/$defs/logicalOwner"},
+        "decision_epoch": {"$ref": "#/$defs/nonEmptyString"},
+        "bindings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/bindingEvidence"}
+        },
+        "source_output_path": {"$ref": "#/$defs/repositoryPath"},
+        "source_output_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "output_kind": {
+                "enum": [
+                  "decision_set",
+                  "director_development_report",
+                  "section_dispatch_map",
+                  "section_reference_set",
+                  "reference_working_index_delta",
+                  "pre_02a_section_working_shard",
+                  "founder_briefing_projection"
+                ]
+              }
+            },
+            "required": ["output_kind"]
+          },
+          "then": {
+            "required": ["logical_owner", "decision_epoch", "bindings"]
+          }
+        }
+      ]
+    },
+    "lifecycleEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "at", "actor"],
+      "properties": {
+        "state": {"enum": ["prepared", "launched", "returned", "reviewed", "promoted", "hold"]},
+        "at": {"$ref": "#/$defs/timestamp"},
+        "actor": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_state", "events"],
+      "properties": {
+        "current_state": {"enum": ["prepared", "launched", "returned", "reviewed", "promoted", "hold"]},
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/lifecycleEvent"}
+        }
+      }
+    },
+    "reviewLease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lease_id", "director_owner", "acquired_at", "released_at"],
+      "properties": {
+        "lease_id": {"$ref": "#/$defs/taskId"},
+        "director_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "acquired_at": {"$ref": "#/$defs/timestamp"},
+        "released_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "promotionLease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lease_id", "overall_owner", "acquired_at", "released_at"],
+      "properties": {
+        "lease_id": {"$ref": "#/$defs/taskId"},
+        "overall_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "acquired_at": {"$ref": "#/$defs/timestamp"},
+        "released_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "reviewControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queue_policy", "queue_state", "queued_at", "queue_priority", "review_lease", "promotion_lease"],
+      "properties": {
+        "queue_policy": {"const": "single_flight_per_recipient_director_then_global_overall_promotion"},
+        "queue_state": {"enum": ["not_eligible", "queued", "in_review", "disposition_recorded", "promotion_in_progress", "released"]},
+        "queued_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "queue_priority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dependency_rank", "returned_at_then_dispatch_id"],
+          "properties": {
+            "dependency_rank": {"type": "integer", "minimum": 0},
+            "returned_at_then_dispatch_id": {"const": true}
+          }
+        },
+        "review_lease": {
+          "oneOf": [
+            {"$ref": "#/$defs/reviewLease"},
+            {"type": "null"}
+          ]
+        },
+        "promotion_lease": {
+          "oneOf": [
+            {"$ref": "#/$defs/promotionLease"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"queue_state": {"const": "not_eligible"}}, "required": ["queue_state"]},
+          "then": {"properties": {"queued_at": {"type": "null"}, "review_lease": {"type": "null"}, "promotion_lease": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"queue_state": {"const": "queued"}}, "required": ["queue_state"]},
+          "then": {"properties": {"queued_at": {"$ref": "#/$defs/timestamp"}, "review_lease": {"type": "null"}, "promotion_lease": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"queue_state": {"const": "in_review"}}, "required": ["queue_state"]},
+          "then": {
+            "properties": {
+              "queued_at": {"$ref": "#/$defs/timestamp"},
+              "review_lease": {
+                "allOf": [
+                  {"$ref": "#/$defs/reviewLease"},
+                  {"properties": {"released_at": {"type": "null"}}}
+                ]
+              },
+              "promotion_lease": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"queue_state": {"const": "disposition_recorded"}}, "required": ["queue_state"]},
+          "then": {
+            "properties": {
+              "queued_at": {"$ref": "#/$defs/timestamp"},
+              "review_lease": {
+                "allOf": [
+                  {"$ref": "#/$defs/reviewLease"},
+                  {"properties": {"released_at": {"$ref": "#/$defs/timestamp"}}}
+                ]
+              },
+              "promotion_lease": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"queue_state": {"const": "promotion_in_progress"}}, "required": ["queue_state"]},
+          "then": {
+            "properties": {
+              "queued_at": {"$ref": "#/$defs/timestamp"},
+              "review_lease": {
+                "allOf": [
+                  {"$ref": "#/$defs/reviewLease"},
+                  {"properties": {"released_at": {"$ref": "#/$defs/timestamp"}}}
+                ]
+              },
+              "promotion_lease": {
+                "allOf": [
+                  {"$ref": "#/$defs/promotionLease"},
+                  {"properties": {"released_at": {"type": "null"}}}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"queue_state": {"const": "released"}}, "required": ["queue_state"]},
+          "then": {
+            "properties": {
+              "queued_at": {"$ref": "#/$defs/timestamp"},
+              "review_lease": {
+                "allOf": [
+                  {"$ref": "#/$defs/reviewLease"},
+                  {"properties": {"released_at": {"$ref": "#/$defs/timestamp"}}}
+                ]
+              },
+              "promotion_lease": {"$ref": "#/$defs/promotionLease"}
+            }
+          }
+        }
+      ]
+    },
+    "exactScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "stage_id", "section_ids", "artifact_paths"],
+      "properties": {
+        "mode": {"enum": ["whole_run", "section", "section_set", "artifact"]},
+        "stage_id": {"$ref": "#/$defs/identifier"},
+        "section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "artifact_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "role", "objective", "exact_scope"],
+      "properties": {
+        "task_id": {"$ref": "#/$defs/taskId"},
+        "role": {"$ref": "#/$defs/nonEmptyString"},
+        "objective": {"$ref": "#/$defs/nonEmptyString"},
+        "exact_scope": {"$ref": "#/$defs/exactScope"}
+      }
+    },
+    "goalContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "goal_text",
+        "goal_text_sha256",
+        "source_objective_pointer",
+        "source_scope_pointer",
+        "creation_timing",
+        "completion_timing",
+        "unsupported_runtime_action"
+      ],
+      "properties": {
+        "required": {"const": true},
+        "goal_text": {"$ref": "#/$defs/nonEmptyString"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "source_objective_pointer": {"const": "/launch/task/objective"},
+        "source_scope_pointer": {"const": "/launch/task/exact_scope"},
+        "creation_timing": {"const": "before_required_reads_and_creative_work"},
+        "completion_timing": {"const": "only_after_valid_runtime_return_and_worker_self_check"},
+        "unsupported_runtime_action": {"const": "goal_surface_unavailable_hold_before_work"}
+      }
+    },
+    "requirementItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirement_id",
+        "category",
+        "required",
+        "source_locator",
+        "source_binding",
+        "affected_scope",
+        "expected_output_target",
+        "evidence_type",
+        "director_semantic_review_required"
+      ],
+      "properties": {
+        "requirement_id": {
+          "type": "string",
+          "pattern": "^(?:FOUNDER|SKILL|POLICY|CONTRACT|SCHEMA|OUTPUT|QUALITY|HOLD|GOAL)-[A-Z0-9][A-Z0-9._-]{0,80}$"
+        },
+        "category": {"enum": ["founder", "skill", "policy", "contract", "schema", "output", "quality", "hold", "goal"]},
+        "required": {"type": "boolean"},
+        "source_locator": {"$ref": "#/$defs/nonEmptyString"},
+        "source_binding": {
+          "oneOf": [
+            {"$ref": "#/$defs/hashedArtifact"},
+            {"type": "null"}
+          ]
+        },
+        "affected_scope": {"$ref": "#/$defs/nonEmptyString"},
+        "expected_output_target": {"$ref": "#/$defs/nonEmptyString"},
+        "evidence_type": {"enum": ["field", "artifact", "media", "validator", "registry", "hold", "runtime_goal"]},
+        "director_semantic_review_required": {"type": "boolean"}
+      }
+    },
+    "founderLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lock_id", "verbatim", "scope", "source_locator"],
+      "properties": {
+        "lock_id": {"$ref": "#/$defs/taskId"},
+        "verbatim": {"$ref": "#/$defs/nonEmptyString"},
+        "scope": {"$ref": "#/$defs/nonEmptyString"},
+        "source_locator": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "founderContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_epoch", "locks"],
+      "properties": {
+        "decision_epoch": {"$ref": "#/$defs/nonEmptyString"},
+        "locks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/founderLock"}
+        }
+      }
+    },
+    "requiredRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "eof_required", "reason"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true},
+        "reason": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "requiredSkill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "revision", "sha256", "eof_required", "linked_reads"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?:skills|cf/skills)/.+/SKILL\\.md$"},
+        "revision": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true},
+        "linked_reads": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/requiredRead"}
+        }
+      }
+    },
+    "sourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "path", "sha256", "purpose"],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/identifier"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "purpose": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "externalPermission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "allowed_surfaces", "approval_reference"],
+      "properties": {
+        "mode": {"enum": ["closed_local", "founder_approved"]},
+        "allowed_surfaces": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "approval_reference": {
+          "oneOf": [
+            {"$ref": "#/$defs/nonEmptyString"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "boundedOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "output_kind", "expected_paths", "maximum_artifact_count", "anti_flat_evidence_requirements"],
+      "properties": {
+        "description": {"$ref": "#/$defs/nonEmptyString"},
+        "output_kind": {"$ref": "#/$defs/outputKind"},
+        "logical_owner": {"$ref": "#/$defs/logicalOwner"},
+        "required_binding_kinds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/bindingKind"}
+        },
+        "expected_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "maximum_artifact_count": {"type": "integer", "minimum": 1},
+        "anti_flat_evidence_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "output_kind": {
+                "enum": [
+                  "decision_set",
+                  "director_development_report",
+                  "section_dispatch_map",
+                  "section_reference_set",
+                  "reference_working_index_delta",
+                  "pre_02a_section_working_shard",
+                  "founder_briefing_projection"
+                ]
+              }
+            },
+            "required": ["output_kind"]
+          },
+          "then": {
+            "required": ["logical_owner", "required_binding_kinds"]
+          }
+        }
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assigned_owner", "director_owner", "promotion_owner", "canonical_write", "external_actions", "may_decide", "must_not"],
+      "properties": {
+        "assigned_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "director_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "promotion_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "canonical_write": {"enum": ["forbidden", "bounded_to_expected_paths"]},
+        "external_actions": {"enum": ["forbidden", "founder_approved_only"]},
+        "may_decide": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "must_not": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        }
+      }
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "return_route"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"$ref": "#/$defs/nonEmptyString"},
+        "return_route": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "compiledLaunchProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "checkpoint_id", "registry_path", "registry_sha256", "model_or_role_profile"],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "checkpoint_id": {"$ref": "#/$defs/identifier"},
+        "registry_path": {"const": "automation/harness-skill-load-profiles.yaml"},
+        "registry_sha256": {"$ref": "#/$defs/sha256"},
+        "model_or_role_profile": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "compiledLaunchPrompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derivation",
+        "studio_kernel",
+        "selected_profile",
+        "current_run_creative_delta_source_ids",
+        "first_runtime_action",
+        "block_order",
+        "assembly_policy",
+        "current_value_authority",
+        "rendered_prompt",
+        "compiled_input_sha256",
+        "rendered_prompt_sha256"
+      ],
+      "properties": {
+        "derivation": {"const": "studio_kernel_plus_exact_selected_profile_checkpoint_plus_current_run_creative_delta"},
+        "studio_kernel": {"$ref": "#/$defs/hashedArtifact"},
+        "selected_profile": {"$ref": "#/$defs/compiledLaunchProfile"},
+        "current_run_creative_delta_source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/taskId"}
+        },
+        "first_runtime_action": {"const": "open_native_goal_from_goal_contract_and_record_goal_id_before_reads_or_work"},
+        "block_order": {
+          "const": [
+            "dispatch_identity",
+            "role_and_authority",
+            "current_creative_job",
+            "exact_scope_and_non_scope",
+            "input_pointers",
+            "skill_route",
+            "required_work",
+            "output_contract",
+            "quality_proof",
+            "return_ready_conditions",
+            "hold_stop_split_conditions",
+            "return_and_wake"
+          ]
+        },
+        "assembly_policy": {"const": "fixed_labels_and_exact_copy_only"},
+        "current_value_authority": {"enum": ["overall_director", "creative_development_director", "owning_director"]},
+        "rendered_prompt": {"type": "string", "minLength": 1},
+        "compiled_input_sha256": {"$ref": "#/$defs/sha256"},
+        "rendered_prompt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "launch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prepared_at",
+        "launched_at",
+        "launch_kind",
+        "compiled_launch_prompt",
+        "goal_contract",
+        "requirement_manifest",
+        "task",
+        "founder_context",
+        "required_skills",
+        "sources",
+        "external_permission",
+        "bounded_output",
+        "authority",
+        "hold_conditions",
+        "recipient"
+      ],
+      "properties": {
+        "instruction_delivery": {"const": "role_context_pack"},
+        "prepared_at": {"$ref": "#/$defs/timestamp"},
+        "launched_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "launch_kind": {"enum": ["cdd_startup", "worker_dispatch", "successor_resume"]},
+        "compiled_launch_prompt": {"$ref": "#/$defs/compiledLaunchPrompt"},
+        "goal_contract": {"$ref": "#/$defs/goalContract"},
+        "requirement_manifest": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/requirementItem"}
+        },
+        "task": {"$ref": "#/$defs/task"},
+        "founder_context": {"$ref": "#/$defs/founderContext"},
+        "required_skills": {
+          "type": "array",
+          "minItems": 0,
+          "items": {"$ref": "#/$defs/requiredSkill"}
+        },
+        "required_reads": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/requiredRead"}
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sourceBinding"}
+        },
+        "external_permission": {"$ref": "#/$defs/externalPermission"},
+        "bounded_output": {"$ref": "#/$defs/boundedOutput"},
+        "authority": {"$ref": "#/$defs/authority"},
+        "hold_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "recipient": {"$ref": "#/$defs/recipient"}
+      }
+    },
+    "runtimeRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "read_to_eof", "read_completed_at"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "read_to_eof": {"const": true},
+        "read_completed_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "skillRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "revision", "sha256", "read_to_eof", "read_completed_at", "linked_reads"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^(?:skills|cf/skills)/.+/SKILL\\.md$"},
+        "revision": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "read_to_eof": {"const": true},
+        "read_completed_at": {"$ref": "#/$defs/timestamp"},
+        "linked_reads": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/runtimeRead"}
+        }
+      }
+    },
+    "digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis", "sha256"],
+      "properties": {
+        "basis": {
+          "enum": [
+            "lineage_review_submission_and_goal_first_launch_contract_canonical_json_v4",
+            "runtime_goal_reads_compliance_claims_outputs_holds_and_wake_event_canonical_json_v4"
+          ]
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runtimeOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "runtime_surface"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"$ref": "#/$defs/nonEmptyString"},
+        "runtime_surface": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "outputInventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "artifact_count", "aggregate_manifest"],
+      "properties": {
+        "mode": {"enum": ["single_artifact", "aggregate_manifest"]},
+        "artifact_count": {"type": "integer", "minimum": 0},
+        "aggregate_manifest": {
+          "oneOf": [
+            {"$ref": "#/$defs/hashedArtifact"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "single_artifact"}}, "required": ["mode"]},
+          "then": {
+            "properties": {
+              "artifact_count": {"type": "integer", "minimum": 0, "maximum": 1},
+              "aggregate_manifest": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "aggregate_manifest"}}, "required": ["mode"]},
+          "then": {
+            "properties": {
+              "artifact_count": {"type": "integer", "minimum": 2},
+              "aggregate_manifest": {"$ref": "#/$defs/hashedArtifact"}
+            }
+          }
+        }
+      ]
+    },
+    "wakeEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_kind",
+        "recipient_role",
+        "output_pointers",
+        "aggregate_manifest",
+        "hold_or_rejection_pointers",
+        "risk_or_unresolved_decision_pointers",
+        "raw_commentary_included"
+      ],
+      "properties": {
+        "event_kind": {"enum": ["final", "hold", "authority_request", "milestone"]},
+        "recipient_role": {"$ref": "#/$defs/nonEmptyString"},
+        "output_pointers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "aggregate_manifest": {
+          "oneOf": [
+            {"$ref": "#/$defs/hashedArtifact"},
+            {"type": "null"}
+          ]
+        },
+        "hold_or_rejection_pointers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "risk_or_unresolved_decision_pointers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "raw_commentary_included": {"const": false}
+      }
+    },
+    "runtimeGoal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "native_goal_id", "opened_at", "goal_text_sha256", "state_at_return", "completion_evidence_sha256"],
+      "properties": {
+        "provider": {"enum": ["codex", "cursor", "grok", "other_registered_provider"]},
+        "native_goal_id": {"$ref": "#/$defs/nonEmptyString"},
+        "opened_at": {"$ref": "#/$defs/timestamp"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "state_at_return": {"enum": ["active", "achieved", "runtime_blocked"]},
+        "completion_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "request_id": {"$ref": "#/$defs/nonEmptyString"},
+        "objective": {"$ref": "#/$defs/nonEmptyString"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "native_session_id": {"$ref": "#/$defs/nonEmptyString"},
+        "assignment_key": {"$ref": "#/$defs/nonEmptyString"},
+        "dispatch_id": {"$ref": "#/$defs/nonEmptyString"},
+        "attempt_id": {"$ref": "#/$defs/nonEmptyString"},
+        "runtime_surface": {"$ref": "#/$defs/nonEmptyString"},
+        "raw_event_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_source": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "mechanicalCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "requirement_id", "check_kind", "target", "result", "evidence"],
+      "properties": {
+        "check_id": {"$ref": "#/$defs/taskId"},
+        "requirement_id": {"$ref": "#/$defs/nonEmptyString"},
+        "check_kind": {"enum": ["schema_validation", "field_and_cross_field", "path_and_hash", "registry_revision", "consumer_version", "profile_closure", "lifecycle_order", "goal_order", "coverage", "other_structural"]},
+        "target": {"$ref": "#/$defs/nonEmptyString"},
+        "result": {"enum": ["pass", "hold", "fail"]},
+        "evidence": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "mechanicalComplianceReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "validated_at", "validator", "checks", "all_required_checks_pass", "receipt_sha256"],
+      "properties": {
+        "contract_version": {"const": "mechanical_compliance_receipt.v1"},
+        "validated_at": {"$ref": "#/$defs/timestamp"},
+        "validator": {"$ref": "#/$defs/nonEmptyString"},
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/mechanicalCheck"}
+        },
+        "all_required_checks_pass": {"type": "boolean"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "fulfillmentClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "disposition", "output_evidence", "explanation"],
+      "properties": {
+        "requirement_id": {"$ref": "#/$defs/nonEmptyString"},
+        "disposition": {"enum": ["applied", "held", "not_applicable"]},
+        "output_evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "explanation": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "routingIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logical_role", "worker_specialty", "provider", "logical_profile_alias", "execution_profile_id", "resolved_provider_model", "reasoning_effort", "provider_capability_snapshot_sha256", "resolved_profile_snapshot_ref", "session_topology", "active_role_binding_id", "internal_subagent_policy", "exact_task_subagent_override", "founder_visible", "return_recipient_role", "physical_transfer"],
+      "properties": {
+        "logical_role": {"$ref": "#/$defs/nonEmptyString"},
+        "worker_specialty": {"$ref": "#/$defs/nonEmptyString"},
+        "provider": {"$ref": "#/$defs/nonEmptyString"},
+        "logical_profile_alias": {"enum": ["director_deep", "worker_high"]},
+        "execution_profile_id": {"$ref": "#/$defs/nonEmptyString"},
+        "resolved_provider_model": {"$ref": "#/$defs/nonEmptyString"},
+        "reasoning_effort": {"$ref": "#/$defs/nonEmptyString"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "resolved_profile_snapshot_ref": {"$ref": "#/$defs/nonEmptyString"},
+        "session_topology": {"enum": ["internal_parent_work_package", "physical_native_session"]},
+        "active_role_binding_id": {"$ref": "#/$defs/nonEmptyString"},
+        "internal_subagent_policy": {"const": "provider_native_default_no_logical_role_or_authority"},
+        "exact_task_subagent_override": {"enum": ["none", "bounded_explicit"]},
+        "founder_visible": {"type": "boolean"},
+        "return_recipient_role": {"enum": ["creative_development_director", "edit_director", "overall_director"]},
+        "physical_transfer": {"oneOf": [{"type": "null"}, {"type": "object", "additionalProperties": false, "required": ["from_topology", "to_topology", "frozen_scope_sha256", "simultaneous_owner_forbidden"], "properties": {"from_topology": {"enum": ["internal_parent_work_package", "physical_native_session"]}, "to_topology": {"enum": ["internal_parent_work_package", "physical_native_session"]}, "frozen_scope_sha256": {"$ref": "#/$defs/sha256"}, "simultaneous_owner_forbidden": {"const": true}}}]}
+      }
+    },
+    "internalDelegationSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider_native_helpers_used", "helper_count", "logical_roles_created", "canonical_owner_changed", "founder_conversation_authority_granted"],
+      "properties": {"provider_native_helpers_used": {"type": "boolean"}, "helper_count": {"type": "integer", "minimum": 0}, "logical_roles_created": {"const": 0}, "canonical_owner_changed": {"const": false}, "founder_conversation_authority_granted": {"const": false}}
+    },
+    "transportClosureSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "creative_bytes_changed", "error", "source_digest", "output_digest", "schema_version", "refresh_receipt_pointer", "corroboration_pointers", "repair_count", "exceptions", "next_owner"],
+      "properties": {
+        "status": {"enum": ["clean", "auto_refreshed", "director_impact_required", "blocked"]},
+        "creative_bytes_changed": {"type": "boolean"},
+        "error": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/nonEmptyString"}]},
+        "source_digest": {"$ref": "#/$defs/digest"},
+        "output_digest": {"$ref": "#/$defs/digest"},
+        "schema_version": {"const": "idol-transport-closure-summary.v1"},
+        "refresh_receipt_pointer": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/nonEmptyString"}]},
+        "corroboration_pointers": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "repair_count": {"enum": [0, 1]},
+        "exceptions": {"type": "array", "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "next_owner": {"$ref": "#/$defs/nonEmptyString"}
+      },
+      "allOf": [{"if": {"properties": {"creative_bytes_changed": {"const": true}}, "required": ["creative_bytes_changed"]}, "then": {"properties": {"status": {"enum": ["director_impact_required", "blocked"]}}}}]
+    },
+    "runtimeReturn": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["returned_at", "work_started_at", "runtime_owner", "runtime_goal", "skill_revisions", "mechanical_compliance_receipt", "worker_fulfillment_claims", "input_digest", "output_inventory", "outputs", "result_digest", "transport_closure_summary", "hold_reasons", "wake_event"],
+      "properties": {
+        "returned_at": {"$ref": "#/$defs/timestamp"},
+        "work_started_at": {"$ref": "#/$defs/timestamp"},
+        "runtime_owner": {"$ref": "#/$defs/runtimeOwner"},
+        "runtime_goal": {"$ref": "#/$defs/runtimeGoal"},
+        "role_context_receipt": {"$ref": "department-runtime-context.schema.json#/$defs/applicationReceipt"},
+        "skill_revisions": {
+          "type": "array",
+          "minItems": 0,
+          "items": {"$ref": "#/$defs/skillRevision"}
+        },
+        "mechanical_compliance_receipt": {"$ref": "#/$defs/mechanicalComplianceReceipt"},
+        "worker_fulfillment_claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/fulfillmentClaim"}
+        },
+        "input_digest": {"$ref": "#/$defs/digest"},
+        "output_inventory": {"$ref": "#/$defs/outputInventory"},
+        "outputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "result_digest": {"$ref": "#/$defs/digest"},
+        "transport_closure_summary": {"$ref": "#/$defs/transportClosureSummary"},
+        "hold_reasons": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "wake_event": {"$ref": "#/$defs/wakeEvent"},
+        "helper_consumption_receipts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        }
+      }
+    },
+    "director": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "rubricResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion", "result", "evidence"],
+      "properties": {
+        "criterion": {"$ref": "#/$defs/nonEmptyString"},
+        "result": {"enum": ["pass", "hold", "fail"]},
+        "evidence": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "reviewerRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "revision", "sha256", "read_to_eof", "read_completed_at"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "kind": {"enum": ["skill", "linked_module", "policy", "contract", "schema"]},
+        "revision": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "read_to_eof": {"const": true},
+        "read_completed_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "requirementReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "result", "evidence_locator", "evidence_sha256", "judgment"],
+      "properties": {
+        "requirement_id": {"$ref": "#/$defs/nonEmptyString"},
+        "result": {"enum": ["pass", "hold", "fail", "not_applicable"]},
+        "evidence_locator": {"$ref": "#/$defs/nonEmptyString"},
+        "evidence_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "judgment": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "correctionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "locator", "source_sha256", "observation"],
+      "properties": {
+        "kind": {"enum": ["returned_output", "bound_source", "founder_workbench", "pixel_review", "playback_review", "other"]},
+        "locator": {"$ref": "#/$defs/nonEmptyString"},
+        "source_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "observation": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "correctionUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "problem",
+        "evidence",
+        "screen_consequence",
+        "correction_action",
+        "remaining_risk",
+        "affected_owner",
+        "invalidated_outputs",
+        "complete_problem_set",
+        "acceptance_criteria",
+        "retry_route"
+      ],
+      "properties": {
+        "problem": {"$ref": "#/$defs/nonEmptyString"},
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/correctionEvidence"}
+        },
+        "screen_consequence": {"$ref": "#/$defs/nonEmptyString"},
+        "correction_action": {"$ref": "#/$defs/nonEmptyString"},
+        "remaining_risk": {"$ref": "#/$defs/nonEmptyString"},
+        "affected_owner": {"$ref": "#/$defs/nonEmptyString"},
+        "invalidated_outputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "complete_problem_set": {"const": true},
+        "acceptance_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmptyString"}
+        },
+        "retry_route": {"enum": ["same_session_new_attempt", "new_session_new_lineage", "upstream_owner", "hold"]}
+      }
+    },
+    "directorReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewed_at", "director", "review_lease_id", "reviewer_read_closure", "mechanical_receipt_sha256", "requirement_results", "disposition", "rubric_results", "reviewed_outputs", "summary", "correction"],
+      "properties": {
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "director": {"$ref": "#/$defs/director"},
+        "review_lease_id": {"$ref": "#/$defs/taskId"},
+        "reviewer_read_closure": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/reviewerRead"}
+        },
+        "mechanical_receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "requirement_results": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/requirementReview"}
+        },
+        "disposition": {"enum": ["accept", "patch", "reject", "hold"]},
+        "rubric_results": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/rubricResult"}
+        },
+        "reviewed_outputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "summary": {"$ref": "#/$defs/nonEmptyString"},
+        "correction": {
+          "oneOf": [
+            {"$ref": "#/$defs/correctionUnit"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"disposition": {"const": "accept"}}, "required": ["disposition"]},
+          "then": {"properties": {"correction": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"disposition": {"enum": ["patch", "reject", "hold"]}}, "required": ["disposition"]},
+          "then": {"properties": {"correction": {"$ref": "#/$defs/correctionUnit"}}}
+        }
+      ]
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "mode", "decided_at", "promoter", "promotion_lease_id", "approved_at", "reason", "approved_working_outputs", "coordinator", "copy_completed_at", "canonical_artifacts", "queue_release_verified", "baseline_refresh_evidence_sha256", "next_recipient"],
+      "properties": {
+        "decision": {"enum": ["promoted", "hold"]},
+        "mode": {"enum": ["direct_canonical_promotion", "coordinator_exact_copy", "held_without_promotion"]},
+        "decided_at": {"$ref": "#/$defs/timestamp"},
+        "promoter": {"$ref": "#/$defs/director"},
+        "promotion_lease_id": {"$ref": "#/$defs/taskId"},
+        "approved_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "reason": {"$ref": "#/$defs/nonEmptyString"},
+        "approved_working_outputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "coordinator": {
+          "oneOf": [
+            {"$ref": "#/$defs/director"},
+            {"type": "null"}
+          ]
+        },
+        "copy_completed_at": {
+          "oneOf": [
+            {"$ref": "#/$defs/timestamp"},
+            {"type": "null"}
+          ]
+        },
+        "canonical_artifacts": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/hashedArtifact"}
+        },
+        "queue_release_verified": {"const": true},
+        "baseline_refresh_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "next_recipient": {"$ref": "#/$defs/recipient"}
+      }
+    }
+  }
+}

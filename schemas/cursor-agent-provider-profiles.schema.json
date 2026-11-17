@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/cursor-agent-provider-profiles.schema.json",
+  "title": "IDOL Cursor Agent Provider Profiles",
+  "description": "Exact Cursor CLI model/effort owner with active text profiles and assignment-scoped held media/vision routes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "provider",
+    "runtime_surface",
+    "profile_source_policy",
+    "capability_evidence",
+    "profiles"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-cursor-agent-provider-profiles.v2"},
+    "status": {"const": "active_with_assignment_holds"},
+    "provider": {"const": "cursor"},
+    "runtime_surface": {"const": "cursor_cli_local_physical_chat"},
+    "profile_source_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_model_and_effort_owner",
+        "alias_to_codex",
+        "cursor_grok_equivalent",
+        "registered_cursor_grok_profile_use",
+        "auto_allowed",
+        "silent_substitution",
+        "display_label_is_evidence",
+        "model_self_report_is_evidence",
+        "goal_first_admission",
+        "authentication",
+        "runtime_evidence",
+        "lifecycle_operations"
+      ],
+      "properties": {
+        "exact_model_and_effort_owner": {"const": "this_file"},
+        "alias_to_codex": {"const": "forbidden"},
+        "cursor_grok_equivalent": {"const": "forbidden"},
+        "registered_cursor_grok_profile_use": {
+          "const": "founder_explicit_distinct_cursor_provider_only"
+        },
+        "auto_allowed": {"const": false},
+        "silent_substitution": {"const": "forbidden"},
+        "display_label_is_evidence": {"const": false},
+        "model_self_report_is_evidence": {"const": false},
+        "goal_first_admission": {"const": "external_goal_record_before_cli_launch"},
+        "authentication": {"const": "file_credential_store"},
+        "runtime_evidence": {"const": "exact_cli_argument_plus_account_catalog_plus_init_display_plus_terminal_result"},
+        "lifecycle_operations": {
+          "const": [
+            "create_by_first_run",
+            "send",
+            "wait",
+            "resume",
+            "cancel",
+            "logical_retire",
+            "independent_successor_create"
+          ]
+        }
+      }
+    },
+    "capability_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_path",
+        "authentication_proven",
+        "goal_identity_independently_observable",
+        "lifecycle_operations_proven",
+        "actual_model_attestation_proven",
+        "fable_retention_approval",
+        "fable_substitution_detection",
+        "gemini_binary_attachment_delivery",
+        "luna_image_execution",
+        "luna_to_grok_section_transfer"
+      ],
+      "properties": {
+        "receipt_path": {"type": "string", "minLength": 1},
+        "authentication_proven": {"const": true},
+        "goal_identity_independently_observable": {"const": "external_goal_record_sha_and_session_id"},
+        "lifecycle_operations_proven": {
+          "const": [
+            "create_by_first_run",
+            "send",
+            "wait",
+            "resume",
+            "cancel",
+            "logical_retire",
+            "independent_successor_create"
+          ]
+        },
+        "actual_model_attestation_proven": {"const": "exact_cli_argument_catalog_init_display_terminal_result"},
+        "fable_retention_approval": {"const": "founder_authorized_current_request"},
+        "fable_substitution_detection": {"const": "runtime_cli_model_and_init_display"},
+        "gemini_binary_attachment_delivery": {"const": "proven_cli_image_flag_exact_bytes"},
+        "luna_image_execution": {"const": "proven_cursor_generate_image_tool"},
+        "luna_to_grok_section_transfer": {"const": "founder_authorized_cas"}
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cursor_opus_thinking_high",
+        "cursor_fable_thinking_xhigh",
+        "cursor_sol_xhigh",
+        "cursor_grok_46_xhigh",
+        "cursor_luna_max",
+        "cursor_luna_xhigh",
+        "cursor_gemini_31_pro_thinking_high"
+      ],
+      "properties": {
+        "cursor_opus_thinking_high": {"$ref": "#/$defs/advisoryProfile"},
+        "cursor_fable_thinking_xhigh": {"$ref": "#/$defs/fableProfile"},
+        "cursor_sol_xhigh": {"$ref": "#/$defs/advisoryProfile"},
+        "cursor_grok_46_xhigh": {"$ref": "#/$defs/cursorGrokFrontierProfile"},
+        "cursor_luna_max": {"$ref": "#/$defs/lunaProfile"},
+        "cursor_luna_xhigh": {"$ref": "#/$defs/optionalLunaXhighCatalogVerifiedHoldProfile"},
+        "cursor_gemini_31_pro_thinking_high": {"$ref": "#/$defs/geminiProfile"}
+      }
+    }
+  },
+  "$defs": {
+    "commonProfile": {
+      "type": "object",
+      "required": [
+        "exact_model",
+        "expected_init_display",
+        "reasoning_effort",
+        "context_window",
+        "eligible_assignment_ids",
+        "eligible_logical_roles",
+        "capability_status",
+        "harness_status",
+        "full_owner_ready",
+        "default_enabled",
+        "unavailable_or_mismatch_action"
+      ],
+      "properties": {
+        "exact_model": {"type": "string", "minLength": 1},
+        "expected_init_display": {"type": "string", "minLength": 1},
+        "reasoning_effort": {"type": "string", "minLength": 1},
+        "context_window": {"type": "string", "minLength": 1},
+        "eligible_assignment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "eligible_logical_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "capability_status": {"enum": ["founder_verified", "hold"]},
+        "harness_status": {"enum": ["active", "active_text_only", "hold"]},
+        "full_owner_ready": {"type": "boolean"},
+        "default_enabled": {"type": "boolean"},
+        "fast_mode": {"type": "boolean"},
+        "unavailable_or_mismatch_action": {"const": "hold_and_report"}
+      }
+    },
+    "advisoryProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "exact_model": true,
+            "expected_init_display": true,
+            "reasoning_effort": true,
+            "context_window": true,
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "capability_status": true,
+            "harness_status": true,
+            "full_owner_ready": true,
+            "default_enabled": true,
+            "fast_mode": true,
+            "unavailable_or_mismatch_action": true,
+            "logical_tier": true,
+            "frontier_alternative": true
+          }
+        }
+      ]
+    },
+    "cursorGrokFrontierProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fast_mode", "logical_tier", "frontier_alternative"],
+          "properties": {
+            "exact_model": true,
+            "expected_init_display": true,
+            "reasoning_effort": true,
+            "context_window": true,
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "capability_status": true,
+            "harness_status": true,
+            "full_owner_ready": {"const": false},
+            "default_enabled": {"const": false},
+            "fast_mode": {"const": false},
+            "unavailable_or_mismatch_action": true,
+            "logical_tier": {"const": "frontier_director"},
+            "frontier_alternative": {"const": "explicit_non_fast_founder_selected_only"}
+          }
+        }
+      ]
+    },
+    "fableProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "data_retention_approval",
+            "substitution_detection",
+            "reject_substitution_to"
+          ],
+          "properties": {
+            "exact_model": true,
+            "expected_init_display": true,
+            "reasoning_effort": true,
+            "context_window": true,
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "unavailable_or_mismatch_action": true,
+            "capability_status": {"const": "founder_verified"},
+            "harness_status": {"const": "active"},
+            "full_owner_ready": {"const": true},
+            "default_enabled": {"const": false},
+            "data_retention_approval": {"const": "founder_authorized_current_request"},
+            "substitution_detection": {"const": "runtime_cli_model_and_init_display"},
+            "reject_substitution_to": {"const": ["Claude Opus 5", "claude-opus-5"]}
+          }
+        }
+      ]
+    },
+    "lunaProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["media_lane", "media_capability_status", "cross_provider_video", "luna_xhigh_alias"],
+          "properties": {
+            "exact_model": true,
+            "expected_init_display": true,
+            "reasoning_effort": true,
+            "context_window": true,
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "capability_status": true,
+            "harness_status": true,
+            "full_owner_ready": true,
+            "default_enabled": true,
+            "unavailable_or_mismatch_action": true,
+            "media_lane": {"const": "optional_image_only"},
+            "media_capability_status": {"const": "founder_authorized_optional_image"},
+            "cross_provider_video": {"const": "forbidden"},
+            "luna_xhigh_alias": {"const": "forbidden"}
+          }
+        }
+      ]
+    },
+    "optionalLunaXhighCatalogVerifiedHoldProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["luna_max_alias", "optional_route", "logical_tier", "catalog_status", "activation_evidence_required"],
+          "properties": {
+            "exact_model": {"const": "gpt-5.6-luna-xhigh"},
+            "expected_init_display": {"const": "GPT-5.6 Luna 1M Extra High"},
+            "reasoning_effort": {"const": "xhigh"},
+            "context_window": {"const": "1m"},
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "capability_status": {"const": "hold"},
+            "harness_status": {"const": "hold"},
+            "full_owner_ready": {"const": false},
+            "default_enabled": {"const": false},
+            "unavailable_or_mismatch_action": true,
+            "luna_max_alias": {"const": "forbidden"},
+            "optional_route": {"const": "founder_explicit_only"},
+            "logical_tier": {"const": "optional_worker_or_research"},
+            "catalog_status": {"const": "live_inventory_verified_2026_09_03"},
+            "activation_evidence_required": {"const": "external_goal_exact_cli_init_display_terminal_result"}
+          }
+        }
+      ]
+    },
+    "geminiProfile": {
+      "allOf": [
+        {"$ref": "#/$defs/commonProfile"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["attachment_policy", "authors"],
+          "properties": {
+            "exact_model": true,
+            "expected_init_display": true,
+            "reasoning_effort": true,
+            "context_window": true,
+            "eligible_assignment_ids": true,
+            "eligible_logical_roles": true,
+            "unavailable_or_mismatch_action": true,
+            "capability_status": true,
+            "harness_status": true,
+            "full_owner_ready": true,
+            "default_enabled": true,
+            "attachment_policy": {"const": "actual_binary_cli_image_flag"},
+            "authors": {"const": "observable_facts_only"}
+          }
+        }
+      ]
+    }
+  }
+}

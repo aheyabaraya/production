@@ -1,0 +1,972 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-map.schema.json",
+  "title": "IDOL Edit Map v4",
+  "description": "04 state and index contract. Each Edit Unit exact-carries its active storyline and FP screen-progression node through Production Cut and 03V cue lineage; playback still owns cutpoint timing.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_files",
+    "master_timeline",
+    "rough_outputs",
+    "manual_adjustment_workflow",
+    "qc_contact_sheets",
+    "audio_marker_handoff",
+    "upstream_intent_context_contract",
+    "edit_marker_plan_ref",
+    "screen_progression_projection",
+    "edit_unit_screen_progression_nodes",
+    "edit_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_edit_map.v4"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "title_catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Stable album/title registry for edit, package, and social outputs created from this edit map.",
+      "required": [
+        "album_key",
+        "title_key",
+        "title_display_name",
+        "title_root",
+        "output_registry_path",
+        "post_02b_registration_required"
+      ],
+      "properties": {
+        "album_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "title_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+        },
+        "title_display_name": {
+          "type": "string"
+        },
+        "title_root": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+$"
+        },
+        "output_registry_path": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$"
+        },
+        "post_02b_registration_required": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "description": "04 lifecycle status. Final-render and closeout commands apply explicit final-ready allowlists; draft, hold, or arbitrary prose cannot claim final readiness."
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "review_record",
+        "cue_sheet",
+        "audio_track",
+        "raw_video_dir"
+      ],
+      "properties": {
+        "review_record": { "type": "string", "minLength": 1 },
+        "cue_sheet": { "type": "string", "minLength": 1 },
+        "audio_track": { "type": "string", "minLength": 1 },
+        "raw_video_dir": { "type": "string", "minLength": 1 }
+      }
+    },
+    "master_timeline": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["audio_duration_seconds"],
+      "properties": {
+        "audio_duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "baseline_master_duration_seconds": {
+          "type": "number",
+          "minimum": 90,
+          "description": "Founder-approved source master duration target. Use 45s_cutdown or short_derivative lanes for shorter packages."
+        }
+      }
+    },
+    "section_workflow": {
+      "type": "object",
+      "description": "Optional 04 section-sharded edit workflow. Use for large source pools or long songs so marker planning, source candidate review, story-flow/directorial transition intent, proxy previews, and QC can happen by selected-audio section before one final source-clean recipe is merged.",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "canonical_merge_rule",
+        "shards"
+      ],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "canonical_merge_rule": {
+          "type": "string",
+          "description": "State that shard recipes and marker plans are working material only; final master truth remains the merged recipe and 04-edit-map.yaml."
+        },
+        "shards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "shard_id",
+              "section_ids",
+              "time_range",
+              "cut_trigger",
+              "source_action_marker",
+              "motion_continuity",
+              "story_flow_continuity",
+              "space_visible_feeling_progression",
+              "directorial_transition_intent",
+              "audio_marker_alignment",
+              "status",
+              "paths",
+              "transition_in",
+              "transition_out",
+              "merge_checks"
+            ],
+            "properties": {
+              "shard_id": {
+                "type": "string",
+                "pattern": "^SHARD_[A-Z0-9_]{2,40}$"
+              },
+              "section_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "pattern": "^S[0-9]{2,}[A-Z]?$"
+                }
+              },
+              "time_range": { "type": "string" },
+              "cut_trigger": {
+                "type": "string",
+                "description": "Music marker, lyric handoff, onset, stop, or hold that justifies this edit shard."
+              },
+              "source_action_marker": {
+                "type": "string",
+                "description": "Visible source event that should align to the cut trigger."
+              },
+              "motion_continuity": {
+                "type": "string",
+                "description": "How body route, camera motion, or object movement remains continuous across this section or transition."
+              },
+              "story_flow_continuity": {
+                "type": "string",
+                "description": "How the section's story state, viewer attention, object/space consequence, or visible-feeling beat flows into the next edit choice. This complements motion continuity and prevents 04 from cutting only by visible movement."
+              },
+              "space_visible_feeling_progression": {
+                "type": "string",
+                "description": "How the edit preserves or intentionally changes the section's background/space and screen-read feeling compared with adjacent sections. Repeating a space or visible feeling should name the changed story function, object state, camera relation, member ownership, or visible consequence."
+              },
+              "directorial_transition_intent": {
+                "type": "string",
+                "description": "The intended edit technique or natural flow reason, such as action match, object-state handoff, gaze-led reveal, camera-direction match, hold for story clarity, contrast cut, or motivated hard reset. This is 04-owned intent, not an inherited exact cutpoint."
+              },
+              "audio_marker_alignment": {
+                "type": "string",
+                "description": "How the shard aligns music marker, source action marker, and cue function marker before merge."
+              },
+              "derivative_impact": {
+                "type": "string"
+              },
+              "forced_fit_disclosure": {
+                "type": "string",
+                "description": "Current-run disclosure for timing-test or forced-fit shard material that must not be treated as final edit truth."
+              },
+              "status": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Shard workflow state. Free-form current-run repair/review statuses are allowed here; readiness is checked by idol_harness_state_check.rb."
+              },
+              "paths": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "edit_marker_plan": { "type": "string" },
+                  "source_candidate_index": { "type": "string" },
+                  "proxy_preview": { "type": "string" },
+                  "recipe_fragment": { "type": "string" },
+                  "qc_contact_sheet": { "type": "string" },
+                  "notes_path": { "type": "string" }
+                }
+              },
+              "transition_in": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+                "properties": {
+                  "audio_or_lyric_trigger": { "type": "string" },
+                  "body_or_formation_bridge": { "type": "string" },
+                  "camera_or_edit_bridge": { "type": "string" },
+                  "space_or_object_change": { "type": "string" },
+                  "continuity_lock": { "type": "string" }
+                }
+              },
+              "transition_out": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+                "properties": {
+                  "audio_or_lyric_trigger": { "type": "string" },
+                  "body_or_formation_bridge": { "type": "string" },
+                  "camera_or_edit_bridge": { "type": "string" },
+                  "space_or_object_change": { "type": "string" },
+                  "continuity_lock": { "type": "string" }
+                }
+              },
+              "open_questions": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "merge_checks": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "audio_marker_alignment",
+                    "section_boundary_transition",
+                    "source_action_marker_alignment",
+                    "source_quality_consistency",
+                    "geometry_consistency",
+                    "preserve_ranges_respected",
+                    "black_frame_or_ui_frame_removed",
+                    "final_recipe_uses_source_clean_inputs"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "rough_outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "output_id",
+          "path",
+          "status",
+          "duration_seconds"
+        ],
+        "properties": {
+          "output_id": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "duration_seconds": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "recipe": { "type": "string" },
+          "qc_contact_sheet": { "type": "string" },
+          "qc_note": { "type": "string" }
+        }
+      }
+    },
+    "manual_adjustment_workflow": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "current_final_recipe",
+        "script_to_rerun",
+        "editable_fields",
+        "rule"
+      ],
+      "properties": {
+        "current_final_recipe": { "type": ["string", "null"], "minLength": 1 },
+        "script_to_rerun": { "type": "string", "minLength": 1 },
+        "editable_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "rule": { "type": "string", "minLength": 1 },
+        "active_candidate_status": {
+          "type": "string",
+          "description": "Explicit playback/founder review state for the currently selected edit candidate. Final-render and closeout modes require a registered pass status."
+        }
+      }
+    },
+    "qc_contact_sheets": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "directory",
+        "slots"
+      ],
+      "properties": {
+        "directory": { "type": "string", "minLength": 1 },
+        "slots": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "audio_marker_handoff": {
+      "type": "object",
+      "description": "Edit-facing audio timing handoff. This projects the current Audio Motion Director Map beat/onset evidence into material the 04 edit pass can use without making 00A/01 own exact cut timing.",
+      "additionalProperties": false,
+      "required": ["source_audio", "audio_motion_director_map", "main_grid_bpm", "strong_onsets_seconds"],
+      "properties": {
+        "source_audio": { "type": "string" },
+        "selected_audio_analysis": { "type": "string" },
+        "audio_motion_director_map": { "$ref": "#/$defs/artifactRef" },
+        "audio_beat_onset_summary": { "type": "string" },
+        "main_grid_bpm": { "type": ["number", "string", "null"] },
+        "double_time_candidate_bpm": { "type": ["number", "string", "null"] },
+        "feature_boundary_candidates_seconds": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0 }
+        },
+        "strong_onsets_seconds": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0 }
+        }
+      }
+    },
+    "upstream_intent_context_contract": {
+      "type": "object",
+      "description": "How 04 may use Front Planning, 00A/01/02A/02B, Audio-Production-Cut Placement, 03V, playback, and review context. Upstream context narrows candidate intent, Production Cut lineage (Official Core or Branch), story-flow/directorial transition seeds, and read scope but cannot lock exact source timing, speed, candidate choice, Edit Segment boundaries, or final cutpoints.",
+      "additionalProperties": true,
+      "required": ["read_scope"],
+      "properties": {
+        "use_upstream_context": { "type": "boolean" },
+        "read_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "status_and_paths",
+              "cue_function",
+              "director_chain",
+              "cuttable_motion_event",
+              "motion_density",
+              "edit_handoff_intent",
+              "front_planning_section_story",
+              "story_flow_continuity",
+              "space_visible_feeling_progression",
+              "object_space_state",
+              "audio_production_cut_placement",
+              "03v_source_production_cut_images",
+              "03v_previous_next_continuity",
+              "03v_edit_handoff",
+              "03v_playback_review",
+              "review_board_timing",
+              "prompt_source_expectation"
+            ]
+          },
+          "uniqueItems": true,
+          "allOf": [
+            {"contains": {"const": "audio_production_cut_placement"}},
+            {"contains": {"const": "03v_source_production_cut_images"}}
+          ]
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "song_lock": { "type": ["string", "null"] },
+            "front_planning_readiness": { "type": ["string", "null"] },
+            "song_choreography_performance_mv_map": { "type": ["string", "null"] },
+            "master_storyboard": { "type": ["string", "null"] },
+            "prompt_packets": { "type": ["string", "null"] },
+            "video_prompt_manifest": { "type": ["string", "null"] },
+            "review_board_or_cue_sheet": { "type": ["string", "null"] }
+          }
+        },
+        "use_as": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "intent_map",
+              "candidate_narrowing",
+              "cue_function_seed",
+              "expected_motion_seed",
+              "story_flow_seed",
+              "space_visible_feeling_progression_seed",
+              "directorial_transition_seed",
+              "review_priority_seed"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "not_allowed_to_lock": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "source_in",
+              "source_out",
+              "speed_factor",
+              "final_cutpoint",
+              "final_candidate_selection",
+              "final_geometry_override"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "proof_required_in_04": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "actual_source_exists",
+              "first_useful_action",
+              "motion_peak",
+              "beat_or_onset_alignment",
+              "cue_function_alignment",
+              "story_flow_continuity",
+              "space_visible_feeling_progression",
+              "directorial_transition_readability",
+              "production_cut_lineage_matches_source",
+              "contact_sheet_qc",
+              "preview_qc",
+              "source_quality_qc"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "efficiency_rule": { "type": "string" },
+        "quality_rule": { "type": "string" }
+      }
+    },
+    "initial_alignment_analysis_contract": {
+      "type": "object",
+      "description": "First 04 analysis pass before recipe lock. Read selected audio/cue/source motion and upstream story/object/space/camera flow, judge roughcut flow, then align music marker, source-action marker, cue-function marker, and directorial transition intent before finalizing the edit marker plan.",
+      "additionalProperties": true,
+      "properties": {
+        "required_for_new_04_runs": { "type": "boolean" },
+        "structured_plan_required": { "type": "boolean" },
+        "legacy_csv_allowed_only_as_reference": { "type": "boolean" },
+        "analysis_order": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "selected_audio_analysis",
+              "cue_bpm_onset_map",
+              "cue_sheet_function_read",
+              "source_motion_scan",
+              "roughcut_flow_read",
+              "story_flow_read",
+              "space_visible_feeling_progression_read",
+              "three_marker_alignment",
+              "edit_marker_plan_lock",
+              "recipe_lock"
+            ]
+          }
+        },
+        "three_marker_rule": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "music_marker",
+              "source_action_marker",
+              "cue_function_marker"
+            ]
+          }
+        },
+        "current_run_status": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "automatic_recognition_assist": {
+      "type": "object",
+      "description": "Optional 04 evidence layer for automated audio/video recognition. These outputs narrow candidate windows and support QC, but they cannot lock final member identity, source choice, source in/out, speed, geometry, or cutpoints.",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "runtime_check": { "type": "string" },
+        "local_tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "librosa_audio_markers",
+              "ffmpeg_ffprobe_metadata_qc",
+              "opencv_motion_peaks",
+              "moviepy_preview_render",
+              "pillow_contact_sheets",
+              "scenedetect_scene_candidates"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "optional_ml_tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "whisper_transcription",
+              "pose_or_hand_tracking",
+              "object_or_space_tagging"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "allowed_use": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "candidate_window_discovery",
+              "music_marker_evidence",
+              "source_action_marker_evidence",
+              "scene_cut_candidate",
+              "object_or_ui_contamination_flag",
+              "contact_sheet_review_seed",
+              "preview_qc_seed"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "not_allowed_to_lock": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "member_identity",
+              "face_quality_pass",
+              "final_candidate_selection",
+              "source_in",
+              "source_out",
+              "speed_factor",
+              "final_cutpoint",
+              "final_geometry",
+              "founder_review_decision"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "human_review_required": { "type": "boolean" },
+        "artifact_paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "edit_marker_plan_ref": {
+      "type": "object",
+      "description": "Hash-bound pointer to the active 04-owned v6 marker plan that maps Official Core-or-Branch Production Cut/03V lineage and current audio evidence to planned edit slots, source-action markers, and Edit Boundary decisions.",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "path",
+        "sha256",
+        "status"
+      ],
+      "properties": {
+        "schema": {"const": "idol_edit_marker_plan.v6"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"type": "string", "minLength": 1},
+        "source_recipe": { "type": "string" },
+        "rule": { "type": "string" }
+      }
+    },
+    "screen_progression_projection": {"$ref": "#/$defs/screenProgressionProjection"},
+    "edit_unit_screen_progression_nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/editUnitScreenProgressionNode"}
+    },
+    "recipe_qc_contract": {
+      "type": "object",
+      "description": "Recipe-level final render and QC contract. Recipe YAML remains the editable cut truth; rendered MP4s are outputs.",
+      "additionalProperties": true,
+      "properties": {
+        "current_final_recipe": { "type": "string" },
+        "final_render_recipe_path": {
+          "type": "string",
+          "description": "Pointer to the derived final_pass_only recipe consumed by the renderer. current_final_recipe remains the editable 04 cut truth bound by the 04FX map."
+        },
+        "final_render_manifest_path": {
+          "type": "string",
+          "description": "Pointer to the hash-bound idol_edit_render_manifest.v1 receipt created by the final renderer. Detailed render measurements remain owned by the receipt and closeout."
+        },
+        "final_render_status": {
+          "type": "string",
+          "enum": [
+            "not_rendered",
+            "rendered_pending_qc",
+            "qc_pass",
+            "hold",
+            "stale"
+          ]
+        },
+        "render_engine_policy": { "type": "string" },
+        "source_clean_lineage_required": { "type": "boolean" },
+        "geometry_policy": {
+          "type": "string",
+          "enum": [
+            "founder_specified",
+            "founder_approved_source_intent",
+            "platform_derivative_explicit"
+          ]
+        },
+        "exact_edit_lock_owner": {
+          "type": "string",
+          "const": "04_edit"
+        }
+      }
+    },
+    "contact_sheet_qc_contract": {
+      "type": "object",
+      "description": "Contact-sheet sampling contract for edit review, candidate selection, and final QC.",
+      "additionalProperties": true,
+      "properties": {
+        "full_master_sampling_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "changed_cut_offsets_seconds": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "source_candidate_sampling_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "source_candidate_sampling_interval_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "required_sheets": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "runtime_cache_ladder": {
+      "type": "object",
+      "description": "04 runtime order for high-candidate edits: index raw sources, iterate cheaply on proxies, lock the recipe, normalize selected final sources, then render one full-quality master and QC it.",
+      "additionalProperties": true,
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "raw_index",
+              "proxy_cache",
+              "low_res_full_flow_preview",
+              "targeted_proxy_previews",
+              "locked_recipe",
+              "normalized_final_cache",
+              "single_full_quality_final_render",
+              "final_qc"
+            ]
+          }
+        },
+        "proxy_policy": { "type": "string" },
+        "final_cache_policy": { "type": "string" },
+        "render_engine_policy": { "type": "string" },
+        "moviepy_policy": { "type": "string" }
+      }
+    },
+    "source_intake_qc_contract": {
+      "type": "object",
+      "description": "Source intake and source-health checks before recipe lock. This is where 04 prevents missing source files, source-out overruns, UI/storyboard first frames, reference-board strips, and incompatible source quality from entering a final render.",
+      "additionalProperties": true,
+      "properties": {
+        "source_directories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metadata_fields": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "check_missing_sources": { "type": "boolean" },
+        "check_source_out_overrun": { "type": "boolean" },
+        "first_seconds_scan_required": { "type": "boolean" },
+        "first_seconds_scan_window_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "reject_or_trim_if_found": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "preserved_range_lock": {
+      "type": "object",
+      "description": "Founder-accepted ranges that must remain untouched unless the founder changes the lock or QC finds a blocking defect. For final quality, preserved ranges should be expanded back to original recipe/raw lineage when possible instead of copied from older rendered masters.",
+      "additionalProperties": true,
+      "properties": {
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["range", "status"],
+            "properties": {
+              "range": { "type": "string" },
+              "status": { "type": "string" },
+              "source_lineage": { "type": "string" },
+              "change_rule": { "type": "string" }
+            }
+          }
+        },
+        "source_clean_expansion_required": { "type": "boolean" },
+        "change_only_if": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "generated_source_handoff_contract": {
+      "type": "object",
+      "description": "Rules learned from section-directed generated source work. Generated videos are edit material, not final timeline truth; each source should contain visible internal events that 04 can cut into the song.",
+      "additionalProperties": true,
+      "properties": {
+        "generated_clip_role": { "type": "string" },
+        "internal_events_required": { "type": "boolean" },
+        "first_useful_action_marker_required": { "type": "boolean" },
+        "static_board_hold_rejected": { "type": "boolean" },
+        "visible_reference_panels_rejected": { "type": "boolean" },
+        "source_size_rule": { "type": "string" },
+        "branch_cut_count_rule": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "edit_questions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "tone_quality_qc": {
+      "type": "object",
+      "description": "Visual-quality consistency checks across mixed raw, generated, preserved, proxy, and source-clean segments.",
+      "additionalProperties": true,
+      "properties": {
+        "tone_grade_consistency_required": { "type": "boolean" },
+        "source_family_mismatch_review_required": { "type": "boolean" },
+        "quality_mismatch_review_required": { "type": "boolean" },
+        "watch_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "fix_policy": { "type": "string" }
+      }
+    },
+    "candidate_decision_ledger": {
+      "type": "object",
+      "description": "Founder and QC candidate decisions for replacement windows. This preserves selected and rejected options instead of burying them in prose.",
+      "additionalProperties": true,
+      "properties": {
+        "path": { "type": "string" },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": ["target_range", "candidate_id", "status"],
+            "properties": {
+              "target_range": { "type": "string" },
+              "candidate_id": { "type": "string" },
+              "status": {
+                "type": "string",
+                "enum": ["selected", "rejected", "hold", "backup"]
+              },
+              "reason": { "type": "string" },
+              "founder_note": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "speed_gap_qc": {
+      "type": "object",
+      "description": "QC contract for speed changes, empty output gaps, and body-mechanics review.",
+      "additionalProperties": true,
+      "properties": {
+        "body_mechanics_review_required": { "type": "boolean" },
+        "gap_fill_required": { "type": "boolean" },
+        "review_speed_factor_above": { "type": "number", "exclusiveMinimum": 0 },
+        "checks": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "effect_audit_summary": {
+      "type": "object",
+      "description": "Transition/effect audit summary. 04 finishing FX may be applied only after the underlying section or chunk edit preview passes. Effects should serve a visible edit job while preserving identity, body mechanics, full space, world atmosphere, tone-and-manner, and source quality; they must not hide weak footage.",
+      "additionalProperties": true,
+      "properties": {
+        "audit_path": { "type": "string" },
+        "finishing_fx_map_path": {
+          "type": "string",
+          "description": "Required before final-render/05 handoff; optional only while the edit remains pre-final. Must point to the run-owned 04FX map validated against schemas/edit-finishing-fx.schema.json."
+        },
+        "compile_manifest_path": {
+          "type": "string",
+          "description": "Pointer to the final_pass_only 04FX compile manifest. Effect selections and hashes remain owned by that manifest."
+        },
+        "compile_status": {
+          "type": "string",
+          "enum": ["pending", "pass", "fail", "stale"]
+        },
+        "transition_opportunity_audit_status": {
+          "type": "string",
+          "description": "Status of the mandatory 04FX post-edit transition opportunity audit before final master."
+        },
+        "local_ffmpeg_catalog_ref": {
+          "type": "string",
+          "description": "Pointer to skills/idol-edit-finishing-fx/references/local-ffmpeg-transition-effect-catalog.md when used."
+        },
+        "section_preview_gate": {
+          "type": "string",
+          "description": "Section or contiguous chunk preview status that made finishing FX eligible."
+        },
+        "threshold_rule": { "type": "string" },
+        "tone_manner_guard": {
+          "type": "string",
+          "description": "Track tone, color/light, and world-atmosphere guard the effects must preserve."
+        },
+        "world_space_guard": {
+          "type": "string",
+          "description": "Full-space, environment, object-system, and visual-system guard the effects must preserve."
+        },
+        "preview_pass_required": {
+          "type": "boolean",
+          "description": "True when included effects require short FX preview pass before high-quality final render."
+        },
+        "allowed_effects": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rejected_effects": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "qc_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "timing_feel",
+              "identity_body_preserved",
+              "full_space_world_preserved",
+              "tone_manner_preserved",
+              "mobile_readable",
+              "flicker_flash_safe",
+              "source_quality_not_hidden",
+              "repeated_effect_drift_checked"
+            ]
+          }
+        }
+      }
+    },
+    "cache_storage_policy": {
+      "type": "object",
+      "description": "Track-scoped cache, proxy, preview, handoff, and source cleanup policy after the edit locks.",
+      "additionalProperties": true,
+      "properties": {
+        "manifest_path": { "type": "string" },
+        "track_scoped_cleanup_required": { "type": "boolean" },
+        "keep": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "delete_after_lock": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "preserve_exceptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "final_closeout_inventory": {
+      "type": "object",
+      "description": "Pointer to the 04 closeout inventory that records final master truth, source keeper state, cache cleanup, social derivative policy, and graph-engineering deltas.",
+      "additionalProperties": true,
+      "properties": {
+        "schema": { "const": "idol_edit_qc_closeout.v3" },
+        "path": { "type": "string" },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "status": { "type": "string" },
+        "validation_status": {
+          "type": "string",
+          "enum": ["pending", "pass", "fail", "stale"]
+        },
+        "final_recipe": { "type": "string" },
+        "source_keeper_index": { "type": "string" },
+        "missing_source_count": { "type": "integer", "minimum": 0 },
+        "qc_artifacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "edit_policy": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "screenProgressionProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Exact copy of the active marker-plan screen_progression_projection so 04 and 05 can reverse-reach the same passed 03V v7 manifest bytes.",
+      "required": ["source_video_prompt_manifest", "source_video_prompt_manifest_json_pointer", "source_value_sha256", "projected_value", "consumption_rule"],
+      "properties": {
+        "source_video_prompt_manifest": {"$ref": "#/$defs/artifactRef"},
+        "source_video_prompt_manifest_json_pointer": {"const": "/screen_progression_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"},
+        "consumption_rule": {"const": "exact_copy_no_paraphrase_or_default"}
+      }
+    },
+    "editUnitScreenProgressionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["edit_unit_id", "screen_progression_map_id", "screen_progression_node_id", "section_id", "major_scene_id", "core_cut_id", "branch_cut_ids", "source_03v_cue_ids", "storyline_role", "observable_screen_proof"],
+      "properties": {
+        "edit_unit_id": {"type": "string", "minLength": 1},
+        "screen_progression_map_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": "string", "minLength": 1},
+        "major_scene_id": {"type": "string", "minLength": 1},
+        "core_cut_id": {"type": "string", "minLength": 1},
+        "branch_cut_ids": {"type": "array", "uniqueItems": true, "description": "Exact Branch ids from the source 03V cue. This is empty for an Official Core-only cue; a consumer must never fabricate a Branch id.", "items": {"type": "string", "minLength": 1}},
+        "source_03v_cue_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "storyline_role": {"type": "string", "minLength": 1},
+        "observable_screen_proof": {"type": "string", "minLength": 1}
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-standing-constraint-catalog.schema.json",
+  "title": "IDOL Graph Engineering Standing Constraint Catalog",
+  "description": "Index of standing constraints and run-followup owners. Rows point at canonical owners and must not restating rule prose.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority",
+    "forbidden_imports",
+    "promotion_policy",
+    "constraints"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-standing-constraint-catalog.v1"},
+    "status": {"const": "active"},
+    "authority": {"const": "index_only_no_second_rulebook"},
+    "forbidden_imports": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "CONSTRAINTS.md",
+          "auto_skill_save",
+          "weekly_harness_swarm"
+        ]
+      }
+    },
+    "promotion_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_followup_owner",
+        "standing_constraint_requires",
+        "catalog_may_copy_owner_prose"
+      ],
+      "properties": {
+        "run_followup_owner": {"const": "schemas/harness-improvement-review.schema.json"},
+        "standing_constraint_requires": {"const": "founder_promotion_after_overfit_guard"},
+        "catalog_may_copy_owner_prose": {"const": false}
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/constraint"}
+    }
+  },
+  "$defs": {
+    "constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "constraint_id",
+        "grade",
+        "status",
+        "owner_path",
+        "activation",
+        "graph_gap"
+      ],
+      "properties": {
+        "constraint_id": {
+          "type": "string",
+          "pattern": "^SC-[A-Z0-9][A-Z0-9-]{2,80}$"
+        },
+        "grade": {
+          "enum": [
+            "standing_constraint",
+            "run_followup",
+            "indexed_not_required"
+          ]
+        },
+        "status": {
+          "enum": [
+            "active",
+            "active_when_helpers_used",
+            "indexed_not_required",
+            "admission_hold",
+            "frozen_title_pin"
+          ]
+        },
+        "owner_path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "activation": {"type": "string", "minLength": 1, "maxLength": 240},
+        "graph_gap": {
+          "enum": [
+            "helper_consumption_receipt",
+            "run_followup",
+            "role_context_pack",
+            "local_pairwise_global_review",
+            "anti_import",
+            "color_stay_v17_pin"
+          ]
+        }
+      }
+    }
+  }
+}

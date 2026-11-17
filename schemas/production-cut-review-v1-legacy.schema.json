@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/production-cut-review-v1-legacy.schema.json",
+  "title": "IDOL Production Cut Review v1 Legacy",
+  "description": "Read-only legacy v1 compatibility contract. New authoring uses production-cut-review.schema.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "run_root",
+    "source_01_direction",
+    "source_02a",
+    "source_02b",
+    "source_generated_branch_cut_review",
+    "derivative_route_id",
+    "production_scope_id",
+    "coverage",
+    "production_cut_reviews",
+    "authority_boundary",
+    "return_recipient_role"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-production-cut-review.v1"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"const": "passed"},
+    "run_root": {"type": "string", "minLength": 1},
+    "source_01_direction": {"$ref": "#/$defs/artifactRef"},
+    "source_02a": {"$ref": "#/$defs/artifactRef"},
+    "source_02b": {"$ref": "#/$defs/artifactRef"},
+    "source_generated_branch_cut_review": {"$ref": "#/$defs/artifactRef"},
+    "derivative_route_id": {"type": "string", "pattern": "^DERIV_[A-Z0-9_]{2,100}$"},
+    "production_scope_id": {"type": "string", "pattern": "^PSCOPE_[A-Z0-9_]{2,100}$"},
+    "coverage": {"$ref": "#/$defs/coverage"},
+    "production_cut_reviews": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/productionCutReview"}
+    },
+    "authority_boundary": {"$ref": "#/$defs/authorityBoundary"},
+    "return_recipient_role": {"const": "creative_development_director"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "valueRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "reviewProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_artifact_role",
+        "source_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "source_artifact_role": {
+          "enum": ["source_01_direction", "source_generated_branch_cut_review"]
+        },
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object", "minProperties": 1}
+      }
+    },
+    "pixelDimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_g40_authorization",
+        "official_core_cut_ids",
+        "branch_cut_ids",
+        "production_cut_ids",
+        "section_ids",
+        "official_core_count",
+        "branch_count",
+        "production_cut_count",
+        "exact_authorized_scope_covered"
+      ],
+      "properties": {
+        "source_g40_authorization": {"$ref": "#/$defs/valueRef"},
+        "official_core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}
+        },
+        "branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+        },
+        "production_cut_ids": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "official_core_count": {"type": "integer", "minimum": 1},
+        "branch_count": {"type": "integer", "minimum": 1},
+        "production_cut_count": {"type": "integer", "minimum": 2},
+        "exact_authorized_scope_covered": {"const": true}
+      }
+    },
+    "productionCutReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_cut_id",
+        "production_cut_type",
+        "parent_core_cut_id",
+        "section_id",
+        "major_scene_id",
+        "active_storyline_version_id",
+        "screen_progression_node_id",
+        "scene_phase_context",
+        "primary_audio_cue",
+        "sequence_phase_binding_ids",
+        "core_reference_binding_id",
+        "core_reference_waiver_present",
+        "packet_id",
+        "source_02b_packet_value_sha256",
+        "source_01_core",
+        "source_02a_cut",
+        "source_pixel_review",
+        "path",
+        "sha256",
+        "pixel_dimensions",
+        "observable_pixel_truth",
+        "review_note",
+        "pixel_review_status"
+      ],
+      "properties": {
+        "production_cut_id": {"type": "string", "minLength": 1},
+        "production_cut_type": {"enum": ["official_core", "branch"]},
+        "parent_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "scene_phase_context": {"type": "string", "minLength": 1},
+        "primary_audio_cue": {"type": "string", "minLength": 1},
+        "sequence_phase_binding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "core_reference_binding_id": {"type": ["string", "null"]},
+        "core_reference_waiver_present": {"type": "boolean"},
+        "packet_id": {"type": ["string", "null"]},
+        "source_02b_packet_value_sha256": {
+          "oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        },
+        "source_01_core": {"$ref": "#/$defs/valueRef"},
+        "source_02a_cut": {"$ref": "#/$defs/valueRef"},
+        "source_pixel_review": {"$ref": "#/$defs/reviewProjection"},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "pixel_dimensions": {
+          "oneOf": [{"$ref": "#/$defs/pixelDimensions"}, {"type": "null"}]
+        },
+        "observable_pixel_truth": {"type": ["string", "null"]},
+        "review_note": {"type": "string", "minLength": 1},
+        "pixel_review_status": {"const": "passed_production_cut"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"core_reference_waiver_present": {"const": false}},
+            "required": ["core_reference_waiver_present"]
+          },
+          "then": {"properties": {"core_reference_binding_id": {"type": "string", "minLength": 1}}},
+          "else": {"properties": {"core_reference_binding_id": {"type": "null"}}}
+        },
+        {
+          "if": {
+            "properties": {"production_cut_type": {"const": "official_core"}},
+            "required": ["production_cut_type"]
+          },
+          "then": {
+            "properties": {
+              "production_cut_id": {"pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+              "packet_id": {"type": "null"},
+              "source_02b_packet_value_sha256": {"type": "null"},
+              "pixel_dimensions": {"type": "null"},
+              "observable_pixel_truth": {"type": "null"},
+              "source_pixel_review": {
+                "properties": {"source_artifact_role": {"const": "source_01_direction"}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"production_cut_type": {"const": "branch"}},
+            "required": ["production_cut_type"]
+          },
+          "then": {
+            "properties": {
+              "production_cut_id": {"pattern": "^BC[0-9A-Z_]{2,80}$"},
+              "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+              "source_02b_packet_value_sha256": {"$ref": "#/$defs/sha256"},
+              "pixel_dimensions": {"$ref": "#/$defs/pixelDimensions"},
+              "observable_pixel_truth": {"type": "string", "minLength": 1},
+              "source_pixel_review": {
+                "properties": {"source_artifact_role": {"const": "source_generated_branch_cut_review"}}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact_copy_transport_only",
+        "production_cut_pixel_gate_passed",
+        "founder_pass_inferred",
+        "audio_placement_or_03v_motion_authored",
+        "paid_video_generation_approved",
+        "external_video_execution_approved",
+        "playback_pass_implied",
+        "edit_readiness_implied"
+      ],
+      "properties": {
+        "exact_copy_transport_only": {"const": true},
+        "production_cut_pixel_gate_passed": {"const": true},
+        "founder_pass_inferred": {"const": false},
+        "audio_placement_or_03v_motion_authored": {"const": false},
+        "paid_video_generation_approved": {"const": false},
+        "external_video_execution_approved": {"const": false},
+        "playback_pass_implied": {"const": false},
+        "edit_readiness_implied": {"const": false}
+      }
+    }
+  }
+}

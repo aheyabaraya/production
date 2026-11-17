@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-source-intake.schema.json",
+  "title": "IDOL Active Video Source Intake",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "raw_video_dir",
+    "additional_dir",
+    "cache_contract",
+    "source_count",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_video_source_intake.v2"
+    },
+    "content_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw_video_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "additional_dir": {
+      "type": "string",
+      "pattern": "generations/video/raw/additional$"
+    },
+    "cache_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "source_hash_algorithm",
+        "component_output_hash_algorithm",
+        "routine_source_hash_profile",
+        "forced_refresh_hash_profile",
+        "cache_authority",
+        "promotion_rehash_profile",
+        "probe_settings_sha256",
+        "motion_settings_sha256",
+        "contact_sheet_settings_sha256",
+        "force_refresh_supported",
+        "reuse_rule"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "idol_video_source_intake_cache.v4"
+        },
+        "source_hash_algorithm": {
+          "const": "sha256"
+        },
+        "component_output_hash_algorithm": {
+          "const": "sha256"
+        },
+        "routine_source_hash_profile": {
+          "const": "repeat_local_validation"
+        },
+        "forced_refresh_hash_profile": {
+          "const": "canonical_gate"
+        },
+        "cache_authority": {
+          "const": "performance_only_never_gate_or_approval"
+        },
+        "promotion_rehash_profile": {
+          "const": "promotion_or_external_transfer"
+        },
+        "probe_settings_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "motion_settings_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "contact_sheet_settings_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "force_refresh_supported": {
+          "const": true
+        },
+        "reuse_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "nullableSha256": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "duration_seconds",
+        "width",
+        "height",
+        "fps",
+        "codec",
+        "probe_contract",
+        "contact_sheet",
+        "source_group",
+        "source_sha256",
+        "cache_fingerprints",
+        "motion_peaks",
+        "cache_evidence"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "pattern": "^generations/video/raw/(?!addiontal(?:/|$)).+\\.mp4$"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fps": {
+          "type": "number",
+          "minimum": 0
+        },
+        "codec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "probe_contract": {
+          "type": "object"
+        },
+        "contact_sheet": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "cache_fingerprints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "probe_cache_key_sha256",
+            "motion_cache_key_sha256",
+            "contact_sheet_cache_key_sha256"
+          ],
+          "properties": {
+            "probe_cache_key_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "motion_cache_key_sha256": {
+              "$ref": "#/$defs/nullableSha256"
+            },
+            "contact_sheet_cache_key_sha256": {
+              "$ref": "#/$defs/nullableSha256"
+            }
+          }
+        },
+        "motion_peaks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "cache_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "probe_output_sha256",
+            "motion_output_sha256",
+            "contact_sheet_output_sha256"
+          ],
+          "properties": {
+            "probe_output_sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "motion_output_sha256": {
+              "$ref": "#/$defs/nullableSha256"
+            },
+            "contact_sheet_output_sha256": {
+              "$ref": "#/$defs/nullableSha256"
+            }
+          }
+        }
+      }
+    }
+  }
+}

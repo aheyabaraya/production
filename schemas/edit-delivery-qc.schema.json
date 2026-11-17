@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-delivery-qc.schema.json",
+  "title": "IDOL Edit Delivery QC Measurement Report",
+  "description": "04 final-delivery measurement report. It records local media facts and recipe comparisons without normalizing audio or making Founder/creative pass decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "measurement_only",
+    "normalization_policy",
+    "human_playback_review_required",
+    "source_bindings",
+    "tooling",
+    "video_probe",
+    "master_audio_probe",
+    "selected_audio_probe",
+    "program_comparison",
+    "audio_measurements",
+    "video_measurements",
+    "retime_cadence",
+    "target_comparison",
+    "issues",
+    "manual_review_required"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_edit_delivery_qc.v1"},
+    "status": {"enum": ["measurement_complete", "measurement_incomplete"]},
+    "measurement_only": {"const": true},
+    "normalization_policy": {"const": "analysis_only_no_auto_normalize"},
+    "human_playback_review_required": {"const": true},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["master_video", "recipe", "selected_audio"],
+      "properties": {
+        "master_video": {"$ref": "#/$defs/binding"},
+        "recipe": {"oneOf": [{"$ref": "#/$defs/binding"}, {"type": "null"}]},
+        "selected_audio": {"oneOf": [{"$ref": "#/$defs/binding"}, {"type": "null"}]}
+      }
+    },
+    "tooling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["script", "report_schema", "ffmpeg", "ffprobe", "settings"],
+      "properties": {
+        "script": {"$ref": "#/$defs/binding"},
+        "report_schema": {"$ref": "#/$defs/binding"},
+        "ffmpeg": {"type": "string", "minLength": 1},
+        "ffprobe": {"type": "string", "minLength": 1},
+        "settings": {"type": "object"}
+      }
+    },
+    "video_probe": {"type": "object"},
+    "master_audio_probe": {"type": ["object", "null"]},
+    "selected_audio_probe": {"type": ["object", "null"]},
+    "program_comparison": {"type": "object"},
+    "audio_measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["master", "selected_audio", "delivery_delta"],
+      "properties": {
+        "master": {"type": ["object", "null"]},
+        "selected_audio": {"type": ["object", "null"]},
+        "delivery_delta": {"type": "object"}
+      }
+    },
+    "video_measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blackdetect", "freezedetect", "frame_hash_cadence"],
+      "properties": {
+        "blackdetect": {"type": "object"},
+        "freezedetect": {"type": "object"},
+        "frame_hash_cadence": {"type": "object"}
+      }
+    },
+    "retime_cadence": {"type": "object"},
+    "target_comparison": {"type": "object"},
+    "issues": {"type": "array", "items": {"type": "string"}},
+    "manual_review_required": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/artifact-archive-manifest.schema.json",
+  "title": "IDOL Physical Archive Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "owner_root", "generated_at", "status", "entries"],
+  "properties": {
+    "schema_version": {"const": "idol-artifact-archive-manifest.v2"},
+    "owner_root": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["active", "review_due", "closed"]},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["archive_id", "artifact_family", "path", "sha256", "size_bytes", "retention_reason", "canonical_path", "protection_status", "review_after", "source_refs", "notes"],
+        "properties": {
+          "archive_id": {"type": "string", "pattern": "^ARC_[A-Z0-9_]{3,80}$"},
+          "artifact_family": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)/archive/.+"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "retention_reason": {"enum": ["founder_selected_irreproducible_source", "paid_generation_provenance", "release_or_publishing_proof", "legal_or_source_provenance", "reviewed_learning", "rollback_checkpoint"]},
+          "canonical_path": {
+            "anyOf": [
+              {"type": "null"},
+              {
+                "type": "string",
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*(?:^|/)archive(?:/|$)).+"
+              }
+            ]
+          },
+          "protection_status": {"enum": ["protected", "review_due"]},
+          "review_after": {"type": ["string", "null"], "format": "date"},
+          "source_refs": {"type": "array", "items": {"type": "string"}},
+          "notes": {"type": "string"}
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {"protection_status": {"const": "review_due"}},
+              "required": ["protection_status"]
+            },
+            "then": {
+              "properties": {"review_after": {"type": "string", "format": "date"}}
+            }
+          },
+          {
+            "if": {
+              "properties": {"retention_reason": {"const": "rollback_checkpoint"}},
+              "required": ["retention_reason"]
+            },
+            "then": {
+              "properties": {
+                "canonical_path": {
+                  "type": "string",
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*(?:^|/)archive(?:/|$)).+"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

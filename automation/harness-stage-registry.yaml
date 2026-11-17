@@ -1,0 +1,435 @@
+schema_version: idol-harness-stage-registry.v8
+status: active
+
+studio_execution:
+  execution_contract_path: automation/harness-execution-contract.yaml
+  department_dispatch_schema: schemas/department-dispatch.schema.json
+  director_dispatch_index_schema: schemas/director-dispatch-index.schema.json
+  reference_working_index_schema: schemas/reference-working-index.schema.json
+  skill_load_profiles_registry: automation/harness-skill-load-profiles.yaml
+  provider_profile_registry: automation/harness-provider-profile-registry.yaml
+  founder_workbench_path_template: RUN/review/founder-workbench.html
+  startup_owner: overall_director
+  startup_development_session: creative_development_director
+  director_profile_alias: director_deep
+  worker_profile_alias: worker_high
+  active_director_binding_rule: exactly_one_per_open_logical_role
+  ordinary_department_and_section_worker: provider_resolved_worker_high
+  native_subagent_policy: provider_native_default_without_project_numeric_or_depth_override
+  canonical_promotion_owner: overall_director
+  founder_conversation_owner: overall_director
+  cdd_review_extent: pre_00_through_image_pixels_motion_storyboard_and_03v_playback
+  edit_director_review_extent: stage_04_through_05
+  ordinary_terra_route: forbidden
+
+migration_policy:
+  compatibility_branch: none
+  historical_artifact_use: evidence_only
+  retired_active_stage_labels: ["00", "01A", "02"]
+  fallback_to_historical_contracts: forbidden
+
+decision_ownership_policy:
+  one_owner_per_truth: true
+  founder_direct_update_scope: exact_named_fields_and_affected_units
+  local_revision_default: revise_smallest_owner_then_reproject_affected_dependents
+  upstream_reopen_rule: only_when_governing_truth_changes
+
+validation_authority_policy:
+  deterministic_authority:
+    - schema_types_enums_and_required_fields
+    - ids_order_exact_coverage_and_declared_scope
+    - paths_sha256_and_source_value_hashes
+    - exact_copy_projection_and_attachment_order
+    - output_presence_pixels_playback_and_external_approval
+  director_authority:
+    - target_message_and_audience_empathy
+    - song_section_and_whole_film_progression
+    - reference_interpretation_and_section_application
+    - story_action_staging_still_camera_and_composition
+    - render_prompt_motion_camera_edit_and_creative_quality
+  forbidden_machine_claims:
+    - schema_validity_equals_creative_pass
+    - script_authored_creative_truth
+    - similarity_score_equals_quality
+    - receipt_presence_equals_founder_approval
+
+context_pack_policy:
+  front_planning_to_01: passed_fp_a_b_c_selection_plus_storyline_lineage_screen_progression_map_major_stack_sequence_composition_and_exact_core_reference_bindings
+  image_prompt_section: exact_selected_scope_storyline_sequence_parent_official_core_current_production_cut_neighbors_ordered_member_visual_then_scene_references_and_provider_snapshot
+  video_motion_section: exact_active_storyline_selected_sequence_passed_official_core_or_branch_pixels_audio_placement_motion_storyboard_and_provider_snapshot_for_one_section
+  adjacent_context_rule: previous_and_next_production_cut_inside_the_parent_core_plus_previous_and_next_official_core_inside_the_same_section_only
+  quality_rule: compression_never_removes_required_creative_truth
+
+review_model:
+  schema: schemas/html-review-board.schema.json
+  generator: scripts/idol_html_review_board.rb
+  decision_values: [PASS, HOLD, REJECT]
+  cumulative_gate_ids: [G-30, G-40, G-50, G-60]
+  hierarchy:
+    - target_and_message
+    - whole_film_and_section_flow
+    - fp_route
+    - section
+    - major_scene
+    - sequence_composition
+    - official_core
+    - production_cut
+    - motion_storyboard
+    - playback
+  revision_scopes: [whole_film, fp_route, section, major_scene, sequence_composition, official_core, production_cut, motion_storyboard, playback]
+
+phases:
+  - phase_id: song_evidence
+    order: 10
+    name: Audience, Trend, And Song Evidence
+    stage_ids:
+      - creative_route_discovery
+      - song_direction_design
+      - candidate_track_analysis
+      - audio_screen_motion_map
+      - song_production_lock
+  - phase_id: front_planning
+    order: 20
+    name: Front Planning
+    stage_ids:
+      - front_planning_integration
+  - phase_id: still_direction
+    order: 30
+    name: Direction And Still Storyboard
+    stage_ids:
+      - mv_performance_direction
+      - mv_storyboard_direction
+      - storyboard_review
+  - phase_id: section_realization
+    order: 40
+    name: Section Image And Motion Realization
+    stage_ids:
+      - image_prompt_compilation
+      - image_generation_release_gate
+      - branch_cut_generation
+      - generated_branch_cut_review
+      - audio_branch_cut_placement
+      - video_motion_direction
+      - video_playback_review
+  - phase_id: edit_and_release
+    order: 50
+    name: Edit And Master
+    stage_ids:
+      - edit_assembly_playback_qc
+      - edit_finishing_fx
+      - master_package_release
+
+stages:
+  - stage_id: creative_route_discovery
+    order: 10
+    code: PRE-00
+    name: Audience And Trend Foundation
+    owner_skill: idol-research-radar
+    professional_role: audience and trend strategy director
+    decision_mode: authors
+    scope: whole_run
+    inputs: []
+    output_contracts:
+      - schemas/pre-00-research-radar.schema.json
+      - schemas/pre-00-selection-handoff.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: New runs lock one evidence-backed primary target and current trend synthesis here before song direction. The post-gate deterministic selection handoff prepares the existing Song Room and asynchronous CDD visual context with zero additional Founder brief or model turn; it is not a new stage or generation authority. Existing runs already beyond this boundary keep their accepted target baseline unless the Founder explicitly reopens it.
+
+  - stage_id: song_direction_design
+    order: 20
+    code: PRE-00S
+    name: Song Direction Design
+    owner_skill: idol-suno-prompt
+    professional_role: music director and composer
+    decision_mode: authors
+    scope: whole_run
+    session_route: cdd_physical_song_room
+    inputs: [creative_route_discovery]
+    output_contracts: []
+    founder_gate: none
+    active: true
+
+  - stage_id: candidate_track_analysis
+    order: 30
+    code: AUDIO-ANALYSIS
+    name: Candidate Track Analysis
+    owner_skill: idol-song-lock
+    professional_role: music director and selected-track analyst
+    decision_mode: authors
+    scope: whole_run
+    session_route: cdd_physical_song_room
+    inputs: [song_direction_design]
+    output_contracts:
+      - schemas/selected-audio-analysis.schema.json
+    founder_gate: track_selection
+    active: true
+
+  - stage_id: audio_screen_motion_map
+    order: 40
+    code: AUDIO-MOTION
+    name: Audio Rhythm Evidence Map
+    owner_skill: idol-song-lock
+    professional_role: music timing and rhythm evidence director
+    decision_mode: authors
+    scope: whole_run
+    session_route: cdd_physical_song_room
+    inputs: [candidate_track_analysis]
+    output_contracts:
+      - schemas/audio-motion-director-map.schema.json
+    founder_gate: none
+    active: true
+
+  - stage_id: song_production_lock
+    order: 50
+    code: 00A
+    name: Song Production Lock
+    owner_skill: idol-song-lock
+    professional_role: music production director
+    decision_mode: authors
+    scope: whole_run
+    session_route: cdd_physical_song_room
+    inputs: [candidate_track_analysis, audio_screen_motion_map]
+    output_contracts:
+      - schemas/song-lock.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: The actual selected audio, lyrics, and section timing must exist before Front Planning begins.
+
+  - stage_id: front_planning_integration
+    order: 60
+    code: FRONT-PLANNING
+    name: Front Planning
+    owner_skill: idol-front-planning-director
+    professional_role: creative development MV director, message translator, and reference director
+    decision_mode: authors
+    scope: whole_film
+    session_route: creative_development_director
+    inputs: [creative_route_discovery, song_production_lock]
+    output_contracts:
+      - schemas/front-planning-readiness.schema.json
+      - schemas/sequence-motion-analysis.schema.json
+    substage_ids:
+      - audience_message_lock
+      - current_title_visual_package
+      - reference_connection_01r
+      - reference_crop_lock_01r_c
+      - member_and_section_assignment
+      - whole_film_and_section_spine
+      - founder_front_planning_review
+    founder_gate: pass_hold_reject
+    active: true
+    notes: Front Planning consumes the Founder-locked PRE-00 target, tests selected-song fit, and returns exactly three complete FP-A/B/C routes. Every section has ordered MJxx Major stacks, each material Major compares two to four Sequence Composition candidates, and every material Core has exactly one selected reference binding or an exact Founder waiver. Sequence Motion Analysis is a bounded worker-authored, CDD-reviewed advisory contract inside this existing stage; it adds no role or stage and does not author 01, 02A, or 03V truth. Front Planning carries the append-only storyline lineage plus the noncanonical screen progression map. 01R and optional 01R-C are internal substages. G-30 is projected into the one cumulative Founder Workbench; no separate active 00 artifact is created.
+
+  - stage_id: mv_performance_direction
+    order: 80
+    code: "01"
+    name: Section Direction And Official Core Storyboard
+    owner_skill: idol-mv-director
+    professional_role: MV director, screenwriter, and performance director
+    decision_mode: authors
+    scope: one_section
+    session_route: pre_02a_luna_development_block
+    inputs: [front_planning_integration]
+    output_contracts:
+      - schemas/song-choreography-performance-mv-map.schema.json
+    founder_gate: none
+    active: true
+    notes: Stage 01 owns the ordered one-image Official Core storyboard for the selected production scope, exact Core reference coverage, and Branch expansion need map. It preserves Major and Sequence lineage and projects the current-title visual package directly; it does not author individual Branch Cuts and no separate active 01A artifact is created.
+
+  - stage_id: mv_storyboard_direction
+    order: 90
+    code: 02A
+    name: Imported-Core Branch Planning
+    owner_skill: idol-front-planning-development-block
+    professional_role: storyboard director and still-image director
+    decision_mode: authors
+    scope: one_section
+    session_route: pre_02a_luna_development_block
+    inputs: [mv_performance_direction]
+    output_contracts:
+      - schemas/master-storyboard.schema.json
+    founder_gate: none
+    active: true
+    notes: Stage 02A imports passed or held Official Core bytes from 01 without reauthoring them and owns only the ordered one-to-N Branch plan beneath each passed Core. A Core change returns to 01. G-40 exposes exact Core pixels, Branch plans, selected references, provider lane, count, and scoped authorization before idol-generation loads. No separate active 02 artifact is created.
+
+  - stage_id: storyboard_review
+    order: 100
+    code: 02A-REVIEW
+    name: Storyboard Review
+    owner_skill: idol-front-planning-director
+    professional_role: CDD planning reviewer under Overall Director promotion
+    decision_mode: reviews
+    scope: one_section
+    session_route: cdd_review_then_overall_milestone
+    inputs: [mv_storyboard_direction]
+    output_contracts:
+      - schemas/02a-creative-context-review.schema.json
+      - schemas/html-review-board.schema.json
+      - schemas/founder-review-decision-intake.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: The CDD reviews the exact FP Close, 01 Official Core, and 02A Branch lineage and the mechanical board coordinator cumulatively projects G-30 and G-40 into stable IDs. Only the reviewed milestone returns to the Overall Director, which alone owns Founder conversation. idol-generation does not load before exact affected-scope authorization.
+
+  - stage_id: image_prompt_compilation
+    order: 110
+    code: 02B
+    name: Provider-Neutral Production-Cut Prompt Translation
+    owner_skill: idol-generation
+    professional_role: image-prompt director
+    decision_mode: authors
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [storyboard_review]
+    output_contracts:
+      - schemas/prompt-packet-delta.schema.json
+      - schemas/prompt-packets.schema.json
+      - schemas/harness-context-pack.schema.json
+    founder_gate: none
+    active: true
+    notes: Hero, Official Core, and Branch each use the same five-line packet structure and one-image output contract. Member Visual precedes exact scene or Sequence references whenever identity is visible. Locked-input absence is HOLD, never prose substitution. Provider selection is a run-scoped execution projection and never rewrites creative prompt bytes.
+
+  - stage_id: image_generation_release_gate
+    order: 120
+    code: 02B-RELEASE
+    name: Production-Cut Image Generation Release Gate
+    owner_skill: idol-generation
+    professional_role: image production coordinator
+    decision_mode: reviews
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [image_prompt_compilation]
+    output_contracts:
+      - schemas/image-generation-section-approval.schema.json
+      - schemas/image-generation-request.schema.json
+    founder_gate: paid_generation_approval
+    active: true
+    notes: OpenAI gpt-image-2, Grok Build OAuth grok_image, and separately Founder-approved xAI API are independent lanes. There is no provider, auth, model, or spend fallback; authorization binds the exact run, lane, model, Cut set, count, spend, and outputs.
+
+  - stage_id: branch_cut_generation
+    order: 130
+    code: 02B-GEN
+    name: Production Cut Generation
+    owner_skill: idol-generation
+    professional_role: image production director
+    decision_mode: executes
+    scope: one_production_cut
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [image_generation_release_gate]
+    output_contracts: []
+    founder_gate: none
+    active: true
+    notes: The historical stage_id remains stable for queue and run-history reachability, but new authoring accepts Hero, Official Core, or Branch Cut jobs. Each job yields exactly one expected output whose path, SHA-256, and full-size pixel inspection must close before 03V.
+
+  - stage_id: generated_branch_cut_review
+    order: 140
+    code: 02B-REVIEW
+    name: Generated Production-Cut Review
+    owner_skill: idol-generation
+    professional_role: image review director
+    decision_mode: reviews
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [branch_cut_generation]
+    output_contracts:
+      - schemas/review.schema.json
+      - schemas/production-cut-review.schema.json
+      - schemas/html-review-board.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: CDD reviews actual full-size Hero, Official Core, and Branch pixels before G-50 projection. A complete explicit Founder all-PASS Workbench intake exact-promotes only the bound status and post-pass placement boundary, then may run and validate the local non-generative upscale; HOLD, REJECT, partial, stale, and other-cycle decisions change no status, create no derivative, and open no 03V route.
+
+  - stage_id: audio_branch_cut_placement
+    order: 150
+    code: AUDIO-BRANCH
+    name: Audio Production-Cut Placement
+    owner_skill: idol-video-prompt
+    professional_role: audio-picture timing editor
+    decision_mode: authors
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [generated_branch_cut_review]
+    output_contracts:
+      - schemas/audio-branch-cut-placement.schema.json
+    founder_gate: none
+    active: true
+    notes: Maps only receipt-bound passed Official Core or Branch pixels to audio timing and carries active storyline, selected Sequence, parent Core, and screen progression node without authoring temporal camera movement; 03V opens only after this ready placement validates.
+
+  - stage_id: video_motion_direction
+    order: 160
+    code: 03V
+    name: Core/Branch Motion Storyboard And Video Direction
+    owner_skill: idol-video-prompt
+    professional_role: motion director and video camera director
+    decision_mode: authors
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [audio_branch_cut_placement]
+    output_contracts:
+      - schemas/video-prompt-storyboard-assist.schema.json
+      - schemas/video-prompt-manifest.schema.json
+    founder_gate: none
+    active: true
+    notes: Each Motion Storyboard orders one to three passed production images of type official_core or branch under the active storyline and selected Sequence. Same-parent Core is default; cross-Core requires both Core IDs and a continuity reason. The default image_to_video source is exactly one passed Production Cut; reference_to_video opens only for Founder-selected exact multiple-reference IDs and order. Grok video accepts only 6 or 10 seconds and 480p or 720p, and only a 480p-passed identical job may become a 720p candidate. Temporal camera motion begins here.
+
+  - stage_id: video_playback_review
+    order: 170
+    code: 03V-REVIEW
+    name: Video Playback Review
+    owner_skill: idol-video-prompt
+    professional_role: motion review director
+    decision_mode: reviews
+    scope: one_section
+    session_route: post_02a_luna_image_motion_lineage
+    inputs: [video_motion_direction]
+    output_contracts:
+      - schemas/html-review-board.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: CDD reviews the Motion Storyboard, exact source pixels, and 480p or 720p playback, then cumulatively projects G-60. Only the reviewed milestone returns to the Overall Director; partial, mismatched-job, or source-stale playback remains HOLD.
+
+  - stage_id: edit_assembly_playback_qc
+    order: 180
+    code: "04"
+    name: Edit Assembly And Playback QC
+    owner_skill: idol-editing-qc
+    professional_role: picture editor
+    decision_mode: authors
+    scope: whole_film
+    session_route: edit_director_04_05
+    inputs: [video_playback_review]
+    output_contracts:
+      - schemas/edit-map.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+    notes: The Edit Director owns 04. Playback determines actual cutpoints while the edit carries the exact storyline lineage and screen_progression_map node IDs forward; 04 workers return to the Edit Director and only reviewed milestones return to the Overall Director.
+
+  - stage_id: edit_finishing_fx
+    order: 190
+    code: 04FX
+    name: Edit Finishing And Effects
+    owner_skill: idol-edit-finishing-fx
+    professional_role: finishing editor
+    decision_mode: authors
+    scope: whole_film
+    session_route: edit_director_04_05
+    inputs: [edit_assembly_playback_qc]
+    output_contracts:
+      - schemas/edit-finishing-fx.schema.json
+    founder_gate: pass_hold_reject
+    active: true
+
+  - stage_id: master_package_release
+    order: 200
+    code: "05"
+    name: Master Package
+    owner_skill: idol-editing-qc
+    professional_role: mastering and delivery producer
+    decision_mode: packages
+    scope: release
+    session_route: edit_director_04_05
+    inputs: [edit_finishing_fx]
+    output_contracts:
+      - schemas/package.schema.json
+    founder_gate: pass_hold_reject
+    active: true

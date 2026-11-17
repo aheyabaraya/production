@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/codex-native-media-provider-profiles.schema.json",
+  "title": "IDOL Codex Native Media Provider Profiles",
+  "description": "Legacy-pinned Codex session-native media evidence. New assignments cannot select this retired lane.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "provider", "runtime_surface", "profile_source_policy", "profiles"],
+  "properties": {
+    "schema_version": {"const": "idol-codex-native-media-provider-profiles.v2"},
+    "status": {"const": "legacy_pinned"},
+    "provider": {"const": "codex"},
+    "runtime_surface": {"const": "retired_codex_app_session"},
+    "profile_source_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_native_tool_owner", "backend_model_identity_claim", "current_assignment_provider_match_required", "runtime_tool_inventory_match_required", "provider_specific_capability_only", "cross_provider_tool_aliasing", "cross_provider_auth_inheritance", "automatic_fallback", "new_assignment_selection"],
+      "properties": {
+        "exact_native_tool_owner": {"const": "this_file"},
+        "backend_model_identity_claim": {"const": "forbidden"},
+        "current_assignment_provider_match_required": {"const": true},
+        "runtime_tool_inventory_match_required": {"const": true},
+        "provider_specific_capability_only": {"const": true},
+        "cross_provider_tool_aliasing": {"const": "forbidden"},
+        "cross_provider_auth_inheritance": {"const": "forbidden"},
+        "automatic_fallback": {"const": "none"},
+        "new_assignment_selection": {"const": "forbidden"}
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codex_current_session_imagegen"],
+      "properties": {
+        "codex_current_session_imagegen": {"$ref": "#/$defs/imagegenProfile"}
+      }
+    }
+  },
+  "$defs": {
+    "imagegenProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_adapter_id", "provider_model_or_tool", "selected_native_tool", "auth_lane", "capability_status", "harness_status", "current_session_binding_required", "exact_tool_inventory_required", "prompt_rewrite_policy", "output_contract", "output_count", "automatic_fallback", "unavailable_or_mismatch_action"],
+      "properties": {
+        "execution_adapter_id": {"const": "codex_imagegen"},
+        "provider_model_or_tool": {"const": "codex_imagegen"},
+        "selected_native_tool": {"const": "imagegen"},
+        "auth_lane": {"const": "codex_session"},
+        "capability_status": {"const": "historical_only"},
+        "harness_status": {"const": "hold"},
+        "current_session_binding_required": {"const": false},
+        "exact_tool_inventory_required": {"const": false},
+        "prompt_rewrite_policy": {"const": "forbidden"},
+        "output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "output_count": {"const": 1},
+        "automatic_fallback": {"const": "none"},
+        "unavailable_or_mismatch_action": {"const": "hold_and_report"}
+      }
+    }
+  }
+}

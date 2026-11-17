@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/cursor-external-goal.schema.json",
+  "title": "IDOL Cursor External Goal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assignment_id",
+    "profile_id",
+    "objective_sha256",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-cursor-external-goal.v1"},
+    "assignment_id": {"type": "string", "minLength": 1},
+    "profile_id": {"type": "string", "minLength": 1},
+    "objective_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "status": {"const": "active"},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}

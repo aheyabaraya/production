@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-helper-consumption-receipt.schema.json",
+  "title": "IDOL Helper Consumption Receipt",
+  "description": "Required shape when a parent presents a helper return as a graph edge. Absence of a receipt file is allowed until helpers are used. Scripts check structure only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "parent_dispatch_id",
+    "helper_id",
+    "inspected_inputs",
+    "finding",
+    "director_disposition"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-helper-consumption-receipt.v1"},
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^HCR_[A-Z0-9][A-Z0-9_-]{2,79}$"
+    },
+    "parent_dispatch_id": {"type": "string", "minLength": 1},
+    "helper_id": {"type": "string", "minLength": 1},
+    "inspected_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "finding": {"type": "string", "minLength": 1, "maxLength": 500},
+    "director_disposition": {
+      "enum": ["consume", "reject", "hold"]
+    },
+    "output_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

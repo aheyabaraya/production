@@ -1,0 +1,50 @@
+{
+  "schema_version": "idol-graph-section-cohort-map.v1",
+  "artifact_type": "graph_section_cohort_map",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "phase": "production_active",
+  "partition_basis": "roster_derived_not_capacity",
+  "section_roster": ["S01"],
+  "cohorts": [
+    {
+      "section_cohort_id": "C1",
+      "planning_lane_id": "planning_p3_c1",
+      "production_lane_id": "section_cluster_v_c1",
+      "section_ids": ["S01"],
+      "cdd_reviewer": {
+        "owner": "fixture-cdd-v-c1",
+        "role": "creative_development_director",
+        "lane_id": "section_cluster_v_c1",
+        "session_id": "VC1_PRIMARY",
+        "logical_lineage_id": "VC1_LINEAGE_G6"
+      },
+      "return_recipient": {
+        "owner": "fixture-overall",
+        "role": "overall_director",
+        "return_route": "overall_reviewed_milestone"
+      },
+      "section_output_writers": [
+        {
+          "section_id": "S01",
+          "owner": "fixture-section-s01-writer",
+          "role": "section_image_motion_worker"
+        }
+      ]
+    }
+  ],
+  "p3_to_v_carry": [
+    {
+      "section_cohort_id": "C1",
+      "planning_lane_id": "planning_p3_c1",
+      "production_lane_id": "section_cluster_v_c1",
+      "exact_section_ids": ["S01"],
+      "exact_carry": true,
+      "planning_handoff": {
+        "path": "scripts/tests/fixtures/graph-authority/planning-handoff-singleton.json",
+        "sha256": "90cd79ee1d12bacb0d61a0d4c99ad3c07e089f8983a929184a818776b8707458",
+        "role": "p3_c1_g40_handoff"
+      }
+    }
+  ],
+  "founder_partition_waiver": null
+}

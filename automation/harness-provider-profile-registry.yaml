@@ -1,0 +1,237 @@
+schema_version: idol-harness-provider-profile-registry.v1
+status: active
+registry_version: 3
+registry_policy:
+  provider_neutral_index: true
+  exact_model_or_effort_literals_forbidden: true
+  provider_sources_are_exact_value_owners: true
+  source_hashes_required: true
+  run_resolved_snapshot_pinned: true
+
+logical_profiles:
+  frontier_director:
+    eligible_logical_roles:
+      - overall_director
+      - creative_development_director
+      - edit_director
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_grok_46_xhigh
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: false
+      grok:
+        source_kind: provider_yaml
+        source_path: automation/providers/grok-build-profiles.yaml
+        source_sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+        provider_profile_id: grok_director_frontier
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: true
+
+  director_deep:
+    eligible_logical_roles:
+      - overall_director
+      - creative_development_director
+      - edit_director
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_sol_xhigh
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: true
+      grok:
+        source_kind: provider_yaml
+        source_path: automation/providers/grok-build-profiles.yaml
+        source_sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+        provider_profile_id: grok_director_deep
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: true
+
+  worker_high:
+    eligible_logical_roles:
+      - worker
+      - department_worker
+      - mechanical_coordinator
+      - section_image_motion_worker
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_luna_max
+        capability_status: founder_verified
+        harness_status: active_text_only
+        full_owner_ready: true
+      grok:
+        source_kind: provider_yaml
+        source_path: automation/providers/grok-build-profiles.yaml
+        source_sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+        provider_profile_id: grok_worker_high
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: true
+
+  research_medium:
+    eligible_logical_roles:
+      - research_worker
+      - department_worker
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_luna_xhigh
+        capability_status: hold
+        harness_status: hold
+        full_owner_ready: false
+      grok:
+        source_kind: provider_yaml
+        source_path: automation/providers/grok-build-profiles.yaml
+        source_sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+        provider_profile_id: grok_worker_medium
+        capability_status: hold
+        harness_status: hold
+        full_owner_ready: false
+
+  cursor_advisory:
+    eligible_logical_roles:
+      - department_worker
+      - section_owner
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_advisory_index
+        capability_status: active_with_holds
+        harness_status: active_with_holds
+        full_owner_ready: false
+
+  cursor_grok_explicit_selected_worker:
+    eligible_logical_roles:
+      - mechanical_coordinator
+      - department_worker
+    providers:
+      cursor:
+        source_kind: provider_yaml
+        source_path: automation/providers/cursor-agent-profiles.yaml
+        source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+        provider_profile_id: cursor_grok_46_xhigh
+        capability_status: founder_verified
+        harness_status: active
+        full_owner_ready: false
+
+media_lanes:
+  openai_image_api_current:
+    provider: openai
+    auth_lane: founder_approved_api
+    provider_profile_id: openai_image_api_current
+    provider_profile_source: automation/providers/openai-image-profiles.yaml
+    provider_profile_source_sha256: d7c30f0cb5a1a0cf28dd3c0977960725abe2c5f120faf8e589d25ad2b82e2774
+    image_adapter_id: openai_api_gpt_image_2
+    image_output_contract: exact_expected_output_path_sha256_pixel_review
+    default_enabled: false
+    automatic_fallback: none
+  grok_build_oauth_subscription:
+    provider: grok
+    auth_lane: subscription_oauth
+    capability_status: founder_verified
+    image_harness_status: active
+    video_harness_status: active
+    provider_profile_id: grok_worker_high
+    provider_profile_source: automation/providers/grok-build-profiles.yaml
+    provider_profile_source_sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+    image_adapter_id: grok_image
+    image_tools:
+      - image_edit
+      - image_gen
+    image_tool_selection: attachments_nonzero_image_edit_zero_image_gen
+    image_prompt_rewrite_policy: forbidden
+    image_output_contract: exact_expected_output_path_sha256_pixel_review
+    default_enabled: true
+    native_default_scope: exact_current_assignment_provider_only
+    current_session_provider_match_required: true
+    runtime_tool_inventory_match_required: true
+    cross_provider_tool_aliasing: forbidden
+    video_tools:
+      - image_to_video
+      - reference_to_video
+    video_adapter_id: grok_build_video
+    video_output_contract: exact_expected_output_path_sha256_playback_review
+    video_local_output_required: true
+    video_runtime_inventory_or_adapter_match_required: true
+    video_founder_external_generation_authority_required: true
+    direct_image_to_video: forbidden
+    video_prompt_rewrite_policy: forbidden
+    video_durations_seconds:
+      - 6
+      - 10
+    resolutions:
+      - 480p
+      - 720p
+    resolution_1080p: rejected
+    automatic_fallback: none
+  xai_api_media:
+    provider: xai
+    auth_lane: founder_approved_api
+    capability_status: registration_required
+    harness_status: hold
+    registration_status: registration_required
+    default_enabled: false
+    selection_only: false
+    automatic_fallback: none
+  cursor_luna_optional_image:
+    provider: cursor
+    auth_lane: cursor_physical_chat
+    capability_status: founder_verified
+    harness_status: available_founder_explicit_substitute
+    image_execution_status: proven_cursor_generate_image_tool
+    section_transfer_status: founder_authorized_cas_transfer
+    provider_profile_id: cursor_luna_max
+    provider_profile_source: automation/providers/cursor-agent-profiles.yaml
+    provider_profile_source_sha256: 3731a016e4271b1d2f10f6c79fc34b95cf32ccc0b56702f7f7a6ef1cbdb12ec7
+    image_adapter_id: cursor_luna_image
+    image_output_contract: exact_expected_output_path_sha256_pixel_review
+    default_enabled: false
+    requires_luna_to_grok_transfer: true
+    automatic_fallback: none
+
+selection_policy:
+  active_role_binding_cardinality: exactly_one_per_logical_director_role
+  provider_native_internal_helpers: default_enabled
+  project_numeric_helper_override: none
+  internal_helper_additional_authority: forbidden
+  physical_session_selection: adaptive_registered_assignment
+  internal_and_physical_active_owner_overlap: forbidden
+  run_snapshot_pinned: true
+  runtime_snapshot_check_required: true
+  shadow_eval_required: true
+  founder_default_switch_required: true
+  silent_model_effort_or_auth_fallback: forbidden
+  api_default_enabled: false
+  provider_omitted_image_request: current_session_native
+  current_session_native_resolution: exact_current_assignment_provider_registered_media_lane
+  explicit_api_selection_required: true
+  provider_specific_capability_binding: exact_provider_source_and_runtime_inventory
+  shared_contract_scope: logical_role_goal_dispatch_successor_review_only
+  cross_provider_tool_or_auth_aliasing: forbidden
+  unsupported_provider_capability_action: hold_without_cross_provider_fallback
+  preferred_nonmedia_provider: grok
+  preferred_nonmedia_runtime_surface: grok_cli_acp_or_tui
+  preferred_nonmedia_activation: exact_run_resolved_profile_live_inventory_sandbox_and_readiness
+  excluded_preferred_generation_lanes: [02b_image_generation, 03v_video_generation]
+  fixed_provider_exceptions:
+    founder_briefing_assistant: none
+  preferred_provider_unavailable_action: hold_without_cross_provider_fallback
+  model_literal_allowlist:
+    - provider_specific_profile
+    - capability_fixture
+    - immutable_run_resolved_snapshot

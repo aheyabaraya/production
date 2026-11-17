@@ -1,0 +1,490 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-director-lineage.schema.json",
+  "title": "IDOL Graph Director Lineage",
+  "description": "Provider-neutral Graph Engineering contract for one logical Overall, lane-local CDD succession, disjoint P1/P2/P3-Ci writes, P1-only integration, exact P3-Ci to V-Ci carry, Goal/profile/hash evidence, and no provider fallback. Scripts validate structure and provenance only; they never author creative truth or PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "phase",
+    "overall",
+    "lanes",
+    "provider_policy",
+    "section_cohort_map",
+    "department_dispatch_pointers"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-director-lineage.v1"},
+    "artifact_type": {"const": "graph_director_lineage"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "phase": {"$ref": "#/$defs/phase"},
+    "overall": {"$ref": "#/$defs/overall"},
+    "lanes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/lane"}
+    },
+    "provider_policy": {"$ref": "#/$defs/providerPolicy"},
+    "section_cohort_map": {"$ref": "#/$defs/nullablePointer"},
+    "department_dispatch_pointers": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/pointer"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "token": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,180}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.codex/|\\.cursor/|\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/|work/).+)"
+    },
+    "sectionId": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "cohortId": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "laneId": {
+      "type": "string",
+      "pattern": "^(?:overall|planning_p1|planning_p2|planning_p3_c[1-9][0-9]*|section_cluster_v_c[1-9][0-9]*|edit_director)$"
+    },
+    "phase": {
+      "enum": ["planning_provisional", "g40_handoff", "production_active"]
+    },
+    "logicalRole": {
+      "enum": [
+        "overall_director",
+        "planning_cdd",
+        "section_cluster_cdd",
+        "edit_director"
+      ]
+    },
+    "planningMode": {
+      "enum": [
+        "story_audience_lead",
+        "visual_reference_development",
+        "section_kinetic_architecture"
+      ]
+    },
+    "sessionState": {
+      "enum": [
+        "active_single_writer",
+        "reactivated_single_writer",
+        "zero_turn_read_only_preflight",
+        "admitted_read_only",
+        "graph_logically_retired"
+      ]
+    },
+    "authorityState": {
+      "enum": [
+        "primary_active",
+        "successor_preflight",
+        "successor_admitted",
+        "successor_active",
+        "rolled_back",
+        "read_only_retired"
+      ]
+    },
+    "generation": {"enum": ["primary", "successor"]},
+    "profileAlias": {
+      "enum": ["frontier_director", "worker_high", "research_medium"]
+    },
+    "provider": {"enum": ["grok", "cursor"]},
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "nullablePointer": {
+      "oneOf": [
+        {"$ref": "#/$defs/pointer"},
+        {"type": "null"}
+      ]
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "return_route"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmpty"},
+        "role": {
+          "enum": [
+            "overall_director",
+            "planning_cdd_p1",
+            "creative_development_director",
+            "edit_director"
+          ]
+        },
+        "return_route": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "writeScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field_id", "scope_kind", "section_ids"],
+      "properties": {
+        "field_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "scope_kind": {"enum": ["whole_film", "section_cohort"]},
+        "section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sectionId"}
+        }
+      }
+    },
+    "physicalSession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generation", "session_id", "state", "opened_at"],
+      "properties": {
+        "generation": {"$ref": "#/$defs/generation"},
+        "session_id": {"$ref": "#/$defs/token"},
+        "state": {"$ref": "#/$defs/sessionState"},
+        "opened_at": {"$ref": "#/$defs/timestamp"}
+      }
+    },
+    "providerBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registered_provider",
+        "runtime_surface",
+        "logical_profile_alias",
+        "execution_profile_id",
+        "resolved_provider_model",
+        "reasoning_effort",
+        "provider_capability_snapshot_sha256",
+        "fallback_allowed",
+        "silent_substitution_allowed"
+      ],
+      "properties": {
+        "registered_provider": {"$ref": "#/$defs/provider"},
+        "runtime_surface": {"$ref": "#/$defs/nonEmpty"},
+        "logical_profile_alias": {"$ref": "#/$defs/profileAlias"},
+        "execution_profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "resolved_provider_model": {"$ref": "#/$defs/nonEmpty"},
+        "reasoning_effort": {"$ref": "#/$defs/nonEmpty"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "fallback_allowed": {"const": false},
+        "silent_substitution_allowed": {"const": false}
+      }
+    },
+    "goalEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native_goal_id",
+        "goal_text_sha256",
+        "goal_semantics",
+        "goal_terminal_state",
+        "goal_last_event",
+        "goal_terminal_event_sha256",
+        "terminal_event"
+      ],
+      "properties": {
+        "native_goal_id": {"$ref": "#/$defs/nonEmpty"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "goal_semantics": {
+          "enum": [
+            "grok_goal_completed_admission",
+            "cursor_external_goal_runtime_receipt"
+          ]
+        },
+        "goal_terminal_state": {"enum": ["complete", "success"]},
+        "goal_last_event": {
+          "enum": ["goal_completed", "cli_terminal_success"]
+        },
+        "goal_terminal_event_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_event": {"$ref": "#/$defs/goalTerminalEventPointer"},
+        "goal_completed_closes": {"const": "successor_admission_only"},
+        "idol_assignment_pass": {"const": false}
+      }
+    },
+    "goalTerminalEventPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "succession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cas_required",
+        "third_session_forbidden",
+        "source_session_id",
+        "successor_session_id",
+        "active_writer_session_id",
+        "authority_state"
+      ],
+      "properties": {
+        "cas_required": {"const": true},
+        "third_session_forbidden": {"const": true},
+        "source_session_id": {"$ref": "#/$defs/token"},
+        "successor_session_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/token"},
+            {"type": "null"}
+          ]
+        },
+        "active_writer_session_id": {"$ref": "#/$defs/token"},
+        "authority_state": {"$ref": "#/$defs/authorityState"}
+      }
+    },
+    "planningCarry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_cohort_id",
+        "planning_lane_id",
+        "production_lane_id",
+        "exact_section_ids",
+        "exact_carry",
+        "planning_handoff"
+      ],
+      "properties": {
+        "section_cohort_id": {"$ref": "#/$defs/cohortId"},
+        "planning_lane_id": {
+          "type": "string",
+          "pattern": "^planning_p3_c[1-9][0-9]*$"
+        },
+        "production_lane_id": {
+          "type": "string",
+          "pattern": "^section_cluster_v_c[1-9][0-9]*$"
+        },
+        "exact_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sectionId"}
+        },
+        "exact_carry": {"const": true},
+        "planning_handoff": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "overall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_lineage_id",
+        "logical_role",
+        "founder_conversation_owner",
+        "canonical_promotion_owner",
+        "whole_film_judgment_owner",
+        "final_creative_acceptance_owner",
+        "macro_stage_id",
+        "active_writer_session_id"
+      ],
+      "properties": {
+        "logical_lineage_id": {"$ref": "#/$defs/token"},
+        "logical_role": {"const": "overall_director"},
+        "founder_conversation_owner": {"const": true},
+        "canonical_promotion_owner": {"const": true},
+        "whole_film_judgment_owner": {"const": true},
+        "final_creative_acceptance_owner": {"const": true},
+        "macro_stage_id": {"$ref": "#/$defs/nonEmpty"},
+        "active_writer_session_id": {"$ref": "#/$defs/token"}
+      }
+    },
+    "providerPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fallback_allowed",
+        "silent_substitution_allowed",
+        "director_minimum_alias",
+        "physical_session_caps"
+      ],
+      "properties": {
+        "fallback_allowed": {"const": false},
+        "silent_substitution_allowed": {"const": false},
+        "director_minimum_alias": {"const": "frontier_director"},
+        "physical_session_caps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "grok_build_nonroot",
+            "cursor_agent_nonroot",
+            "combined",
+            "lower_live_cap_wins"
+          ],
+          "properties": {
+            "grok_build_nonroot": {"const": 8},
+            "cursor_agent_nonroot": {"const": 6},
+            "combined": {"const": 14},
+            "lower_live_cap_wins": {"const": true}
+          }
+        }
+      }
+    },
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_id",
+        "logical_lineage_id",
+        "logical_role",
+        "planning_cdd_mode",
+        "section_cohort_id",
+        "stage_id",
+        "integration_writer",
+        "active_writer_session_id",
+        "physical_sessions",
+        "succession",
+        "write_scopes",
+        "provider_binding",
+        "goal_evidence",
+        "return_recipient",
+        "planning_to_production_carry"
+      ],
+      "properties": {
+        "lane_id": {"$ref": "#/$defs/laneId"},
+        "logical_lineage_id": {"$ref": "#/$defs/token"},
+        "logical_role": {"$ref": "#/$defs/logicalRole"},
+        "planning_cdd_mode": {
+          "oneOf": [
+            {"$ref": "#/$defs/planningMode"},
+            {"type": "null"}
+          ]
+        },
+        "section_cohort_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/cohortId"},
+            {"type": "null"}
+          ]
+        },
+        "stage_id": {"$ref": "#/$defs/nonEmpty"},
+        "integration_writer": {"type": "boolean"},
+        "active_writer_session_id": {"$ref": "#/$defs/token"},
+        "physical_sessions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {"$ref": "#/$defs/physicalSession"}
+        },
+        "succession": {"$ref": "#/$defs/succession"},
+        "write_scopes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/writeScope"}
+        },
+        "provider_binding": {"$ref": "#/$defs/providerBinding"},
+        "goal_evidence": {"$ref": "#/$defs/goalEvidence"},
+        "return_recipient": {"$ref": "#/$defs/recipient"},
+        "planning_to_production_carry": {
+          "oneOf": [
+            {"$ref": "#/$defs/planningCarry"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"succession": {"properties": {"authority_state": {"const": "primary_active"}}}}},
+          "then": {
+            "properties": {
+              "physical_sessions": {
+                "maxItems": 1,
+                "contains": {
+                  "properties": {
+                    "generation": {"const": "primary"},
+                    "state": {"enum": ["active_single_writer", "reactivated_single_writer"]}
+                  },
+                  "required": ["generation", "state"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"succession": {"properties": {"authority_state": {"const": "successor_preflight"}}}}},
+          "then": {
+            "properties": {
+              "physical_sessions": {
+                "minItems": 2,
+                "contains": {
+                  "properties": {"generation": {"const": "successor"}, "state": {"const": "zero_turn_read_only_preflight"}},
+                  "required": ["generation", "state"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"succession": {"properties": {"authority_state": {"const": "successor_admitted"}}}}},
+          "then": {
+            "properties": {
+              "physical_sessions": {
+                "minItems": 2,
+                "contains": {
+                  "properties": {"generation": {"const": "successor"}, "state": {"const": "admitted_read_only"}},
+                  "required": ["generation", "state"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"succession": {"properties": {"authority_state": {"const": "successor_active"}}}}},
+          "then": {
+            "properties": {
+              "physical_sessions": {
+                "minItems": 2,
+                "contains": {
+                  "properties": {"generation": {"const": "successor"}, "state": {"enum": ["active_single_writer", "reactivated_single_writer"]}},
+                  "required": ["generation", "state"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {"properties": {"succession": {"properties": {"authority_state": {"const": "read_only_retired"}}}}},
+          "then": {
+            "properties": {
+              "physical_sessions": {
+                "items": {"properties": {"state": {"const": "graph_logically_retired"}}, "required": ["state"]}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "lane_id": {
+                "anyOf": [
+                  {"const": "planning_p2"},
+                  {"pattern": "^planning_p3_c[1-9][0-9]*$"}
+                ]
+              }
+            },
+            "required": ["lane_id"]
+          },
+          "then": {
+            "properties": {
+              "return_recipient": {
+                "properties": {
+                  "role": {"const": "planning_cdd_p1"},
+                  "return_route": {"const": "planning_cdd_p1_exact_link"}
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

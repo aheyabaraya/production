@@ -1,0 +1,11 @@
+schema_version: idol-graph-provider-goal-terminal-event.v1
+artifact_type: graph_provider_goal_terminal_event
+evidence_class: synthetic_fixture
+provider: grok
+native_goal_id: goal_front_planning_close
+goal_text: Review the exact S01-S03 front-planning decision-set output.
+goal_text_sha256: dbdb70e96a55aefa7370a5de1e32b09ab08d80a36f1b14580fd24eb455f4c11f
+goal_semantics: grok_goal_completed_admission
+terminal_state: complete
+last_event: goal_completed
+fixture_notice: synthetic_test_evidence_not_runtime_attestation

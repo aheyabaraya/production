@@ -1,0 +1,89 @@
+schema_version: idol_founder_sequence_control.v3
+content_id: REPLACE_WITH_RUN_CONTENT_ID
+lane: idol_mv
+status: draft
+
+# The Founder speaks naturally or requests the director's first proposal.
+# Codex or Grok transcribes and completes this file; the Founder never fills YAML.
+# This template records no startup approval. Replace placeholders and bind the
+# current authorization before setting director_ready. Complete the existing
+# A/B/C visual and X/Y/Z audio reference slots with exact section/Major targets.
+source_capture:
+  start_authorization_mode: director_first_proposal_requested
+  founder_verbatim_inputs:
+    - REPLACE_WITH_FOUNDER_WORDS
+  transcription_owner: assigned_director_codex_or_grok
+  founder_does_not_fill_schema_fields: true
+
+story_flow:
+  one_line_direction: REPLACE
+  message_or_viewer_result: REPLACE
+  opening_state: REPLACE
+  ordered_major_scenes:
+    - control_major_id: MJ01
+      section_id: S01
+      order_index: 1
+      direction_owner: assigned_director_proposal
+      direction: REPLACE_WITH_DIRECTOR_RECOMMENDED_MAJOR_SCENE
+      major_scene_boundaries: [REPLACE]
+      required_subject_or_member_ids: []
+      required_action_or_hold: REPLACE
+      space_direction: REPLACE_WITH_TEXT_OR_SCENE_REFERENCE_DIRECTION_ONLY
+      reference_ids: [REF_01]
+      entry_state: REPLACE
+      endpoint: REPLACE
+      continuity_to_next: REPLACE
+  ending_or_afterimage: REPLACE
+  hard_locks: []
+  forbidden_outcomes: []
+
+reference_plan:
+  governing_reference_ids: [REF_01]
+  references:
+    - reference_id: REF_01
+      reference_slot: A
+      assignment_owner: assigned_director_proposal
+      source_identity: REPLACE
+      source_path_or_url: REPLACE
+      selected_range_or_surface: REPLACE_WITH_EXACT_RANGE_OR_IMAGE
+      exact_use_function: REPLACE_WITH_WHAT_THIS_REFERENCE_CONTROLS
+      target_section_ids: [S01]
+      target_control_major_ids: [MJ01]
+      preserve: [REPLACE]
+      replace_or_discard: []
+      disposition: held
+  unresolved_reference_choices: []
+
+director_translation:
+  translation_owner: assigned_director_codex_or_grok
+  translated_message: REPLACE
+  observable_sequence:
+    - control_major_id: MJ01
+      visible_action_or_hold: REPLACE
+      screen_change: REPLACE
+      camera_and_composition_read: REPLACE
+      sound_opportunity: REPLACE
+      endpoint: REPLACE
+      continuity_to_next: REPLACE
+  conflicts_and_resolutions: []
+  explicit_founder_locks_preserved: true
+  director_fills_unspecified_story_order: true
+  reference_roles_are_proposals_unless_founder_locked: true
+
+minimal_intervention_contract:
+  founder_may_start_with_one_short_input: true
+  director_authors_first_recommended_sequence: true
+  director_authors_major_scene_proposals: true
+  director_authors_and_quality_checks_key_screens: true
+  separate_major_approval_required: false
+  separate_key_screen_approval_required: false
+  new_member_visual_requires_founder_selection: true
+  unresolved_material_conflict_requires_founder_decision: true
+  front_planning_final_gate_required: true
+  separate_background_asset_generation: false
+
+startup_gate:
+  decision: hold
+  unresolved_material_choices: []
+  projection_authorized: false
+  note: REPLACE_WITH_CURRENT_FOUNDER_START_AUTHORIZATION_AND_REMAINING_CHOICES

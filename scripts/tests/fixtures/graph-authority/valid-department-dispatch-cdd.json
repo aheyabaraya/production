@@ -1,0 +1,63 @@
+{
+  "schema_version": "idol-graph-department-dispatch.v1",
+  "artifact_type": "graph_department_dispatch",
+  "dispatch_id": "DISPATCH_G6_CDD_V_C1",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "lane_id": "section_cluster_v_c1",
+  "section_cohort_id": "C1",
+  "section_ids": ["S01", "S02"],
+  "logical_role": "section_cluster_cdd",
+  "assigned_owner": "fixture-cdd-v-c1",
+  "output_writer": {
+    "owner": "fixture-cdd-v-c1",
+    "role": "section_cluster_cdd"
+  },
+  "reviewer": {
+    "owner": "fixture-overall",
+    "role": "overall_director",
+    "lane_id": "overall"
+  },
+  "return_recipient": {
+    "owner": "fixture-overall",
+    "role": "overall_director",
+    "return_route": "overall_reviewed_milestone"
+  },
+  "provider_binding": {
+    "registered_provider": "grok",
+    "runtime_surface": "grok_build_cli_acp",
+    "logical_profile_alias": "frontier_director",
+    "execution_profile_id": "grok_director_frontier",
+    "resolved_provider_model": "grok-4.6",
+    "reasoning_effort": "xhigh",
+    "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+    "fallback_allowed": false,
+    "silent_substitution_allowed": false
+  },
+  "goal_evidence": {
+    "native_goal_id": "GOAL_G6_CDD_V_C1",
+    "goal_text_sha256": "5e46a262b515a58a1d02ad8b786f22791096a526eef70f9a1e08c7885e77fbd1",
+    "goal_semantics": "grok_goal_completed_admission",
+    "goal_terminal_state": "complete",
+    "goal_last_event": "goal_completed",
+    "goal_terminal_event_sha256": "be667b7836a4a8134f7803cd7c0b0e0abc59335036a5983dffc6139e4ce43320",
+    "terminal_event": {
+      "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-cdd-v-c1.yaml",
+      "sha256": "be667b7836a4a8134f7803cd7c0b0e0abc59335036a5983dffc6139e4ce43320"
+    }
+  },
+  "input_digest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "bounded_output": {
+    "output_kind": "director_decision_set",
+    "expected_paths": ["work/graph-authority-fixture/cdd-decision-set.yaml"],
+    "maximum_artifact_count": 1
+  },
+  "output_manifest": null,
+  "stop_conditions": [
+    "third_session_requested",
+    "cohort_overlap",
+    "provider_fallback_attempt"
+  ],
+  "lifecycle_state": "launched",
+  "legal_next": ["returned", "hold"],
+  "assignment_pass": false
+}

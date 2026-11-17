@@ -1,0 +1,14 @@
+{
+  "schema_version": "idol-graph-node.v1",
+  "node_id": "n_overall",
+  "node_class": "overall_lane",
+  "view": "authority_ownership",
+  "logical_id": "overall_r00",
+  "scope_id": "overall_lane",
+  "state": "running",
+  "owner_role": "overall_director",
+  "writer_id": "od_primary",
+  "truth_kind": "authority",
+  "may_write": true,
+  "creative_summary": "forbidden extra field"
+}

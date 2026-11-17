@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/sequence-motion-machine-measurement.schema.json",
+  "title": "IDOL Sequence Motion Machine Measurement",
+  "description": "Mechanical local-media observations over explicit Sequence sample timestamps. Not creative analysis, not a quality score, and not a motion-family or Major decision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority",
+    "source",
+    "admitted_time_range_seconds",
+    "sequence_sample_timestamps_seconds",
+    "runtime",
+    "parameters",
+    "decode_work",
+    "timing",
+    "sampled_frames",
+    "motion_timeline",
+    "scene_cut_discontinuities"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_sequence_motion_machine_measurement.v1"},
+    "authority": {"const": "mechanical_observation_only_never_creative_pass"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256"],
+      "properties": {
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "admitted_time_range_seconds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"type": "number", "minimum": 0},
+        "end": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "sequence_sample_timestamps_seconds": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"type": "number", "minimum": 0}
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ffmpeg_version", "ffprobe_version", "opencv_version", "numpy_version", "script_sha256"],
+      "properties": {
+        "ffmpeg_version": {"type": "string", "minLength": 1},
+        "ffprobe_version": {"type": "string", "minLength": 1},
+        "opencv_version": {"type": "string", "minLength": 1},
+        "numpy_version": {"type": "string", "minLength": 1},
+        "script_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis_frame_size",
+        "luma_delta_candidate_threshold",
+        "window_end_pad_seconds",
+        "farneback"
+      ],
+      "properties": {
+        "analysis_frame_size": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "integer", "minimum": 1}
+        },
+        "luma_delta_candidate_threshold": {"type": "number", "exclusiveMinimum": 0},
+        "window_end_pad_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "farneback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pyr_scale", "levels", "winsize", "iterations", "poly_n", "poly_sigma", "flags"],
+          "properties": {
+            "pyr_scale": {"type": "number"},
+            "levels": {"type": "integer"},
+            "winsize": {"type": "integer"},
+            "iterations": {"type": "integer"},
+            "poly_n": {"type": "integer"},
+            "poly_sigma": {"type": "number"},
+            "flags": {"type": "integer"}
+          }
+        }
+      }
+    },
+    "decode_work": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passes", "frames_emitted", "bytes_emitted", "input_span_seconds", "window_seconds"],
+      "properties": {
+        "passes": {"const": 1},
+        "frames_emitted": {"type": "integer", "minimum": 1},
+        "bytes_emitted": {"type": "integer", "minimum": 1},
+        "input_span_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "window_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"type": "number", "minimum": 0},
+            "end": {"type": "number", "exclusiveMinimum": 0}
+          }
+        }
+      }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "avg_frame_rate", "r_frame_rate", "pts_source"],
+      "properties": {
+        "mode": {"enum": ["cfr", "vfr_or_unknown"]},
+        "avg_frame_rate": {"type": ["string", "null"]},
+        "r_frame_rate": {"type": ["string", "null"]},
+        "pts_source": {"const": "ffmpeg_showinfo_same_decode_stream"}
+      }
+    },
+    "sampled_frames": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order_index",
+          "requested_timestamp_seconds",
+          "decoded_pts_seconds",
+          "decode_frame_index",
+          "pixel_sha256"
+        ],
+        "properties": {
+          "order_index": {"type": "integer", "minimum": 1, "maximum": 5},
+          "requested_timestamp_seconds": {"type": "number", "minimum": 0},
+          "decoded_pts_seconds": {"type": "number"},
+          "decode_frame_index": {"type": "integer", "minimum": 0},
+          "pixel_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "motion_timeline": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decode_frame_index",
+          "pts_seconds",
+          "mean_abs_luma_delta",
+          "mean_optical_flow_magnitude",
+          "camera_subject_ambiguity"
+        ],
+        "properties": {
+          "decode_frame_index": {"type": "integer", "minimum": 0},
+          "pts_seconds": {"type": "number"},
+          "mean_abs_luma_delta": {"type": "number", "minimum": 0},
+          "mean_optical_flow_magnitude": {"type": "number", "minimum": 0},
+          "camera_subject_ambiguity": {
+            "const": "unresolved_2d_projection_cannot_separate_camera_from_subject"
+          }
+        }
+      }
+    },
+    "scene_cut_discontinuities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["between_pts_seconds", "mean_abs_luma_delta", "status"],
+        "properties": {
+          "between_pts_seconds": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"type": "number"}
+          },
+          "mean_abs_luma_delta": {"type": "number", "minimum": 0},
+          "status": {"const": "candidate_discontinuity"}
+        }
+      }
+    }
+  }
+}

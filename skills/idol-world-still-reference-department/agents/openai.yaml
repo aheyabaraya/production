@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL World Still Reference"
+  short_description: "Compare world, space, and object still references"
+  default_prompt: "Use $idol-world-still-reference-department to research and compare image-only world, space, and object references in a contact sheet."

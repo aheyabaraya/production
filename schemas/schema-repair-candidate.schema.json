@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/schema-repair-candidate.schema.json",
+  "title": "IDOL Noncanonical Schema Repair Candidate Receipt",
+  "description": "A diagnostic hold record for a mechanically transformed candidate under RUN/work. It proves that the canonical target was not changed, binds copied source bytes to a promoted department dispatch and director review, and grants no creative or gate authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "run",
+    "source_artifact",
+    "target_artifact",
+    "target_contract",
+    "candidate_artifact",
+    "allowed_operations",
+    "exact_copy_evidence",
+    "creative_authority",
+    "hold_reasons",
+    "promotion"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-schema-repair-candidate.v3"},
+    "status": {"const": "diagnostic_hold"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "source_artifact": {"$ref": "#/$defs/hashedArtifact"},
+    "target_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "precondition", "sha256_before"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "precondition": {"enum": ["exists", "missing"]},
+        "sha256_before": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"precondition": {"const": "exists"}}, "required": ["precondition"]},
+          "then": {"properties": {"sha256_before": {"$ref": "#/$defs/sha256"}}}
+        },
+        {
+          "if": {"properties": {"precondition": {"const": "missing"}}, "required": ["precondition"]},
+          "then": {"properties": {"sha256_before": {"type": "null"}}}
+        }
+      ]
+    },
+    "target_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_path", "schema_sha256", "current_authoring_version"],
+      "properties": {
+        "schema_path": {"type": "string", "pattern": "^schemas/[A-Za-z0-9._-]+\\.schema\\.json$"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "current_authoring_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "candidate_artifact": {"$ref": "#/$defs/hashedArtifact"},
+    "allowed_operations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "diagnostic_only",
+          "exact_copy",
+          "key_rename",
+          "container_rewrap",
+          "ordering_only",
+          "schema_version_annotation"
+        ]
+      }
+    },
+    "exact_copy_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source_path",
+          "source_artifact_sha256",
+          "source_json_pointer",
+          "source_value_sha256",
+          "target_json_pointer",
+          "department_dispatch_path",
+          "department_dispatch_sha256"
+        ],
+        "properties": {
+          "source_path": {"$ref": "#/$defs/repositoryPath"},
+          "source_artifact_sha256": {"$ref": "#/$defs/sha256"},
+          "source_json_pointer": {"type": "string", "pattern": "^(?:|/(?:[^~/]|~0|~1)*)+$"},
+          "source_value_sha256": {"$ref": "#/$defs/sha256"},
+          "target_json_pointer": {"type": "string", "pattern": "^(?:|/(?:[^~/]|~0|~1)*)+$"},
+          "department_dispatch_path": {"$ref": "#/$defs/repositoryPath"},
+          "department_dispatch_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "creative_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "creative_values_authored_by_script",
+        "creative_values_paraphrased_by_script",
+        "creative_defaults_inserted",
+        "same_value_fanout_used",
+        "placeholder_completion_used",
+        "script_claimed_model_authorship",
+        "canonical_write_performed",
+        "creative_review_verdict_authored"
+      ],
+      "properties": {
+        "creative_values_authored_by_script": {"const": false},
+        "creative_values_paraphrased_by_script": {"const": false},
+        "creative_defaults_inserted": {"const": false},
+        "same_value_fanout_used": {"const": false},
+        "placeholder_completion_used": {"const": false},
+        "script_claimed_model_authorship": {"const": false},
+        "canonical_write_performed": {"const": false},
+        "creative_review_verdict_authored": {"const": false}
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "gate_effect", "return_route"],
+      "properties": {
+        "allowed": {"const": false},
+        "gate_effect": {"const": "none_hold_only"},
+        "return_route": {"const": "existing_owning_human_or_model_stage"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "allowed_operations": {"contains": {"const": "exact_copy"}}
+        },
+        "required": ["allowed_operations"]
+      },
+      "then": {
+        "properties": {
+          "exact_copy_evidence": {"minItems": 1}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runPath": {"type": "string", "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\uac00-\ud7a3][a-z0-9\uac00-\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120})$"},
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.grok/|automation/|assets/|catalog/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "hashedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "idol-graph-department-dispatch.v1",
+  "artifact_type": "graph_department_dispatch",
+  "dispatch_id": "DISPATCH_G6_SECTION_S01",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "lane_id": "section_cluster_v_c1",
+  "section_cohort_id": "C1",
+  "section_ids": ["S01"],
+  "logical_role": "section_image_motion_worker",
+  "assigned_owner": "fixture-section-s01-writer",
+  "output_writer": {
+    "owner": "fixture-section-s01-writer",
+    "role": "section_image_motion_worker"
+  },
+  "reviewer": {
+    "owner": "fixture-cdd-v-c1",
+    "role": "creative_development_director",
+    "lane_id": "section_cluster_v_c1",
+    "session_id": "VC1_PRIMARY",
+    "logical_lineage_id": "VC1_LINEAGE_G6"
+  },
+  "return_recipient": {
+    "owner": "fixture-cdd-v-c1",
+    "role": "creative_development_director",
+    "return_route": "cohort_cdd_exact_byte_review"
+  },
+  "provider_binding": {
+    "registered_provider": "grok",
+    "runtime_surface": "grok_build_cli_acp",
+    "logical_profile_alias": "worker_high",
+    "execution_profile_id": "grok_worker_high",
+    "resolved_provider_model": "grok-4.6",
+    "reasoning_effort": "high",
+    "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+    "fallback_allowed": false,
+    "silent_substitution_allowed": false
+  },
+  "goal_evidence": {
+    "native_goal_id": "GOAL_G6_SECTION_S01",
+    "goal_text_sha256": "ba384657aea727887fd4a7cc04c13c8100524055c1264a22e422f207a13cb422",
+    "goal_semantics": "grok_goal_completed_admission",
+    "goal_terminal_state": "complete",
+    "goal_last_event": "goal_completed",
+    "goal_terminal_event_sha256": "df627bbf6acd9df021b517820869e60aad0c13f4c3a3ae2805fefb13e07a74a3",
+    "terminal_event": {
+      "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-section-s01.yaml",
+      "sha256": "df627bbf6acd9df021b517820869e60aad0c13f4c3a3ae2805fefb13e07a74a3"
+    }
+  },
+  "input_digest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "bounded_output": {
+    "output_kind": "section_image_motion_package",
+    "expected_paths": ["work/graph-authority-fixture/section-s01-output.yaml"],
+    "maximum_artifact_count": 1
+  },
+  "output_manifest": null,
+  "review_checkpoint": "02b_pixel",
+  "stop_conditions": [
+    "missing_or_stale_source_hash",
+    "overlapping_section_write",
+    "provider_fallback_attempt"
+  ],
+  "lifecycle_state": "launched",
+  "legal_next": ["returned", "hold"],
+  "assignment_pass": false
+}

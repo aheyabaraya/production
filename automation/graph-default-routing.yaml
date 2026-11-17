@@ -1,0 +1,223 @@
+schema_version: idol-graph-default-routing.v1
+status: shadow_not_default
+authority: mechanical_route_selection_no_creative_or_promotion_authority
+
+writer_boundary:
+  dual_active_writer: fail_closed
+  historical_harness_ids: parse_only_legacy_capsule
+  existing_runs: legacy_pinned
+  new_runs:
+    default: legacy_pinned
+    graph_v2_requires: verified_default_switch_receipt
+    missing_receipt_action: hold_keep_legacy_writer
+  parse_only_prefixes:
+    - harness-
+    - idol-harness-
+    - idol_harness_
+  active_graph_surfaces:
+    - automation/graph-skill-load-profiles.yaml
+    - automation/graph-role-context-projection.yaml
+    - automation/graph-default-routing.yaml
+    - automation/graph-stage-registry.yaml
+    - automation/graph-creative-judgment-registry.yaml
+    - automation/graph-creative-judgment-profile-releases/pre_fp_storyline/9acb8808d3a04745198f91ed2a5e1650bc8d2e3a2ac158e1774f7d9e1f2372c4.yaml
+    - automation/graph-creative-judgment-profile-releases/reference_candidate/61a1c28b8a298fc985818a0bf3ba6a62fba32377bd12eac6f05125cb48fae29d.yaml
+    - automation/graph-creative-judgment-profile-releases/front_planning_close/78455593bc2ecc0fd1051ed41c11db5b9b2e33dc934bb66dbdd9891d561b95fb.yaml
+    - automation/graph-creative-judgment-profile-releases/draft_keyframe_proof/1f21557329c7801ff141ab2916df96be7733aea277103e23de12064ade772540.yaml
+    - automation/graph-creative-judgment-profile-releases/pixel_02b/b4494c251e1cfd110cd3d4bf9b4e209317f659c2b0ab7467eacad739598dbfd3.yaml
+    - automation/graph-creative-judgment-profile-releases/playback_03v/c94b9bc99a6a2db949d4f8f561024dbc25aa39c431738bac38c22984618e3fda.yaml
+    - automation/graph-creative-judgment-profile-releases/edit_04_playback/540b8233629516732d9dd43e67d494dc882fb5dacb546d689c05089d8a5068e6.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/pre_fp_storyline.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/reference_candidate.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/front_planning_close.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/draft_keyframe_proof.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/pixel_02b.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/playback_03v.yaml
+    - automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/edit_04_playback.yaml
+    - schemas/graph-skill-load-profiles.schema.json
+    - schemas/graph-role-context-projection.schema.json
+    - schemas/graph-default-routing.schema.json
+    - schemas/graph-stage-registry.schema.json
+    - schemas/graph-creative-judgment-registry.schema.json
+    - schemas/graph-creative-judgment-profile-release.schema.json
+    - schemas/graph-creative-judgment-profile-promotion.schema.json
+    - schemas/graph-creative-judgment-profile-evolution-evidence.schema.json
+    - schemas/graph-contextual-judgment.schema.json
+    - schemas/graph-production-review.schema.json
+    - schemas/graph-director-session-router-state.schema.json
+    - schemas/graph-run-controller-state.schema.json
+    - schemas/role-context-pack.schema.json
+    - schemas/graph-ledger.schema.json
+    - schemas/graph-department-dispatch.schema.json
+    - schemas/graph-director-lineage.schema.json
+    - schemas/graph-section-cohort-map.schema.json
+    - schemas/graph-node.schema.json
+    - schemas/graph-edge.schema.json
+    - schemas/graph-event.schema.json
+    - schemas/graph-run-projection.schema.json
+    - scripts/idol_graph_projector.rb
+    - scripts/idol_graph_production_review.rb
+    - scripts/idol_graph_director_session_router.rb
+    - scripts/idol_graph_run_controller.rb
+    - scripts/idol-video-python
+    - scripts/validate_json_schema.py
+    - scripts/validate_graph_director_lineage.rb
+    - scripts/validate_graph_runtime_projection.rb
+    - scripts/validate_graph_section_cohort_map.rb
+    - scripts/validate_graph_contextual_judgment.rb
+    - scripts/validate_graph_judgment_profile_promotion.rb
+    - scripts/lib/idol_graph_output_manifest_contract.rb
+    - scripts/lib/idol_graph_criterion_evidence_contract.rb
+    - scripts/lib/idol_graph_production_review_contract.rb
+    - scripts/lib/idol_graph_provider_binding_contract.rb
+    - scripts/lib/idol_graph_run_controller.rb
+    - scripts/lib/idol_graph_judgment_profile_promotion_contract.rb
+    - scripts/lib/idol_graph_goal_evidence_contract.rb
+    - scripts/lib/idol_current_next_v2.rb
+    - scripts/lib/idol_role_context_pack.rb
+    - scripts/lib/idol_source_connection_contract.rb
+    - scripts/lib/idol_run_followup_sidecar.rb
+    - skills/idol-contextual-creative-judgment/SKILL.md
+  legacy_surfaces:
+    - automation/harness-skill-load-profiles.yaml
+    - automation/harness-role-context-projection.yaml
+    - automation/harness-stage-registry.yaml
+    - automation/harness-execution-contract.yaml
+
+switch_receipt:
+  required_fields:
+    - receipt_id
+    - founder_authority
+    - graph_revision
+    - switch_boundary
+    - source_set_sha256
+    - verified_at
+  verified_means: founder_named_graph_revision_and_boundary_with_source_set_sha256
+  missing_action: hold_keep_legacy_writer
+  partial_migration_action: fail_closed_no_dual_writer
+  rollback:
+    pointer: last_passed_legacy_revision
+    graph_v2_after_rollback: read_only_shadow
+    creative_bytes: never_rewrite
+
+founder_gates:
+  normal_cycle: [G0, G1, G2, G3, G4]
+  gates:
+    - gate_id: G0
+      founder_judges: target, audience promise, message/story direction, source/provider/spend envelope
+      must_already_be_closed: candidate research method and Director/session topology
+      bypass_action: hold
+    - gate_id: G1
+      founder_judges: one complete planning route, section progression, material visual regime
+      must_already_be_closed: raw references, rejected routes, CDD lane conflict, operational readiness
+      bypass_action: hold
+    - gate_id: G2
+      founder_judges: 02A draft keyframes plus audio animatic and the final 02B/03V execution envelope
+      must_already_be_closed: render-local correction, role coverage, reference eligibility, motion readiness
+      bypass_action: hold
+    - gate_id: G3
+      founder_judges: reviewed section-cohort playback and material exception
+      must_already_be_closed: individual reference loop, every I2V clip, CDD rollover, smallest-owner retries
+      bypass_action: hold
+    - gate_id: G4
+      founder_judges: final master, protected-output disposition, release
+      must_already_be_closed: shard merge mechanics, non-semantic QC, manifest refresh
+      bypass_action: hold
+  material_escalation:
+    - target_message_or_full_storyline_root_change
+    - current_title_identity_or_material_style_lock_change
+    - restricted_or_unofficial_source_exception
+    - provider_spend_download_or_output_envelope_expansion
+    - unresolvable_cross_lane_or_cross_cohort_conflict
+    - protected_output_disposal_upload_publication_or_final_release
+  non_material_state: director_owned_hold_and_route
+
+cohort_succession:
+  p3_requires:
+    - selected_audio
+    - provisional_section_boundary_map
+    - exact_section_cohort_id
+  g40_planning_state: read_only_rollback_point
+  lane_id_pattern:
+    overall: "^overall$"
+    planning_p1: "^planning_p1$"
+    planning_p2: "^planning_p2$"
+    planning_p3_ci: "^planning_p3_c[1-9][0-9]*$"
+    section_cluster_v_ci: "^section_cluster_v_c[1-9][0-9]*$"
+    edit_director: "^edit_director$"
+  same_cohort_carry: p3_ci_section_cohort_id_exact_carries_to_v_ci
+  pixel_to_playback: same_cohort_cdd_successor
+  section_output_writer: one_section_image_motion_worker
+  promotion_owner: overall_director
+  wrong_cohort_action: hold
+  cross_cohort_parallelism:
+    planning_p3_ci: allowed_for_disjoint_cohort_lanes
+    section_cluster_v_ci: allowed_for_disjoint_cohort_lanes
+    capacity_creates_lane: false
+    requires_disjoint_write_scope: true
+    lower_provider_combined_cap_and_backpressure_win: true
+
+session_caps:
+  logical_overall: 1
+  active_writer_per_lane_stage: 1
+  physical_per_lane_stage:
+    primary: 1
+    successor: 1
+    maximum: 2
+  successor_before_cas: read_only_not_active_writer
+  cas_commit: atomic_retire_primary_then_activate_successor
+  provider_physical_ceiling:
+    grok_build_nonroot: 8
+    cursor_agent_nonroot: 6
+    combined: 14
+    lower_live_cap_wins: true
+  third_session: hold_never_auto_spawn
+
+backpressure:
+  capacity_is: ceiling_never_quota
+  pause_when:
+    - review_backpressure
+    - writer_backlog
+    - owner_or_path_collision
+    - provider_limits
+    - founder_locks
+    - unreviewed_aggregate_manifest_limit
+  unreviewed_aggregate_manifest_limit_per_lane: 2
+  new_launch_when_limit_reached: forbidden
+
+same_session_correction:
+  creates: new_immutable_attempt_same_room
+  physical_session: same_session
+  prior_evidence: preserve
+  max_child_submissions: 3
+  after_submission_three: route_upstream_or_hold
+  must_not:
+    - open_fourth_child_submission
+    - open_new_physical_session
+    - create_parallel_writer
+    - overwrite_prior_evidence
+
+orchestrator_route:
+  owner: overall_director
+  selects_writer_from: automation/graph-default-routing.yaml
+  graph_v2_owns:
+    - graph_admission
+    - node_scheduling
+    - skill_load
+    - role_context_pack
+    - succession
+    - backpressure
+    - founder_g0_g4_projection
+  legacy_owns:
+    - existing_run_authoring
+    - new_run_authoring_until_verified_switch_receipt
+  skill_load_registry:
+    graph_v2: automation/graph-skill-load-profiles.yaml
+    legacy_pinned: automation/harness-skill-load-profiles.yaml
+  projection_registry:
+    graph_v2: automation/graph-role-context-projection.yaml
+    legacy_pinned: automation/harness-role-context-projection.yaml
+  role_context_pack:
+    exact_node: true
+    replaces_broad_reads: true
+    urls_and_raw_pools: excluded_recoverable_via_source_id_locator_sha256

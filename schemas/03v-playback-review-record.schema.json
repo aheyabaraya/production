@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/03v-playback-review-record.schema.json",
+  "title": "IDOL 03V Playback Review Record",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "source_review_worklist",
+    "source_review_worklist_sha256",
+    "source_intake",
+    "source_intake_sha256",
+    "source_section_qa",
+    "source_section_qa_sha256",
+    "section_range",
+    "target_scope",
+    "target_id",
+    "decision",
+    "decision_input_text",
+    "decision_note",
+    "review_source",
+    "explicit_founder_review",
+    "covered_sections",
+    "covered_packets",
+    "summary",
+    "next_action",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol_03v_playback_review_record.v1"
+    },
+    "generated_at": {"type": "string", "minLength": 1},
+    "run": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["recorded"]
+    },
+    "source_review_worklist": {"type": "string", "minLength": 1},
+    "source_review_worklist_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_intake": {"type": "string", "minLength": 1},
+    "source_intake_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_section_qa": {"type": "string", "minLength": 1},
+    "source_section_qa_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "section_range": {"type": "string", "minLength": 1},
+    "target_scope": {
+      "enum": ["packet", "section", "gate"]
+    },
+    "target_id": {"type": "string", "minLength": 1},
+    "decision": {
+      "enum": ["pass", "hold", "fix"]
+    },
+    "decision_input_text": {"type": "string", "minLength": 1},
+    "decision_note": {"type": "string", "minLength": 1},
+    "review_source": {"type": "string", "minLength": 1},
+    "explicit_founder_review": {"type": "boolean"},
+    "covered_sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "covered_packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/covered_packet"}
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "packet_count",
+        "present_clip_count",
+        "missing_clip_count",
+        "pending_review_count",
+        "all_target_clips_present",
+        "can_patch_generation_playback_probe"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packet_count": {"type": "integer", "minimum": 0},
+        "present_clip_count": {"type": "integer", "minimum": 0},
+        "missing_clip_count": {"type": "integer", "minimum": 0},
+        "pending_review_count": {"type": "integer", "minimum": 0},
+        "all_target_clips_present": {"type": "boolean"},
+        "can_patch_generation_playback_probe": {"type": "boolean"}
+      }
+    },
+    "next_action": {"type": "string", "minLength": 1},
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "covered_packet": {
+      "type": "object",
+      "required": [
+        "packet_id",
+        "section_key",
+        "timeline",
+        "clip_status",
+        "generated_clip_path",
+        "required_checks",
+        "required_check_count",
+        "review_status_after_record"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packet_id": {"type": "string", "minLength": 1},
+        "section_key": {"type": "string", "minLength": 1},
+        "timeline": {"type": "string"},
+        "clip_status": {"enum": ["missing", "present"]},
+        "generated_clip_path": {"type": "string"},
+        "generated_clip_sha256": {"type": "string", "pattern": "^(?:[a-f0-9]{64})?$"},
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/required_check"}
+        },
+        "required_check_count": {"type": "integer", "minimum": 0},
+        "review_status_after_record": {
+          "enum": ["pass_recorded", "hold_recorded", "fix_recorded"]
+        }
+      }
+    },
+    "required_check": {
+      "type": "object",
+      "required": ["id", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string"}
+      }
+    }
+  }
+}

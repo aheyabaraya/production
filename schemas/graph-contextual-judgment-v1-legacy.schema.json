@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-contextual-judgment-v1-legacy.schema.json",
+  "title": "IDOL Graph Contextual 0-4 Prose Judgment",
+  "description": "A human- or assigned-model-authored evidence vector that selects a legal review or correction edge. It cannot create an aggregate score or creative PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "profile_id", "checkpoint_id", "stage_id", "scope_id", "authoring_owner", "reviewer_role", "performance_mode", "applicability_tags", "applicability_evidence", "execution_binding", "source_artifacts", "criteria", "hard_gate_findings", "decision", "next_edge", "target_message_treatment", "aggregate_score_present", "automatic_creative_pass", "status"],
+  "properties": {
+    "schema_version": {"const": "idol_graph_contextual_judgment.v1"},
+    "artifact_type": {"const": "graph_contextual_judgment"},
+    "profile_id": {"$ref": "#/$defs/identifier"},
+    "checkpoint_id": {"$ref": "#/$defs/identifier"},
+    "stage_id": {"$ref": "#/$defs/identifier"},
+    "scope_id": {"type": "string", "minLength": 1},
+    "authoring_owner": {"const": "human_or_assigned_model"},
+    "reviewer_role": {"$ref": "#/$defs/identifier"},
+    "performance_mode": {"enum": ["none", "supporting", "primary"]},
+    "performance_mode_evidence": {"$ref": "#/$defs/performanceModeEvidence"},
+    "applicability_tags": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/applicabilityTag"}},
+    "applicability_evidence": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/applicabilityEvidence"}},
+    "execution_binding": {"$ref": "#/$defs/executionBinding"},
+    "source_artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifactRef"}},
+    "criteria": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"$ref": "#/$defs/criterion"}},
+    "hard_gate_findings": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/hardGateFinding"}},
+    "decision": {"enum": ["eligible_for_director_review", "combine_or_correct", "hold", "reject"]},
+    "next_edge": {"enum": ["director_review", "revise_same_owner", "return_to_smallest_owner", "stop"]},
+    "target_message_treatment": {"type": "string", "minLength": 1},
+    "aggregate_score_present": {"const": false},
+    "automatic_creative_pass": {"const": false},
+    "status": {"enum": ["draft", "ready_for_director_review", "hold", "rejected"]}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"performance_mode": {"enum": ["supporting", "primary"]}},
+        "required": ["performance_mode"]
+      },
+      "then": {"required": ["performance_mode_evidence"]}
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "applicabilityTag": {"enum": ["motion_reference", "composition_function_present", "member_absent", "no_material_prop", "no_performance_job"]},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "locator": {"type": "string", "minLength": 1},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "executionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignment_id", "author_role", "author_session_id", "dispatch", "goal_id", "goal_terminal_event_sha256", "role_context_pack", "profile_release", "profile_value_sha256", "input_digest_sha256", "output_manifest"],
+      "properties": {
+        "assignment_id": {"type": "string", "minLength": 1},
+        "author_role": {"$ref": "#/$defs/identifier"},
+        "author_session_id": {"type": "string", "minLength": 1},
+        "dispatch": {"$ref": "#/$defs/artifactRef"},
+        "goal_id": {"type": "string", "minLength": 1},
+        "goal_terminal_event_sha256": {"$ref": "#/$defs/sha256"},
+        "role_context_pack": {"$ref": "#/$defs/artifactRef"},
+        "profile_release": {"$ref": "#/$defs/artifactRef"},
+        "profile_value_sha256": {"$ref": "#/$defs/sha256"},
+        "input_digest_sha256": {"$ref": "#/$defs/sha256"},
+        "output_manifest": {"$ref": "#/$defs/artifactRef"},
+        "author_response": {"$ref": "#/$defs/artifactRef"}
+      }
+    },
+    "applicabilityEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "evidence_kind", "source_path", "json_pointer", "value_sha256", "expected_value"],
+      "properties": {
+        "tag": {"$ref": "#/$defs/applicabilityTag"},
+        "evidence_kind": {"enum": ["reference_role", "reference_function", "scope_applicability", "performance_mode"]},
+        "source_path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"},
+        "expected_value": {
+          "enum": [
+            "motion_reference",
+            "composition_function_present",
+            "still_camera_and_composition",
+            "member_absent",
+            "not_visible",
+            "not_applicable_member_absent",
+            "no_material_prop",
+            "not_applicable_no_material_prop",
+            "no_performance_job",
+            "none",
+            true,
+            false
+          ]
+        }
+      }
+    },
+    "performanceModeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_kind", "source_path", "json_pointer", "value_sha256", "expected_value"],
+      "properties": {
+        "evidence_kind": {"const": "performance_mode"},
+        "source_path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"},
+        "expected_value": {"enum": ["supporting", "primary"]}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "result", "evidence_locator", "observable_claim", "screen_consequence", "preserve", "change", "do_not_infer", "correction_action", "acceptance_evidence"],
+      "properties": {
+        "criterion_id": {"$ref": "#/$defs/identifier"},
+        "result": {"oneOf": [{"type": "integer", "minimum": 0, "maximum": 4}, {"const": "not_applicable"}]},
+        "evidence_locator": {"type": "string", "minLength": 1},
+        "observable_claim": {"type": "string", "minLength": 1},
+        "screen_consequence": {"type": "string", "minLength": 1},
+        "preserve": {"type": "string", "minLength": 1},
+        "change": {"type": "string", "minLength": 1},
+        "do_not_infer": {"type": "string", "minLength": 1},
+        "correction_action": {"type": "string", "minLength": 1},
+        "acceptance_evidence": {"type": "string", "minLength": 1},
+        "not_applicable_reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {"if": {"properties": {"result": {"const": "not_applicable"}}, "required": ["result"]}, "then": {"required": ["not_applicable_reason"]}, "else": {"not": {"required": ["not_applicable_reason"]}}}
+      ]
+    },
+    "hardGateFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "evidence_locator", "consequence", "required_action"],
+      "properties": {
+        "finding_id": {"$ref": "#/$defs/identifier"},
+        "evidence_locator": {"type": "string", "minLength": 1},
+        "consequence": {"type": "string", "minLength": 1},
+        "required_action": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

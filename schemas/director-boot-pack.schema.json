@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/director-boot-pack.schema.json",
+  "title": "IDOL CDD Successor Director Boot Pack",
+  "description": "A deterministic, pointer-only restore package for one read-only Creative Development Director successor preflight. It carries no transcript and grants no creative, canonical, or Founder authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "profile",
+    "boot_pack_id",
+    "run",
+    "generated_at",
+    "authority_boundary",
+    "transfer",
+    "lineage_carry",
+    "state_blocks",
+    "admission"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-director-boot-pack.v3"},
+    "artifact_type": {"const": "director_boot_pack"},
+    "profile": {"const": "cdd_successor"},
+    "boot_pack_id": {"type": "string", "pattern": "^CDD_BOOT_FPCHK_[0-9]{4}$"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "generated_at": {"$ref": "#/$defs/timestamp"},
+    "authority_boundary": {
+      "type": "object",
+      "const": {
+        "pointer_only": true,
+        "transcript_included": false,
+        "creative_summary_authored_by_script": false,
+        "preflight_read_only": true,
+        "creative_authority": false,
+        "canonical_write": false,
+        "founder_lock_inferred": false,
+        "prior_session_retired": false
+      }
+    },
+    "transfer": {"$ref": "#/$defs/transfer"},
+    "lineage_carry": {"$ref": "#/$defs/lineageCarry"},
+    "state_blocks": {"$ref": "#/$defs/stateBlocks"},
+    "admission": {"$ref": "#/$defs/admission"}
+  },
+  "$defs": {
+    "timestamp": {"type": "string", "minLength": 1, "maxLength": 80},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "token": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,180}$"},
+    "nonEmpty": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "runPath": {
+      "type": "string",
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.codex/|\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "nullablePointer": {
+      "oneOf": [
+        {"$ref": "#/$defs/pointer"},
+        {"type": "null"}
+      ]
+    },
+    "transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_role",
+        "session_key",
+        "source_session_id",
+        "successor_session_id",
+        "logical_lineage_id",
+        "source_attempt_id",
+        "source_checkpoint",
+        "successor_authority_state",
+        "prior_owner_release_required_before_authority",
+        "explicit_founder_confirmation_required_after_preflight"
+      ],
+      "properties": {
+        "logical_role": {"const": "creative_development_director"},
+        "session_key": {"const": "creative_development_director:development-through-03v"},
+        "source_session_id": {"$ref": "#/$defs/token"},
+        "successor_session_id": {"$ref": "#/$defs/token"},
+        "logical_lineage_id": {"$ref": "#/$defs/token"},
+        "source_attempt_id": {"$ref": "#/$defs/token"},
+        "source_checkpoint": {"$ref": "#/$defs/pointer"},
+        "successor_authority_state": {"const": "read_only_preflight"},
+        "prior_owner_release_required_before_authority": {"const": true},
+        "explicit_founder_confirmation_required_after_preflight": {"const": true}
+      }
+    },
+    "lineageCarry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_artifact", "pre00_storyline_original_json_pointer", "active_storyline_json_pointer", "screen_progression_map_json_pointer", "valid_through_stage", "review_scope", "exact_copy_only"],
+      "properties": {
+        "source_artifact": {"$ref": "#/$defs/pointer"},
+        "pre00_storyline_original_json_pointer": {"const": "/storyline_lineage/pre00_lineage/pre00_storyline_original"},
+        "active_storyline_json_pointer": {"const": "/storyline_lineage/active_version"},
+        "screen_progression_map_json_pointer": {"const": "/screen_progression_map"},
+        "valid_through_stage": {"const": "video_playback_review"},
+        "review_scope": {"const": "song_reference_fp_01_02a_image_and_03v_internal_review"},
+        "exact_copy_only": {"const": true}
+      }
+    },
+    "requiredRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "kind", "path", "revision", "sha256", "eof_required"],
+      "properties": {
+        "binding_id": {"$ref": "#/$defs/token"},
+        "kind": {"enum": ["skill", "linked_read"]},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "revision": {"$ref": "#/$defs/nonEmpty"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true}
+      }
+    },
+    "lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lock_id", "verbatim", "scope", "source_locator"],
+      "properties": {
+        "lock_id": {"$ref": "#/$defs/token"},
+        "verbatim": {"$ref": "#/$defs/nonEmpty"},
+        "scope": {"$ref": "#/$defs/nonEmpty"},
+        "source_locator": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["head_id", "stage_id", "source_dispatch_id", "lineage_id", "attempt_id", "artifact"],
+      "properties": {
+        "head_id": {"$ref": "#/$defs/token"},
+        "stage_id": {"$ref": "#/$defs/token"},
+        "source_dispatch_id": {"$ref": "#/$defs/token"},
+        "lineage_id": {"$ref": "#/$defs/token"},
+        "attempt_id": {"$ref": "#/$defs/token"},
+        "artifact": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "taskCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id", "task_id", "stage_id", "section_ids", "state", "owner", "lineage_id", "attempt_id", "dispatch_pointer"],
+      "properties": {
+        "dispatch_id": {"$ref": "#/$defs/token"},
+        "task_id": {"$ref": "#/$defs/token"},
+        "stage_id": {"$ref": "#/$defs/token"},
+        "section_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "state": {"$ref": "#/$defs/nonEmpty"},
+        "owner": {"$ref": "#/$defs/nonEmpty"},
+        "lineage_id": {"$ref": "#/$defs/token"},
+        "attempt_id": {"$ref": "#/$defs/token"},
+        "dispatch_pointer": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "stateBlocks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "role_and_authority",
+        "founder_truth",
+        "creative_spine",
+        "director_decision_checkpoint",
+        "evidence_view",
+        "canonical_heads",
+        "execution_state",
+        "review_and_next_route",
+        "transfer_integrity"
+      ],
+      "properties": {
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["run", "logical_role", "session_key", "source_session_id", "successor_session_id"],
+          "properties": {
+            "run": {"$ref": "#/$defs/runPath"},
+            "logical_role": {"const": "creative_development_director"},
+            "session_key": {"const": "creative_development_director:development-through-03v"},
+            "source_session_id": {"$ref": "#/$defs/token"},
+            "successor_session_id": {"$ref": "#/$defs/token"}
+          }
+        },
+        "role_and_authority": {
+          "type": "object",
+          "const": {
+            "reports_to": "overall_director",
+            "founder_lock_owner": "founder",
+            "canonical_promotion_owner": "overall_director",
+            "preflight_may_read": true,
+            "preflight_may_author_creative_truth": false,
+            "preflight_may_write_canonical_truth": false,
+            "preflight_may_dispatch_workers": false,
+            "preflight_may_use_external_or_paid_surfaces": false
+          }
+        },
+        "founder_truth": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["decision_epoch", "active_founder_locks"],
+          "properties": {
+            "decision_epoch": {"type": ["string", "null"]},
+            "active_founder_locks": {"type": "array", "items": {"$ref": "#/$defs/lock"}}
+          }
+        },
+        "creative_spine": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["current_plan", "director_development_reports"],
+          "properties": {
+            "current_plan": {"$ref": "#/$defs/pointer"},
+            "director_development_reports": {"type": "array", "items": {"$ref": "#/$defs/pointer"}},
+            "premium_review_adoption_records": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/pointer"},
+              "description": "Pointer-only CDD-authored adoption records. Scripts never copy advisory prose."
+            }
+          }
+        },
+        "director_decision_checkpoint": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shared_checkpoint", "checkpoint_id", "founder_epoch", "active_section_id", "planning_status"],
+          "properties": {
+            "shared_checkpoint": {"$ref": "#/$defs/pointer"},
+            "checkpoint_id": {"type": "string", "pattern": "^FPCHK-[0-9]{4}$"},
+            "founder_epoch": {"type": "integer", "minimum": 0},
+            "active_section_id": {"$ref": "#/$defs/nonEmpty"},
+            "planning_status": {"$ref": "#/$defs/nonEmpty"}
+          }
+        },
+        "evidence_view": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reference_working_index", "reference_index_absence_reason", "required_read_set"],
+          "properties": {
+            "reference_working_index": {"$ref": "#/$defs/nullablePointer"},
+            "reference_index_absence_reason": {"type": ["string", "null"]},
+            "required_read_set": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/requiredRead"}}
+          }
+        },
+        "canonical_heads": {"type": "array", "items": {"$ref": "#/$defs/head"}},
+        "execution_state": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["director_dispatch_index", "source_set_sha256", "open_or_held_tasks", "review_queue"],
+          "properties": {
+            "director_dispatch_index": {"$ref": "#/$defs/pointer"},
+            "source_set_sha256": {"$ref": "#/$defs/sha256"},
+            "open_or_held_tasks": {"type": "array", "items": {"$ref": "#/$defs/taskCheckpoint"}},
+            "review_queue": {"type": "object"}
+          }
+        },
+        "review_and_next_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["next_actions", "no_rollover_zones_verified"],
+          "properties": {
+            "next_actions": {"type": "array", "items": {"type": "object"}},
+            "no_rollover_zones_verified": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["safe_checkpoint", "no_open_founder_gate", "no_active_worker_return_or_director_review", "canonical_writer_idle", "no_owner_or_output_collision", "hashes_fresh", "explicit_founder_confirmation"],
+              "properties": {
+                "safe_checkpoint": {"const": true},
+                "no_open_founder_gate": {"const": true},
+                "no_active_worker_return_or_director_review": {"const": true},
+                "canonical_writer_idle": {"const": true},
+                "no_owner_or_output_collision": {"const": true},
+                "hashes_fresh": {"const": true},
+                "explicit_founder_confirmation": {"const": true}
+              }
+            }
+          }
+        },
+        "transfer_integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile_registry", "required_read_set_sha256", "state_blocks_sha256"],
+          "properties": {
+            "profile_registry": {"$ref": "#/$defs/pointer"},
+            "required_read_set_sha256": {"$ref": "#/$defs/sha256"},
+            "state_blocks_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["response_envelope", "objective", "objective_sha256", "required_questions"],
+      "properties": {
+        "response_envelope": {"const": "idol_cdd_successor_preflight.v1"},
+        "objective": {"$ref": "#/$defs/nonEmpty"},
+        "objective_sha256": {"$ref": "#/$defs/sha256"},
+        "required_questions": {
+          "const": [
+            "scope_and_authority",
+            "founder_locks_and_proposals",
+            "current_recommendation_and_reason",
+            "do_not_revive",
+            "unresolved_decisions",
+            "heads_evidence_and_pending_owner",
+            "next_stop_and_wake"
+          ]
+        }
+      }
+    }
+  }
+}

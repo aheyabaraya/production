@@ -1,0 +1,360 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-context-pack.schema.json",
+  "title": "IDOL Bounded Image-Prompt Section Context Pack v7",
+  "description": "v7 exact-carries PRE-00 storyline lineage, screen-progression nodes, and the resolved provider snapshot before the bounded section neighborhood.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "run",
+    "task",
+    "source_snapshot",
+    "storyline_lineage_projection",
+    "screen_progression_projection",
+    "provider_profile_snapshot",
+    "planning_spine",
+    "active_unit",
+    "read_order",
+    "excluded_surfaces",
+    "handoff_digest",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-context-pack.v7"},
+    "content_id": {"type": "string", "minLength": 1},
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "task": {"$ref": "#/$defs/task"},
+    "source_snapshot": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/sourceSnapshot"}
+    },
+    "storyline_lineage_projection": {"$ref": "#/$defs/storylineLineageProjection"},
+    "screen_progression_projection": {"$ref": "#/$defs/exactProjection"},
+    "provider_profile_snapshot": {"$ref": "#/$defs/providerSnapshot"},
+    "planning_spine": {"$ref": "#/$defs/planningSpine"},
+    "active_unit": {"$ref": "#/$defs/activeUnit"},
+    "read_order": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "storyline_lineage_projection"},
+        {"const": "screen_progression_projection"},
+        {"const": "provider_profile_snapshot"},
+        {"const": "planning_spine"},
+        {"const": "active_unit.section_assignment"},
+        {"const": "active_unit.parent_core_cut"},
+        {"const": "active_unit.current_branch_cut"},
+        {"const": "active_unit.previous_branch_cut"},
+        {"const": "active_unit.next_branch_cut"},
+        {"const": "active_unit.previous_core_cut"},
+        {"const": "active_unit.next_core_cut"},
+        {"const": "active_unit.current_branch_visual_bindings"}
+      ],
+      "items": false
+    },
+    "excluded_surfaces": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "adjacent_section_core_or_branch_detail"},
+        {"const": "other_section_storyboard_cuts"},
+        {"const": "other_section_prompt_packets"},
+        {"const": "other_section_visual_references"},
+        {"const": "full_run_raw_research_history"},
+        {"const": "rejected_candidate_detail"},
+        {"const": "full_contact_sheets"},
+        {"const": "prior_chat_transcript"}
+      ],
+      "items": false
+    },
+    "handoff_digest": {"$ref": "#/$defs/sha256"},
+    "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "exactProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "source_json_pointer", "source_value_sha256", "projected_value", "projection_rule"],
+      "properties": {"source_path": {"type": "string", "minLength": 1}, "source_json_pointer": {"const": "/screen_progression_map"}, "source_value_sha256": {"$ref": "#/$defs/sha256"}, "projected_value": {"type": ["object", "array"]}, "projection_rule": {"const": "exact_copy_no_paraphrase_or_default"}}
+    },
+    "providerSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registry_path", "registry_sha256", "logical_profile_alias", "execution_profile_id", "resolved_profile_snapshot_ref", "provider_capability_snapshot_sha256", "fallback_policy"],
+      "properties": {"registry_path": {"const": "automation/harness-provider-profile-registry.yaml"}, "registry_sha256": {"$ref": "#/$defs/sha256"}, "logical_profile_alias": {"enum": ["director_deep", "worker_high"]}, "execution_profile_id": {"type": "string", "minLength": 1}, "resolved_profile_snapshot_ref": {"type": "string", "minLength": 1}, "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"}, "fallback_policy": {"const": "forbidden"}}
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "context_profile",
+        "owner",
+        "description",
+        "active_section_ids",
+        "active_core_cut_id",
+        "active_branch_cut_id",
+        "scope_rule"
+      ],
+      "properties": {
+        "stage_id": {"const": "image_prompt_compilation"},
+        "context_profile": {"const": "image_prompt_section"},
+        "owner": {"enum": ["grok", "cursor"]},
+        "description": {"type": "string", "minLength": 1},
+        "active_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "active_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "active_branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "scope_rule": {
+          "const": "one_section_one_current_branch_plus_parent_core_immediate_branch_siblings_and_immediate_same_section_core_neighbors"
+        }
+      }
+    },
+    "sourceSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "schema_version", "selected_use"],
+      "properties": {
+        "role": {"enum": ["front_planning", "section_direction_01", "storyboard_02a"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"type": "string", "minLength": 1},
+        "selected_use": {"type": "string", "minLength": 1}
+      }
+    },
+    "storylineLineageProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "projected_value", "projection_rule"],
+      "properties": {
+        "source_json_pointer": {"const": "/storyline_lineage_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"},
+        "projection_rule": {"const": "read_complete_pre00_original_active_full_text_revision_history_density_review_and_reference_receipts_before_compact_planning_or_branch_detail"}
+      }
+    },
+    "planningSpine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_message_summary",
+        "whole_film_spine",
+        "output_intent",
+        "branch_subject_mix_policy",
+        "projection_sha256",
+        "summary_boundary"
+      ],
+      "properties": {
+        "target_message_summary": {"type": "object"},
+        "whole_film_spine": {"type": "object"},
+        "output_intent": {"type": "string", "minLength": 1},
+        "branch_subject_mix_policy": {"type": "string", "minLength": 1},
+        "projection_sha256": {"$ref": "#/$defs/sha256"},
+        "summary_boundary": {"const": "compact_index_only_never_a_substitute_for_storyline_lineage_projection"}
+      }
+    },
+    "coreCutRef": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["core_cut_id", "json_pointer", "value_sha256"],
+      "properties": {
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "json_pointer": {"type": "string", "pattern": "^/master_storyboard/[0-9]+$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "branchCutRef": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["branch_cut_id", "json_pointer", "value_sha256"],
+      "properties": {
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^/master_storyboard/[0-9]+/compile_seed/branch_cuts/[0-9]+$"
+        },
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "branchNeighborhood": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "section_id",
+        "parent_core_cut",
+        "current_branch_cut",
+        "previous_branch_cut",
+        "next_branch_cut",
+        "previous_core_cut",
+        "next_core_cut",
+        "section_entry_continuity",
+        "section_exit_continuity",
+        "context_value_sha256"
+      ],
+      "properties": {
+        "policy": {
+          "const": "current_branch_plus_parent_core_immediate_branch_siblings_and_immediate_previous_and_next_core_cuts_in_same_section_only"
+        },
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "parent_core_cut": {
+          "allOf": [{"$ref": "#/$defs/coreCutRef"}],
+          "type": "object"
+        },
+        "current_branch_cut": {
+          "allOf": [{"$ref": "#/$defs/branchCutRef"}],
+          "type": "object"
+        },
+        "previous_branch_cut": {"$ref": "#/$defs/branchCutRef"},
+        "next_branch_cut": {"$ref": "#/$defs/branchCutRef"},
+        "previous_core_cut": {"$ref": "#/$defs/coreCutRef"},
+        "next_core_cut": {"$ref": "#/$defs/coreCutRef"},
+        "section_entry_continuity": {
+          "type": ["object", "null"]
+        },
+        "section_exit_continuity": {
+          "type": ["object", "null"]
+        },
+        "context_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "visualBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "asset_id",
+        "actual_path",
+        "sha256",
+        "reference_scope",
+        "reference_class",
+        "order",
+        "target_branch_cut_ids",
+        "preserve",
+        "discard"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"},
+        "asset_id": {"type": "string", "minLength": 1},
+        "actual_path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "(^|/)face-only-reference(?:-|\\.|/)"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "reference_scope": {"enum": ["member_visual", "scene_visual"]},
+        "reference_class": {
+          "enum": [
+            "current_title_member_visual",
+            "current_title_world_or_background",
+            "founder_sequence_subreference",
+            "founder_scene_subreference",
+            "other_scene_visual"
+          ]
+        },
+        "order": {"type": "integer", "minimum": 1},
+        "target_branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+        },
+        "preserve": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "discard": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "activeUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "section_assignment",
+        "branch_neighborhood",
+        "parent_core_cut",
+        "current_branch_cut",
+        "previous_branch_cut",
+        "next_branch_cut",
+        "previous_core_cut",
+        "next_core_cut",
+        "current_branch_visual_bindings",
+        "current_title_package",
+        "cross_section_boundary_detail"
+      ],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "section_assignment": {"type": "object"},
+        "branch_neighborhood": {"$ref": "#/$defs/branchNeighborhood"},
+        "parent_core_cut": {"type": "object"},
+        "current_branch_cut": {"type": "object"},
+        "previous_branch_cut": {"type": ["object", "null"]},
+        "next_branch_cut": {"type": ["object", "null"]},
+        "previous_core_cut": {"type": ["object", "null"]},
+        "next_core_cut": {"type": ["object", "null"]},
+        "current_branch_visual_bindings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/visualBinding"}
+        },
+        "current_title_package": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["album_key", "title_key", "member_visual_asset_ids", "rule"],
+          "properties": {
+            "album_key": {"type": "string", "minLength": 1},
+            "title_key": {"type": "string", "minLength": 1},
+            "member_visual_asset_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "rule": {
+              "const": "current_title_only_and_smallest_branch_cut_relevant_subset"
+            }
+          }
+        },
+        "cross_section_boundary_detail": {"type": "null"}
+      }
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_context_only",
+        "creative_truth_authored",
+        "founder_pass_inferred",
+        "paid_generation_approved",
+        "external_execution_approved"
+      ],
+      "properties": {
+        "derived_context_only": {"const": true},
+        "creative_truth_authored": {"const": false},
+        "founder_pass_inferred": {"const": false},
+        "paid_generation_approved": {"const": false},
+        "external_execution_approved": {"const": false}
+      }
+    }
+  }
+}

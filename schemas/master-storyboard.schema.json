@@ -1,0 +1,1238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/master-storyboard.schema.json",
+  "title": "IDOL 02A Branch Expansion Plan",
+  "description": "Active 3.0 contract only. 02A exact-imports the passed 01 Official Core Storyboard, including every one-image Core and mandatory Core reference binding, as immutable parent bytes. It authors only 1..N ordered Branch Cuts per passed Core inside the exact derivative and production scope.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_front_planning",
+    "source_01_direction",
+    "imported_core_storyboard_head",
+    "derivative_route_id",
+    "production_scope_id",
+    "output_intent",
+    "storyline_lineage_projection",
+    "pre00_audience_target_lineage_projection",
+    "target_message_summary",
+    "whole_film_spine",
+    "founder_visual_alignment_projection",
+    "screen_progression_map_projection",
+    "creative_role_harness",
+    "branch_subject_mix_policy",
+    "coverage_plan",
+    "section_shards",
+    "master_storyboard",
+    "official_branch_cuts",
+    "reference_coverage_matrix",
+    "camera_diversity_review",
+    "branch_generation_manifest",
+    "g40_core_branch_authorization",
+    "founder_planning_gate",
+    "review_surface",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {"const": "3.0"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "founder_review", "passed", "hold", "rejected"]},
+    "source_front_planning": {"$ref": "#/$defs/artifactRef"},
+    "source_01_direction": {"$ref": "#/$defs/artifactRef"},
+    "imported_core_storyboard_head": {"$ref": "#/$defs/importedCoreStoryboardHead"},
+    "derivative_route_id": {"type": "string", "pattern": "^DERIV_[A-Z0-9_]{2,100}$"},
+    "production_scope_id": {"type": "string", "pattern": "^PSCOPE_[A-Z0-9_]{2,100}$"},
+    "output_intent": {"type": "string", "minLength": 1},
+    "storyline_lineage_projection": {"$ref": "#/$defs/storylineLineageProjection"},
+    "pre00_audience_target_lineage_projection": {"$ref": "#/$defs/immutableValueProjection"},
+    "target_message_summary": {"$ref": "#/$defs/targetMessageSummary"},
+    "whole_film_spine": {"$ref": "#/$defs/wholeFilmSpine"},
+    "founder_visual_alignment_projection": {"$ref": "#/$defs/alignmentValueProjection"},
+    "screen_progression_map_projection": {"$ref": "#/$defs/immutableValueProjection"},
+    "creative_role_harness": {
+      "const": "creative_development_director_directs_and_reviews_02a_immutable_core_import_and_branch_only_working_shards_overall_director_inspects_and_promotes_exact_bytes"
+    },
+    "branch_subject_mix_policy": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Whole-film balance among member, unit/group, world/object, environment, system, and mixed screen carriers. Performance is optional rather than assumed."
+    },
+    "coverage_plan": {"$ref": "#/$defs/coveragePlan"},
+    "section_shards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionShard"}
+    },
+    "master_storyboard": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/coreCut"}
+    },
+    "official_branch_cuts": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}},
+    "reference_coverage_matrix": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/referenceCoverageRow"}},
+    "camera_diversity_review": {"$ref": "#/$defs/cameraDiversityReview"},
+    "branch_generation_manifest": {"$ref": "#/$defs/branchGenerationManifest"},
+    "g40_core_branch_authorization": {"$ref": "#/$defs/g40Authorization"},
+    "founder_planning_gate": {"$ref": "#/$defs/founderPlanningGate"},
+    "review_surface": {"$ref": "#/$defs/reviewSurface"},
+    "open_questions": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "immutableValueProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_01_json_pointer", "source_front_planning_json_pointer", "source_value_sha256", "projected_value"],
+      "properties": {
+        "source_01_json_pointer": {"type": "string", "pattern": "^/.+"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/.+"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {}
+      }
+    },
+    "importedCoreStoryboardHead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_01_path", "source_01_sha256", "source_01_schema_version", "source_json_pointer", "source_value_sha256", "projected_value", "authorship_owner", "mutation_rule"],
+      "properties": {
+        "source_01_path": {"type": "string", "minLength": 1},
+        "source_01_sha256": {"$ref": "#/$defs/sha256"},
+        "source_01_schema_version": {"const": "3.0"},
+        "source_json_pointer": {"const": "/official_core_cuts"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "array", "minItems": 1},
+        "authorship_owner": {"const": "01_imported_immutable"},
+        "mutation_rule": {"const": "02A_must_request_01_or_FP_smallest_owner_revision_instead_of_editing_Core_meaning_or_image"}
+      }
+    },
+    "referenceCoverageRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_cut_id", "branch_cut_id", "coverage_mode", "exact_source_binding_ids", "status"],
+      "properties": {
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "coverage_mode": {"enum": ["reference_led", "originated_without_direct_visual_reference"]},
+        "exact_source_binding_ids": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "status": {"enum": ["complete", "hold"]}
+      }
+    },
+    "cameraDiversityReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verdict", "reviewed_branch_cut_ids", "same_core_and_whole_film_read"],
+      "properties": {
+        "verdict": {"enum": ["pass", "hold", "reject"]},
+        "reviewed_branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+        },
+        "reviewed_core_cut_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}
+        },
+        "same_core_and_whole_film_read": {"type": "string", "minLength": 1},
+        "collected_image_camera_angle_review": {"$ref": "#/$defs/collectedImageCameraAngleReview"}
+      }
+    },
+    "collectedImageCameraAngleReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "scope",
+        "automatic_creative_pass",
+        "distinct_images",
+        "pairs",
+        "contextual_full_storyboard_read"
+      ],
+      "properties": {
+        "contract_version": {"const": "collected_storyboard_camera_angle_review.v1"},
+        "scope": {
+          "const": "all_distinct_generated_production_images_on_the_planning_production_storyboard"
+        },
+        "automatic_creative_pass": {"const": false},
+        "distinct_images": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/collectedStoryboardImage"}
+        },
+        "pairs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/collectedStoryboardImagePair"}
+        },
+        "contextual_full_storyboard_read": {"type": "string", "minLength": 1},
+        "generated_pixel_closure": {"type": "boolean"},
+        "incomplete_pixel_bindings": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "collectedStoryboardImage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cut_id", "production_cut_type", "still_camera_binding", "geometry_projection_sha256"],
+      "properties": {
+        "cut_id": {"type": "string", "minLength": 1},
+        "production_cut_type": {"enum": ["official_core", "branch"]},
+        "geometry_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "image_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "still_camera_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_json_pointer", "source_value_sha256"],
+          "properties": {
+            "source_json_pointer": {"type": "string", "pattern": "^/"},
+            "source_value_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "collectedStoryboardImagePair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left_cut_id",
+        "right_cut_id",
+        "same_image_exact_carry",
+        "left_geometry_projection_sha256",
+        "right_geometry_projection_sha256",
+        "shot_scale_not_used_as_angle_proof",
+        "contextual_visual_review",
+        "declared_angle_difference_result",
+        "founder_exception"
+      ],
+      "properties": {
+        "left_cut_id": {"type": "string", "minLength": 1},
+        "right_cut_id": {"type": "string", "minLength": 1},
+        "left_image_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "right_image_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "same_image_exact_carry": {"type": "boolean"},
+        "left_geometry_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "right_geometry_projection_sha256": {"$ref": "#/$defs/sha256"},
+        "shot_scale_not_used_as_angle_proof": {"const": true},
+        "contextual_visual_review": {"type": "string", "minLength": 1},
+        "declared_angle_difference_result": {
+          "enum": ["differs", "exact_carry", "founder_lock_hold", "same"]
+        },
+        "founder_exception": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "lock_id",
+                "source_path",
+                "source_json_pointer",
+                "source_value_sha256",
+                "conflicting_repeat_reason"
+              ],
+              "properties": {
+                "lock_id": {"type": "string", "minLength": 1},
+                "source_path": {"type": "string", "minLength": 1},
+                "source_json_pointer": {"type": "string", "pattern": "^/"},
+                "source_value_sha256": {"$ref": "#/$defs/sha256"},
+                "named_cut_ids": {
+                  "type": "array",
+                  "items": {"type": "string", "minLength": 1}
+                },
+                "named_image_sha256s": {
+                  "type": "array",
+                  "items": {"$ref": "#/$defs/sha256"}
+                },
+                "conflicting_repeat_reason": {"type": "string", "minLength": 1}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "branchGenerationManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_scope_id", "planned_branch_cut_ids", "expected_output_count_per_branch", "paid_generation_authorized"],
+      "properties": {"production_scope_id": {"type": "string", "pattern": "^PSCOPE_[A-Z0-9_]{2,100}$"}, "planned_branch_cut_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}}, "expected_output_count_per_branch": {"const": 1}, "paid_generation_authorized": {"type": "boolean"}}
+    },
+    "g40Authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "derivative_route_id", "production_scope_id", "reviewed_core_cut_ids", "reviewed_branch_cut_ids", "draft_keyframe_grade_vector", "paid_generation_authorized"],
+      "properties": {"decision": {"enum": ["pending", "pass", "hold", "reject"]}, "derivative_route_id": {"type": "string", "pattern": "^DERIV_[A-Z0-9_]{2,100}$"}, "production_scope_id": {"type": "string", "pattern": "^PSCOPE_[A-Z0-9_]{2,100}$"}, "reviewed_core_cut_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}}, "reviewed_branch_cut_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}}, "draft_keyframe_grade_vector": {"$ref": "#/$defs/draftKeyframeGradeVectorRef"}, "paid_generation_authorized": {"type": "boolean"}}
+    },
+    "draftKeyframeGradeVectorRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "stage"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "stage": {"const": "draft_keyframe_proof"}
+      }
+    },
+    "founderPlanningGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "reviewed_scope",
+        "reviewed_section_ids",
+        "review_note",
+        "storyline_review_order",
+        "authorizes",
+        "paid_generation_authorized"
+      ],
+      "properties": {
+        "decision": {"enum": ["pending", "pass", "hold", "reject"]},
+        "reviewed_scope": {"enum": ["whole_video", "named_sections"]},
+        "reviewed_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "review_note": {"type": "string"},
+        "storyline_review_order": {"const": "complete_pre00_root_and_active_full_text_lineage_then_fp_close_and_01_expansion_then_02a_core_and_branch_plan"},
+        "authorizes": {"const": "affected_02B_route_only"},
+        "paid_generation_authorized": {"const": false}
+      }
+    },
+    "alignmentValueProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "source_01_json_pointer": {"type": "string", "pattern": "^/.+"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/founder_visual_alignment(?:/.+)?$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {}
+      }
+    },
+    "storylineLineageProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "source_01_json_pointer": {"const": "/storyline_lineage_projection/projected_value"},
+        "source_front_planning_json_pointer": {"const": "/storyline_lineage"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"}
+      }
+    },
+    "sectionAlignmentProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "source_01_json_pointer": {"type": "string", "pattern": "^/section_directions/[0-9]+/section_alignment_projection/projected_value$"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/founder_visual_alignment/section_readouts/[0-9]+$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {}
+      }
+    },
+    "planningCutAlignmentProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_cut_id",
+        "source_key_screen_id",
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "source_key_screen_id": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+        "source_01_json_pointer": {"type": "string", "pattern": "^/section_directions/[0-9]+/planning_cut_alignment_projections/[0-9]+/projected_value$"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/founder_visual_alignment/planning_cut_readouts/[0-9]+$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {}
+      }
+    },
+    "branchStorylineAlignmentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_cut_id",
+        "source_key_screen_id",
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value",
+        "02a_expansion_delta",
+        "prompt_lineage_rule"
+      ],
+      "properties": {
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "source_key_screen_id": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+        "source_01_json_pointer": {"type": "string", "pattern": "^/section_directions/[0-9]+/planning_cut_alignment_projections/[0-9]+/projected_value$"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/founder_visual_alignment/planning_cut_readouts/[0-9]+$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {},
+        "02a_expansion_delta": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Observable framing, staging, action, object-response, or continuity specificity added by this Branch Cut without replacing the exact Founder-aligned planning-cut readout."
+        },
+        "prompt_lineage_rule": {
+          "const": "02B_must_read_this_exact_storyline_value_and_hash_before_authoring_the_five_prompt_items"
+        }
+      }
+    },
+    "targetMessageSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_target",
+        "audience_promise",
+        "core_message",
+        "desired_response",
+        "do_not_serve"
+      ],
+      "properties": {
+        "primary_target": {"type": "string", "minLength": 1},
+        "audience_promise": {"type": "string", "minLength": 1},
+        "core_message": {"type": "string", "minLength": 1},
+        "desired_response": {"type": "string", "minLength": 1},
+        "do_not_serve": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "wholeFilmSpine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opening_state", "progression", "turn", "resolution_or_afterimage", "recurrence_rule"],
+      "properties": {
+        "opening_state": {"type": "string", "minLength": 1},
+        "progression": {"type": "string", "minLength": 1},
+        "turn": {"type": "string", "minLength": 1},
+        "resolution_or_afterimage": {"type": "string", "minLength": 1},
+        "recurrence_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "coveragePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "unit",
+        "cardinality_rule",
+        "coverage_dimensions",
+        "section_exact_cover_required"
+      ],
+      "properties": {
+        "owner": {"const": "02A_internal"},
+        "unit": {"const": "core_event_cut_then_1_to_n_distinct_branch_cut_children"},
+        "cardinality_rule": {
+          "const": "story_audio_screen_state_camera_composition_transition_and_edit_evidence_decide_counts_no_global_cap"
+        },
+        "coverage_dimensions": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "audio_or_section_cue"},
+            {"const": "visible_action_or_hold"},
+            {"const": "screen_carrier"},
+            {"const": "space_or_object_state"},
+            {"const": "still_camera_geometry"},
+            {"const": "composition"},
+            {"const": "reference_grammar"},
+            {"const": "continuity"}
+          ],
+          "items": false
+        },
+        "section_exact_cover_required": {"const": true}
+      }
+    },
+    "transitionLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audio_trigger", "visible_state", "continuity_carrier"],
+      "properties": {
+        "audio_trigger": {"type": "string", "minLength": 1},
+        "visible_state": {"type": "string", "minLength": 1},
+        "continuity_carrier": {"type": "string", "minLength": 1}
+      }
+    },
+    "sectionShard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shard_id",
+        "section_ids",
+        "core_cut_ids",
+        "time_range",
+        "section_goal",
+        "assigned_member_ids",
+        "member_owner",
+        "frame_subject_mode",
+        "visual_system_anchor",
+        "authorized_member_visual_asset_ids",
+        "authorized_scene_reference_binding_ids",
+        "section_alignment_projection",
+        "planning_cut_alignment_projections",
+        "transition_in",
+        "transition_out",
+        "status",
+        "path"
+      ],
+      "properties": {
+        "shard_id": {"type": "string", "pattern": "^SHARD_[A-Z0-9_]{2,80}$"},
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}
+        },
+        "time_range": {"type": "string", "minLength": 1},
+        "section_goal": {"type": "string", "minLength": 1},
+        "assigned_member_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^M(0[1-9]|1[0-3])$"}
+        },
+        "member_owner": {"type": "string", "minLength": 1},
+        "frame_subject_mode": {
+          "enum": [
+            "member_led",
+            "unit_or_group_led",
+            "world_object_led",
+            "environment_insert",
+            "system_transition",
+            "mixed_member_world"
+          ]
+        },
+        "visual_system_anchor": {"type": "string", "minLength": 1},
+        "authorized_member_visual_asset_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "authorized_scene_reference_binding_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"}
+        },
+        "source_01_section": {"$ref": "#/$defs/source01SectionRef"},
+        "section_alignment_projection": {"$ref": "#/$defs/sectionAlignmentProjection"},
+        "planning_cut_alignment_projections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/planningCutAlignmentProjection"}
+        },
+        "transition_in": {"$ref": "#/$defs/transitionLock"},
+        "transition_out": {"$ref": "#/$defs/transitionLock"},
+        "status": {"enum": ["draft", "founder_review", "passed", "hold", "rejected"]},
+        "path": {"type": "string", "minLength": 1}
+      }
+    },
+    "source01SectionRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "json_pointer", "value_sha256"],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "json_pointer": {"type": "string", "pattern": "^/section_directions/[0-9]+$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "coreEventLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dramatic_job",
+        "intended_viewer_read",
+        "core_event",
+        "location",
+        "screen_carrier",
+        "event_action_or_hold",
+        "object_or_environment_consequence",
+        "member_or_nonmember_state",
+        "why_it_fits_song",
+        "must_preserve_across_branches",
+        "forbidden_event_drift"
+      ],
+      "properties": {
+        "dramatic_job": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State either the direct message or empathy evidence delivered by this Core Cut, or the named setup, complication, reaction, result, withholding, story, relation, world, performance, or bridge job that makes later evidence legible. A generic mood or beauty label is insufficient."
+        },
+        "intended_viewer_read": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What a first-time target viewer should be able to understand or feel from this observable event without knowing the planning documents. This is a readability test, not a requirement to explain the plot or restate the message in every Core Cut."
+        },
+        "core_event": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The governing event, action, effect, condition, or dramatic beat owned by this core cut."
+        },
+        "location": {"type": "string", "minLength": 1},
+        "screen_carrier": {"type": "string", "minLength": 1},
+        "event_action_or_hold": {"type": "string", "minLength": 1},
+        "object_or_environment_consequence": {"type": "string", "minLength": 1},
+        "member_or_nonmember_state": {"type": "string", "minLength": 1},
+        "why_it_fits_song": {"type": "string", "minLength": 1},
+        "must_preserve_across_branches": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "forbidden_event_drift": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "coreVisualDirection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "integrated_direction",
+        "member_focus",
+        "composition_family",
+        "light_world",
+        "performance_or_nonperformance_action",
+        "memory_value"
+      ],
+      "properties": {
+        "integrated_direction": {"type": "string", "minLength": 1},
+        "member_focus": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^M(0[1-9]|1[0-3])$"}
+        },
+        "composition_family": {"type": "string", "minLength": 1},
+        "light_world": {"type": "string", "minLength": 1},
+        "performance_or_nonperformance_action": {"type": "string", "minLength": 1},
+        "memory_value": {"type": "string", "minLength": 1}
+      }
+    },
+    "coreCameraAnchorView": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "camera_position_in_space",
+        "camera_height",
+        "shot_scale_distance",
+        "camera_direction",
+        "camera_angle",
+        "depth_design",
+        "subject_space_composition",
+        "crop_negative_space",
+        "lens_feel"
+      ],
+      "properties": {
+        "camera_position_in_space": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Where the governing camera anchor stands relative to the subject, object, set, and action axis."
+        },
+        "camera_height": {"type": "string", "minLength": 1},
+        "shot_scale_distance": {"type": "string", "minLength": 1},
+        "camera_direction": {"type": "string", "minLength": 1},
+        "camera_angle": {"type": "string", "minLength": 1},
+        "depth_design": {"type": "string", "minLength": 1},
+        "subject_space_composition": {"type": "string", "minLength": 1},
+        "crop_negative_space": {"type": "string", "minLength": 1},
+        "lens_feel": {"type": "string", "minLength": 1}
+      }
+    },
+    "branchCameraRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch_cut_id", "camera_role", "relationship_to_anchor"],
+      "properties": {
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "camera_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The new screen information or directorial job earned by this Branch Cut's camera."
+        },
+        "relationship_to_anchor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What stays continuous and what intentionally changes from the Core Cut anchor."
+        }
+      }
+    },
+    "cameraCoveragePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "still_camera_only",
+        "comparison_job",
+        "coverage_reason",
+        "spatial_anchor_and_axis",
+        "anchor_view",
+        "branch_camera_roles",
+        "protected_continuity",
+        "allowed_variation",
+        "creative_variation_rule",
+        "forbidden_collapse",
+        "exact_branch_camera_owner",
+        "temporal_camera_owner"
+      ],
+      "properties": {
+        "contract_version": {"const": "core_camera_coverage.v1"},
+        "still_camera_only": {"const": true},
+        "comparison_job": {"type": "string", "minLength": 1},
+        "coverage_reason": {"type": "string", "minLength": 1},
+        "spatial_anchor_and_axis": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The governing subject-space relation, action axis, screen direction, and camera side for the Core Cut."
+        },
+        "anchor_view": {"$ref": "#/$defs/coreCameraAnchorView"},
+        "branch_camera_roles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/branchCameraRole"},
+          "description": "Must exact-cover compile_seed.branch_cuts in Branch Cut order."
+        },
+        "protected_continuity": {"type": "string", "minLength": 1},
+        "allowed_variation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Open authored scope for this Core Cut; it is not an enum, quota, or fixed list of permitted shots."
+        },
+        "creative_variation_rule": {
+          "const": "branch_cuts_may_depart_broadly_from_the_anchor_including_height_distance_direction_angle_axis_depth_placement_crop_lens_and_viewpoint_when_each_departure_adds_new_screen_information_and_preserves_or_explicitly_resets_continuity"
+        },
+        "forbidden_collapse": {"type": "string", "minLength": 1},
+        "exact_branch_camera_owner": {
+          "const": "each_branch_cut_still_camera_spec_is_authoritative_anchor_guides_coverage_without_forcing_one_fixed_view"
+        },
+        "temporal_camera_owner": {"const": "03V_after_passed_image_pixel_inspection"}
+      }
+    },
+    "editLogic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_trigger", "exit_trigger", "continuity_carrier", "next_core_cut_reason"],
+      "properties": {
+        "entry_trigger": {"type": "string", "minLength": 1},
+        "exit_trigger": {"type": "string", "minLength": 1},
+        "continuity_carrier": {"type": "string", "minLength": 1},
+        "next_core_cut_reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Why the next governing event follows through causality, response, relation, object or world consequence, an audio turn, or deliberate contrast or withholding. For the final Core Cut, state the section exit or afterimage reason."
+        }
+      }
+    },
+    "branchingContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch_count_reason",
+        "directorial_expansion_logic",
+        "distinct_screen_information_rule",
+        "event_ownership_rule",
+        "split_to_new_core_cut_rule"
+      ],
+      "properties": {
+        "branch_count_reason": {"type": "string", "minLength": 1},
+        "directorial_expansion_logic": {"type": "string", "minLength": 1},
+        "distinct_screen_information_rule": {
+          "const": "every_branch_cut_adds_observable_screen_information_or_a_distinct_directorial_job_start_end_labels_or_shot_size_lens_angle_or_beauty_changes_alone_do_not_qualify"
+        },
+        "event_ownership_rule": {
+          "const": "every_branch_cut_derives_from_and_preserves_the_parent_core_event_without_stealing_a_later_or_unrelated_event"
+        },
+        "split_to_new_core_cut_rule": {
+          "const": "a_new_governing_event_action_effect_condition_or_dramatic_beat_requires_a_new_core_cut"
+        }
+      }
+    },
+    "stillCameraSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "shot_scale_distance",
+        "camera_height",
+        "direction_angle",
+        "depth_design",
+        "subject_placement",
+        "crop_negative_space",
+        "lens_feel",
+        "motion_camera_ownership"
+      ],
+      "properties": {
+        "contract_version": {"const": "still_camera_direction.v3"},
+        "shot_scale_distance": {"type": "string", "minLength": 1},
+        "camera_height": {"type": "string", "minLength": 1},
+        "direction_angle": {"type": "string", "minLength": 1},
+        "depth_design": {"type": "string", "minLength": 1},
+        "subject_placement": {"type": "string", "minLength": 1},
+        "crop_negative_space": {"type": "string", "minLength": 1},
+        "lens_feel": {"type": "string", "minLength": 1},
+        "motion_camera_ownership": {"const": "03V_after_passed_image_pixel_inspection"}
+      }
+    },
+    "memberVisualCompileInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "member_visual_reference_policy",
+        "selected_album_member_visual_asset_ids",
+        "selection_reason",
+        "framing_class",
+        "head_orientation",
+        "occlusion",
+        "package_album_key",
+        "package_title_key",
+        "visual_control_policy"
+      ],
+      "properties": {
+        "member_visual_reference_policy": {"enum": ["required", "prohibited"]},
+        "member_visual_applicability": {
+          "enum": [
+            "meaningfully_visible",
+            "visible_but_member_visual_unnecessary",
+            "not_visible"
+          ],
+          "description": "Human/model-authored transport decision separating physical member visibility from whether a current-title member visual is needed. Omission preserves the legacy mapping of nonempty visible_member_focus to meaningfully_visible and an empty list to not_visible."
+        },
+        "selected_album_member_visual_asset_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "selection_reason": {"type": "string", "minLength": 1},
+        "framing_class": {"type": "string", "minLength": 1},
+        "head_orientation": {"type": "string", "minLength": 1},
+        "occlusion": {"type": "string", "minLength": 1},
+        "package_album_key": {"type": "string", "minLength": 1},
+        "package_title_key": {"type": "string", "minLength": 1},
+        "visual_control_policy": {
+          "const": "current_title_member_visual_controls_appearance_hair_makeup_wardrobe_material_silhouette_and_body_continuity_only_branch_cut_controls_pose_head_gaze_action_still_camera_placement_crop_occlusion_and_proportions"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "required"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {"selected_album_member_visual_asset_ids": {"minItems": 1}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "prohibited"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {"selected_album_member_visual_asset_ids": {"maxItems": 0}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_applicability": {"const": "meaningfully_visible"}},
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {"member_visual_reference_policy": {"const": "required"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "member_visual_applicability": {
+                "enum": ["visible_but_member_visual_unnecessary", "not_visible"]
+              }
+            },
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {"member_visual_reference_policy": {"const": "prohibited"}}
+          }
+        }
+      ]
+    },
+    "visualReferenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "asset_id",
+        "source_owner",
+        "actual_path",
+        "sha256",
+        "role",
+        "reference_scope",
+        "reference_class",
+        "order",
+        "must_inspect_pixels",
+        "preserve",
+        "discard",
+        "attachment_permission"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"},
+        "asset_id": {"type": "string", "minLength": 1},
+        "source_owner": {
+          "enum": [
+            "founder_supplied",
+            "front_planning_album_visual_asset",
+            "front_planning_sequence_scene_reference",
+            "01_visual_projection",
+            "reference_contact_sheet_selected_cell",
+            "generated_branch_cut",
+            "run_owned_reference_intake"
+          ]
+        },
+        "actual_path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "(^|/)face-only-reference(?:-|\\.|/)"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_kind": {
+          "enum": ["main_reference", "supporting_visual_reference"]
+        },
+        "role": {"type": "string", "minLength": 1},
+        "reference_scope": {"enum": ["member_visual", "scene_visual"]},
+        "reference_class": {
+          "enum": [
+            "current_title_member_visual",
+            "current_title_world_or_background",
+            "founder_sequence_subreference",
+            "founder_scene_subreference",
+            "other_scene_visual"
+          ]
+        },
+        "order": {"type": "integer", "minimum": 1},
+        "must_inspect_pixels": {"const": true},
+        "preserve": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "discard": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "attachment_permission": {
+          "enum": [
+            "planning_and_prompt_only",
+            "attach_after_exact_founder_approval",
+            "exact_founder_approved_current_job"
+          ]
+        },
+        "source_approval": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"reference_scope": {"const": "member_visual"}},
+            "required": ["reference_scope"]
+          },
+          "then": {
+            "properties": {
+              "source_owner": {"const": "front_planning_album_visual_asset"},
+              "reference_class": {"const": "current_title_member_visual"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"attachment_permission": {"const": "exact_founder_approved_current_job"}},
+            "required": ["attachment_permission"]
+          },
+          "then": {"required": ["source_approval"]}
+        }
+      ]
+    },
+    "branchCut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch_cut_id",
+        "parent_core_cut_id",
+        "active_storyline_version_id",
+        "screen_progression_node_id",
+        "section_id",
+        "parent_major_scene_id",
+        "scene_phase_context",
+        "order_within_core",
+        "contribution_type",
+        "directorial_or_edit_job",
+        "primary_still_job_count",
+        "packet_id",
+        "branch_role",
+        "branch_sequence",
+        "core_event_derivation",
+        "distinct_screen_contribution",
+        "branch_time_relation",
+        "visible_action",
+        "composition_lock",
+        "camera_treatment",
+        "still_camera_spec",
+        "shot_scale",
+        "space_or_object",
+        "required_visibility",
+        "render_facing_action_cue",
+        "continuity_in",
+        "continuity_out",
+        "visible_member_focus",
+        "member_visual_compile_input",
+        "visual_reference_bindings",
+        "storyline_alignment_binding",
+        "expected_output",
+        "generation_status"
+      ],
+      "properties": {
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "parent_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "pattern": "^SPN_[A-Z0-9_]{2,100}$"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "parent_major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}$"},
+        "scene_phase_context": {"type": "string", "minLength": 1},
+        "order_within_core": {"type": "integer", "minimum": 1},
+        "contribution_type": {"enum": ["angle_viewpoint", "participant_response", "detail_insert", "spatial_consequence", "phase", "transition", "performance"]},
+        "directorial_or_edit_job": {"type": "string", "minLength": 1},
+        "primary_still_job_count": {"const": 1},
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "branch_role": {"type": "string", "minLength": 1},
+        "branch_sequence": {"type": "integer", "minimum": 1},
+        "core_event_derivation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How this screen remains a realization of the parent core event."
+        },
+        "distinct_screen_contribution": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What this branch adds versus the named neighbor in event, axis, distance, and crop. If those match, it is the same shot's variant rather than a transition. Start/end labels or beauty-only changes do not qualify."
+        },
+        "branch_time_relation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How this branch sits in the event and audio progression without relying on a generic start/end label."
+        },
+        "visible_action": {"type": "string", "minLength": 1},
+        "composition_lock": {"type": "string", "minLength": 1},
+        "camera_treatment": {"type": "string", "minLength": 1},
+        "still_camera_spec": {"$ref": "#/$defs/stillCameraSpec"},
+        "shot_scale": {"type": "string", "minLength": 1},
+        "space_or_object": {"type": "string", "minLength": 1},
+        "required_visibility": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "render_facing_action_cue": {"type": "string", "minLength": 1},
+        "continuity_in": {"type": "string", "minLength": 1},
+        "continuity_out": {"type": "string", "minLength": 1},
+        "visible_member_focus": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^M(0[1-9]|1[0-3])$"}
+        },
+        "member_visual_compile_input": {"$ref": "#/$defs/memberVisualCompileInput"},
+        "visual_reference_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "contains": {
+            "properties": {"reference_scope": {"const": "scene_visual"}},
+            "required": ["reference_scope"]
+          },
+          "minContains": 1,
+          "items": {"$ref": "#/$defs/visualReferenceBinding"}
+        },
+        "storyline_alignment_binding": {"$ref": "#/$defs/branchStorylineAlignmentBinding"},
+        "expected_output": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["count", "path", "model_or_tool"],
+          "properties": {"count": {"const": 1}, "path": {"type": "string", "minLength": 1}, "model_or_tool": {"type": "string", "minLength": 1}}
+        },
+        "generation_status": {"const": "planned"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "member_visual_compile_input": {
+                "properties": {"member_visual_applicability": {"const": "meaningfully_visible"}},
+                "required": ["member_visual_applicability"]
+              }
+            },
+            "required": ["member_visual_compile_input"]
+          },
+          "then": {
+            "properties": {
+              "visual_reference_bindings": {
+                "contains": {
+                  "properties": {"reference_scope": {"const": "member_visual"}},
+                  "required": ["reference_scope"]
+                },
+                "minContains": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "compileSeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch_cuts"],
+      "properties": {
+        "branch_cuts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/branchCut"}
+        }
+      }
+    },
+    "choreographyReferenceBinding": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "source_path",
+        "source_sha256",
+        "source_kind",
+        "selected_frame_or_segment_refs",
+        "ordered_body_states"
+      ],
+      "properties": {
+        "source_path": {"type": "string", "minLength": 1},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "source_kind": {"enum": ["choreography_reference", "performance_video", "fancam"]},
+        "selected_frame_or_segment_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "ordered_body_states": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "coreCut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_cut_id", "source_01_core", "imported_core", "authorship_owner", "core_mutation_performed", "compile_seed"],
+      "properties": {
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "source_01_core": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_json_pointer", "source_value_sha256"],
+          "properties": {"source_json_pointer": {"type": "string", "pattern": "^/official_core_cuts/[0-9]+$"}, "source_value_sha256": {"$ref": "#/$defs/sha256"}}
+        },
+        "imported_core": {"type": "object", "minProperties": 1},
+        "authorship_owner": {"const": "01_imported_immutable"},
+        "core_mutation_performed": {"const": false},
+        "compile_seed": {"$ref": "#/$defs/compileSeed"}
+      }
+    },
+    "reviewSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["html_contract_version", "hierarchy", "decision_values", "revision_scope_values"],
+      "properties": {
+        "html_contract_version": {"const": "idol-html-review-board.v12"},
+        "hierarchy": {
+          "const": "target_and_message_then_whole_video_and_section_flow_then_sections_then_core_cuts_then_branch_cuts"
+        },
+        "decision_values": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "PASS"},
+            {"const": "HOLD"},
+            {"const": "REJECT"}
+          ],
+          "items": false
+        },
+        "revision_scope_values": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "branch_cut"},
+            {"const": "core_cut"},
+            {"const": "section"},
+            {"const": "whole_video"}
+          ],
+          "items": false
+        }
+      }
+    }
+  }
+}

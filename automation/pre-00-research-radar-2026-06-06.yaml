@@ -1,0 +1,959 @@
+schema_version: "1.2"
+radar_id: PRE00_RESEARCH_RADAR_2026_06_06
+date: "2026-06-06"
+mode: automation
+status: founder_review
+research_policy:
+  method_basis: "AGENTS.md + wiki/production-system.md + wiki/pre-00-song-system.md + automation/pre-00-research-radar.md + skills/idol-research-radar/SKILL.md"
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 5
+  reference_families:
+    - song
+    - media_narrative
+    - fashion
+    - idol
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: "Use the active June monthly hypothesis, current SS26 styling rails, fresh public music/media signals, and one current local sound-anchor note that can be reviewed as a paired PRE-00S companion."
+  combination_rule: "Every route must combine at least one song, one media narrative, one fashion, and one idol reference into a new IDOL thesis rather than decorating one dominant source."
+  unity_rule: "Tone, mood, and message must read as one route across the four families before the founder sees it."
+  ref_id_integrity_rule: "Use keyed family ids once; do not double-count one source as multiple families."
+  allowed_output: five_route_candidate_brief_before_00
+  handoff_target: 00_creative_nucleus_draft
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md#Freshness Windows"
+  recheck_before_00:
+    - "Recheck current-run public web references if founder selection happens after 2026-06-20."
+    - "Recheck public idol promotion signals if a chosen route waits more than 2-4 weeks before 00."
+    - "Keep `source-materials/monthly-trend-records/2026-06.md` and `source-materials/fashion-trend-records/2026-ss.md` as hypotheses; current-run source evidence overrides them when they conflict."
+  durable_record_rule: "Do not promote ordinary radar findings into durable source material without founder selection or repeated reuse."
+  bank_record_rule: "Avoid semantic overlap with 2026-05-24 message-hook records unless the message function and body mechanic materially change."
+research_inputs:
+  REF_SONG_ILLIT_ITS_ME:
+    title: "ILLIT - It's Me"
+    path_or_url: "https://www.soompi.com/article/1825059wpp/illit-announces-april-comeback-date-for-its-me"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "Confident self-naming over techno dance framing."
+    useful_function: "Use for routes that need a direct self-declaration, compressed confidence, and a save-trigger first section."
+    collection_method: browser_public_page
+    source_use_boundary: "Public source note or direct selected-source surface; follow lyrics, topline, choreography, or artist identity when founder/current run selects them, otherwise record them as non-selected-source drift."
+    raw_observation: "The public framing emphasizes bold self-identification instead of shy charm, which fits the June need for human stake inside harder club pressure."
+    observed_aspects: [trend_hypothesis_fit, song_hook_structure, target_empathy_message]
+  REF_SONG_NMIXX_HEAVY_SERENADE:
+    title: "NMIXX - Heavy Serenade"
+    path_or_url: "https://www.soompi.com/article/1843103wpp/watch-nmixx-takes-2nd-win-for-heavy-serenade-on-music-bank-performances-by-le-sserafim-zerobaseone-and-more"
+    reference_family: song
+    reference_lane: vocal_rap_color
+    short_note: "Texture-heavy comeback with public-stage traction and emotional firmness."
+    useful_function: "Use for routes that need vocal-rap contrast and a heavy emotional promise without losing stage readability."
+    collection_method: browser_public_page
+    source_use_boundary: "Promotion result, public-stage signal, or direct selected-source surface; lyric or performance surfaces may be followed when founder/current run selects them."
+    raw_observation: "The public win context confirms that a textured, emotionally definite song can still travel as a performance-facing comeback."
+    observed_aspects: [trend_hypothesis_fit, song_hook_structure, unit_member_identity_fit]
+  REF_SONG_KATSEYE_PINKY_UP:
+    title: "KATSEYE - PINKY UP"
+    path_or_url: "https://www.soompi.com/article/1835021wpp/katseye-to-promote-pinky-up-on-korean-music-shows"
+    reference_family: song
+    reference_lane: performance_song
+    short_note: "High-energy single with global chart carry and Korean music-show portability."
+    useful_function: "Use for routes that need stage-portable hook cells, bright crowd contact, and fast derivative replay."
+    collection_method: browser_public_page
+    source_use_boundary: "Public promotion signal or direct selected-source surface; follow chant wording, choreography, or artist identity when founder/current run selects them, otherwise record them as non-selected-source drift."
+    raw_observation: "The article frames the single as both globally legible and local-stage portable, which is useful for routes that must survive fan-cam crops and cross-market clips."
+    observed_aspects: [song_hook_structure, choreography_performance_readability, derivative_social_viability]
+  REF_SONG_DRAFT_TRACK_FIT_NOTE:
+    title: "0601 draft track reference-song-fit companion note"
+    path_or_url: "runs/2026-06-01/0601_DRAFT_TRACK_REFERENCE_BRAINSTORM/research/reference-song-fit-v1.md"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "Current local sound-anchor note points toward hard club, digital self-image, and mid-fast body-readable pulse."
+    useful_function: "Use as the paired PRE-00S companion when the founder wants to move directly from route selection into Suno/manual prompt packet drafting."
+    collection_method: manual_observation
+    source_use_boundary: "Companion analysis only; not a selected-audio analysis and not a final song lock."
+    raw_observation: "The local note keeps the strongest current sound anchors in one place: hard first signal, compact hook cells, one save-trigger pre-hook, and likely unit fit led by MOTION_GPU_06, then MIRROR_SYS_05, then CROWN_API_06."
+    observed_aspects: [song_hook_structure, unit_member_identity_fit, source_diversity_raw_trace]
+  REF_MEDIA_NARRATIVE_NOTES_LAST_ROW:
+    title: "Netflix - Notes from the Last Row"
+    path_or_url: "https://about.netflix.com/en/news/suspense-drama-series-notes-from-the-last-row-premieres-june-26"
+    reference_family: media_narrative
+    reference_lane: character_arc
+    short_note: "A blocked professor finds dangerous momentum in the mysterious student at the back of the room."
+    useful_function: "Use for routes built on hidden pressure, withheld notebooks, and talent that feels dangerous before it becomes public."
+    collection_method: published_article
+    source_use_boundary: "Narrative function or direct selected-source surface; follow plot, characters, or title language when founder/current run selects them, otherwise record them as non-selected-source drift."
+    raw_observation: "The teaser language is interior and suspenseful: blank page, last-row silence, then a sudden catalytic figure. That creates a route where the signal arrives after stillness."
+    observed_aspects: [target_empathy_message, mv_world_storyline, camera_edit_grammar]
+  REF_MEDIA_NARRATIVE_MARKED_WOMAN:
+    title: "Netflix - The Marked Woman"
+    path_or_url: "https://about.netflix.com/news/netflix-reveals-the-trailer-for-the-film-the-marked-woman"
+    reference_family: media_narrative
+    reference_lane: mv_storyline
+    short_note: "A woman is found bound inside a shipping container with missing memory."
+    useful_function: "Use for routes that need trapped-image tension, cargo-space mystery, and a visible cost to desire or secrecy."
+    collection_method: published_article
+    source_use_boundary: "Narrative tension source only; no plot copying or violence escalation beyond readable MV function."
+    raw_observation: "The container image is concrete and memorable: enclosed metal space, bound body, missing memory, and investigation pressure."
+    observed_aspects: [mv_world_storyline, target_empathy_message, generation_promptability_risk]
+  REF_MEDIA_NARRATIVE_ALL_TRUTH:
+    title: "Netflix - All the Truth in My Lies"
+    path_or_url: "https://about.netflix.com/en/news/all-the-truth-in-my-lies-coming-to-netflix-on-august-28"
+    reference_family: media_narrative
+    reference_lane: audience_context
+    short_note: "Long-held friendship, shared living, and a lie that changes what everyone thought was stable."
+    useful_function: "Use for routes that need intimacy, polished surfaces, and the moment a neat social world cracks open."
+    collection_method: published_article
+    source_use_boundary: "Narrative and emotional-premise source only; no direct adaptation."
+    raw_observation: "The setup is close-range and social rather than epic: co-living familiarity, hidden truth, and a friend-group balance that can shift with one reveal."
+    observed_aspects: [target_empathy_message, mv_world_storyline, derivative_social_viability]
+  REF_MEDIA_NARRATIVE_TEACH_YOU_A_LESSON:
+    title: "Netflix - Teach You a Lesson"
+    path_or_url: "https://about.netflix.com/en/news/teach-you-a-lesson"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "Action-led justice story that restores order in a broken system."
+    useful_function: "Use for routes that need mission focus, rule-breaking pressure, and body-first justice rather than dreamy abstraction."
+    collection_method: published_article
+    source_use_boundary: "Concept and action-pressure only; not a fight choreography source."
+    raw_observation: "The teaser promise is direct and physical: victims first, fast response, hand-to-hand energy, and a system pushed past politeness."
+    observed_aspects: [target_empathy_message, choreography_performance_readability, mv_world_storyline]
+  REF_MEDIA_NARRATIVE_LOVE_OCLOCK:
+    title: "Netflix - Love O'Clock"
+    path_or_url: "https://about.netflix.com/news/love-o-clock-production"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "Two opposites swap bodies for one random hour each day."
+    useful_function: "Use for routes that need perspective-slip intimacy, time-bound identity pressure, and controlled romance tension."
+    collection_method: published_article
+    source_use_boundary: "Concept-semantic source or direct selected-source surface; follow body-swap plot when founder/current run selects it."
+    raw_observation: "The one-hour body swap creates concrete timed tension and lets a route frame self-image as something unstable but still embodied."
+    observed_aspects: [target_empathy_message, mv_world_storyline, camera_edit_grammar]
+  REF_FASHION_SPORTY_SPICE:
+    title: "Harper's Bazaar - The Best Spring Trends of 2026"
+    path_or_url: "https://www.harpersbazaar.com/fashion/trends/a67970766/spring-2026-fashion-trends/"
+    reference_family: fashion
+    reference_lane: wardrobe_construction
+    short_note: "Sporty silhouettes and fabrics remixed with sophistication."
+    useful_function: "Use for routes that need technical jackets, strong shoulder, color accents, and movement-safe pressure styling."
+    collection_method: browser_public_page
+    source_use_boundary: "Styling function only; not a media narrative source."
+    raw_observation: "The useful rail is sporty structure with refinement rather than literal gym wear, which fits June's hard-pressure but readable idol lane."
+    observed_aspects: [wardrobe_material_motion, choreography_performance_readability, generation_promptability_risk]
+  REF_FASHION_TRENCH_REVEAL:
+    title: "2026 SS fashion record - trench and tailored reveal"
+    path_or_url: "source-materials/fashion-trend-records/2026-ss.md"
+    reference_family: fashion
+    reference_lane: silhouette
+    short_note: "Updated trench, button-down structure, collar and shoulder reveal."
+    useful_function: "Use for polished entrance shots, threshold gestures, and premium public-hook routes."
+    collection_method: trend_record
+    source_use_boundary: "Season styling rail only."
+    raw_observation: "This rail keeps the route contemporary while giving collars, shoulders, and coat movement enough visual function for first-frame memory."
+    observed_aspects: [wardrobe_material_motion, camera_edit_grammar]
+  REF_FASHION_SHEER_SUMMER:
+    title: "Vogue - Summer trend predictions"
+    path_or_url: "https://www.vogue.com/article/summer-trend-predictions"
+    reference_family: fashion
+    reference_lane: material_texture
+    short_note: "Sheer dressing is carrying from SS26 runway into summer styling."
+    useful_function: "Use for routes that need airflow, afterimage, layered honesty, and soft tension over harder base structures."
+    collection_method: browser_public_page
+    source_use_boundary: "Styling texture function only; not a narrative or identity source."
+    raw_observation: "The current summer signal is elevated sheer dressing, useful as a motion layer over trousers, skirts, or tailored shapes without losing body readability."
+    observed_aspects: [wardrobe_material_motion, generation_promptability_risk, derivative_social_viability]
+  REF_FASHION_SATIN_LACE:
+    title: "2026 SS fashion record - satin lace scarf line"
+    path_or_url: "source-materials/fashion-trend-records/2026-ss.md"
+    reference_family: fashion
+    reference_lane: material_texture
+    short_note: "Slinky satin, lace paneling, scarf dressing, chiffon drape."
+    useful_function: "Use for mature close-range routes that need afterimage and emotional softness without leaving the contemporary idol rail."
+    collection_method: trend_record
+    source_use_boundary: "Season styling rail only."
+    raw_observation: "The fabric rail supports touchable close-up surfaces and moving edges that stay legible when the camera is near the face and shoulder line."
+    observed_aspects: [wardrobe_material_motion, target_empathy_message]
+  REF_FASHION_CHROME_PVC:
+    title: "2026 SS fashion record - sculptural chrome PVC"
+    path_or_url: "source-materials/fashion-trend-records/2026-ss.md"
+    reference_family: fashion
+    reference_lane: accessory_styling
+    short_note: "Chrome accessories, PVC shine, shield sunglasses, sculptural form."
+    useful_function: "Use for digital precision routes that need reflective edges and controlled-cold silhouettes."
+    collection_method: trend_record
+    source_use_boundary: "Season styling rail only."
+    raw_observation: "The rail gives mirror-grade surfaces and reflective hard edges without drifting into fantasy armor or stale cyber cosplay."
+    observed_aspects: [wardrobe_material_motion, camera_edit_grammar, generation_promptability_risk]
+  REF_IDOL_MOTION_UNIT:
+    title: "IDOL unit registry - MOTION_GPU_06"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Formation proof, performance energy, and campaign-readable motion."
+    useful_function: "Use when the route needs body-first proof, challenge carry, and clean impact timing."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "The unit is strongest when the route needs a hard visible body cue plus enough melodic space to keep the message human."
+    observed_aspects: [unit_member_identity_fit, choreography_performance_readability]
+  REF_IDOL_CROWN_UNIT:
+    title: "IDOL unit registry - CROWN_API_06"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Polished public hook, elegant chorus readability, and first-impression strength."
+    useful_function: "Use when the route needs premium front-facing charm with one visible tension point."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "This unit can hold polish and public readability, but the route must give it one crack or bite so the result does not turn sterile."
+    observed_aspects: [unit_member_identity_fit, target_empathy_message]
+  REF_IDOL_MIRROR_UNIT:
+    title: "IDOL unit registry - MIRROR_SYS_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Digital concept precision, mirror texture, and controlled geometry."
+    useful_function: "Use when the route needs self-image pressure, reflective styling, and exact formation grammar."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "The unit already has the right balance of precision guide, vocal lift, and smoky counter for cold design language that still reads as idol performance."
+    observed_aspects: [unit_member_identity_fit, camera_edit_grammar]
+  REF_IDOL_NOIR_UNIT:
+    title: "IDOL unit registry - NOIR_STACK_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Mature R&B/dance mood with vocal-rap character and close-range attitude."
+    useful_function: "Use when the route needs breath, shadow, and low-range tension without generic noir cosplay."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "The unit works when desire and restraint both need to stay visible in the same close frame."
+    observed_aspects: [unit_member_identity_fit, target_empathy_message]
+  REF_IDOL_CACHE_UNIT:
+    title: "IDOL unit registry - CACHE_LOOP_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Casual loop, UK-garage ease, and intimate short-hook repeat value."
+    useful_function: "Use when the route needs small-front-line intimacy, replayable phrase cells, and low-pressure cool."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "The unit stays current only when softness is paired with a clipped rhythm or a visible contradiction."
+    observed_aspects: [unit_member_identity_fit, derivative_social_viability]
+research_vectors:
+  - vector_id: trend_hypothesis_fit
+    research_question: "Does the June harder-club hypothesis still produce the clearest IDOL route, or is the usable edge now pressure plus one explicit human stake?"
+    sample_rule: "Use the active monthly record, one fresh current-song signal, and one fresh current-media signal before writing route bias."
+    extraction_fields:
+      - "current pressure lane"
+      - "save-trigger evidence"
+      - "human-stake proof"
+      - "route-level contradiction"
+    downstream_targets:
+      - stage: pre00_research_input
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: research_freshness.recheck_before_00
+        handoff_use: "Keeps the route tied to current June signals rather than stale May-only assumptions."
+      - stage: pre00_recommended_00_draft
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].recommended_00_draft.thesis.message
+        handoff_use: "Forces each 00 seed to keep the pressure lane human-readable."
+    reject_if_missing: "Hold the pass if the route cannot name why June pressure matters to a real viewer."
+  - vector_id: song_hook_structure
+    research_question: "Which current song references prove the best first 15s save trigger, pre-hook addiction engine, and repeatable post-hook body phrase?"
+    sample_rule: "Use public song references plus the current local draft-track fit note before naming any route-level song structure seed."
+    extraction_fields:
+      - "first 3-8s signal"
+      - "pre-hook lift"
+      - "post-hook body proof"
+      - "target pulse family"
+    downstream_targets:
+      - stage: pre00_recommended_00_draft
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].recommended_00_draft.song_structure_seed
+        handoff_use: "Gives 00 a usable first-section architecture without inventing the hook mechanic later."
+      - stage: pre00s_reference_song_fit
+        artifact_or_schema: schemas/reference-song-fit.schema.json
+        field_path: tempo_lyric_density_fit.target_translation
+        handoff_use: "Lets the founder move from route selection into prompt shaping without redoing the sound-anchor read."
+    reject_if_missing: "Do not advance a route if the first 15s and post-hook proof are both vague."
+  - vector_id: target_empathy_message
+    research_question: "What exact viewer situation, pressure, or secret makes the route feel ownable instead of merely stylish?"
+    sample_rule: "Each route must translate one public narrative or emotional premise into a concrete IDOL audience lock."
+    extraction_fields:
+      - "target viewer"
+      - "identification point"
+      - "aftertaste"
+      - "message risk"
+    downstream_targets:
+      - stage: pre00_recommended_00_draft
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].recommended_00_draft.target_empathy_seed
+        handoff_use: "Fills the required audience lock for a later 00 draft."
+      - stage: 00_creative_nucleus
+        artifact_or_schema: schemas/00-creative-nucleus.schema.json
+        field_path: target_empathy_lock
+        handoff_use: "Prevents 00 from drifting into concept gloss without audience ownership."
+    reject_if_missing: "Reject any route whose message can be restated only as generic confidence or vague heartbreak."
+  - vector_id: wardrobe_material_motion
+    research_question: "Which current SS26 materials and silhouettes add visible motion proof without breaking member readability?"
+    sample_rule: "Use one seasonal fashion rail plus one fresh June-facing styling signal for each wardrobe-heavy route."
+    extraction_fields:
+      - "silhouette"
+      - "material motion"
+      - "cue color"
+      - "body proportion risk"
+    downstream_targets:
+      - stage: pre00_recommended_00_draft
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].recommended_00_draft.visual_world_seed.wardrobe_lane
+        handoff_use: "Lets 00 preserve the right styling lane before 01A refines it."
+      - stage: 01a_track_visual_board
+        artifact_or_schema: schemas/track-visual-board.schema.json
+        field_path: wardrobe_board
+        handoff_use: "Narrows later wardrobe boards to performance-safe contemporary rails."
+    reject_if_missing: "Do not treat vague 'fashionable' notes as enough; the route needs material behavior and silhouette logic."
+  - vector_id: unit_member_identity_fit
+    research_question: "Which active unit can own the route without forcing FULL_CODE or fighting the member voice/performance rails?"
+    sample_rule: "Use only active units from `assets/unit-registry.yaml` and member-role rails from `assets/voice-style-index.md`."
+    extraction_fields:
+      - "unit ownership"
+      - "member bridge"
+      - "center-role need"
+      - "unit risk"
+    downstream_targets:
+      - stage: pre00_recommended_00_draft
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].recommended_00_draft.asset_alignment_seed
+        handoff_use: "Preloads 00 with a defendable unit choice and identity constraint."
+      - stage: pre00s_reference_song_fit
+        artifact_or_schema: schemas/reference-song-fit.schema.json
+        field_path: unit_fit
+        handoff_use: "Aligns sound-anchor analysis with the route's actual performance owner."
+    reject_if_missing: "Reject any route whose best-fit unit cannot be named with a concrete reason."
+  - vector_id: source_diversity_raw_trace
+    research_question: "Can each route show distinct song, media, fashion, and idol families without collapsing into one borrowed reference?"
+    sample_rule: "Every candidate route must cite at least one ref from each family and one route-level mismatch watch."
+    extraction_fields:
+      - "lane coverage"
+      - "raw source trace"
+      - "overlap risk"
+      - "downstream handoff trace"
+    downstream_targets:
+      - stage: pre00_research_input
+        artifact_or_schema: schemas/pre-00-research-radar.schema.json
+        field_path: candidate_routes[].source_ref_ids
+        handoff_use: "Keeps later founder review and 00 drafting auditable."
+      - stage: 02a_master_storyboard
+        artifact_or_schema: schemas/02a-master-storyboard.schema.json
+        field_path: compile_seed.source_refs
+        handoff_use: "Preserves source trace when a chosen route later becomes beat-level visual work."
+    reject_if_missing: "Do not keep two routes that share nearly the same function stack with only cosmetic wording changes."
+candidate_routes:
+  - route_id: R01
+    route_name: LOCK-IN CLUB SIGNAL
+    recommendation_message: "6월 메인 바이어스에 가장 직접적으로 맞는 하드 프레셔 라우트."
+    recommended_unit:
+      unit_code: MOTION_GPU_06
+      unit_purpose: "Global performance energy, formation proof, and campaign-readable motion."
+      member_codes: [M01, M03, M06, M08, M10, M12]
+      center_roles:
+        first_signal: M01
+        rhythm_anchor: M03
+        precision_captain: M06
+        point_dance_counter: M08
+        power_impact: M10
+        cool_cue: M12
+      unit_fit_reason: "The route needs immediate body proof, clipped command timing, and enough melodic space to keep the pressure human."
+      unit_risk: "If the pre-hook does not hold a real emotional stake, the route can flatten into choreography-only force."
+    member_focus: [M01, M03, M06, M08, M10, M12]
+    source_ref_ids:
+      - REF_SONG_ILLIT_ITS_ME
+      - REF_SONG_NMIXX_HEAVY_SERENADE
+      - REF_MEDIA_NARRATIVE_TEACH_YOU_A_LESSON
+      - REF_FASHION_SPORTY_SPICE
+      - REF_IDOL_MOTION_UNIT
+    lane_ref_ids:
+      song: [REF_SONG_ILLIT_ITS_ME, REF_SONG_NMIXX_HEAVY_SERENADE]
+      media_narrative: [REF_MEDIA_NARRATIVE_TEACH_YOU_A_LESSON]
+      fashion: [REF_FASHION_SPORTY_SPICE]
+      idol: [REF_IDOL_MOTION_UNIT]
+    combined_signal: "Hard self-naming + heavy emotional pressure + victim-first action mission + refined sport structure + MOTION proof."
+    tone_mood_message_unity:
+      tone_and_manner: "Cold, fast, and physically committed."
+      mood: "Pressure turning into chosen motion."
+      message: "소음 속에서도 몸은 먼저 잠길 방향을 안다."
+      unity_reason: "Every reference rewards a body-first answer instead of passive confusion."
+      mismatch_watch: "Do not let the route become generic empowerment shouting or pure techno cosplay."
+    possible_message: "멈추기 전에 이미 몸이 먼저 답을 낸다."
+    song_emotion: "Compressed club pressure with one clear emotional lift before the main release."
+    choreography_hook: "A low recoil in the chest snaps into a diagonal launch step, then one shoulder-lock repeats cleanly in phone crop."
+    performance_image: "M06 and M10 cut the pressure lane while M01 and M12 flash the readable cue that makes the hook copyable."
+    mv_image: "A training-floor corridor or public concrete interior where one member steps into frame, the others lock in behind her, and the camera stays front-safe enough to prove each hit."
+    why_aurora_m_can_own_it: "MOTION_GPU_06 has the right mix of impact, discipline, and melodic air to make the June hard-club lane readable without mimicking anyone else."
+    risk_or_gap: "Needs a visible pre-hook release zone so the route does not stay on one loud plateau."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "LOCK-IN CLUB SIGNAL"
+      goal: "Build a June-forward title route where hard pressure becomes a visible act of choosing rather than a vague attitude pose."
+      thesis:
+        message: "불안과 소음 속에서도 몸은 먼저 잠길 방향을 안다."
+        one_line: "The first step lands before the explanation does."
+        audience_feel: "The viewer should feel that instinct can look disciplined instead of panicked."
+        hook_moment: "A recoil-to-launch hit lands on the first major release and becomes the replay image."
+      target_empathy_seed:
+        target_viewer: "A viewer who feels overstimulated, watched, and tired of hesitating."
+        viewer_emotional_state: "Tense but ready to act if one clean signal appears."
+        identification_point: "The body decides before the mouth catches up."
+        desired_aftertaste: "Controlled ignition."
+        empathy_risk: "If the route talks only in slogans, the viewer loses the human stake."
+        member_bridge: "M01 opens the route cleanly, M03 grounds it, and M10/M06 prove that pressure can be legible."
+        message_translation: "Translate self-command into a visible first move, not abstract confidence language."
+      storyline_spine_seed:
+        summary: "One member catches the signal in a pressured public interior; the unit locks behind her, resists the noise, and turns one clean body cue into a shared route."
+        beats:
+          - order: 1
+            beat: "Cold signal"
+            primary_member: M01
+            core_action: "She steps into frame and sets one hard gaze before the beat lands."
+            visual_function: "Scroll-stop identity."
+          - order: 2
+            beat: "Pressure setup"
+            primary_member: M06
+            core_action: "She cuts the air with one clipped command gesture while the line closes behind her."
+            visual_function: "Declare the route under pressure."
+          - order: 3
+            beat: "Save-trigger pre-hook"
+            primary_member: M03
+            core_action: "Knees drop slightly as the shoulders resist, then release together."
+            visual_function: "Show the body answering before speech."
+          - order: 4
+            beat: "Main release"
+            primary_member: M10
+            core_action: "The diagonal launch step and shoulder lock repeat in full view."
+            visual_function: "Body-proof replay moment."
+      founder_input_seed:
+        why_now: "This is the cleanest June-aligned route if the founder wants the current harder-club lane first."
+        paired_pre00s_note: "Review together with runs/2026-06-01/0601_DRAFT_TRACK_REFERENCE_BRAINSTORM/research/reference-song-fit-v1.md."
+      asset_alignment_seed:
+        selected_unit: MOTION_GPU_06
+        selected_members: [M01, M03, M06, M08, M10, M12]
+        identity_constraints: "Keep contemporary performance styling, front-readable body cues, and a melodic line that stops the route from reading as faceless force."
+      song_structure_seed:
+        pulse_family: "Mid-fast hard club-pop with compressed first 15s."
+        first_signal: "0:00-0:04 clipped cue with immediate body hit."
+        pre_hook_job: "One emotional lift that turns tension into a save-trigger."
+        chorus_job: "First full body-proof release."
+        post_hook_job: "One repeatable shoulder or step phrase."
+      choreography_seed:
+        body_proof: "Low recoil, diagonal launch, shoulder lock."
+        crop_rule: "Hook must read in both waist-up and full-body framing."
+        member_handoff: "M01 to M06 to M10 without losing front-axis clarity."
+      visual_world_seed:
+        mv_world: "Concrete corridor, mirrored hall, or sleek public interior with one named metal or floor texture."
+        camera_language: "Front or three-quarter tracking that proves the hit rather than hiding it in motion blur."
+        wardrobe_lane: "Refined sporty layers, strong shoulder, technical jacket, one cue color."
+      generation_plan_seed:
+        image_readability_goal: "Clear faces, clear shoulder line, no overcrowded props."
+        risk_guard: "Do not drift into generic cyber worldbuilding or fight-scene cosplay."
+      derivative_plan_seed:
+        - "Use the recoil-to-launch phrase as the 8-15s derivative anchor."
+        - "First frame should already show the gaze plus one shoulder line."
+      founder_locks_seed:
+        - "Lock whether this should stay hard-club first or soften the pre-hook."
+        - "Lock whether M06 or M10 owns the first pressure command."
+      source_links_seed:
+        - "REF_SONG_ILLIT_ITS_ME"
+        - "REF_SONG_NMIXX_HEAVY_SERENADE"
+        - "REF_MEDIA_NARRATIVE_TEACH_YOU_A_LESSON"
+        - "REF_FASHION_SPORTY_SPICE"
+        - "REF_IDOL_MOTION_UNIT"
+      open_questions_seed:
+        - "Does the founder want the route more save-trigger polished or more aggressive?"
+        - "Should the post-hook phrase be shoulder-led or step-led?"
+  - route_id: R02
+    route_name: POLISHED EXIT ALIBI
+    recommendation_message: "프리미엄 퍼블릭 훅에 균열 한 점을 넣는 CROWN 메인 후보."
+    recommended_unit:
+      unit_code: CROWN_API_06
+      unit_purpose: "Premium public hook, polished first impression, and elegant chorus readability."
+      member_codes: [M01, M02, M05, M07, M09, M12]
+      center_roles:
+        first_signal: M01
+        precision_guide: M02
+        vocal_lift: M05
+        visual_axis: M07
+        hook_drive: M09
+        cool_cue: M12
+      unit_fit_reason: "The route needs expensive first contact, clean chorus memory, and one visible secret breaking the polish."
+      unit_risk: "If the crack in the route is too soft, the result can become merely pristine."
+    member_focus: [M01, M02, M05, M07, M09, M12]
+    source_ref_ids:
+      - REF_SONG_KATSEYE_PINKY_UP
+      - REF_SONG_ILLIT_ITS_ME
+      - REF_MEDIA_NARRATIVE_ALL_TRUTH
+      - REF_FASHION_TRENCH_REVEAL
+      - REF_IDOL_CROWN_UNIT
+    lane_ref_ids:
+      song: [REF_SONG_KATSEYE_PINKY_UP, REF_SONG_ILLIT_ITS_ME]
+      media_narrative: [REF_MEDIA_NARRATIVE_ALL_TRUTH]
+      fashion: [REF_FASHION_TRENCH_REVEAL]
+      idol: [REF_IDOL_CROWN_UNIT]
+    combined_signal: "Public-hook brightness + self-naming confidence + social lie fracture + trench reveal + CROWN polish."
+    tone_mood_message_unity:
+      tone_and_manner: "Polished, front-facing, but quietly dangerous."
+      mood: "Composed tension before a social reveal."
+      message: "정리된 얼굴 아래에서 이미 다른 진실이 움직이고 있다."
+      unity_reason: "The route keeps surface elegance, then lets one hidden truth disturb it."
+      mismatch_watch: "Do not smooth away the tension point or over-romanticize the route into generic luxury."
+    possible_message: "예쁘게 정리된 장면도 결국 한 걸음에서 깨진다."
+    song_emotion: "Bright public hook with a controlled undercurrent of defiance."
+    choreography_hook: "A collar trace turns into a shared exit step; one wrist cuts back as if erasing an alibi."
+    performance_image: "M01 opens the charm lane, M07 holds the axis, and M09/M12 make the hook feel immediate while M02 adds the controlled crack."
+    mv_image: "Hotel corridor, glass elevator lobby, or polished apartment threshold where coats, collars, and shoulder turns mark who is about to leave the script."
+    why_aurora_m_can_own_it: "CROWN_API_06 already reads premium and public, so giving it one visible lie-break or truth-step makes the route feel more adult without losing accessibility."
+    risk_or_gap: "Needs one stronger body cue in the chorus so the route is not only face and wardrobe memory."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "POLISHED EXIT ALIBI"
+      goal: "Build a premium public route where surface control cracks open through one decisive step."
+      thesis:
+        message: "정리된 얼굴과 공간도 결국 진실을 오래 숨기지 못한다."
+        one_line: "The polished version breaks first at the door."
+        audience_feel: "The viewer should feel the thrill of stepping out of a role before the room is ready."
+        hook_moment: "A collar-line gesture becomes a shared exit step on the chorus hit."
+      target_empathy_seed:
+        target_viewer: "A viewer who looks composed in public but feels one private truth pressing to be seen."
+        viewer_emotional_state: "Socially polished, privately impatient."
+        identification_point: "Holding the room together while already planning the exit."
+        desired_aftertaste: "Elegant release with a sting."
+        empathy_risk: "If the route becomes only rich-room aesthetics, the viewer loses the personal stake."
+        member_bridge: "M01 and M09 make the public hook inviting while M02 and M07 keep the crack believable."
+        message_translation: "Keep the line about leaving the script concrete through threshold, coat, or collar action."
+      storyline_spine_seed:
+        summary: "A polished shared space looks stable until one member's small truth-step tilts the room; the unit exits the old role together but not innocently."
+        beats:
+          - order: 1
+            beat: "Public entry"
+            primary_member: M01
+            core_action: "She enters cleanly and meets the lens before touching the collar line."
+            visual_function: "First-contact polish."
+          - order: 2
+            beat: "Private crack"
+            primary_member: M02
+            core_action: "Her wrist cuts back as if undoing a script."
+            visual_function: "Secret tension enters the route."
+          - order: 3
+            beat: "Hook exit"
+            primary_member: M09
+            core_action: "The front line turns and steps through the threshold together."
+            visual_function: "Readable chorus memory."
+          - order: 4
+            beat: "Afterimage"
+            primary_member: M07
+            core_action: "She holds the final look as the room stays behind her."
+            visual_function: "Memory tag with authority."
+      founder_input_seed:
+        why_now: "This is the best public-facing counterbalance to the June pressure lane if the founder wants polish plus tension."
+        paired_pre00s_note: "If selected, compare against the companion fit note before Suno so the pulse does not become too soft."
+      asset_alignment_seed:
+        selected_unit: CROWN_API_06
+        selected_members: [M01, M02, M05, M07, M09, M12]
+        identity_constraints: "Keep premium readability, one strong chorus body cue, and one visible threshold action."
+      song_structure_seed:
+        pulse_family: "Mid-fast polished club-pop with a clean public chorus."
+        first_signal: "Direct eye contact plus one collar or shoulder cue."
+        pre_hook_job: "Raise the sense that one truth is about to leak."
+        chorus_job: "Shared exit step with instant mouth-shape memory."
+        post_hook_job: "Compact repeat phrase that keeps the room behind them."
+      choreography_seed:
+        body_proof: "Collar trace, wrist cutback, shared threshold step."
+        crop_rule: "Gesture must read from chest-up first, then full-body on the shared step."
+        member_handoff: "M01 lead-in, M02 crack, M09 hook drive, M07 seal."
+      visual_world_seed:
+        mv_world: "Glass lobby, polished apartment hall, or hotel threshold."
+        camera_language: "Steady frontal entry and side-turn follow for the exit beat."
+        wardrobe_lane: "Updated trench, tailored reveal, collar and shoulder emphasis."
+      generation_plan_seed:
+        image_readability_goal: "Keep doors, frames, and collars simple enough that the faces stay dominant."
+        risk_guard: "Do not turn the route into generic rich-girl imagery without a message event."
+      derivative_plan_seed:
+        - "Use the collar trace plus one-line exit phrase as the main short-form asset."
+        - "Need one thumbnail where the threshold and face both read instantly."
+      founder_locks_seed:
+        - "Lock how sharp the crack should feel: sly, cold, or confrontational."
+        - "Lock whether the chorus body cue is coat-led or shoulder-led."
+      source_links_seed:
+        - "REF_SONG_KATSEYE_PINKY_UP"
+        - "REF_SONG_ILLIT_ITS_ME"
+        - "REF_MEDIA_NARRATIVE_ALL_TRUTH"
+        - "REF_FASHION_TRENCH_REVEAL"
+        - "REF_IDOL_CROWN_UNIT"
+      open_questions_seed:
+        - "Does the founder want the truth reveal more social or more romantic?"
+        - "Should the hook lean Korean-first or global mouth-shape first?"
+  - route_id: R03
+    route_name: MIRROR NOISE FILTER
+    recommendation_message: "현재 로컬 사운드 앵커와 가장 직접적으로 연결되는 디지털 자기선택 라우트."
+    recommended_unit:
+      unit_code: MIRROR_SYS_05
+      unit_purpose: "Digital concept precision, mirror/chrome texture, and controlled performance geometry."
+      member_codes: [M02, M05, M06, M07, M08]
+      center_roles:
+        precision_guide: M02
+        vocal_lift: M05
+        system_command: M06
+        visual_axis: M07
+        smoky_counter: M08
+      unit_fit_reason: "The route needs reflective geometry, self-image pressure, and a unit that can carry cold precision without becoming faceless."
+      unit_risk: "If the human stake disappears, the route will read like old cyber styling rather than current June clarity."
+    member_focus: [M02, M05, M06, M07, M08]
+    source_ref_ids:
+      - REF_SONG_DRAFT_TRACK_FIT_NOTE
+      - REF_SONG_NMIXX_HEAVY_SERENADE
+      - REF_MEDIA_NARRATIVE_LOVE_OCLOCK
+      - REF_FASHION_CHROME_PVC
+      - REF_IDOL_MIRROR_UNIT
+    lane_ref_ids:
+      song: [REF_SONG_DRAFT_TRACK_FIT_NOTE, REF_SONG_NMIXX_HEAVY_SERENADE]
+      media_narrative: [REF_MEDIA_NARRATIVE_LOVE_OCLOCK]
+      fashion: [REF_FASHION_CHROME_PVC]
+      idol: [REF_IDOL_MIRROR_UNIT]
+    combined_signal: "Local sound-anchor note + heavy texture contrast + timed identity-slip premise + chrome reflective styling + MIRROR precision."
+    tone_mood_message_unity:
+      tone_and_manner: "Exact, reflective, and emotionally withheld until the turn."
+      mood: "Controlled self-surveillance under pressure."
+      message: "잡음을 통과한 버전만 남기겠다는 자기선택."
+      unity_reason: "Each source makes identity unstable first, then demands a clean chosen version."
+      mismatch_watch: "Do not use vague AI language, impossible worldbuilding, or fantasy armor to explain the route."
+    possible_message: "내가 남길 버전은 내가 고른다."
+    song_emotion: "Cold surface tension with one heavy, emotionally definite release."
+    choreography_hook: "One finger rises beside the face, the hands split a vertical line, then the line breaks with a clipped shoulder turn."
+    performance_image: "M02 sets the precision cue, M06 gives the command edge, M05 opens the lift, and M08 darkens the answer."
+    mv_image: "Mirror hall, glass-walled transit lane, or reflective corridor where each reflection feels like a timed alternate version rather than a fantasy clone."
+    why_aurora_m_can_own_it: "MIRROR_SYS_05 is the cleanest way to turn the founder's current digital/self-image sound-anchor notes into an actual unit-owned route."
+    risk_or_gap: "Needs one tactile human object or gesture so the route does not stay too concept-closed."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "MIRROR NOISE FILTER"
+      goal: "Build a controlled digital-pressure route where the chosen self survives the noise through exact body and reflection grammar."
+      thesis:
+        message: "잡음 속에서도 남길 버전은 내가 선택한다."
+        one_line: "Only the version I choose gets to stay."
+        audience_feel: "The viewer should feel the pressure of being seen, then the relief of deciding what stays visible."
+        hook_moment: "A vertical line gesture beside the face becomes the route's filter-and-break body cue."
+      target_empathy_seed:
+        target_viewer: "A viewer whose self-image feels edited by public noise, comments, or comparison."
+        viewer_emotional_state: "Alert, self-aware, and tired of letting the room choose for them."
+        identification_point: "Wanting one real version to survive the mirrors."
+        desired_aftertaste: "Cold clarity."
+        empathy_risk: "If the route talks in generic machine language, it loses the current human stake."
+        member_bridge: "M02 and M07 hold the reflective authority, while M05 and M08 prove the emotional cost and payoff."
+        message_translation: "Translate the idea through reflection, timed overlap, and one chosen body line rather than abstract cyber slogans."
+      storyline_spine_seed:
+        summary: "Reflections and timed alternate versions crowd the frame until one member chooses a line, breaks it, and the unit follows the chosen signal."
+        beats:
+          - order: 1
+            beat: "Reflection entry"
+            primary_member: M02
+            core_action: "She lifts one finger beside the face and watches her own mirrored delay."
+            visual_function: "Immediate concept grammar."
+          - order: 2
+            beat: "Timed slip"
+            primary_member: M07
+            core_action: "She crosses a reflective seam as if switching versions."
+            visual_function: "Identity pressure made visible."
+          - order: 3
+            beat: "Chosen break"
+            primary_member: M06
+            core_action: "The vertical line snaps with a shoulder turn on the beat."
+            visual_function: "Body-first decision moment."
+          - order: 4
+            beat: "Lift and seal"
+            primary_member: M05
+            core_action: "She opens the release while the others align behind the chosen route."
+            visual_function: "Human payoff after cold precision."
+      founder_input_seed:
+        why_now: "This route is the most direct bridge from the current local reference-song-fit note into a PRE-00 route."
+        paired_pre00s_note: "Use the companion note as the mandatory sound-anchor read before any prompt packet drafting."
+      asset_alignment_seed:
+        selected_unit: MIRROR_SYS_05
+        selected_members: [M02, M05, M06, M07, M08]
+        identity_constraints: "Stay contemporary, reflective, and body-readable; avoid lore-heavy cyber or inhuman duplication."
+      song_structure_seed:
+        pulse_family: "Mid-fast body-readable club-pop with cold precision."
+        first_signal: "Mirror-line gesture plus clipped pulse."
+        pre_hook_job: "Increase overlap and pressure before the chosen break."
+        chorus_job: "The break resolves into one strong melodic lift."
+        post_hook_job: "Repeatable face-side line cue."
+      choreography_seed:
+        body_proof: "Finger rise, vertical split, clipped shoulder turn."
+        crop_rule: "Face-side cue must read in close-up before the formation expands."
+        member_handoff: "M02 sets the line, M06 breaks it, M05 opens the release."
+      visual_world_seed:
+        mv_world: "Reflective corridor, mirror hall, or glass transit lane."
+        camera_language: "Front-safe static or restrained lateral moves that let reflection geometry stay readable."
+        wardrobe_lane: "Chrome accessories, PVC shine, controlled dark tailoring, shield accent."
+      generation_plan_seed:
+        image_readability_goal: "Reflections must never confuse member count or face identity."
+        risk_guard: "Avoid impossible mirror multiplication, vague AI text, or costume-heavy futurism."
+      derivative_plan_seed:
+        - "The face-side line cue should become the derivative mnemonic."
+        - "Need one short where reflection and real body both fit inside the crop."
+      founder_locks_seed:
+        - "Lock whether the route stays colder or opens more romantic tension."
+        - "Lock how much reflective world complexity is acceptable."
+      source_links_seed:
+        - "REF_SONG_DRAFT_TRACK_FIT_NOTE"
+        - "REF_SONG_NMIXX_HEAVY_SERENADE"
+        - "REF_MEDIA_NARRATIVE_LOVE_OCLOCK"
+        - "REF_FASHION_CHROME_PVC"
+        - "REF_IDOL_MIRROR_UNIT"
+      open_questions_seed:
+        - "Should the chosen-self line feel more stern or more seductive?"
+        - "Does the founder want a Korean-first emotional phrase or a cooler mixed-language cue?"
+  - route_id: R04
+    route_name: CARGO MEMORY TRACE
+    recommendation_message: "컨테이너/저장/흔적 이미지를 쓰는 성숙한 긴장 라우트."
+    recommended_unit:
+      unit_code: NOIR_STACK_05
+      unit_purpose: "Mature R&B/dance mood, vocal-rap character, and close-range attitude."
+      member_codes: [M03, M04, M05, M08, M11]
+      center_roles:
+        rhythm_anchor: M03
+        emotional_bridge: M04
+        vocal_lift: M05
+        smoky_counter: M08
+        rap_character: M11
+      unit_fit_reason: "The route needs close-range tension, spoken memory, and a unit that can carry breath and bite in the same frame."
+      unit_risk: "If the imagery gets too literal or too dark, the route can lose replay value and elegance."
+    member_focus: [M03, M04, M05, M08, M11]
+    source_ref_ids:
+      - REF_SONG_NMIXX_HEAVY_SERENADE
+      - REF_MEDIA_NARRATIVE_MARKED_WOMAN
+      - REF_FASHION_SATIN_LACE
+      - REF_FASHION_SHEER_SUMMER
+      - REF_IDOL_NOIR_UNIT
+    lane_ref_ids:
+      song: [REF_SONG_NMIXX_HEAVY_SERENADE]
+      media_narrative: [REF_MEDIA_NARRATIVE_MARKED_WOMAN]
+      fashion: [REF_FASHION_SATIN_LACE, REF_FASHION_SHEER_SUMMER]
+      idol: [REF_IDOL_NOIR_UNIT]
+    combined_signal: "Heavy emotional texture + cargo-memory mystery + satin/sheer afterimage + NOIR close-range vocal-rap ownership."
+    tone_mood_message_unity:
+      tone_and_manner: "Close, tense, and tactile."
+      mood: "Remembering what the body tried to seal away."
+      message: "지워둔 흔적도 결국 몸에서 다시 새어 나온다."
+      unity_reason: "The route keeps everything near the skin: memory, fabric edge, breath, and proof."
+      mismatch_watch: "Do not slip into generic noir cliches, overt violence, or costume-heavy seduction."
+    possible_message: "숨긴 자국은 결국 몸에서 먼저 들킨다."
+    song_emotion: "Low-lit desire and restraint with one strong open-throat release."
+    choreography_hook: "A shoulder wrap turns into a wrist pull, then one half-step back exposes the line that was being hidden."
+    performance_image: "M03 and M11 carry the spoken trace, M04 breathes the memory back in, and M05 gives the route its necessary lift."
+    mv_image: "Container bay, freight corridor, or storage-space threshold softened by sheer layers and satin edges rather than brute industrial styling."
+    why_aurora_m_can_own_it: "NOIR_STACK_05 can turn trapped-image tension into a close human read instead of a generic dark-pop pose."
+    risk_or_gap: "Needs a cleaner chorus proof move so the route is memorable beyond atmosphere."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "CARGO MEMORY TRACE"
+      goal: "Build a mature close-range route where sealed memory and visible fabric edges become the emotional pressure system."
+      thesis:
+        message: "숨겨 둔 기억과 흔적은 결국 몸에서 먼저 새어 나온다."
+        one_line: "What was sealed away still leaves a mark."
+        audience_feel: "The viewer should feel the ache of trying to stay composed while the body keeps telling on them."
+        hook_moment: "A shoulder-wrap gesture breaks open into one exposed line on the hook."
+      target_empathy_seed:
+        target_viewer: "A viewer who is trying to stay elegant while carrying a private mark, secret, or memory."
+        viewer_emotional_state: "Restrained, watchful, and slightly haunted."
+        identification_point: "The body leaks what the mind wants hidden."
+        desired_aftertaste: "Tender tension."
+        empathy_risk: "If the route is all darkness and no human ache, it becomes generic mature styling."
+        member_bridge: "M04 and M05 humanize the route while M03, M08, and M11 keep it grounded and edged."
+        message_translation: "Use trace, fabric edge, and storage-space imagery rather than broad heartbreak language."
+      storyline_spine_seed:
+        summary: "A sealed storage space and soft moving fabric turn one hidden mark into a visible group memory that can no longer stay contained."
+        beats:
+          - order: 1
+            beat: "Hidden line"
+            primary_member: M04
+            core_action: "She wraps one shoulder as if protecting a mark."
+            visual_function: "Immediate intimacy."
+          - order: 2
+            beat: "Trace speaks"
+            primary_member: M03
+            core_action: "She steps back half a pace and lets the line show."
+            visual_function: "Body tells the truth."
+          - order: 3
+            beat: "Smoky answer"
+            primary_member: M11
+            core_action: "A low spoken phrase lands while the unit reorients around her."
+            visual_function: "Adds bite and memory."
+          - order: 4
+            beat: "Lift"
+            primary_member: M05
+            core_action: "She opens the emotional release without washing away the mark."
+            visual_function: "Chorus payoff."
+      founder_input_seed:
+        why_now: "This is the clearest mature counter-route if the founder wants adult tension without losing current styling rails."
+        paired_pre00s_note: "Use the companion fit note only to keep pulse and phrase density compact if this route moves to prompt drafting."
+      asset_alignment_seed:
+        selected_unit: NOIR_STACK_05
+        selected_members: [M03, M04, M05, M08, M11]
+        identity_constraints: "Keep the route contemporary, tactile, and close-range; no generic femme-fatale posturing."
+      song_structure_seed:
+        pulse_family: "Mid-tempo to mid-fast emotional dance with heavy texture contrast."
+        first_signal: "A near-body gesture instead of a loud opening shout."
+        pre_hook_job: "Let the hidden line become harder to contain."
+        chorus_job: "Expose the mark with a singable release."
+        post_hook_job: "One wrist or shoulder repeat cue."
+      choreography_seed:
+        body_proof: "Shoulder wrap, wrist pull, half-step reveal."
+        crop_rule: "The body cue must still read when the camera is close to the face and shoulders."
+        member_handoff: "M04 intimacy to M03 trace to M11 bite to M05 lift."
+      visual_world_seed:
+        mv_world: "Container bay, freight corridor, or storage threshold with soft fabric counterpoint."
+        camera_language: "Close three-quarter frames and restrained track-backs that reveal the line slowly."
+        wardrobe_lane: "Satin, lace, sheer overlay, controlled dark accent."
+      generation_plan_seed:
+        image_readability_goal: "Keep cargo-space elements simple and faces unobscured."
+        risk_guard: "No bondage-coded excess, no grim crime-scene literalism, no generic noir haze."
+      derivative_plan_seed:
+        - "Use the shoulder-wrap to reveal cue as the key short-form loop."
+        - "Need one thumbnail where fabric edge and gaze both read at once."
+      founder_locks_seed:
+        - "Lock how dark versus elegant the route should feel."
+        - "Lock whether the chorus opens vocally or stays low and tense."
+      source_links_seed:
+        - "REF_SONG_NMIXX_HEAVY_SERENADE"
+        - "REF_MEDIA_NARRATIVE_MARKED_WOMAN"
+        - "REF_FASHION_SATIN_LACE"
+        - "REF_FASHION_SHEER_SUMMER"
+        - "REF_IDOL_NOIR_UNIT"
+      open_questions_seed:
+        - "Should the route feel more memory-led or more accusation-led?"
+        - "Does the founder want the hook closer to spoken trace or open vocal lift?"
+  - route_id: R05
+    route_name: AFTERNOISE SAVE LOOP
+    recommendation_message: "강한 6월 기조를 유지하되, 더 친밀하고 반복 가능한 카운터 라우트."
+    recommended_unit:
+      unit_code: CACHE_LOOP_05
+      unit_purpose: "Casual loop, UK-garage ease, and repeatable short-hook intimacy."
+      member_codes: [M01, M02, M03, M04, M09]
+      center_roles:
+        first_signal: M01
+        precision_guide: M02
+        rhythm_anchor: M03
+        emotional_bridge: M04
+        hook_drive: M09
+      unit_fit_reason: "The route needs smaller front-line intimacy and repeatable hook cells, but still one clipped contradiction so it stays June-current."
+      unit_risk: "If the clipped contradiction disappears, the route falls back into weightless softness."
+    member_focus: [M01, M02, M03, M04, M09]
+    source_ref_ids:
+      - REF_SONG_KATSEYE_PINKY_UP
+      - REF_SONG_DRAFT_TRACK_FIT_NOTE
+      - REF_MEDIA_NARRATIVE_ALL_TRUTH
+      - REF_FASHION_SHEER_SUMMER
+      - REF_IDOL_CACHE_UNIT
+    lane_ref_ids:
+      song: [REF_SONG_KATSEYE_PINKY_UP, REF_SONG_DRAFT_TRACK_FIT_NOTE]
+      media_narrative: [REF_MEDIA_NARRATIVE_ALL_TRUTH]
+      fashion: [REF_FASHION_SHEER_SUMMER]
+      idol: [REF_IDOL_CACHE_UNIT]
+    combined_signal: "Compact global hook cells + local sound-anchor rule for save-trigger pre-hook + intimate lie-fracture premise + sheer motion layer + CACHE repeat value."
+    tone_mood_message_unity:
+      tone_and_manner: "Closer, lighter on the surface, but quietly clipped underneath."
+      mood: "Post-noise calm that still catches on one line."
+      message: "잔잔해 보여도 이미 답은 몸 안에서 반복되고 있다."
+      unity_reason: "The route keeps intimacy first but preserves one repeated clipped signal so it stays current instead of sleepy."
+      mismatch_watch: "Do not let the route become cute-only or generic soft challenge bait."
+    possible_message: "조용해진 뒤에도 몸은 같은 답을 계속 반복한다."
+    song_emotion: "Soft-accessible loop with one sharper bass or rhythm contradiction."
+    choreography_hook: "A sleeve or sheer hem skim leads into a compact shoulder bounce and one cheek-side glance reset."
+    performance_image: "M09 carries the repeatable hook, M03 keeps the pocket grounded, M01 opens the first signal, and M04 adds the afterglow bridge."
+    mv_image: "Shared apartment room, soft-lit transit wait zone, or rooftop stair landing where moving layers and small body resets hold the memory."
+    why_aurora_m_can_own_it: "CACHE_LOOP_05 can still fit June if the softness stays clipped and the save-trigger phrase is precise rather than sugary."
+    risk_or_gap: "Needs a harder bass or spoken edge in the intro so the route does not drift into generic low-pressure content."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "AFTERNOISE SAVE LOOP"
+      goal: "Build an intimate replay-first route where a small repeated body answer keeps returning after the room goes quiet."
+      thesis:
+        message: "겉은 조용해도 몸은 이미 같은 답을 반복하고 있다."
+        one_line: "Even after the noise drops, the answer keeps looping."
+        audience_feel: "The viewer should feel a small private cue turning into something they want to replay and keep."
+        hook_moment: "A sheer edge moves, the shoulder bounces once, and the glance reset makes the line stick."
+      target_empathy_seed:
+        target_viewer: "A viewer who wants something more intimate than a shout but still needs a concrete save-worthy cue."
+        viewer_emotional_state: "Calmer on the surface, quietly hooked underneath."
+        identification_point: "A private repeated answer that keeps coming back after the scene is over."
+        desired_aftertaste: "Soft loop with a little bite."
+        empathy_risk: "If the route becomes only soft prettiness, it loses June relevance and replay tension."
+        member_bridge: "M09 and M01 make the loop memorable while M03 and M04 keep the route grounded and human."
+        message_translation: "Turn the loop into a visible small body reset, not a vague dreamy line."
+      storyline_spine_seed:
+        summary: "After the loud part of the night passes, the unit keeps returning to one small body answer in a shared quiet space until it becomes the real hook."
+        beats:
+          - order: 1
+            beat: "Quiet signal"
+            primary_member: M01
+            core_action: "She gives one direct look while the fabric edge moves first."
+            visual_function: "Soft but immediate entry."
+          - order: 2
+            beat: "Pocket groove"
+            primary_member: M03
+            core_action: "A compact shoulder bounce anchors the rhythm."
+            visual_function: "Keeps the route from floating away."
+          - order: 3
+            beat: "Repeat answer"
+            primary_member: M09
+            core_action: "She resets the glance beside the cheek on the hook."
+            visual_function: "Derivative-ready memory cue."
+          - order: 4
+            beat: "Afterglow bridge"
+            primary_member: M04
+            core_action: "She carries the line into a softer release without losing the loop."
+            visual_function: "Emotional aftertaste."
+      founder_input_seed:
+        why_now: "This is the best soft-accessible counter-route that still respects the June pressure logic."
+        paired_pre00s_note: "Use the companion note to keep the intro harder and the lyric density compact if this moves into prompt work."
+      asset_alignment_seed:
+        selected_unit: CACHE_LOOP_05
+        selected_members: [M01, M02, M03, M04, M09]
+        identity_constraints: "Keep the route intimate and repeatable, but give it one clipped rhythm edge and one visible save-trigger cue."
+      song_structure_seed:
+        pulse_family: "Compact loop-pop with a mid-fast hidden engine."
+        first_signal: "Direct look plus moving fabric edge."
+        pre_hook_job: "Turn calmness into a save-worthy small build."
+        chorus_job: "Keep the answer compact and replayable."
+        post_hook_job: "Cheek-side glance reset or shoulder bounce repeat."
+      choreography_seed:
+        body_proof: "Sheer-edge skim, compact shoulder bounce, cheek-side glance reset."
+        crop_rule: "The cue must survive a very close phone crop."
+        member_handoff: "M01 open, M03 groove, M09 hook, M04 afterglow."
+      visual_world_seed:
+        mv_world: "Shared quiet room, transit wait zone, or stair landing after the louder scene has passed."
+        camera_language: "Close handheld-feeling steadiness or gentle push-ins, never sleepy drift."
+        wardrobe_lane: "Sheer summer layer over clean casual structure."
+      generation_plan_seed:
+        image_readability_goal: "Keep the scene simple so the small cue and faces dominate."
+        risk_guard: "No cute-only challenge framing, no weightless dream haze, no generic Y2K softness."
+      derivative_plan_seed:
+        - "Use the cheek-side glance reset as the main 8-12s loop."
+        - "Need a first frame where the sheer edge and face both read instantly."
+      founder_locks_seed:
+        - "Lock how soft the route may go before it breaks June relevance."
+        - "Lock whether the loop should feel more intimate or more addictive."
+      source_links_seed:
+        - "REF_SONG_KATSEYE_PINKY_UP"
+        - "REF_SONG_DRAFT_TRACK_FIT_NOTE"
+        - "REF_MEDIA_NARRATIVE_ALL_TRUTH"
+        - "REF_FASHION_SHEER_SUMMER"
+        - "REF_IDOL_CACHE_UNIT"
+      open_questions_seed:
+        - "Should the intro stay closer to garage ease or move closer to club-pop bite?"
+        - "Does the founder want this as the main route or only as the counter-route against R01/R03?"
+founder_decision_needed:
+  - "Select one route: R01 LOCK-IN CLUB SIGNAL, R02 POLISHED EXIT ALIBI, R03 MIRROR NOISE FILTER, R04 CARGO MEMORY TRACE, or R05 AFTERNOISE SAVE LOOP."
+  - "Combine routes if the founder wants a hybrid, especially R01+R03 or R02+R05."
+  - "Request another paired radar/reference-fit pass if the current route spread is still missing the desired sound anchor."
+  - "Continue into Suno/manual prompt packet only after choosing the route and reviewing the paired PRE-00S companion note."
+  - "Archive this brief if none of the five routes should continue."
+automation_notes: "Combined founder selection view: review this radar together with `runs/2026-06-01/0601_DRAFT_TRACK_REFERENCE_BRAINSTORM/research/reference-song-fit-v1.md` as the current PRE-00S companion note. That local note currently favors a body-readable mid-fast pulse, a hard first signal, a save-trigger pre-hook, and likely unit order of MOTION_GPU_06 -> MIRROR_SYS_05 -> CROWN_API_06 for sound-anchor-driven follow-up."

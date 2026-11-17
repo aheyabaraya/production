@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/03v-section-qa-patch-record.schema.json",
+  "title": "IDOL 03V Section QA Patch Record",
+  "description": "Active v3 playback-pass patch receipt. It binds an explicit Founder playback decision to covered 03V cues from the active manifest, changes only section status, and proves the contextual review summary and findings were preserved byte-for-value rather than replaced by a scripted checklist judgment.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "source_review_record",
+    "source_review_worklist",
+    "source_section_qa",
+    "output_section_qa",
+    "decision",
+    "patched_sections",
+    "summary",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol_03v_section_qa_patch_record.v3"
+    },
+    "generated_at": {"type": "string", "minLength": 1},
+    "run": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["patched_candidate_written"]
+    },
+    "source_review_record": {"type": "string", "minLength": 1},
+    "source_review_worklist": {"type": "string", "minLength": 1},
+    "source_section_qa": {"type": "string", "minLength": 1},
+    "output_section_qa": {"type": "string", "minLength": 1},
+    "decision": {
+      "const": "pass"
+    },
+    "patched_sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/patched_section"}
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "patched_section_count",
+        "patched_cue_count",
+        "output_overall_status",
+        "ready_for_global_section_qa_pass"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "patched_section_count": {"type": "integer", "minimum": 0},
+        "patched_cue_count": {"type": "integer", "minimum": 0},
+        "output_overall_status": {"type": "string", "minLength": 1},
+        "ready_for_global_section_qa_pass": {"type": "boolean"}
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "patched_section": {
+      "type": "object",
+      "required": [
+        "section_key",
+        "cue_ids",
+        "founder_playback_decision",
+        "preserved_review_summary_sha256",
+        "preserved_findings_sha256",
+        "previous_status",
+        "new_status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "section_key": {"type": "string", "minLength": 1},
+        "cue_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"
+          }
+        },
+        "founder_playback_decision": {"const": "pass"},
+        "preserved_review_summary_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "preserved_findings_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "previous_status": {"type": "string"},
+        "new_status": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/cursor-cli-runtime-receipt-v1-legacy.schema.json",
+  "title": "IDOL Cursor CLI Runtime Receipt v1 Legacy Reader",
+  "description": "Pinned read-only copy of the pre-Graph v1 Cursor CLI runtime receipt. Successful historical rows did not require persisted result or hook hashes. New authoring uses cursor-cli-runtime-receipt.schema.json v2 and must fail closed if this v1 contract is supplied.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assignment_id",
+    "profile_id",
+    "source",
+    "api_key_source",
+    "exact_cli_model",
+    "catalog_display",
+    "observed_init_display",
+    "session_id",
+    "request_id",
+    "terminal_status",
+    "goal_path",
+    "goal_sha256",
+    "hook_receipt_path",
+    "attachments",
+    "resume_session_id",
+    "recorded_at",
+    "hold_reason"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-cursor-cli-runtime-receipt.v1"},
+    "assignment_id": {"type": "string", "minLength": 1},
+    "profile_id": {"type": "string", "minLength": 1},
+    "source": {"const": "cursor_cli_stream_json"},
+    "api_key_source": {"type": ["string", "null"]},
+    "exact_cli_model": {"type": "string", "minLength": 1},
+    "catalog_display": {"type": ["string", "null"]},
+    "observed_init_display": {"type": ["string", "null"]},
+    "session_id": {"type": ["string", "null"]},
+    "request_id": {"type": ["string", "null"]},
+    "terminal_status": {"enum": ["success", "error"]},
+    "goal_path": {"type": "string", "minLength": 1},
+    "goal_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "hook_receipt_path": {"type": "string", "minLength": 1},
+    "result_path": {"type": ["string", "null"], "minLength": 1},
+    "result_sha256": {
+      "type": ["string", "null"],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "result_byte_size": {"type": ["integer", "null"], "minimum": 1},
+    "attachments": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "byte_size"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "byte_size": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "resume_session_id": {"type": ["string", "null"]},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "hold_reason": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,580 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/reference-working-index.schema.json",
+  "title": "IDOL Creative Development Director Reference Working Index",
+  "description": "Run-owned CDD read model for accepted reference-worker deltas. Rows point to source and analysis manifests, selected bounded evidence, worker attempts, CDD review, section bindings, and downstream consumers. It contains no media bytes or observation prose and does not itself create direct-use authority or Founder approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "run",
+    "owner",
+    "generated_at",
+    "source_set_digest",
+    "source_set_sha256",
+    "authority_boundary",
+    "upstream_heads",
+    "worker_deltas",
+    "rows",
+    "holds",
+    "next_actions"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-reference-working-index.v3"},
+    "artifact_type": {"const": "reference_working_index"},
+    "status": {"enum": ["current", "hold"]},
+    "run": {"$ref": "#/$defs/runPath"},
+    "owner": {"const": "creative_development_director"},
+    "generated_at": {"$ref": "#/$defs/timestamp"},
+    "source_set_digest": {"$ref": "#/$defs/sourceSetDigest"},
+    "source_set_sha256": {"$ref": "#/$defs/sha256"},
+    "authority_boundary": {"$ref": "#/$defs/authorityBoundary"},
+    "upstream_heads": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/pointer"}
+    },
+    "worker_deltas": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/deltaPointer"}
+    },
+    "rows": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/referenceRow"}
+    },
+    "holds": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/hold"}
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nextAction"}
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][-_A-Za-z0-9.:]{1,120}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/token"}
+      }
+    },
+    "nullablePointer": {
+      "oneOf": [
+        {"$ref": "#/$defs/pointer"},
+        {"type": "null"}
+      ]
+    },
+    "sourceSetDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "basis", "sha256", "entry_count", "computed_at", "verified_before_write"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "basis": {"const": "sorted_pointer_path_hash_pairs_v1"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "entry_count": {"type": "integer", "minimum": 0},
+        "computed_at": {"$ref": "#/$defs/timestamp"},
+        "verified_before_write": {"const": true}
+      }
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_read_model",
+        "pointer_only",
+        "no_creative_authority",
+        "canonical_write",
+        "direct_use_granted",
+        "founder_approval_inferred",
+        "media_bytes_embedded",
+        "mechanical_exact_copy_only"
+      ],
+      "properties": {
+        "derived_read_model": {"const": true},
+        "pointer_only": {"const": true},
+        "no_creative_authority": {"const": true},
+        "canonical_write": {"const": false},
+        "direct_use_granted": {"const": false},
+        "founder_approval_inferred": {"const": false},
+        "media_bytes_embedded": {"const": false},
+        "mechanical_exact_copy_only": {"const": true}
+      }
+    },
+    "deltaPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["delta_id", "dispatch_id", "attempt_id", "path", "sha256", "state"],
+      "properties": {
+        "delta_id": {"$ref": "#/$defs/token"},
+        "dispatch_id": {"$ref": "#/$defs/token"},
+        "attempt_id": {"$ref": "#/$defs/token"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "state": {"enum": ["returned", "accepted", "held", "rejected", "superseded"]}
+      }
+    },
+    "referenceSourceId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,140}$"
+    },
+    "referenceUnitId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{2,140}$"
+    },
+    "locator": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "sectionId": {
+      "type": "string",
+      "pattern": "^S[0-9]{2,}[A-Z]?$"
+    },
+    "sourceFunction": {
+      "enum": [
+        "major_scene_grammar_or_feeling",
+        "background_and_space",
+        "still_camera_and_composition",
+        "lighting_color_material",
+        "subject_state_or_pose",
+        "visible_action_or_hold",
+        "object_environment_response",
+        "edit_or_transition",
+        "other_registered_function"
+      ]
+    },
+    "workerAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lineage_id", "attempt_id", "dispatch_id", "provider", "session_id", "dispatch_pointer"],
+      "properties": {
+        "lineage_id": {"$ref": "#/$defs/token"},
+        "attempt_id": {"$ref": "#/$defs/token"},
+        "dispatch_id": {"$ref": "#/$defs/token"},
+        "provider": {"$ref": "#/$defs/token"},
+        "session_id": {"$ref": "#/$defs/token"},
+        "dispatch_pointer": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "sectionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "binding_pointer"],
+      "properties": {
+        "section_id": {"$ref": "#/$defs/sectionId"},
+        "binding_pointer": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_id", "artifact_pointer"],
+      "properties": {
+        "stage_id": {"$ref": "#/$defs/token"},
+        "artifact_pointer": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "cddReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reviewer", "reviewed_at", "disposition", "review_pointer"],
+      "properties": {
+        "reviewer": {"const": "creative_development_director"},
+        "reviewed_at": {"$ref": "#/$defs/timestamp"},
+        "disposition": {"enum": ["accepted", "held", "rejected", "superseded"]},
+        "review_pointer": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "restrictedSourcePermission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_scope",
+        "source_identity_or_url",
+        "purpose",
+        "allowed_actions",
+        "founder_approval_pointer",
+        "provided_link_or_file_is_approval",
+        "rhythm_permission_implies_scene_binding"
+      ],
+      "properties": {
+        "approval_scope": {"const": "exact_current_task_founder_approval"},
+        "source_identity_or_url": {"$ref": "#/$defs/nonEmptyString"},
+        "purpose": {"$ref": "#/$defs/nonEmptyString"},
+        "allowed_actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "query",
+              "search",
+              "open",
+              "download",
+              "capture",
+              "playback",
+              "pixel_inspection",
+              "analysis",
+              "source_registration",
+              "citation",
+              "response_pattern_use",
+              "candidate_use",
+              "section_binding",
+              "direct_use"
+            ]
+          }
+        },
+        "founder_approval_pointer": {"$ref": "#/$defs/pointer"},
+        "direct_scene_binding_lock_pointer": {"$ref": "#/$defs/nullablePointer"},
+        "provided_link_or_file_is_approval": {"const": false},
+        "rhythm_permission_implies_scene_binding": {"const": false}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "allowed_actions": {
+                "contains": {"enum": ["section_binding", "direct_use"]}
+              }
+            },
+            "required": ["allowed_actions"]
+          },
+          "then": {
+            "required": ["direct_scene_binding_lock_pointer"],
+            "properties": {"direct_scene_binding_lock_pointer": {"$ref": "#/$defs/pointer"}}
+          }
+        }
+      ]
+    },
+    "activeSourceEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "public_pin_url_or_id",
+        "origin_identity_verified",
+        "active_reuse_eligible",
+        "historical_row_reused_without_review",
+        "restricted_source_permission"
+      ],
+      "properties": {
+        "classification": {
+          "description": "Eligibility class for the exact selected source. public_pinterest_pin verifies the public pin URL or pin id plus the bound local image bytes; it does not claim that a separate creator or publication origin was resolved.",
+          "enum": [
+            "official_original_professional_primary",
+            "founder_supplied_nonrestricted_reference",
+            "public_pinterest_pin",
+            "founder_permitted_restricted_edit"
+          ]
+        },
+        "public_pin_url_or_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:https://(?:www\\.)?pinterest\\.[^/]+/pin/[A-Za-z0-9_-]+/?(?:\\?.*)?|https://pin\\.it/[A-Za-z0-9_-]+/?(?:\\?.*)?|[0-9]{6,})$"
+            },
+            {"type": "null"}
+          ],
+          "description": "Exact readable public pin URL or stable pin id. Required only for public_pinterest_pin and never inferred from a filename."
+        },
+        "origin_identity_verified": {
+          "const": true,
+          "description": "For public_pinterest_pin, this verifies the exact public pin identity and bound local bytes rather than a separate non-Pinterest creator origin."
+        },
+        "active_reuse_eligible": {"const": true},
+        "historical_row_reused_without_review": {"const": false},
+        "restricted_source_permission": {
+          "oneOf": [
+            {"$ref": "#/$defs/restrictedSourcePermission"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"classification": {"const": "founder_permitted_restricted_edit"}},
+            "required": ["classification"]
+          },
+          "then": {
+            "properties": {"restricted_source_permission": {"$ref": "#/$defs/restrictedSourcePermission"}}
+          },
+          "else": {
+            "properties": {"restricted_source_permission": {"type": "null"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"classification": {"const": "public_pinterest_pin"}},
+            "required": ["classification"]
+          },
+          "then": {
+            "properties": {"public_pin_url_or_id": {"type": "string"}}
+          },
+          "else": {
+            "properties": {"public_pin_url_or_id": {"type": "null"}}
+          }
+        }
+      ]
+    },
+    "referenceRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "source_id",
+        "reference_unit_id",
+        "source_manifest",
+        "analysis_manifest",
+        "selected_evidence",
+        "selected_locator",
+        "function",
+        "disposition",
+        "source_eligibility",
+        "section_bindings",
+        "decision_epoch",
+        "worker_attempt",
+        "cdd_review",
+        "downstream_consumers"
+      ],
+      "properties": {
+        "row_id": {"$ref": "#/$defs/token"},
+        "source_id": {"$ref": "#/$defs/referenceSourceId"},
+        "reference_unit_id": {"$ref": "#/$defs/referenceUnitId"},
+        "source_hierarchy": {"enum": ["main", "sub"]},
+        "replacement_authority": {"enum": ["founder", "creative_development_director_with_overall_review", "none"]},
+        "source_analysis_revision": {"$ref": "#/$defs/nullablePointer"},
+        "navigation_sheet_pointer": {"$ref": "#/$defs/nullablePointer"},
+        "sequence_unit_pointers": {"type": "array", "items": {"$ref": "#/$defs/pointer"}},
+        "sequence_run_pointers": {"type": "array", "items": {"$ref": "#/$defs/pointer"}},
+        "placement_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "audience_classification": {"type": ["string", "null"]},
+        "source_to_screen_transfer": {"type": ["string", "null"]},
+        "discarded_source_features": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "source_manifest": {"$ref": "#/$defs/pointer"},
+        "analysis_manifest": {"$ref": "#/$defs/nullablePointer"},
+        "selected_evidence": {"$ref": "#/$defs/nullablePointer"},
+        "selected_locator": {"$ref": "#/$defs/locator"},
+        "function": {"$ref": "#/$defs/sourceFunction"},
+        "disposition": {"enum": ["applied", "combined", "held", "rejected"]},
+        "source_eligibility": {"$ref": "#/$defs/activeSourceEligibility"},
+        "reference_connection_pointers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/pointer"}
+        },
+        "section_bindings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/sectionBinding"}
+        },
+        "decision_epoch": {"$ref": "#/$defs/nonEmptyString"},
+        "worker_attempt": {"$ref": "#/$defs/workerAttempt"},
+        "cdd_review": {"$ref": "#/$defs/cddReview"},
+        "downstream_consumers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/consumer"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source_eligibility": {
+                "properties": {"classification": {"const": "public_pinterest_pin"}},
+                "required": ["classification"]
+              }
+            },
+            "required": ["source_eligibility"]
+          },
+          "then": {
+            "required": ["selected_evidence"],
+            "properties": {"selected_evidence": {"$ref": "#/$defs/pointer"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"disposition": {"enum": ["applied", "combined"]}},
+            "required": ["disposition"]
+          },
+          "then": {
+            "required": ["selected_evidence", "source_eligibility", "reference_connection_pointers"],
+            "properties": {
+              "selected_evidence": {"$ref": "#/$defs/pointer"},
+              "cdd_review": {
+                "properties": {"disposition": {"const": "accepted"}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"disposition": {"const": "held"}},
+            "required": ["disposition"]
+          },
+          "then": {
+            "properties": {
+              "section_bindings": {"maxItems": 0},
+              "downstream_consumers": {"maxItems": 0},
+              "cdd_review": {
+                "properties": {"disposition": {"const": "held"}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"disposition": {"const": "rejected"}},
+            "required": ["disposition"]
+          },
+          "then": {
+            "properties": {
+              "section_bindings": {"maxItems": 0},
+              "downstream_consumers": {"maxItems": 0},
+              "cdd_review": {
+                "properties": {"disposition": {"const": "rejected"}}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {"enum": ["applied", "combined"]},
+              "source_eligibility": {
+                "properties": {"classification": {"const": "founder_permitted_restricted_edit"}},
+                "required": ["classification"]
+              }
+            },
+            "required": ["disposition", "source_eligibility"]
+          },
+          "then": {
+            "properties": {
+              "source_eligibility": {
+                "properties": {
+                  "restricted_source_permission": {
+                    "properties": {
+                      "allowed_actions": {"contains": {"const": "candidate_use"}}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "section_bindings": {"minItems": 1},
+              "source_eligibility": {
+                "properties": {"classification": {"const": "founder_permitted_restricted_edit"}},
+                "required": ["classification"]
+              }
+            },
+            "required": ["section_bindings", "source_eligibility"]
+          },
+          "then": {
+            "properties": {
+              "source_eligibility": {
+                "properties": {
+                  "restricted_source_permission": {
+                    "properties": {
+                      "allowed_actions": {"contains": {"const": "section_binding"}}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "indexScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_id", "section_ids"],
+      "properties": {
+        "stage_id": {"$ref": "#/$defs/token"},
+        "section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sectionId"}
+        }
+      }
+    },
+    "hold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hold_id", "scope", "reason_code", "evidence_pointers", "owner", "next_action_id", "state"],
+      "properties": {
+        "hold_id": {"$ref": "#/$defs/token"},
+        "scope": {"$ref": "#/$defs/indexScope"},
+        "reason_code": {"$ref": "#/$defs/token"},
+        "evidence_pointers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pointer"}
+        },
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "next_action_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/token"},
+            {"type": "null"}
+          ]
+        },
+        "state": {"enum": ["open", "resolved", "superseded"]}
+      }
+    },
+    "nextAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["next_action_id", "scope", "action_code", "owner", "state", "blocked_by_hold_ids", "dependency_pointers"],
+      "properties": {
+        "next_action_id": {"$ref": "#/$defs/token"},
+        "scope": {"$ref": "#/$defs/indexScope"},
+        "action_code": {"$ref": "#/$defs/token"},
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "state": {"enum": ["open", "ready", "in_progress", "done", "deferred"]},
+        "blocked_by_hold_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/token"}
+        },
+        "dependency_pointers": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/pointer"}
+        }
+      }
+    }
+  }
+}

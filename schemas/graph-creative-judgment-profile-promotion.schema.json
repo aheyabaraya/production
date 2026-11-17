@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-creative-judgment-profile-promotion.schema.json",
+  "title": "IDOL Graph Creative Judgment Profile Promotion",
+  "description": "Hash-bound evidence for either an execution-disabled bootstrap shadow seed or a Founder-approved current-profile pointer change. Non-bootstrap lifecycle pointers must resolve to phase-specific typed evolution evidence and Director reviews under graph-creative-judgment-profile-evolution-evidence.schema.json. Validation never authors creative truth or moves a pointer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "promotion_id", "profile_id", "mode", "new_release", "authority", "status"],
+  "properties": {
+    "schema_version": {"const": "idol-graph-creative-judgment-profile-promotion.v1"},
+    "artifact_type": {"const": "graph_creative_judgment_profile_promotion"},
+    "promotion_id": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]{2,159}$"},
+    "profile_id": {"$ref": "#/$defs/identifier"},
+    "mode": {"enum": ["bootstrap_shadow_seed", "founder_approved_current_pointer_promotion"]},
+    "old_release": {"$ref": "#/$defs/releasePointer"},
+    "new_release": {"$ref": "#/$defs/releasePointer"},
+    "lifecycle_receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal", "shadow", "pilot", "founder_approval"],
+      "properties": {
+        "proposal": {"$ref": "#/$defs/artifactPointer"},
+        "shadow": {"$ref": "#/$defs/artifactPointer"},
+        "pilot": {"$ref": "#/$defs/artifactPointer"},
+        "founder_approval": {"$ref": "#/$defs/artifactPointer"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scripts_author_creative_truth", "automatic_profile_tuning", "automatic_pointer_change", "pointer_change_authority", "execution_authority", "default_cutover_authority"],
+      "properties": {
+        "scripts_author_creative_truth": {"const": false},
+        "automatic_profile_tuning": {"const": false},
+        "automatic_pointer_change": {"const": false},
+        "pointer_change_authority": {"enum": ["none", "founder_approval_receipt_only"]},
+        "execution_authority": {"const": false},
+        "default_cutover_authority": {"const": false}
+      }
+    },
+    "status": {"enum": ["bootstrap_shadow_seed_only", "founder_approved_for_current_pointer_change"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mode": {"const": "bootstrap_shadow_seed"}}, "required": ["mode"]},
+      "then": {
+        "properties": {
+          "status": {"const": "bootstrap_shadow_seed_only"},
+          "authority": {
+            "properties": {"pointer_change_authority": {"const": "none"}},
+            "required": ["pointer_change_authority"]
+          }
+        },
+        "not": {"anyOf": [{"required": ["old_release"]}, {"required": ["lifecycle_receipts"]}]}
+      },
+      "else": {
+        "required": ["old_release", "lifecycle_receipts"],
+        "properties": {
+          "status": {"const": "founder_approved_for_current_pointer_change"},
+          "authority": {
+            "properties": {"pointer_change_authority": {"const": "founder_approval_receipt_only"}},
+            "required": ["pointer_change_authority"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "repositoryPath": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+    "artifactPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "releasePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "release_value_sha256", "profile_value_sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^automation/graph-creative-judgment-profile-releases/[a-z0-9_]+/[a-f0-9]{64}\\.yaml$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "release_value_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

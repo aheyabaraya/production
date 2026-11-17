@@ -1,0 +1,44 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: nonminimal_six_cohorts
+expect: fail
+expect_error_substrings:
+  - cohort partition must be contiguous 2 or 3 and match the canonical partition
+run:
+  run_class: new_run
+  section_count: 6
+writer:
+  requested: graph_v2
+  active: [graph_v2]
+switch_receipt:
+  receipt_id: GRAPH_SWITCH_FIXTURE_NONMINIMAL_6
+  founder_authority: founder
+  graph_revision: idol-graph-skill-load-profiles.v1
+  switch_boundary: new_runs_only_after_verified_receipt
+  source_set_sha256: 05a6443dda241a3daf42c9a75f4e0caa90d37ef63c1f10092bea8a8fd4d5bdeb
+  verified_at: "2026-09-03T00:00:00Z"
+active_authoring_ids: [planning_cdd_p3_c1]
+active_writers:
+  - scope: planning_cdd_p3_c1
+    writer_id: p3_c1
+sessions:
+  - lane_id: planning_cdd_p3_c1
+    stage: front_planning_integration
+    generation: primary
+cohorts:
+  - cohort_id: C1
+    sections: [S01, S02]
+  - cohort_id: C2
+    sections: [S03, S04]
+  - cohort_id: C3
+    sections: [S05, S06]
+succession:
+  - from_cohort_id: C1
+    to_cohort_id: C1
+  - from_cohort_id: C2
+    to_cohort_id: C2
+  - from_cohort_id: C3
+    to_cohort_id: C3
+pack:
+  source_id: SRC_FIXTURE_NONMINIMAL_6
+  locator: still:frame_01
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a

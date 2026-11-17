@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-reference-analysis-registry.schema.json",
+  "title": "IDOL Video Reference Analysis Registry",
+  "description": "Registry for source-owned, model- or human-authored reusable Layer A/B video observations. Runs consume the hash-bound source reading and separately own disposition, target, and production bindings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "hub_root",
+    "read_first_path",
+    "analysis_owner_contract",
+    "sources",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_video_reference_analysis_registry.v2"
+    },
+    "artifact_type": {
+      "const": "video_reference_analysis_registry"
+    },
+    "hub_root": {
+      "const": "source-materials/video-sources"
+    },
+    "read_first_path": {
+      "const": "source-materials/video-sources/READ-FIRST.md"
+    },
+    "analysis_owner_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shared_hub_role",
+        "creative_owner",
+        "complete_requires",
+        "machine_validation_boundary"
+      ],
+      "properties": {
+        "shared_hub_role": {
+          "const": "source_identity_media_hashes_navigation_and_canonical_source_observation"
+        },
+        "creative_owner": {
+          "const": "source_owned_human_or_assigned_model_layer_a_b_observation"
+        },
+        "complete_requires": {
+          "type": "array",
+          "const": [
+            "exact_analysis_inputs",
+            "whole_source_flow",
+            "detailed_timestamped_scene_observations",
+            "source_transfer_boundary",
+            "source_exclusion_boundary"
+          ]
+        },
+        "machine_validation_boundary": {
+          "const": "paths_hashes_required_headings_and_declared_status_only_no_creative_adequacy_claim"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_access",
+        "creative_authoring",
+        "analysis_completion_inference",
+        "download_or_generation_approval"
+      ],
+      "properties": {
+        "network_access": {
+          "const": false
+        },
+        "creative_authoring": {
+          "const": false
+        },
+        "analysis_completion_inference": {
+          "const": false
+        },
+        "download_or_generation_approval": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "fileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "analysisInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "original_video",
+            "source_manifest",
+            "navigation_surface",
+            "one_second_analysis_surface",
+            "selected_range_surface",
+            "subsecond_turn_surface",
+            "selected_frame_or_crop",
+            "parent_complete_analysis",
+            "other_hash_bound_evidence"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "analysisRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis_id",
+        "owner_scope",
+        "authoring_stage",
+        "status",
+        "analysis",
+        "analysis_inputs",
+        "coverage_summary",
+        "missing_analysis",
+        "authorship_boundary"
+      ],
+      "properties": {
+        "analysis_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{2,100}(?![\\s\\S])"
+        },
+        "owner_scope": {
+          "const": "source_materials_video_source"
+        },
+        "authoring_stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "complete_scoped",
+            "hold_incomplete",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "analysis": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "analysis_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/analysisInput"
+          }
+        },
+        "coverage_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missing_analysis": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "authorship_boundary": {
+          "const": "analysis_prose_is_human_or_assigned_model_authored_source_hub_is_canonical_owner"
+        },
+        "covered_ranges": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "start_seconds",
+              "end_seconds"
+            ],
+            "properties": {
+              "start_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "end_seconds": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "analysis_inputs": {
+                "contains": {
+                  "properties": {
+                    "role": {
+                      "const": "original_video"
+                    }
+                  },
+                  "required": [
+                    "role"
+                  ]
+                }
+              },
+              "missing_analysis": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete_scoped"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "covered_ranges"
+            ],
+            "properties": {
+              "analysis_inputs": {
+                "allOf": [
+                  {
+                    "contains": {
+                      "properties": {
+                        "role": {
+                          "const": "original_video"
+                        }
+                      },
+                      "required": [
+                        "role"
+                      ]
+                    }
+                  },
+                  {
+                    "contains": {
+                      "properties": {
+                        "role": {
+                          "const": "parent_complete_analysis"
+                        }
+                      },
+                      "required": [
+                        "role"
+                      ]
+                    }
+                  }
+                ]
+              },
+              "missing_analysis": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_key",
+        "title",
+        "duration_seconds",
+        "source_manifest",
+        "primary_media",
+        "analysis_state",
+        "analysis_records"
+      ],
+      "properties": {
+        "source_key": {
+          "type": "string",
+          "minLength": 3
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duration_seconds": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "source_manifest": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "primary_media": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/fileRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "analysis_state": {
+          "enum": [
+            "detailed_analysis_available",
+            "analysis_hold_incomplete",
+            "analysis_rejected_for_current_use",
+            "not_analyzed"
+          ]
+        },
+        "analysis_records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/analysisRecord"
+          }
+        }
+      }
+    }
+  }
+}

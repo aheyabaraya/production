@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL SNS Release Orchestrator"
+  short_description: "One-review SNS release, Web closeout, and analytics loop"
+  default_prompt: "Use $idol-social-release-orchestrator to register this finished content once, prepare one combined Founder decision packet, resume from the exact approval, and skip unchanged work."

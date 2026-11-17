@@ -1,0 +1,592 @@
+<!doctype html>
+<!-- SANITIZED SKILL EXAMPLE: media slots use INPUT_IMG_XX placeholders only. Do not bind or resolve real image files in this example. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>su · Member × Visual Reference · Single Board</title>
+<style>
+:root { color-scheme:dark; --bg:#0c0e13; --card:#151922; --line:#2c3340; --ink:#f3efe8; --muted:#9aa3b2; --gold:#e0c27a; --blue:#8ec8ff; --green:#8dffc1; --accent:#7dd3fc; --font-sans:Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Noto Sans KR",sans-serif; --font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; --sticky-anchor-offset:64px; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top:var(--sticky-anchor-offset); }
+body { margin:0; font-family:var(--font-sans); font-synthesis:none; background:var(--bg); color:var(--ink); }
+header { padding:36px clamp(16px,4vw,48px) 24px; border-bottom:1px solid var(--line); background:linear-gradient(120deg,#152036,#0c0e13 55%); }
+.eyebrow { color:var(--gold); letter-spacing:.12em; font-size:12px; font-weight:800; }
+h1 { margin:10px 0 8px; font-size:clamp(26px,5vw,44px); letter-spacing:-.03em; }
+header p { max-width:920px; color:#d0ccc6; line-height:1.65; }
+.rule { margin-top:14px; padding:12px 14px; border-radius:12px; border:1px solid #5a4b2e; background:#1a1712; color:#e6dcc8; line-height:1.55; font-size:14px; }
+main { width:min(1200px,100%); margin:auto; padding:24px clamp(14px,3vw,40px) 72px; }
+.nav { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 22px; }
+.nav a { color:var(--blue); text-decoration:none; border:1px solid var(--line); border-radius:999px; padding:6px 10px; font-size:12px; }
+.board-switch { display:flex; flex-wrap:wrap; gap:8px; padding:10px 16px; position:sticky; top:0; z-index:20; background:rgba(12,14,19,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(8px); }
+.board-switch a { color:var(--gold); text-decoration:none; border:1px solid #5a4b2e; background:#1a1712; padding:6px 12px; border-radius:999px; font-size:12px; font-weight:700; }
+.board-switch a.here { color:var(--ink); border-color:var(--green); background:#132018; }
+.board-switch .hint { color:var(--muted); font-size:12px; align-self:center; margin-left:4px; }
+.cuts a { color:var(--blue); text-decoration:none; border-bottom:1px dotted #3a5570; }
+.cuts a:hover { color:var(--gold); }
+article { margin:0 0 22px; border:1px solid var(--line); border-radius:16px; background:var(--card); overflow:hidden; scroll-margin-top:var(--sticky-anchor-offset); }
+.head { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:16px; border-bottom:1px solid var(--line); }
+.face { width:140px; height:auto; max-height:280px; object-fit:contain; object-position:center; border-radius:12px; background:#000; }
+.tag { color:var(--green); font-size:11px; letter-spacing:.1em; font-weight:800; }
+h2 { margin:6px 0; font-size:28px; }
+h3 { margin:0 0 10px; font-size:14px; letter-spacing:.06em; color:var(--gold); text-transform:uppercase; }
+.fn,.cuts,.status { margin:4px 0; color:#c9c4bb; font-size:14px; line-height:1.5; }
+.status { color:var(--accent); }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th,td { border-top:1px solid var(--line); padding:8px 10px; vertical-align:top; text-align:left; }
+th { color:var(--muted); font-weight:700; background:#10151c; }
+td code { color:#cfe3ff; }
+a { color:var(--blue); }
+.jobs { margin:0; padding:12px 18px 16px 32px; color:#d8d3ca; }
+.styling { padding:14px 16px 18px; border-top:1px solid var(--line); background:#10141b; }
+.expansion { background:linear-gradient(105deg,#10201c,#10141b 58%); box-shadow:inset 3px 0 0 var(--green); }
+.expansion-top { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+.expansion-top h3 { margin:0; }
+.expansion-copy { margin:0; color:#c9d7cf; font-size:12px; line-height:1.5; }
+.expansion-count { color:var(--green); font:700 11px/1 var(--font-mono); letter-spacing:.08em; white-space:nowrap; }
+.expansion .kind { background:#193329; color:var(--green); }
+.media-carousel { position:relative; min-width:0; overflow:hidden; }
+.grid { display:grid; grid-auto-flow:column; grid-template-rows:minmax(0,1fr); grid-auto-columns:calc((100% - ((var(--visible-slots) - 1) * 12px)) / var(--visible-slots)); gap:12px; overflow-x:auto; overscroll-behavior-inline:contain; scroll-snap-type:x mandatory; scroll-behavior:smooth; }
+.thumb { position:relative; min-width:0; margin:0; background:#0b0d11; border:1px solid var(--line); border-radius:10px; overflow:hidden; scroll-snap-align:start; scroll-snap-stop:always; }
+.thumb img { width:100%; height:auto !important; min-height:220px; max-height:min(60vh,640px); object-fit:contain !important; object-position:center !important; background:#000; display:block; }
+figcaption { padding:8px 10px; font-size:.72rem; color:var(--muted); line-height:1.4; }
+.kind { display:inline-block; padding:1px 6px; border-radius:999px; background:#243041; color:var(--accent); margin-right:4px; font-size:.68rem; }
+footer { margin-top:18px; padding:14px; border-radius:12px; background:#12151b; color:var(--muted); font-size:13px; line-height:1.6; }
+.media-index { position:absolute; top:8px; left:8px; z-index:4; padding:4px 7px; border:1px solid rgba(255,255,255,.42); border-radius:999px; background:rgba(8,10,14,.86); color:#fff; font:700 10px var(--font-mono); letter-spacing:.04em; pointer-events:none; }
+.carousel-arrow { position:absolute; top:48%; z-index:5; width:38px; height:46px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(8,10,14,.88); color:#fff; font:700 18px var(--font-sans); cursor:pointer; transform:translateY(-50%); box-shadow:0 8px 24px rgba(0,0,0,.4); }
+.carousel-prev { left:8px; } .carousel-next { right:8px; }
+.carousel-arrow:disabled { opacity:.24; cursor:default; } .carousel-arrow[hidden] { display:none; }
+.carousel-status { min-height:22px; padding:4px 2px 0; text-align:right; color:var(--muted); font:10px var(--font-mono); }
+#lb { display:none; position:fixed; inset:0; z-index:1000; align-items:center; justify-content:center; padding:24px; background:rgba(0,0,0,.92); cursor:zoom-out; }
+#lb.open { display:flex; }
+#lb img { max-width:min(98vw,1800px); max-height:94vh; object-fit:contain; border:1px solid #444; border-radius:8px; box-shadow:0 8px 40px rgba(0,0,0,.6); cursor:zoom-out; }
+#lb .lb-cap { position:fixed; left:50%; bottom:16px; transform:translateX(-50%); max-width:90vw; padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:rgba(20,22,28,.92); color:var(--ink); font-size:12px; text-align:center; cursor:zoom-out; }
+#lb .lb-x { position:fixed; top:14px; right:18px; color:#fff; font-size:28px; line-height:1; cursor:pointer; }
+.thumb img,.face { cursor:zoom-in; }
+@media (max-width:900px) { :root { --sticky-anchor-offset:170px; } .head { grid-template-columns:1fr; } .face { width:100%; height:220px; max-width:none; } .media-carousel { --visible-slots:1 !important; } .grid { grid-auto-columns:100%; } }
+@media print { .carousel-arrow,.carousel-status,#lb { display:none !important; } .grid { grid-auto-flow:row; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:visible; } }
+
+/* visual-reference no-crop lock: never use cover-fit on styling/scene/character refs */
+img.ref, figure img, .photos img, .grid img, .idcard img, .face {
+  object-fit: contain !important;
+  object-position: center !important;
+}
+img[data-input-img] {
+  min-height: 220px;
+  border: 1px dashed #465064;
+  background: #0b0d11;
+  color: var(--muted);
+}
+.face {
+  height: auto !important;
+  max-height: 280px;
+  width: 100%;
+  max-width: 160px;
+}
+</style>
+</head>
+<body>
+<nav class="board-switch" aria-label="su review boards">
+  <a href="core-cut-visual-ref-board-v1/board.html">Core-cut board</a>
+  <a class="here" href="member-visual-reference-connection-board-v1.html">Member + styling board</a>
+  <a href="core-cut-visual-ref-board-v1/board.html#CC02_WUYILING_WORLD_GAZE">→ CC02</a>
+  <a href="core-cut-visual-ref-board-v1/board.html#CC07_CHOISEOL_MATCH_IDENTITY">→ CC07</a>
+  <a href="core-cut-visual-ref-board-v1/board.html#CC09_MAKI_CLAIM_COMBAT">→ CC09</a>
+  <a href="core-cut-visual-ref-board-v1/board.html#CC08_REZE_ALMOST_FRONT">→ CC08</a>
+  <a href="core-cut-visual-ref-board-v1/board.html#CC12_YUTA_BREAKTHROUGH">→ CC12</a>
+  <span class="hint">보드 간 연결 · 같은 review 세트</span>
+</nav>
+<div style="padding:10px 16px;background:#1a1712;border-bottom:1px solid #5a4b2e;color:#e6dcc8;font:13px/1.5 sans-serif"><strong>MEMBER + STYLING · VISUAL REF NO-CROP:</strong> 멤버 연결 + founder character/styling 락. 코어컷 상세는 상단 <strong>Core-cut board</strong>로 이동. 레퍼는 <code>object-fit: contain</code>.</div>
+<header>
+  <div class="eyebrow">SU · MEMBER × VISUAL REFERENCE · STYLING LOCK</div>
+  <h1>멤버 비주얼 레퍼런스 · 연결 + 스타일</h1>
+  <p>5인: M11 우이링 · M05 최설/Faye · M01 마키 · M07 레제 · M09 아리아. face-only = Loom 아이덴티티 · 고정 카드 = 해당 멤버의 헤어·메이크업·액세서리·의상·소재·실루엣 문법 · 원본 얼굴/신체 복사 금지. 아래 고정 레퍼런스 12장은 이 앨범에서 사용할 스타일 기준이며, 기존 clean current-title 카드의 승격 상태와는 분리한다.</p>
+  <div class="rule"><strong>보드 이미지 연결 원장(단일):</strong> <code>research/member-visual-reference-connection-v1.yaml</code> · <strong>앨범 고정 세트:</strong> <code>research/fixed-album-member-visual-reference-lock-v1.yaml</code> · 동일 SHA-256 이미지는 보드에 한 번만 표시하고, 다른 연결 상태는 캡션과 album manifest에서 보존한다 · 화면의 <code>01 / N</code>은 각 그룹 선언 순서에서 자동 표시 · 원본 보관목록은 연결 인덱스를 추가로 만들지 않는다 · <a href="core-cut-visual-ref-board-v1/board.html" style="color:var(--gold)">코어컷 보드 열기</a></div>
+</header>
+<main>
+  <nav class="nav">
+    <a href="#M11">M11</a><a href="#M05">M05</a><a href="#M01">M01</a><a href="#M07">M07</a><a href="#M09">M09</a>
+    <a href="core-cut-visual-ref-board-v1/board.html">All core-cuts</a>
+  </nav>
+
+    <article id="M11">
+      <div class="head">
+        <img class="face" src="data:," data-input-img="INPUT_IMG_01" alt="INPUT_IMG_01">
+        <div>
+          <div class="tag">M11 · Yuzu</div>
+          <h2>우이링</h2>
+          <p class="fn">sensual_own_world_entry_and_foot_play</p>
+          <p class="status">styling: founder_fixed_album_reference_set ×2 · default = M11_LOOK_02_DAISY_CARDIGAN_HOTPANTS · current-title clean card remains Founder PASS · foot_green remains CC04 scene detail</p>
+          <p class="cuts"><strong>Core cuts:</strong>
+            <a href="core-cut-visual-ref-board-v1/board.html#CC02_WUYILING_WORLD_GAZE">CC02_WUYILING_WORLD_GAZE</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC03_WUYILING_ENTRY_HEEL_LOWCAM">CC03_WUYILING_ENTRY_HEEL_LOWCAM</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC04_WUYILING_FOOT_PLAY">CC04_WUYILING_FOOT_PLAY</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC05_MATCH_HOOK_BRIDGE">CC05_MATCH_HOOK_BRIDGE</a>
+          </p>
+        </div>
+      </div>
+      <section class="styling">
+        <h3>Prior character source evidence · preserved provenance</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_02" alt="INPUT_IMG_02" loading="lazy">
+            <figcaption><span class="kind">Founder supplied · character 01</span> 우이링 직접 제공 사진 1 · black short hair / black camisole / rose tattoo / green light · source face/body is not Loom identity</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_03" alt="INPUT_IMG_03" loading="lazy">
+            <figcaption><span class="kind">Founder supplied · character 02</span> 우이링 직접 제공 사진 3 · short dark bob / black high-neck / rose tattoo / denim layer · source face/body is not Loom identity</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling fixed-album-reference">
+        <div class="expansion-top">
+          <h3>Founder-fixed album visual references · 2 looks</h3>
+          <span class="expansion-count">01 / 01 distinct image · 2 look bindings · M11</span>
+        </div>
+        <p class="expansion-copy">우이링에서 가져온 검정 단발·가디건·꽃 표면 문법을 M11에 연결한다. 두 카드는 모두 고정 레퍼런스이며, 기본은 데이지 문신·꽃 목걸이·검정 핫팬츠 룩이다. 원본 얼굴과 촬영 배경은 전이하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_04" alt="INPUT_IMG_04" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 01</span> 데이지 꽃 문신 · 검정 가디건/캐미솔 · 꽃 모양 목걸이 · 검정 데님 · short black bob · full-frame source</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_05" alt="INPUT_IMG_05" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · default look 02</span> 데이지 꽃 문신 · 검정 가디건/캐미솔 · 꽃 목걸이 · 검정 핫팬츠 · 립 피어싱 1개/귀걸이 1개 · 이마와 양쪽 눈 노출 · full-frame source · 이 바이트는 아래 M11 current-title PASS 카드와 동일 SHA-256이므로 한 번만 표시</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling">
+        <h3>Generated member card · Founder PASS · current-title promoted</h3>
+        <p class="status">M11_LOOK_01_FOUNDER_CHARACTER 카드와 위 Founder fixed default look 02는 SHA-256 <code>982f2ae98b0c0a1f2bd2e9d56e21ddfa21c5aebacbad047999cad2ecbd7de813</code>로 동일하다. 같은 이미지는 위에서 한 번만 표시하며, current-title 등록 경로는 <code>assets/members/album-assets/aurora-m/su/0801_SU/member-key-visuals/M11/M11_LOOK_01_FOUNDER_CHARACTER.png</code>로 유지한다.</p>
+      </section>
+      <section class="styling expansion">
+        <div class="expansion-top">
+          <h3>Selected styling expansion</h3>
+          <span class="expansion-count">01 / 08 · M11-C</span>
+        </div>
+        <p class="expansion-copy">Natty / KISS OF LIFE의 C만 추가. 타투 프린트·메탈·검은 플리츠의 표면 문법만 가져오며, 얼굴·헤어·아티스트 정체성·브랜드는 사용하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_06" alt="INPUT_IMG_06" loading="lazy">
+            <figcaption><span class="kind">selected styling · C</span> Natty / KISS OF LIFE · tattoo-print, metal, black pleat · <a href="https://kissoflife-official.com/contents/65fafa362d3972446fcac297">source</a></figcaption>
+          </figure>
+        </div>
+      </section>
+      <table>
+        <thead><tr><th>Unit</th><th>Use</th><th>Transfer</th><th>Avoid</th><th>Read</th></tr></thead>
+        <tbody><tr><td><code>RU_MATCH_WUYILING_GAZE</code></td><td>primary_styling_gaze_mouth_tattoo_layers</td><td>gaze, mouth/hand tension, tattoo-as-surface grammar, sensual close scale</td><td>source face; title glyphs; literal abuse recreation</td><td><a href="../research/reference-intake/first-read/RU_MATCH_WUYILING_GAZE-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_MATCH_WUYILING_ENTRY</code></td><td>entry_signature_lowcam_heel</td><td>low camera, feet-first threshold, shoe/handle/step/door ordered grammar, click SFX opportunity</td><td>force frontal face on entry; copy source shoes brand as identity</td><td><a href="../research/reference-intake/first-read/RU_MATCH_WUYILING_ENTRY-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_MATCH_WUYILING_EP037</code></td><td>foot_play_match_insert</td><td>barefoot/board contact play, foot-as-place agency, short match insert</td><td>source face; late night-city ep037 tail as same event; rules tutorial</td><td><a href="../research/reference-intake/first-read/RU_MATCH_WUYILING_EP037-first-read-v1.md">first-read</a></td></tr></tbody>
+      </table>
+      <ul class="jobs"><li>key visual: sensual gaze + optional outerwear/accessory layer</li><li>entry still: low-cam feet/threshold then mid body with M11 face-only</li><li>foot-play still: board contact without tutorial</li></ul>
+    </article>
+
+    <article id="M05">
+      <div class="head">
+        <img class="face" src="data:," data-input-img="INPUT_IMG_07" alt="INPUT_IMG_07">
+        <div>
+          <div class="tag">M05 · Faye</div>
+          <h2>최설</h2>
+          <p class="fn">identity_search_via_play_and_paper_world</p>
+          <p class="status">styling: founder_fixed_album_reference_set ×4 · default = M05_LOOK_04_BLONDE_NAVY_SKIRT · current-title clean card still pending</p>
+          <p class="cuts"><strong>Core cuts:</strong>
+            <a href="core-cut-visual-ref-board-v1/board.html#CC06_CHOISEOL_KONAN_WORLD">CC06_CHOISEOL_KONAN_WORLD</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC07_CHOISEOL_MATCH_IDENTITY">CC07_CHOISEOL_MATCH_IDENTITY</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC05_MATCH_HOOK_BRIDGE">CC05_MATCH_HOOK_BRIDGE</a>
+          </p>
+        </div>
+      </div>
+      <section class="styling">
+        <h3>Prior character source evidence · preserved provenance</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_08" alt="INPUT_IMG_08" loading="lazy">
+            <figcaption><span class="kind">Founder supplied · character board</span> 최설 직접 제공 2컷 보드 · blue-hair / white-and-blue school styling / two-view character evidence · source face/body is not Loom identity</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling fixed-album-reference">
+        <div class="expansion-top">
+          <h3>Founder-fixed album visual references · 4 looks</h3>
+          <span class="expansion-count">01–04 / 04 · M05 Faye</span>
+        </div>
+        <p class="expansion-copy">최설/Faye의 앨범 스타일 기준을 네 룩으로 고정한다. 마지막으로 전달한 금발 보브·베이지 폴로·네이비 롱스커트 카드가 기본 레퍼런스이고, 기존 블루 헤어·교복 계열은 교체 가능한 고정 룩으로 남긴다.</p>
+        <div class="grid">
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_09" alt="INPUT_IMG_09" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 01</span> 긴 라이트 블루 헤어 · 골드 안경 · 화이트 블라우스/블루 타이 · 블루 체크 플리츠 · 블랙 후드 · full-frame source</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_10" alt="INPUT_IMG_10" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 02</span> 미들 반묶음 아이스 블루 헤어 · 골드 안경 · 블랙 구조적 캐미솔 · 블루 체크 플리츠 · 블랙 집업 · full-frame source</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_11" alt="INPUT_IMG_11" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 03</span> 페일 블루 반묶음 헤어 · 골드 안경 · 블랙 코르셋 캐미솔 · 네이비 크롭 집업 · 블랙 플리츠 스커트 · full-frame source · 아래 M05 look 02 후보와 동일 SHA-256이며 후보 상태는 Founder review pending</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_12" alt="INPUT_IMG_12" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · default look 04</span> 짧은 금발 컬 보브 · 베이지 리브드 폴로 · 네이비 롱스커트 · 버건디 로우 힐 · 아이돌 메이크업 방향 · full-frame source</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling generated-candidates">
+        <h3>Generated member cards · Founder review pending · 1 distinct image</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_13" alt="INPUT_IMG_13" loading="lazy">
+            <figcaption><span class="kind">generated candidate v2 · look 01</span> 짧은 아이스 블루 보브 · 검정 모크넥 · 검정 교복 플리츠 스커트 · 얇은 골드 안경 · 검정 후드 레이어 · 동일 3패널 스타일링 · Founder review pending</figcaption>
+          </figure>
+        </div>
+        <p class="status">M05_LOOK_02_LONG_BLUE_TIE 후보는 위 Founder fixed look 03과 SHA-256 <code>03cc339aae07f4f82c27df17b7d6ef2e167297d6e6e7de4eaf332cfb3c38c7e5</code>가 동일해 이미지를 위에서 한 번만 표시한다. 후보는 여전히 Founder review pending이다.</p>
+      </section>
+      <section class="styling expansion">
+        <div class="expansion-top">
+          <h3>Selected styling expansion</h3>
+          <span class="expansion-count">02–04 / 08 · M05-A/B/C</span>
+        </div>
+        <p class="expansion-copy">Rei / IVE의 A·B·C를 함께 둔다. 기존 흰 셔츠·바둑판을 축으로 두고, 후드/안경·소매 버튼·가느다란 레이어의 야간 변주만 참고한다. 원본 얼굴·헤어·로고·마이크는 사용하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_14" alt="INPUT_IMG_14" loading="lazy">
+            <figcaption><span class="kind">selected styling · A</span> Rei / IVE · hood + eyewear accent · <a href="https://kpopping.com/kpics/240516-IVE-Rei-Accendio-at-M-Countdown">source</a></figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_15" alt="INPUT_IMG_15" loading="lazy">
+            <figcaption><span class="kind">selected styling · B</span> Rei / IVE · long sleeve and button rhythm · <a href="https://kpopping.com/kpics/240516-IVE-Rei-Accendio-at-M-Countdown">source</a></figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_16" alt="INPUT_IMG_16" loading="lazy">
+            <figcaption><span class="kind">selected styling · C</span> Rei / IVE · narrow waist and long-layer balance · <a href="https://kpopping.com/kpics/240516-IVE-Rei-Accendio-at-M-Countdown">source</a></figcaption>
+          </figure>
+        </div>
+      </section>
+      <table>
+        <thead><tr><th>Unit</th><th>Use</th><th>Transfer</th><th>Avoid</th><th>Read</th></tr></thead>
+        <tbody><tr><td><code>RU_MATCH_CHOISEOL_EP011</code></td><td>primary_match_identity_place_and_think</td><td>hand place (탁), cool interior match pressure, think-hold aftermath</td><td>source face; opponent laugh as main thesis</td><td><a href="../research/reference-intake/first-read/RU_MATCH_CHOISEOL_EP011-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_MATCH_CHOISEOL_EP016</code></td><td>secondary_match_identity_angles</td><td>alternate place/read and face-hold grammar</td><td>source face; mania-as-only-mood</td><td><a href="../research/reference-intake/first-read/RU_MATCH_CHOISEOL_EP016-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_LIFE_KONAN_1_5</code></td><td>world_package_for_choiseol_not_second_member</td><td>paper field release→multiply→inhabit (cells 1–5 only); multi-layer world</td><td>Konan face; gore; later trauma panels outside 1–5</td><td><a href="../research/reference-intake/first-read/RU_LIFE_KONAN_1_5-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_MATCH_QG_LAST_ROW</code></td><td>after_pressure_and_identity_residual_camera</td><td>post-move tension, residual afterstate camera options</td><td>Beth face; sofa as required sexualization</td><td><a href="../research/reference-intake/first-read/RU_MATCH_QG_LAST_ROW-first-read-v1.md">first-read</a></td></tr></tbody>
+      </table>
+      <ul class="jobs"><li>key visual: cool focused identity + board click</li><li>world visual: paper multi-layer space with M05 body (not Konan face)</li><li>hook duo still with M11</li></ul>
+    </article>
+
+    <article id="M01">
+      <div class="head">
+        <img class="face" src="data:," data-input-img="INPUT_IMG_17" alt="INPUT_IMG_17">
+        <div>
+          <div class="tag">M01 · Saeyan</div>
+          <h2>마키</h2>
+          <p class="fn">physical_claim_and_combat_breakthrough</p>
+          <p class="status">styling: founder_fixed_album_reference_set ×2 · default = M01_LOOK_01_GREEN_BLACK_CARGO</p>
+          <p class="cuts"><strong>Core cuts:</strong>
+            <a href="core-cut-visual-ref-board-v1/board.html#CC09_MAKI_CLAIM_COMBAT">CC09_MAKI_CLAIM_COMBAT</a>
+          </p>
+        </div>
+      </div>
+      <section class="styling">
+        <h3>Prior character source evidence · preserved provenance</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_18" alt="INPUT_IMG_18" loading="lazy">
+            <figcaption><span class="kind">character</span> character-01-founder-maki-scar-turtleneck.png · scar/silhouette/black turtleneck+belt</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling fixed-album-reference">
+        <div class="expansion-top">
+          <h3>Founder-fixed album visual references · 2 looks</h3>
+          <span class="expansion-count">01–02 / 02 · M01</span>
+        </div>
+        <p class="expansion-copy">마키는 블랙 슬리브리스 터틀넥·카고·전투화의 신체적 실루엣을 기본으로 고정한다. 두 번째 카드는 흉터 표면이 포함된 별도 룩이므로 기본 룩과 자동 혼합하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_19" alt="INPUT_IMG_19" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · default look 01</span> 다크 그린-블랙 중단발 · 블랙 민소매 터틀넥 · 블랙 카고 팬츠 · 와이드 벨트 · 레이스업 전투화 · full-frame source · M01 current candidate v2와 동일 SHA-256이며 후보 상태는 Founder review pending</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_20" alt="INPUT_IMG_20" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 02</span> 짧은 블랙 헝클어진 헤어 · 블랙 민소매 터틀넥 · 블랙 카고 팬츠 · 버클 벨트 · 전투화 · 얼굴/팔의 가지형 흉터 표면은 이 룩에만 귀속 · full-frame source</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling generated-candidates">
+        <h3>Generated member card · Founder review pending · 1 distinct image</h3>
+        <p class="status">M01_LOOK_01_SCAR_TURTLENECK 후보는 위 Founder fixed default look 01과 SHA-256 <code>f3febe12d37a85e6103fdf3a6fb23a168be4e1d2474688d313fe5c0af9aa8ce6</code>가 동일해 이미지를 위에서 한 번만 표시한다. 후보는 여전히 Founder review pending이다.</p>
+      </section>
+      <section class="styling expansion">
+        <div class="expansion-top">
+          <h3>Selected styling expansion</h3>
+          <span class="expansion-count">05–06 / 08 · M01-A/C</span>
+        </div>
+        <p class="expansion-copy">Ryujin / ITZY의 A·C를 둔다. 낮게 선 체중, 블랙 레이어, 부츠 비율만 받으며 M01의 흉터·검은 터틀넥은 계속 원본 lock이다. 원본 얼굴·헤어·아티스트 정체성은 사용하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_21" alt="INPUT_IMG_21" loading="lazy">
+            <figcaption><span class="kind">selected styling · A</span> Ryujin / ITZY · grounded black silhouette · <a href="https://kpopping.com/kpics/ITZY-Ryujin-x-Dispatch-BORN-TO-BE-Promotional-Shoot">source</a></figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_22" alt="INPUT_IMG_22" loading="lazy">
+            <figcaption><span class="kind">selected styling · C</span> Ryujin / ITZY · black layer and boot proportion · <a href="https://kpopping.com/kpics/ITZY-Ryujin-x-Dispatch-BORN-TO-BE-Promotional-Shoot">source</a></figcaption>
+          </figure>
+        </div>
+      </section>
+      <table>
+        <thead><tr><th>Unit</th><th>Use</th><th>Transfer</th><th>Avoid</th><th>Read</th></tr></thead>
+        <tbody><tr><td><code>RU_LIFE_MAKI_D01</code></td><td>pre_claim_ordinary_field_and_body_promise</td><td>open palm + dried grain; black sleeveless body hand-on-chest by water/houses; injured pale face hold</td><td>weapon-ready invention on D01; source faces</td><td><a href="../research/reference-intake/first-read/RU_LIFE_MAKI_D01-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_LIFE_MAKI_D04</code></td><td>primary_combat_takeover_sequence</td><td>dojo red floor, raise/strike, multi-enemy field break 00:16–20</td><td>source face; mandatory gore quota</td><td><a href="../research/reference-intake/first-read/RU_LIFE_MAKI_D04-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_LIFE_MAKI_D06</code></td><td>aftermath_water_and_recovery</td><td>fall/clash; muscular rise; bare legs water splash; optional sunset hands</td><td>generic combat stub; skip splash facts</td><td><a href="../research/reference-intake/first-read/RU_LIFE_MAKI_D06-first-read-v1.md">first-read</a></td></tr></tbody>
+      </table>
+      <ul class="jobs"><li>key visual: physical claim body (sleeveless / muscle / water or dojo)</li><li>combat still from D04 grammar with M01 face-only</li><li>optional grain-palm insert as ordinary-field beat before fight</li></ul>
+    </article>
+
+    <article id="M07">
+      <div class="head">
+        <img class="face" src="data:," data-input-img="INPUT_IMG_23" alt="INPUT_IMG_23">
+        <div>
+          <div class="tag">M07 · Lena</div>
+          <h2>레제</h2>
+          <p class="fn">almost_world_then_miss_residual</p>
+          <p class="status">styling: founder_fixed_album_reference_set ×1 · default = M07_LOOK_01_PURPLE_ASYMMETRIC</p>
+          <p class="cuts"><strong>Core cuts:</strong>
+            <a href="core-cut-visual-ref-board-v1/board.html#CC08_REZE_ALMOST_FRONT">CC08_REZE_ALMOST_FRONT</a>,
+            <a href="core-cut-visual-ref-board-v1/board.html#CC11_REZE_MISS_AFTER">CC11_REZE_MISS_AFTER</a>
+          </p>
+        </div>
+      </div>
+      <section class="styling">
+        <h3>Prior character source evidence · preserved provenance</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_24" alt="INPUT_IMG_24" loading="lazy">
+            <figcaption><span class="kind">character</span> character-01-founder-reze-choker.png · hair/choker/white shirt+black ribbon</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling fixed-album-reference">
+        <div class="expansion-top">
+          <h3>Founder-fixed album visual references · 1 look</h3>
+          <span class="expansion-count">01 / 01 · M07</span>
+        </div>
+        <p class="expansion-copy">레제는 자연스럽게 늘어진 보라색 중단발, 작은 화이트 칼라, 블랙/레드 비대칭 스커트 실루엣을 이번 앨범의 고정 기준으로 둔다.</p>
+        <div class="grid">
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_25" alt="INPUT_IMG_25" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · default look 01</span> 자연스러운 퍼플 중단발 · 화이트 민소매 셔츠 · 윗단추 두 개 오픈 · 블랙/레드 체크 비대칭 레이어 · 블랙 부츠 · full-frame source · M07 current candidate v2와 동일 SHA-256이며 후보 상태는 Founder review pending</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling generated-candidates">
+        <h3>Generated member card · Founder review pending · 1 distinct image</h3>
+        <p class="status">M07_LOOK_01_CHOKER_WHITE_SHIRT 후보는 위 Founder fixed default look 01과 SHA-256 <code>b60c9862bd51de7d3b20e41bfb7ca53c51a6e01c3b3d576ec0715f33562cca16</code>가 동일해 이미지를 위에서 한 번만 표시한다. 후보는 여전히 Founder review pending이다.</p>
+      </section>
+      <section class="styling expansion">
+        <div class="expansion-top">
+          <h3>Selected styling expansion</h3>
+          <span class="expansion-count">07–08 / 08 · M07-A/B</span>
+        </div>
+        <p class="expansion-copy">Seulgi / Red Velvet의 A·B를 함께 둔다. A의 almost-world 스케일, B의 블랙 메시와 낮은 채도 레드만 보조로 쓰며 흰 셔츠·검은 리본·초커는 기존 lock을 유지한다. 원본 얼굴·헤어·아티스트 정체성은 사용하지 않는다.</p>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_26" alt="INPUT_IMG_26" loading="lazy">
+            <figcaption><span class="kind">selected styling · A</span> Seulgi / Red Velvet · almost-world scale and room light · <a href="https://kpopping.com/kpics/Red-Velvet-Seulgi-1st-Mini-Album-28-Reasons-Concept-Teasers">source</a></figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_27" alt="INPUT_IMG_27" loading="lazy">
+            <figcaption><span class="kind">selected styling · B</span> Seulgi / Red Velvet · black mesh and muted-red material · <a href="https://kpopping.com/kpics/Red-Velvet-Seulgi-1st-Mini-Album-28-Reasons-Concept-Teasers">source</a></figcaption>
+          </figure>
+        </div>
+      </section>
+      <table>
+        <thead><tr><th>Unit</th><th>Use</th><th>Transfer</th><th>Avoid</th><th>Read</th></tr></thead>
+        <tbody><tr><td><code>RU_LIFE_REZE_5_14</code></td><td>almost_world_flower_intimacy_5_14s</td><td>night flower bed, two-body soft hold, white daisy token, butterflies</td><td>Reze/Denji faces; 0–4s black as content</td><td><a href="../research/reference-intake/first-read/RU_LIFE_REZE_5_14-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_LIFE_REZE_15_23</code></td><td>miss_after_daisy_over_blood_15_23s</td><td>daisy persists over blood/metal; glowing daisy two-shot in red-stained room</td><td>24–29 wire/shout as primary; omit daisy</td><td><a href="../research/reference-intake/first-read/RU_LIFE_REZE_15_23-first-read-v1.md">first-read</a></td></tr></tbody>
+      </table>
+      <ul class="jobs"><li>almost still: soft flower intimacy with M07 face-only</li><li>miss still: same daisy token in ruptured red-dark space</li><li>optional partner body is non-member or separate casting — not forced second Loom face</li></ul>
+    </article>
+
+    <article id="M09">
+      <div class="head">
+        <img class="face" src="data:," data-input-img="INPUT_IMG_28" alt="INPUT_IMG_28">
+        <div>
+          <div class="tag">M09 · Aria</div>
+          <h2>아리아 · Faye-linked album styling</h2>
+          <p class="fn">action_vector_and_breakthrough_combat · 유타 anime face styling ban</p>
+          <p class="status">styling: founder_fixed_album_reference_set ×3 · default = M09_LOOK_03_WHITE_HEADBAND_BLACK_HOT_PANTS · no source face install</p>
+          <p class="cuts"><strong>Core cuts:</strong>
+            <a href="core-cut-visual-ref-board-v1/board.html#CC12_YUTA_BREAKTHROUGH">CC12_YUTA_BREAKTHROUGH</a>
+          </p>
+        </div>
+      </div>
+      <section class="styling">
+        <h3>Prior Yuqi styling source evidence · preserved provenance</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_29" alt="INPUT_IMG_29" loading="lazy">
+            <figcaption><span class="kind">founder_yuqi</span> outfit-01-founder-yuqi-brick-dance.jpg</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_30" alt="INPUT_IMG_30" loading="lazy">
+            <figcaption><span class="kind">founder_yuqi</span> outfit-02-founder-yuqi-stage-black-corset.jpg</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_31" alt="INPUT_IMG_31" loading="lazy">
+            <figcaption><span class="kind">founder_yuqi</span> outfit-03-founder-yuqi-stage-halter-boots.jpg</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_32" alt="INPUT_IMG_32" loading="lazy">
+            <figcaption><span class="kind">founder styling addition · M09 look 01</span> 클래식 검정 시퀸 홀터 미니드레스의 목선·허리·짧은 실루엣과 소재감만 적용 · 원본 얼굴·장갑·담배·진주·배경은 전이하지 않음</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_33" alt="INPUT_IMG_33" loading="lazy">
+            <figcaption><span class="kind">founder styling addition · M09 look 02</span> 검정 홀터 · 데님 코르셋형 허리 랩 · 비대칭 스코트 · 패브릭 반다나 새시의 의상 구성만 적용 · 무대·UI·원본 인물은 전이하지 않음</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling fixed-album-reference">
+        <div class="expansion-top">
+          <h3>Founder-fixed album visual references · 3 looks</h3>
+          <span class="expansion-count">01–03 / 03 · M09 Aria</span>
+        </div>
+        <p class="expansion-copy">아리아는 세 가지 블랙 계열 룩을 고정한다. 마지막으로 전달한 흰 헤어밴드·뱅단발·크롭 집업·핫팬츠 카드가 기본이며, 버튼 톱과 반다나 새시 룩은 별도 스타일 변주다. 반다나는 허리 벨트가 아닌 패브릭 새시로 유지한다.</p>
+        <div class="grid">
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_34" alt="INPUT_IMG_34" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 01</span> 짧은 반묶음과 소프트 뱅 · 블랙 버튼업 슬리브리스 · 비대칭 드레이프 스코트 · 플랫폼 부츠 · full-frame source</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_35" alt="INPUT_IMG_35" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · alternate look 02</span> 완전 블랙 반묶음 단발과 풍성한 뱅 · 블랙 홀터 · 데님 허리 랩 · 패브릭 반다나 새시 · 비대칭 랩 스코트 · full-frame source · 아래 M09 look 02 후보와 동일 SHA-256이며 후보 상태는 Founder review pending</figcaption>
+          </figure>
+          <figure class="thumb zoomable">
+            <img src="data:," data-input-img="INPUT_IMG_36" alt="INPUT_IMG_36" loading="lazy">
+            <figcaption><span class="kind">Founder fixed · default look 03</span> 흰 헤어밴드 · 뱅단발 · 블랙 크롭 반팔 집업 · 블랙 핫팬츠와 허리 묶음 디테일 · 블랙 레이스업 부츠 · full-frame source</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="styling generated-candidates">
+        <h3>Generated member cards · 1 pending + 1 Founder PASS · look 02 is shown above once</h3>
+        <div class="grid">
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_37" alt="INPUT_IMG_37" loading="lazy">
+            <figcaption><span class="kind">generated candidate v3 · look 01</span> 햅번식 뱅단발 · 흰 헤어밴드 · 밝힌 아이돌 메이크업 · 검정 시퀸 홀터 미니드레스 · 은색 드롭 귀걸이 · 검정 부츠 · Founder review pending</figcaption>
+          </figure>
+          <figure class="thumb">
+            <img src="data:," data-input-img="INPUT_IMG_38" alt="INPUT_IMG_38" loading="lazy">
+            <figcaption><span class="kind">generated candidate v1 · look 03 · Founder PASS</span> 불투명 검정 홀터넥 톱 · 레이어드 벨트와 실버 하드웨어 · 다크 데님 비대칭 랩 스코트 · 텍스처드 롱부츠 · 동일 3패널 스타일링 · 2026-08-01 current-title 자산으로 승격</figcaption>
+          </figure>
+        </div>
+      </section>
+      <table>
+        <thead><tr><th>Unit</th><th>Use</th><th>Transfer</th><th>Avoid</th><th>Read</th></tr></thead>
+        <tbody><tr><td><code>RU_LIFE_YUTA_0_19</code></td><td>vector_declare_field_blade_road</td><td>dry grass stand; red-wrap katana draw; purple energy road launch</td><td>Rika face; 유타 anime face as Loom; simple-bg-pressure wording without materials</td><td><a href="../research/reference-intake/first-read/RU_LIFE_YUTA_0_19-first-read-v1.md">first-read</a></td></tr><tr><td><code>RU_LIFE_YUTA_20_39</code></td><td>combat_clash_and_highway_vector</td><td>melee impact; eye peak; highway blue path breakthrough</td><td>source faces; full curse lore dump</td><td><a href="../research/reference-intake/first-read/RU_LIFE_YUTA_20_39-first-read-v1.md">first-read</a></td></tr></tbody>
+      </table>
+      <ul class="jobs"><li>vector still: field or road with clear forward path · wardrobe from founder Yuqi locks</li><li>combat still: clash or highway small-body energy line</li><li>weapon/object material may transfer; 유타 face/creature partner does not</li></ul>
+    </article>
+
+  <footer>
+    <strong>Board set:</strong>
+    <a href="core-cut-visual-ref-board-v1/board.html">core-cut board</a>
+    · this member+styling board
+    · no separate styling-only HTML.
+    World-led (no member default): empty board, Ok1 shin pivot, QG camera grammar. 코난 = M05 world only.
+    Founder: PASS/swap mapping → then open <code>assets/members/album-assets/aurora-m/su/**</code>.
+  </footer>
+</main>
+<div id="lb" role="dialog" aria-modal="true" aria-label="이미지 확대">
+  <span class="lb-x" id="lb-x" title="닫기">×</span>
+  <img id="lb-img" src="data:," data-input-img="INPUT_IMG_39" alt="INPUT_IMG_39">
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+<script>
+(() => {
+  const padIndex = (value) => String(value).padStart(2, '0');
+  const addIndexes = (container) => {
+    const panels = [...container.querySelectorAll(':scope > figure')].filter((panel) => panel.querySelector('img'));
+    panels.forEach((panel, index) => {
+      let badge = panel.querySelector(':scope > .media-index');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'media-index';
+        panel.prepend(badge);
+      }
+      badge.setAttribute('aria-label', `Image ${index + 1} of ${panels.length}`);
+      badge.textContent = `${padIndex(index + 1)} / ${padIndex(panels.length)}`;
+    });
+  };
+  const refreshCarousel = (shell) => {
+    const track = shell.querySelector('.grid');
+    if (!track) return;
+    const panels = [...track.querySelectorAll(':scope > figure')];
+    const previous = shell.querySelector('[data-carousel-prev]');
+    const next = shell.querySelector('[data-carousel-next]');
+    const status = shell.querySelector('[data-carousel-status]');
+    const step = panels[1] ? panels[1].offsetLeft - panels[0].offsetLeft : panels[0]?.getBoundingClientRect().width || track.clientWidth;
+    const declaredSlots = Number.parseInt(getComputedStyle(shell).getPropertyValue('--visible-slots'), 10);
+    const visible = Math.max(1, Math.min(panels.length || 1, declaredSlots || Math.floor((track.clientWidth + 1) / Math.max(step, 1))));
+    const first = panels.length ? Math.min(panels.length - 1, Math.max(0, Math.round(track.scrollLeft / Math.max(step, 1)))) : 0;
+    const last = panels.length ? Math.min(panels.length, first + visible) : 0;
+    const overflow = track.scrollWidth > track.clientWidth + 2;
+    previous.hidden = next.hidden = !overflow;
+    previous.disabled = !overflow || first <= 0;
+    next.disabled = !overflow || last >= panels.length;
+    status.textContent = panels.length ? `${padIndex(first + 1)}–${padIndex(last)} / ${padIndex(panels.length)}` : '00 / 00';
+  };
+  const prepareCarousels = () => {
+    document.querySelectorAll('.grid').forEach((track) => {
+      const count = track.querySelectorAll(':scope > figure').length;
+      const visibleSlots = Math.max(1, Math.min(4, count));
+      track.style.setProperty('--visible-slots', visibleSlots);
+      addIndexes(track);
+      if (track.parentElement?.classList.contains('media-carousel')) {
+        track.parentElement.style.setProperty('--visible-slots', visibleSlots);
+        refreshCarousel(track.parentElement);
+        return;
+      }
+      const shell = document.createElement('div');
+      shell.className = 'media-carousel';
+      shell.dataset.carousel = '';
+      shell.style.setProperty('--visible-slots', visibleSlots);
+      const previous = document.createElement('button');
+      previous.type = 'button'; previous.className = 'carousel-arrow carousel-prev'; previous.dataset.carouselPrev = ''; previous.setAttribute('aria-label', '이전 이미지'); previous.textContent = '←';
+      const next = document.createElement('button');
+      next.type = 'button'; next.className = 'carousel-arrow carousel-next'; next.dataset.carouselNext = ''; next.setAttribute('aria-label', '다음 이미지'); next.textContent = '→';
+      const status = document.createElement('div');
+      status.className = 'carousel-status'; status.dataset.carouselStatus = ''; status.setAttribute('aria-live', 'polite');
+      track.parentNode.insertBefore(shell, track);
+      shell.append(previous, track, next, status);
+      const move = (direction) => track.scrollBy({ left: direction * track.clientWidth, behavior: 'smooth' });
+      previous.addEventListener('click', () => move(-1));
+      next.addEventListener('click', () => move(1));
+      track.addEventListener('scroll', () => requestAnimationFrame(() => refreshCarousel(shell)), { passive:true });
+      refreshCarousel(shell);
+    });
+  };
+  prepareCarousels();
+  window.IDOLFounderWorkbench = Object.assign(window.IDOLFounderWorkbench || {}, { refreshCarousels: prepareCarousels });
+  window.addEventListener('resize', prepareCarousels);
+  const overlay = document.getElementById('lb');
+  const image = document.getElementById('lb-img');
+  const caption = document.getElementById('lb-cap');
+  const close = () => { overlay.classList.remove('open'); image.removeAttribute('src'); document.body.style.overflow = ''; };
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLImageElement && target.id !== 'lb-img' && target.closest('.grid,.head')) {
+      event.preventDefault();
+      image.src = target.currentSrc || target.src;
+      caption.textContent = target.closest('figure')?.querySelector('figcaption')?.textContent || target.alt || '';
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    if (overlay.classList.contains('open') && (target === overlay || target === image || target.id === 'lb-x' || target === caption)) close();
+  });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && overlay.classList.contains('open')) close(); });
+  const placeHashBelowStickyNavigation = () => {
+    if (!location.hash) return;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (!target) return;
+    const sticky = document.querySelector('.board-switch');
+    const offset = (sticky?.getBoundingClientRect().height || 0) + 16;
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'auto' });
+  };
+  const stabilizeHashPlacement = () => [0, 120, 400, 1000, 1800].forEach((delay) => setTimeout(placeHashBelowStickyNavigation, delay));
+  window.addEventListener('hashchange', stabilizeHashPlacement);
+  window.addEventListener('load', () => requestAnimationFrame(() => requestAnimationFrame(stabilizeHashPlacement)));
+})();
+</script>
+</body>
+</html>

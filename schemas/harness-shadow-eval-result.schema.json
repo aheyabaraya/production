@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-shadow-eval-result.schema.json",
+  "title": "IDOL Graph Engineering Shadow Eval Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_label",
+    "profile_descriptor",
+    "harness_commit",
+    "harness_snapshot",
+    "source_snapshot",
+    "task_set",
+    "artifact_root",
+    "profile_execution_manifest",
+    "case_results"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-shadow-eval-result.v10"},
+    "profile_label": {"type": "string", "minLength": 1},
+    "profile_descriptor": {"$ref": "#/$defs/profileDescriptor"},
+    "harness_commit": {"type": "string", "pattern": "^[a-f0-9]{7,40}$"},
+    "harness_snapshot": {"$ref": "#/$defs/artifactRef"},
+    "source_snapshot": {"$ref": "#/$defs/artifactRef"},
+    "task_set": {"$ref": "#/$defs/artifactRef"},
+    "artifact_root": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Profile-specific output root, resolved relative to the ledger when not absolute."
+    },
+    "profile_execution_manifest": {"$ref": "#/$defs/artifactRef"},
+    "reviewer": {"type": ["string", "null"]},
+    "case_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/caseResult"}
+    }
+  },
+  "$defs": {
+    "score": {"type": "number", "minimum": 0, "maximum": 5},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "profileDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_family",
+        "model_id",
+        "agent_name",
+        "model_reasoning_effort",
+        "effort_policy",
+        "model_verbosity",
+        "execution_surface",
+        "harness_variant",
+        "profile_role"
+      ],
+      "properties": {
+        "model_family": {
+          "const": "gpt-5.6",
+          "description": "Active comparison family. Cross-family ledgers are rejected."
+        },
+        "model_id": {
+          "enum": ["gpt-5.6-sol", "gpt-5.6-luna", "gpt-5.6-terra"],
+          "description": "Codex GPT-5.6 task-fit model identifiers governed by the active director-and-section profile registry."
+        },
+        "agent_name": {
+          "enum": [
+            "idol_sol_creative_synthesis",
+            "idol_sol_primary_validation",
+            "idol_sol_bounded_synthesis",
+            "idol_sol_complete_full_flow",
+            "idol_luna_section_image_motion",
+            "idol_terra_routine_judgment",
+            "idol_terra_direction_scout"
+          ],
+          "description": "Project-scoped Codex custom agent recorded for this profile execution."
+        },
+        "model_reasoning_effort": {
+          "enum": ["ultra", "max", "xhigh"],
+          "description": "Exact registered upper-two effort for this task-shaped custom agent."
+        },
+        "effort_policy": {"const": "overall_cdd_luna_studio_post02a_section"},
+        "model_verbosity": {"const": "high"},
+        "execution_surface": {
+          "const": "codex",
+          "description": "Codex-surface effort values are not interchangeable with Responses API reasoning.effort values."
+        },
+        "harness_variant": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "profile_role": {"enum": ["current_baseline", "candidate"]}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"agent_name": {"const": "idol_luna_section_image_motion"}},
+            "required": ["agent_name"]
+          },
+          "then": {
+            "properties": {
+              "model_id": {"const": "gpt-5.6-luna"},
+              "model_reasoning_effort": {"const": "max"},
+              "model_verbosity": {"const": "high"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "agent_name": {"const": "idol_sol_creative_synthesis"}
+            },
+            "required": ["agent_name"]
+          },
+          "then": {
+            "properties": {
+              "model_id": {"const": "gpt-5.6-sol"},
+              "model_reasoning_effort": {"const": "xhigh"},
+              "model_verbosity": {"const": "high"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"agent_name": {"enum": ["idol_sol_bounded_synthesis", "idol_sol_primary_validation"]}},
+            "required": ["agent_name"]
+          },
+          "then": {
+            "properties": {
+              "model_id": {"const": "gpt-5.6-sol"},
+              "model_reasoning_effort": {"const": "max"},
+              "model_verbosity": {"const": "high"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "agent_name": {"const": "idol_sol_complete_full_flow"}
+            },
+            "required": ["agent_name"]
+          },
+          "then": {
+            "properties": {
+              "model_id": {"const": "gpt-5.6-sol"},
+              "model_reasoning_effort": {"const": "ultra"},
+              "model_verbosity": {"const": "high"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"agent_name": {"enum": ["idol_terra_direction_scout", "idol_terra_routine_judgment"]}},
+            "required": ["agent_name"]
+          },
+          "then": {
+            "properties": {
+              "model_id": {"const": "gpt-5.6-terra"},
+              "model_reasoning_effort": {"const": "xhigh"},
+              "model_verbosity": {"const": "high"}
+            }
+          }
+        }
+      ]
+    },
+    "agentUsage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_path",
+        "parent_agent_path",
+        "agent_name",
+        "model_id",
+        "model_reasoning_effort",
+        "model_verbosity",
+        "route_id",
+        "input_tokens",
+        "output_tokens",
+        "wall_seconds",
+        "tool_calls",
+        "retries",
+        "status"
+      ],
+      "properties": {
+        "agent_path": {"type": "string", "pattern": "^/root(?:/[a-z0-9][a-z0-9_-]*)?$"},
+        "parent_agent_path": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "const": "/root"}
+          ]
+        },
+        "agent_name": {
+          "enum": [
+            "idol_sol_creative_synthesis",
+            "idol_sol_primary_validation",
+            "idol_sol_bounded_synthesis",
+            "idol_sol_complete_full_flow",
+            "idol_luna_section_image_motion",
+            "idol_terra_routine_judgment",
+            "idol_terra_direction_scout"
+          ]
+        },
+        "model_id": {"enum": ["gpt-5.6-sol", "gpt-5.6-luna", "gpt-5.6-terra"]},
+        "model_reasoning_effort": {"enum": ["ultra", "max", "xhigh"]},
+        "model_verbosity": {"const": "high"},
+        "route_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "wall_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "tool_calls": {"type": "integer", "minimum": 0},
+        "retries": {"type": "integer", "minimum": 0},
+        "status": {"enum": ["completed", "failed", "interrupted"]}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"agent_name": {"const": "idol_luna_section_image_motion"}},
+            "required": ["agent_name"]
+          },
+          "then": {"properties": {
+            "model_id": {"const": "gpt-5.6-luna"},
+            "model_reasoning_effort": {"const": "max"},
+            "model_verbosity": {"const": "high"}
+          }}
+        },
+        {
+          "if": {
+            "properties": {
+              "agent_name": {"const": "idol_sol_creative_synthesis"}
+            },
+            "required": ["agent_name"]
+          },
+          "then": {"properties": {
+            "model_id": {"const": "gpt-5.6-sol"},
+            "model_reasoning_effort": {"const": "xhigh"},
+            "model_verbosity": {"const": "high"}
+          }}
+        },
+        {
+          "if": {
+            "properties": {"agent_name": {"enum": ["idol_sol_bounded_synthesis", "idol_sol_primary_validation"]}},
+            "required": ["agent_name"]
+          },
+          "then": {"properties": {
+            "model_id": {"const": "gpt-5.6-sol"},
+            "model_reasoning_effort": {"const": "max"},
+            "model_verbosity": {"const": "high"}
+          }}
+        },
+        {
+          "if": {
+            "properties": {"agent_name": {"const": "idol_sol_complete_full_flow"}},
+            "required": ["agent_name"]
+          },
+          "then": {"properties": {
+            "model_id": {"const": "gpt-5.6-sol"},
+            "model_reasoning_effort": {"const": "ultra"},
+            "model_verbosity": {"const": "high"}
+          }}
+        },
+        {
+          "if": {
+            "properties": {"agent_name": {"enum": ["idol_terra_direction_scout", "idol_terra_routine_judgment"]}},
+            "required": ["agent_name"]
+          },
+          "then": {"properties": {
+            "model_id": {"const": "gpt-5.6-terra"},
+            "model_reasoning_effort": {"const": "xhigh"},
+            "model_verbosity": {"const": "high"}
+          }}
+        }
+      ]
+    },
+    "caseResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "stage_id",
+        "artifacts",
+        "required_evidence",
+        "hard_gates",
+        "quality_scores",
+        "evidence_counts",
+        "efficiency",
+        "agent_usage",
+        "review_note"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "stage_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "required_evidence": {
+          "type": "object",
+          "description": "Case-specific evidence names from the suite. Every required key must be present; false keeps the candidate from passing even when generic evidence counts are unchanged.",
+          "additionalProperties": {"type": "boolean"},
+          "minProperties": 1
+        },
+        "hard_gates": {
+          "type": "object",
+          "additionalProperties": {"type": "boolean"},
+          "minProperties": 1
+        },
+        "quality_scores": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/score"},
+          "minProperties": 1
+        },
+        "evidence_counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0},
+          "minProperties": 1
+        },
+        "efficiency": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["input_tokens", "output_tokens", "wall_seconds", "tool_calls", "retries"],
+          "properties": {
+            "input_tokens": {"type": "integer", "minimum": 0},
+            "output_tokens": {"type": "integer", "minimum": 0},
+            "wall_seconds": {"type": "number", "minimum": 0},
+            "tool_calls": {"type": "integer", "minimum": 0},
+            "retries": {"type": "integer", "minimum": 0}
+          }
+        },
+        "agent_usage": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/agentUsage"}
+        },
+        "review_note": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

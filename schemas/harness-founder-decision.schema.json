@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-founder-decision.schema.json",
+  "title": "IDOL Graph Engineering Founder Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "album_key",
+    "title_key",
+    "status",
+    "source_current_next",
+    "source_founder_gate",
+    "source_next_unit",
+    "source_action_queue",
+    "gate_id",
+    "gate_type",
+    "section_range",
+    "section_ids",
+    "packet_count",
+    "decision_id",
+    "decision_label",
+    "decision_input_text",
+    "decision_source",
+    "decision_note",
+    "requires_explicit_approval",
+    "explicit_approval_recorded",
+    "approved_execution_route",
+    "allows_paid_generation",
+    "allows_external_execution",
+    "continues_local_qa",
+    "marks_section_qa_pass",
+    "next_local_section",
+    "next_action",
+    "automation_boundaries",
+    "forbidden_actions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "harness-founder-decision.v1"
+    },
+    "generated_at": {"type": "string", "minLength": 1},
+    "run": {"type": "string", "minLength": 1},
+    "album_key": {"type": "string"},
+    "title_key": {"type": "string"},
+    "status": {
+      "enum": ["active", "archived"]
+    },
+    "source_current_next": {"type": "string", "minLength": 1},
+    "source_founder_gate": {"type": "string", "minLength": 1},
+    "source_next_unit": {"type": "string", "minLength": 1},
+    "source_action_queue": {"type": "string", "minLength": 1},
+    "gate_id": {"type": "string", "minLength": 1},
+    "gate_type": {
+      "enum": ["03v_front_playback_generation"]
+    },
+    "section_range": {"type": "string", "minLength": 1},
+    "section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "packet_count": {"type": "integer", "minimum": 1},
+    "decision_id": {
+      "enum": [
+        "approve_front_chunk_generation",
+        "review_or_refine_prompts_only",
+        "continue_local_next_section",
+        "hold_front_gate",
+        "archive_only_no_action"
+      ]
+    },
+    "decision_label": {"type": "string", "minLength": 1},
+    "decision_input_text": {"type": "string"},
+    "decision_source": {"type": "string", "minLength": 1},
+    "decision_note": {"type": "string"},
+    "requires_explicit_approval": {"type": "boolean"},
+    "explicit_approval_recorded": {"type": "boolean"},
+    "approved_execution_route": {"type": "string"},
+    "allows_paid_generation": {"type": "boolean"},
+    "allows_external_execution": {"type": "boolean"},
+    "continues_local_qa": {"type": "boolean"},
+    "marks_section_qa_pass": {"type": "boolean"},
+    "next_local_section": {"type": "string"},
+    "next_action": {"type": "string", "minLength": 1},
+    "automation_boundaries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": "idol-graph-edge.v1",
+  "edge_id": "e_owns",
+  "family": "authority",
+  "view": "authority_ownership",
+  "from_node_id": "n_overall",
+  "to_node_id": "n_p1"
+}

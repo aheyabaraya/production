@@ -1,0 +1,1049 @@
+schema_version: "1.1"
+radar_id: IDOL_PRE_00_RESEARCH_RADAR_2026_05_24
+date: 2026-05-24
+mode: automation
+status: founder_review
+research_policy:
+  method_basis: "IDOL PRE-00 radar from active monthly trend record, active SS26 fashion record, current-run external web research, message-hook bank duplicate check, and local member/unit/voice assets."
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 5
+  reference_families:
+    - song
+    - media_narrative
+    - fashion
+    - idol
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: "Create five founder-scan routes using current song/performance source support, media message functions, fashion-season styling functions, and active AURORA-M unit ownership."
+  combination_rule: "Each route combines at least one song-function input, one media_narrative message/story input, one fashion-season styling input, and one active IDOL unit stack."
+  unity_rule: "Tone, mood, and message must cohere before a route can be promoted into 00."
+  ref_id_integrity_rule: "Reference IDs stay family-scoped and each route cites only the refs it actually uses."
+  allowed_output: five_route_candidate_brief_before_00
+  handoff_target: 00_creative_nucleus_draft
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md#freshness-windows"
+  recheck_before_00:
+    - "Recheck current-run web research if selection happens more than 14 days later or if the source is release/news dependent."
+    - "Recheck public idol/pop promotion signals within 2-4 weeks before 00."
+    - "Recheck fashion-season support after season change, after roughly 8-12 weeks, or when a route depends on a newly visible runway/editorial shift."
+  durable_record_rule: "Promote only founder-selected, review-proven, or repeatedly useful references into durable source material or reference-library."
+  bank_record_rule: "Record message functions, hook mechanics, and message-hook combinations in creative-bank/message-hooks before reuse."
+research_inputs:
+  REF_SONG_BABYMONSTER_CHOOM:
+    title: "BABYMONSTER - CHOOM release/discography signal"
+    path_or_url: "https://www.ygfamily.com/en/artists/babymonster/discography"
+    reference_family: song
+    reference_lane: performance_song
+    short_note: "Official YG discography lists BABYMONSTER's 3rd mini album CHOOM on 2026-05-04; YG Life also frames the release cycle around strong music-first promotion and a second world tour."
+    useful_function: "Use for high-intensity girl-group performance, dark-weight public impact, and rap/dance route timing."
+  REF_SONG_BLACKPINK_GO:
+    title: "BLACKPINK - DEADLINE / GO release function"
+    path_or_url: "https://yg-life.com/archives/196268?lang=en"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "YG Life frames BLACKPINK's 2026 full-group return as present-tense radiance, irreversible moments, global stadium scale, and a five-track world expansion."
+    useful_function: "Use only as a function reference for command, present-tense confidence, and global public weight."
+  REF_SONG_KATSEYE_PINKY_UP:
+    title: "KATSEYE - Pinky Up"
+    path_or_url: "https://www.universalmusic.ca/press-releases/katseye-drops-new-single-pinky-up-on-the-eve-of-their-coachella-debut/"
+    reference_family: song
+    reference_lane: hook_mechanics
+    short_note: "Universal Music Canada describes the 2026-04-09 single as high-energy, low-end-led, synth-textured pop with a confident, playful message and everyday spaces turned into the group's own playground."
+    useful_function: "Use for short, brash, gesture-led pop intensity and ordinary-space-to-stage transformation."
+  REF_SONG_AESPA_WDA:
+    title: "aespa - WDA (Whole Different Animal)"
+    path_or_url: "https://koreajoongangdaily.joins.com/news/2026-05-04/entertainment/kpop/aespa-to-prerelease-new-single-WDA-Whole-Different-Animal-from-upcoming-album-on-May-11/2583970"
+    reference_family: song
+    reference_lane: performance_song
+    short_note: "Korea JoongAng Daily reports aespa's May 2026 pre-release WDA with MV, dark creature teaser imagery, and the upcoming 10-track Lemonade album."
+    useful_function: "Use for cold digital performance, creature-edge tension, and a controlled system-pop route."
+  REF_SONG_IVE_REVIVE_PLUS:
+    title: "IVE - Revive+ / Blackhole"
+    path_or_url: "https://koreajoongangdaily.joins.com/news/2026-02-23/entertainment/kpop/Girl-group-IVE-shifts-focus-from-selflove-to-us-in-latest-album-Revive/2529507"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "Korea JoongAng Daily reports IVE's Revive+ shift from self-love toward a broadened 'us', with Blackhole described as cinematic electronic pop."
+    useful_function: "Use for premium public-hook pop that turns self-image into collective invitation."
+  REF_SONG_HEARTS_CHASE:
+    title: "Hearts2Hearts - The Chase debut function"
+    path_or_url: "https://koreajoongangdaily.joins.com/news/2025-02-24/entertainment/kpop/SMs-Hearts2Hearts-sets-sights-on-best-rookie-title-with-new-single-The-Chase-/2248842"
+    reference_family: song
+    reference_lane: vocal_phrase_contour
+    short_note: "Korea JoongAng Daily reports Hearts2Hearts' debut single The Chase as synth-pop with a dream-like future-SM positioning."
+    useful_function: "Use for bright synth-pop first contact, polished rookie clarity, and dreamlike but readable public entrance."
+  REF_SONG_DAY6_DECADE:
+    title: "DAY6 - The DECADE"
+    path_or_url: "https://billboardphilippines.com/music/news/day6-the-decade-10th-anniversary-album-release-september-2025-jyp-entertainment/"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "Billboard Philippines reports DAY6's 10th-anniversary full album The DECADE and renewed JYP contract context."
+    useful_function: "Use for durable band-pop emotional architecture, live-vocal lift, and anniversary-scale vocal-line confidence."
+  REF_SONG_QWER_SIDE:
+    title: "QWER - I'm on your side, even if the whole world is dissonant"
+    path_or_url: "https://www.allkpop.com/article/2025/05/qwer-to-return-on-june-9-with-new-mini-album-im-on-your-side"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "Allkpop reports QWER's third mini album as a coming-of-age, friendship, and future-promise band route with upbeat refreshing energy."
+    useful_function: "Use for band-pop promise, dissonance-to-harmony message, and youth-release vocal framing."
+  REF_SONG_PREHOOK_ENGINE:
+    title: "2026-05 monthly record - pre-hook addiction engine"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "The pre-hook or pre-chorus can be the replay engine rather than making the chorus carry all memory."
+    useful_function: "Use for routes where tension lift, vocal color change, or held gaze becomes the most addictive moment."
+  REF_SONG_MID_GROOVE_BODY:
+    title: "2026-05 monthly record - 124-130 BPM body-led emotion"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: song
+    reference_lane: rhythm_pressure
+    short_note: "A mid-groove pocket supports isolations, shoulder/hip detail, and crop-safe body hooks."
+    useful_function: "Use for body response before explanation, paired motion, and copyable post-hook phrases."
+  REF_SONG_COMPRESSED_90S:
+    title: "2026-05 monthly record - compressed 90s master architecture"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "Cold signal, early hook setup, addictive pre-hook, release, short body phrase, reset, final release, memory tag."
+    useful_function: "Use as the default 90s song economy when no selected audio overrides it."
+  REF_SONG_PERFORMANCE_PRESSURE:
+    title: "2026-05 monthly record - body-readable hook priority"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: song
+    reference_lane: performance_song
+    short_note: "Body-readable hooks outperform abstract emotional hooks for short-form when the move and lip shape are quick to understand."
+    useful_function: "Use for routes that must prove themselves through choreography, point phrase, and stage readability."
+  REF_MEDIA_NARRATIVE_INSIDE_OUT_2:
+    title: "Inside Out 2 - anxiety, console, and belief system function"
+    path_or_url: "https://www.pixar.com/inside-out-2"
+    reference_family: media_narrative
+    reference_lane: character_arc
+    short_note: "Pixar frames the story around a teenager's new emotions, Anxiety preparing for every negative outcome, and a changing Sense of Self."
+    useful_function: "Use for tension that tries to protect but must be re-aimed into self-owned motion."
+  REF_MEDIA_NARRATIVE_KPOP_DH:
+    title: "KPop Demon Hunters - public idol identity and hidden burden function"
+    path_or_url: "https://media.netflix.com/en/only-on-netflix/81498621"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "Netflix logline frames pop superstars with secret identities protecting fans from an irresistible rival boy-band threat."
+    useful_function: "Use the stage-identity hidden-tension function, or follow supernatural plot, names, or fantasy styling directly when founder/current run selects that source surface."
+  REF_MEDIA_NARRATIVE_LOOK_BACK:
+    title: "Look Back - rivalry becoming creative pact"
+    path_or_url: "https://gkids.com/films/look-back/"
+    reference_family: media_narrative
+    reference_lane: character_arc
+    short_note: "GKIDS synopsis frames jealousy turning into shared passion, artistic excellence, and creative collaboration."
+    useful_function: "Use for messages where a small pact or rivalry becomes the reason to create together."
+  REF_MEDIA_NARRATIVE_FLOW_TEAM:
+    title: "Flow - reluctant survival team"
+    path_or_url: "https://www.flickeringmyth.com/2024-bfi-london-film-festival-review-flow/"
+    reference_family: media_narrative
+    reference_lane: media_narrative
+    short_note: "A solitary cat displaced by flood has to team up with different animals despite differences."
+    useful_function: "Use for dissonance-to-team, reluctant trust, and quiet movement-based story logic."
+  REF_MEDIA_NARRATIVE_FIRST_FRAME:
+    title: "2026-05 monthly record - first 3-8s pattern interrupt"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: media_narrative
+    reference_lane: audience_context
+    short_note: "Direct gaze, low-body move, vocal inhale, sharp cut, low body impact, synth stab, or unmistakable vocal texture can stop the scroll."
+    useful_function: "Use for cold-open MV decisions and first-board image intensity."
+  REF_MEDIA_NARRATIVE_CROP_PAIR:
+    title: "2026-05 monthly record - crop-safe pairing"
+    path_or_url: "source-materials/monthly-trend-records/2026-05.md"
+    reference_family: media_narrative
+    reference_lane: audience_context
+    short_note: "Two to four visible members, paired mirroring, handoff, and shared weight read better than full-group chaos in derivative crops."
+    useful_function: "Use for board composition, choreography density, and derivative-friendly staging."
+  REF_MEDIA_NARRATIVE_MEMBER_ATLAS:
+    title: "AURORA-M local member visual-space atlas"
+    path_or_url: "assets/member-registry.yaml"
+    reference_family: media_narrative
+    reference_lane: mv_storyline
+    short_note: "Member signature spaces include rain-glass, mirror room, cobalt water, moonlit glass, tactical corridor, dock stage, and command archive."
+    useful_function: "Use as a visual-world source that keeps route images aligned to member identity; follow external media directly when founder/current run selects that source surface."
+  REF_FASHION_SS26_UTILITY_TRENCH:
+    title: "Vogue Spring 2026 - utility, cargo, trench, practical layering"
+    path_or_url: "https://www.vogue.com/article/spring-2026-fashion-trends"
+    reference_family: fashion
+    reference_lane: wardrobe_construction
+    short_note: "Vogue's Spring 2026 trend report highlights cargo, utility dressing, trench/belted outerwear, scarf styling, drop-waist ease, and satin movement."
+    useful_function: "Use for contemporary stage-ready outer layers, pocket/collar gestures, and reveal mechanics."
+  REF_FASHION_SS26_COLOR_SIGNAL:
+    title: "Vogue Spring 2026 color trend - vivid cue colors"
+    path_or_url: "https://www.vogue.com/article/spring-color-trends-2026"
+    reference_family: fashion
+    reference_lane: color_palette
+    short_note: "Vogue's Spring 2026 color report points to vivid jewel-bright color energy alongside creamy pale tones."
+    useful_function: "Use for small cue-color marks that help a hook read without making the whole route one-note."
+  REF_FASHION_SS26_SATIN_LACE:
+    title: "ELLE Spring 2026 - satin, lace, and primary color"
+    path_or_url: "https://www.elle.com/fashion/trend-reports/a70407937/best-spring-2026-fashion-trends/"
+    reference_family: fashion
+    reference_lane: material_texture
+    short_note: "ELLE's Spring 2026 runway report points to slinky satin, lace trim or paneling, and primary-color presence."
+    useful_function: "Use for soft/dark texture, vocal-lift contrast, and accent-color chorus memory."
+  REF_FASHION_SS26_SCARF_DRESSING:
+    title: "Who What Wear Spring 2026 - scarf dressing"
+    path_or_url: "https://www.whowhatwear.com/fashion/trends/spring-trend-shopping-guide-2026"
+    reference_family: fashion
+    reference_lane: accessory_styling
+    short_note: "Who What Wear reports satin scarves becoming central to 2026 looks, tied at waist, shoulder, neck, or integrated into trench and blazer construction."
+    useful_function: "Use for handoff, pact, mic-pass, and live-vocal accessory motion."
+  REF_FASHION_CONTEMPORARY_GUARD:
+    title: "IDOL contemporary styling guard"
+    path_or_url: "AGENTS.md"
+    reference_family: fashion
+    reference_lane: wardrobe_construction
+    short_note: "Ancient, medieval, court, fantasy armor, dynasty, and period wardrobe cues are locked out unless the founder explicitly unlocks them."
+    useful_function: "Use to keep all PRE-00 worlds contemporary, performance-ready, and idol/MV-facing."
+  REF_IDOL_KERNEL_STACK:
+    title: "KERNEL_06 active unit stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_performance
+    short_note: "M05, M06, M08, M10, M11, and M13 cover vocal lift, precision intensity, smoky counter, power impact, rap drive, and low seal."
+    useful_function: "Use for rap/dance impact, drop-hook performance, dark-weight pop, and low-tone closing tension."
+  REF_IDOL_CROWN_API_STACK:
+    title: "CROWN_API_06 active unit stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_brand_bridge
+    short_note: "M01, M02, M05, M07, M09, and M12 cover first signal, precision, vocal lift, visual axis, hook memory, and bright cue."
+    useful_function: "Use for premium public hook, first-contact polish, and elegant chorus readability."
+  REF_IDOL_CACHE_LOOP_STACK:
+    title: "CACHE_LOOP_05 active unit stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_performance
+    short_note: "M01, M02, M03, M04, and M09 support first signal, precision guide, rhythm rap-vocal anchor, emotional bridge, and hook drive."
+    useful_function: "Use for casual loop, UK-garage ease, repeatable short-hook intimacy, and small-pact movement."
+  REF_IDOL_MIRROR_SYS_STACK:
+    title: "MIRROR_SYS_05 active unit stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_identity
+    short_note: "M02, M05, M06, M07, and M08 support precision, lift, system command, visual axis, and smoky counter."
+    useful_function: "Use for digital concept precision, mirror/chrome texture, and controlled performance geometry."
+  REF_IDOL_BAND_PORT_STACK:
+    title: "BAND_PORT_05 active unit stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "M01, M03, M04, M05, and M09 support first signal, rhythm anchor, emotional bridge, vocal lift, and hook drive."
+    useful_function: "Use for band-pop vocal line, live-vocal lift, youth release, and guitar-driven emotional hook."
+  REF_IDOL_FULL_CODE_STACK:
+    title: "FULL_CODE active debut stack"
+    path_or_url: "assets/unit-registry.yaml; assets/member-registry.yaml; assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: idol_identity
+    short_note: "M01-M13 cover full AURORA-M roster identity with first signal, vocal center, formation center, point dance center, bright cue, finale center, rap drive, rhythm anchor, and low seal."
+    useful_function: "Use for full-group debut identity route, paired-lane generation planning, and an identity route where all 13 member signals compile into one AURORA-M language."
+candidate_routes:
+  - route_id: R01
+    route_name: KERNEL BITE
+    recommendation_message: "블랙핑크/베이비몬스터 계열의 무게감을 AURORA-M식 랩/댄스 압력으로 바꾸는 route. 공포나 긴장을 설명하지 않고 첫 박자부터 물어뜯는 느낌으로 간다."
+    recommended_unit:
+      unit_code: KERNEL_06
+      unit_purpose: "High-intensity pop, rap/dance impact, and dark-weight group force."
+      member_codes:
+        - M05
+        - M06
+        - M08
+        - M10
+        - M11
+        - M13
+      center_roles:
+        vocal_lift: M05
+        precision_pressure: M06
+        smoky_counter: M08
+        power_impact: M10
+        rap_drive: M11
+        low_seal: M13
+      unit_fit_reason: "KERNEL_06 is the only active stack where rap drive, power impact, smoky counter, low seal, and vocal lift can all survive a hard performance route."
+      unit_risk: "If M05 lift is not kept, the route can flatten into only dark impact."
+    member_focus:
+      - M05
+      - M06
+      - M08
+      - M10
+      - M11
+      - M13
+    source_ref_ids:
+      - REF_SONG_BABYMONSTER_CHOOM
+      - REF_SONG_BLACKPINK_GO
+      - REF_SONG_PERFORMANCE_PRESSURE
+      - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+      - REF_MEDIA_NARRATIVE_KPOP_DH
+      - REF_MEDIA_NARRATIVE_FIRST_FRAME
+      - REF_FASHION_SS26_UTILITY_TRENCH
+      - REF_FASHION_SS26_COLOR_SIGNAL
+      - REF_FASHION_CONTEMPORARY_GUARD
+      - REF_IDOL_KERNEL_STACK
+    lane_ref_ids:
+      song:
+        - REF_SONG_BABYMONSTER_CHOOM
+        - REF_SONG_BLACKPINK_GO
+        - REF_SONG_PERFORMANCE_PRESSURE
+      media_narrative:
+        - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+        - REF_MEDIA_NARRATIVE_KPOP_DH
+        - REF_MEDIA_NARRATIVE_FIRST_FRAME
+      fashion:
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_FASHION_SS26_COLOR_SIGNAL
+        - REF_FASHION_CONTEMPORARY_GUARD
+      idol:
+        - REF_IDOL_KERNEL_STACK
+    combined_signal: "CHOOM/GO의 public-weight performance 함수, Anxiety가 완벽을 강요하는 메시지 함수, 무대 뒤 부담을 가진 public identity 함수, SS26 utility outer layer와 cue color, KERNEL_06의 rap/dance pressure를 묶어 '겁이 나를 멈추는 게 아니라 첫 박자를 물게 만든다'는 route로 만든다."
+    tone_mood_message_unity:
+      tone_and_manner: "Heavy, sharp, confident, controlled, and present-tense."
+      mood: "A panic pulse compressed into the first attack beat."
+      message: "불안은 나를 망가뜨리는 게 아니라 내가 먼저 움직이게 만드는 감각이다."
+      unity_reason: "Song intensity, anxiety-as-control narrative, utility styling, and KERNEL_06's impact rails all converge on one physical first-hit hook."
+      mismatch_watch: "Do not use demon-hunter plot, fantasy weapons, literal teeth graphics, or copied YG choreography."
+    possible_message: "무섭다는 감각이 나를 멈추는 게 아니라 첫 박자를 물게 만든다."
+    song_emotion: "Low synth intensity, short rap bark, hard drop-hook, then one clean M05 vocal lift before the final low seal."
+    choreography_hook: "M11 starts a bitten-beat chin cut, M10 answers with a low hit, M06 locks the axis, and M13 seals the final floor-level line."
+    performance_image: "Six-member dark utility line, one rap-drive opener, one clean vocal lift, then a low final seal."
+    mv_image: "Contemporary service corridor, black technical nylon, white/crimson cue color, tight negative space, no fantasy armor."
+    why_aurora_m_can_own_it: "The route uses AURORA-M's existing M11 rap character, M10 impact, M13 low seal, and M05 lift instead of borrowing a real group identity."
+    risk_or_gap: "Needs a vocal relief point and a selected-reference hook surface; otherwise it becomes generic girl-crush intensity."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: KERNEL BITE
+      goal: "Create a 90s master where panic is converted into a controlled first-hit rap/dance hook."
+      thesis:
+        message: "AURORA-M turns fear into the first move instead of a stop sign."
+        one_line: "Panic bites first."
+        audience_feel: "The viewer feels the rush before they understand it, then gets a clean hook to repeat."
+        hook_moment: "Bitten-beat chin cut into low impact and final floor seal."
+      founder_input_seed:
+        song_seed: "Hard 126-130 BPM performance pop with rap-drive intro, low synth intensity, drop-hook, and one bright vocal lift."
+        style_mood_seed: "Black technical nylon, utility pockets, white/crimson cue marks, contemporary corridor and command-floor lighting."
+        must_keep: "Rap/dance weight, M05 lift, M13 low seal, first 3 seconds as a body-readable hit."
+        avoid: "Named-artist soundalike direction, demon plot, literal weapons, medieval/fantasy styling, literal choreography transfer."
+        open_decisions:
+          - "Should the first lyric lean Korean punch or English command?"
+          - "Should the final seal be M13 solo-front or M11/M13 split?"
+      asset_alignment_seed:
+        selected_unit: KERNEL_06
+        selected_members:
+          - M05
+          - M06
+          - M08
+          - M10
+          - M11
+          - M13
+        identity_constraints: "Preserve M11 rap drive, M10 power impact, M13 low seal, M06 precision intensity, M08 smoky counter, and M05 vocal lift."
+      song_structure_seed:
+        duration_target: "90s"
+        sections:
+          - panic_pulse
+          - rap_pressure_setup
+          - pre_hook_lift
+          - bite_drop
+          - low_body_phrase
+          - smoky_counter_reset
+          - final_bite_release
+          - low_seal_tag
+        vocal_direction: "M11 rap opener, M06 clipped guide, M08 smoky counter, M10 impact ad-lib, M05 lift, M13 low seal."
+        energy_curve: "Immediate hit -> tension climb -> brief lift -> hard drop -> lower reset -> final seal."
+      choreography_seed:
+        choreography_core: "Chin-cut bite cue, low hit, axis lock, floor seal."
+        performance_language: "Hard stops, short rap gestures, low center, formation readability, clean lift break."
+        readability_priority:
+          - face
+          - chin_cut
+          - low_hit
+          - shoulders
+          - formation
+      visual_world_seed:
+        mv_world: "Contemporary dark utility corridor and command-floor stage."
+        camera_language: "Close rap face, low body hit, medium formation lock, final floor-level seal."
+        edit_language: "Fast cuts only on hit points; pre-hook gets one held lift shot."
+      generation_plan_seed:
+        raw_attempt_target: 24
+        raw_attempt_ceiling: 40
+        selected_clip_target: 10
+        final_edit_clip_target: 6
+        primary_engine: "TBD after founder approval"
+      derivative_plan_seed:
+        - "15s bitten-beat rap/drop hook."
+        - "45s tension-to-lift-to-low-seal cutdown."
+      founder_locks_seed:
+        - "Confirm KERNEL_06 as selected unit if this route is chosen."
+        - "Confirm how aggressive the rap-first hook can be."
+      source_links_seed:
+        - REF_SONG_BABYMONSTER_CHOOM
+        - REF_SONG_BLACKPINK_GO
+        - REF_SONG_PERFORMANCE_PRESSURE
+        - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+        - REF_MEDIA_NARRATIVE_KPOP_DH
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_IDOL_KERNEL_STACK
+      open_questions_seed:
+        - "Does founder want this to be the darkest candidate, or should it still keep a glossy pop exterior?"
+        - "Should M05 lift be pre-hook or bridge?"
+  - route_id: R02
+    route_name: CROWN EXIT
+    recommendation_message: "프리미엄 공개성 route. '나'의 완성보다 '우리로 나가는 순간'을 잡아서, 레나가 과하게 메인이 되지 않도록 public hook을 여러 명에게 분산한다."
+    recommended_unit:
+      unit_code: CROWN_API_06
+      unit_purpose: "Premium public hook, polished first impression, and elegant chorus readability."
+      member_codes:
+        - M01
+        - M02
+        - M05
+        - M07
+        - M09
+        - M12
+      center_roles:
+        first_signal: M01
+        precision_guide: M02
+        vocal_lift: M05
+        visual_axis: M07
+        hook_drive: M09
+        bright_cue: M12
+      unit_fit_reason: "CROWN_API_06 can carry IVE-like public polish while keeping the hook shared across first signal, guide, lift, hook drive, and bright cue."
+      unit_risk: "Can become too pristine unless the exit gesture has tension and M09/M12 carry obvious hook memory."
+    member_focus:
+      - M01
+      - M02
+      - M05
+      - M07
+      - M09
+      - M12
+    source_ref_ids:
+      - REF_SONG_IVE_REVIVE_PLUS
+      - REF_SONG_HEARTS_CHASE
+      - REF_SONG_PREHOOK_ENGINE
+      - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+      - REF_MEDIA_NARRATIVE_FLOW_TEAM
+      - REF_MEDIA_NARRATIVE_CROP_PAIR
+      - REF_FASHION_SS26_UTILITY_TRENCH
+      - REF_FASHION_SS26_SCARF_DRESSING
+      - REF_FASHION_SS26_COLOR_SIGNAL
+      - REF_IDOL_CROWN_API_STACK
+    lane_ref_ids:
+      song:
+        - REF_SONG_IVE_REVIVE_PLUS
+        - REF_SONG_HEARTS_CHASE
+        - REF_SONG_PREHOOK_ENGINE
+      media_narrative:
+        - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_MEDIA_NARRATIVE_CROP_PAIR
+      fashion:
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_FASHION_SS26_SCARF_DRESSING
+        - REF_FASHION_SS26_COLOR_SIGNAL
+      idol:
+        - REF_IDOL_CROWN_API_STACK
+    combined_signal: "IVE의 'us' 확장, Hearts2Hearts의 polished synth first-contact, Inside Out 2의 sense-of-self 변화, Flow의 서로 다른 존재가 함께 움직이는 함수, SS26 trench/scarf/color cue, CROWN_API_06의 public hook stack을 묶어 '허락을 기다리지 않고 함께 나가는 exit'로 만든다."
+    tone_mood_message_unity:
+      tone_and_manner: "Polished, bright, elegant, and quietly defiant."
+      mood: "A closed door opening into a public runway of six members."
+      message: "완성된 나를 증명하는 게 아니라, 지금의 우리로 밖에 나간다."
+      unity_reason: "Public polish, 'us' message, paired readability, and scarf/trench exit gestures all support a shared entrance route."
+      mismatch_watch: "Do not make M07 the only visual center; the route needs shared public ownership."
+    possible_message: "허락을 기다리지 않고, 지금의 우리로 밖에 나간다."
+    song_emotion: "Clean synth-pop with cinematic electronic lift, a pre-hook that opens the door, and a chorus built on shared hook syllables."
+    choreography_hook: "M01 opens the signal, M02 traces the door line, M09/M12 snap the scarf/collar cue, and M05 lifts the exit line while M07 stays as axis not sole center."
+    performance_image: "Six members cross a threshold in pairs, then land in a polished chorus line with one shared hand cue."
+    mv_image: "Bright corridor, trench/scarf motion, pale base with one vivid color signal, reflective but not cyber."
+    why_aurora_m_can_own_it: "The unit's role spread lets the premium route avoid over-centering one member and gives AURORA-M a public-hook identity; if IVE or SM lineage is selected as the standard, name and follow that surface directly."
+    risk_or_gap: "Needs one clear tension point before the exit so it does not read as only pretty."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: CROWN EXIT
+      goal: "Build a 90s master where a shared public entrance becomes the central hook."
+      thesis:
+        message: "AURORA-M steps out as a unit before asking for permission."
+        one_line: "We exit first."
+        audience_feel: "The viewer feels invited into a clean, confident group entrance."
+        hook_moment: "Door-line trace into scarf/collar snap and shared chorus step."
+      founder_input_seed:
+        song_seed: "Polished synth-pop/electronic pop with addictive pre-hook, shared hook syllables, and bright final lift."
+        style_mood_seed: "Trench/collar/scarf construction, pale base color, vivid cue accent, polished corridor-to-runway MV."
+        must_keep: "Shared hook ownership, M09/M12 hook memory, no single-member overpush."
+        avoid: "Generic luxury beauty film, one-person center fixation, borrowed real-group identity."
+        open_decisions:
+          - "Should the chorus be more elegant or more public-pop bright?"
+          - "Should the exit image be corridor, elevator, or runway door?"
+      asset_alignment_seed:
+        selected_unit: CROWN_API_06
+        selected_members:
+          - M01
+          - M02
+          - M05
+          - M07
+          - M09
+          - M12
+        identity_constraints: "Preserve M01 first signal, M02 precision guide, M05 lift, M07 visual axis, M09 hook drive, and M12 bright cue without making M07 the sole route."
+      song_structure_seed:
+        duration_target: "90s"
+        sections:
+          - closed_door_signal
+          - pair_setup
+          - exit_pre_hook
+          - shared_chorus
+          - scarf_collar_body_phrase
+          - reflective_reset
+          - final_public_exit
+          - cue_color_tag
+        vocal_direction: "M01 signal, M02 guide, M09 hook, M12 bright cue, M05 lift, M07 visual-axis line."
+        energy_curve: "Contained polish -> pair build -> door opening -> bright shared release -> final public lift."
+      choreography_seed:
+        choreography_core: "Door trace, scarf/collar snap, shared exit step."
+        performance_language: "Paired walks, clean hands, elegant shoulders, restrained but readable chorus geometry."
+        readability_priority:
+          - face
+          - door_line
+          - collar_snap
+          - pair_step
+          - chorus_line
+      visual_world_seed:
+        mv_world: "Contemporary corridor-to-runway transition with trench and scarf motion."
+        camera_language: "Threshold close-up, pair medium shots, stable chorus line, shared hook hand."
+        edit_language: "Smooth pre-hook opening and crisp cuts only on the collar-snap hook."
+      generation_plan_seed:
+        raw_attempt_target: 24
+        raw_attempt_ceiling: 40
+        selected_clip_target: 10
+        final_edit_clip_target: 6
+        primary_engine: "TBD after founder approval"
+      derivative_plan_seed:
+        - "15s door-line to collar-snap hook."
+        - "45s pair setup through final public exit."
+      founder_locks_seed:
+        - "Confirm CROWN_API_06 as selected unit if chosen."
+        - "Confirm whether this route should be brighter than KERNEL BITE."
+      source_links_seed:
+        - REF_SONG_IVE_REVIVE_PLUS
+        - REF_SONG_HEARTS_CHASE
+        - REF_MEDIA_NARRATIVE_INSIDE_OUT_2
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_IDOL_CROWN_API_STACK
+      open_questions_seed:
+        - "Should M07 remain visual axis only, or get one pre-hook line?"
+        - "How much English should the exit hook use?"
+  - route_id: R03
+    route_name: CACHE PACT
+    recommendation_message: "저압 루프/숏폼 route. 한 명의 귀여움이 아니라, 작은 약속이 반복되면서 팀의 암호가 되는 쪽으로 잡는다."
+    recommended_unit:
+      unit_code: CACHE_LOOP_05
+      unit_purpose: "Casual loop, UK-garage ease, and repeatable short-hook intimacy."
+      member_codes:
+        - M01
+        - M02
+        - M03
+        - M04
+        - M09
+      center_roles:
+        first_signal: M01
+        precision_guide: M02
+        rhythm_anchor: M03
+        emotional_bridge: M04
+        hook_drive: M09
+      unit_fit_reason: "CACHE_LOOP_05 fits ordinary-space hooks, low-intensity rhythm, and Yeul's rhythm rap-vocal anchor without needing a heavy center."
+      unit_risk: "Needs a distinct pocket-tap hook or it can dissolve into soft background pop."
+    member_focus:
+      - M01
+      - M02
+      - M03
+      - M04
+      - M09
+    source_ref_ids:
+      - REF_SONG_KATSEYE_PINKY_UP
+      - REF_SONG_MID_GROOVE_BODY
+      - REF_SONG_PERFORMANCE_PRESSURE
+      - REF_MEDIA_NARRATIVE_LOOK_BACK
+      - REF_MEDIA_NARRATIVE_FLOW_TEAM
+      - REF_MEDIA_NARRATIVE_CROP_PAIR
+      - REF_FASHION_SS26_SCARF_DRESSING
+      - REF_FASHION_SS26_COLOR_SIGNAL
+      - REF_IDOL_CACHE_LOOP_STACK
+    lane_ref_ids:
+      song:
+        - REF_SONG_KATSEYE_PINKY_UP
+        - REF_SONG_MID_GROOVE_BODY
+        - REF_SONG_PERFORMANCE_PRESSURE
+      media_narrative:
+        - REF_MEDIA_NARRATIVE_LOOK_BACK
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_MEDIA_NARRATIVE_CROP_PAIR
+      fashion:
+        - REF_FASHION_SS26_SCARF_DRESSING
+        - REF_FASHION_SS26_COLOR_SIGNAL
+      idol:
+        - REF_IDOL_CACHE_LOOP_STACK
+    combined_signal: "KATSEYE의 ordinary-space playground 함수, Look Back의 rivalry-to-creative-pact 함수, Flow의 difference-to-team 함수, scarf/color cue styling, CACHE_LOOP_05의 rhythm/short-hook stack을 묶어 '작은 약속이 팀의 캐시된 암호가 된다'는 route로 만든다."
+    tone_mood_message_unity:
+      tone_and_manner: "Casual, quick, warm, and quietly addictive."
+      mood: "A shared pocket rhythm passed between members like a private code."
+      message: "작은 약속은 반복될수록 우리만의 암호가 된다."
+      unity_reason: "Low-intensity groove, creative pact narrative, scarf/pocket handoff, and CACHE_LOOP_05's rhythm anchor all point to a repeatable small gesture."
+      mismatch_watch: "Follow Pinky Up finger logic when selected; otherwise use pocket tap and scarf handoff as the non-selected route."
+    possible_message: "작은 약속이 반복될수록 우리만의 암호가 된다."
+    song_emotion: "126 BPM easy groove with pocket percussion, soft rap-vocal answer by M03, and M09 hook phrase that loops naturally."
+    choreography_hook: "Pocket-tap two times, scarf/strap handoff, M03 rhythm answer, then M09 smiles the hook into a compact shoulder bounce."
+    performance_image: "Five members in ordinary street/studio space turn a tiny pact into a synchronized loop."
+    mv_image: "Rain-wet sidewalk, rehearsal room, scarf tied to bag or waist, vivid small color mark, no crowded challenge scene."
+    why_aurora_m_can_own_it: "M03's rhythm rap-vocal lane gives the casual loop a new anchor, while M01/M02/M04/M09 keep it emotionally readable."
+    risk_or_gap: "Needs a strong micro-hook; otherwise it may be too light after KERNEL/CROWN routes."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: CACHE PACT
+      goal: "Create a 90s master where a tiny repeated pact becomes AURORA-M's short-form memory."
+      thesis:
+        message: "AURORA-M turns a small private cue into a shared rhythm."
+        one_line: "We cache the promise."
+        audience_feel: "The viewer feels like they caught a small code and wants to repeat it."
+        hook_moment: "Pocket-tap, scarf handoff, and compact shoulder bounce."
+      founder_input_seed:
+        song_seed: "Mid-groove pop/UKG pocket with soft rap-vocal answer, light percussion, and a small addictive hook phrase."
+        style_mood_seed: "Contemporary street/studio, small scarf or strap accessory, denim/utility base, one vivid cue color."
+        must_keep: "Pocket-tap hook, M03 rhythm answer, low-intensity repeat value."
+        avoid: "literal reference-finger transfer, challenge-command lyric, over-cute styling, too many crowd extras."
+        open_decisions:
+          - "Should the pact cue be pocket tap, strap pull, or shoulder check?"
+          - "Should M03 rap-vocal answer be pre-hook or post-hook?"
+      asset_alignment_seed:
+        selected_unit: CACHE_LOOP_05
+        selected_members:
+          - M01
+          - M02
+          - M03
+          - M04
+          - M09
+        identity_constraints: "Preserve M03 rhythm anchor and M09 hook drive while keeping M01 signal, M02 precision, and M04 emotional bridge visible."
+      song_structure_seed:
+        duration_target: "90s"
+        sections:
+          - pocket_signal
+          - casual_groove_setup
+          - pact_pre_hook
+          - loop_chorus
+          - pocket_tap_body_phrase
+          - soft_rap_answer
+          - final_loop
+          - cached_tag
+        vocal_direction: "M01 soft signal, M02 precision cue, M03 rap-vocal answer, M04 bridge warmth, M09 hook memory."
+        energy_curve: "Tiny cue -> groove build -> pact lift -> loop release -> rap answer -> final repeat."
+      choreography_seed:
+        choreography_core: "Pocket tap, scarf/strap handoff, shoulder bounce, compact pair reset."
+        performance_language: "Small gestures, paired handoffs, low-intensity groove, crop-safe five-member movement."
+        readability_priority:
+          - pocket_tap
+          - face
+          - shoulder_bounce
+          - handoff
+          - pair_reset
+      visual_world_seed:
+        mv_world: "Ordinary rehearsal/street spaces that become a private stage through repeated cues."
+        camera_language: "Close cue, pair handoff, medium groove line, final five-member loop."
+        edit_language: "Soft loop edits and one visible reset at the post-hook."
+      generation_plan_seed:
+        raw_attempt_target: 24
+        raw_attempt_ceiling: 40
+        selected_clip_target: 10
+        final_edit_clip_target: 6
+        primary_engine: "TBD after founder approval"
+      derivative_plan_seed:
+        - "15s pocket-tap loop hook."
+        - "45s pact setup through soft rap-vocal answer."
+      founder_locks_seed:
+        - "Confirm CACHE_LOOP_05 as selected unit if chosen."
+        - "Confirm the main micro-hook object: pocket, strap, or scarf."
+      source_links_seed:
+        - REF_SONG_KATSEYE_PINKY_UP
+        - REF_SONG_MID_GROOVE_BODY
+        - REF_MEDIA_NARRATIVE_LOOK_BACK
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_FASHION_SS26_SCARF_DRESSING
+        - REF_IDOL_CACHE_LOOP_STACK
+      open_questions_seed:
+        - "How soft can the route be while still feeling like a master candidate?"
+        - "Should the lyric message be friendship-coded or self-code-coded?"
+  - route_id: R04
+    route_name: FULL CODE BOOT
+    recommendation_message: "첫 데뷔용 풀그룹 route. 특정 유닛의 장르맛보다 AURORA-M의 정체성, 13명 전원의 신호, 그리고 앞으로 쪼개질 유닛들의 원본 언어를 먼저 보여준다."
+    recommended_unit:
+      unit_code: FULL_CODE
+      unit_purpose: "Complete AURORA-M roster coverage; use for full-code identity route and return arcs through paired generation lanes."
+      member_codes:
+        - M01
+        - M02
+        - M03
+        - M04
+        - M05
+        - M06
+        - M07
+        - M08
+        - M09
+        - M10
+        - M11
+        - M12
+        - M13
+      center_roles:
+        solo_root_opener: M01
+        first_signal: M01
+        vocal_center: M05
+        formation_center: M07
+        point_dance_center: M08
+        bright_cue: M12
+        finale_center: M13
+      unit_fit_reason: "FULL_CODE fits the first-debut problem because the route must prove the whole AURORA-M system before asking the founder to choose a smaller unit language."
+      unit_risk: "Full roster can become unreadable in generation; keep the master as full-group edit logic, but plan boards through paired lanes and avoid more than two generated faces per board."
+    member_focus:
+      - M01
+      - M02
+      - M03
+      - M04
+      - M05
+      - M06
+      - M07
+      - M08
+      - M09
+      - M10
+      - M11
+      - M12
+      - M13
+    source_ref_ids:
+      - REF_SONG_BABYMONSTER_CHOOM
+      - REF_SONG_IVE_REVIVE_PLUS
+      - REF_SONG_HEARTS_CHASE
+      - REF_SONG_COMPRESSED_90S
+      - REF_SONG_PERFORMANCE_PRESSURE
+      - REF_MEDIA_NARRATIVE_KPOP_DH
+      - REF_MEDIA_NARRATIVE_FLOW_TEAM
+      - REF_MEDIA_NARRATIVE_MEMBER_ATLAS
+      - REF_MEDIA_NARRATIVE_CROP_PAIR
+      - REF_FASHION_SS26_UTILITY_TRENCH
+      - REF_FASHION_SS26_COLOR_SIGNAL
+      - REF_FASHION_CONTEMPORARY_GUARD
+      - REF_IDOL_FULL_CODE_STACK
+    lane_ref_ids:
+      song:
+        - REF_SONG_BABYMONSTER_CHOOM
+        - REF_SONG_IVE_REVIVE_PLUS
+        - REF_SONG_HEARTS_CHASE
+        - REF_SONG_COMPRESSED_90S
+        - REF_SONG_PERFORMANCE_PRESSURE
+      media_narrative:
+        - REF_MEDIA_NARRATIVE_KPOP_DH
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_MEDIA_NARRATIVE_MEMBER_ATLAS
+        - REF_MEDIA_NARRATIVE_CROP_PAIR
+      fashion:
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_FASHION_SS26_COLOR_SIGNAL
+        - REF_FASHION_CONTEMPORARY_GUARD
+      idol:
+        - REF_IDOL_FULL_CODE_STACK
+    combined_signal: "BABYMONSTER의 performance intensity, IVE의 'us' 확장, Hearts2Hearts의 debut first-contact, KPop Demon Hunters의 public idol identity burden function, Flow의 different-members-team 함수, AURORA-M member atlas와 FULL_CODE stack을 묶어 13개의 신호가 하나의 AURORA-M 언어로 부팅되는 데뷔 route로 만든다."
+    tone_mood_message_unity:
+      tone_and_manner: "Debut-clean, system-bright, confident, full-roster, and contemporary."
+      mood: "Thirteen separate signals wake up, become readable, and give the viewer a handle on the original system."
+      message: "우리는 하나의 콘셉트가 아니라, 서로 다른 신호가 같은 언어로 부팅되는 팀이다."
+      unity_reason: "Full-group debut needs both public scale and identity route; the song references provide intensity and first-contact clarity, the media functions provide team/self-burden logic, and FULL_CODE supplies the active member ownership."
+      mismatch_watch: "Do not make this a visual roll call, member ranking, or overcrowded full-group board. The route must read as one identity system."
+    possible_message: "서로 다른 13개의 신호가 같은 언어로 부팅될 때 AURORA-M이 시작된다."
+    song_emotion: "90s compressed debut pop with a cold boot signal, performance-intensity pulse, public-hook lift, and final full-code memory tag."
+    choreography_hook: "M01 새얀이 단독 root signal로 열고, 코드 순서 paired lanes가 boot cue를 넘긴다. M07 stabilizes formation, M08 cuts the point hit, M12 brightens the release, and M13 seals the finale."
+    performance_image: "Full roster as an edited harness map: small paired lanes prove faces and roles, then the final chorus reveals the complete code line."
+    mv_image: "Contemporary white/black command floor, member signature spaces connected through grounded set changes and handoff motion, utility outerwear with one controlled cue color per lane."
+    why_aurora_m_can_own_it: "This route is built from the actual 13-member registry, voice rails, and unit registry. It introduces the whole system as something the viewer can read and harness, then leaves room for KERNEL, CROWN, CACHE, MIRROR, NOIR, MOTION, and BAND units to split later."
+    risk_or_gap: "Full-group debut is harder to generate and edit cleanly. Use paired-lane boards and a 90s master edit instead of trying to show all 13 faces in every generated shot."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: FULL CODE BOOT
+      goal: "Create a 90s full-group debut master that proves AURORA-M's identity before any smaller unit language is selected."
+      thesis:
+        message: "AURORA-M begins when 13 different signals compile into one shared language."
+        one_line: "The full code boots."
+        audience_feel: "The viewer feels they can harness these 13 members as a readable team system, not just admire a distant concept."
+        hook_moment: "Root-signal handoff through paired lanes into the final full-code seal."
+      founder_input_seed:
+        album_subtitle_seed: "AURORA-M: FULL CODE / ROOT SIGNAL"
+        song_seed: "Compressed 90s debut pop with boot-signal intro, performance-intensity pulse, bright public-hook lift, and final full-code tag."
+        style_mood_seed: "White/black command floor, contemporary utility outerwear, member-lane cue colors, grounded set changes and handoff paths into each member's signature space."
+        must_keep: "M01 새얀 solo root-signal opener, strong KERNEL-style first 3 seconds, all 13 members represented through sequential paired lanes, no one-member overpush, final memory tag must name the AURORA-M identity."
+        avoid: "Roll-call structure, crowded all-face boards, medieval/fantasy styling, copied real-group identity, literal computer UI overload."
+        open_decisions:
+          - "Confirm final typography: AURORA-M: FULL CODE / ROOT SIGNAL, FULL CODE: ROOT SIGNAL, or ROOT SIGNAL: FULL CODE."
+          - "Confirm whether M01 solo opener is founder-locked before 00."
+      asset_alignment_seed:
+        selected_unit: FULL_CODE
+        selected_members:
+          - M01
+          - M02
+          - M03
+          - M04
+          - M05
+          - M06
+          - M07
+          - M08
+          - M09
+          - M10
+          - M11
+          - M12
+          - M13
+        identity_constraints: "Represent all 13 members in code order through paired lanes and role passes. Preserve M01 first signal, M05 vocal center, M07 formation center, M08 point dance center, M12 bright cue, M13 finale center, M11 rap drive, M03 rhythm anchor, and M10 impact without turning the piece into a roll call."
+      song_structure_seed:
+        duration_target: "90s"
+        sections:
+          - root_signal
+          - paired_lane_setup
+          - identity_pre_hook
+          - full_code_release
+          - short_body_phrase
+          - member_harness_map
+          - final_full_code_seal
+          - aurora_m_tag
+        vocal_direction: "M01 solo root signal, M03 rhythm answer, M11 rap drive, M05 vocal lift, M09/M12 hook memory, M13 finale seal, with sequential paired passes for the full roster."
+        energy_curve: "Strong solo boot hit -> paired pulse -> identity lift -> full-code release -> harness-map reset -> final seal."
+      choreography_seed:
+        choreography_core: "M01 solo root signal, sequential paired lane pass, point hit, full-code seal."
+        performance_language: "Crop-safe pairs, role-lane handoffs, one shared pulse, final full-group edit reveal."
+        readability_priority:
+          - root_signal
+          - paired_handoff
+          - point_hit
+          - face_lanes
+          - final_seal
+      visual_world_seed:
+        mv_world: "Contemporary command floor connected to each member's signature space through grounded set changes, blocking, and handoff paths."
+        camera_language: "M01 solo opener, then two-member boards in code order for identity route, stable pair handoffs, final edit-based full roster reveal."
+        edit_language: "Use paired-lane cuts and a final harness-map montage; avoid overcrowded single-frame full roster generation and sudden bright transition effects."
+        board_sequence_seed:
+          opening_solo:
+            board_code: S00
+            member: M01
+            member_name: 새얀
+            function: "solo root signal opener"
+          paired_lanes:
+            - board_code: P01
+              members:
+                - M02
+                - M03
+              member_names:
+                - 서린
+                - 여울
+              function: "precision guide meets rhythm rap-vocal anchor"
+            - board_code: P02
+              members:
+                - M04
+                - M05
+              member_names:
+                - 루아
+                - 화이
+              function: "emotional bridge opens into vocal center lift"
+            - board_code: P03
+              members:
+                - M06
+                - M07
+              member_names:
+                - 이린
+                - 레나
+              function: "performance captain locks to formation axis"
+            - board_code: P04
+              members:
+                - M08
+                - M09
+              member_names:
+                - 나츠
+                - 아리아
+              function: "point-dance counter hands off to hook drive"
+            - board_code: P05
+              members:
+                - M10
+                - M11
+              member_names:
+                - 카린
+                - 유즈
+              function: "impact line meets rap crowd drive"
+            - board_code: P06
+              members:
+                - M12
+                - M13
+              member_names:
+                - 세이라
+                - 시온
+              function: "bright cue hands the finale to the low-tone seal"
+      generation_plan_seed:
+        raw_attempt_target: 36
+        raw_attempt_ceiling: 60
+        selected_clip_target: 14
+        final_edit_clip_target: 8
+        primary_engine: "TBD after founder approval"
+      derivative_plan_seed:
+        - "15s M01 solo root signal into KERNEL-strength first hit and full-code seal."
+        - "45s paired-lane identity route through final AURORA-M tag."
+      founder_locks_seed:
+        - "Confirm FULL_CODE as debut route if chosen."
+        - "Use FULL CODE / ROOT SIGNAL as album/subtitle code language."
+        - "Use strong first 3 seconds rather than polished soft opening."
+        - "Use M01 새얀 as proposed solo root opener, then code-order paired lanes."
+      source_links_seed:
+        - REF_SONG_BABYMONSTER_CHOOM
+        - REF_SONG_IVE_REVIVE_PLUS
+        - REF_SONG_HEARTS_CHASE
+        - REF_SONG_COMPRESSED_90S
+        - REF_MEDIA_NARRATIVE_KPOP_DH
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_MEDIA_NARRATIVE_MEMBER_ATLAS
+        - REF_MEDIA_NARRATIVE_CROP_PAIR
+        - REF_FASHION_SS26_UTILITY_TRENCH
+        - REF_IDOL_FULL_CODE_STACK
+      open_questions_seed:
+        - "Confirm final title typography for FULL CODE / ROOT SIGNAL."
+        - "Confirm M01 새얀 solo opener before 00 lock."
+  - route_id: R05
+    route_name: BAND COMMIT
+    recommendation_message: "데이식스/QWER 계열을 우리 보컬유닛으로 가져오는 route. 밴드 흉내가 아니라 '불협 속에서도 내 편이라는 박자를 커밋한다'는 라이브 보컬 메시지로 간다."
+    recommended_unit:
+      unit_code: BAND_PORT_05
+      unit_purpose: "Band-pop vocal line, live-vocal lift, youth release, and emotional hook drive."
+      member_codes:
+        - M01
+        - M03
+        - M04
+        - M05
+        - M09
+      center_roles:
+        first_signal: M01
+        rhythm_anchor: M03
+        emotional_bridge: M04
+        vocal_lift: M05
+        hook_drive: M09
+      unit_fit_reason: "BAND_PORT_05 gives the route live-vocal lift, Yeul's rhythm anchor, emotional bridge, and hook memory without literal instrument roleplay."
+      unit_risk: "Overlaps CACHE_LOOP_05 by membership; keep it distinct through guitar-driven band-pop arrangement and live-vocal staging."
+    member_focus:
+      - M01
+      - M03
+      - M04
+      - M05
+      - M09
+    source_ref_ids:
+      - REF_SONG_DAY6_DECADE
+      - REF_SONG_QWER_SIDE
+      - REF_SONG_PREHOOK_ENGINE
+      - REF_MEDIA_NARRATIVE_LOOK_BACK
+      - REF_MEDIA_NARRATIVE_FLOW_TEAM
+      - REF_MEDIA_NARRATIVE_CROP_PAIR
+      - REF_MEDIA_NARRATIVE_MEMBER_ATLAS
+      - REF_FASHION_SS26_SCARF_DRESSING
+      - REF_FASHION_SS26_UTILITY_TRENCH
+      - REF_IDOL_BAND_PORT_STACK
+    lane_ref_ids:
+      song:
+        - REF_SONG_DAY6_DECADE
+        - REF_SONG_QWER_SIDE
+        - REF_SONG_PREHOOK_ENGINE
+      media_narrative:
+        - REF_MEDIA_NARRATIVE_LOOK_BACK
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_MEDIA_NARRATIVE_CROP_PAIR
+        - REF_MEDIA_NARRATIVE_MEMBER_ATLAS
+      fashion:
+        - REF_FASHION_SS26_SCARF_DRESSING
+        - REF_FASHION_SS26_UTILITY_TRENCH
+      idol:
+        - REF_IDOL_BAND_PORT_STACK
+    combined_signal: "DAY6의 durable band-pop 구조, QWER의 dissonance/friendship promise message, Look Back의 creative collaboration, Flow의 difference-to-team, scarf/trench handoff styling, BAND_PORT_05의 live-vocal stack을 묶어 '불협 속에서도 내 편이라는 박자를 커밋한다'는 route로 만든다."
+    tone_mood_message_unity:
+      tone_and_manner: "Earnest, live, clear, youthful, and emotionally direct."
+      mood: "A rehearsal that becomes a promise when everyone lands on the same downbeat."
+      message: "불협이어도 같은 박자를 선택하면 우리는 서로의 편이 된다."
+      unity_reason: "Band-pop references, creative pact narrative, team survival function, and BAND_PORT_05's vocal roles all point to live commitment."
+      mismatch_watch: "Avoid literal band cosplay or instrument assignments unless later selected by founder."
+    possible_message: "불협이어도 같은 박자를 선택하면 우리는 서로의 편이 된다."
+    song_emotion: "Guitar-driven pop-rock or band-pop with bright pre-hook, M03 rhythm rap-vocal pulse, M05 lift, and M09 shoutable hook."
+    choreography_hook: "Downbeat commit step, mic-pass scarf handoff, M03 rhythm pulse, then five members land one stomp-clap without becoming a band cosplay."
+    performance_image: "Live vocal front line with compact movement, rehearsal-room emotion, and a final together-hit."
+    mv_image: "Dock-stage or rehearsal room, cable/light lines as visual rhythm, trench/scarf accessory motion, warm practical lighting."
+    why_aurora_m_can_own_it: "The unit already contains first signal, rhythm anchor, bridge, lift, and hook drive, so the band-pop feeling can be followed as idol performance when selected."
+    risk_or_gap: "Needs strong arrangement decision in 00; if too soft it overlaps CACHE PACT, and if QWER is selected as the standard the packet must name the QWER surface being followed."
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: BAND COMMIT
+      goal: "Build a 90s band-pop master where live-vocal commitment becomes the hook."
+      thesis:
+        message: "AURORA-M chooses the same beat even when the world sounds dissonant."
+        one_line: "We commit on the downbeat."
+        audience_feel: "The viewer hears a promise become physical when the unit lands together."
+        hook_moment: "Downbeat commit step into scarf/mic-pass handoff and five-member stomp-clap."
+      founder_input_seed:
+        song_seed: "Band-pop with guitar pulse, bright pre-hook, rhythm rap-vocal undercurrent, vocal lift, and shoutable final hook."
+        style_mood_seed: "Rehearsal room or dock-stage, utility outerwear, scarf/strap handoff, warm practical lighting."
+        must_keep: "Live vocal feel, M03 rhythm anchor, M05 lift, M09 hook drive."
+        avoid: "Unselected literal instrument cosplay, static vocal standing, medieval/fantasy styling; if QWER is selected, name the exact QWER performance surface to follow."
+        open_decisions:
+          - "Should this lean DAY6 emotional scale or QWER bright promise?"
+          - "Should the hook be stomp-clap, mic-pass, or scarf handoff?"
+      asset_alignment_seed:
+        selected_unit: BAND_PORT_05
+        selected_members:
+          - M01
+          - M03
+          - M04
+          - M05
+          - M09
+        identity_constraints: "Preserve M01 first signal, M03 rhythm rap-vocal anchor, M04 emotional bridge, M05 vocal lift, and M09 hook drive."
+      song_structure_seed:
+        duration_target: "90s"
+        sections:
+          - tuning_signal
+          - rhythm_rehearsal
+          - promise_pre_hook
+          - commit_chorus
+          - downbeat_body_phrase
+          - quiet_bridge
+          - final_together_hit
+          - live_tag
+        vocal_direction: "M01 signal, M03 rhythm pulse, M04 bridge, M05 lift, M09 shoutable hook."
+        energy_curve: "Rehearsal start -> pulse build -> promise lift -> live chorus -> quiet bridge -> final together hit."
+      choreography_seed:
+        choreography_core: "Downbeat commit step, scarf/mic-pass handoff, stomp-clap final."
+        performance_language: "Live-vocal faces, compact steps, shared weight, handoff instead of instrument mime."
+        readability_priority:
+          - face
+          - downbeat_step
+          - handoff
+          - stomp_clap
+          - together_hit
+      visual_world_seed:
+        mv_world: "Contemporary rehearsal room and dock-stage with practical light lines."
+        camera_language: "Vocal close-ups, moving handoff, stable together-hit, final live tag."
+        edit_language: "Longer vocal holds and clean cuts on downbeat landings."
+      generation_plan_seed:
+        raw_attempt_target: 24
+        raw_attempt_ceiling: 40
+        selected_clip_target: 10
+        final_edit_clip_target: 6
+        primary_engine: "TBD after founder approval"
+      derivative_plan_seed:
+        - "15s downbeat-commit hook."
+        - "45s rehearsal-to-final-together-hit cutdown."
+      founder_locks_seed:
+        - "Confirm BAND_PORT_05 as selected unit if chosen."
+        - "Confirm whether arrangement should be pop-rock, band-pop, or guitar-dance hybrid."
+      source_links_seed:
+        - REF_SONG_DAY6_DECADE
+        - REF_SONG_QWER_SIDE
+        - REF_MEDIA_NARRATIVE_LOOK_BACK
+        - REF_MEDIA_NARRATIVE_FLOW_TEAM
+        - REF_FASHION_SS26_SCARF_DRESSING
+        - REF_IDOL_BAND_PORT_STACK
+      open_questions_seed:
+        - "How literal should the live-vocal staging be?"
+        - "Should this be the emotional candidate or the youth-release candidate?"
+founder_decision_needed:
+  - "Select one route."
+  - "Combine routes."
+  - "Request another radar pass."
+  - "Archive this brief."
+automation_notes: "Current-run public web research was rechecked on 2026-05-24 KST against active monthly and SS26 fashion records, active unit/member/voice assets, and the message-hook bank. This artifact stays as a compact PRE-00 founder-review brief only; it must not create or overwrite 00-creative-nucleus.yaml before founder selection. Message-hook combinations for this pass are mirrored in creative-bank/message-hooks/idea-vault/2026-05-24-pre00-message-hook-combinations.yaml."

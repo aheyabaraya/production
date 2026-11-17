@@ -1,0 +1,843 @@
+{
+  "schema_version": "idol-role-context-pack.v1",
+  "status": "pass",
+  "authority": "derived_read_only_no_creative_or_promotion_authority",
+  "pack_id": "ROLE_CONTEXT_S01_DECISION_SET_PLANNING_CDD_P3_CI_P3_SECTION_KINETIC_ARCHITECTURE",
+  "activation_binding": {
+    "writer": "graph_v2",
+    "run_class": "new_run",
+    "switch_receipt": {
+      "founder_authority": "founder",
+      "graph_revision": "idol-graph-skill-load-profiles.v1",
+      "receipt_id": "GRAPH_SWITCH_CONTEXTUAL_JUDGMENT_FIXTURE_001",
+      "source_set_sha256": "aa4a7eeea6af2861a0ca72948995e1c856234172e0f7ba67622ce1b725d78c82",
+      "switch_boundary": "new_runs_only_after_verified_receipt",
+      "verified_at": "2026-09-03T00:00:00+09:00"
+    }
+  },
+  "source_envelope": {
+    "kind": "department_dispatch",
+    "path": "work/evidence/contextual-launch-dispatch.yaml",
+    "sha256": "e8edefb1c70f753433b6828527f62cb781f97af01188b77fd2e9175b33d5a881"
+  },
+  "identity": {
+    "run_root": "runs/fixture-title/fixture-album/FIXTURE_RUN",
+    "assignment_id": "s01_decision_set",
+    "role": "planning_cdd_p3_ci",
+    "profile_id": "planning_cdd_p3_ci",
+    "checkpoint_id": "p3_section_kinetic_architecture",
+    "stage_id": "front_planning_integration",
+    "section_ids": [
+      "S01",
+      "S02",
+      "S03"
+    ]
+  },
+  "unload_after": "p1_integration_return",
+  "current_node": {
+    "state": "launched",
+    "legal_next": [
+      "returned",
+      "hold"
+    ],
+    "scope": {
+      "stage_id": "front_planning_integration",
+      "section_ids": [
+        "S01",
+        "S02",
+        "S03"
+      ]
+    },
+    "non_scope": [
+
+    ],
+    "stop_conditions": [
+      "stale_bound_source"
+    ],
+    "return_recipient": {
+      "owner": "planning_cdd_p1",
+      "role": "planning_cdd_p1",
+      "return_route": "planning_cdd_p1_exact_link"
+    }
+  },
+  "authority_binding": {
+    "assigned_owner": "planning_cdd_p3_ci",
+    "promotion_owner": "overall_director"
+  },
+  "founder_context": {
+    "decision_epoch": "unbound",
+    "locks": [
+
+    ]
+  },
+  "creative_source_pointers": [
+
+  ],
+  "dependency_edges": [
+    {
+      "edge_type": "authority",
+      "from": "planning_cdd_p3_ci",
+      "to": "s01_decision_set",
+      "invalidation_scope": "exact_assignment_only"
+    },
+    {
+      "edge_type": "review",
+      "from": "s01_decision_set",
+      "to": "planning_cdd_p1",
+      "invalidation_scope": "exact_return_bytes_and_governing_inputs"
+    },
+    {
+      "edge_type": "provider",
+      "from": "grok_director_frontier",
+      "to": "s01_decision_set",
+      "invalidation_scope": "assignments_resolved_to_this_provider_snapshot_only"
+    }
+  ],
+  "instruction_slices": [
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Admission"
+      },
+      "fragment_sha256": "09adb89c637d165aa7d1f16be605f5ad132e189c5625afea6d00a5d9b45604ce",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Admission\n\nRequire:\n\n- exact run, Founder epoch, active storyline/audio heads, and planning\n  checkpoint;\n- one `planning_cdd_mode` and its unique graph lane id;\n- exact writable Decision Set paths and read-only cross-lane inputs;\n- a `frontier_director` provider receipt with no fallback;\n- Department Dispatch, native Goal, Role Context Pack, input digest, output\n  manifest, return recipient, and stop conditions;\n- physical generation `primary` or `successor`, never a third lane session;\n- proof that no other active owner writes the same planning fields.\n\nP3 additionally requires selected audio, a provisional section boundary map,\nand one exact `planning_section_cohort_id` covering 2--3 contiguous sections,\nexcept one explicit singleton when the whole title has only one section. Do\nnot launch P3 early to fill capacity. Hold on missing, stale, overlapping, or\nmultiply owned inputs.\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Shared Workflow"
+      },
+      "fragment_sha256": "4923a8476028aab9dd6174d3bcd72239e1fec71b75060d9c0fdbcef942f2c2e1",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Shared Workflow\n\n1. Restate the named planning gap and observable screen consequence.\n2. Dispatch only disjoint `research_medium` or `worker_high` packages needed to\n   close it. Provider capacity is a ceiling; lane backpressure stops launches.\n3. Review exact evidence, not worker self-scores or schema presence.\n4. Author one lane-owned Decision Set with preserved truth, changed truth,\n   evidence pointers, alternatives, risks, invalidations, and next legal action.\n5. Grade applicable criteria on the 0--4 Director scale in\n   `policies/section-production-front-planning.md`. Scripts may not invent a\n   grade. An average, total, or schema PASS is not admission.\n6. P2 and every P3-Ci return the reviewed Decision Set only to P1 through the\n   exact-link route. P1 alone returns the integrated Planning Cell milestone to\n   Overall. A cross-lane conflict travels inside the P1-bound Decision Set as a\n   compact conflict capsule; it is not a second P3-to-Overall return route.\n\nP1 is the only planning integration writer. It exact-links P2/P3-Ci reviewed\nDecision Sets and may add connective planning prose in its own scope. It may\nnot silently paraphrase, erase, or reverse their decisions. A material conflict\nbecomes a compact conflict capsule for Overall.\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Disjoint Decision Sets"
+      },
+      "fragment_sha256": "ecb0006f10e4fc1bc665988f6f06a2c17d1cac5ebab7baec0f2d3b1f23882a92",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Disjoint Decision Sets\n\nWrite only the fields named by the active mode. P1, P2, and each P3-Ci never\nco-author the same planning field.\n\n| mode | unique write scope | must not write |\n|---|---|---|\n| P1 | PRE-FP lock projection, storyline descendants, message progression, song/screen reward, route recommendation, exact-link integration | visual/reference dispositions, section/Major/Sequence/Core topology, still-camera authorship, kinetic structure |\n| P2 | source eligibility, four-role reference dispositions, identity/world/look/composition evidence, motion-evidence coverage, transfer boundaries | storyline original/descendants, section roster topology, G-40 handoff prose |\n| P3-Ci | that cohort's section jobs, Major/Sequence/Core marks, still camera/composition, 2--3 second kinetic tendency, motion readiness, Draft Keyframe Proof requirements | another cohort's sections, P2 source dispositions, P1 storyline root, 02B pixels, 03V temporal motion |\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Contextual 0--4 Grades"
+      },
+      "fragment_sha256": "c70e4d71898d48c51caa788284b3d08b5d4b2cfbf2cfa1faf3747084ab541bb0",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Contextual 0--4 Grades\n\nCo-load `idol-contextual-creative-judgment` and apply only the exact\n`judgment_profile_id` in the Role Context Pack. In Graph v2, the common prose\njudgment is the only newly authored score artifact. It records observable\nconsequence, preserve/change/do-not-infer, correction, acceptance evidence, and\nthe next legal edge. The older planning vector remains parse-only legacy-pinned\nevidence and must not be co-authored for the same Graph judgment.\n\nAssigned Directors grade actual media and named context. Meanings:\n\n| grade | meaning | allowed state |\n|---:|---|---|\n| 4 | can govern the main judgment; actual screen evidence is sufficient | promotion eligibility only |\n| 3 | strong, but needs combination or a small correction | internal combine/correct |\n| 2 | valid comparison evidence, too weak as a production input | held evidence only |\n| 1 | low value in the current work | reject |\n| 0 | collides with a PRE-FP lock, source, identity, or execution condition | hard reject/hold |\n\nPromoted items require grade 3 or higher on every required criterion named by\nthe checkpoint and grade 4 on both motion and still-camera/composition for every\nmaterial Major. Record stage-appropriate criteria in\n`idol_graph_contextual_judgment.v1`; never reuse a planning profile as the\ngenerated Production-Cut pixel or playback profile. A grade is not\nautomatic PASS. Local, Pairwise, and Overall Global review of exact bytes remain\nmandatory. Optional criteria stay `not_applicable` with a reason; do not invent\ndummy references to fill them. Performance readability is graded only when\n`performance_mode` is `supporting` or `primary`. Target empathy and message are\nPRE-FP locks, not repeated downstream scores.\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Graph Contract"
+      },
+      "fragment_sha256": "f87a239314930ce62ae3d0d3201b3a832661207574c41f142f1edaf6929b668a",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Graph Contract\n\nEmit typed node and edge evidence rather than a second creative artifact:\n\n- node identity, mode, owner, provider session, Goal, checkpoint, and state;\n- `owns`, `dispatches`, `returns_to`, `reviews`, `derives_from`, `supports`,\n  `contrasts`, `transforms`, `invalidates`, and `requires` edges as applicable;\n- exact input/result digests and output hashes;\n- `proposed`, `running`, `returned`, `reviewed`, `promoted`, `hold`,\n  `invalidated`, or `retired` state.\n\nScripts may validate this topology and provenance. They may not invent a story,\nreference function, screen consequence, grade, conflict resolution, Founder\nlock, or creative PASS.\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Succession And Retirement"
+      },
+      "fragment_sha256": "1e26517c8ed84218db250d936f39e9b6ee4a78b3ba55c488a54fbcce1cb586c1",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Succession And Retirement\n\nEach logical lane permits one physical primary and one successor per stage.\nUse a compact successor pack and lane-local single-writer CAS. If the successor\ncannot close the checkpoint, narrow unowned worker scope or return HOLD; never\nspawn a third Planning CDD session automatically.\n\nAfter Founder G2, P1 alone exact-links the reviewed P2/P3-Ci Decision Sets and\nemits one hash-bound G-40 Planning Cell handoff. P1/P2/P3-Ci then become\nread-only rollback points. They do not write 02B pixels or 03V motion. Each\npost-G-40 Section-Cluster CDD exact-carries the same `section_cohort_id` into\nits disjoint 2--3-section cohort.\n\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "planning_cdd",
+      "binding_kind": "skill",
+      "path": "skills/idol-planning-cdd/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "334747fee036f35ac1937234c20ea874923d7394e220300889e17c8b6fd74a68",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Return"
+      },
+      "fragment_sha256": "227076d7fe87759c15c29734deefa042a14c17de02e8bd7c3fd0cc1bb6dfbc12",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Return\n\nReturn a compact lane manifest containing:\n\n- lane/mode, checkpoint, physical generation, provider receipt, and state;\n- reviewed Decision Set pointers and hashes;\n- 0--4 grades with evidence locators, N/A reasons, and no aggregate score;\n- evidence and actual media locators needed to inspect the decision;\n- cross-lane dependencies, conflicts, holds, and invalidated descendants;\n- integration status, recipient, and next legal action.\n\nFor P2/P3-Ci the recipient is always `planning_cdd_p1` through\n`planning_cdd_p1_exact_link`. Only P1 may name Overall as the Planning Cell\nreturn recipient after exact-link integration.\n\nExclude raw candidate pools, full URL lists, worker transcripts, superseded\nprose, and unrelated lanes. A structural PASS is never creative PASS.\n",
+      "selection_reason": "Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Purpose"
+      },
+      "fragment_sha256": "93f0b46da79062eacdd74cc40326802b04c3c11213bed44387acfd09ed3afba2",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Purpose\n\nThis is a co-loaded Graph Engineering judgment skill. It does not create a\nstandalone reviewer, replace the owning creative skill, or grant promotion\nauthority. Apply only the exact `judgment_profile_id` projected into the\ncurrent Role Context Pack and only to the hash-bound artifacts named there.\nAuthor the result as `schemas/graph-contextual-judgment.schema.json` and run\n`scripts/validate_graph_contextual_judgment.rb` before returning it.\nThe artifact exact-binds the originating Dispatch, native Goal event, stage-local\nRole Context Pack, evaluated output manifest, author session, and profile-value\nhash. A reviewed Dispatch points to the validated artifact; a prose score copied\ninto a report is not a Graph judgment.\nTo avoid a circular content hash, `execution_binding.dispatch` points to the\nimmutable returned Dispatch snapshot that predates the judgment. The later\nreviewed Dispatch snapshot may point forward to the judgment; neither file is\nrewritten in place.\n\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Scale"
+      },
+      "fragment_sha256": "14a553ba074e92b92a79b8196a6c6d40f584e3bfdbad807dcdc8216b24e39342",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Scale\n\n- `4`: governing evidence for this scope; the criterion is production-ready.\n- `3`: strong usable evidence; combine or make only a bounded correction.\n- `2`: comparison evidence only; material correction is required before use.\n- `1`: reject for the current work; the proposed transfer would weaken it.\n- `0`: hard collision with a lock, identity, source, feasibility, or screen job.\n\nNever total, average, weight, rank, or convert the vector to a percentage.\nScripts validate range, provenance, profile completeness, and graph routing;\nonly the assigned human or model authors the grade and prose judgment.\n\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Prose Evidence Per Criterion"
+      },
+      "fragment_sha256": "be19dea7dddb54890d57e2059919acd86746ca1df0c3b0366e96fe43045435a9",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Prose Evidence Per Criterion\n\nFor every applicable criterion write all of:\n\n1. exact evidence locator;\n2. observable claim;\n3. screen or playback consequence;\n4. what must be preserved;\n5. what must change;\n6. what must not be inferred;\n7. correction action;\n8. acceptance evidence that would close the correction.\n\nUse an explicit `not_applicable` row only when the bound profile permits it and\ngive the exact scope reason. Performance readability remains in the exact\nvector as `not_applicable` when the title has no performance job; it is numeric\nwhen performance is supporting or primary.\n\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Stage Boundaries"
+      },
+      "fragment_sha256": "afa88fe6fcb26c22252e1746db614378a8484afb64ca46e8e6864998ad078a9b",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Stage Boundaries\n\nPRE-FP judges and locks target empathy, audience promise, message progression,\nand the complete opening-to-ending storyline. Later stages do not rescore\nthose locks; they report exact lock violations or observable realization.\n\nReference work judges decision-ready candidates before selection. Preserve the\nwiki reference-function chain from interpretation receipt through Front\nPlanning, 01/02A application, and the 02B role plan. `media_type` describes how\nevidence is inspected; it never replaces `function`. Motion is mandatory for\nevery material Major. Character visual, scene visual package, motion reference,\nand optional prop reference remain the only active roles. A scene visual\npackage may compile world/look/light with still composition, but each function\nis judged separately and their synthesis collision is judged before compile.\n\nThe existing `fp_hero_core` remains the Draft Keyframe Proof surface. 02B\njudges actual generated pixels. 03V and 04 judge actual playback. Planning,\npixel, playback, and edit criteria are not silently reused across stages.\n\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Decision And Graph Edge"
+      },
+      "fragment_sha256": "aa78bdda6a2dfaf3033583b71a833939556c410ae80a0fa1d15bd370fc283a59",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Decision And Graph Edge\n\n`eligible_for_director_review` requires every applicable criterion at or above\nits profile floor and every named critical criterion at `4`. It means only that\nthe owning Director may review the exact bytes. It is never creative PASS.\n\n- `combine_or_correct` -> `revise_same_owner` for a bounded same-scope change.\n- `hold` -> `return_to_smallest_owner` for missing or stale truth/evidence.\n- `reject` -> `stop` for the candidate or route, preserving the rejection reason.\n- `eligible_for_director_review` -> `director_review`.\n\nThe Director independently checks exact bytes and either promotes, returns a\nbounded correction, or holds. The legal chain is output `judged_by` contextual\njudgment `selects_next` Director review, followed by the Director's `promotes`\nedge to those same bytes. Founder gates remain separate.\n\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "contextual_creative_judgment",
+      "binding_kind": "skill",
+      "path": "skills/idol-contextual-creative-judgment/SKILL.md",
+      "revision": "1",
+      "whole_file_sha256": "99fd6295ec9f4dd79199805cf2ca18b8da70220f2dd30d5b0f934cf2612b4d9a",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Hard Boundaries"
+      },
+      "fragment_sha256": "c61d5a4a5ffa07fa5bb0e273cbfb1c63b06c1e032c18c94e883c1cfb62078d1a",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Hard Boundaries\n\n- A hard-gate finding cannot be averaged away.\n- A hard gate or grade `0` routes to `hold`; grade `1` routes to `reject`.\n  Grade `2` or another below-floor result routes to bounded correction or hold.\n- A source URL is not required in the Role Context Pack. Preserve source id,\n  locator, local path, and SHA-256; recover the URL only from intake lineage.\n- Do not infer creative truth from schema validity, provider success, or file\n  existence.\n- Do not repeat target/message scoring downstream of PRE-FP.\n- Do not allow a low candidate score to mutate the selected storyline or lock.\n- Do not create a new `02A Draft` artifact type.\n",
+      "selection_reason": "Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria."
+    },
+    {
+      "binding_id": "agents",
+      "binding_kind": "linked_read",
+      "path": "AGENTS.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "363145beeff89279f6c18093a6f686a0a30f94f2c0ce2883a1968f899c2b1853",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Always-on authority is a hash-bound pointer; the kernel already carries one-writer and no-fallback invariants."
+    },
+    {
+      "binding_id": "production_system",
+      "binding_kind": "linked_read",
+      "path": "wiki/production-system.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "05f8b11cc1a26e7e5e6177539605814dc2e2aa693a0285031738318ad626c1aa",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Active Route"
+      },
+      "fragment_sha256": "3b0c9d3ccc3e923887d9f305866a9434729a4577f1a62c2ce6ee2961b0d69b43",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Active Route\n\nThe Graph v2 branch below is the verified-switch target; legacy-pinned authoring\nremains the active writer until that switch.\n\n```text\nFounder G0 input\n-> one logical Overall Director lineage\n-> PRE-00 audience + trend evidence -> Founder target/promise/message lock\n   -> immutable full natural-language MV storyline original + append-only\n      full-text revisions/reference receipts -> v3 exact-copy handoff\n-> Planning CDD Cell until G-40: P1 Story/Audience, P2 Visual/Reference,\n   P3-C1..Cn Section/Kinetic (one contiguous 2--3-section cohort each)\n   -> one Founder-visible Song Room under the Planning Cell -> selected audio\n      -> audio-motion map -> 00A\n-> whole-work Section Dispatch Map\n   -> only disjoint video/still/Pinterest assignments needed for named gaps\n      (provider-native helpers stay inside the parent Work Package; media/long\n       context/independent outputs may start in a physical session)\n   -> conditional current-title Member Visual Identity room when a card is missing/new/restyled\n   -> disjoint bounded pre-02A development blocks under backpressure\n-> Front Planning + 01R / optional 01R-C\n   -> exactly FP-A/B/C + MJxx Major Stacks + 2--4 Sequence/Core candidates\n   -> exact Core reference coverage + representative/risk Hero proof -> G-30\n   -> Founder G1 planning route\n-> 01 one-image Official Cores -> 02A imported-Core Branch-only plan\n   -> 02A Draft Keyframe Proof + audio hard-cut animatic -> Founder G2 -> G-40\n-> Planning Cell read-only handoff; exact P3 section_cohort_id carried into V-C1..V-Cn\n-> roster-derived Section-Cluster CDDs; partitions 2 or 3 only\n   (4=2+2, 5=2+3, 7=2+2+3, 8=2+3+3, 9=3+3+3; singleton only for one-section titles)\n-> fresh exact-one-section lineage: provider-neutral 02B/Cut image -> G-50\n   -> provider omitted: current Grok session `image_gen`/`image_edit` on the\n      Grok CLI Section owner; Cursor Luna image is explicit-only and opens\n      only when the Founder names it, then transfers through the registered\n      Luna-to-Grok CAS after pixel review; explicit APIs remain separate\n      and never fallback\n   -> same-cohort 03V successor: placement -> Core/Branch Motion Storyboard\n      -> 480/720 playback -> that Section-Cluster CDD\n-> Overall cross-cohort whole-film review\n-> fresh Founder-visible Edit Director -> disjoint Edit shards when needed -> 04 merge/QC\n-> Founder G3 reviewed section playback\n-> mandatory 04FX transition-opportunity audit (may close `complete_no_fx_needed`)\n-> 05 master/release package -> Founder G4\n```\n\nThere is no active 00, 01A, or 02 creative artifact. Build one coherent\nfull-song MV graph first. Every material Major requires real contiguous\nmotion evidence. Active reference roles are at most `character_visual`,\n`scene_visual_package`, `motion_reference`, and optional `prop_reference`.\nRecover a bound unit by `source_id` → locator → function/role → disposition\n(`applied` / `combined` / `held` / `rejected`) → section/Major/Core binding →\n02A Branch / 02B packet / 03V motion storyboard, using `source_id`, locator,\nand SHA-256. Wiki is a routing summary, not a second media library; default\npacks and this page exclude raw URL lists. A Founder-selected coherent teaser may enter physical\nproduction before held full-MV scope, but the two states remain independent and\nreuse the same lineage. Publishing, platform upload, analytics,\nand memory promotion are separate post-05 operations routed to\n`wiki/social-automation-system.md`. Studio dashboard and secretary work\n(Notion, Drive `IDOL_STUDIO`, Grok Bot, Slack) routes to\n`wiki/idol-studio-ops.md` and is never ordinary MV load. CF-code is isolated under `cf/`; read\n`cf/AGENTS.md` before CF work and never load CF detail for an ordinary MV.\nNo Major Scene, Core Cut, 02A, or other mid-pipeline videoization route exists;\nmotion execution remains behind the post-02A image pass and 03V.\n\n",
+      "selection_reason": "The pack already carries role and stage ownership; runtime receives only the active route, four-role lineage inside Active Route, Dispatch/review flow, and Founder gate map."
+    },
+    {
+      "binding_id": "production_system",
+      "binding_kind": "linked_read",
+      "path": "wiki/production-system.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "05f8b11cc1a26e7e5e6177539605814dc2e2aa693a0285031738318ad626c1aa",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Dispatch, Context, Review, And Revision"
+      },
+      "fragment_sha256": "914bcdb7197a33df783455a7dd0c4462544449cc3cd9f2dc25baf62b58f34135",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Dispatch, Context, Review, And Revision\n\nEvery delegated task binds the Department Dispatch Contract, exact skills and\nlinked EOF reads as a mechanically validated dependency inventory, Founder\nepoch/locks, input digest, owner/write scope,\npermissions, output paths, stop conditions, and return recipient. Overall owns\nthe whole-stage route from startup and assigns the one CDD room for each\nPlanning lane or section cohort its current\ncheckpoint; it does not replace that CDD each assignment. CDD/FP/02A multi-leaf\nparent-scoped helpers and the post-song reference worker fetch floor are in\n`automation/harness-execution-contract.yaml` `session_and_helper_operating_lock`.\nThat CDD owns the film (storyline, target, references, members,\nsection jobs) inside its lane or cohort through 03V and transmits the complete job. A worker receives\nthat job and does not load the whole graph-engineering route. Keep the whole-film route\nas film truth: Overall for stage legality, cross-cohort promotion, and\nwhole-video judgment; each CDD for the film inside its lane or cohort\nthrough 03V. The shared\nprovider-neutral Studio Kernel supplies the fixed twelve-block command and the\nselected profile/checkpoint; after native Goal admission, the deterministic\nprojector verifies the registered source closure to EOF and emits one exact\n`idol-role-context-pack.v1`. The receiver applies that pack plus the named\ncurrent creative sources. This replaces broad runtime instruction rereads and\ndoes not become an additional authority or prompt layer. The director authors\nthe Current Assignment Delta; repeated method is reused from the registered\nrecipe and not copied into a manual provider prompt.\n\nIf the current run has a valid v3 Founder-feedback sidecar, the same pack also\nprojects only the exact role/profile/stage/section-matching compact quality\npatterns. CDD/Overall/Edit receive the current-run review view; workers receive\ntheir exact section view. Each pattern carries a short reason, recurrence\ncount, bounded positive/avoid/action/review signals, and source sidecar digest,\nnever the raw Founder quote or transcript. This semantic edge helps the\nreceiver judge the current output but creates no lock, gate, automatic taste\nrule, or creative PASS.\n\nWhen physical Git isolation is useful, `wiki/artifact-management-system.md`\nprojects the same single-writer Dispatch as `main -> run integration -> bounded\nlane worktree`. A Git lane is optional transport, not a stage or creative\nbranch, and its accepted diff returns only to the named Director before the run\nintegration branch can reach `main`.\n\nCDD and workers wait for `final`, `hold`, `authority_request`, or `milestone`;\nthe wake payload is pointer-only (output/manifest, decision, risk, and hashes),\nnever raw commentary. `returned` is not PASS: CDD closes worker requirements against the pack, named\ncurrent-run sources, the same checkpoint closure cards, and the exact returned\nbytes; then Overall reviews the curated milestone and promotes sequentially. A\nmulti-file return exposes one aggregate manifest with exact child paths and\nSHA-256 values. Dispatch records stay at\n`RUN/work/department-dispatches/DISPATCH_ID.yaml`; outputs and manifests stay\ninside that same album/title/run, never a global `runs/workers` lane.\n\nA review cycle has at most three total submissions, including the initial\nreturn. `review_submission.submission_number` is separate from\n`lineage.attempt_number`, so normal checkpoint progression remains uncapped.\nAfter a non-accept review, the Director returns one complete correction unit\nwith all observed problems, exact invalidated output hashes, correction action,\nand acceptance criteria. Submission 2 or 3 opens a new immutable attempt and\nnative Goal for only those invalidated paths; unaffected outputs are\nhash-frozen. Thus one failed cut in a ten-cut return reopens only that cut. A\nthird submission may pass; otherwise it routes upstream or HOLD and cannot open\na fourth child submission. Session, provider, model, or Founder-epoch changes\ndo not reset the same work package. Unchanged input/result bytes and Founder\nepoch still reuse the same review receipt.\n\nThe three-submission limit applies to creative returns, not receipt repair.\nCorroborated hash-only drift closes through one run-local mechanical refresh\nreceipt, with no worker session, native Goal, semantic re-review, or submission\nincrement. A real input-byte change routes once to the original recipient\nDirector for an impact decision before any worker is reopened; changed output\nbytes remain a quality HOLD. This prevents one solved job from circulating\nbetween workers solely because a duplicate hash field disagrees. The aggregate\nreturn shows one transport-closure summary; raw receipts stay folded unless an\nunresolved error changes Director action.\n\nAll visual decisions use one cumulative `idol-html-review-board.v12` G-00--G-70\nlineage. Route a\nchange to the smallest owner—Front Planning for central locks, 01 for section\ndirection/Core, 02A for Branch/composition/binding, image packet for render wording,\nexact output for pixels, 03V for motion, and 04 for edit—and invalidate only\naffected descendants.\n\n",
+      "selection_reason": "The pack already carries role and stage ownership; runtime receives only the active route, four-role lineage inside Active Route, Dispatch/review flow, and Founder gate map."
+    },
+    {
+      "binding_id": "production_system",
+      "binding_kind": "linked_read",
+      "path": "wiki/production-system.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "05f8b11cc1a26e7e5e6177539605814dc2e2aa693a0285031738318ad626c1aa",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Founder Gates And Detail Sources"
+      },
+      "fragment_sha256": "e5374b9ad6718bb9936d94cb50df9aaa47c08117892a82327f0dcaa4b35eb9a3",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Founder Gates And Detail Sources\n\nNormal Founder creative gates are G0 direction, G1 planning, G2 draft keyframe\nplus audio animatic, G3 reviewed section playback, and G4 final master/release.\nFounder approval remains required for explicit creative locks, final\nPASS/HOLD/REJECT, paid generation, protected-output disposal, external\nmutation/upload, and public release. A worker, script, board, or derived pack\ncannot imply approval. Official/original source eligibility, restricted-edit\npermissions, media security, and smallest-owner rules live in the activated\npolicies.\n\nFor artifact versions, commands, closeout, context, resume, and failure\nhandling, load `production-system-detail.md`. Load these conditional sources\nonly when their trigger is active:\n\n- `policies/creative-production-constitution.md`: creative standards and\n  natural execution language;\n- `policies/harness-routing-and-sources.md`: sources, sessions, models, Grok,\n  context, and route ownership;\n- `policies/section-production.md`: section owner index and compact stage map;\n  load only the bound Front Planning, 01/02A, 02B/pixel, 03V, 04, or workbench\n  chapter for the current checkpoint;\n- `policies/repository-media-security.md`: media, secrets, and external work;\n- owning skill and schema: execution truth.\n",
+      "selection_reason": "The pack already carries role and stage ownership; runtime receives only the active route, four-role lineage inside Active Route, Dispatch/review flow, and Founder gate map."
+    },
+    {
+      "binding_id": "creative_constitution",
+      "binding_kind": "linked_read",
+      "path": "policies/creative-production-constitution.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "d5a2f985d9e65bee158b76ab38c542ac9f4e4d8612e6045920acf5011a3fe5ff",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Current-Run Creative Source Isolation"
+      },
+      "fragment_sha256": "c44d6e7cb2489ba032ea4c6cad75c2fe489cc1f82c64ecbd9c30b7b775a9341f",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "### Current-Run Creative Source Isolation\n\nPast-run artifacts, test fixtures, maintenance examples, and historical prompt\nor scene prose are not creative inputs for a new or resumed run. A prior run\nmay contribute a named failure mode, comparison question, or quality invariant\nonly after its distinctive nouns, actions, staging, camera route, composition,\nand prompt wording have been removed. Shared instructions may define decision\naxes, evidence requirements, transport structure, and stop conditions; they\nmust not contain a complete scene or prompt sentence offered as the default way\nto execute those axes.\n\n#### Non-Prescriptive Teaching Example Contract\n\nExcluding shared examples from execution context does not mean deleting them\nfrom skills. A complex creative skill must keep enough examples to show how to\napply its method. These are instructional patterns, not current-run creative\ntruth, and they cannot supply a scene value, prompt value, reference binding,\nor generation input.\n\nA compliant teaching example:\n\n- starts from an abstract Founder note or variable-bearing current-run input;\n- shows the decision axes and more than one materially different carrier or\n  route when explaining directing, camera, motion, or edit judgment;\n- makes the current song, section job, selected reference, title assets, or\n  passed pixels decide which route wins;\n- ends with a role-labelled or placeholder output pattern rather than a\n  complete reusable scene or prompt;\n- states that it is noncanonical and must not be copied into a run.\n\nFor example, a note such as `calm but heavy` should trigger a comparison:\nweight might be carried by restrained subject behavior, pressure or change in\nthe space/object system, a delayed relational consequence, or another route\nsupported by current evidence. Still-camera judgment then compares the\nfunctions the frame must serve—such as intimacy, isolation, obstruction,\nscale, or another reference-derived function—before the director authors the\nactual height, distance, angle, depth, placement, and crop for this section.\nThe teaching output is the pattern\n`current cue -> selected carrier -> observable change or hold -> selected\nstill-camera proof -> continuity consequence`, not a scene sentence.\n\nLikewise, `make it more dynamic` does not imply one camera move. After passed\npixels exist, 03V may test whether the subject, camera, environment, or an\nintentional hold carries the change, then author the exact direction, speed,\nenvelope, depth change, and stop from the current audio and images. No route in\nthis list is a default or quota.\n\nAdmit creative bytes only from the hash-bound current run, its current-title\nmember visuals, or selected source material that the current run has explicitly\ndispositioned. Another run's file must first enter the current run through a\nsource-preserving intake and receive a current function; a repository path,\nsimilar theme, prior success, test convenience, or maintenance history is never\nenough. Context builders and execution request builders must reject test paths,\nmaintenance surfaces, historical prose, and un-intaken files from another run.\n\nReference expansion must solve named screen gaps without flattening the video.\nFor story-led or previously uniform work, inspect the selected pool across story\nsituation, physical space/background, visible subject relation, body/action\nfamily, camera geometry/route, object/world system, and light/material behavior.\nA popular candidate does not count when it repeats the same room, similar people,\nsimilar action, and similar camera answer without a new section function. Seek a\nminimum sufficient diverse set and preserve one coherent target/message/world\nprogression across that variety. For new or materially resumed 01R, sufficiency\nis a contextual CDD judgment against named screen gaps, source-to-screen\ndifference, and actual reviewable visual evidence; a fixed unit,\nsource-identity, function, worker, or room count is never a discovery or\napplication quota. The exact-five one-second Sequence Unit, Core reference\ncoverage, Key Screen function-combination, and Pinterest FP-Close obligations\nremain separate named evidence contracts. Within the compared set, every unit closes as\n`applied`, `combined`, `held`, or `rejected` with a reason. A whole contact\nsheet is not a unit; one\nhash-bound selected cell/crop is one unit, and several cells that describe one\ncontiguous start-through-end event remain one sequence unit. Add or stop only\nwhen the named gap and comparison quality justify it; there is no minimum or\nmaximum discovery count.\n\nEvery selected reference component used in a Major or Key Screen is classified\nas `major_scene_grammar_or_feeling`, `background_and_space`,\n`still_camera_and_composition`, `lighting_color_material`,\n`subject_state_or_pose`, `visible_action_or_hold`,\n`object_environment_response`, or `edit_or_transition`. Its hash-bound analysis\nrecords the exact locator, observed fact, selected component, transfer boundary,\ndo-not-transfer rule, and downstream targets. Each material Core/Key Screen\nbinds exactly one selected primary reference or an exact Founder waiver;\nadditional support is allowed only for a named function that the primary does\nnot own. This is contextual component combination under current\nsong/member/title truth, not a fixed blend quota, vague reinterpretation, or\nwhole-source recreation. A Founder-selected\n`full_scene_direct` or `sequence_direct` source remains governing and cannot be\ndiluted by support functions.\nTarget-related reference expansion must also be audience-causal. Before song\ndirection, PRE-00 profiles the audience draw and rejection triggers of each\nmaterial audience, trend, song/artist, genre/subculture, visual-world, Founder,\nplatform, and market anchor, then drafts two to four typed connections: actual\naudience overlap, shared-reward adjacency, acquisition bridge, or surface-only\nsimilarity. Validate target, common response mechanism, and expected song and\nscreen reward with separate evidence and counterevidence. The Founder locks one\nprimary target only after PRE-00 states audience promise, familiar codes,\nnovelty/tension, content pillars, platform behavior, rejection triggers,\ndo-not-serve rules, current trend opportunity, durable signals,\nexpiry/volatility, evidence freshness, and a do-not-copy boundary. Surface\nsimilarity remains test-only or rejected; this is not permission to merge every\nfandom label.\n\nBefore the target lock, every connection shows one main music-video or other\nvisual reference plus one or two supporting references with exact source and\nlocator, target-response reason, distinct transfer function, and mismatch risk.\nThe main demonstrates the governing audience reward; support fills a separate\ngap. These are selection previews only and must be reinspected and dispositioned\nbefore any Front Planning section use.\n\nSong direction, selected-audio analysis, and Front Planning test fit against\nthat fixed target rather than silently replacing it. Front Planning turns the\nlock into observable screen consequences and derivative implications, then\nbuilds a whole-MV content-role plan from narrative,\ncharacter, relationship, world/system, action, object, space/image, camera,\nedit, and optional performance/choreography. Every supplemental search vector\nmust bind one selected audience connection, one source/reference anchor, one or\nmore content-role ids, one missing content job, one required observation, and\none rejection condition. A source that matches the surface but not the\naudience/content job does not close the gap. Performance is never the automatic\ncontent role merely because the work is an idol MV.\nWhen lyrics exist, carry both the whole lyric surface and the lyric function,\nbut do not make lyric text the default image-planning driver. Selected-audio and\nsection cues are the primary timing anchor; lyric cues are a secondary meaning\nguard unless the lyric line is the actual audible turn. Do not direct from\nfunction labels alone. 01, 02A, 02B, review text, and prompt packets must state\nthe primary audio/section cue and any lyric cue or no-lyric cue that prevents a\nwrong read, then show which visible action, gaze, rhythm, wardrobe motion,\ncamera, composition, and space/object reaction carry it.\nVisual polish, source-scene quality, or edit sync is not a substitute for\nmeaning delivery. If prior run evidence shows that a track worked because the\nmessage/empathy function was carried beat by beat, or felt weaker because the\nmeaning path was less readable, use that lesson when evaluating new\nreference-song fit, selected-audio analysis, 01 direction, and 02A review.\nKeep song-analysis lanes separate. `reference-song fit` analyzes outside\nreference songs before generation and belongs in `research/reference-song-fit-vN.*`.\n`selected-audio analysis` analyzes the actual Suno/manual/founder-returned\ncandidate take after it exists and belongs in\n`research/selected-audio-analysis-vN.*`. Do not use reference-song fit as a\nsubstitute for selected-audio analysis before 00A, Front Planning, 01, or 02A.\nThe selected-audio analysis is\nthe sole canonical read of the actual returned lyrics: retain its full-lyrics\nread and section map there, rather than creating a second lyrics-to-direction\nartifact. Meaning, audience receive, visible action, and banned misreads belong\nto the owning Front Planning, 01, and 02A decisions where they can be reviewed\nagainst the actual screen plan.\nFor video/MV-bound song production, selected-audio analysis alone is not enough\nfor downstream frame/cut authoring. After the latest selected-audio analysis,\ncreate or refresh\n`research/audio-motion-director-map-vN.yaml` before 00A, Front Planning, 01R,\n01, or 02A treats the song as production-ready. This map is the mandatory\naudio-timing evidence bridge: preserve selected audio/section cues, optional\nliteral original lyric text when its words must travel, backing\ndrum/percussion/bass triggers, high-transient grids, vocal holds, silence,\nmotif returns, texture-density changes, and the questions those facts leave for\nFront Planning. It must not author member, reference, scene, body action,\nchoreography, styling, still-camera geometry, temporal camera motion, branch-cut\ncount, prompt prose, or final edit timing. Do not call a video-bound\nselected-audio pass complete if it only has BPM, broad section labels,\nautomatic novelty boundaries, or a lyric summary.\nFor IDOL song/MV production, Front Planning must not lock its creative spine\nfrom message or visual concept alone. It needs concrete song support: selected\nor promising Founder-returned audio, a Founder-provided song/source anchor, or\nan explicit Founder-locked manual audio direction. When no song exists yet,\nstay in PRE-00/PRE-00S/Suno prompt exploration until a song source exists.\n\n",
+      "selection_reason": "Runtime roles receive current-source, observable-language, contextual-review, authorship, and asset rules."
+    },
+    {
+      "binding_id": "creative_constitution",
+      "binding_kind": "linked_read",
+      "path": "policies/creative-production-constitution.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "d5a2f985d9e65bee158b76ab38c542ac9f4e4d8612e6045920acf5011a3fe5ff",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Concrete Review And Prompt Language"
+      },
+      "fragment_sha256": "091c0fb93bf84dce7b92547f9c4e886412a57d189d9e37921b4be94071587443",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "### Concrete Review And Prompt Language\n\nFounder-facing review units, 02A storyboard text, 02B prompt packets, and\npost-review video prompts must be grounded in observable screen language. Do\nnot leave internal analysis terms, undefined music/film jargon, or\nimpressive-sounding mood phrases as the only thing the founder or generator must\ninterpret.\n\nDirectorial explanation and render/contract prose have different jobs:\n\n- Founder-facing directorial prose may open naturally with feeling, relationship,\n  dramatic purpose, or a question of taste. Pair it in the same review unit with\n  a separate screen-proof sentence or a clear pointer to the canonical fields;\n  do not force every conversational sentence to carry the full technical read.\n- 02A/02B/03V prompt prose and creative handoff fields are execution surfaces.\n  They must carry the observable detail needed to make or continue the work.\n- Automation status reports state, provenance, and gates. It must remain clear,\n  but it is not a substitute for, or a compressed version of, creative prose.\n\nFor this rule, creative operator-facing fields include Cursor/Grok handoff text\nand any field prose another agent must use to continue a creative decision.\n\n#### Natural Language, Creative Registers, And Prompt Translation\n\nApply the language standard across Korean, English, and other working\nlanguages. Conversation, explanation, analysis, review, and Founder-facing\nprose should sound like language a fluent speaker would plausibly use in the\nrelevant conversation, writers' room, music session, or directing meeting.\nPrefer clear subjects, ordinary verbs, and direct causal sentences over\nhabitual literal translation, inflated critical language, noun-heavy\nabstraction, or decorative personification. An artistic idea may be complex;\nits explanation should not sound obscure merely to sound cinematic.\n\nKeep the creative and execution registers distinct:\n\n- Lyrics, titles, hooks, slogans, and authored creative text may be abstract,\n  metaphorical, ambiguous, fragmented, contradictory, surreal, repetitive, or\n  driven by sound and image rather than literal explanation. Judge them by\n  intention, voice, sound, singability, internal imagery, emotional effect,\n  progression, and memory. Do not rewrite them into plain screen directions.\n- Story concepts may be poetic, associative, nonlinear, unresolved, or\n  intentionally withholding. A production handoff needs the state, event or\n  intentional hold, transition, and consequence required to continue the work,\n  but it must not force every story into literal cause-and-effect or explain\n  away a selected ambiguity.\n- Image, video, storyboard, and edit prompts may retain a short abstract intent,\n  but must pair it with the visible conditions the surface can execute. For\n  example, \"the subject feels spatial pressure\" is not sufficient by itself;\n  name the wall or object spacing, subject placement, foreground occlusion,\n  depth, lens or shot scale, crop, light boundary, and movement or hold that\n  make the pressure visible.\n- Music and style prompts may use an abstract feeling when it is useful, but\n  pair it with the audible behavior that should produce it: rhythm, density,\n  register, harmony, vocal distance, texture, silence, transition, or dynamic\n  change. A lyric-writing prompt may deliberately request abstraction or\n  ambiguity and does not need to convert each lyric image into a literal event.\n\nDo not mechanically blacklist abstract words. Revise them when they conceal a\nmissing decision, create unnatural phrasing in the active language, could be\ncopied unchanged into unrelated work, or add an appearance of depth without\nadding meaning. When translating a lyric, metaphor, or poetic story into\nproduction direction, preserve the source meaning and add only the execution\ninformation needed by that downstream surface. Schema and enum identifiers may\nretain compact transport shorthand. Treat those tokens as transport labels only;\nFounder-facing prose and generator prompts must restate the actual audible or\nvisible behavior in natural language.\n\n",
+      "selection_reason": "Runtime roles receive current-source, observable-language, contextual-review, authorship, and asset rules."
+    },
+    {
+      "binding_id": "creative_constitution",
+      "binding_kind": "linked_read",
+      "path": "policies/creative-production-constitution.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "d5a2f985d9e65bee158b76ab38c542ac9f4e4d8612e6045920acf5011a3fe5ff",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Contextual Creative Review Authority"
+      },
+      "fragment_sha256": "aadc79d79b1173402029f2cee5694024c6d59eaff9644c668d5bbede92a577f6",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "### Contextual Creative Review Authority\n\nStory, directing, planning, camera progression, Core-Cut/Branch-Cut event ownership,\nreference application, repetition, reprise, visual richness, and plausibility\nare contextual creative judgments. A deterministic rule may validate schema,\ntypes, enums, ids, hashes, exact-copy transfer, source coverage, output\nownership, and approval state, but it must not pass, fail, rank, or rewrite\ncreative work from repeated words, camera tuples, prompt hashes, semantic\nsimilarity, reference frequency, section length, or space/action signatures.\n\n",
+      "selection_reason": "Runtime roles receive current-source, observable-language, contextual-review, authorship, and asset rules."
+    },
+    {
+      "binding_id": "creative_constitution",
+      "binding_kind": "linked_read",
+      "path": "policies/creative-production-constitution.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "d5a2f985d9e65bee158b76ab38c542ac9f4e4d8612e6045920acf5011a3fe5ff",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Authoring Method Versus Transport Contract"
+      },
+      "fragment_sha256": "68e7c82c7a5eab01f72e358c5d506143cf7db00901d808b1efd532143b0cf6e0",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "### Authoring Method Versus Transport Contract\n\nSkills and linked creative modules own authoring method: the questions a\ndirector asks, the alternatives worth considering, and the contextual judgment\nthat makes a scene, relationship, camera route, reference use, or Core-Cut/Branch-Cut\nsplit convincing. A schema may carry selected creative truth so another stage\ncan receive it. The active exactly-three FP routes and 2--4 decision candidates\nare transport-completeness floors for a reviewable comparison, not a machine\nquality score or command to generate every Cartesian combination. Other fixed\nalternative counts, camera-vocabulary pools,\nbody-part checklists, prompt labels, repeated keywords, and prose shapes must\nnot become creative-readiness conditions. Optional vocabularies stay optional\neven when they are structured.\n\nSeparate creative values from transport categories. Cut roles, layout families,\nshot scope/crop, camera position and route, subject direction, head/gaze\nrelation, occlusion, action, and composition are scene-specific human/model\nauthorship and must accept ordinary natural language. Closed\nvalues may remain only where downstream logic needs a routing, safety,\npermission, provider, approval, or lifecycle category. Such a category cannot\nstand in for the actual authored direction. Once a human/model selects and the\nowning stage approves a creative value, downstream stages preserve that exact\nvalue; openness before selection is not permission to drift after the lock.\n\nSchemas, validators, compilers, automation, and review-surface builders own\ntransport and state: types, enums, ids, paths, SHA-256, exact source coverage,\npointer and exact-copy integrity, output ownership, execution parameters,\nreceipt provenance, and approval state. They may verify that a declared\ncreative payload exists and arrived unchanged. Only section and whole-video LLM\nreview may decide whether it is specific, coherent, rich, plausible,\nrepetitive, or ready for revision. A deterministic tool must not repair missing\ncreative truth by expanding a template or demanding synonyms.\n\nThe first Front Planning-to-02A pass is the model's autonomous quality\nbootstrap. After the Founder directly changes an exact reference connection,\nimage screen truth/render prompt, or video prompt, that named decision is the\ncreative judgment for its scope. Record a hash-bound Founder direct-update\nreceipt, revise the smallest owning surface, and carry forward unaffected\nbootstrap truth. Do not require the Founder to refill earlier plans or insert\nanother LLM taste verdict. Deterministic integrity, identity/reference, safety,\nfeasibility, pixel/playback, and external-approval checks remain independent\nand may still hold the work for an objective defect.\n\nThe shared image profile has one narrow direct-authoring exception to avoid\nunnecessary upstream rewrites: after a passed planning Hero, 01 Core, or 02A\nBranch exists, a human or assigned model may author a hash-bound\n`direct_prompt_revision` for that Cut's final render prompt. It may revise\nscene/world, visible details, action/gaze, camera/composition/crop,\nwardrobe/material, and negative wording. It must retain the hash-bound Cut lock,\nparent timing/section/Major ownership, Cut id/sequence, current-title asset\norder, visual-reference-binding order,\nexplicit Founder locks, and expected output path. Before authoring, the owner\ninspects the exact Cut, all bound current-title visuals, and all selected\nreference derivatives, then records their hash and complete order in the\nauthoring-inspection receipt. `Visible details` separately authors\nbackground/space, still-camera/composition axes, and light/color/material;\n`Action cue` separately authors subject state/pose, visible action/hold, and\nobject/environment response. The compiler and execution adapters only validate\nthe receipt, exact-copy bindings, and serialize fixed labels/separators around\nalready-authored components; they may not claim inspection or write, infer,\nrepair, pad, or paraphrase creative values. Each revision creates a new\nprompt hash and therefore requires fresh 02B validation, review, request, and\ncurrent-job approval before generation. A structural, reference, identity,\nFounder-lock, or output-path change remains at the owning FP/01/02A stage.\nWhen that upstream change is Founder-authored after a previously passed\nbaseline, update only the affected 02A section and its descendants; the\nhash-bound direct-update receipt replaces a repeated creative-context advisory\nreview for the changed fields, not the integrity or Founder generation gates.\n\nIn the legacy-pinned branch, after 02A merge, CDD reviews every visual section with its adjacent boundaries,\nthen continues through actual image and 03V playback. Overall reviews CDD's\ncurated milestones and reconciles the entire film: story and relationship\nprogression, world/action escalation, camera/edit progression, reference\nfidelity, recurrence/reprise, climax, release, and ending. The same Overall\nDirector owns the recommendation and acceptance; there is no mandatory second\ndirector or automatic Sol/Max final gate. When one named contradiction remains,\none bounded\nadversarial adviser review may advise that continuing director. It cannot promote,\nveto, or become a second Founder-facing authority. Cursor and Grok adapters use\nthe same provider-neutral roles and promotion boundary. The result appears in\nthe existing 02A Founder review cycle; a separate proposal page is not the\napproval surface.\n\n- A production-ready storyboard/prompt packet, or a founder review unit, must\n  collectively establish the applicable screen truths: who is visible when a\n  member is visible, where the screen event happens, what body, object,\n  environment, or camera-route action happens, which audio/section cue triggers\n  it, which lyric cue is only a meaning guard when relevant, what the face or\n  gaze does when a face is visible, what composition holds the image together,\n  and how the camera sees the event. Each field carries the truth it owns; it\n  need not repeat the whole production read. Put only the details needed for\n  that cut or review decision on the displayed surface; canonical fields retain\n  the complete production read.\n- When the founder provides a visual board, moodboard, or contact-sheet-style\n  board, analyze it into text locks before prompt or review writing: concrete\n  background/world objects, wardrobe silhouettes, materials, color limits,\n  lighting behavior, body-proportion risks, and reject terms. Store the analysis\n  in Front Planning and carry it through 01, 02A, and 02B. Do not leave the board\n  as a loose vibe reference. The selected current-title member visuals and\n  exact scene cells/crops remain image inputs when their pixels are necessary;\n  space/background direction stays in Major/Key Screen text and scene refs. A\n  text summary is not a substitute for a required visual.\n- Still composition and still-camera specificity must be decided before 02B,\n  preferably in 02A. Use the\n  existing fields first: `visual_frame.camera_treatment`,\n  `director_chain.must_show.camera`, `director_scene_lock.required_camera_evidence`,\n  and `image_review.review_question`. Those fields should already name the\n  baseline camera geometry: camera height, camera-to-subject distance/shot\n  scale, camera direction/angle, and foreground/background depth. That four-axis\n  check is the minimum, not the whole camera decision. The same field should\n  also name subject/object placement, floor/reflection, negative space or crop\n  pressure, color/light balance, visible action or hold, member-to-space or\n  object-to-space balance, and the reason the framing makes the section, action,\n  rhythm, and any carried original lyric text readable. When later video motion\n  is plausible, those same existing natural-language fields also preserve its\n  visible prerequisites: action axis and screen direction, lead/travel/reveal\n  room, foreground/middle/background separation, a physically legible path or\n  occlusion, crop/edge safety, and the continuity carrier into the adjacent\n  screen. This is `motion readiness`, not authorization for a temporal move.\n  02B compiles from those fields into existing\n  prompt-packet camera/framing fields; it must not invent a new still-camera\n  idea. Temporal camera movement, speed, envelope, path, reveal, and stop are\n  authored only in 03V after passed Production Cut pixels of type\n  `official_core` or `branch` exist; 03V may\n  revise an upstream motion hypothesis when pixel inspection proves it\n  unsupported, while preserving the passed still state or returning to the\n  smallest owning stage.\n- If a music term is useful, translate the actual cue into the current\n  section's already-authored visible response, naming its timing and physical\n  geometry. A safe teaching pattern is\n  `actual cue -> selected current carrier -> observable change or hold ->\n  framing/readability consequence`; it demonstrates the translation without\n  choosing a stock gesture or reusable action sentence.\n- Choreography appears only where Front Planning and 01 mark it `primary` or\n  `supporting`, and it must bind an actual choreography, performance, or fancam\n  reference. Translate the inspected phrase into ordered foot route, weight\n  shift, body level, torso/hand path, gaze, garment reaction, and readable\n  branch-cut body states. A dance-style label or invented generic pose sequence\n  is not sufficient. Sections marked `absent` stay non-dance; do not add dance\n  even as negative prompt vocabulary.\n- Lyric words are cues, not action names. Keep raw lyric text in lyric/source\n  fields. In action, must-show, review, image-prompt, and video-prompt fields,\n  use the current section's interpreted result and state the observable\n  body/object/environment behavior and camera consequence without borrowing a\n  stock gesture from shared guidance. The teaching pattern is\n  `lyric meaning guard -> current section interpretation -> selected visible\n  proof`, never `lyric word -> fixed action`.\n- Do not let abstract placeholders such as \"space reacts\", \"emotion grows\",\n  \"camera evidence\", \"body evidence\", \"close but distant\", \"quiet pull\", or\n  \"controlled pressure\" stand alone. In a founder review, pair the thought with\n  a nearby screen-proof sentence or the linked canonical field. In a\n  render-facing prompt or structured creative field, include the visible action\n  and camera/composition detail in that field. This execution requirement does\n  not prohibit abstract, metaphorical, or ambiguous language in the source\n  lyric or authored story.\n- When the founder gives concrete wording, preserve it as high-priority input\n  and do not paraphrase away its intent. If it is not an explicit lock and would\n  weaken identity, safety, schema validity, feasibility, originality, or the\n  selected-song screen result, surface the conflict and recommend stronger\n  wording or direction before asking for a final lock.\n\n",
+      "selection_reason": "Runtime roles receive current-source, observable-language, contextual-review, authorship, and asset rules."
+    },
+    {
+      "binding_id": "creative_constitution",
+      "binding_kind": "linked_read",
+      "path": "policies/creative-production-constitution.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "d5a2f985d9e65bee158b76ab38c542ac9f4e4d8612e6045920acf5011a3fe5ff",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Asset Alignment"
+      },
+      "fragment_sha256": "cd5049153778af27c88d4784367733aa4c46b2ef168751bcc2177ad6ad6d2f6c",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Asset Alignment\n\nAll song, choreography, performance direction, MV direction, generation, and edit\nplanning must align with the active member assets:\n\n- member code, name, role, signature move, performance-use role, and visual\n  language from `assets/member-registry.yaml`\n- vocal/rap color, best-use rail, section use, and prompt guard from\n  `assets/voice-style-index.md`\n- unit membership, unit purpose, center roles, and unit recommendation limits\n  from `assets/unit-registry.yaml`\n- current-title member visual assets under\n  `assets/members/album-assets/ALBUM_KEY/TITLE_KEY/**`\n\nRequired member visuals are newly built or bound and reviewed with their Major\nStacks and material Core candidates for each album/title in Front Planning.\nPassed member visuals are that\ntitle's downstream appearance defaults; omission or replacement requires the\nexact Founder-approved exception. No separate background/world asset package is\ncreated. Space/background direction remains in Major/Key Screen text and exact\nscene references.\n\nThe assets are base identity material, not a command to reuse the same outfit,\nmaterial, world, hand phrase, choreography, camera language, or member-led frame\nstructure in every song. Face identity and member role continuity must survive\nwhen members are visible, but the screen driver may be member-led, unit/group-led,\nworld/object-led, an environment insert, a system transition, or a mixed\nmember/world beat. Styling, wardrobe material, world design, hand language,\nchoreography, object behavior, camera route, and section framing should be newly\ndesigned from the current song feeling, message, and section function.\nFace-only is the sole approved facial-identity source for member-visual builds\nand registered identity-input requests. After a current-title card passes, the\nactive image-input route has no separate downstream face-only lane. Retired\n`no-mic`/`no_mic` variants are invalid. A current-title member visual controls\nappearance continuity only when the member is\nmeaningfully visible; it never forces a readable or frontal face, gaze, pose,\ncrop, camera, or proportion. These modes coexist. Member-led, center, closeup,\nbeauty, and choreography\nframes remain valid when the song function is identity, vocal ownership,\nperformance proof, hook memory, or emotional read. World/object-led,\nenvironment-insert, camera-route, and system-transition frames are added options\nfor sections where the lyric, rhythm, transition, or story job is better carried\nby space, objects, camera movement, or a visible system. Do not apply an\nautomatic quota in either direction unless the founder explicitly sets one.\n\nUntil the founder explicitly unlocks it for a specific run, do not use ancient\nor medieval costume direction. Avoid historical court dress, fantasy medieval\nrobes, armor, period gowns, dynasty/empire styling, or any wardrobe cue that\npulls AURORA-M away from contemporary idol/MV styling.\n\nDo not invent ages or birthdays. External web references to real people, idols,\nvoices, styling, or performance may be recorded and used as creative reference\nanchors when the founder or current run names them, but they do not become\nmember facts unless the founder explicitly locks a new identity direction.\n\nWhen a creative idea conflicts with member assets, preserve member identity and\nadapt the idea unless the founder explicitly approves a new identity direction.\n",
+      "selection_reason": "Runtime roles receive current-source, observable-language, contextual-review, authorship, and asset rules."
+    },
+    {
+      "binding_id": "section_production_policy",
+      "binding_kind": "linked_read",
+      "path": "policies/section-production.md",
+      "revision": "content-addressed",
+      "whole_file_sha256": "e704d36b3f1afcdc1471e8fef90b9f6255d01450b09e7aa76f81cc2dd83aed20",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Section owner index stays pointer-only; checkpoint chapters are not inherited."
+    },
+    {
+      "binding_id": "planning_p3_section_kinetic_mode",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-planning-cdd/references/section-kinetic-architecture.md",
+      "revision": "2",
+      "whole_file_sha256": "c847d8a5a6c3d025beb41789e37db91a20e05407cd4fdf288c8e2bf6ae2a579e",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Deterministic Cohort Construction"
+      },
+      "fragment_sha256": "1254a3689344a384a8b3fd66193a8054cab26bce5e128dfc5437abd412a650bb",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Deterministic Cohort Construction\n\nFor two or more ordered sections, partition into contiguous cohorts of two or\nthree. Do not create extra cohorts to fill provider capacity. A one-section\ntitle may use one explicit singleton. If an already approved story/audio\nboundary makes a contiguous 2--3 split impossible, escalate to Founder; do not\ninvent a creative partition.\n\nUse this remainder-first rule, which matches the required examples:\n\n- `n % 3 == 0` -> all threes: 3, 6=3+3, 9=3+3+3;\n- `n % 3 == 1` -> two twos, then threes: 4=2+2, 7=2+2+3, 10=2+2+3+3;\n- `n % 3 == 2` -> one two, then threes: 2, 5=2+3, 8=2+3+3, 11=2+3+3+3.\n\nEvery section belongs to exactly one cohort. Read adjacent cohort boundary\nhandles; never write them.\n\n",
+      "selection_reason": "Each P3-Ci receives only its cohort construction, Major motion, composition, and Draft Keyframe review mode."
+    },
+    {
+      "binding_id": "planning_p3_section_kinetic_mode",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-planning-cdd/references/section-kinetic-architecture.md",
+      "revision": "2",
+      "whole_file_sha256": "c847d8a5a6c3d025beb41789e37db91a20e05407cd4fdf288c8e2bf6ae2a579e",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Own"
+      },
+      "fragment_sha256": "04dbafd1ec8ed46a46d3040cf2630c0da1ef432ab55c0fb561884170937bf29b",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Own\n\n- section screen jobs and whole-video progression for this cohort;\n- Major event, exact-five one-second Sequence Unit, one-or-two Core marks, and\n  later Branch coverage requirements;\n- still camera height, distance, direction, angle, depth, crop, and composition;\n- action/pose variation, motion readiness, transitions, and continuity handles;\n- evidence-based 2--3 second kinetic change tendency and intentional long holds;\n- Draft Keyframe Proof requirements before final 02B, reusing existing\n  `fp_hero_core` as the noncanonical packet mode.\n\nDo not create one event per section, one Core per time interval, or start/middle/\nend Core dumps. A third Core requires a new governing event and therefore a new\nMajor. Sequence is the parent evidence; Core marks only the stills that must\nremain.\n\n",
+      "selection_reason": "Each P3-Ci receives only its cohort construction, Major motion, composition, and Draft Keyframe review mode."
+    },
+    {
+      "binding_id": "planning_p3_section_kinetic_mode",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-planning-cdd/references/section-kinetic-architecture.md",
+      "revision": "2",
+      "whole_file_sha256": "c847d8a5a6c3d025beb41789e37db91a20e05407cd4fdf288c8e2bf6ae2a579e",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Major Motion Evidence"
+      },
+      "fragment_sha256": "455d3c2fda33bf3bc2f78ec4e9c0fc71816942b55f5c1e0c73d063ad567b1655",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Major Motion Evidence\n\nEvery material Major requires real contiguous motion evidence: one exact-five\none-second Sequence Unit or linked Units of the same event. A broad contact\nsheet counts as zero. If the Founder chooses a locked hold, still inspect the\ncontiguous interval and state why the hold is stronger than movement. Promotion\neligibility requires motion grade 4 and still-camera/composition grade 4, each\nwith an actual evidence locator. The 2--3 second tendency is a creative pacing\ntarget, not a machine counter.\n\n",
+      "selection_reason": "Each P3-Ci receives only its cohort construction, Major motion, composition, and Draft Keyframe review mode."
+    },
+    {
+      "binding_id": "planning_p3_section_kinetic_mode",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-planning-cdd/references/section-kinetic-architecture.md",
+      "revision": "2",
+      "whole_file_sha256": "c847d8a5a6c3d025beb41789e37db91a20e05407cd4fdf288c8e2bf6ae2a579e",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Review"
+      },
+      "fragment_sha256": "b445b4f9a260754d31c02d68c229840b7c67c139b122cb0089bc298d472bae6e",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Review\n\nCheck that story and audio produce observable state changes, distinct Major/Core\njobs, varied pose/action, varied still geometry, useful motion landing, and\nnon-flat transitions. Longer holds need song/story evidence; repeated frontal\nmedium, default push, or orbit needs a clear function.\n\nUse P2's selected reference Decision Set as evidence. Do not reopen source\neligibility or author a replacement visual regime. Grade applicable\nstoryline/audio/kinetic/camera/coverage/non-duplication/feasibility criteria on\nthe 0--4 scale. All applicable items must be at least 3, and both motion and\nstill-camera/composition must be 4, before the Decision Set is eligible for P1\nintegration and Overall review.\n\nReturn section topology, Major/Sequence/Core pointers, boundary handles, motion-\nreadiness holds, Draft Keyframe Proof requirements, and the visible consequence\nof every material choice only to P1 through `planning_cdd_p1_exact_link`. P1\nexact-links the reviewed P3-Ci Decision Set and alone returns the integrated\nPlanning Cell milestone to Overall. At G-40, bind the exact\n`section_cohort_id` so the matching production CDD can carry it through 02B\npixel and 03V playback review without silently repartitioning sections.\n",
+      "selection_reason": "Each P3-Ci receives only its cohort construction, Major motion, composition, and Draft Keyframe review mode."
+    },
+    {
+      "binding_id": "provider_neutral_studio_kernel",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-orchestrator/references/provider-neutral-studio-kernel.md",
+      "revision": "17",
+      "whole_file_sha256": "7e7eadf58b7f99af1e967699f7eb27cd13f7b9e536270dc4403145f6bf6b25ed",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Purpose"
+      },
+      "fragment_sha256": "7bb648554090c53d570f08049fc12cb21454a8d76417e4444a96561685acb63b",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Purpose\n\nThis is the shared Studio Kernel for Cursor, Grok, or another registered\nprovider surface. Provider adapters transport the same per-assignment role\nbinding and launch command; they do not rewrite its creative or studio\nauthority. No global provider mode or model selection establishes authority.\n\nOne launch has three layers:\n\n1. **Registered Department Recipe** — the repeatable job method already written\n   in the exact owning `SKILL.md`, its linked reads, and the selected\n   `automation/harness-skill-load-profiles.yaml` profile/checkpoint. Reference\n   discovery, source eligibility, comparison floors, image-prompt translation,\n   generation inspection, output shape, review route, and ordinary HOLD rules\n   belong here and are reused rather than rewritten for every assignment.\n2. **Director-authored Current Assignment Delta** — what this exact run,\n   section, source set, and checkpoint must solve now. The assigning director\n   writes this only after reading the current frontier and bound evidence. It\n   names the present gap, the decisions the worker may make, the task-specific\n   work that the registered recipe does not already say, and the current-work\n   proof required for review.\n3. **Mechanical Dispatch Envelope** — ids, roles, scope, paths, hashes,\n   permissions, selected profile/checkpoint, output ownership, return route,\n   and wake/stop conditions. A tool may exact-copy these values, add the fixed\n   headings below, and hash the final bytes. It may not choose the Department\n   Recipe, write the Current Assignment Delta, summarize current evidence, or\n   claim creative approval.\n\nThe launch command is therefore reusable without becoming a generic creative\nprompt. Stable work stays stable; current creative judgment stays current.\n\n",
+      "selection_reason": "Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton."
+    },
+    {
+      "binding_id": "provider_neutral_studio_kernel",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-orchestrator/references/provider-neutral-studio-kernel.md",
+      "revision": "17",
+      "whole_file_sha256": "7e7eadf58b7f99af1e967699f7eb27cd13f7b9e536270dc4403145f6bf6b25ed",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Who Authors And Who Reads"
+      },
+      "fragment_sha256": "432c487c29acb3be474493a879a9b4bda31c97b1e1eadee31b958515aaa44a62",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Who Authors And Who Reads\n\n- The Overall Director authors the Current Assignment Delta for CDD startup and\n  any worker it directly owns.\n- The Creative Development Director authors it for Song, reference, identity,\n  and pre-02A development workers.\n- The Edit Director authors it for edit shards.\n- The receiving role's first runtime action is to open the native Goal from\n  `launch.goal_contract` and record its provider-native identity. The mechanical\n  coordinator then verifies the complete selected source closure to EOF and\n  builds the exact `idol-role-context-pack.v1`; the receiver applies that pack,\n  the rendered Current Assignment Delta, and the named current creative sources\n  before work. The pack replaces broad receiver instruction rereads and is not\n  an additional layer. If that runtime cannot\n  open an auditable Goal, return `goal_surface_unavailable` HOLD before work.\n- A valid current-run v3 Founder-feedback sidecar may contribute only the\n  pack's exact role/profile/stage/section-matching compact quality patterns:\n  short reason, recurrence count, bounded positive/avoid/action/review signals,\n  applicability, evidence-rollup digest, and source sidecar pointer. Directors\n  receive the current-run review view; workers receive exact matching section\n  rows. Never load the raw Founder wording or full closure into the runtime\n  command. This advisory semantic edge is not a lock, gate, PASS, or promotion.\n- A provider/model name is transport metadata only. Canonical command prose\n  uses `overall_director`, `creative_development_director`, `department_worker`,\n  `section_owner`, `edit_director`, or `edit_shard_worker` authority. Each\n  attempt binds exactly one `studio_role` and `assignment_key` to owner,\n  parent lineage/session, exact scope, adapter/runtime surface, capability\n  receipt, Goal contract, output owner, return recipient, and stop/wake route.\n- The shared contract covers logical operation, not provider-tool identity.\n  Director/worker roles, physical sharding, Goal admission, successor/CAS/rollback,\n  return, and review are equal across Cursor and Grok. Provider-native tools,\n  auth lanes, event shapes, and capability inventories remain separately\n  registered: Cursor supplies exact text-model sessions while Grok image work\n  uses `image_gen`/`image_edit`. An omitted image provider resolves only to the\n  exact current Grok Section owner's native surface; Cursor Luna image and APIs\n  require explicit Founder\n  selection. A missing capability returns HOLD and never borrows another\n  provider's tool, auth, model, or session.\n- A bounded department worker uses an internal subagent by default. It opens a\n  separate Founder-visible physical assignment session only when the exact\n  run-route row sets `founder_visible: true`: a separate Cursor CLI chat or a\n  separate Grok native/CLI-style session surfaced like a terminal. Both\n  topologies use the same Dispatch, Goal, model/effort, authority, review, and\n  quality contract; visibility grants no promotion authority and neither\n  topology may mix with the parent Director session. CDD dispatch, review, and\n  ordinary FP/02A multi-leaf work must open Grok `spawn_subagent` helpers to\n  the floor in `automation/harness-execution-contract.yaml`\n  `session_route.department_worker_execution_topology.parent_scoped_helpers`.\n  Those helpers are not physical terminals. Image section owners stay physical\n  post-02A sessions.\n- For Cursor CLI transport, create and hash the external assignment Goal record\n  before launch, verify the authenticated account model catalog and exact CLI\n  model argument, then bind the init display, terminal result, request id, and\n  stable session id. Resume must return the same session id.\n- For Grok ACP, invoke `/goal` with the exact objective from\n  `launch.goal_contract` as that first action. The native `goal_updated` event\n  must prove native Goal id, exact objective (or an exact-objective match), and\n  state. The adapter attestation envelope records the raw-event digest, exact\n  goal-text SHA-256, immutable assignment key, attempt/dispatch ids, runtime\n  surface, and timestamp. A model-written id, chat heading, or copied status\n  is not a Goal receipt; a missing or mismatched event plus attestation is\n  `goal_surface_unavailable` HOLD. Other registered adapters require\n  equivalent auditable native Goal evidence and an adapter attestation.\n- Goal state is interpreted through the registered provider adapter. Cursor\n  keeps the host-owned external Goal record active through work. Grok may\n  emit `complete/goal_completed` at the durable terminal of the exact `/goal`\n  admission prompt. In a successor preflight that terminal means only\n  `successor_admission_complete`; the logical CDD assignment remains\n  read-only until the shared session router commits A->B. Neither Goal event\n  is creative PASS, CDD completion, canonical promotion, or Founder PASS.\n\nBefore authoring the Current Assignment Delta, the director must inspect:\n\n1. the exact Founder request and verbatim explicit locks;\n2. the current canonical frontier, decision epoch, owner, and review state;\n3. the selected target/song/audio/whole-video and assigned-section facts needed\n   by this task;\n4. every current source or output whose pixels, playback, or bytes control the\n   assignment;\n5. the selected Department Recipe and its exact checkpoint;\n6. the smallest unresolved decision and the legal next checkpoint.\n\nIf those facts are incomplete, write a bounded HOLD command instead of filling\nthe gap with a generic task.\n\n",
+      "selection_reason": "Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton."
+    },
+    {
+      "binding_id": "provider_neutral_studio_kernel",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-orchestrator/references/provider-neutral-studio-kernel.md",
+      "revision": "17",
+      "whole_file_sha256": "7e7eadf58b7f99af1e967699f7eb27cd13f7b9e536270dc4403145f6bf6b25ed",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Fixed Twelve-Block Command"
+      },
+      "fragment_sha256": "3352f103d2d9bfb6c2c07a6e8acb1eb5d56f234ea2bfcc490184b2c932c8f0b2",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Fixed Twelve-Block Command\n\nEvery rendered launch command uses these exact Markdown H2 headings in this\norder. The headings and repeated transport values may be assembled\nmechanically. The prose marked **current** must be authored by the assigning\ndirector from the inspected current work.\n\n```text\nFirst runtime action: open the registered Goal from launch.goal_contract and\nrecord its provider identity before Role Context Pack validation or creative work; Cursor\ncreates the external Goal record before CLI launch, while Grok ACP captures\n`goal_updated`, with the exact objective hash and assignment-key evidence.\n\n## 01 Dispatch Identity\n## 02 Role And Authority\n## 03 Current Creative Job\n## 04 Exact Scope And Non-Scope\n## 05 Input Pointers\n## 06 Skill Route\n## 07 Required Work\n## 08 Output Contract\n## 09 Quality Proof\n## 10 Return-Ready Conditions\n## 11 HOLD Stop And Split Conditions\n## 12 Return And Wake\n```\n\nBlock ownership is:\n\n| Blocks | Source | Rule |\n|---|---|---|\n| 01, 02, 04, 05, 06, 08, 10, 11, 12 | Mechanical Dispatch Envelope plus registered profile | exact-copy only; task-specific HOLD text may be director-authored |\n| 03 | Current Assignment Delta | director-authored every attempt |\n| 07 | Registered Department Recipe plus Current Assignment Delta | cite/bind the reusable recipe; author only the current extra work, order, or decision gap |\n| 09 | Registered professional gate plus Current Assignment Delta | reuse stable proof categories; author the exact current-work evidence the return must show |\n\nDo not paste the complete owning skill into Blocks 06 or 07. Bind its exact\npath/revision/SHA-256 in the dependency inventory, then bind the validated Role\nContext Pack and its pack/source-set digests. The projector verifies the whole\nsource to EOF; the receiver applies only the exact projected content and named\ncreative sources. Repeating the whole skill creates drift and does not prove\napplication.\n\nThe mechanical envelope carries the immutable role-assignment binding, selected\nprovider adapter and capability receipt, `launch.goal_contract`, and native\nGoal event plus adapter-attestation fields. These values may be exact-copied\nand hashed; no adapter may infer, paraphrase, or replace them. Goal creation\nand its provider-native updated event are runtime compliance receipts, not\ncreative or Founder approval.\n\nThe mechanical envelope also carries a stable `requirement_manifest`. Give\neach Founder instruction, required skill, policy, contract, schema, output,\nquality gate, HOLD rule, and Goal duty its own id, source locator, affected\nscope, expected target, and evidence type. Do not collapse several instructions\ninto one generic “follow everything” row.\n\nCurrent priorities must survive every handoff as executable emphasis, not as a\nbare instruction to read a skill. Exact-project each required Founder row into\nBlock 03, each scoped method/output/HOLD row into Block 07, and each quality or\nAnti-Flat proof row into Block 09, using the stable requirement id and its\nsource locator, affected scope, expected target, and evidence type. The worker\nmust close the same ids in `worker_fulfillment_claims`; the recipient Director\nmust independently close them in `director_review.requirement_results` against\nthe exact returned bytes. Missing, merged-away, genericized, duplicated, or\nself-asserted coverage is a HOLD. Keep the owning skill hash-bound and fully\nverified by the projector, but do not duplicate its whole prose or turn its\ndependency inventory into a second receiver read list.\n\n",
+      "selection_reason": "Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton."
+    },
+    {
+      "binding_id": "provider_neutral_studio_kernel",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-orchestrator/references/provider-neutral-studio-kernel.md",
+      "revision": "17",
+      "whole_file_sha256": "7e7eadf58b7f99af1e967699f7eb27cd13f7b9e536270dc4403145f6bf6b25ed",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Same-Session Checkpoint Progression"
+      },
+      "fragment_sha256": "8f4e8886b11f0814422134a0c0e89253ccc24aa958d6d9648d84cfffe426b87d",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Same-Session Checkpoint Progression\n\nA legal next checkpoint may continue in the same physical session and lineage.\nThis is normal continuation, not a successor-session rollover, only when all of\nthe following are true:\n\n- the current attempt returned and its declared recipient completed director\n  review;\n- any required Founder decision or intervention receipt is recorded and bound;\n- the current owner, scope, and output paths remain unambiguous;\n- the immutable `studio_role` + `assignment_key`, provider adapter/capability\n  receipt, and native Goal/`goal_updated` evidence remain bound to the attempt;\n- the next checkpoint exists in the selected provider-neutral profile and its\n  activation conditions are satisfied;\n- a new immutable attempt is prepared with the next checkpoint's exact\n  skill/read set, refreshed source hashes, and a fresh input digest;\n- no stage, Founder, paid/external, pixel/playback, or owner gate is skipped.\n\nThe director may prepare the next command from that checkpoint without asking\nthe Founder to restate already settled input. It may not infer a PASS, jump to\nan arbitrary later checkpoint, widen scope, or silently replace the owner.\n\nCDD may progress through legal checkpoints inside its one existing physical\nsession. A physical successor is permitted only on the registered Boot Pack v3\nand session-router route: first Founder confirmation, immutable hash-equal\ncheckpoint and no-rollover check, fresh zero-turn read-only successor, exact\nseven-answer preflight, registered Goal-admission receipt, second Founder\nconfirmation, and exact A->B writer compare-and-swap. Embedded Workbench may\nuse its native bridge; direct Cursor-CLI/Grok-CLI operation uses\n`idol-cdd-session-router-state.v1`. Every prompt/resume/dispatch/review/write\nmust be authorized against the current state SHA and generation. A later\nfailure atomically retires B and reactivates A. This changes only physical\nsession authority; it does not rewrite HTML, review-board, canvas, storyline,\nSection, or canonical creative bytes. A provider surface without equivalent\nadmission, CAS, access-denial, and rollback proof remains `HOLD`.\n\n",
+      "selection_reason": "Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton."
+    },
+    {
+      "binding_id": "provider_neutral_studio_kernel",
+      "binding_kind": "linked_read",
+      "path": "skills/idol-orchestrator/references/provider-neutral-studio-kernel.md",
+      "revision": "17",
+      "whole_file_sha256": "7e7eadf58b7f99af1e967699f7eb27cd13f7b9e536270dc4403145f6bf6b25ed",
+      "locator": {
+        "type": "markdown_heading",
+        "heading": "Return Review"
+      },
+      "fragment_sha256": "1a77025aae9122514a4a599afa8812e8b8f822eecc7cb0c82bb19612caec3695",
+      "runtime_read_mode": "inline_exact_fragment",
+      "source_read_verified_to_eof": true,
+      "content": "## Return Review\n\nClose three separate verification layers; none substitutes for another:\n\n1. **Mechanical receipt:** deterministic checks verify fields, cross-fields,\n   paths, hashes, registry and consumer versions, lifecycle order, Goal order,\n   and requirement coverage. They never judge creative adequacy.\n2. **Worker fulfillment claim:** the worker closes every requirement id as\n   `applied`, `held`, or legally `not_applicable`, points to exact output\n   evidence, explains the application, and reports the provider-native Goal identity and return state.\n   A self-claim is evidence for review, not acceptance.\n3. **Director fulfillment review:** after acquiring the single-flight review\n   lease, the recipient Director reviews the validated Role Context Pack, the\n   named current-run creative sources, the same checkpoint closure cards, and\n   the exact returned bytes. The projector already verified the registered\n   source closure to EOF; the Director does not re-read every skill and linked\n   module to EOF as the review method. The Director then records an independent\n   judgment for every requirement id and applies the fixed creative rubric: Goal\n   pursuit, Founder coverage, skill application, schema/contract conformance,\n   current-gap resolution, required outputs, observable specificity,\n   source/pixel grounding, storyline preservation, locks/unaffected truth, and\n   honest completion state. A worker claim, schema/path check, or historical\n   receipt is evidence-only and is not PASS. Overall reviews the curated\n   milestone and whole-film consequence; it does not recount mechanical\n   presence rows.\n\nWorkers may return in parallel and mechanical preflight may run in parallel.\nOne recipient Director must nevertheless review one return at a time in\n`dependency_rank -> returned_at -> dispatch_id` order. Do not open the next\nreturn until the prior disposition, Overall promotion or HOLD, single-writer\ncommit, and baseline refresh are recorded. Overall promotion uses one global\nlease. Batch acceptance and batch promotion are forbidden.\n\nThe exact input/result digest, reviewer role, owning scope, and Founder epoch\nidentify a semantic review. Carry a valid receipt forward when those values are\nunchanged; a new session, provider, or model is not a re-review trigger. Overall\nreviews the recipient Director's curated milestone and whole-work consequence,\nnot the raw worker checklist again, unless bytes, governing input, epoch,\nevidence completeness, owner/scope, or a concrete conflict changed.\n\nBefore a successor attempt, resolve its canonical predecessor in the same run\nand prove terminal runtime return, recipient review, and Overall promoted/HOLD\nclosure. `final` and `hold` may close; `authority_request` and `milestone`\npreserve the same attempt. Keep dispatch records under\n`RUN/work/department-dispatches/` and every output or manifest inside that\nalbum/title/run; never create a global worker lane below `runs/`.\n\nTrack review submissions independently from checkpoint `attempt_number`. One\nreview cycle allows three submissions at most, with the initial return counted\nas 1. On a non-accept disposition, the Director must return the complete\nobserved problem set, exact invalidated outputs, one correction action, and\nexplicit acceptance criteria together. Submission 2 or 3 opens a fresh native\nGoal that exact-copies that correction action and scopes work/output only to the\ninvalidated paths. That Goal reopens the same section-worker line or session\nthat authored those paths; do not reassign the whole package to a new random\nworker. Preserve all other predecessor outputs as hash-frozen inputs;\ndo not regenerate them. Same-session correction preserves session and lineage;\nnew-session correction starts a fresh lineage at attempt one but preserves the\nsame review cycle and next submission number. Submission 3 may pass, but another\nchild retry is forbidden; route a remaining failure upstream or HOLD. Session,\nprovider, model, or Founder epoch cannot reset the counter for the same work\npackage.\n\nDo not spend a creative Goal or review submission on corroborated transport\ndrift. Re-hash all prepared launch bindings before creating a worker session.\nWhen one stale hash field disagrees with at least three current-hash receipts\nacross two independent lifecycle phases, including the latest phase for those\nbytes, route it once to the mechanical coordinator's run-local\n`department-transport-refreshes/` receipt. Preserve the immutable Dispatch,\nall creative bytes, the existing Director review, and the submission number.\nIf the bound source bytes themselves changed and no such consensus exists,\nthe recipient Director performs one impact recheck before deciding whether a\ntargeted creative correction is needed; workers do not bounce the same hash\nproblem between sessions. Changed output bytes never qualify for this shortcut.\n\nWorkers do not create creative grandchildren in either internal or physical\nexecution. A worker that needs a split returns exact unowned subscopes, sibling\ncount, disjoint paths, shared boundaries, and risk. Its recipient Director owns\nreview and any sibling Dispatch creation.\n\nOnly after all three layers pass and both leases close may the normal CDD\nreview, Founder gate, or next same-session checkpoint proceed.\n",
+      "selection_reason": "Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton."
+    },
+    {
+      "binding_id": "department_dispatch_schema",
+      "binding_kind": "linked_read",
+      "path": "schemas/department-dispatch.schema.json",
+      "revision": "content-addressed",
+      "whole_file_sha256": "19d6c6ddc82199fb0547e4057cd0ab59d191f5e5af2ebf22b3de898885a85f54",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Structured contracts are pointer-only with structural preflight."
+    },
+    {
+      "binding_id": "cdd_session_router_state_schema",
+      "binding_kind": "linked_read",
+      "path": "schemas/cdd-session-router-state.schema.json",
+      "revision": "content-addressed",
+      "whole_file_sha256": "038d70b8d2af28347822fbb40fce2949c9b7688e5b94c60fedbb9f8c165aa677",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Succession CAS evidence is structured and pointer-only."
+    },
+    {
+      "binding_id": "graph_department_dispatch_schema",
+      "binding_kind": "linked_read",
+      "path": "schemas/graph-department-dispatch.schema.json",
+      "revision": "1",
+      "whole_file_sha256": "6e5567dc67f5b6c102439ff9db2e5f5441b9abc035103e8b737e17d54876727e",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Every Graph node validates its exact assignment lifecycle and return recipient without inlining the schema."
+    },
+    {
+      "binding_id": "graph_director_lineage_schema",
+      "binding_kind": "linked_read",
+      "path": "schemas/graph-director-lineage.schema.json",
+      "revision": "1",
+      "whole_file_sha256": "47974dca2e4e4bbeb56529fef1358591e4421c6fa56c025aa5ab73b33dd1214b",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Director lanes and their one permitted successor validate single-writer CAS from structured evidence."
+    },
+    {
+      "binding_id": "graph_section_cohort_map_schema",
+      "binding_kind": "linked_read",
+      "path": "schemas/graph-section-cohort-map.schema.json",
+      "revision": "1",
+      "whole_file_sha256": "27b276dc227981ddb0238ddfe9b3b7fd7bd5c5931fa0370a4179fb42679d12c5",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "P3 cohort identity and the exact same V-Ci and section writers are structure-owned."
+    },
+    {
+      "binding_id": "graph_stage_registry",
+      "binding_kind": "linked_read",
+      "path": "automation/graph-stage-registry.yaml",
+      "revision": "1",
+      "whole_file_sha256": "1d10dbc07d0f8c4f37b117fc94f7acae3309dae9889b851e4dbecf36b0339c87",
+      "locator": {
+        "type": "pointer_only"
+      },
+      "fragment_sha256": null,
+      "runtime_read_mode": "pointer_with_structural_preflight",
+      "source_read_verified_to_eof": true,
+      "content": null,
+      "selection_reason": "Semantic stage and Founder-gate order are registry-owned and never inferred from role prose."
+    }
+  ],
+  "output_contract": {
+    "kind": "contextual_judgment_fixture"
+  },
+  "provider_binding": {
+    "status": "resolved",
+    "logical_profile_alias": "frontier_director",
+    "provider": "grok",
+    "runtime_surface": "grok_build_cli_acp",
+    "registry_path": "automation/harness-provider-profile-registry.yaml",
+    "registry_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+    "provider_profile_id": "grok_director_frontier",
+    "provider_source_path": "automation/providers/grok-build-profiles.yaml",
+    "provider_source_sha256": "f18b1d0a8d88ceb081e8a10314913e71f777f14cecdd84c05be8d4f4ca1ffa78",
+    "exact_model": "grok-4.6",
+    "reasoning_effort": "xhigh",
+    "fallback_policy": "forbidden"
+  },
+  "hold_reasons": [
+
+  ],
+  "projection": {
+    "registry_path": "automation/graph-role-context-projection.yaml",
+    "registry_sha256": "adf87ed3d9be0a0e08685eebf39b5506b93aa88e22373a67e3a3fcb6f4b18903",
+    "profile_registry_path": "automation/graph-skill-load-profiles.yaml",
+    "profile_registry_sha256": "1d2e60f6197dbcb0603054dc15ce70c500743bed4dc7068419d0ea22489fca4c",
+    "source_set_sha256": "bb194e789c9bce2454172fc6b7b60d7acedae70228ac92174f057787d320735c",
+    "instruction_content_sha256": "cbfbbd18d7ef0bbcd76f2feb2063ef2c6d99c44a710372e27b934e8355c79ae5",
+    "original_word_count": 28331,
+    "projected_word_count": 10180,
+    "reduction_ratio": 0.6407,
+    "pack_digest": "e626604917429ea6c5fa877e059bad33a96dae94d1912f2994656be8f27106d4",
+    "replacement_rule": "runtime_pack_replaces_broad_instruction_reads_and_is_not_an_additional_required_layer",
+    "invalidation_policy": "bound_fragment_or_exact_dependency_change_only_except_always_on_authority"
+  },
+  "creative_judgment_contract": {
+    "authority": "criteria_projection_no_creative_or_promotion_authority",
+    "registry": {
+      "path": "automation/graph-creative-judgment-registry.yaml",
+      "sha256": "c239647d2c53bbcbc101577c08f325058193c99023502b39a36c7a13c5042909"
+    },
+    "registry_schema": {
+      "path": "schemas/graph-creative-judgment-registry.schema.json",
+      "sha256": "ad960a96892bbac261bad0e59fab4a3f93a0612800b505b2635cdab2f012e0b7"
+    },
+    "artifact_schema": {
+      "path": "schemas/graph-contextual-judgment.schema.json",
+      "sha256": "ef29e4732d939daf28b4f9e41f5254572b0eace754207c9ef36104354d027b98"
+    },
+    "validator": {
+      "path": "scripts/validate_graph_contextual_judgment.rb",
+      "sha256": "e88958e0dff42f4d2bb164f4076a2ec82691f75b8725c6346ccb62839ce95ec3"
+    },
+    "profile_id": "front_planning_close",
+    "profile_value_sha256": "cebb0bd53195b5d0b9b3ac07cf872f33f26d6e1c24066001361636cf9c483b0d",
+    "profile": {
+      "checkpoints": [
+        "p1_g40_integration_handoff",
+        "p3_section_kinetic_architecture",
+        "g40_planning_cell_handoff"
+      ],
+      "criteria": [
+        {
+          "criterion_id": "storyline_section_major_causality",
+          "critical_four": false,
+          "minimum": 3
+        },
+        {
+          "criterion_id": "selected_audio_kinetic_edit_usefulness",
+          "critical_four": false,
+          "minimum": 3
+        },
+        {
+          "criterion_id": "contiguous_motion_change_and_landing",
+          "critical_four": true,
+          "minimum": 4
+        },
+        {
+          "criterion_id": "still_camera_composition_depth_edit_value",
+          "critical_four": true,
+          "minimum": 4
+        },
+        {
+          "criterion_id": "four_role_coverage_and_synthesis",
+          "critical_four": false,
+          "minimum": 3
+        },
+        {
+          "criterion_id": "major_core_whole_film_non_duplication",
+          "critical_four": false,
+          "minimum": 3
+        },
+        {
+          "criterion_id": "transfer_provenance_feasibility",
+          "critical_four": false,
+          "minimum": 3
+        }
+      ],
+      "evidence_surface": "complete_fp_route_major_sequence_core_and_reference_bindings",
+      "owner_roles": [
+        "planning_cdd_p1",
+        "planning_cdd_p3_ci",
+        "overall_director"
+      ],
+      "profile_id": "front_planning_close",
+      "stages": [
+        "front_planning_integration",
+        "mv_storyboard_direction"
+      ],
+      "target_message_treatment": "inherit_pre_fp_locks_check_progression_only"
+    }
+  },
+  "graph_dispatch_identity": {
+    "authority": "exact_copy_from_hash_bound_graph_dispatch_at_pack_creation",
+    "dispatch": {
+      "path": "work/evidence/contextual-launch-dispatch.yaml",
+      "sha256": "e8edefb1c70f753433b6828527f62cb781f97af01188b77fd2e9175b33d5a881"
+    },
+    "dispatch_id": "s01_decision_set",
+    "dispatch_lifecycle_state_at_projection": "launched",
+    "run": "runs/fixture-title/fixture-album/FIXTURE_RUN",
+    "lane_id": "planning_p3_c1",
+    "section_cohort_id": "C1",
+    "section_ids": [
+      "S01",
+      "S02",
+      "S03"
+    ],
+    "logical_role": "planning_cdd",
+    "assigned_owner": "planning_cdd_p3_ci",
+    "output_writer": {
+      "owner": "planning_cdd_p3_ci",
+      "role": "planning_cdd",
+      "session_id": "p3_c1_primary"
+    },
+    "reviewer": {
+      "owner": "planning_cdd_p1",
+      "role": "planning_cdd_p1",
+      "lane_id": "planning_p1"
+    },
+    "return_recipient": {
+      "owner": "planning_cdd_p1",
+      "role": "planning_cdd_p1",
+      "return_route": "planning_cdd_p1_exact_link"
+    }
+  }
+}

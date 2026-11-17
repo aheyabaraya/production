@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/review-projection-owner-index.schema.json",
+  "title": "IDOL Founder Review Projection Owner Index",
+  "description": "Run-owned registrations for the canonical owner feeds that are eligible to enter the stable Founder Workbench. The mechanical coordinator compiles this index into the hash-bound review projection source set. It creates no media, creative meaning, stage state, or approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "run",
+    "director_dispatch_index",
+    "declared_adapter_kinds",
+    "sources",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-review-projection-owner-index.v1"},
+    "artifact_type": {"const": "review_projection_owner_index"},
+    "status": {"const": "prepared"},
+    "run": {
+      "type": "string",
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "director_dispatch_index": {"$ref": "#/$defs/artifactBinding"},
+    "ordered_review": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object", "minProperties": 2}
+      ]
+    },
+    "declared_adapter_kinds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/adapterKind"}
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_id", "adapter_kind", "owner_artifact"],
+        "properties": {
+          "source_id": {"type": "string", "minLength": 2},
+          "adapter_kind": {"$ref": "#/$defs/adapterKind"},
+          "owner_artifact": {"$ref": "#/$defs/artifactBinding"}
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner_registration_only",
+        "exact_copy_only",
+        "creative_authority",
+        "stage_write_allowed",
+        "approval_inference_allowed",
+        "missing_declared_owner_behavior"
+      ],
+      "properties": {
+        "owner_registration_only": {"const": true},
+        "exact_copy_only": {"const": true},
+        "creative_authority": {"const": false},
+        "stage_write_allowed": {"const": false},
+        "approval_inference_allowed": {"const": false},
+        "missing_declared_owner_behavior": {"const": "hold"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:automation/|assets/|runs/|schemas/|scripts/|source-materials/).+"
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    },
+    "adapterKind": {
+      "enum": [
+        "reference_working_index",
+        "current_title_member_visual",
+        "stage_01",
+        "stage_02a",
+        "stage_02b",
+        "generated_branch_review",
+        "stage_03v",
+        "stage_04"
+      ]
+    }
+  }
+}

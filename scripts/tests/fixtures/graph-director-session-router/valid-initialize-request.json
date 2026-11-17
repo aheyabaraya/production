@@ -1,0 +1,20 @@
+{
+  "action": "route-initialize",
+  "state_path": "/private/tmp/filled-by-test/active-session.json",
+  "routing_mode": "graph_v2",
+  "run_root": "noncanonical-proof-fixture",
+  "lane_id": "planning_p1",
+  "macro_stage_id": "planning_cell",
+  "logical_lineage_id": "P1_LINEAGE_FIXTURE",
+  "provider": "grok",
+  "runtime_surface": "grok_build_cli_acp",
+  "primary_session_id": "P1_PRIMARY_FIXTURE",
+  "successor_session_id": "P1_SUCCESSOR_FIXTURE",
+  "verified_switch_receipt": {"path": "/private/tmp/filled-by-test/switch.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "director_lineage": {"path": "/private/tmp/filled-by-test/lineage.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "role_context_pack": {"path": "/private/tmp/filled-by-test/pack.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "successor_pack": {"path": "/private/tmp/filled-by-test/successor-pack.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "provider_source": {"path": "/private/tmp/filled-by-test/provider.yaml", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "safe_checkpoint": {"path": "/private/tmp/filled-by-test/checkpoint.json", "sha256": "0000000000000000000000000000000000000000000000000000000000000000"},
+  "recorded_at": "2026-09-03T00:00:00Z"
+}

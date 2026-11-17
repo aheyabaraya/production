@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-ledger.schema.json",
+  "title": "IDOL Graph Engineering Input Ledger",
+  "description": "Hash-bound read-model input ledger for the six Graph views. The ledger is evidence and never canonical creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "authority", "run_id", "section_roster", "declared_cohorts", "nodes", "edges", "events"],
+  "properties": {
+    "schema_version": {"const": "idol-graph-ledger.v1"},
+    "authority": {"const": "read_only_projection"},
+    "run_id": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]*$"},
+    "section_roster": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2}$"}},
+    "declared_cohorts": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["cohort_id", "section_ids"],
+        "properties": {
+          "cohort_id": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+          "section_ids": {"type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2}$"}}
+        }
+      }
+    },
+    "invalidation_queries": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["changed_node_id", "scope_ids", "declared_affected_ids"],
+        "properties": {
+          "changed_node_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "scope_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "declared_affected_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"}}
+        }
+      }
+    },
+    "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "graph-node.schema.json"}},
+    "edges": {"type": "array", "items": {"$ref": "graph-edge.schema.json"}},
+    "events": {"type": "array", "items": {"$ref": "graph-event.schema.json"}}
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-startup-admission.schema.json",
+  "title": "IDOL Graph Engineering Startup Admission Packet",
+  "description": "Transient, provider-neutral and hash-bound packet for Overall and CDD startup admission. It carries one graph-projected Role Context Pack that replaces broad runtime instruction rereads, plus mechanically compiled prompt bytes, but never authors creative truth or writes a run artifact.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "action",
+    "run_binding",
+    "profile_registry",
+    "selected_profile",
+    "role_context_pack",
+    "compiled_input_sha256",
+    "rendered_prompt",
+    "rendered_prompt_sha256",
+    "founder_message_sha256",
+    "director_delta_sha256",
+    "controller_text",
+    "hold_reasons"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-startup-admission.v2"},
+    "status": {"enum": ["prepared", "compiled", "validated", "no_route", "hold"]},
+    "action": {
+      "enum": [
+        "prepare_overall_read_gate",
+        "compile_overall_launch",
+        "compile_cdd_launch",
+        "validate_cdd_return"
+      ]
+    },
+    "run_binding": {"$ref": "#/$defs/runBinding"},
+    "profile_registry": {"$ref": "#/$defs/pathHash"},
+    "selected_profile": {"$ref": "#/$defs/selectedProfile"},
+    "role_context_pack": {"$ref": "#/$defs/roleContextPack"},
+    "compiled_input_sha256": {"$ref": "#/$defs/nullableSha256"},
+    "rendered_prompt": {"type": ["string", "null"]},
+    "rendered_prompt_sha256": {"$ref": "#/$defs/nullableSha256"},
+    "founder_message_sha256": {"$ref": "#/$defs/nullableSha256"},
+    "director_delta_sha256": {"$ref": "#/$defs/nullableSha256"},
+    "controller_text": {"type": ["string", "null"]},
+    "hold_reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nullableSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "repoPath": {"type": "string", "pattern": "^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+$"},
+    "pathHash": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_root", "run_manifest", "plan", "canvas", "founder_epoch", "active_owner_role"],
+      "properties": {
+        "run_root": {"type": "string", "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+        "run_manifest": {"$ref": "#/$defs/pathHash"},
+        "plan": {"$ref": "#/$defs/pathHash"},
+        "canvas": {"$ref": "#/$defs/pathHash"},
+        "founder_epoch": {"type": "integer", "minimum": 0},
+        "active_owner_role": {"enum": ["overall_director", "creative_development_director"]}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "path", "revision", "sha256", "eof_required"],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "path": {"$ref": "#/$defs/repoPath"},
+        "revision": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true}
+      }
+    },
+    "selectedProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "checkpoint_id", "role", "skills", "reads"],
+      "properties": {
+        "profile_id": {"enum": ["overall_director", "creative_development_director", "planning_cdd_p1", "planning_cdd_p2", "planning_cdd_p3_ci"]},
+        "checkpoint_id": {"enum": ["director_startup", "cdd_startup", "p1_story_audience_lead", "p1_g40_integration_handoff", "p2_visual_reference_development", "p3_section_kinetic_architecture"]},
+        "role": {"enum": ["overall_director", "creative_development_director", "planning_cdd_p1", "planning_cdd_p2", "planning_cdd_p3_ci"]},
+        "skills": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/binding"}},
+        "reads": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/binding"}}
+      }
+    },
+    "roleContextPack": {
+      "type": "object",
+      "required": ["schema_version", "status", "authority", "pack_id", "identity", "instruction_slices", "provider_binding", "projection"],
+      "properties": {
+        "schema_version": {"const": "idol-role-context-pack.v1"},
+        "status": {"const": "pass"},
+        "authority": {"const": "derived_read_only_no_creative_or_promotion_authority"},
+        "pack_id": {"type": "string", "pattern": "^ROLE_CONTEXT_[A-Z0-9_]{3,160}$"},
+        "identity": {
+          "type": "object",
+          "required": ["role", "profile_id", "checkpoint_id", "stage_id"]
+        },
+        "instruction_slices": {"type": "array", "minItems": 1},
+        "provider_binding": {
+          "type": "object",
+          "required": ["status", "provider", "provider_profile_id", "exact_model", "reasoning_effort", "fallback_policy"],
+          "properties": {
+            "status": {"const": "resolved"},
+            "provider": {"enum": ["grok", "cursor"]},
+            "provider_profile_id": {"type": "string", "minLength": 1},
+            "exact_model": {"type": "string", "minLength": 1},
+            "reasoning_effort": {"type": "string", "minLength": 1},
+            "fallback_policy": {"const": "forbidden"}
+          }
+        },
+        "projection": {
+          "type": "object",
+          "required": ["pack_digest", "source_set_sha256", "replacement_rule", "invalidation_policy"],
+          "properties": {
+            "pack_digest": {"$ref": "#/$defs/sha256"},
+            "source_set_sha256": {"$ref": "#/$defs/sha256"},
+            "replacement_rule": {"const": "runtime_pack_replaces_broad_instruction_reads_and_is_not_an_additional_required_layer"},
+            "invalidation_policy": {"const": "bound_fragment_or_exact_dependency_change_only_except_always_on_authority"}
+          }
+        }
+      }
+    }
+  }
+}

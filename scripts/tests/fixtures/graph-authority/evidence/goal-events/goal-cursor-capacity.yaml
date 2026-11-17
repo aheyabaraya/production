@@ -1,0 +1,12 @@
+---
+schema_version: idol-graph-provider-goal-terminal-event.v1
+artifact_type: graph_provider_goal_terminal_event
+evidence_class: synthetic_fixture
+fixture_notice: synthetic_test_evidence_not_runtime_attestation
+provider: cursor
+native_goal_id: GOAL_CURSOR_CAPACITY
+goal_text: Synthetic fixture Goal objective for GOAL_CURSOR_CAPACITY.
+goal_text_sha256: 9eeb9c8902cec872fb5d8270c64c442e763eb031aedbc1cbcb13601e8818d7cc
+goal_semantics: cursor_external_goal_runtime_receipt
+terminal_state: success
+last_event: cli_terminal_success

@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/grok-video-prompt-reference-pack-v6-legacy.schema.json",
+  "title": "IDOL Optional Grok 03V Reference Pack v6 Legacy",
+  "description": "Read-only legacy v6 compatibility contract. New authoring uses grok-video-prompt-reference-pack.schema.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "run_root",
+    "status",
+    "founder_requested",
+    "execution_mode",
+    "source_pack",
+    "source_set_sha256",
+    "source_artifacts",
+    "storyline_lineage_projection",
+    "authoring_policy",
+    "section_shards",
+    "reference_files",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_grok_video_prompt_reference_pack.v6"},
+    "content_id": {"type": "string", "minLength": 1},
+    "run_root": {"type": "string", "minLength": 1},
+    "status": {"enum": ["dry_run", "written"]},
+    "founder_requested": {"const": true},
+    "execution_mode": {"const": "founder_paste_only"},
+    "source_pack": {"$ref": "#/$defs/artifactRef"},
+    "source_set_sha256": {"$ref": "#/$defs/sha256"},
+    "source_artifacts": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/sourceArtifact"}
+    },
+    "storyline_lineage_projection": {"$ref": "#/$defs/storylineLineageProjection"},
+    "authoring_policy": {"$ref": "#/$defs/authoringPolicy"},
+    "section_shards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionShard"}
+    },
+    "reference_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "common_authoring_source_pack",
+        "local_brief",
+        "request_packet",
+        "paste_trigger"
+      ],
+      "properties": {
+        "common_authoring_source_pack": {"type": "string", "minLength": 1},
+        "local_brief": {"type": "string", "minLength": 1},
+        "request_packet": {"type": "string", "minLength": 1},
+        "paste_trigger": {"type": "string", "minLength": 1}
+      }
+    },
+    "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256"],
+      "properties": {
+        "role": {
+          "enum": [
+            "master_storyboard",
+            "prompt_packets",
+            "production_cut_review",
+            "audio_branch_cut_placement",
+            "storyboard_assist"
+          ]
+        },
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "storylineLineageProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value"
+      ],
+      "properties": {
+        "source_01_json_pointer": {"const": "/storyline_lineage_projection/projected_value"},
+        "source_front_planning_json_pointer": {"const": "/storyline_lineage"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object", "minProperties": 1}
+      }
+    },
+    "authoringPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_gate",
+        "attachment_order",
+        "board_authority",
+        "production_cut_original_authority",
+        "source_union",
+        "same_parent_default",
+        "cross_core_rule",
+        "camera_motion_owner",
+        "creative_prompt_author",
+        "one_section_per_owner"
+      ],
+      "properties": {
+        "source_gate": {"const": "passed_hash_bound_pixels_and_passed_storyboard_boards_only"},
+        "attachment_order": {
+          "const": "@image1_storyboard_then_@image2_@image3_optional_@image4_ordered_production_cut_originals"
+        },
+        "board_authority": {"const": "timing_blocking_subject_route_and_temporal_camera_motion"},
+        "production_cut_original_authority": {"const": "pixels_identity_style_light_still_composition_and_visible_states"},
+        "source_union": {"const": "official_core_or_branch"},
+        "same_parent_default": {"const": true},
+        "cross_core_rule": {"const": "both_core_ids_and_continuity_reason_required"},
+        "camera_motion_owner": {"const": "03V_after_passed_production_cut_review_and_audio_production_cut_placement"},
+        "creative_prompt_author": {"const": "selected_Grok_surface_under_the_same_active_IDOL_contract"},
+        "one_section_per_owner": {"const": true}
+      }
+    },
+    "sectionShard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "storyboard_ids", "board_count", "authoring_scope"],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "storyboard_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^03VSB_[A-Z0-9_]{2,80}$"}
+        },
+        "board_count": {"type": "integer", "minimum": 1},
+        "authoring_scope": {"const": "one_section_only"}
+      }
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_handoff_only",
+        "canonical_source_mutation_allowed",
+        "paid_video_generation_approved",
+        "external_video_execution_approved",
+        "playback_pass_implied",
+        "edit_readiness_implied"
+      ],
+      "properties": {
+        "derived_handoff_only": {"const": true},
+        "canonical_source_mutation_allowed": {"const": false},
+        "paid_video_generation_approved": {"const": false},
+        "external_video_execution_approved": {"const": false},
+        "playback_pass_implied": {"const": false},
+        "edit_readiness_implied": {"const": false}
+      }
+    }
+  }
+}

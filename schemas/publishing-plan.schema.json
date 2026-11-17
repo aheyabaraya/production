@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/publishing-plan.schema.json",
+  "title": "IDOL Publishing Plan Extract",
+  "description": "Machine-checkable active planning contract extracted from run-owned publishing-plan.md. Immutable completed records use publishing-record.schema.json.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "record_kind",
+    "content_id",
+    "public_group_name",
+    "public_fan_name",
+    "status",
+    "created_at_kst",
+    "updated_at_kst",
+    "sections",
+    "draft_queue"
+  ],
+  "properties": {
+    "record_kind": { "const": "active_plan" },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"
+    },
+    "public_group_name": { "const": "Loom" },
+    "public_fan_name": { "const": "Harne" },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "(?:closed|final_complete)" }
+    },
+    "created_at_kst": { "type": "string", "minLength": 1 },
+    "updated_at_kst": { "type": "string", "minLength": 1 },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "contains": { "const": "Draft Queue" }
+    },
+    "selected_short_clips": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/selected_short_clip" }
+    },
+    "draft_queue": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/draft_post" }
+    },
+    "approval_text": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "sections": {
+          "allOf": [
+            { "contains": { "const": "Scope" } },
+            { "contains": { "const": "Tracking Convention" } },
+            { "contains": { "const": "Approval State" } }
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "platform": {
+      "type": "string",
+      "enum": ["x", "tiktok", "youtube", "youtube_shorts", "instagram_reels"]
+    },
+    "template_type": {
+      "type": "string",
+      "enum": [
+        "track", "clip", "question_poll", "youtube_full_master",
+        "work_root", "derived_clip", "hook_loop", "member_still",
+        "member_carousel", "member_clip", "craft_gift", "harness_proof",
+        "process_thread"
+      ]
+    },
+    "content_lane": {
+      "type": "string",
+      "enum": [
+        "work_root", "derived_clip", "derived_clip_3_8", "hook_loop_3_8",
+        "member_key_visual", "member_still", "member_carousel", "member_clip",
+        "lip_sync_reel", "mv_highlight", "cf_key_visual", "section_clip",
+        "member_focus_3_8", "cf_hook_3_8", "before_after", "craft_gift",
+        "harness_proof", "process_thread", "question_poll", "full_master",
+        "cf_film_drop", "mv_film_drop", "mv_cutdown", "x_derived_clip",
+        "x_craft_gift", "x_harness_proof", "x_process_film_drop",
+        "x_reply_boards_image_prompt", "x_reply_video_prompt", "x_reply_stack"
+      ]
+    },
+    "analysis_scope": {
+      "type": "string",
+      "enum": ["scheduler_whitelist", "date_based"]
+    },
+    "draft_post": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["post_id", "platform", "slot", "asset_or_clip", "caption"],
+      "properties": {
+        "post_id": { "type": "string", "minLength": 1 },
+        "platform": { "$ref": "#/$defs/platform" },
+        "template_type": { "$ref": "#/$defs/template_type" },
+        "content_lane": { "$ref": "#/$defs/content_lane" },
+        "media_kind": { "type": "string", "minLength": 1 },
+        "api_upload_quality_profile": {
+          "type": "string",
+          "const": "idol_api_upload_2k30_high_quality.v1"
+        },
+        "api_upload_quality_receipt": { "type": "string", "minLength": 1 },
+        "shared_media_source_post_id": { "type": "string", "minLength": 1 },
+        "reply_to_post_id": { "type": "string", "minLength": 1 },
+        "thread_role": { "enum": ["root", "reply_1", "reply_2", "reply_3"] },
+        "harness_intensity": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "member": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "member_intro_line": { "type": "string", "minLength": 1 },
+        "content_pillar": {
+          "enum": ["loom_idol_member", "cf_finish", "production_harness", "unclassified"]
+        },
+        "primary_channel_job": {
+          "enum": ["discovery", "proof", "relationship", "return", "unclassified"]
+        },
+        "format_family": {
+          "enum": ["video", "still", "carousel", "thread", "poll", "full_master", "unknown"]
+        },
+        "duration_band": { "type": "string", "minLength": 1 },
+        "hook_type": { "type": "string", "minLength": 1 },
+        "first_frame_type": { "type": "string", "minLength": 1 },
+        "payoff_timestamp": { "type": ["number", "string"] },
+        "edit_density": { "type": ["number", "string"] },
+        "message": { "type": "string" },
+        "asset_or_clip": { "type": "string", "minLength": 1 },
+        "caption": { "type": "string", "minLength": 1 },
+        "slot": { "type": "string", "minLength": 1 },
+        "analysis_scope": { "$ref": "#/$defs/analysis_scope" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "platform": { "const": "x" } },
+            "required": ["platform"]
+          },
+          "then": {
+            "properties": { "analysis_scope": { "const": "scheduler_whitelist" } }
+          },
+          "else": {
+            "properties": { "analysis_scope": { "const": "date_based" } }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "template_type": {
+                "enum": [
+                  "work_root", "derived_clip", "hook_loop", "member_still",
+                  "member_carousel", "member_clip", "craft_gift",
+                  "harness_proof", "process_thread"
+                ]
+              }
+            },
+            "required": ["template_type"]
+          },
+          "then": { "required": ["content_lane"] }
+        },
+        {
+          "if": {
+            "properties": {
+              "platform": { "const": "x" },
+              "member": { "type": "array", "minItems": 1 }
+            },
+            "required": ["platform", "member"]
+          },
+          "then": { "required": ["member_intro_line"] }
+        }
+      ]
+    },
+    "selected_short_clip": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["clip_id", "exported_file"],
+      "properties": {
+        "clip_id": { "type": "string", "minLength": 1 },
+        "exported_file": { "type": "string", "minLength": 1 },
+        "why_selected": { "type": "string" }
+      }
+    }
+  }
+}

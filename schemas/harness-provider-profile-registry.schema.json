@@ -1,0 +1,553 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-provider-profile-registry.schema.json",
+  "title": "IDOL Graph Engineering Provider Profile Registry",
+  "description": "Literal-free logical profile index. Exact model and effort values remain in provider-specific sources and immutable run snapshots.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "registry_version",
+    "registry_policy",
+    "logical_profiles",
+    "media_lanes",
+    "selection_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-provider-profile-registry.v1"},
+    "status": {"const": "active"},
+    "registry_version": {"const": 3},
+    "registry_policy": {"$ref": "#/$defs/registryPolicy"},
+    "logical_profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frontier_director", "director_deep", "worker_high", "research_medium", "cursor_advisory", "cursor_grok_explicit_selected_worker"],
+      "properties": {
+        "frontier_director": {"$ref": "#/$defs/logicalProfile"},
+        "director_deep": {"$ref": "#/$defs/logicalProfile"},
+        "worker_high": {"$ref": "#/$defs/logicalProfile"},
+        "research_medium": {"$ref": "#/$defs/logicalProfile"},
+        "cursor_advisory": {"$ref": "#/$defs/cursorLogicalProfile"},
+        "cursor_grok_explicit_selected_worker": {"$ref": "#/$defs/cursorGrokExplicitSelectedWorkerLogicalProfile"}
+      }
+    },
+    "media_lanes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "openai_image_api_current",
+        "grok_build_oauth_subscription",
+        "xai_api_media",
+        "cursor_luna_optional_image"
+      ],
+      "properties": {
+        "openai_image_api_current": {"$ref": "#/$defs/apiImageLane"},
+        "grok_build_oauth_subscription": {"$ref": "#/$defs/grokSubscriptionLane"},
+        "xai_api_media": {"$ref": "#/$defs/apiMediaLane"},
+        "cursor_luna_optional_image": {"$ref": "#/$defs/cursorLunaOptionalImageLane"}
+      }
+    },
+    "selection_policy": {"$ref": "#/$defs/selectionPolicy"}
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\.?[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "registryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_neutral_index",
+        "exact_model_or_effort_literals_forbidden",
+        "provider_sources_are_exact_value_owners",
+        "source_hashes_required",
+        "run_resolved_snapshot_pinned"
+      ],
+      "properties": {
+        "provider_neutral_index": {"const": true},
+        "exact_model_or_effort_literals_forbidden": {"const": true},
+        "provider_sources_are_exact_value_owners": {"const": true},
+        "source_hashes_required": {"const": true},
+        "run_resolved_snapshot_pinned": {"const": true}
+      }
+    },
+    "logicalProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_logical_roles", "providers"],
+      "properties": {
+        "eligible_logical_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "providers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cursor", "grok"],
+          "properties": {
+            "cursor": {"$ref": "#/$defs/cursorProvider"},
+            "grok": {"$ref": "#/$defs/grokProvider"}
+          }
+        }
+      }
+    },
+    "sourceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "source_path", "source_sha256"],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/id"},
+        "source_path": {"$ref": "#/$defs/path"},
+        "source_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "codexProvider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_kind",
+        "source_path",
+        "source_set_digest_algorithm",
+        "source_set_sha256",
+        "capability_status",
+        "harness_status",
+        "full_owner_ready",
+        "role_profiles"
+      ],
+      "properties": {
+        "source_kind": {"const": "codex_toml_set"},
+        "source_path": {"const": ".codex/agents"},
+        "source_set_digest_algorithm": {"const": "sha256_sorted_path_colon_sha256_lf_v1"},
+        "source_set_sha256": {"$ref": "#/$defs/sha256"},
+        "capability_status": {"enum": ["active", "founder_verified", "hold"]},
+        "harness_status": {"enum": ["active", "migration_pending", "hold"]},
+        "full_owner_ready": {"type": "boolean"},
+        "role_profiles": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/$defs/sourceProfile"}
+        }
+      }
+    },
+    "grokProvider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_kind",
+        "source_path",
+        "source_sha256",
+        "provider_profile_id",
+        "capability_status",
+        "harness_status",
+        "full_owner_ready"
+      ],
+      "properties": {
+        "source_kind": {"const": "provider_yaml"},
+        "source_path": {"const": "automation/providers/grok-build-profiles.yaml"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_profile_id": {"$ref": "#/$defs/id"},
+        "capability_status": {"enum": ["founder_verified", "hold"]},
+        "harness_status": {"enum": ["active", "migration_pending", "shadow_passed", "hold"]},
+        "full_owner_ready": {"type": "boolean"}
+      }
+    },
+    "cursorLogicalProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_logical_roles", "providers"],
+      "properties": {
+        "eligible_logical_roles": {
+          "const": ["department_worker", "section_owner"]
+        },
+        "providers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cursor"],
+          "properties": {
+            "cursor": {"$ref": "#/$defs/cursorProvider"}
+          }
+        }
+      }
+    },
+    "cursorGrokExplicitSelectedWorkerLogicalProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligible_logical_roles", "providers"],
+      "properties": {
+        "eligible_logical_roles": {
+          "const": ["mechanical_coordinator", "department_worker"]
+        },
+        "providers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cursor"],
+          "properties": {
+            "cursor": {"$ref": "#/$defs/cursorProvider"}
+          }
+        }
+      }
+    },
+    "cursorProvider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_kind",
+        "source_path",
+        "source_sha256",
+        "provider_profile_id",
+        "capability_status",
+        "harness_status",
+        "full_owner_ready"
+      ],
+      "properties": {
+        "source_kind": {"const": "provider_yaml"},
+        "source_path": {"const": "automation/providers/cursor-agent-profiles.yaml"},
+        "source_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_profile_id": {
+          "enum": ["cursor_advisory_index", "cursor_sol_xhigh", "cursor_grok_46_xhigh", "cursor_luna_max", "cursor_luna_xhigh"]
+        },
+        "capability_status": {
+          "enum": ["founder_verified", "active_with_holds", "hold"]
+        },
+        "harness_status": {
+          "enum": ["active", "active_text_only", "active_with_holds", "hold"]
+        },
+        "full_owner_ready": {"type": "boolean"}
+      }
+    },
+    "cursorLunaOptionalImageLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "capability_status",
+        "harness_status",
+        "image_execution_status",
+        "section_transfer_status",
+        "provider_profile_id",
+        "provider_profile_source",
+        "provider_profile_source_sha256",
+        "image_adapter_id",
+        "image_output_contract",
+        "default_enabled",
+        "requires_luna_to_grok_transfer",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "cursor"},
+        "auth_lane": {"const": "cursor_physical_chat"},
+        "capability_status": {"const": "founder_verified"},
+        "harness_status": {"const": "available_founder_explicit_substitute"},
+        "image_execution_status": {"const": "proven_cursor_generate_image_tool"},
+        "section_transfer_status": {"const": "founder_authorized_cas_transfer"},
+        "provider_profile_id": {"const": "cursor_luna_max"},
+        "provider_profile_source": {"const": "automation/providers/cursor-agent-profiles.yaml"},
+        "provider_profile_source_sha256": {"$ref": "#/$defs/sha256"},
+        "image_adapter_id": {"const": "cursor_luna_image"},
+        "image_output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "default_enabled": {"const": false},
+        "requires_luna_to_grok_transfer": {"const": true},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "apiImageLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "provider_profile_id",
+        "provider_profile_source",
+        "provider_profile_source_sha256",
+        "image_adapter_id",
+        "image_output_contract",
+        "default_enabled",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "openai"},
+        "auth_lane": {"const": "founder_approved_api"},
+        "provider_profile_id": {"$ref": "#/$defs/id"},
+        "provider_profile_source": {"const": "automation/providers/openai-image-profiles.yaml"},
+        "provider_profile_source_sha256": {"$ref": "#/$defs/sha256"},
+        "image_adapter_id": {"const": "openai_api_gpt_image_2"},
+        "image_output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "default_enabled": {"const": false},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "codexSessionNativeLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider", "auth_lane", "capability_status", "harness_status",
+        "provider_profile_id", "provider_profile_source", "provider_profile_source_sha256",
+        "image_adapter_id", "image_tools", "image_tool_selection",
+        "image_prompt_rewrite_policy", "image_output_contract", "default_enabled",
+        "native_default_scope", "current_session_provider_match_required",
+        "runtime_tool_inventory_match_required", "cross_provider_tool_aliasing",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "codex"},
+        "auth_lane": {"const": "codex_session"},
+        "capability_status": {"const": "active"},
+        "harness_status": {"const": "active"},
+        "provider_profile_id": {"const": "codex_current_session_imagegen"},
+        "provider_profile_source": {"const": "automation/providers/codex-native-media-profiles.yaml"},
+        "provider_profile_source_sha256": {"$ref": "#/$defs/sha256"},
+        "image_adapter_id": {"const": "codex_imagegen"},
+        "image_tools": {"const": ["imagegen"]},
+        "image_tool_selection": {"const": "single_native_tool_handles_generation_or_edit_from_exact_attachment_binding"},
+        "image_prompt_rewrite_policy": {"const": "forbidden"},
+        "image_output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "default_enabled": {"const": true},
+        "native_default_scope": {"const": "exact_current_assignment_provider_only"},
+        "current_session_provider_match_required": {"const": true},
+        "runtime_tool_inventory_match_required": {"const": true},
+        "cross_provider_tool_aliasing": {"const": "forbidden"},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "apiMediaLane": {
+      "oneOf": [
+        {"$ref": "#/$defs/xaiRegistrationRequiredLane"},
+        {"$ref": "#/$defs/xaiRegisteredExactLane"},
+        {"$ref": "#/$defs/xaiLegacySelectionOnlyLane"}
+      ]
+    },
+    "xaiRegistrationRequiredLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "capability_status",
+        "harness_status",
+        "registration_status",
+        "default_enabled",
+        "selection_only",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "xai"},
+        "auth_lane": {"const": "founder_approved_api"},
+        "capability_status": {"const": "registration_required"},
+        "harness_status": {"const": "hold"},
+        "registration_status": {"const": "registration_required"},
+        "default_enabled": {"const": false},
+        "selection_only": {"const": false},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "xaiRegisteredExactLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "capability_status",
+        "harness_status",
+        "registration_status",
+        "provider_profile_id",
+        "provider_profile_source",
+        "provider_profile_source_sha256",
+        "image_adapter_id",
+        "image_output_contract",
+        "default_enabled",
+        "selection_only",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "xai"},
+        "auth_lane": {"const": "founder_approved_api"},
+        "capability_status": {"const": "active"},
+        "harness_status": {"const": "active"},
+        "registration_status": {"const": "registered_exact"},
+        "provider_profile_id": {"$ref": "#/$defs/id"},
+        "provider_profile_source": {"$ref": "#/$defs/path"},
+        "provider_profile_source_sha256": {"$ref": "#/$defs/sha256"},
+        "image_adapter_id": {"const": "xai_api_media"},
+        "image_output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "default_enabled": {"const": false},
+        "selection_only": {"const": false},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "xaiLegacySelectionOnlyLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "default_enabled",
+        "selection_only",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "xai"},
+        "auth_lane": {"const": "founder_approved_api"},
+        "default_enabled": {"const": false},
+        "selection_only": {"const": true},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "grokSubscriptionLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "auth_lane",
+        "capability_status",
+        "image_harness_status",
+        "video_harness_status",
+        "provider_profile_id",
+        "provider_profile_source",
+        "provider_profile_source_sha256",
+        "image_adapter_id",
+        "image_tools",
+        "image_tool_selection",
+        "image_prompt_rewrite_policy",
+        "image_output_contract",
+        "default_enabled",
+        "native_default_scope",
+        "current_session_provider_match_required",
+        "runtime_tool_inventory_match_required",
+        "cross_provider_tool_aliasing",
+        "video_tools",
+        "video_adapter_id",
+        "video_output_contract",
+        "video_local_output_required",
+        "video_runtime_inventory_or_adapter_match_required",
+        "video_founder_external_generation_authority_required",
+        "direct_image_to_video",
+        "video_prompt_rewrite_policy",
+        "video_durations_seconds",
+        "resolutions",
+        "resolution_1080p",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "provider": {"const": "grok"},
+        "auth_lane": {"const": "subscription_oauth"},
+        "capability_status": {"const": "founder_verified"},
+        "image_harness_status": {"const": "active"},
+        "video_harness_status": {"const": "active"},
+        "provider_profile_id": {"const": "grok_worker_high"},
+        "provider_profile_source": {"const": "automation/providers/grok-build-profiles.yaml"},
+        "provider_profile_source_sha256": {"$ref": "#/$defs/sha256"},
+        "image_adapter_id": {"const": "grok_image"},
+        "image_tools": {
+          "const": ["image_edit", "image_gen"]
+        },
+        "image_tool_selection": {"const": "attachments_nonzero_image_edit_zero_image_gen"},
+        "image_prompt_rewrite_policy": {"const": "forbidden"},
+        "image_output_contract": {"const": "exact_expected_output_path_sha256_pixel_review"},
+        "default_enabled": {"const": true},
+        "native_default_scope": {"const": "exact_current_assignment_provider_only"},
+        "current_session_provider_match_required": {"const": true},
+        "runtime_tool_inventory_match_required": {"const": true},
+        "cross_provider_tool_aliasing": {"const": "forbidden"},
+        "video_tools": {
+          "const": ["image_to_video", "reference_to_video"]
+        },
+        "video_adapter_id": {"const": "grok_build_video"},
+        "video_output_contract": {"const": "exact_expected_output_path_sha256_playback_review"},
+        "video_local_output_required": {"const": true},
+        "video_runtime_inventory_or_adapter_match_required": {"const": true},
+        "video_founder_external_generation_authority_required": {"const": true},
+        "direct_image_to_video": {"const": "forbidden"},
+        "video_prompt_rewrite_policy": {"const": "forbidden"},
+        "video_durations_seconds": {"const": [6, 10]},
+        "resolutions": {"const": ["480p", "720p"]},
+        "resolution_1080p": {"const": "rejected"},
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "selectionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_role_binding_cardinality",
+        "provider_native_internal_helpers",
+        "project_numeric_helper_override",
+        "internal_helper_additional_authority",
+        "physical_session_selection",
+        "internal_and_physical_active_owner_overlap",
+        "run_snapshot_pinned",
+        "runtime_snapshot_check_required",
+        "shadow_eval_required",
+        "founder_default_switch_required",
+        "silent_model_effort_or_auth_fallback",
+        "api_default_enabled",
+        "provider_omitted_image_request",
+        "current_session_native_resolution",
+        "explicit_api_selection_required",
+        "provider_specific_capability_binding",
+        "shared_contract_scope",
+        "cross_provider_tool_or_auth_aliasing",
+        "unsupported_provider_capability_action",
+        "preferred_nonmedia_provider",
+        "preferred_nonmedia_runtime_surface",
+        "preferred_nonmedia_activation",
+        "excluded_preferred_generation_lanes",
+        "fixed_provider_exceptions",
+        "preferred_provider_unavailable_action",
+        "model_literal_allowlist"
+      ],
+      "properties": {
+        "active_role_binding_cardinality": {"const": "exactly_one_per_logical_director_role"},
+        "provider_native_internal_helpers": {"const": "default_enabled"},
+        "project_numeric_helper_override": {"const": "none"},
+        "internal_helper_additional_authority": {"const": "forbidden"},
+        "physical_session_selection": {"const": "adaptive_registered_assignment"},
+        "internal_and_physical_active_owner_overlap": {"const": "forbidden"},
+        "run_snapshot_pinned": {"const": true},
+        "runtime_snapshot_check_required": {"const": true},
+        "shadow_eval_required": {"const": true},
+        "founder_default_switch_required": {"const": true},
+        "silent_model_effort_or_auth_fallback": {"const": "forbidden"},
+        "api_default_enabled": {"const": false},
+        "provider_omitted_image_request": {"const": "current_session_native"},
+        "current_session_native_resolution": {"const": "exact_current_assignment_provider_registered_media_lane"},
+        "explicit_api_selection_required": {"const": true},
+        "provider_specific_capability_binding": {"const": "exact_provider_source_and_runtime_inventory"},
+        "shared_contract_scope": {"const": "logical_role_goal_dispatch_successor_review_only"},
+        "cross_provider_tool_or_auth_aliasing": {"const": "forbidden"},
+        "unsupported_provider_capability_action": {"const": "hold_without_cross_provider_fallback"},
+        "preferred_nonmedia_provider": {"const": "grok"},
+        "preferred_nonmedia_runtime_surface": {"const": "grok_cli_acp_or_tui"},
+        "preferred_nonmedia_activation": {"const": "exact_run_resolved_profile_live_inventory_sandbox_and_readiness"},
+        "excluded_preferred_generation_lanes": {"const": ["02b_image_generation", "03v_video_generation"]},
+        "fixed_provider_exceptions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["founder_briefing_assistant"],
+          "properties": {"founder_briefing_assistant": {"const": "none"}}
+        },
+        "preferred_provider_unavailable_action": {"const": "hold_without_cross_provider_fallback"},
+        "model_literal_allowlist": {
+          "const": [
+            "provider_specific_profile",
+            "capability_fixture",
+            "immutable_run_resolved_snapshot"
+          ]
+        }
+      }
+    }
+  }
+}

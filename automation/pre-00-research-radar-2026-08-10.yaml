@@ -1,0 +1,77 @@
+schema_version: "1.5"
+radar_id: PRE00_RESEARCH_RADAR_2026_08_10
+date: "2026-08-10"
+mode: automation
+status: hold
+research_policy:
+  method_basis: >-
+    Current public no-login research is required for PRE-00. Local registered
+    source lanes are usable only when their completed pointer and freshness
+    support the present KST research window.
+  current_research_required: true
+  minimum_reference_count: 6
+  candidate_route_count: 3
+  reference_families:
+    - audience
+    - trend
+    - song
+    - media_narrative
+    - fashion
+    - idol
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: >-
+    Establish defensible target-to-response-to-song/screen questions before
+    any target lock or song selection.
+  combination_rule: >-
+    A future route must combine audience, trend, song, media-narrative,
+    fashion, and idol evidence without converting a stale lane into current
+    behavior.
+  unity_rule: >-
+    A future route must carry one coherent target-fit song question and one
+    coherent screen-world question.
+  ref_id_integrity_rule: >-
+    Every future source link must resolve to research_inputs with an exact
+    locator and reviewable provenance.
+  allowed_output: target_trend_locked_route_brief_before_song_selection
+  handoff_target: locked_target_to_song_direction_and_candidate_audio_path
+founder_decision_needed:
+  - Do not select or lock a PRE-00 target from this held pass.
+  - Restore the missing current evidence lanes, then request a fresh PRE-00 comparison.
+  - Keep 00A, Front Planning, generation, upload, publishing, and memory promotion closed.
+automation_notes: >-
+  Named current public availability checks confirmed the official KARD NOWHERE
+  notice and Back To Life MV/audio index at https://kard.bstage.in/notice and
+  https://www.kard.kr/tag/NOWHERE. These checks establish source availability
+  only; they do not establish current audience response, demand, platform
+  behavior, or performance. No such claim is made here.
+hold_report:
+  hold_reason: current_structured_pre00_comparison_not_justified
+  missing_requirements:
+    - >-
+      The current completed biweekly Trend Pulse lane is missing: the active
+      pointer remains 2026-07-01 through 2026-07-14, while the 2026-08 pulse is
+      hold_incomplete.
+    - >-
+      The latest completed paired weekly idol report and ledger are W29,
+      covering 2026-07-13 through 2026-07-19; no completed current bundle is
+      available for the 2026-08-10 window.
+    - >-
+      The weekly short-form report pointer is TBD, so current TikTok/Instagram
+      behavior, lifecycle, and counterevidence cannot be asserted.
+    - >-
+      The audience baseline is a guarded D-grade snapshot dated 2026-07-26
+      with no populated cohort; it is context only, not current demand evidence.
+    - >-
+      Without those lanes, comparing 2-4 typed target connections and 3-7
+      route candidates would mix stale evidence with current claims.
+  usable_reference_count: 0
+  partial_reference_families:
+    - audience
+    - trend
+    - fashion
+    - idol
+  next_action: >-
+    Complete and point the current Trend Pulse, paired idol HTML plus ledger,
+    weekly short-form report, and refreshed audience baseline; then rerun PRE-00
+    and compare 2-4 typed connections with 3-7 routes before any Founder target
+    selection.

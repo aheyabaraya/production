@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>IDOL Ops Widget</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/compact.css">
+  </head>
+  <body data-mode="compact">
+    <main class="widget-shell">
+      <section class="peek-console only-peek" aria-label="초소형 IDOL Ops 상태">
+        <div class="peek-brand">
+          <strong>IDOL OPS</strong>
+          <span><i></i>LOCAL</span>
+        </div>
+        <button id="peek-run" class="peek-run" type="button" data-mode-target="compact">
+          <span id="peek-role">MAIN</span>
+          <strong id="peek-run-id">불러오는 중</strong>
+          <small id="peek-family-count">—</small>
+        </button>
+        <div class="peek-signals">
+          <strong id="peek-deadline">—</strong>
+          <span id="peek-attention">0 확인</span>
+        </div>
+        <button class="peek-expand" type="button" data-mode-target="compact">펼치기</button>
+      </section>
+
+      <div class="panel-content not-peek">
+        <header class="widget-header">
+          <div class="widget-brand">
+            <div><strong>IDOL OPS</strong><span>RUN CONTROL · LOCAL</span></div>
+          </div>
+          <div class="widget-actions">
+            <button type="button" data-mode-target="peek">초소형</button>
+            <button class="compact-only" type="button" data-mode-target="expanded">펼치기</button>
+            <button class="expanded-only" type="button" data-mode-target="compact">요약</button>
+            <button id="refresh" type="button">새로고침</button>
+          </div>
+        </header>
+
+        <section class="portfolio-panel">
+          <div class="section-heading portfolio-heading">
+            <div><span>OPEN MV BOARD</span><h2>열린 MV를 한눈에</h2></div>
+            <strong id="open-run-count">—</strong>
+          </div>
+          <div id="family-board" class="family-board"></div>
+        </section>
+
+        <section class="family-panel">
+          <div class="family-heading">
+            <div>
+              <span id="family-kicker">SELECTED FAMILY</span>
+              <h2 id="family-title">—</h2>
+            </div>
+            <span id="family-relationship" class="relation-chip">—</span>
+          </div>
+          <div id="run-switcher" class="run-switcher"></div>
+          <div id="base-run" class="base-run expanded-only"></div>
+        </section>
+
+        <section id="run-hero" class="run-hero skeleton-block expanded-detail"></section>
+
+        <section class="section-panel worker-panel expanded-detail">
+          <div class="section-heading">
+            <div><span>SELECTED RUN WORKERS</span><h2>등록된 현재 head</h2></div>
+            <a href="/?view=workers" target="_blank" rel="noreferrer">상세</a>
+          </div>
+          <div id="worker-metrics" class="worker-metrics"></div>
+          <div id="projection-note" class="projection-note expanded-only"></div>
+        </section>
+
+        <section class="section-panel attention-panel expanded-detail">
+          <div class="section-heading">
+            <div><span>ATTENTION QUEUE</span><h2>지금 확인할 작업자</h2></div>
+            <strong id="attention-count">0</strong>
+          </div>
+          <div id="attention-list" class="attention-list"></div>
+        </section>
+
+        <section class="deadline-strip expanded-detail" id="deadline-strip"></section>
+
+        <footer class="widget-footer">
+          <span><i></i>하네스 읽기 전용 · MAIN/SUB는 표시 역할</span>
+          <time id="updated-at">—</time>
+        </footer>
+      </div>
+    </main>
+    <div id="error-banner" class="error-banner" role="alert"></div>
+    <script src="/compact.js"></script>
+  </body>
+</html>

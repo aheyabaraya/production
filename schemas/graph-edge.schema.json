@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-edge.schema.json",
+  "title": "IDOL Graph Engineering Edge v1",
+  "description": "Provider-neutral typed edge. Creative family edges require a human or assigned-model authorship receipt. The graph never authors, paraphrases, or fills creative values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "edge_id",
+    "family",
+    "edge_type",
+    "view",
+    "from_node_id",
+    "to_node_id"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-edge.v1"},
+    "edge_id": {"$ref": "#/$defs/identifier"},
+    "family": {"$ref": "#/$defs/family"},
+    "edge_type": {"$ref": "#/$defs/edgeType"},
+    "view": {"$ref": "#/$defs/view"},
+    "from_node_id": {"$ref": "#/$defs/identifier"},
+    "to_node_id": {"$ref": "#/$defs/identifier"},
+    "affected_scope_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "authorship": {"$ref": "#/$defs/authorship"},
+    "evidence": {"$ref": "#/$defs/edgeEvidence"},
+    "legacy_source": {"$ref": "#/$defs/legacySource"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"family": {"const": "creative"}}, "required": ["family"]},
+      "then": {"required": ["authorship"]}
+    },
+    {
+      "if": {"properties": {"edge_type": {"const": "invalidates"}}, "required": ["edge_type"]},
+      "then": {"required": ["affected_scope_ids", "evidence"]}
+    },
+    {
+      "if": {"properties": {"edge_type": {"const": "promotes"}}, "required": ["edge_type"]},
+      "then": {"required": ["evidence"]}
+    },
+    {
+      "if": {"properties": {"edge_type": {"const": "successor_of"}}, "required": ["edge_type"]},
+      "then": {"required": ["evidence"]}
+    },
+    {
+      "if": {"properties": {"edge_type": {"const": "judged_by"}}, "required": ["edge_type"]},
+      "then": {
+        "required": ["authorship"],
+        "properties": {
+          "family": {"const": "creative"},
+          "view": {"const": "creative_truth"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"edge_type": {"const": "selects_next"}}, "required": ["edge_type"]},
+      "then": {
+        "properties": {
+          "family": {"const": "coordination"},
+          "view": {"const": "authority_ownership"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "view": {
+      "enum": [
+        "creative_truth",
+        "evidence_provenance",
+        "authority_ownership",
+        "execution_session",
+        "review_decision",
+        "provider_capability"
+      ]
+    },
+    "family": {
+      "enum": [
+        "authority",
+        "lineage",
+        "creative",
+        "production",
+        "coordination",
+        "provider"
+      ]
+    },
+    "edgeType": {
+      "enum": [
+        "owns",
+        "dispatches",
+        "returns_to",
+        "reviews",
+        "promotes",
+        "authorized_by",
+        "constrained_by",
+        "may_read",
+        "outside_authority",
+        "derives_from",
+        "exact_carries",
+        "successor_of",
+        "replaces",
+        "invalidates",
+        "preserves",
+        "supports",
+        "contrasts",
+        "transforms",
+        "causes",
+        "transitions_to",
+        "embodies",
+        "complicates",
+        "resolves",
+        "judged_by",
+        "binds_reference",
+        "attaches",
+        "generates",
+        "animates",
+        "edits",
+        "requires",
+        "blocks",
+        "joins",
+        "boundary_with",
+        "conflicts_with",
+        "selects_next",
+        "resolved_to",
+        "executed_by",
+        "evidenced_by"
+      ]
+    },
+    "authorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["author_kind", "author_role", "receipt"],
+      "properties": {
+        "author_kind": {
+          "enum": ["founder", "assigned_model", "assigned_human"]
+        },
+        "author_role": {"type": "string", "minLength": 1},
+        "receipt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_path", "json_pointer", "value_sha256"],
+          "properties": {
+            "source_path": {"$ref": "#/$defs/repositoryPath"},
+            "json_pointer": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "value_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "edgeEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_digest", "result_digest"],
+      "properties": {
+        "input_digest": {"$ref": "#/$defs/sha256"},
+        "result_digest": {"$ref": "#/$defs/sha256"},
+        "output_hash": {"$ref": "#/$defs/sha256"},
+        "cas_receipt_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "legacySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capsule", "path", "legacy_id", "sha256"],
+      "properties": {
+        "capsule": {"const": "parse_only"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "local_fixture_path": {"$ref": "#/$defs/repositoryPath"},
+        "legacy_id": {"type": "string", "minLength": 1},
+        "json_pointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

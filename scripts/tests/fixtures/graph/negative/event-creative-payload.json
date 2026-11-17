@@ -1,0 +1,13 @@
+{
+  "schema_version": "idol-graph-event.v1",
+  "event_id": "evt_001",
+  "sequence": 1,
+  "event_type": "review_recorded",
+  "actor_role": "planning_cdd_p1",
+  "actor_id": "p1_primary",
+  "payload_kind": "creative",
+  "node_ids": ["n_review"],
+  "edge_ids": [],
+  "input_digest": "4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5",
+  "result_digest": "4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5"
+}

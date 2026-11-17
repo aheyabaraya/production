@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-director-session-router-state.schema.json",
+  "title": "IDOL Graph Director Session Router State",
+  "description": "Graph-v2-only shadow-readiness state for physical Director succession. Successor admission exact-verifies the registered provider binding and a persisted typed terminal Goal event before recording admission. It can model one primary plus one successor and a SHA/generation CAS, but it grants no provider, prompt, review, canonical-write, Founder-conversation, promotion, or execution authority. Same-lane succession adds no Founder gate to G0--G4. The legacy CDD router remains a separate parse-compatible contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "authority",
+    "routing_mode",
+    "router_id",
+    "run_root",
+    "lane_id",
+    "macro_stage_id",
+    "logical_lineage_id",
+    "provider",
+    "runtime_surface",
+    "generation",
+    "phase",
+    "physical_session_limit",
+    "active_writer_session_id",
+    "primary_session",
+    "successor_session",
+    "route_binding",
+    "admission",
+    "founder_gate_contract",
+    "last_transition",
+    "history",
+    "activation_status",
+    "execution_authority",
+    "authorization_semantics",
+    "evidence_validation",
+    "transition_receipt_contract",
+    "noncanonical_proof_root"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-director-session-router-state.v1"},
+    "artifact_type": {"const": "graph_director_session_router_state"},
+    "status": {"const": "hold"},
+    "authority": {"const": "shadow_readiness_only_no_execution_or_canonical_authority"},
+    "routing_mode": {"const": "graph_v2"},
+    "router_id": {"type": "string", "pattern": "^GRAPH_DIRECTOR_ROUTER_[A-F0-9]{24}$"},
+    "run_root": {"$ref": "#/$defs/nonEmpty"},
+    "lane_id": {"$ref": "#/$defs/laneId"},
+    "macro_stage_id": {"$ref": "#/$defs/token"},
+    "logical_lineage_id": {"$ref": "#/$defs/token"},
+    "provider": {"enum": ["cursor", "grok"]},
+    "runtime_surface": {"$ref": "#/$defs/nonEmpty"},
+    "generation": {"type": "integer", "minimum": 0, "maximum": 3},
+    "phase": {"enum": ["successor_preflight", "successor_admitted", "successor_active", "rolled_back"]},
+    "physical_session_limit": {"const": 2},
+    "active_writer_session_id": {"$ref": "#/$defs/token"},
+    "primary_session": {"$ref": "#/$defs/session"},
+    "successor_session": {"$ref": "#/$defs/session"},
+    "route_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verified_switch_receipt",
+        "director_lineage",
+        "role_context_pack",
+        "successor_pack",
+        "provider_source",
+        "safe_checkpoint",
+        "router_implementation",
+        "state_schema"
+      ],
+      "properties": {
+        "verified_switch_receipt": {"$ref": "#/$defs/pointer"},
+        "director_lineage": {"$ref": "#/$defs/pointer"},
+        "role_context_pack": {"$ref": "#/$defs/pointer"},
+        "successor_pack": {"$ref": "#/$defs/pointer"},
+        "provider_source": {"$ref": "#/$defs/pointer"},
+        "safe_checkpoint": {"$ref": "#/$defs/pointer"},
+        "router_implementation": {"$ref": "#/$defs/pointer"},
+        "state_schema": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "admission": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "admission_digest",
+            "verification_status",
+            "validation_mode",
+            "provider_binding",
+            "goal_evidence",
+            "verified_terminal_event"
+          ],
+          "properties": {
+            "admission_digest": {"$ref": "#/$defs/sha256"},
+            "verification_status": {"const": "typed_goal_terminal_event_and_provider_binding_verified"},
+            "validation_mode": {"enum": ["active_promotion", "test_boundary"]},
+            "provider_binding": {"$ref": "#/$defs/providerBinding"},
+            "goal_evidence": {"$ref": "#/$defs/goalEvidence"},
+            "verified_terminal_event": {"$ref": "#/$defs/verifiedTerminalEvent"}
+          }
+        }
+      ]
+    },
+    "founder_gate_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "normal_cycle",
+        "same_lane_succession_confirmation_required",
+        "succession_adds_founder_gate",
+        "legacy_dual_confirmation_router"
+      ],
+      "properties": {
+        "normal_cycle": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "G0"},
+            {"const": "G1"},
+            {"const": "G2"},
+            {"const": "G3"},
+            {"const": "G4"}
+          ],
+          "items": false,
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "same_lane_succession_confirmation_required": {"const": false},
+        "succession_adds_founder_gate": {"const": false},
+        "legacy_dual_confirmation_router": {"const": "schemas/cdd-session-router-state.schema.json"}
+      }
+    },
+    "last_transition": {"$ref": "#/$defs/transition"},
+    "history": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/transition"}
+    },
+    "activation_status": {"const": "hold_shadow_not_execution_ready"},
+    "execution_authority": {"const": false},
+    "authorization_semantics": {"const": "readiness_observation_only_never_execution_permission"},
+    "evidence_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "checks", "blockers"],
+      "properties": {
+        "status": {"enum": ["typed_core_correlated_shadow_hold", "hold_unverified_or_incomplete"]},
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verified_switch_receipt", "director_lineage", "role_context_pack", "successor_pack", "provider_source", "safe_checkpoint", "successor_goal_admission"],
+          "properties": {
+            "verified_switch_receipt": {"$ref": "#/$defs/evidenceCheck"},
+            "director_lineage": {"$ref": "#/$defs/evidenceCheck"},
+            "role_context_pack": {"$ref": "#/$defs/evidenceCheck"},
+            "successor_pack": {"$ref": "#/$defs/evidenceCheck"},
+            "provider_source": {"$ref": "#/$defs/evidenceCheck"},
+            "safe_checkpoint": {"$ref": "#/$defs/evidenceCheck"},
+            "successor_goal_admission": {"$ref": "#/$defs/evidenceCheck"}
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmpty"}
+        }
+      }
+    },
+    "transition_receipt_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit_input", "rollback_input", "typed_receipt_required_before_activation", "hash_claim_opens_execution_authority"],
+      "properties": {
+        "commit_input": {"const": "sha256_claim_only_not_typed_authority_receipt"},
+        "rollback_input": {"const": "sha256_claim_only_not_typed_failure_or_liveness_receipt"},
+        "typed_receipt_required_before_activation": {"const": true},
+        "hash_claim_opens_execution_authority": {"const": false}
+      }
+    },
+    "noncanonical_proof_root": {"type": "boolean"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"phase": {"const": "successor_preflight"}}, "required": ["phase"]},
+      "then": {
+        "properties": {
+          "generation": {"const": 0},
+          "primary_session": {"properties": {"generation": {"const": "primary"}, "state": {"const": "active_single_writer"}}},
+          "successor_session": {"properties": {"generation": {"const": "successor"}, "state": {"const": "zero_turn_read_only_preflight"}}},
+          "admission": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"phase": {"const": "successor_admitted"}}, "required": ["phase"]},
+      "then": {
+        "properties": {
+          "generation": {"const": 1},
+          "primary_session": {"properties": {"state": {"const": "active_single_writer"}}},
+          "successor_session": {"properties": {"state": {"const": "admitted_read_only"}}},
+          "admission": {"type": "object"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"phase": {"const": "successor_active"}}, "required": ["phase"]},
+      "then": {
+        "properties": {
+          "generation": {"const": 2},
+          "primary_session": {"properties": {"state": {"const": "graph_logically_retired"}}},
+          "successor_session": {"properties": {"state": {"const": "active_single_writer"}}},
+          "admission": {"type": "object"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"phase": {"const": "rolled_back"}}, "required": ["phase"]},
+      "then": {
+        "properties": {
+          "generation": {"const": 3},
+          "primary_session": {"properties": {"state": {"const": "reactivated_single_writer"}}},
+          "successor_session": {"properties": {"state": {"const": "graph_logically_retired"}}},
+          "admission": {"type": "object"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"lane_id": {"const": "overall"}}, "required": ["lane_id"]},
+      "then": {"properties": {"macro_stage_id": {"enum": ["planning_cell", "section_cluster_production", "edit_and_package"]}}}
+    },
+    {
+      "if": {"properties": {"lane_id": {"pattern": "^planning_"}}, "required": ["lane_id"]},
+      "then": {"properties": {"macro_stage_id": {"const": "planning_cell"}}}
+    },
+    {
+      "if": {"properties": {"lane_id": {"pattern": "^section_cluster_v_c"}}, "required": ["lane_id"]},
+      "then": {"properties": {"macro_stage_id": {"const": "section_cluster_production"}}}
+    },
+    {
+      "if": {"properties": {"lane_id": {"const": "edit_director"}}, "required": ["lane_id"]},
+      "then": {"properties": {"macro_stage_id": {"const": "edit_and_package"}}}
+    },
+    {
+      "if": {"properties": {"noncanonical_proof_root": {"const": false}, "admission": {"type": "object"}}, "required": ["noncanonical_proof_root", "admission"]},
+      "then": {"properties": {"admission": {"properties": {"validation_mode": {"const": "active_promotion"}}}}}
+    },
+    {
+      "if": {"properties": {"noncanonical_proof_root": {"const": true}, "admission": {"type": "object"}}, "required": ["noncanonical_proof_root", "admission"]},
+      "then": {"properties": {"admission": {"properties": {"validation_mode": {"const": "test_boundary"}}}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "token": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,180}$"},
+    "laneId": {"type": "string", "pattern": "^(?:overall|planning_p1|planning_p2|planning_p3_c[1-9][0-9]*|section_cluster_v_c[1-9][0-9]*|edit_director)$"},
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "evidenceCheck": {
+      "enum": [
+        "typed_current_valid",
+        "typed_correlated_valid",
+        "typed_test_boundary_valid",
+        "not_yet_admitted_shadow_hold",
+        "hash_only_shadow_hold",
+        "invalid_shadow_hold"
+      ]
+    },
+    "providerBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registered_provider",
+        "runtime_surface",
+        "logical_profile_alias",
+        "execution_profile_id",
+        "resolved_provider_model",
+        "reasoning_effort",
+        "provider_capability_snapshot_sha256",
+        "fallback_allowed",
+        "silent_substitution_allowed"
+      ],
+      "properties": {
+        "registered_provider": {"enum": ["grok", "cursor"]},
+        "runtime_surface": {"$ref": "#/$defs/nonEmpty"},
+        "logical_profile_alias": {"const": "frontier_director"},
+        "execution_profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "resolved_provider_model": {"$ref": "#/$defs/nonEmpty"},
+        "reasoning_effort": {"$ref": "#/$defs/nonEmpty"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "fallback_allowed": {"const": false},
+        "silent_substitution_allowed": {"const": false}
+      }
+    },
+    "goalEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native_goal_id",
+        "goal_text_sha256",
+        "goal_semantics",
+        "goal_terminal_state",
+        "goal_last_event",
+        "goal_terminal_event_sha256",
+        "terminal_event",
+        "goal_completed_closes",
+        "idol_assignment_pass"
+      ],
+      "properties": {
+        "native_goal_id": {"$ref": "#/$defs/nonEmpty"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "goal_semantics": {"enum": ["grok_goal_completed_admission", "cursor_external_goal_runtime_receipt"]},
+        "goal_terminal_state": {"enum": ["complete", "success"]},
+        "goal_last_event": {"enum": ["goal_completed", "cli_terminal_success"]},
+        "goal_terminal_event_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_event": {"$ref": "#/$defs/pointer"},
+        "goal_completed_closes": {"const": "successor_admission_only"},
+        "idol_assignment_pass": {"const": false}
+      }
+    },
+    "verifiedTerminalEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "native_goal_id", "goal_text_sha256", "provider", "evidence_class", "last_event", "terminal_state"],
+      "properties": {
+        "path": {"$ref": "#/$defs/nonEmpty"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "native_goal_id": {"$ref": "#/$defs/nonEmpty"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "provider": {"enum": ["grok", "cursor"]},
+        "evidence_class": {"enum": ["provider_native_terminal_event", "synthetic_fixture"]},
+        "last_event": {"enum": ["goal_completed", "cli_terminal_success"]},
+        "terminal_state": {"enum": ["complete", "success"]}
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generation", "session_id", "state"],
+      "properties": {
+        "generation": {"enum": ["primary", "successor"]},
+        "session_id": {"$ref": "#/$defs/token"},
+        "state": {"enum": ["active_single_writer", "reactivated_single_writer", "zero_turn_read_only_preflight", "admitted_read_only", "graph_logically_retired"]}
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event",
+        "evidence_kind",
+        "recorded_at",
+        "generation_before",
+        "generation_after",
+        "source_session_id",
+        "successor_session_id",
+        "active_writer_before",
+        "active_writer_after",
+        "previous_state_sha256",
+        "previous_transition_basis_sha256",
+        "evidence_sha256",
+        "basis_sha256"
+      ],
+      "properties": {
+        "event": {"enum": ["initialized", "admitted", "committed", "rolled_back"]},
+        "evidence_kind": {"enum": ["shadow_same_lane_succession_observation", "shadow_provider_goal_admission_observation", "shadow_cas_readiness_observation", "shadow_failure_rollback_observation"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "generation_before": {"type": "integer", "minimum": 0},
+        "generation_after": {"type": "integer", "minimum": 0},
+        "source_session_id": {"$ref": "#/$defs/token"},
+        "successor_session_id": {"$ref": "#/$defs/token"},
+        "active_writer_before": {"oneOf": [{"$ref": "#/$defs/token"}, {"type": "null"}]},
+        "active_writer_after": {"$ref": "#/$defs/token"},
+        "previous_state_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "previous_transition_basis_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "basis_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

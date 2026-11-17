@@ -1,0 +1,287 @@
+schema_version: "1.2"
+radar_id: "pre-00-radar-2026-07-25"
+date: "2026-07-25"
+mode: automation
+status: founder_review
+research_policy:
+  method_basis: "AGENTS.md + wiki/production-system.md + wiki/pre-00-song-system.md + automation/pre-00-research-radar.md + skills/idol-research-radar/SKILL.md + references/research-radar-authoring-detail.md"
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 3
+  reference_families: [song, media_narrative, fashion, idol]
+  unit_registry: "assets/unit-registry.yaml"
+  reference_depth_goal: "Three materially different routes; each uses one source from every required family and an active registered unit."
+  combination_rule: "Song feeling, story pressure, styling behavior, and AURORA-M unit ownership must produce one screen mechanism; no source is a decorative mood tag."
+  unity_rule: "Each route names a coherent tone, audience receive, object/world action, and one visible hook without treating any proposal as a lock."
+  ref_id_integrity_rule: "Use unique family-prefixed IDs; lane_ref_ids may only point to their matching reference family."
+  allowed_output: "scoped_route_candidate_brief_before_00"
+  handoff_target: "00_creative_nucleus_draft_after_founder_selection_and_concrete_song_support"
+  public_reference_mining_policy:
+    status: "public_web_only_no_media_capture"
+    account_boundary: "No private connectors, login, cookies, downloads, uploads, paid APIs, or publication."
+    note: "No Bilibili or yt-dlp mining was used in this pass."
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md#Freshness Windows"
+  recheck_before_00: "Recheck the 2026-07-01-to-14 pulse and all release-dependent web sources if selection occurs after 2026-08-08 or if a new weekly short-form report changes the platform read."
+  durable_record_rule: "Keep this automation artifact as short-term route support; promote only founder-selected and review-proven material."
+  bank_record_rule: "Message-hook bank checked before authoring; these three semantic combinations do not match the existing root-signal, collar-exit, pocket-tap, or dissonance cards."
+research_vectors:
+  - vector_id: "V01_TREND_HYPOTHESIS_FIT"
+    research_question: "How can the active bright-proof-under-pressure pulse avoid both empty summer nostalgia and hard-club imitation?"
+    sample_rule: "Use the active pulse plus current July release reporting; record only a transferable function, not an asserted audio analysis."
+    extraction_fields: ["song feeling", "message pressure", "first image", "avoid rule"]
+    downstream_targets:
+      - {stage: "PRE-00", artifact_or_schema: "schemas/pre-00-research-radar.schema.json", field_path: "candidate_routes[].combined_signal", handoff_use: "Keep each route's timely pressure concrete."}
+    reject_if_missing: "Reject a route whose bright surface has no private cost or visible proof."
+  - vector_id: "V02_TARGET_EMPATHY_MESSAGE"
+    research_question: "Which small adult pressure can a global K-pop viewer recognize without reducing the MV to generic empowerment?"
+    sample_rule: "Choose a specific stalled action—service, recording, or carrying a receipt—and name the misread risk."
+    extraction_fields: ["viewer situation", "identification point", "aftertaste", "message translation"]
+    downstream_targets:
+      - {stage: "PRE-00", artifact_or_schema: "schemas/pre-00-research-radar.schema.json", field_path: "candidate_routes[].recommended_00_draft.target_empathy_seed", handoff_use: "Preserve the audience receive for a later selected draft."}
+    reject_if_missing: "Reject slogans with no viewer situation or body/object consequence."
+  - vector_id: "V03_WARDROBE_MATERIAL_MOTION"
+    research_question: "How can FW26 tailoring and textured color function as movement evidence instead of costume decoration?"
+    sample_rule: "Use one softened structured base and one mobile accent; keep all styling contemporary and performance-safe."
+    extraction_fields: ["silhouette", "accent", "movement behavior", "over-style risk"]
+    downstream_targets:
+      - {stage: "01", artifact_or_schema: "01 director chain", field_path: "wardrobe_read", handoff_use: "Convert the selected silhouette into a section-specific wardrobe decision later."}
+    reject_if_missing: "Reject routes in which the fabric has no action or identity job."
+research_inputs:
+  REF_SONG_BBGIRLS_BODY_WAVE:
+    title: "BBGIRLS — BODY WAVE release reporting"
+    path_or_url: "https://news.sbs.co.kr/english/article.do?news_id=N1008660485"
+    reference_family: song
+    reference_lane: current_kpop_release_context
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Release/context signal only. No BPM, lyric, arrangement, or choreography claim is made without a founder-selected PRE-00S reference-song fit."
+    raw_observation: "SBS reports the July 16 release of BBGIRLS' BODY WAVE after a long gap, framing it as a summer anthem."
+    observed_aspects: ["current July release context", "warm-weather brightness", "return-event framing"]
+    source_time_ranges: [{time_range_label: "release context", start: "n/a", end: "n/a", observed_event: "July 16 release report", function_note: "Tests a bright, body-readable counterlane rather than a dark-club default."}]
+    function_extracts: [{aspect: "song feeling", observation: "Summer-anthem framing", transferable_function: "Use brightness as release after visible pressure, not as a free-floating mood.", downstream_targets: ["recommended_00_draft.song_structure_seed"], selection_note: "A sound hypothesis only until PRE-00S."}]
+    short_note: "Fresh July release context supporting a bright counterlane."
+    useful_function: "Bright release can be earned by a concrete before/after action."
+  REF_SONG_GIRLSET_CHAT:
+    title: "GIRLSET — CHAT release reporting"
+    path_or_url: "https://www.soompi.com/article/1851490wpp/watch-girlset-teases-comeback-with-mysterious-video"
+    reference_family: song
+    reference_lane: current_kpop_release_context
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Release/title context only; do not infer its lyrics, BPM, or section architecture."
+    raw_observation: "Soompi reports the July 17 pre-release single CHAT and describes its MV as a bold new message."
+    observed_aspects: ["conversation framing", "bold-message positioning", "current July release"]
+    source_time_ranges: [{time_range_label: "release context", start: "n/a", end: "n/a", observed_event: "July 17 release reporting", function_note: "Supports testing a concise answer or reply mechanism."}]
+    function_extracts: [{aspect: "hook mechanism", observation: "Conversation/title framing", transferable_function: "Test a short answer phrase that changes a visible action; do not copy wording.", downstream_targets: ["recommended_00_draft.song_structure_seed"], selection_note: "Requires a real sound anchor before prompt writing."}]
+    short_note: "Fresh current-release context for a reply-shaped hook hypothesis."
+    useful_function: "A chorus answer can be carried by a visible correction or decision."
+  REF_SONG_SUNMI_FOREVER_JULY:
+    title: "Sunmi — Forever July release reporting"
+    path_or_url: "https://www.soompi.com/article/1851706wpp/sunmi-announces-july-return-with-teasers-for-new-single"
+    reference_family: song
+    reference_lane: current_kpop_release_context
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Current seasonal release context only; no sonic analysis is asserted."
+    raw_observation: "Soompi reports Sunmi's July return with Forever July and presents it as a full-force summer MV."
+    observed_aspects: ["seasonal heat", "solo-scale intimacy", "MV-led release context"]
+    source_time_ranges: [{time_range_label: "release context", start: "n/a", end: "n/a", observed_event: "July return reporting", function_note: "Tests whether a restrained verse can carry a later summer release."}]
+    function_extracts: [{aspect: "section contrast", observation: "Summer framing", transferable_function: "Keep an intimate first section before opening color and air in the hook.", downstream_targets: ["recommended_00_draft.song_structure_seed"], selection_note: "A future PRE-00S must verify tempo and vocal density."}]
+    short_note: "Current summer release context for an intimate-to-open contrast hypothesis."
+    useful_function: "Seasonal brightness can arrive late rather than occupy every section."
+  REF_MEDIA_NARRATIVE_KPDH_AUTHENTIC_VOICE:
+    title: "KPop Demon Hunters — What It Sounds Like narrative read"
+    path_or_url: "https://www.netflix.com/tudum/articles/kpop-demon-hunters-soundtrack"
+    reference_family: media_narrative
+    reference_lane: music_driven_identity_reveal
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Use the documented story function—an authentic voice replacing a false presentation—not characters, plot assets, lyrics, or visual surfaces."
+    raw_observation: "Netflix describes the finale as an authentic voice and individual patterns creating connection rather than concealment."
+    observed_aspects: ["identity reveal", "voice as action", "collective connection"]
+    source_time_ranges: [{time_range_label: "whole narrative function", start: "n/a", end: "n/a", observed_event: "authentic final voice changes the group relation", function_note: "Supports an original recording-room reveal."}]
+    function_extracts: [{aspect: "meaning delivery", observation: "Personal truth becomes public connection", transferable_function: "Make the member keep an imperfect recorded take instead of explaining authenticity in dialogue.", downstream_targets: ["recommended_00_draft.storyline_spine_seed"], selection_note: "New story situation and object system only."}]
+    short_note: "Narrative evidence that a pop hook can carry personal revelation."
+    useful_function: "Truth becomes credible when the audience sees the decision to stop correcting it."
+  REF_MEDIA_NARRATIVE_BEAR_SERVICE:
+    title: "The Bear — team-pressure character read"
+    path_or_url: "https://www.fxnetworks.com/shows/the-bear/cast"
+    reference_family: media_narrative
+    reference_lane: team_service_pressure
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Use work/service pressure, craft, and team responsibility as narrative functions only; do not reproduce characters, restaurant branding, or scenes."
+    raw_observation: "FX's character material repeatedly frames craft pressure, leadership, and keeping a team afloat."
+    observed_aspects: ["time pressure", "team handoff", "craft under scrutiny"]
+    source_time_ranges: [{time_range_label: "whole series function", start: "n/a", end: "n/a", observed_event: "members of a service team carry different responsibilities", function_note: "Supports a pass-window relay built from original rehearsal materials."}]
+    function_extracts: [{aspect: "story pressure", observation: "Team work becomes personal under time pressure", transferable_function: "Use a rehearsal pass window and paper cue tickets as a shared deadline without copying a kitchen.", downstream_targets: ["recommended_00_draft.storyline_spine_seed"], selection_note: "Original performance-room world only."}]
+    short_note: "Narrative support for a team route with a real task."
+    useful_function: "A group bond reads through each person solving a distinct visible step."
+  REF_MEDIA_NARRATIVE_SEVERANCE_SPLIT:
+    title: "Severance — divided-self premise"
+    path_or_url: "https://tv.apple.com/us/show/severance/umc.cmc.1srk2goyh2q2zdxcx605w8vtx"
+    reference_family: media_narrative
+    reference_lane: divided_self_premise
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Use only the documented premise of divided work/personal memory as a contrast mechanism; no plot, visual identity, office design, or character borrowing."
+    raw_observation: "Apple describes workers whose memories are surgically divided between work and personal lives."
+    observed_aspects: ["split self", "memory boundary", "one body in two roles"]
+    source_time_ranges: [{time_range_label: "premise", start: "n/a", end: "n/a", observed_event: "work and personal memories are separated", function_note: "Supports one original room with two authored versions of a vocal take."}]
+    function_extracts: [{aspect: "character turn", observation: "A divided self makes a boundary legible", transferable_function: "Let a member cross between a rehearsed and an unfiltered voice booth without sci-fi copying.", downstream_targets: ["recommended_00_draft.storyline_spine_seed"], selection_note: "Use a practical glass partition, not a generic glitch system."}]
+    short_note: "A clear premise for making self-editing visible."
+    useful_function: "A spatial boundary can turn an internal edit into a readable choice."
+  REF_FASHION_FW26_SOFT_TAILORING:
+    title: "Vogue — Fall 2026 fashion trends"
+    path_or_url: "https://www.vogue.com/article/fall-winter-2026-fashion-trends"
+    reference_family: fashion
+    reference_lane: softened_tailoring_and_layering
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Use silhouette and material behavior only; no designer look reproduction."
+    raw_observation: "Vogue identifies relaxed tailoring, sculptural ease, rich texture, and re-styled familiar layers as FW26 signals."
+    observed_aspects: ["softened suiting", "layered staples", "structure with ease"]
+    source_time_ranges: [{time_range_label: "FW26 editorial", start: "n/a", end: "n/a", observed_event: "tailoring shifts toward ease and texture", function_note: "Lets a jacket or shirt move with a body decision."}]
+    function_extracts: [{aspect: "wardrobe motion", observation: "Structured base paired with ease", transferable_function: "Use a soft-shouldered jacket over a mobile inner layer so a turn or reach changes the silhouette.", downstream_targets: ["recommended_00_draft.visual_world_seed"], selection_note: "Contemporary and performance-safe."}]
+    short_note: "Fresh FW26 styling support for structure that can move."
+    useful_function: "A tailored layer can register a body choice without becoming formal-costume styling."
+  REF_FASHION_FW26_COLOR_TEXTURE:
+    title: "Vogue — Shanghai Fashion Week Fall 2026"
+    path_or_url: "https://www.vogue.com/article/best-trends-from-shanghai-fashion-week-fall-2026"
+    reference_family: fashion
+    reference_lane: saturated_accent_and_texture
+    collection_method: public_web_search_2026-07-25
+    source_use_boundary: "Use the color/texture principle only; no direct look, designer styling, or campaign composition."
+    raw_observation: "Vogue notes electric color pops and textural play amid sophisticated silhouettes."
+    observed_aspects: ["electric accent", "textural contrast", "sophisticated silhouette"]
+    source_time_ranges: [{time_range_label: "FW26 editorial", start: "n/a", end: "n/a", observed_event: "color and texture interrupt clean forms", function_note: "Reserves one visible color change for a song turn."}]
+    function_extracts: [{aspect: "color timing", observation: "Small saturated accents animate neutral outfits", transferable_function: "Reveal a single saturated lining or thread only when the chorus decision lands.", downstream_targets: ["recommended_00_draft.visual_world_seed"], selection_note: "No all-over single-color palette."}]
+    short_note: "Fresh styling support for an earned color reveal."
+    useful_function: "Color can be a timing cue rather than an entire visual world."
+  REF_IDOL_AURORA_M_UNIT_REGISTRY:
+    title: "AURORA-M active unit registry"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: unit_identity_and_center_roles
+    collection_method: local_canonical_asset_read_2026-07-25
+    source_use_boundary: "Use only active unit membership, purposes, roles, and stated risk notes."
+    raw_observation: "The registry provides active units for public hook, melodic lift, mature R&B/dance character, and precision routes."
+    observed_aspects: ["active membership", "center roles", "unit risks"]
+    source_time_ranges: [{time_range_label: "current registry", start: "n/a", end: "n/a", observed_event: "active unit fit", function_note: "Prevents unsupported full-roster assignment."}]
+    function_extracts: [{aspect: "unit fit", observation: "Each candidate maps to a registered active unit", transferable_function: "Assign the smallest unit that can carry its vocal, performance, and story job.", downstream_targets: ["candidate_routes[].recommended_unit"], selection_note: "No legacy or ad hoc units."}]
+    short_note: "Canonical active unit and role source."
+    useful_function: "Unit selection must be justified by the actual song/story job."
+  REF_IDOL_AURORA_M_VOICE_INDEX:
+    title: "AURORA-M voice-style index"
+    path_or_url: "assets/voice-style-index.md"
+    reference_family: idol
+    reference_lane: vocal_role_and_section_fit
+    collection_method: local_canonical_asset_read_2026-07-25
+    source_use_boundary: "Use functional member vocal rails only; named real-artist references remain private mechanics, not public identity claims."
+    raw_observation: "The index maps M01/M09 to immediate opening-hook roles, M02/M04 to lift and bridge, M03 to spoken groove, M05 to clean climax, and M08/M11 to low-mid/rap contrast."
+    observed_aspects: ["section ownership", "vocal contrast", "hook and lift roles"]
+    source_time_ranges: [{time_range_label: "current index", start: "n/a", end: "n/a", observed_event: "member function mapping", function_note: "Keeps vocal route specific before any song is generated."}]
+    function_extracts: [{aspect: "member fit", observation: "Roles create clear verse-to-hook contrast", transferable_function: "Give each selected unit an opening, a pressure carrier, and a release voice.", downstream_targets: ["recommended_00_draft.asset_alignment_seed"], selection_note: "Do not claim a final song arrangement."}]
+    short_note: "Canonical vocal-role source for the candidate unit routes."
+    useful_function: "Member roles should make the route's contrast audible and legible."
+candidate_routes:
+  - route_id: "R01_PASS_WINDOW"
+    route_name: "Pass Window"
+    recommendation_message: "A six-member rehearsal team turns a closing pass window into a small proof that no one has to carry the whole correction alone."
+    recommended_unit: {unit_code: "TUI_06", unit_purpose: "Public hook strength and chorus identity with tension.", member_codes: [M01, M02, M05, M07, M09, M12], center_roles: {opening_vocal: M01, precision_guide: M02, vocal_lift: M05, formation_center: M07, hook_drive: M09, cool_cue: M12}, unit_fit_reason: "TUI_06 can make a crisp shared task visible while keeping M02's correction, M05's lift, and M09's hook distinct.", unit_risk: "Do not turn the pass tickets into a cute teamwork montage; one member's missed cue must have a visible cost before the group solves it."}
+    member_focus: [M01, M02, M05, M07, M09, M12]
+    source_ref_ids: [REF_SONG_BBGIRLS_BODY_WAVE, REF_MEDIA_NARRATIVE_BEAR_SERVICE, REF_FASHION_FW26_SOFT_TAILORING, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+    lane_ref_ids: {song: [REF_SONG_BBGIRLS_BODY_WAVE], media_narrative: [REF_MEDIA_NARRATIVE_BEAR_SERVICE], fashion: [REF_FASHION_FW26_SOFT_TAILORING], idol: [REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]}
+    combined_signal: "Bright release follows an actual shared deadline: an incomplete rehearsal pass becomes a six-person answer, carried by moving tailored layers and one visible paper-cue relay."
+    tone_mood_message_unity: {tone_and_manner: "bright, focused, candid", mood: "contained deadline pressure opening into practical relief", message: "I do not have to fix the whole thing alone.", unity_reason: "The paper cue crosses hands only after each member completes a different rehearsal action, so the hook has a reason to widen.", mismatch_watch: "Avoid restaurant imitation, generic friendship celebration, or a chorus that arrives before the missed cue is legible."}
+    possible_message: "Let me pass the part I cannot hold alone."
+    song_feeling: "A bright, body-readable pop lane with a clipped verse task, a held pre-hook correction, and a compact group answer; tempo and density remain unverified until PRE-00S."
+    choreography_hook: "M02 folds a cue slip once; M01 catches the fold at chest height; the line steps forward in sequence and opens both palms only at the group answer."
+    performance_image: "M01 starts the incomplete pass, M02 finds the missed count, M05 carries the first released line, and M07/M09/M12 make the final handoff read front-on."
+    mv_image: "A rehearsal pass window with a long mirror, clipped paper cue slips, soft-shouldered jackets over mobile inner layers, and one line of daylight sliding across the floor."
+    why_aurora_m_can_own_it: "TUI_06's active opening, precision, lift, formation, hook, and cue roles allow a task to become a public chorus without forcing REPO coverage."
+    risk_or_gap: "Needs a founder-selected sound anchor to determine whether the answer is sung, chanted, or partly spoken, and whether the cue-slip fold belongs on a beat or a vocal pickup."
+    recommended_00_draft:
+      content_role: "90s_master"
+      selected_creative_route: "R01_PASS_WINDOW"
+      goal: "Make a collective pop release feel earned by a visible rehearsal problem."
+      thesis: {message: "I do not have to fix the whole thing alone.", one_line: "The pass only closes when the cue leaves one pair of hands.", audience_feel: "Useful relief for a viewer who keeps quietly absorbing group pressure.", hook_moment: "The folded cue lands in a new hand as the line takes one forward step together."}
+      target_empathy_seed: {target_viewer: "A person who becomes the reliable fixer in a group and notices too late that they are carrying every loose end.", viewer_feeling_state: "Competent, rushed, reluctant to ask for help.", identification_point: "The small panic of realizing a task is incomplete just before the handoff.", desired_aftertaste: "Sharing one part can be an act of strength, not a failure of control.", empathy_risk: "If the others solve it before the pressure is shown, the route becomes empty cheerleading.", member_bridge: "M02's precise correction and M05's lift make the release both visible and audible.", message_translation: "The group does not rescue a passive center; each member takes a concrete part of the unfinished pass."}
+      storyline_spine_seed: {summary: "One missed rehearsal cue is passed through six members and becomes the chorus's forward route.", primary_screen_driver: "unit_task_and_formation", world_or_object_anchor: "folded paper cue slip", beats: [{order: 1, beat: "miss", primary_member: M01, core_action: "M01 stops with one cue slip still folded in her hand.", visual_function: "Make the verse pressure tangible.", camera_or_world_cue: "Waist-high side profile, mirror holding the unfinished line behind her."}, {order: 2, beat: "read", primary_member: M02, core_action: "M02 traces the missing count on the slip and refolds it once.", visual_function: "Turn diagnosis into a readable action.", camera_or_world_cue: "Close three-quarter hand-and-face frame through a blurred shoulder."}, {order: 3, beat: "pass", primary_screen_driver: "unit_or_group_led", world_or_object_anchor: "cue slip", core_action: "The cue crosses six hands as the line steps forward, then all palms open at the answer.", visual_function: "Earn the chorus release.", camera_or_world_cue: "Front-wide with floor reflection, then a clean chest-up crop."}]}
+      founder_input_seed: {status: "No founder song, section, timestamp, or sound-anchor note supplied in this automation request."}
+      asset_alignment_seed: {selected_unit: "TUI_06", selected_members: [M01, M02, M05, M07, M09, M12], identity_constraints: "Use registry roles only; no album visual, face-reference, or styling lock is implied."}
+      song_structure_seed: {entry: "single folded-cue sound and M01 opening line", verse: "short task phrases", pre_hook: "one held correction and breath", chorus: "group answer on the forward pass", post_hook: "open-palm route repeats once"}
+      choreography_seed: {point_action: "fold-catch-forward-open", proof_rule: "The cue must be readable in a medium frame before the full-line step; do not reduce it to finger posing."}
+      visual_world_seed: {space: "late rehearsal pass room", object: "one folded paper cue", wardrobe: "soft-shouldered contemporary tailoring with a mobile inner layer", color_behavior: "warm neutral base; no saturated reveal until a later sound decision supports it"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Hands, paper continuity, and mirror reflection must be inspected before any image prompt work."}
+      derivative_plan_seed: ["Potential 8-second fold-catch-forward excerpt only after the selected song gives the pass a true audio trigger."]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_BBGIRLS_BODY_WAVE, REF_MEDIA_NARRATIVE_BEAR_SERVICE, REF_FASHION_FW26_SOFT_TAILORING, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+      open_questions_seed: ["Which founder-selected song makes the correction-to-release timing credible?", "Should the cue be a rehearsal count, a lyric fragment, or an unspoken personal note?"]
+  - route_id: "R02_UNFILTERED_TAKE"
+    route_name: "Unfiltered Take"
+    recommendation_message: "A member crosses a glass booth to keep the vocal take she nearly deletes; the chorus lets the other four answer the version of her that is finally unedited."
+    recommended_unit: {unit_code: "CLI_05", unit_purpose: "Melodic character lift, live-vocal energy, and emotional hook drive with member personality.", member_codes: [M01, M03, M04, M05, M09], center_roles: {opening_vocal: M01, rhythm_anchor: M03, emotional_bridge: M04, vocal_lift: M05, hook_drive: M09}, unit_fit_reason: "CLI_05 has a clear opening-to-bridge-to-lift path for an intimate take becoming a melodic answer.", unit_risk: "Keep the booth and playback actions concrete; do not turn imperfection into a vague self-love slogan."}
+    member_focus: [M01, M03, M04, M05, M09]
+    source_ref_ids: [REF_SONG_SUNMI_FOREVER_JULY, REF_MEDIA_NARRATIVE_KPDH_AUTHENTIC_VOICE, REF_FASHION_FW26_COLOR_TEXTURE, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+    lane_ref_ids: {song: [REF_SONG_SUNMI_FOREVER_JULY], media_narrative: [REF_MEDIA_NARRATIVE_KPDH_AUTHENTIC_VOICE], fashion: [REF_FASHION_FW26_COLOR_TEXTURE], idol: [REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]}
+    combined_signal: "A held private recording grows into an open melodic lift: the route uses narrative truth-through-voice, a late color accent, and CLI_05's emotional-vocal progression."
+    tone_mood_message_unity: {tone_and_manner: "intimate, exact, warm after restraint", mood: "self-editing loosening into a confident shared exhale", message: "The take with the crack in it is still mine.", unity_reason: "The member's thumb pauses above delete, then presses play; the color lining appears only when other voices enter.", mismatch_watch: "Avoid copying KPop Demon Hunters' mythology or using glow effects as a substitute for the playback decision."}
+    possible_message: "I can let the unpolished answer stay."
+    song_feeling: "A close first verse that leaves room around the vocal, then a clean chorus lift with a short replayable answer; tempo, vocal range, and lyric density require PRE-00S."
+    choreography_hook: "M01 holds the recorder at rib height, M03 taps one beat on the booth glass, then the five turn their jacket linings outward as M09 lands the answer phrase."
+    performance_image: "M01 owns the first take; M03 grounds the spoken-rhythm pickup; M04 carries the fragile bridge; M05 lifts the chorus; M09 makes the answer memorable without over-singing it."
+    mv_image: "A practical recording booth split by glass: neutral outer tailoring, one electric color lining, a recorder display, and a playback wave projected only on the floor—not as a sci-fi world."
+    why_aurora_m_can_own_it: "CLI_05 is the active melodic-character unit; its documented opening, rhythm, bridge, lift, and hook roles can make the unedited-take arc audible."
+    risk_or_gap: "A reference-song fit must decide whether the crack is a breath, low note, spoken pickup, or lyric interruption; no final vocal direction is implied here."
+    recommended_00_draft:
+      content_role: "90s_master"
+      selected_creative_route: "R02_UNFILTERED_TAKE"
+      goal: "Turn a nearly deleted recording into a believable melodic permission rather than a generic confidence anthem."
+      thesis: {message: "The take with the crack in it is still mine.", one_line: "She presses play before she learns how to sound perfect.", audience_feel: "A small release for people who edit themselves before anyone else can hear them.", hook_moment: "The delete hover becomes one press on play; five jacket linings turn into view on the answer phrase."}
+      target_empathy_seed: {target_viewer: "A viewer who rerecords voice notes, deletes drafts, or performs a cleaner version of what they meant.", viewer_feeling_state: "Self-aware, careful, tired of correcting every edge.", identification_point: "The suspended thumb above a delete control after an honest but imperfect take.", desired_aftertaste: "I can be heard before I am fully polished.", empathy_risk: "If the group simply praises the center, the decision loses ownership.", member_bridge: "M01's airy entry, M04's bridge vulnerability, M05's clear lift, and M09's direct hook make the change in vocal distance readable.", message_translation: "The member chooses playback herself; the group answers after the choice, not in place of it."}
+      storyline_spine_seed: {summary: "A five-member recording session moves from a muted booth to an unedited playback the group can finally answer.", primary_screen_driver: "member_choice_then_unit_vocal_response", world_or_object_anchor: "recorder delete/play control", beats: [{order: 1, beat: "hover", primary_member: M01, core_action: "M01 stops with her thumb over delete after a first take.", visual_function: "Make self-editing tangible.", camera_or_world_cue: "Close side profile through booth glass; recorder in the lower foreground."}, {order: 2, beat: "play", primary_member: M03, core_action: "M03 taps one count on the outside glass while M01 presses play herself.", visual_function: "Give the pre-hook a visible permission cue.", camera_or_world_cue: "Low three-quarter two-shot with a narrow reflected strip."}, {order: 3, beat: "answer", primary_screen_driver: "unit_or_group_led", world_or_object_anchor: "color lining", core_action: "The five turn toward the booth; their linings appear as M05 and M09 take the lift and answer.", visual_function: "Open the chorus without changing worlds.", camera_or_world_cue: "Front medium-wide, booth frame creating clean negative space."}]}
+      founder_input_seed: {status: "No founder song, section, timestamp, or sound-anchor note supplied in this automation request."}
+      asset_alignment_seed: {selected_unit: "CLI_05", selected_members: [M01, M03, M04, M05, M09], identity_constraints: "Use the documented melodic/live-vocal roles; do not infer final singer tones or copy any named artist."}
+      song_structure_seed: {entry: "close recorder click and airy opening", verse: "spacious personal line", pre_hook: "one rhythmic glass count and held breath", chorus: "clean group-supported answer", bridge: "M04 intimate return before M05 lift"}
+      choreography_seed: {point_action: "hover-play-turn-lining", proof_rule: "The thumb and play action must be clear before the group turn; jacket movement is a response, not decoration."}
+      visual_world_seed: {space: "practical recording booth and control-room threshold", object: "handheld recorder", wardrobe: "neutral tailoring with one electric lining", color_behavior: "accent appears only on the first accepted playback"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Glass reflections, recorder readability, and the exact color timing need later visual QA."}
+      derivative_plan_seed: ["Potential 6-second hover-to-play reveal after a selected chorus answer establishes the sound trigger."]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_SUNMI_FOREVER_JULY, REF_MEDIA_NARRATIVE_KPDH_AUTHENTIC_VOICE, REF_FASHION_FW26_COLOR_TEXTURE, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+      open_questions_seed: ["Does the founder want the song's answer to feel soft, bright, or forceful?", "Is the recorder a vocal demo device, a phone memo, or a studio console control?"]
+  - route_id: "R03_TWO_DOOR_NOTE"
+    route_name: "Two-Door Note"
+    recommendation_message: "Five members rehearse the same reply in two adjoining rooms until one chooses to carry the messier version through the second door."
+    recommended_unit: {unit_code: "ECHO_05", unit_purpose: "Mature R&B/dance mood, vocal-rap character, and close-range attitude.", member_codes: [M03, M04, M05, M08, M11], center_roles: {rhythm_anchor: M03, emotional_bridge: M04, vocal_lift: M05, low_mid_counter: M08, rap_character: M11}, unit_fit_reason: "ECHO_05 can make a restrained spoken groove, low-mid resistance, and one clean lift feel like one close-range decision.", unit_risk: "Do not collapse the route into generic noir; both rooms need contemporary daylight and distinct readable actions."}
+    member_focus: [M03, M04, M05, M08, M11]
+    source_ref_ids: [REF_SONG_GIRLSET_CHAT, REF_MEDIA_NARRATIVE_SEVERANCE_SPLIT, REF_FASHION_FW26_SOFT_TAILORING, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+    lane_ref_ids: {song: [REF_SONG_GIRLSET_CHAT], media_narrative: [REF_MEDIA_NARRATIVE_SEVERANCE_SPLIT], fashion: [REF_FASHION_FW26_SOFT_TAILORING], idol: [REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]}
+    combined_signal: "A reply-shaped hook gets a physical premise: two adjacent rehearsal rooms hold a rehearsed answer and a truer answer, while ECHO_05 carries the low-mid resistance into a clean release."
+    tone_mood_message_unity: {tone_and_manner: "cool, intimate, quietly defiant", mood: "held self-control becoming a deliberate crossing", message: "I can choose the version that sounds like me.", unity_reason: "The second door is crossed only after the member leaves the polished note behind, making the chorus answer a choice rather than an effect.", mismatch_watch: "Avoid sci-fi memory imagery, visual glitch shorthand, or a dark-noir palette that erases the everyday pressure."}
+    possible_message: "The reply can be honest before it is perfect."
+    song_feeling: "A mid-tempo, close-range pop/R&B hypothesis with spoken-rhythm pressure, a single longer vocal lift, and a concise chorus reply; all musical specifics await PRE-00S."
+    choreography_hook: "M11 writes one clean line on a folding card, M08 folds it shut, M03 pushes the second door, then the five shift weight sideways and leave the cards on the first-room floor."
+    performance_image: "M03 carries the conversational pocket, M08 holds the resistant low-mid line, M11 makes the short rap-like note concrete, M04 opens the bridge, and M05 clears the final answer."
+    mv_image: "Two connected contemporary rehearsal rooms separated by a glass door; one has neat note cards, the other has scattered practice tape and an open window; softened jackets move as the members cross."
+    why_aurora_m_can_own_it: "ECHO_05's active rhythm, bridge, lift, low-mid, and rap-character roles suit a close-range answer that should not become full-roster spectacle."
+    risk_or_gap: "The title-level chat/reply function is only a hypothesis from current release context; a founder sound anchor must decide whether the chorus is call-and-response, a sung answer, or an instrumental stop."
+    recommended_00_draft:
+      content_role: "90s_master"
+      selected_creative_route: "R03_TWO_DOOR_NOTE"
+      goal: "Give a close-range reply hook an original physical choice that can expand across a whole MV."
+      thesis: {message: "I can choose the version that sounds like me.", one_line: "The honest reply waits behind the second door.", audience_feel: "Calm permission for someone who has rehearsed a safer answer too many times.", hook_moment: "The five leave their folded cards behind and shift sideways through the open door on the reply."}
+      target_empathy_seed: {target_viewer: "Someone who practices a reasonable, polished answer before saying what they actually mean.", viewer_feeling_state: "Composed on the surface, privately split between safety and honesty.", identification_point: "The folded note that says the acceptable thing while another sentence remains unsaid.", desired_aftertaste: "Honesty can be precise without being tidy.", empathy_risk: "If the rooms are only a clever visual device, the viewer cannot feel what changes at the door.", member_bridge: "M03's conversational rhythm, M08's low-mid resistance, M04's emotional turn, and M05's lift make the two versions of the reply distinct.", message_translation: "The action is not rebellion against a system; it is a member deciding which sentence crosses the room."}
+      storyline_spine_seed: {summary: "A rehearsed answer remains in the first room while five members carry a messier, truer note through a connected second door.", primary_screen_driver: "room_boundary_and_member_crossing", world_or_object_anchor: "folded note cards and glass door", beats: [{order: 1, beat: "rehearse", primary_member: M11, core_action: "M11 writes the neat reply onto a folding card while the others hold a line behind her.", visual_function: "Show the safe version as an object.", camera_or_world_cue: "Table-height close shot with the room line in background depth."}, {order: 2, beat: "hold", primary_member: M08, core_action: "M08 folds the card but keeps one hand on the glass-door handle.", visual_function: "Make the choice physical before the lift.", camera_or_world_cue: "Three-quarter medium through the door reflection."}, {order: 3, beat: "cross", primary_screen_driver: "unit_or_group_led", world_or_object_anchor: "open second door", core_action: "M03 opens the second door and the five shift sideways through it, leaving cards on the first-room floor.", visual_function: "Let the chorus answer change the space.", camera_or_world_cue: "Front-wide with the two rooms in one frame."}]}
+      founder_input_seed: {status: "No founder song, section, timestamp, or sound-anchor note supplied in this automation request."}
+      asset_alignment_seed: {selected_unit: "ECHO_05", selected_members: [M03, M04, M05, M08, M11], identity_constraints: "Keep the unit's mature close-range character contemporary; no noir, historical, or real-artist identity lock is implied."}
+      song_structure_seed: {entry: "pen scratch and low spoken pickup", verse: "conversational groove", pre_hook: "one longer held decision", chorus: "short reply as the door opens", bridge: "M04 intimate rest before M05 lift"}
+      choreography_seed: {point_action: "write-fold-handle-side-step", proof_rule: "The card stays an object with a story function; the side-step must show an actual room crossing."}
+      visual_world_seed: {space: "two connected contemporary rehearsal rooms", object: "folded note cards and a glass door", wardrobe: "softened tailored jackets and mobile inner layers", color_behavior: "natural neutral rooms; one subtle saturated inner layer may appear only after music selection"}
+      generation_plan_seed: {status: "No generation requested.", future_risk: "Door geography, paper continuity, glass reflection, and readable group spacing must be solved before any keyframe work."}
+      derivative_plan_seed: ["Potential sideways-crossing loop only if the selected chorus has a clear reply landing."]
+      founder_locks_seed: []
+      source_links_seed: [REF_SONG_GIRLSET_CHAT, REF_MEDIA_NARRATIVE_SEVERANCE_SPLIT, REF_FASHION_FW26_SOFT_TAILORING, REF_IDOL_AURORA_M_UNIT_REGISTRY, REF_IDOL_AURORA_M_VOICE_INDEX]
+      open_questions_seed: ["Should the second-room answer be more tender, more rhythmic, or more confrontational?", "Does the founder want the final card to stay unread or become a later lyric-reveal object?"]
+founder_decision_needed:
+  - "Select one route: R01_PASS_WINDOW, R02_UNFILTERED_TAKE, or R03_TWO_DOOR_NOTE."
+  - "Combine routes only by naming one primary message and one secondary screen function."
+  - "Request another paired radar/reference-fit pass if none has the desired sound lane."
+  - "After selecting a route, provide a reference song, section, timestamps, or current sound-anchor note before any PRE-00S fit or Suno/manual prompt packet."
+  - "Archive this brief if no route should enter intake."
+automation_notes: "Current public web checks refreshed release and fashion context. The active trend pulse covers 2026-07-01 to 2026-07-14 and the weekly short-form report remains unstarted, so this brief does not claim a current platform behavior trend. No founder-provided song, section, timestamp, or sound-anchor note was present; therefore no reference-song-fit companion artifact, Suno/manual packet, 00, 00A, paid generation, upload, publication, private connector, or memory promotion was created."

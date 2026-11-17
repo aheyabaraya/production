@@ -1,0 +1,666 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/creative-nucleus.schema.json",
+  "title": "IDOL Creative Nucleus",
+  "description": "Retired evidence-only 00-era contract. New creative authoring uses the active Song Lock and Front Planning contracts; this schema is retained only so preserved historical artifacts remain interpretable.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "content_role",
+    "status",
+    "founder_input",
+    "thesis",
+    "target_empathy_lock",
+    "storyline_spine",
+    "asset_alignment",
+    "song_structure",
+    "choreography_seed",
+    "visual_world",
+    "generation_plan",
+    "derivative_plan",
+    "founder_locks",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "title_catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Stable album/title catalog key used to collect post-02B outputs across multi-day runs.",
+      "required": [
+        "album_key",
+        "title_key",
+        "title_display_name",
+        "title_root",
+        "output_registry_path"
+      ],
+      "properties": {
+        "album_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "title_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+        },
+        "title_display_name": {
+          "type": "string"
+        },
+        "title_root": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+$"
+        },
+        "output_registry_path": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$"
+        }
+      }
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "content_role": {
+      "type": "string",
+      "description": "`90s_master` is the legacy enum label for the current 90s+ master policy; master duration is enforced downstream by generation/edit/package contracts.",
+      "enum": [
+        "album_component",
+        "90s_master",
+        "45s_cutdown",
+        "short_derivative",
+        "teaser",
+        "review_intermediate"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "founder_review",
+        "locked",
+        "generation_ready",
+        "generated",
+        "edit_ready",
+        "packaged",
+        "hold",
+        "rejected"
+      ]
+    },
+    "founder_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mode",
+        "selected_creative_route",
+        "song_seed",
+        "style_mood_seed",
+        "must_keep",
+        "avoid",
+        "open_decisions"
+      ],
+      "properties": {
+        "source_mode": {
+          "type": "string",
+          "enum": ["founder", "grok", "chatgpt", "external_model", "codex_normalized", "mixed"]
+        },
+        "selected_creative_route": {
+          "type": "string"
+        },
+        "goal": {
+          "type": "string"
+        },
+        "song_seed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["song_source_support", "sound_brief", "lyrics_brief", "manual_generation"],
+          "properties": {
+            "song_source_support": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "No-song-no-00 gate. A creative nucleus must cite concrete song support rather than message or visual concept alone.",
+              "required": ["support_type", "source_ref", "status", "no_song_no_00"],
+              "properties": {
+                "support_type": {
+                  "type": "string",
+                  "enum": [
+                    "selected_audio",
+                    "promising_audio",
+                    "founder_song_anchor",
+                    "founder_locked_manual_audio_direction"
+                  ]
+                },
+                "source_ref": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["selected", "promising", "anchor", "locked_direction"]
+                },
+                "no_song_no_00": {
+                  "type": "boolean",
+                  "const": true
+                }
+              }
+            },
+            "sound_brief": {
+              "type": "object"
+            },
+            "lyrics_brief": {
+              "type": "object"
+            },
+            "reference_functions": {
+              "type": "array",
+              "description": "Thin lineage from selected references or source files into 00. Each item names what was extracted for this run and where it should influence the nucleus; keep raw/deep source detail in the linked source file.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ref_id", "role", "weight", "take"],
+                "properties": {
+                  "ref_id": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "weight": {
+                    "type": "string",
+                    "enum": ["primary", "secondary", "optional", "avoid_case"]
+                  },
+                  "target_parts": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "take": {
+                    "type": "string",
+                    "description": "Concrete extracted function or production use for this run, including whole-source following when founder/current-run direction selects that reference surface."
+                  },
+                  "selected_source_surface_note": {
+                    "type": "string",
+                    "description": "Legacy compatibility field. Treat as a reference-use note, not a ban on using the reference directly."
+                  },
+                  "reference_use_note": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "manual_generation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["engine", "manual_run_required", "may_codex_run_audio_generation", "expected_founder_return"],
+              "properties": {
+                "engine": {
+                  "type": "string",
+                  "enum": ["suno", "udio", "manual", "other", "unknown"]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "style_of_music": {
+                  "type": "string"
+                },
+                "lyrics": {
+                  "type": "string"
+                },
+                "negative": {
+                  "type": "string"
+                },
+                "manual_run_required": {
+                  "type": "boolean"
+                },
+                "may_codex_run_audio_generation": {
+                  "type": "boolean",
+                  "const": false
+                },
+                "expected_founder_return": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "style_mood_seed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["wardrobe_material", "color_light", "background_world", "camera_mood", "avoid"],
+          "properties": {
+            "wardrobe_material": {
+              "type": "string"
+            },
+            "color_light": {
+              "type": "string"
+            },
+            "background_world": {
+              "type": "string"
+            },
+            "camera_mood": {
+              "type": "string"
+            },
+            "avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "must_keep": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "open_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "thesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message", "one_line", "audience_feel", "hook_moment"],
+      "properties": {
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "one_line": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audience_feel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hook_moment": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "target_empathy_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_viewer",
+        "viewer_feeling_state",
+        "identification_point",
+        "desired_aftertaste",
+        "empathy_risk",
+        "member_bridge",
+        "message_translation"
+      ],
+      "properties": {
+        "target_viewer": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The viewer most likely to receive this content strongly."
+        },
+        "viewer_feeling_state": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The target viewer's listener-facing or screen-receiving feeling state before watching."
+        },
+        "identification_point": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Where the target viewer can feel that the content is about their own feeling, situation, desire, or self-image."
+        },
+        "desired_aftertaste": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The feeling that should remain after watching."
+        },
+        "empathy_risk": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The risk that beauty, distance, exaggeration, worldbuilding, or difficulty breaks viewer identification."
+        },
+        "member_bridge": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Which member or unit bridges the target viewer and the message."
+        },
+        "message_translation": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the nucleus message becomes something the target viewer can receive as their own emotion."
+        }
+      }
+    },
+    "member_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "storyline_spine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "beats"],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "Short, ordered progression axis for the MV. One concise sequence of narrative/motion/world beats that keeps message, member identity when visible, song function, physical visual system, motion, and camera from drifting. Written as a film-logline style spine, not a full detailed storyboard."
+        },
+        "frame_subject_mix_policy": {
+          "type": "string",
+          "description": "Optional founder or Codex policy for how member-led, unit/group-led, world/object-led, environment-insert, system-transition, and mixed beats should coexist. Use only as a creative guide; no automatic quota is implied unless the founder states one."
+        },
+        "beats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["order", "beat", "core_action", "visual_function"],
+            "properties": {
+              "order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "beat": {
+                "type": "string"
+              },
+              "primary_member": {
+                "type": "string",
+                "description": "Identity or part owner for the beat when a member is visible. Member-led beats remain valid; world/object-led or environment-insert beats should use primary_screen_driver and world_or_object_anchor instead of inventing member presence."
+              },
+              "primary_screen_driver": {
+                "type": "string",
+                "enum": ["member_led", "unit_or_group_led", "world_object_led", "environment_insert", "system_transition", "mixed_member_world"],
+                "description": "What primarily carries the screen beat: member, unit/group, world/object, empty or near-empty environment, transition system, or mixed member/world action. This preserves the chosen mode; it does not force replacement of member-led beats."
+              },
+              "core_action": {
+                "type": "string"
+              },
+              "visual_function": {
+                "type": "string"
+              },
+              "world_or_object_anchor": {
+                "type": "string",
+                "description": "Visible physical system, object, surface, route, light, crowd, screen, vehicle, portal, floor, or environment state that carries the beat beyond member presence."
+              },
+              "camera_or_world_cue": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "asset_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["member_registry", "voice_style_index", "selected_members", "identity_constraints"],
+      "properties": {
+        "member_registry": {
+          "type": "string",
+          "const": "assets/member-registry.yaml"
+        },
+        "voice_style_index": {
+          "type": "string",
+          "const": "assets/voice-style-index.md"
+        },
+        "selected_unit": {
+          "type": "string",
+          "enum": ["EXEC_06", "TUI_06", "CACHE_05", "SYNC_05", "ECHO_05", "CURL_06", "CLI_05", "REPO", "custom_founder_locked"]
+        },
+        "selected_members": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^M(0[1-9]|1[0-3])$"
+          },
+          "uniqueItems": true
+        },
+        "identity_constraints": {
+          "type": "string"
+        }
+      }
+    },
+    "song_structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration_target", "sections", "vocal_direction", "energy_curve"],
+      "properties": {
+        "duration_target": {
+          "type": "string",
+          "enum": ["15-30s", "45s", "60-90s", "90s", "custom"]
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "function"],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "function": {
+                "type": "string"
+              },
+              "approx_time": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "vocal_direction": {
+          "type": "string"
+        },
+        "energy_curve": {
+          "type": "string"
+        }
+      }
+    },
+    "choreography_seed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["choreography_core", "performance_language", "readability_priority"],
+      "properties": {
+        "choreography_core": {
+          "type": "string"
+        },
+        "performance_language": {
+          "type": "string"
+        },
+        "readability_priority": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["face", "gaze", "hands", "feet", "full_body", "formation", "pose_land", "member_identity"]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "visual_world": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mv_world", "camera_language", "edit_language"],
+      "properties": {
+        "mv_world": {
+          "type": "string"
+        },
+        "camera_language": {
+          "type": "string"
+        },
+        "edit_language": {
+          "type": "string"
+        }
+      }
+    },
+    "generation_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clip_budget_intent", "primary_engine", "paid_generation_gate"],
+      "properties": {
+        "clip_budget_intent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["raw_attempt_target", "selected_clip_target", "final_edit_clip_target"],
+          "properties": {
+            "raw_attempt_target": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "raw_attempt_ceiling": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "selected_clip_target": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "final_edit_clip_target": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "primary_engine": {
+          "type": "string",
+          "enum": ["grok_imagine", "gpt_image", "sora", "manual", "mixed"]
+        },
+        "paid_generation_gate": {
+          "type": "string",
+          "enum": ["not_required", "requires_founder_approval", "approved_for_current_run"]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "derivative_plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "duration", "purpose"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "`90s_master` is the legacy enum label for the current 90s+ master derivative role.",
+            "enum": ["90s_master", "45s_cutdown", "short_derivative", "member_focus", "performance_cut", "teaser"]
+          },
+          "duration": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "founder_locks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_links": {
+      "type": "array",
+      "description": "Run-owned source/readiness links that preserve where nucleus decisions came from. Use this to point at intake, front-planning readiness, reference fit, selected-audio analysis, audio-motion map, and other active source files rather than copying them into 00.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "path_or_url"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "path_or_url": {
+            "type": "string"
+          },
+          "short_note": {
+            "type": "string",
+            "description": "Short source function note: what this source contributes to the nucleus and which downstream decision it supports."
+          }
+        }
+      }
+    },
+    "front_planning_storyline_lock": {
+      "type": "object",
+      "description": "Exact promotion of a Founder-locked Front Planning storyline into the Creative Core Lock. This is the no-compression bridge: 01 may extend its direction, but it may not substitute another whole-film or section story.",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "source_front_planning_path",
+        "source_front_planning_sha256",
+        "source_json_pointer",
+        "source_value_sha256",
+        "whole_film_storyline",
+        "section_locks",
+        "preservation_rule"
+      ],
+      "properties": {
+        "contract_version": {"const": "front_planning_storyline_lock.v1"},
+        "source_front_planning_path": {"type": "string", "minLength": 1},
+        "source_front_planning_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_json_pointer": {"const": "/storyline_creative_lock"},
+        "source_value_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "whole_film_storyline": {"type": "string", "minLength": 1},
+        "section_locks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["section_id", "story_state_in", "section_event_or_hold", "story_state_out", "section_storyline", "reference_binding_mode", "reference_interpretation_ids", "transition_to_next"],
+            "properties": {
+              "section_id": {"type": "string", "minLength": 1},
+              "story_state_in": {"type": "string", "minLength": 1},
+              "section_event_or_hold": {"type": "string", "minLength": 1},
+              "story_state_out": {"type": "string", "minLength": 1},
+              "section_storyline": {"type": "string", "minLength": 1},
+              "reference_binding_mode": {"enum": ["receipts_bound", "no_reference_needed"]},
+              "reference_interpretation_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+              "transition_to_next": {"type": "string", "minLength": 1}
+            },
+            "allOf": [
+              {"if": {"properties": {"reference_binding_mode": {"const": "receipts_bound"}}, "required": ["reference_binding_mode"]}, "then": {"properties": {"reference_interpretation_ids": {"minItems": 1}}}},
+              {"if": {"properties": {"reference_binding_mode": {"const": "no_reference_needed"}}, "required": ["reference_binding_mode"]}, "then": {"properties": {"reference_interpretation_ids": {"maxItems": 0}}}}
+            ]
+          }
+        },
+        "preservation_rule": {"const": "01_may_expand_direction_reference_application_camera_and_cut_logic_but_must_preserve_each_locked_section_story_state_event_transition_and_order;_02A_and_02B_copy_the_relevant_section_lock_exactly"}
+      }
+    }
+  }
+}

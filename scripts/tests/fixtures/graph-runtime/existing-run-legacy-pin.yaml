@@ -1,0 +1,39 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: existing_run_legacy_pin
+expect: pass
+run:
+  run_class: existing_run
+  section_count: 9
+writer:
+  requested: legacy_harness
+  active: [legacy_harness]
+switch_receipt: null
+active_authoring_ids: [overall_director]
+active_writers:
+  - scope: overall
+    writer_id: overall_primary
+sessions:
+  - lane_id: overall
+    stage: front_planning_integration
+    generation: primary
+cohorts:
+  - cohort_id: C1
+    sections: [S01, S02, S03]
+  - cohort_id: C2
+    sections: [S04, S05, S06]
+  - cohort_id: C3
+    sections: [S07, S08, S09]
+succession:
+  - from_cohort_id: C1
+    to_cohort_id: C1
+pack:
+  source_id: SRC_FIXTURE_001
+  locator: sequence_unit:00:00:01-00:00:05
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a
+correction:
+  same_session: true
+  submission: 2
+backpressure:
+  unreviewed_aggregate_manifests: 1
+  new_launch: false
+gate_bypass: null

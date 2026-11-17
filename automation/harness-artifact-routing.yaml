@@ -1,0 +1,124 @@
+schema_version: idol-harness-artifact-routing.v2
+status: active
+scope: active_song_mv_run_artifact_placement
+
+stage_registry: automation/harness-stage-registry.yaml
+artifact_lifecycle_policy: automation/artifact-lifecycle-policy.yaml
+active_run_template: runs/ALBUM_KEY/TITLE_KEY/RUN_ID
+stage_ids_must_exact_cover_active_registry: true
+routing_never_changes_stage_order_scope_input_or_founder_gate: true
+
+stages:
+  - stage_id: creative_route_discovery
+    canonical_owner: idol-research-radar
+    artifact_class: research
+    canonical_patterns: [research/pre-00-research-radar.yaml]
+    supporting_roots: [research, work/department-dispatches]
+
+  - stage_id: song_direction_design
+    canonical_owner: idol-suno-prompt
+    artifact_class: research
+    canonical_patterns: [research/suno-prompt-packet-v*.md]
+    supporting_roots: [research, work/department-dispatches]
+
+  - stage_id: candidate_track_analysis
+    canonical_owner: idol-song-lock
+    artifact_class: research
+    canonical_patterns: [research/selected-audio-analysis-v*.yaml]
+    supporting_roots: [research/selected-audio-evidence-v*, work/department-dispatches]
+
+  - stage_id: audio_screen_motion_map
+    canonical_owner: idol-song-lock
+    artifact_class: research
+    canonical_patterns: [research/audio-motion-director-map-v*.yaml]
+    supporting_roots: [research, work/department-dispatches]
+
+  - stage_id: song_production_lock
+    canonical_owner: idol-song-lock
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [00A-song-lock.yaml]
+    supporting_roots: [research, review, work/department-dispatches]
+
+  - stage_id: front_planning_integration
+    canonical_owner: idol-front-planning-director
+    artifact_class: research
+    canonical_patterns: [research/front-planning-readiness-v*.yaml]
+    supporting_roots: [research, review, work/front_planning_integration, work/department-dispatches]
+
+  - stage_id: mv_performance_direction
+    canonical_owner: idol-mv-director
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [01-song-choreography-performance-mv-map.yaml]
+    supporting_roots: [work/physical_section_shards, work/department-dispatches]
+
+  - stage_id: mv_storyboard_direction
+    canonical_owner: idol-front-planning-development-block
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [02A-master-storyboard.yaml]
+    supporting_roots: [work/physical_section_shards, review, work/department-dispatches]
+
+  - stage_id: storyboard_review
+    canonical_owner: idol-front-planning-director
+    artifact_class: review
+    canonical_patterns: [review/02A-creative-context-review*.yaml, review/02A/**/*.html]
+    supporting_roots: [review, work/review-execution]
+
+  - stage_id: image_prompt_compilation
+    canonical_owner: idol-generation
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [02B-prompt-packets.yaml, work/physical_section_shards/*/02B-prompt-packet-delta*.yaml]
+    supporting_roots: [work/physical_section_shards, exports/02B/sections]
+
+  - stage_id: image_generation_release_gate
+    canonical_owner: idol-generation
+    artifact_class: export
+    canonical_patterns: [exports/02B/sections/**/*image-generation-request*.yaml, review/**/*image-generation-section-approval*.yaml]
+    supporting_roots: [exports/02B/sections, review]
+
+  - stage_id: branch_cut_generation
+    canonical_owner: idol-generation
+    artifact_class: generated
+    canonical_patterns: [generations/production-cuts/**/*, generations/branch-cuts/**/*]
+    supporting_roots: [generations/production-cuts, generations/branch-cuts, exports/02B/sections]
+
+  - stage_id: generated_branch_cut_review
+    canonical_owner: idol-generation
+    artifact_class: review
+    canonical_patterns: [03-generated-production-cut-review.yaml, 03-generated-branch-cut-review.yaml, review/02B/**/*.html]
+    supporting_roots: [review, generations/production-cuts, generations/branch-cuts]
+
+  - stage_id: audio_branch_cut_placement
+    canonical_owner: idol-video-prompt
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [03V-audio-branch-cut-placement.yaml]
+    supporting_roots: [research, work/physical_section_shards]
+
+  - stage_id: video_motion_direction
+    canonical_owner: idol-video-prompt
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [03V-storyboard-assist.yaml, 03V-video-prompt-manifest.yaml]
+    supporting_roots: [generations/video-prompts, generations/boards, handoff]
+
+  - stage_id: video_playback_review
+    canonical_owner: idol-video-prompt
+    artifact_class: review
+    canonical_patterns: [review/03V/**/*.html, review/03V/**/*playback*.yaml]
+    supporting_roots: [review, generations/video/qc]
+
+  - stage_id: edit_assembly_playback_qc
+    canonical_owner: idol-editing-qc
+    artifact_class: canonical_stage_truth
+    canonical_patterns: [04-edit-map.yaml]
+    supporting_roots: [generations/video/raw, generations/video/qc, generations/video/master, review]
+
+  - stage_id: edit_finishing_fx
+    canonical_owner: idol-edit-finishing-fx
+    artifact_class: generated
+    canonical_patterns: [generations/video/qc/finishing-fx-*/04FX-finishing-map*.yaml]
+    supporting_roots: [generations/video/qc, generations/video/master, review]
+
+  - stage_id: master_package_release
+    canonical_owner: idol-editing-qc
+    artifact_class: package
+    canonical_patterns: [05-package.yaml, package/**/*]
+    supporting_roots: [package, generations/video/master, review]

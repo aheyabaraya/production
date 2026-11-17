@@ -1,0 +1,817 @@
+schema_version: idol-graph-ledger.v1
+authority: read_only_projection
+run_id: synthetic_planning_nine_section
+section_roster: [S01, S02, S03, S04, S05, S06, S07, S08, S09]
+declared_cohorts:
+  - cohort_id: C1
+    section_ids: [S01, S02, S03]
+  - cohort_id: C2
+    section_ids: [S04, S05, S06]
+  - cohort_id: C3
+    section_ids: [S07, S08, S09]
+invalidation_queries:
+  - changed_node_id: n_major_s01
+    scope_ids: [S01]
+    declared_affected_ids: [n_core_s01]
+nodes:
+  - schema_version: idol-graph-node.v1
+    node_id: n_g0
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g0
+    scope_id: run
+    state: promoted
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G0
+    required_closed_before: []
+    evidence:
+      input_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+      result_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+      output_hash: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+      review_id: n_review_g0
+    authorship:
+      author_kind: founder
+      author_role: founder
+      receipt:
+        source_path: evidence/g0-lock.json
+        json_pointer: /decision
+        value_sha256: fedce8e8af485c2586f54c43a9b656dc70b41eb9be8c64b69c98391847dd4baf
+  - schema_version: idol-graph-node.v1
+    node_id: n_g1
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g1
+    scope_id: run
+    state: promoted
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G1
+    required_closed_before: [n_g0]
+    evidence:
+      input_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+      result_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+      output_hash: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+      review_id: n_review_g1
+    authorship:
+      author_kind: founder
+      author_role: founder
+      receipt:
+        source_path: evidence/g1-lock.json
+        json_pointer: /decision
+        value_sha256: fedce8e8af485c2586f54c43a9b656dc70b41eb9be8c64b69c98391847dd4baf
+  - schema_version: idol-graph-node.v1
+    node_id: n_g2
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g2
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G2
+    required_closed_before: [n_g1]
+  - schema_version: idol-graph-node.v1
+    node_id: n_g3
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g3
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G3
+    required_closed_before: [n_g2]
+  - schema_version: idol-graph-node.v1
+    node_id: n_g4
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g4
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G4
+    required_closed_before: [n_g3]
+  - schema_version: idol-graph-node.v1
+    node_id: n_envelope
+    node_class: authority_envelope
+    view: authority_ownership
+    logical_id: authority_envelope
+    scope_id: run
+    state: running
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_overall
+    node_class: overall_lane
+    view: authority_ownership
+    logical_id: overall_r00
+    scope_id: overall_lane
+    state: running
+    owner_role: overall_director
+    writer_id: od_primary
+    truth_kind: authority
+    may_write: true
+  - schema_version: idol-graph-node.v1
+    node_id: n_od_session
+    node_class: provider_session
+    view: provider_capability
+    logical_id: overall_primary
+    scope_id: overall_session
+    state: running
+    owner_role: overall_director
+    truth_kind: structural
+    may_write: false
+    lane_id: overall
+    stage_id: planning_cell
+    session_role: primary
+    logical_tier: frontier_director
+    fallback_policy: forbidden
+    resolved_profile_id: grok_frontier_director
+  - schema_version: idol-graph-node.v1
+    node_id: n_p1
+    node_class: planning_cdd_lane
+    view: authority_ownership
+    logical_id: planning_p1
+    scope_id: p1
+    state: running
+    owner_role: planning_cdd_p1
+    writer_id: p1_primary
+    truth_kind: authority
+    may_write: true
+    integration_writer: true
+    write_scope_ids: [story_audience]
+    authorship:
+      author_kind: assigned_model
+      author_role: planning_cdd_p1
+      receipt:
+        source_path: evidence/p1-decision.json
+        json_pointer: /decision
+        value_sha256: 5df2c083b1d7f35b33d17586951de03713276b31fc856e5776f34a6b5741cfa6
+  - schema_version: idol-graph-node.v1
+    node_id: n_p2
+    node_class: planning_cdd_lane
+    view: authority_ownership
+    logical_id: planning_p2
+    scope_id: p2
+    state: running
+    owner_role: planning_cdd_p2
+    writer_id: p2_primary
+    truth_kind: authority
+    may_write: true
+    integration_writer: false
+    write_scope_ids: [visual_reference]
+  - schema_version: idol-graph-node.v1
+    node_id: n_p3_c1
+    node_class: planning_section_cohort_lane
+    view: authority_ownership
+    logical_id: planning_p3_c1
+    scope_id: p3_c1
+    state: running
+    owner_role: planning_cdd_p3
+    writer_id: p3_c1_primary
+    truth_kind: authority
+    may_write: true
+    cohort_id: C1
+    section_ids: [S01, S02, S03]
+    write_scope_ids: [c1_section_kinetic]
+  - schema_version: idol-graph-node.v1
+    node_id: n_p3_c2
+    node_class: planning_section_cohort_lane
+    view: authority_ownership
+    logical_id: planning_p3_c2
+    scope_id: p3_c2
+    state: running
+    owner_role: planning_cdd_p3
+    writer_id: p3_c2_primary
+    truth_kind: authority
+    may_write: true
+    cohort_id: C2
+    section_ids: [S04, S05, S06]
+    write_scope_ids: [c2_section_kinetic]
+  - schema_version: idol-graph-node.v1
+    node_id: n_p3_c3
+    node_class: planning_section_cohort_lane
+    view: authority_ownership
+    logical_id: planning_p3_c3
+    scope_id: p3_c3
+    state: running
+    owner_role: planning_cdd_p3
+    writer_id: p3_c3_primary
+    truth_kind: authority
+    may_write: true
+    cohort_id: C3
+    section_ids: [S07, S08, S09]
+    write_scope_ids: [c3_section_kinetic]
+  - schema_version: idol-graph-node.v1
+    node_id: n_v_c1
+    node_class: section_cluster_cdd_lane
+    view: authority_ownership
+    logical_id: section_v_c1
+    scope_id: v_c1
+    state: planned
+    owner_role: section_cluster_cdd
+    truth_kind: authority
+    may_write: false
+    cohort_id: C1
+    section_ids: [S01, S02, S03]
+  - schema_version: idol-graph-node.v1
+    node_id: n_v_c2
+    node_class: section_cluster_cdd_lane
+    view: authority_ownership
+    logical_id: section_v_c2
+    scope_id: v_c2
+    state: planned
+    owner_role: section_cluster_cdd
+    truth_kind: authority
+    may_write: false
+    cohort_id: C2
+    section_ids: [S04, S05, S06]
+  - schema_version: idol-graph-node.v1
+    node_id: n_v_c3
+    node_class: section_cluster_cdd_lane
+    view: authority_ownership
+    logical_id: section_v_c3
+    scope_id: v_c3
+    state: planned
+    owner_role: section_cluster_cdd
+    truth_kind: authority
+    may_write: false
+    cohort_id: C3
+    section_ids: [S07, S08, S09]
+  - schema_version: idol-graph-node.v1
+    node_id: n_cohort_c1
+    node_class: section_cohort
+    view: authority_ownership
+    logical_id: cohort_c1
+    scope_id: c1
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    cohort_id: C1
+    section_ids: [S01, S02, S03]
+  - schema_version: idol-graph-node.v1
+    node_id: n_cohort_c2
+    node_class: section_cohort
+    view: authority_ownership
+    logical_id: cohort_c2
+    scope_id: c2
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    cohort_id: C2
+    section_ids: [S04, S05, S06]
+  - schema_version: idol-graph-node.v1
+    node_id: n_cohort_c3
+    node_class: section_cohort
+    view: authority_ownership
+    logical_id: cohort_c3
+    scope_id: c3
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    cohort_id: C3
+    section_ids: [S07, S08, S09]
+  - schema_version: idol-graph-node.v1
+    node_id: n_section_s01
+    node_class: section
+    view: creative_truth
+    logical_id: section_s01
+    scope_id: s01
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    section_ids: [S01]
+  - schema_version: idol-graph-node.v1
+    node_id: n_section_s04
+    node_class: section
+    view: creative_truth
+    logical_id: section_s04
+    scope_id: s04
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    section_ids: [S04]
+  - schema_version: idol-graph-node.v1
+    node_id: n_fp_stage
+    node_class: stage_checkpoint
+    view: execution_session
+    logical_id: front_planning_integration
+    scope_id: front_planning
+    state: running
+    owner_role: planning_cdd_p1
+    truth_kind: structural
+    may_write: false
+    legacy_source:
+      capsule: parse_only
+      path: automation/harness-stage-registry.yaml
+      local_fixture_path: evidence/legacy-stage-pointer.yaml
+      legacy_id: front_planning_integration
+      json_pointer: /legacy_id
+      sha256: 674024d9694556b30191130490f380d6024738d21d2da27bfd26b8f3424cdce3
+  - schema_version: idol-graph-node.v1
+    node_id: n_worker_p3_c1
+    node_class: worker_package
+    view: authority_ownership
+    logical_id: worker_p3_c1
+    scope_id: worker_p3_c1
+    state: returned
+    owner_role: worker_high
+    writer_id: worker_p3_c1_primary
+    truth_kind: structural
+    may_write: true
+  - schema_version: idol-graph-node.v1
+    node_id: n_dispatch_p3_c1
+    node_class: dispatch
+    view: execution_session
+    logical_id: dispatch_p3_c1
+    scope_id: worker_p3_c1
+    state: admitted
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_goal_p3_c1
+    node_class: goal
+    view: execution_session
+    logical_id: goal_p3_c1
+    scope_id: worker_p3_c1
+    state: admitted
+    owner_role: worker_high
+    truth_kind: structural
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_attempt_p3_c1
+    node_class: attempt
+    view: execution_session
+    logical_id: attempt_p3_c1
+    scope_id: worker_p3_c1
+    state: returned
+    owner_role: worker_high
+    truth_kind: structural
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_return_p3_c1
+    node_class: return
+    view: execution_session
+    logical_id: return_p3_c1
+    scope_id: worker_p3_c1
+    state: returned
+    owner_role: worker_high
+    truth_kind: structural
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_review_p3_c1
+    node_class: review
+    view: review_decision
+    logical_id: review_p3_c1
+    scope_id: p3_c1
+    state: reviewed
+    owner_role: planning_cdd_p1
+    lane_id: planning_p1
+    next_legal_owner: planning_cdd_p1
+    truth_kind: authority
+    may_write: false
+    authorship:
+      author_kind: assigned_model
+      author_role: planning_cdd_p1
+      receipt:
+        source_path: evidence/p3-review.json
+        json_pointer: /decision
+        value_sha256: c917c052634bd4957960be61663f0e39b200581afe863335dbb7ea599bf80f7e
+  - schema_version: idol-graph-node.v1
+    node_id: n_contextual_judgment_c1
+    node_class: contextual_judgment
+    view: review_decision
+    logical_id: front_planning_close_c1
+    scope_id: s01_decision_set
+    state: ready_for_director_review
+    owner_role: planning_cdd_p3
+    truth_kind: evidence
+    may_write: false
+    judgment_schema_version: idol_graph_contextual_judgment.v1
+    judgment_profile_id: front_planning_close
+    judgment_decision: eligible_for_director_review
+    authorship:
+      author_kind: assigned_model
+      author_role: planning_cdd_p3
+      receipt:
+        source_path: evidence/contextual-judgment.yaml
+        json_pointer: /decision
+        value_sha256: be837ae81b579ad3316e2d7c773f7f143d973da7bab61e3b5114038ccf6f529d
+    pointers:
+      artifact_path: evidence/contextual-judgment.yaml
+      artifact_sha256: 3a52bf09fa1fefb45a648c14303f368837112c5821b025f499fe4f6ced4a3bbb
+  - schema_version: idol-graph-node.v1
+    node_id: n_decision_set_c1
+    node_class: artifact_pointer
+    view: evidence_provenance
+    logical_id: decision_set_c1
+    scope_id: s01_decision_set
+    state: promoted
+    owner_role: planning_cdd_p3
+    truth_kind: evidence
+    may_write: false
+    evidence:
+      input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+      result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b
+      output_hash: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d
+      review_id: n_review_p3_c1
+    pointers:
+      artifact_path: work/evidence/decision-set-output.json
+      artifact_sha256: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d
+  - schema_version: idol-graph-node.v1
+    node_id: n_review_g0
+    node_class: review
+    view: review_decision
+    logical_id: review_g0
+    scope_id: run
+    state: reviewed
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_review_g1
+    node_class: review
+    view: review_decision
+    logical_id: review_g1
+    scope_id: run
+    state: reviewed
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_storyline
+    node_class: artifact_pointer
+    view: evidence_provenance
+    logical_id: full_storyline
+    scope_id: storyline
+    state: running
+    owner_role: planning_cdd_p1
+    truth_kind: evidence
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_major_s01
+    node_class: major
+    view: creative_truth
+    logical_id: major_s01
+    scope_id: s01
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    section_ids: [S01]
+  - schema_version: idol-graph-node.v1
+    node_id: n_core_s01
+    node_class: core
+    view: creative_truth
+    logical_id: core_s01
+    scope_id: s01
+    state: stale
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    section_ids: [S01]
+  - schema_version: idol-graph-node.v1
+    node_id: n_major_s04
+    node_class: major
+    view: creative_truth
+    logical_id: major_s04
+    scope_id: s04
+    state: running
+    owner_role: planning_cdd_p3
+    truth_kind: structural
+    may_write: false
+    section_ids: [S04]
+  - schema_version: idol-graph-node.v1
+    node_id: n_source
+    node_class: source
+    view: evidence_provenance
+    logical_id: source_a
+    scope_id: source_a
+    state: reviewed
+    owner_role: planning_cdd_p2
+    truth_kind: evidence
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_locator
+    node_class: locator
+    view: evidence_provenance
+    logical_id: locator_a
+    scope_id: source_a
+    state: reviewed
+    owner_role: planning_cdd_p2
+    truth_kind: evidence
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_derivative
+    node_class: derivative
+    view: evidence_provenance
+    logical_id: derivative_a
+    scope_id: source_a
+    state: reviewed
+    owner_role: planning_cdd_p2
+    truth_kind: evidence
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_binding
+    node_class: reference_binding
+    view: evidence_provenance
+    logical_id: binding_a
+    scope_id: s01
+    state: reviewed
+    owner_role: planning_cdd_p2
+    truth_kind: evidence
+    may_write: false
+  - schema_version: idol-graph-node.v1
+    node_id: n_worker_session
+    node_class: provider_session
+    view: provider_capability
+    logical_id: worker_p3_c1_session
+    scope_id: worker_session
+    state: returned
+    owner_role: worker_high
+    truth_kind: structural
+    may_write: false
+    lane_id: worker_p3_c1
+    stage_id: front_planning_integration
+    session_role: primary
+    logical_tier: worker_high
+    fallback_policy: forbidden
+    resolved_profile_id: grok_worker_high
+edges:
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_envelope_authorizes_g0
+    family: authority
+    edge_type: authorized_by
+    view: authority_ownership
+    from_node_id: n_g0
+    to_node_id: n_envelope
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_review_g0_promotes
+    family: authority
+    edge_type: promotes
+    view: authority_ownership
+    from_node_id: n_review_g0
+    to_node_id: n_g0
+    evidence:
+      input_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+      result_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+      output_hash: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_review_g1_promotes
+    family: authority
+    edge_type: promotes
+    view: authority_ownership
+    from_node_id: n_review_g1
+    to_node_id: n_g1
+    evidence:
+      input_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+      result_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+      output_hash: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_overall_owns_p1
+    family: authority
+    edge_type: owns
+    view: authority_ownership
+    from_node_id: n_overall
+    to_node_id: n_p1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_overall_owns_p2
+    family: authority
+    edge_type: owns
+    view: authority_ownership
+    from_node_id: n_overall
+    to_node_id: n_p2
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_overall_owns_p3_c1
+    family: authority
+    edge_type: owns
+    view: authority_ownership
+    from_node_id: n_overall
+    to_node_id: n_p3_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_p3_c1_owns_s01
+    family: authority
+    edge_type: owns
+    view: authority_ownership
+    from_node_id: n_p3_c1
+    to_node_id: n_section_s01
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_p3_c1_dispatches
+    family: authority
+    edge_type: dispatches
+    view: authority_ownership
+    from_node_id: n_p3_c1
+    to_node_id: n_dispatch_p3_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_worker_returns
+    family: authority
+    edge_type: returns_to
+    view: authority_ownership
+    from_node_id: n_worker_p3_c1
+    to_node_id: n_p3_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_review_reviews_decision
+    family: authority
+    edge_type: reviews
+    view: authority_ownership
+    from_node_id: n_review_p3_c1
+    to_node_id: n_decision_set_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_decision_judged_by_context
+    family: creative
+    edge_type: judged_by
+    view: creative_truth
+    from_node_id: n_decision_set_c1
+    to_node_id: n_contextual_judgment_c1
+    authorship:
+      author_kind: assigned_model
+      author_role: planning_cdd_p3
+      receipt:
+        source_path: evidence/contextual-judgment.yaml
+        json_pointer: /decision
+        value_sha256: be837ae81b579ad3316e2d7c773f7f143d973da7bab61e3b5114038ccf6f529d
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_judgment_selects_review
+    family: coordination
+    edge_type: selects_next
+    view: authority_ownership
+    from_node_id: n_contextual_judgment_c1
+    to_node_id: n_review_p3_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_review_promotes_decision
+    family: authority
+    edge_type: promotes
+    view: authority_ownership
+    from_node_id: n_review_p3_c1
+    to_node_id: n_decision_set_c1
+    evidence:
+      input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+      result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b
+      output_hash: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_p3_c1_carries_v_c1
+    family: lineage
+    edge_type: exact_carries
+    view: authority_ownership
+    from_node_id: n_p3_c1
+    to_node_id: n_v_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_p3_c1_boundary_c2
+    family: coordination
+    edge_type: boundary_with
+    view: authority_ownership
+    from_node_id: n_p3_c1
+    to_node_id: n_p3_c2
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_storyline_supports_s01
+    family: creative
+    edge_type: supports
+    view: creative_truth
+    from_node_id: n_storyline
+    to_node_id: n_section_s01
+    authorship:
+      author_kind: assigned_model
+      author_role: planning_cdd_p1
+      receipt:
+        source_path: evidence/creative-support.json
+        json_pointer: /reason
+        value_sha256: b84957fc020b96f49ecd9fe35822f965081b0ee396809301208b84844bbe0c3d
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_locator_derives
+    family: lineage
+    edge_type: derives_from
+    view: authority_ownership
+    from_node_id: n_locator
+    to_node_id: n_source
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_binding_binds
+    family: production
+    edge_type: binds_reference
+    view: evidence_provenance
+    from_node_id: n_binding
+    to_node_id: n_derivative
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_session_resolved
+    family: provider
+    edge_type: resolved_to
+    view: provider_capability
+    from_node_id: n_worker_session
+    to_node_id: n_worker_p3_c1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_major_invalidates_core
+    family: lineage
+    edge_type: invalidates
+    view: authority_ownership
+    from_node_id: n_major_s01
+    to_node_id: n_core_s01
+    affected_scope_ids: [S01]
+    evidence:
+      input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+      result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b
+events:
+  - schema_version: idol-graph-event.v1
+    event_id: evt_001
+    sequence: 1
+    event_type: founder_gate_recorded
+    actor_role: founder
+    actor_id: founder
+    payload_kind: structural
+    node_ids: [n_g0]
+    edge_ids: [e_review_g0_promotes]
+    input_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+    result_digest: 4a1220e61a3e9c2995a4ff21ec29defc3241381f5faee15f5c2a399b574ee0c5
+  - schema_version: idol-graph-event.v1
+    event_id: evt_002
+    sequence: 2
+    event_type: founder_gate_recorded
+    actor_role: founder
+    actor_id: founder
+    payload_kind: structural
+    node_ids: [n_g1]
+    edge_ids: [e_review_g1_promotes]
+    input_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+    result_digest: 0dcf9b54a1c648eb7226dcdc16a0fade25ea73c0b43ecf12eb66dcfee2960e28
+  - schema_version: idol-graph-event.v1
+    event_id: evt_003
+    sequence: 3
+    event_type: cohort_bound
+    actor_role: overall_director
+    actor_id: od_primary
+    payload_kind: structural
+    node_ids: [n_p3_c1, n_p3_c2, n_p3_c3]
+    edge_ids: []
+  - schema_version: idol-graph-event.v1
+    event_id: evt_004
+    sequence: 4
+    event_type: dispatch_opened
+    actor_role: planning_cdd_p3
+    actor_id: p3_c1_primary
+    payload_kind: structural
+    node_ids: [n_dispatch_p3_c1]
+    edge_ids: [e_p3_c1_dispatches]
+  - schema_version: idol-graph-event.v1
+    event_id: evt_005
+    sequence: 5
+    event_type: goal_admitted
+    actor_role: worker_high
+    actor_id: worker_p3_c1_primary
+    payload_kind: structural
+    node_ids: [n_goal_p3_c1]
+    edge_ids: []
+  - schema_version: idol-graph-event.v1
+    event_id: evt_006
+    sequence: 6
+    event_type: attempt_returned
+    actor_role: worker_high
+    actor_id: worker_p3_c1_primary
+    payload_kind: structural
+    node_ids: [n_return_p3_c1]
+    edge_ids: [e_worker_returns]
+  - schema_version: idol-graph-event.v1
+    event_id: evt_007
+    sequence: 7
+    event_type: review_recorded
+    actor_role: planning_cdd_p1
+    actor_id: p1_primary
+    payload_kind: structural
+    node_ids: [n_contextual_judgment_c1, n_review_p3_c1]
+    edge_ids: [e_decision_judged_by_context, e_judgment_selects_review, e_review_reviews_decision]
+    input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+    result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b
+  - schema_version: idol-graph-event.v1
+    event_id: evt_008
+    sequence: 8
+    event_type: promotion_recorded
+    actor_role: overall_director
+    actor_id: od_primary
+    payload_kind: structural
+    node_ids: [n_decision_set_c1]
+    edge_ids: [e_review_promotes_decision]
+    input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+    result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b
+    output_hash: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d
+  - schema_version: idol-graph-event.v1
+    event_id: evt_009
+    sequence: 9
+    event_type: invalidated
+    actor_role: planning_cdd_p3
+    actor_id: p3_c1_primary
+    payload_kind: structural
+    node_ids: [n_core_s01]
+    edge_ids: [e_major_invalidates_core]
+    input_digest: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+    result_digest: e25e0a07501d59f410dd33cff7f9e0737b395bd48c77c4d400a4f32d5334022b

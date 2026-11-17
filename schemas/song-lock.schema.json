@@ -1,0 +1,597 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/song-lock.schema.json",
+  "title": "IDOL Song Production Lock",
+  "description": "Active 00A v1.5 contract. It locks the Founder-selected audio, original lyric truth, song craft consequences, tempo/form, hook, meaning guard, canonical section timing, audible triggers, and editability evidence before Front Planning. It does not author target, MV message, member allocation, current-title visuals, reference assignment, scene flow, action, choreography, styling, still-camera geometry, temporal camera motion, Core-Cut or Branch-Cut count, or prompt prose.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_selected_audio_analysis",
+    "source_audio_motion_director_map",
+    "selected_audio",
+    "song_first_policy",
+    "tempo_form_lock",
+    "hook_lock",
+    "song_meaning_guard",
+    "section_lock",
+    "audio_pressure_handoff",
+    "song_editability_guard",
+    "founder_gate",
+    "open_questions",
+    "hold_reasons"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.5"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "founder_review",
+        "locked",
+        "hold",
+        "rejected"
+      ]
+    },
+    "source_selected_audio_analysis": {
+      "$ref": "#/$defs/artifactRef"
+    },
+    "source_audio_motion_director_map": {
+      "$ref": "#/$defs/artifactRef"
+    },
+    "selected_audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "take_id",
+        "engine_or_source",
+        "founder_selection_status",
+        "lyrics_status",
+        "source_lyrics_original"
+      ],
+      "properties": {
+        "source_ref": {
+          "$ref": "#/$defs/artifactRef"
+        },
+        "take_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine_or_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "founder_selection_status": {
+          "enum": [
+            "candidate_selected",
+            "locked"
+          ]
+        },
+        "lyrics_status": {
+          "enum": [
+            "lyrics_present",
+            "partial_transcript",
+            "instrumental_or_vocalise"
+          ]
+        },
+        "source_lyrics_original": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/artifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "song_first_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "reason",
+        "downstream_rule"
+      ],
+      "properties": {
+        "decision": {
+          "const": "lock_selected_song_before_front_planning"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "downstream_rule": {
+          "const": "front_planning_owns_target_message_visual_identity_members_references_and_section_scene_flow"
+        }
+      }
+    },
+    "tempo_form_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_grid_bpm",
+        "perceived_pulse",
+        "meter",
+        "duration_seconds",
+        "energy_curve",
+        "selected_take_craft_consequences"
+      ],
+      "properties": {
+        "main_grid_bpm": {
+          "type": [
+            "number",
+            "string",
+            "null"
+          ]
+        },
+        "perceived_pulse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meter": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "energy_curve": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selected_take_craft_consequences": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "hook_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hook_phrase_or_sound",
+        "hook_function",
+        "first_15s_impact",
+        "return_or_variation_rule"
+      ],
+      "properties": {
+        "hook_phrase_or_sound": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hook_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "first_15s_impact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "return_or_variation_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "song_meaning_guard": {
+      "type": "object",
+      "description": "Song meaning only. Front Planning converts this into a target-specific MV message and content promise.",
+      "additionalProperties": false,
+      "required": [
+        "lyric_or_sonic_thesis",
+        "emotional_progression",
+        "literal_misread_guards",
+        "tonal_boundaries",
+        "front_planning_questions"
+      ],
+      "properties": {
+        "lyric_or_sonic_thesis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "emotional_progression": {
+          "type": "string",
+          "minLength": 1
+        },
+        "literal_misread_guards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "tonal_boundaries": {
+          "type": "string",
+          "minLength": 1
+        },
+        "front_planning_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "section_lock": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/songSection"
+      }
+    },
+    "audio_pressure_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opening_exception",
+        "high_pressure_sections",
+        "break_or_reset_read",
+        "audible_state_change_rule",
+        "scope",
+        "front_planning_questions"
+      ],
+      "properties": {
+        "opening_exception": {
+          "type": "string",
+          "minLength": 1
+        },
+        "high_pressure_sections": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "break_or_reset_read": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audible_state_change_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "const": "audio_pressure_and_questions_not_screen_answers"
+        },
+        "front_planning_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "song_editability_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_boundary_readability",
+        "musical_anchor_events",
+        "cutdown_viability",
+        "timing_risks",
+        "exact_edit_lock_owner",
+        "exclusions"
+      ],
+      "properties": {
+        "section_boundary_readability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "musical_anchor_events": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cutdown_viability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timing_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "exact_edit_lock_owner": {
+          "const": "04_edit"
+        },
+        "exclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "visual_source_in",
+              "visual_source_out",
+              "speed_factor",
+              "generated_video_candidate",
+              "final_cutpoint"
+            ]
+          }
+        }
+      }
+    },
+    "founder_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "selected_take_confirmed",
+        "founder_decisions",
+        "integrity_checks"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "pass",
+            "hold",
+            "reject",
+            "pending"
+          ]
+        },
+        "selected_take_confirmed": {
+          "type": "boolean"
+        },
+        "founder_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "integrity_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "locked"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_audio": {
+            "properties": {
+              "founder_selection_status": {
+                "const": "locked"
+              }
+            }
+          },
+          "founder_gate": {
+            "properties": {
+              "decision": {
+                "const": "pass"
+              },
+              "selected_take_confirmed": {
+                "const": true
+              },
+              "founder_decisions": {
+                "minItems": 1
+              }
+            }
+          },
+          "hold_reasons": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "hold"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "founder_gate": {
+            "properties": {
+              "decision": {
+                "const": "hold"
+              }
+            }
+          },
+          "hold_reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_audio": {
+            "properties": {
+              "lyrics_status": {
+                "enum": [
+                  "lyrics_present",
+                  "partial_transcript"
+                ]
+              }
+            },
+            "required": [
+              "lyrics_status"
+            ]
+          }
+        },
+        "required": [
+          "selected_audio"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_audio": {
+            "properties": {
+              "source_lyrics_original": {
+                "$ref": "#/$defs/artifactRef"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "songSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "label",
+        "section_family",
+        "start_seconds",
+        "end_seconds",
+        "song_function",
+        "lyric_function",
+        "energy_and_density",
+        "audible_triggers",
+        "meaning_guard",
+        "front_planning_questions"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2,}(?:[A-Z])?$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_family": {
+          "enum": [
+            "intro",
+            "verse",
+            "pre_chorus",
+            "chorus",
+            "post_chorus",
+            "interlude",
+            "bridge",
+            "outro",
+            "other"
+          ]
+        },
+        "start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "song_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lyric_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "energy_and_density": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audible_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "meaning_guard": {
+          "type": "string",
+          "minLength": 1
+        },
+        "front_planning_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/run-layout-transition.schema.json",
+  "title": "IDOL One-Time Active Run Layout Transition",
+  "description": "Registers exact in-flight date-first runs that may finish without creating a generic compatibility branch. It cannot authorize a new old-layout run or change the creative flow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "active_run_template",
+    "generic_date_first_authoring",
+    "new_date_first_run_creation",
+    "quality_flow_change_authority",
+    "in_flight_exceptions"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-run-layout-transition.v1"},
+    "status": {"const": "active"},
+    "active_run_template": {"const": "runs/ALBUM_KEY/TITLE_KEY/RUN_ID"},
+    "generic_date_first_authoring": {"const": "forbidden"},
+    "new_date_first_run_creation": {"const": "forbidden"},
+    "quality_flow_change_authority": {"const": "none"},
+    "in_flight_exceptions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/exception"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "required_status"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "required_status": {"const": "hold"}
+      }
+    },
+    "flowLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_registry_path", "stage_registry_sha256", "stage_sequence_sha256"],
+      "properties": {
+        "stage_registry_path": {"const": "automation/harness-stage-registry.yaml"},
+        "stage_registry_sha256": {"$ref": "#/$defs/sha256"},
+        "stage_sequence_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "exception": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_root",
+        "album_key",
+        "title_key",
+        "run_id",
+        "content_id",
+        "state",
+        "current_next_allowed",
+        "existing_canonical_continuation_allowed",
+        "new_run_creation_allowed",
+        "migration_execution_allowed",
+        "target_run_root",
+        "expires_when",
+        "migration_plan",
+        "flow_lock"
+      ],
+      "properties": {
+        "run_root": {"type": "string", "pattern": "^runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+        "album_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,120}$"},
+        "title_key": {"type": "string", "pattern": "^[a-z0-9가-힣][a-z0-9가-힣-]{1,120}$"},
+        "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+        "content_id": {"type": "string", "minLength": 1},
+        "state": {"const": "in_flight_finish_in_place"},
+        "current_next_allowed": {"const": true},
+        "existing_canonical_continuation_allowed": {"const": true},
+        "new_run_creation_allowed": {"const": false},
+        "migration_execution_allowed": {"const": false},
+        "target_run_root": {"type": "string", "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+        "expires_when": {"const": "run_closed_or_validated_migration_completed"},
+        "migration_plan": {"$ref": "#/$defs/fileBinding"},
+        "flow_lock": {"$ref": "#/$defs/flowLock"}
+      }
+    }
+  }
+}

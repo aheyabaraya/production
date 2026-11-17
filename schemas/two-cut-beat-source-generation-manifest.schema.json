@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/two-cut-beat-source-generation-manifest.schema.json",
+  "title": "IDOL Two-Cut Beat Source Generation Manifest",
+  "description": "Retired evidence-only manifest for the legacy two-frame beat-source route. New authoring and submission are forbidden; active generation uses one section-scoped Image Generation Request plus the Image Generation Dispatch Ledger. Historical recovery may read this shape without reopening it.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "output_root",
+    "prompt_dir",
+    "generation_contract",
+    "member_face_refs",
+    "keyframes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_cut_only_keyframe_generation_manifest.v1"
+    },
+    "content_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "ready_for_generation",
+        "submitted",
+        "completed",
+        "generated_cropped_founder_passed_current",
+        "deprecated_geometry_failed"
+      ]
+    },
+    "output_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prompt_dir": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generation_contract": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "prompt_header_mode",
+        "model",
+        "quality",
+        "size",
+        "fixed_canvas",
+        "cut_regions",
+        "selected_generation_count"
+      ],
+      "properties": {
+        "prompt_header_mode": {
+          "const": "two_frame_sheet"
+        },
+        "model": {
+          "const": "gpt-image-2"
+        },
+        "quality": {
+          "const": "high"
+        },
+        "size": {
+          "const": "1280x1440"
+        },
+        "aspect_ratio": {
+          "const": "8:9_two_cut_sheet"
+        },
+        "fixed_canvas": {
+          "type": "object",
+          "required": [
+            "width",
+            "height"
+          ],
+          "properties": {
+            "width": {
+              "const": 1280
+            },
+            "height": {
+              "const": 1440
+            }
+          }
+        },
+        "cut_regions": {
+          "type": "object",
+          "required": [
+            "CUT01_START",
+            "CUT02_END"
+          ],
+          "properties": {
+            "CUT01_START": {
+              "$ref": "#/$defs/cut_start"
+            },
+            "CUT02_END": {
+              "$ref": "#/$defs/cut_end"
+            }
+          }
+        },
+        "selected_generation_count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "member_face_refs": {
+      "type": "object",
+      "description": "Member identity reference paths. Prefer current-title album identity-source copies under assets/members/album-assets/ALBUM_KEY/TITLE_KEY/** when declared; otherwise use approved base member face-only references under assets/members/Mxx/.",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^(assets/members/M[0-9]{2}/.*face-only-reference.*|assets/members/album-assets/[^/]+/[^/]+/.*face-only-reference.*)$"
+      }
+    },
+    "keyframes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id",
+          "packet_id",
+          "beat_id",
+          "subject",
+          "api_face_refs",
+          "output_image",
+          "start_pose_lock",
+          "motion_delta",
+          "end_pose_lock",
+          "camera_delta"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "packet_id": {
+            "type": "string",
+            "pattern": "^PKT_"
+          },
+          "beat_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "subject": {
+            "$ref": "#/$defs/member_codes"
+          },
+          "api_face_refs": {
+            "$ref": "#/$defs/member_codes"
+          },
+          "output_image": {
+            "type": "string",
+            "pattern": "^sheets/.*\\.png$"
+          },
+          "start_pose_lock": {
+            "type": "string",
+            "minLength": 1
+          },
+          "motion_delta": {
+            "type": "string",
+            "minLength": 1
+          },
+          "end_pose_lock": {
+            "type": "string",
+            "minLength": 1
+          },
+          "camera_delta": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "member_codes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^M[0-9]{2}$"
+      },
+      "uniqueItems": true
+    },
+    "cut_start": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/cut_region"
+        },
+        {
+          "properties": {
+            "x": {
+              "const": 0
+            },
+            "y": {
+              "const": 0
+            }
+          }
+        }
+      ]
+    },
+    "cut_end": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/cut_region"
+        },
+        {
+          "properties": {
+            "x": {
+              "const": 0
+            },
+            "y": {
+              "const": 720
+            }
+          }
+        }
+      ]
+    },
+    "cut_region": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height",
+        "aspect_ratio",
+        "crop_output"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "width": {
+          "const": 1280
+        },
+        "height": {
+          "const": 720
+        },
+        "aspect_ratio": {
+          "const": "16:9"
+        },
+        "crop_output": {
+          "type": "string",
+          "pattern": "^crops/.+\\{keyframe_id\\}.+\\.png$"
+        }
+      }
+    }
+  }
+}

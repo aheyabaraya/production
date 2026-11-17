@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-current-next.schema.json",
+  "title": "IDOL Graph Engineering Current Next DDI Frontier Projection",
+  "description": "Active v2 operator projection over one hash-bound Director Dispatch Index v4. Legacy Queue, Next Unit, and Founder Gate files are evidence only and never select the frontier.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "generated_at",
+    "run",
+    "album_key",
+    "title_key",
+    "status",
+    "owner",
+    "frontier_binding",
+    "legacy_evidence",
+    "automation_boundaries",
+    "forbidden_actions",
+    "refresh_commands"
+  ],
+  "properties": {
+    "schema_version": {"const": "harness-current-next.v2"},
+    "artifact_type": {"const": "harness_current_next"},
+    "generated_at": {"$ref": "#/$defs/nonEmptyString"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "album_key": {"type": "string"},
+    "title_key": {"type": ["string", "null"]},
+    "status": {
+      "enum": ["hold", "review_required", "ready", "no_actionable_units", "migration_hold"]
+    },
+    "owner": {
+      "oneOf": [
+        {"$ref": "#/$defs/nonEmptyString"},
+        {"type": "null"}
+      ]
+    },
+    "frontier_binding": {"$ref": "#/$defs/frontierBinding"},
+    "review_projection_pending": {"$ref": "#/$defs/reviewProjectionPending"},
+    "legacy_evidence": {"$ref": "#/$defs/legacyEvidence"},
+    "automation_boundaries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonEmptyString"}
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonEmptyString"}
+    },
+    "refresh_commands": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/nonEmptyString"}
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/nonEmptyString"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "directorDispatchIndexBinding": {
+      "allOf": [
+        {"$ref": "#/$defs/artifactBinding"},
+        {
+          "type": "object",
+          "properties": {"role": {"const": "director_dispatch_index_v4"}}
+        }
+      ]
+    },
+    "nullableArtifactBinding": {
+      "oneOf": [
+        {"$ref": "#/$defs/artifactBinding"},
+        {"type": "null"}
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id", "dispatch_id", "json_pointer", "row_sha256", "state"],
+      "properties": {
+        "kind": {
+          "enum": ["open_hold", "review_queue", "next_action", "no_actionable_unit", "migration_hold"]
+        },
+        "id": {
+          "oneOf": [
+            {"$ref": "#/$defs/nonEmptyString"},
+            {"type": "null"}
+          ]
+        },
+        "dispatch_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/nonEmptyString"},
+            {"type": "null"}
+          ]
+        },
+        "json_pointer": {
+          "oneOf": [
+            {"type": "string", "pattern": "^/(?:holds/[0-9]+|review_queue/items/[0-9]+|next_actions/[0-9]+)$"},
+            {"type": "null"}
+          ]
+        },
+        "row_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "state": {"$ref": "#/$defs/nonEmptyString"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"kind": {"enum": ["no_actionable_unit", "migration_hold"]}},
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "id": {"type": "null"},
+              "dispatch_id": {"type": "null"},
+              "json_pointer": {"type": "null"},
+              "row_sha256": {"type": "null"}
+            }
+          },
+          "else": {
+            "properties": {
+              "id": {"$ref": "#/$defs/nonEmptyString"},
+              "json_pointer": {"type": "string"},
+              "row_sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"kind": {"const": "open_hold"}}, "required": ["kind"]},
+          "then": {"properties": {"json_pointer": {"pattern": "^/holds/[0-9]+$"}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "review_queue"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "dispatch_id": {"$ref": "#/$defs/nonEmptyString"},
+              "json_pointer": {"pattern": "^/review_queue/items/[0-9]+$"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"kind": {"const": "next_action"}}, "required": ["kind"]},
+          "then": {
+            "properties": {
+              "dispatch_id": {"$ref": "#/$defs/nonEmptyString"},
+              "json_pointer": {"pattern": "^/next_actions/[0-9]+$"}
+            }
+          }
+        }
+      ]
+    },
+    "canonicalHeadItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["head_id", "json_pointer", "row_sha256", "artifact"],
+      "properties": {
+        "head_id": {"$ref": "#/$defs/nonEmptyString"},
+        "json_pointer": {"type": "string", "pattern": "^/current_heads/[0-9]+$"},
+        "row_sha256": {"$ref": "#/$defs/sha256"},
+        "artifact": {"$ref": "#/$defs/artifactBinding"}
+      }
+    },
+    "canonicalHeads": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resolution", "items"],
+      "properties": {
+        "resolution": {"enum": ["bound", "not_yet_promoted", "none_declared", "held_or_ambiguous"]},
+        "items": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/canonicalHeadItem"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"resolution": {"const": "bound"}}, "required": ["resolution"]},
+          "then": {"properties": {"items": {"minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"resolution": {"const": "none_declared"}}, "required": ["resolution"]},
+          "then": {"properties": {"items": {"maxItems": 0}}}
+        }
+      ]
+    },
+    "frontierBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["director_dispatch_index", "source_set_sha256", "selection", "canonical_heads"],
+      "properties": {
+        "director_dispatch_index": {"$ref": "#/$defs/directorDispatchIndexBinding"},
+        "source_set_sha256": {"$ref": "#/$defs/sha256"},
+        "selection": {"$ref": "#/$defs/selection"},
+        "canonical_heads": {"$ref": "#/$defs/canonicalHeads"}
+      }
+    },
+    "reviewProjectionPending": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "director_dispatch_index",
+        "status",
+        "board_manifest",
+        "board_revision",
+        "active_cycle_id",
+        "unresolved_count",
+        "items",
+        "next_action",
+        "selection_overridden"
+      ],
+      "properties": {
+        "source": {"$ref": "#/$defs/artifactBinding"},
+        "director_dispatch_index": {"$ref": "#/$defs/directorDispatchIndexBinding"},
+        "status": {"enum": ["clear", "pending"]},
+        "board_manifest": {"$ref": "#/$defs/artifactBinding"},
+        "board_revision": {"type": "integer", "minimum": 1},
+        "active_cycle_id": {"$ref": "#/$defs/nonEmptyString"},
+        "unresolved_count": {"type": "integer", "minimum": 0},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["asset_id", "binding_id", "source_stage", "dispatch_id"],
+            "properties": {
+              "asset_id": {"$ref": "#/$defs/nonEmptyString"},
+              "binding_id": {"$ref": "#/$defs/nonEmptyString"},
+              "source_stage": {"$ref": "#/$defs/nonEmptyString"},
+              "dispatch_id": {"$ref": "#/$defs/nonEmptyString"}
+            }
+          }
+        },
+        "next_action": {"$ref": "#/$defs/nonEmptyString"},
+        "selection_overridden": {"const": false}
+      }
+    },
+    "legacyEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_authority", "source_next_unit", "source_founder_gate", "source_action_queue"],
+      "properties": {
+        "selection_authority": {"const": false},
+        "source_next_unit": {"$ref": "#/$defs/nullableArtifactBinding"},
+        "source_founder_gate": {"$ref": "#/$defs/nullableArtifactBinding"},
+        "source_action_queue": {"$ref": "#/$defs/nullableArtifactBinding"}
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+schema_version: idol-graph-output-manifest.v1
+artifact_type: graph_dispatch_output_manifest
+dispatch_id: s01_decision_set
+assigned_owner: planning_cdd_p3_ci
+input_digest_sha256: 9c204c433a3931160cfc029da89d29bd6a8e35f83554e77a9933c0f1aa459fd2
+output_kind: contextual_judgment_fixture
+outputs:
+  - path: work/evidence/decision-set-output.json
+    sha256: c124db55c89d356ff1d0205e00565d32c2ec94a251a46a6782f722182757589d

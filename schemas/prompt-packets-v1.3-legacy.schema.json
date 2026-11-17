@@ -1,0 +1,2128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/prompt-packets-v1.3-legacy.schema.json",
+  "title": "IDOL Prompt Packets v1.3 Legacy",
+  "description": "Legacy 02B storyboard/review-board contract kept for archived LOW packets and diagnostic validation only. It is evidence-only and cannot open active execution; active 02B uses schemas/prompt-packets.schema.json v2.2 with one packet per Branch Cut.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "input_files",
+    "status",
+    "packet_policy",
+    "imagegen_validation_contract",
+    "prompt_packets",
+    "review_surface",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.3"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "title_catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Stable album/title registry. 02B source files stay in the run folder, but exports, manifests, generated boards, video prompts, videos, edits, and package outputs must be registered here so multi-day track work does not scatter by date.",
+      "required": [
+        "album_key",
+        "title_key",
+        "title_display_name",
+        "title_root",
+        "output_registry_path",
+        "post_02b_registration_required"
+      ],
+      "properties": {
+        "album_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "title_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+        },
+        "title_display_name": {
+          "type": "string"
+        },
+        "title_root": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+$"
+        },
+        "output_registry_path": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$"
+        },
+        "post_02b_registration_required": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "input_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nucleus",
+        "song_lock",
+        "direction_map",
+        "generation_map",
+        "master_storyboard"
+      ],
+      "properties": {
+        "nucleus": {
+          "type": "string"
+        },
+        "song_lock": {
+          "type": "string"
+        },
+        "direction_map": {
+          "type": "string"
+        },
+        "generation_map": {
+          "type": "string"
+        },
+        "master_storyboard": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "founder_review",
+        "approved",
+        "generated",
+        "hold",
+        "rejected"
+      ]
+    },
+    "packet_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_basis",
+        "prompt_derivation_rule",
+        "prompt_order",
+        "coverage_unit",
+        "expected_beat_count",
+        "current_packet_count",
+        "coverage_status",
+        "missing_beat_policy",
+        "paid_generation_gate",
+        "publish_gate"
+      ],
+      "properties": {
+        "structure_basis": {
+          "type": "string"
+        },
+        "prompt_derivation_rule": {
+          "type": "string"
+        },
+        "prompt_order": {
+          "type": "string",
+          "const": "identity_lock_function_first"
+        },
+        "coverage_unit": {
+          "type": "string",
+          "const": "02A_master_storyboard_beat"
+        },
+        "expected_beat_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "current_packet_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "coverage_status": {
+          "type": "string",
+          "enum": [
+            "partial_priority_set",
+            "all_beats_packetized",
+            "hold"
+          ]
+        },
+        "missing_beat_policy": {
+          "type": "string"
+        },
+        "parallel_lane_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "enabled",
+            "expansion_rule",
+            "lanes",
+            "stage_motion_background_policy",
+            "review_rule"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "expansion_rule": {
+              "type": "string"
+            },
+            "lanes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "mv_lane",
+                  "stage_motion_lane",
+                  "integrated_lane"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "stage_motion_background_policy": {
+              "type": "string"
+            },
+            "review_rule": {
+              "type": "string"
+            }
+          }
+        },
+        "paid_generation_gate": {
+          "type": "string",
+          "enum": [
+            "requires_founder_approval",
+            "approved_for_current_run"
+          ]
+        },
+        "publish_gate": {
+          "type": "string",
+          "enum": [
+            "not_allowed_from_prompt_packets",
+            "requires_founder_approval"
+          ]
+        }
+      }
+    },
+    "imagegen_validation_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structure_basis",
+        "default_route",
+        "identity_reference_rule",
+        "render_prompt_rule",
+        "layout_resolution_policy",
+        "pre_api_wrapper_contract",
+        "packet_render_index",
+        "pre_generation_validation"
+      ],
+      "properties": {
+        "structure_basis": {
+          "type": "string"
+        },
+        "default_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model",
+            "quality",
+            "size_policy",
+            "paid_generation_gate"
+          ],
+          "properties": {
+            "model": {
+              "const": "gpt-image-2"
+            },
+            "quality": {
+              "type": "string"
+            },
+            "size_policy": {
+              "type": "string"
+            },
+            "paid_generation_gate": {
+              "type": "string",
+              "enum": [
+                "requires_founder_approval",
+                "approved_for_current_run"
+              ]
+            }
+          }
+        },
+        "identity_reference_rule": {
+          "type": "object",
+          "description": "Face identity rule for API submission. Internal member codes must be paired with display names in source prompts, and export manifests must map attached face crops by API image input order, e.g. attached face reference image #1 = M03 Yeul.",
+          "additionalProperties": false,
+          "required": [
+            "attach_face_reference_only",
+            "do_not_attach_character_board",
+            "max_attached_member_references",
+            "identity_panel_rule",
+            "actual_image_input_rule",
+            "reference_visibility_rule",
+            "expression_variation_rule"
+          ],
+          "properties": {
+            "attach_face_reference_only": {
+              "type": "boolean"
+            },
+            "do_not_attach_character_board": {
+              "type": "boolean"
+            },
+            "max_attached_member_references": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2
+            },
+            "identity_panel_rule": {
+              "type": "string"
+            },
+            "actual_image_input_rule": {
+              "type": "string"
+            },
+            "reference_visibility_rule": {
+              "type": "string"
+            },
+            "expression_variation_rule": {
+              "type": "string"
+            }
+          }
+        },
+        "render_prompt_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_prompt_use",
+            "export_wrapper_required",
+            "creative_prose_rule",
+            "forbidden_leakage_rule"
+          ],
+          "properties": {
+            "source_prompt_use": {
+              "type": "string"
+            },
+            "export_wrapper_required": {
+              "type": "boolean"
+            },
+            "creative_prose_rule": {
+              "type": "string"
+            },
+            "forbidden_leakage_rule": {
+              "type": "string"
+            }
+          }
+        },
+        "layout_resolution_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "active_layout_profile",
+            "motion_sensitive_rule",
+            "board_layout_rule",
+            "layout_modes"
+          ],
+          "properties": {
+            "active_layout_profile": {
+              "type": "string",
+              "const": "idol_3_2_cutmain_support_band"
+            },
+            "motion_sensitive_rule": {
+              "type": "string"
+            },
+            "board_layout_rule": {
+              "type": "string"
+            },
+            "layout_modes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "render_prompt_mode",
+                  "layout_profile_id",
+                  "aspect_ratio",
+                  "size",
+                  "layout_shape",
+                  "when_to_use",
+                  "required_prompt_fragments",
+                  "negative_constraints"
+                ],
+                "properties": {
+                  "render_prompt_mode": {
+                    "type": "string"
+                  },
+                  "layout_profile_id": {
+                    "type": "string",
+                    "const": "idol_3_2_cutmain_support_band"
+                  },
+                  "aspect_ratio": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "string"
+                  },
+                  "layout_shape": {
+                    "type": "string"
+                  },
+                  "when_to_use": {
+                    "type": "string"
+                  },
+                  "required_prompt_fragments": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "negative_constraints": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "pre_api_wrapper_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Non-creative render wrapper applied only during 02B export/preflight before paid API submission. These fields do not belong inside prompt_packets[].visual_layout_lock.per_cut_framing.",
+          "required": [
+            "applies_at",
+            "source_boundary",
+            "non_creative_rule",
+            "required_manifest_fields",
+            "required_render_wrapper_fields",
+            "required_visible_label_fields",
+            "fixed_coordinate_regions",
+            "api_prompt_order",
+            "required_per_cut_render_framing_fields",
+            "reference_image_policy",
+            "face_reference_lighting_policy",
+            "render_guard_policy"
+          ],
+          "properties": {
+            "applies_at": {
+              "type": "string",
+              "const": "export_manifest_pre_api"
+            },
+            "source_boundary": {
+              "type": "string"
+            },
+            "non_creative_rule": {
+              "type": "string"
+            },
+            "required_manifest_fields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_render_wrapper_fields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "description": "Fields that each export manifest render_wrapper must carry before API submission.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_visible_label_fields": {
+              "type": "array",
+              "minItems": 4,
+              "uniqueItems": true,
+              "description": "Visible label values that the top-left render wrapper must carry.",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "packet_number",
+                  "section_label",
+                  "timecode",
+                  "member_codes_names"
+                ]
+              }
+            },
+            "fixed_coordinate_regions": {
+              "type": "array",
+              "minItems": 4,
+              "description": "Stable percent-based canvas regions used by the export render_wrapper.",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "region",
+                  "x",
+                  "y",
+                  "w",
+                  "h",
+                  "purpose"
+                ],
+                "properties": {
+                  "region": {
+                    "type": "string"
+                  },
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  },
+                  "w": {
+                    "type": "number"
+                  },
+                  "h": {
+                    "type": "number"
+                  },
+                  "purpose": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "api_prompt_order": {
+              "type": "array",
+              "minItems": 2,
+              "uniqueItems": true,
+              "description": "Order used when building the final API prompt from the wrapper and core prompt.",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_per_cut_render_framing_fields": {
+              "type": "array",
+              "minItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "cut",
+                  "framing_class",
+                  "required_visibility",
+                  "crop_rule",
+                  "framing_purpose"
+                ]
+              },
+              "allOf": [
+                {
+                  "contains": {
+                    "const": "cut"
+                  }
+                },
+                {
+                  "contains": {
+                    "const": "framing_class"
+                  }
+                },
+                {
+                  "contains": {
+                    "const": "required_visibility"
+                  }
+                },
+                {
+                  "contains": {
+                    "const": "crop_rule"
+                  }
+                },
+                {
+                  "contains": {
+                    "const": "framing_purpose"
+                  }
+                }
+              ]
+            },
+            "reference_image_policy": {
+              "type": "string"
+            },
+            "face_reference_lighting_policy": {
+              "type": "string"
+            },
+            "render_guard_policy": {
+              "type": "string"
+            }
+          }
+        },
+        "packet_render_index": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "packet_id",
+              "beat_id",
+              "layout_family",
+              "review_emphasis",
+              "render_prompt_mode",
+              "layout_profile_id",
+              "aspect_ratio",
+              "size",
+              "founder_layout_review_required_before_api",
+              "selection_reason"
+            ],
+            "properties": {
+              "packet_id": {
+                "type": "string"
+              },
+              "beat_id": {
+                "type": "string"
+              },
+              "layout_family": {
+                "type": "string"
+              },
+              "review_emphasis": {
+                "type": "string",
+                "enum": [
+                  "closeup_identity",
+                  "identity_motion",
+                  "mv_world",
+                  "route_action",
+                  "full_body_performance",
+                  "paired_hook",
+                  "transition_memory",
+                  "stage_motion"
+                ]
+              },
+              "render_prompt_mode": {
+                "type": "string"
+              },
+              "layout_profile_id": {
+                "type": "string",
+                "const": "idol_3_2_cutmain_support_band"
+              },
+              "aspect_ratio": {
+                "type": "string"
+              },
+              "size": {
+                "type": "string"
+              },
+              "founder_layout_review_required_before_api": {
+                "type": "boolean"
+              },
+              "selection_reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "pre_generation_validation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required_prompt_fragments",
+            "forbidden_prompt_fragments",
+            "required_checks",
+            "hard_stop_conditions"
+          ],
+          "properties": {
+            "required_prompt_fragments": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "forbidden_prompt_fragments": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "required_checks": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "hard_stop_conditions": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "prompt_packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "packet_id",
+          "beat_id",
+          "generation_lane",
+          "output_role",
+          "beat_role",
+          "local_trace",
+          "render_targets",
+          "visual_layout_lock",
+          "identity_lock",
+          "beat_function_lock",
+          "director_chain",
+          "prompt_compile_contract",
+          "idol_role_harness",
+          "micro_beat_sheet",
+          "compiled_prompt_block",
+          "founder_director_review_summary",
+          "storyboard_packet",
+          "integrity_checks",
+          "export_contract"
+        ],
+        "properties": {
+          "packet_id": {
+            "type": "string"
+          },
+          "beat_id": {
+            "type": "string"
+          },
+          "generation_lane": {
+            "type": "string",
+            "enum": [
+              "integrated_lane",
+              "mv_lane",
+              "stage_motion_lane"
+            ]
+          },
+          "output_role": {
+            "type": "string",
+            "enum": [
+              "review_image_board",
+              "review_image_only",
+              "adaptive_keyframe"
+            ]
+          },
+          "beat_role": {
+            "type": "string",
+            "enum": [
+              "world_message_beat",
+              "performance_choreo_beat",
+              "member_closeup_beat",
+              "transition_memory_beat",
+              "hook_landing_beat",
+              "hook_proof_beat"
+            ]
+          },
+          "local_trace": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "song_sections",
+              "generation_clip_family",
+              "storyboard_prompt_ref",
+              "local_only_not_visible_in_prompt"
+            ],
+            "properties": {
+              "song_sections": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "generation_clip_family": {
+                "type": "string"
+              },
+              "storyboard_prompt_ref": {
+                "type": "string"
+              },
+              "local_only_not_visible_in_prompt": {
+                "type": "boolean"
+              }
+            }
+          },
+          "render_targets": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "review_image_board"
+            ],
+            "properties": {
+              "review_image_board": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "layout_profile_id",
+                  "layout_mode",
+                  "aspect_ratio",
+                  "size",
+                  "member_name_header",
+                  "main_panel_policy",
+                  "reference_input_policy",
+                  "visible_text_budget"
+                ],
+                "properties": {
+                  "layout_profile_id": {
+                    "type": "string",
+                    "const": "idol_3_2_cutmain_support_band"
+                  },
+                  "layout_mode": {
+                    "type": "string"
+                  },
+                  "aspect_ratio": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "string"
+                  },
+                  "member_name_header": {
+                    "type": "string"
+                  },
+                  "main_panel_policy": {
+                    "type": "string"
+                  },
+                  "reference_input_policy": {
+                    "type": "string"
+                  },
+                  "visible_text_budget": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "visual_layout_lock": {
+            "$ref": "#/$defs/visualLayoutLock"
+          },
+          "identity_lock": {
+            "$ref": "#/$defs/identityLock"
+          },
+          "beat_function_lock": {
+            "$ref": "#/$defs/beatFunctionLock"
+          },
+          "prompt_compile_contract": {
+            "$ref": "#/$defs/promptCompileContract"
+          },
+          "idol_role_harness": {
+            "$ref": "#/$defs/idolRoleHarness"
+          },
+          "micro_beat_sheet": {
+            "$ref": "#/$defs/microBeatSheet"
+          },
+          "compiled_prompt_block": {
+            "$ref": "#/$defs/compiledPromptBlock"
+          },
+          "founder_director_review_summary": {
+            "$ref": "#/$defs/founderDirectorReviewSummary"
+          },
+          "storyboard_packet": {
+            "$ref": "#/$defs/storyboardPacket"
+          },
+          "integrity_checks": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "identity_lock_survives",
+              "cuts_derive_from_micro_beat_sheet",
+              "visual_layout_lock_survives",
+              "dynamic_style_not_template",
+              "no_generic_motion_language",
+              "director_chain_survives",
+              "no_unapproved_paid_generation"
+            ],
+            "properties": {
+              "identity_lock_survives": {
+                "type": "boolean"
+              },
+              "cuts_derive_from_micro_beat_sheet": {
+                "type": "boolean"
+              },
+              "visual_layout_lock_survives": {
+                "type": "boolean"
+              },
+              "dynamic_style_not_template": {
+                "type": "boolean"
+              },
+              "no_generic_motion_language": {
+                "type": "boolean"
+              },
+              "no_unapproved_paid_generation": {
+                "type": "boolean"
+              },
+              "director_chain_survives": {
+                "type": "boolean"
+              }
+            }
+          },
+          "export_contract": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "packet_path",
+              "prompt_export_path",
+              "manifest_path",
+              "expected_review_image_path",
+              "validation_required_before_generation",
+              "generation_route",
+              "founder_review_status"
+            ],
+            "properties": {
+              "packet_path": {
+                "type": "string"
+              },
+              "prompt_export_path": {
+                "type": "string"
+              },
+              "manifest_path": {
+                "type": "string"
+              },
+              "expected_review_image_path": {
+                "type": "string"
+              },
+              "expected_video_output_dir": {
+                "type": "string"
+              },
+              "title_output_registry_path": {
+                "type": "string",
+                "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$",
+                "description": "Optional in authoring drafts, required by preflight/export manifests before paid API submission."
+              },
+              "title_output_root": {
+                "type": "string",
+                "pattern": "^catalog/albums/[^/]+/[^/]+$",
+                "description": "Stable album/title root for cross-day lookup; concrete generated files may remain run-owned."
+              },
+              "validation_required_before_generation": {
+                "type": "boolean",
+                "const": true,
+                "description": "02B packets must always require validation before any paid generation route can be used."
+              },
+              "generation_route": {
+                "type": "string",
+                "enum": [
+                  "prompt_export_only",
+                  "imagegen_after_validation"
+                ]
+              },
+              "founder_review_status": {
+                "type": "string",
+                "const": "not_generated"
+              },
+              "post_review_video_gate": {
+                "type": "string",
+                "const": "blocked_until_founder_pass"
+              }
+            }
+          },
+          "director_chain": {
+            "$ref": "#/$defs/directorChain"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "export_contract"
+              ],
+              "properties": {
+                "export_contract": {
+                  "required": [
+                    "generation_route"
+                  ],
+                  "properties": {
+                    "generation_route": {
+                      "const": "imagegen_after_validation"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "founder_director_review_summary": {
+                  "properties": {
+                    "pre_api_review_status": {
+                      "const": "pass"
+                    }
+                  }
+                },
+                "export_contract": {
+                  "properties": {
+                    "validation_required_before_generation": {
+                      "const": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "review_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "founder_decisions",
+        "auto_qc_checks"
+      ],
+      "properties": {
+        "founder_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "auto_qc_checks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "memberCode": {
+      "type": "string",
+      "pattern": "^M(0[1-9]|1[0-3])$"
+    },
+    "visualLayoutLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "layout_family",
+        "primary_visual_job",
+        "identity_rule",
+        "dynamic_style_rule",
+        "framing_balance",
+        "cut_composition_rule",
+        "per_cut_framing",
+        "collapse_risks"
+      ],
+      "properties": {
+        "layout_family": {
+          "type": "string",
+          "enum": [
+            "closeup_identity",
+            "identity_motion",
+            "body_route_action",
+            "full_body_performance",
+            "paired_hook_wide",
+            "world_response",
+            "transition_memory",
+            "stage_motion_performance",
+            "mixed"
+          ]
+        },
+        "primary_visual_job": {
+          "type": "string"
+        },
+        "identity_rule": {
+          "type": "string"
+        },
+        "dynamic_style_rule": {
+          "type": "string"
+        },
+        "framing_balance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "face_identity",
+            "body_action",
+            "full_body_or_formation",
+            "world_or_route_response"
+          ],
+          "properties": {
+            "face_identity": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "supporting",
+                "protected",
+                "background"
+              ]
+            },
+            "body_action": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "supporting",
+                "protected",
+                "background"
+              ]
+            },
+            "full_body_or_formation": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "supporting",
+                "protected",
+                "background"
+              ]
+            },
+            "world_or_route_response": {
+              "type": "string",
+              "enum": [
+                "primary",
+                "supporting",
+                "protected",
+                "background"
+              ]
+            }
+          }
+        },
+        "cut_composition_rule": {
+          "type": "string"
+        },
+        "per_cut_framing": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cut",
+              "shot_scale",
+              "must_show",
+              "must_not_collapse_to"
+            ],
+            "properties": {
+              "cut": {
+                "type": "string",
+                "enum": [
+                  "CUT01",
+                  "CUT02",
+                  "CUT03"
+                ]
+              },
+              "shot_scale": {
+                "type": "string"
+              },
+              "must_show": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "must_not_collapse_to": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "collapse_risks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "identityLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "member_focus",
+        "member_references",
+        "fixed_traits",
+        "expression_rail",
+        "expression_variation_qc",
+        "body_proportion_guard",
+        "action_carry_guard",
+        "allowed_variations"
+      ],
+      "properties": {
+        "member_focus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/memberCode"
+          },
+          "uniqueItems": true
+        },
+        "member_references": {
+          "type": "object"
+        },
+        "fixed_traits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expression_rail": {
+          "type": "string"
+        },
+        "expression_variation_qc": {
+          "type": "string"
+        },
+        "body_proportion_guard": {
+          "type": "string"
+        },
+        "action_carry_guard": {
+          "type": "string"
+        },
+        "allowed_variations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "beatFunctionLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message_basis",
+        "empathy_basis",
+        "song_basis",
+        "choreography_basis",
+        "performance_direction_basis",
+        "mv_world_basis",
+        "entry_trigger",
+        "exit_trigger",
+        "continuity_carrier",
+        "response_domain",
+        "causal_chain",
+        "use_only_function_sentence"
+      ],
+      "properties": {
+        "message_basis": {
+          "type": "string"
+        },
+        "empathy_basis": {
+          "type": "string"
+        },
+        "song_basis": {
+          "type": "string"
+        },
+        "choreography_basis": {
+          "type": "string"
+        },
+        "performance_direction_basis": {
+          "type": "string"
+        },
+        "mv_world_basis": {
+          "type": "string"
+        },
+        "entry_trigger": {
+          "type": "string"
+        },
+        "exit_trigger": {
+          "type": "string"
+        },
+        "continuity_carrier": {
+          "type": "string"
+        },
+        "response_domain": {
+          "type": "string",
+          "enum": [
+            "world",
+            "performance",
+            "stage_motion",
+            "light",
+            "camera",
+            "sound",
+            "closeup",
+            "object"
+          ]
+        },
+        "causal_chain": {
+          "type": "string"
+        },
+        "use_only_function_sentence": {
+          "type": "string"
+        }
+      }
+    },
+    "promptCompileContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compile_version",
+        "compile_method",
+        "compile_inputs",
+        "director_compile_note",
+        "required_export_prompt_fields",
+        "forbidden_export_terms"
+      ],
+      "properties": {
+        "compile_version": {
+          "type": "string"
+        },
+        "compile_method": {
+          "type": "string",
+          "enum": [
+            "manual_packet_read",
+            "manual_packet_read_with_compile_inputs"
+          ]
+        },
+        "compile_inputs": {
+          "$ref": "#/$defs/compileInputs"
+        },
+        "inherit_from_upstream": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "reselect_for_this_packet": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "discard_from_upstream": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "director_compile_note": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "beat",
+            "lyric_emotion",
+            "body_state",
+            "visible_action",
+            "action_scale",
+            "specific_space",
+            "camera_treatment",
+            "wardrobe_motion",
+            "tone_carryover",
+            "avoid",
+            "final_prompt_intent"
+          ],
+          "properties": {
+            "beat": {
+              "type": "string"
+            },
+            "lyric_emotion": {
+              "type": "string"
+            },
+            "body_state": {
+              "type": "string"
+            },
+            "visible_action": {
+              "type": "string"
+            },
+            "action_scale": {
+              "type": "string"
+            },
+            "specific_space": {
+              "type": "string"
+            },
+            "camera_treatment": {
+              "type": "string",
+              "description": "Non-layout creative camera treatment for the active beat keyframe: the camera evidence, angle, shot scale, movement, or composition pressure that makes the action readable. It should derive from 02A visual_frame.camera_treatment."
+            },
+            "wardrobe_motion": {
+              "type": "string"
+            },
+            "tone_carryover": {
+              "type": "string"
+            },
+            "avoid": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "final_prompt_intent": {
+              "type": "string"
+            }
+          }
+        },
+        "required_export_prompt_fields": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "identity_reference_rule",
+              "scene_intent",
+              "visual_evidence",
+              "beat_response",
+              "avoid"
+            ]
+          },
+          "allOf": [
+            {
+              "contains": {
+                "const": "identity_reference_rule"
+              }
+            },
+            {
+              "contains": {
+                "const": "scene_intent"
+              }
+            },
+            {
+              "contains": {
+                "const": "visual_evidence"
+              }
+            },
+            {
+              "contains": {
+                "const": "beat_response"
+              }
+            },
+            {
+              "contains": {
+                "const": "avoid"
+              }
+            }
+          ]
+        },
+        "forbidden_export_terms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "compile_notes": {
+          "type": "string"
+        }
+      }
+    },
+    "compileInputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "compile_seed_ref",
+        "cue_bpm_slot",
+        "audio_motion_slot",
+        "micro_beat_sheet_ref",
+        "director_note_required",
+        "render_facing",
+        "may_generate_final_prompt_prose",
+        "source_refs"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "refs_ready_for_manual_director_compile"
+          ]
+        },
+        "compile_seed_ref": {
+          "type": "string"
+        },
+        "cue_bpm_slot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "audio_motion_slot": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "micro_beat_sheet_ref": {
+          "type": "string"
+        },
+        "director_note_required": {
+          "type": "boolean",
+          "const": true
+        },
+        "render_facing": {
+          "type": "boolean",
+          "const": false
+        },
+        "may_generate_final_prompt_prose": {
+          "type": "boolean",
+          "const": false
+        },
+        "source_refs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "idolRoleHarness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "music_video_producer",
+        "choreographer",
+        "performance_director",
+        "image_video_prompt_director",
+        "boundary_note"
+      ],
+      "properties": {
+        "music_video_producer": {
+          "type": "string"
+        },
+        "choreographer": {
+          "type": "string"
+        },
+        "performance_director": {
+          "type": "string"
+        },
+        "image_video_prompt_director": {
+          "type": "string"
+        },
+        "boundary_note": {
+          "type": "string"
+        }
+      }
+    },
+    "microBeatSheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "continuity_sentence",
+        "cuts"
+      ],
+      "properties": {
+        "continuity_sentence": {
+          "type": "string"
+        },
+        "cuts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cut",
+              "role",
+              "visible_body_action",
+              "visible_environment_or_performance_change",
+              "camera",
+              "sound_or_beat",
+              "emotion_hook",
+              "local_trace"
+            ],
+            "properties": {
+              "cut": {
+                "type": "string",
+                "enum": [
+                  "CUT01",
+                  "CUT02",
+                  "CUT03"
+                ]
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "hook",
+                  "amplification",
+                  "consequence"
+                ]
+              },
+              "visible_body_action": {
+                "type": "string"
+              },
+              "visible_environment_or_performance_change": {
+                "type": "string"
+              },
+              "camera": {
+                "type": "string"
+              },
+              "sound_or_beat": {
+                "type": "string"
+              },
+              "emotion_hook": {
+                "type": "string"
+              },
+              "local_trace": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "compiledPromptBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt_order",
+        "identity_sentence",
+        "lock_sentence",
+        "use_only_function_sentence",
+        "nucleus_alignment_sentence",
+        "empathy_sentence",
+        "trigger_sentence",
+        "response_label",
+        "response_sentence",
+        "visual_layout_sentence",
+        "cut01_sentence",
+        "cut02_sentence",
+        "cut03_sentence",
+        "camera_sentence",
+        "sound_or_beat_sentence",
+        "director_chain_sentence",
+        "review_board_image_prompt_sentence",
+        "full_prompt_text",
+        "compiled_prompt_hash",
+        "lock_survival_verified",
+        "operation_label_absent"
+      ],
+      "properties": {
+        "prompt_order": {
+          "type": "string",
+          "const": "identity_lock_function_first"
+        },
+        "identity_sentence": {
+          "type": "string"
+        },
+        "lock_sentence": {
+          "type": "string"
+        },
+        "use_only_function_sentence": {
+          "type": "string"
+        },
+        "nucleus_alignment_sentence": {
+          "type": "string"
+        },
+        "empathy_sentence": {
+          "type": "string"
+        },
+        "trigger_sentence": {
+          "type": "string"
+        },
+        "response_label": {
+          "type": "string",
+          "enum": [
+            "World response",
+            "Performance response",
+            "Stage-motion response",
+            "Closeup response",
+            "Light response",
+            "Camera response"
+          ]
+        },
+        "response_sentence": {
+          "type": "string"
+        },
+        "visual_layout_sentence": {
+          "type": "string"
+        },
+        "cut01_sentence": {
+          "type": "string"
+        },
+        "cut02_sentence": {
+          "type": "string"
+        },
+        "cut03_sentence": {
+          "type": "string"
+        },
+        "camera_sentence": {
+          "type": "string"
+        },
+        "sound_or_beat_sentence": {
+          "type": "string"
+        },
+        "review_board_image_prompt_sentence": {
+          "type": "string"
+        },
+        "full_prompt_text": {
+          "type": "string",
+          "maxLength": 1800,
+          "description": "Compact core director prompt compiled from 02A/02B creative locks only. Keep only identity rule, scene intent, visual evidence, visible beat response, and avoid terms. Layout wrapper, top header, right reference strip, contact-sheet labels, internal packet/beat ids, raw timecodes, local paths, schema labels, validator notes, and operational gates must stay outside this field."
+        },
+        "compiled_prompt_hash": {
+          "type": "string"
+        },
+        "lock_survival_verified": {
+          "type": "boolean",
+          "const": true
+        },
+        "operation_label_absent": {
+          "type": "boolean",
+          "const": true
+        },
+        "director_chain_sentence": {
+          "type": "string"
+        }
+      }
+    },
+    "founderDirectorReviewSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Founder-facing director summary compiled from the final 02B prompt, shown before paid image generation so the founder reviews scene intent instead of raw prompt prose.",
+      "required": [
+        "summary_version",
+        "source_final_prompt_hash",
+        "pre_api_review_status",
+        "packet_read",
+        "cut_flow",
+        "codex_preflight_qc",
+        "founder_decision_request"
+      ],
+      "properties": {
+        "summary_version": {
+          "type": "string"
+        },
+        "source_final_prompt_hash": {
+          "type": "string",
+          "description": "Must equal compiled_prompt_block.compiled_prompt_hash."
+        },
+        "pre_api_review_status": {
+          "type": "string",
+          "enum": [
+            "ready_for_founder_review",
+            "pass",
+            "hold",
+            "revise"
+          ]
+        },
+        "packet_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "packet_id",
+            "beat_id",
+            "lane",
+            "member_focus",
+            "space",
+            "wardrobe_lane",
+            "expression",
+            "prompt_basis"
+          ],
+          "properties": {
+            "packet_id": {
+              "type": "string"
+            },
+            "beat_id": {
+              "type": "string"
+            },
+            "lane": {
+              "type": "string"
+            },
+            "member_focus": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "space": {
+              "type": "string"
+            },
+            "wardrobe_lane": {
+              "type": "string"
+            },
+            "expression": {
+              "type": "string"
+            },
+            "prompt_basis": {
+              "type": "string",
+              "const": "compiled_prompt_block.full_prompt_text"
+            }
+          }
+        },
+        "cut_flow": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cut",
+              "who",
+              "where",
+              "action",
+              "surrounding_space",
+              "expression",
+              "wardrobe",
+              "camera",
+              "purpose"
+            ],
+            "properties": {
+              "cut": {
+                "type": "string",
+                "enum": [
+                  "CUT01",
+                  "CUT02",
+                  "CUT03"
+                ]
+              },
+              "who": {
+                "type": "string"
+              },
+              "where": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "surrounding_space": {
+                "type": "string"
+              },
+              "expression": {
+                "type": "string"
+              },
+              "wardrobe": {
+                "type": "string"
+              },
+              "camera": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "codex_preflight_qc": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "member_identity_checked",
+            "member_role_checked",
+            "prompt_matches_00_00A_01",
+            "reject_terms_clear",
+            "wardrobe_lane_preserved",
+            "director_chain_checked",
+            "cut_flow_matches_final_prompt"
+          ],
+          "properties": {
+            "member_identity_checked": {
+              "type": "boolean",
+              "const": true
+            },
+            "member_role_checked": {
+              "type": "boolean",
+              "const": true
+            },
+            "prompt_matches_00_00A_01": {
+              "type": "boolean",
+              "const": true
+            },
+            "reject_terms_clear": {
+              "type": "boolean",
+              "const": true
+            },
+            "wardrobe_lane_preserved": {
+              "type": "boolean",
+              "const": true
+            },
+            "cut_flow_matches_final_prompt": {
+              "type": "boolean",
+              "const": true
+            },
+            "director_chain_checked": {
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "founder_decision_request": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "decision_needed",
+            "allowed_decisions",
+            "founder_reviews",
+            "codex_already_checked"
+          ],
+          "properties": {
+            "decision_needed": {
+              "type": "string"
+            },
+            "allowed_decisions": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "pass",
+                  "hold",
+                  "revise"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "founder_reviews": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "codex_already_checked": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "founder_note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "storyboardPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "board_type",
+        "board_prompt",
+        "trigger",
+        "world_or_performance_response",
+        "cuts",
+        "camera",
+        "sound_or_beat",
+        "review_map_rendered",
+        "character_keyart_rendered",
+        "character_callouts",
+        "wardrobe_accessory",
+        "environment_or_performance_route",
+        "distinctiveness_spike",
+        "motion_strip",
+        "storyboard_motion_core",
+        "review_board_image_prompt"
+      ],
+      "properties": {
+        "board_type": {
+          "type": "string",
+          "const": "poster_style_storyboard_control_sheet"
+        },
+        "board_prompt": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "string"
+        },
+        "world_or_performance_response": {
+          "type": "string"
+        },
+        "cuts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cut",
+              "role",
+              "visible_action",
+              "camera",
+              "sound_or_beat"
+            ],
+            "properties": {
+              "cut": {
+                "type": "string",
+                "enum": [
+                  "CUT01",
+                  "CUT02",
+                  "CUT03"
+                ]
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "hook",
+                  "amplification",
+                  "emblem"
+                ]
+              },
+              "visible_action": {
+                "type": "string"
+              },
+              "camera": {
+                "type": "string"
+              },
+              "sound_or_beat": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "camera": {
+          "type": "string"
+        },
+        "sound_or_beat": {
+          "type": "string"
+        },
+        "review_map_rendered": {
+          "type": "string"
+        },
+        "character_keyart_rendered": {
+          "type": "string"
+        },
+        "character_callouts": {
+          "type": "string"
+        },
+        "wardrobe_accessory": {
+          "type": "string"
+        },
+        "environment_or_performance_route": {
+          "type": "string"
+        },
+        "distinctiveness_spike": {
+          "type": "string"
+        },
+        "motion_strip": {
+          "type": "string"
+        },
+        "storyboard_motion_core": {
+          "type": "string"
+        },
+        "review_board_image_prompt": {
+          "type": "string"
+        }
+      }
+    },
+    "directorChain": {
+      "type": "object",
+      "description": "Canonical director chain carried from selected audio through 01, 02A, and 02B: time -> lyric role -> music function/onset/tempo -> visible action -> must-show body/camera evidence -> space/wardrobe/background/edit handoff -> director treatment. Use this instead of separate cue, compact scene, or section director chains.",
+      "additionalProperties": false,
+      "required": [
+        "time_range",
+        "lyric_role",
+        "music_function",
+        "onset_hit",
+        "tempo_pulse",
+        "visible_action",
+        "must_show",
+        "space_or_object",
+        "director_treatment"
+      ],
+      "properties": {
+        "source_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional upstream section, timestamp, or artifact reference used to trace this director chain."
+        },
+        "time_range": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact audio window or section span. This is the timing anchor, not a final edit-cut id."
+        },
+        "lyric_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the lyric or section means in the story/emotion flow."
+        },
+        "music_function": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What the music is doing structurally, such as intro signal, lift, drop, hook release, reset, or bridge pull."
+        },
+        "onset_hit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The audible trigger that should create a visible hit, accent, transition, or camera response."
+        },
+        "tempo_pulse": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Speed, density, groove pressure, or beat-feel that should shape body/camera intensity."
+        },
+        "emotion_or_atmosphere": {
+          "type": "string",
+          "description": "Dominant feeling or atmosphere to preserve while directing the action."
+        },
+        "member_blocking": {
+          "type": "string",
+          "description": "Who is placed where and how the focus moves between member, unit, or group."
+        },
+        "visible_action": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Single primary observable event: dance phrase, body motion, gaze, hand/foot action, spatial move, or object/memory action."
+        },
+        "must_show": {
+          "type": "object",
+          "description": "Evidence checklist that proves the visible_action on screen. Do not use as a second action summary.",
+          "additionalProperties": false,
+          "required": [
+            "body",
+            "camera"
+          ],
+          "properties": {
+            "body": {
+              "type": "array",
+              "description": "Body, face, hands, feet, gaze, formation, or spacing details that must be readable as evidence.",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "camera": {
+              "type": "array",
+              "description": "Framing, angle, distance, lens movement, or cut evidence needed to make the action readable.",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "space_or_object": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Where the action happens or which object anchors the action."
+        },
+        "wardrobe_motion": {
+          "type": "string",
+          "description": "Wardrobe/material motion only when it affects readability or emotion."
+        },
+        "background_or_object_reaction": {
+          "type": "string",
+          "description": "How the world, background, prop, light, or object responds to the audio/action."
+        },
+        "edit_trigger": {
+          "type": "string",
+          "description": "Audio or visual reason the next beat, panel, or cut should happen."
+        },
+        "director_treatment": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Integrated direction sentence combining emotion, action, visual evidence, and handoff without re-listing every field."
+        }
+      }
+    }
+  }
+}

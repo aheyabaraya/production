@@ -1,0 +1,117 @@
+---
+schema_version: idol-graph-creative-judgment-profile-release.v1
+status: immutable_release
+authority: profile_snapshot_no_creative_or_promotion_authority
+release_value_sha256: 1f21557329c7801ff141ab2916df96be7733aea277103e23de12064ade772540
+profile_value_sha256: d142382705883b40ba48580c1f9d914f1f586caf3d3671484b24e1a76800cc8a
+policy:
+  scale:
+    minimum: 0
+    maximum: 4
+    aggregate_score: forbidden
+    automatic_creative_pass: forbidden
+    base_applicable_floor: 3
+    hard_gate_precedence: true
+  decision_edges:
+    eligible_for_director_review: director_review
+    combine_or_correct: revise_same_owner
+    hold: return_to_smallest_owner
+    reject: stop
+  decision_status:
+    eligible_for_director_review: ready_for_director_review
+    combine_or_correct: draft
+    hold: hold
+    reject: rejected
+  grade_routing:
+    grade_zero: hold
+    grade_one: reject
+    grade_two_or_below_profile_floor:
+    - combine_or_correct
+    - hold
+    all_applicable_floors_and_critical_fours: eligible_for_director_review
+    hard_gate: hold
+  applicability_rules:
+    motion_reference:
+      evidence_kind: reference_role
+      fields:
+      - reference_role
+      - logical_role
+      values:
+      - motion_reference
+    composition_function_present:
+      evidence_kind: reference_function
+      fields:
+      - purpose
+      - composition_function
+      values:
+      - still_camera_and_composition
+      - composition_function_present
+    member_absent:
+      evidence_kind: scope_applicability
+      fields:
+      - member_visual_applicability
+      - character_visual_applicability
+      values:
+      - member_absent
+      - not_visible
+      - not_applicable_member_absent
+      - false
+    no_material_prop:
+      evidence_kind: scope_applicability
+      fields:
+      - prop_applicability
+      - material_prop_present
+      values:
+      - no_material_prop
+      - not_applicable_no_material_prop
+      - false
+    no_performance_job:
+      evidence_kind: performance_mode
+      fields:
+      - performance_mode
+      - performance_job_present
+      values:
+      - none
+      - no_performance_job
+      - false
+  performance_mode_evidence_fields:
+  - performance_mode
+profile:
+  profile_id: draft_keyframe_proof
+  stages:
+  - front_planning_integration
+  - mv_storyboard_direction
+  - storyboard_review
+  checkpoints:
+  - p1_g40_integration_handoff
+  - p3_section_kinetic_architecture
+  - p3_draft_keyframe_proof
+  owner_roles:
+  - planning_cdd_p1
+  - planning_cdd_p3_ci
+  target_message_treatment: inherit_pre_fp_locks_check_visible_realization_only
+  evidence_surface: existing_fp_hero_core_pixels
+  criteria:
+  - criterion_id: cut_screen_job_neighbor_delta
+    minimum: 3
+    critical_four: false
+  - criterion_id: character_visual
+    minimum: 3
+    critical_four: false
+    not_applicable: member_absent
+  - criterion_id: scene_visual_package
+    minimum: 4
+    critical_four: true
+  - criterion_id: action_pose_motion_readiness
+    minimum: 4
+    critical_four: true
+  - criterion_id: angle_distance_depth_crop_transition_diversity
+    minimum: 4
+    critical_four: true
+  - criterion_id: reference_transfer_generation_feasibility
+    minimum: 3
+    critical_four: false
+  - criterion_id: prop_interaction_readability
+    minimum: 3
+    critical_four: false
+    not_applicable: no_material_prop

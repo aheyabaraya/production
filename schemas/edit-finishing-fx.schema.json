@@ -1,0 +1,915 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-finishing-fx.schema.json",
+  "title": "IDOL Edit Finishing FX Map",
+  "description": "Run-owned 04FX map for transition, beat-accent, tone, world/object overlay, and finishing effects applied only after a 04 section or chunk edit preview has passed.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_edit_map",
+    "source_recipe",
+    "preview_gate",
+    "track_tone_world_guard",
+    "fx_records",
+    "final_render_policy",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_edit_finishing_fx.v2",
+      "description": "Active 04FX authoring and validation use v2 only. Earlier maps are historical evidence and cannot enter compile, final render, or 05."
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "preview_needed",
+        "partial_pass",
+        "passed_for_final_render",
+        "hold",
+        "rejected"
+      ]
+    },
+    "source_edit_map": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path to the owning 04-edit-map.yaml. 04 edit remains cut, timing, source, speed, and geometry truth."
+    },
+    "source_recipe": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Current edit recipe used as the base for FX preview and final render inclusion."
+    },
+    "source_edit_marker_plan": {
+      "type": "string",
+      "description": "Path to the active 04 v6 marker plan that maps exact Official Core-or-Branch Production Cut/03V lineage into Edit Slots and Edit Boundary decisions. Required and hash-bound for 04FX v2."
+    },
+    "source_audio_or_cue_map": {
+      "type": "string",
+      "description": "Selected audio, cue BPM map, onset map, or audio marker artifact used to anchor FX timing. Required and hash-bound for v2."
+    },
+    "effect_registry_ref": {
+      "type": "string",
+      "const": "automation/edit-effect-registry.yaml",
+      "description": "Single machine-readable effect type/parameter/render-support contract used by validator, compiler, and renderer."
+    },
+    "dependency_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "V2 freshness and lineage lock. In addition to hashing the active v4 edit map, v3 Edit-Segment recipe, v6 Production-Cut-aware marker plan, selected-audio/cue source, and passed pre-FX preview, semantic validation requires all current recipe/marker/audio pointers to resolve to the same sources. Original v1 FX maps are historical evidence only and cannot become final-render truth.",
+      "required": [
+        "digest_algorithm",
+        "source_recipe_sha256",
+        "passed_preview_sha256"
+      ],
+      "properties": {
+        "digest_algorithm": {
+          "type": "string",
+          "const": "sha256"
+        },
+        "source_recipe_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_edit_map_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_edit_marker_plan_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_audio_or_cue_map_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "passed_preview_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "preview_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_type",
+        "section_ids",
+        "preview_path",
+        "edit_preview_status",
+        "fx_allowed"
+      ],
+      "properties": {
+        "gate_type": {
+          "type": "string",
+          "enum": ["section", "contiguous_chunk", "full_master"]
+        },
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^S[0-9]{2,}[A-Z]?$"
+          }
+        },
+        "preview_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edit_preview_status": {
+          "type": "string",
+          "description": "Passed/local-accepted edit preview status that permits finishing FX work."
+        },
+        "fx_allowed": {
+          "type": "boolean",
+          "const": true
+        },
+        "gate_note": {
+          "type": "string"
+        }
+      }
+    },
+    "track_tone_world_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tone_and_manner",
+        "world_space_preserve",
+        "identity_body_preserve",
+        "color_light_limits",
+        "repeated_effect_drift_guard"
+      ],
+      "properties": {
+        "tone_and_manner": {
+          "type": "string",
+          "description": "Current track tone that FX must preserve."
+        },
+        "world_space_preserve": {
+          "type": "string",
+          "description": "Full-space, environment, object-system, and world-atmosphere guard."
+        },
+        "identity_body_preserve": {
+          "type": "string",
+          "description": "Member face, hand, foot, body action, garment motion, and choreography endpoint guard."
+        },
+        "color_light_limits": {
+          "type": "string",
+          "description": "Palette, exposure, bloom, flash, contrast, and readability constraints."
+        },
+        "repeated_effect_drift_guard": {
+          "type": "string",
+          "description": "How this map avoids collapsing the MV into one repeated effect habit."
+        }
+      }
+    },
+    "transition_opportunity_audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Mandatory post-edit, pre-final-master audit of section boundaries and strong musical gates for transition/accent opportunities. 04FX-owned; does not change 04 cut truth.",
+      "required": [
+        "audit_status",
+        "catalog_ref",
+        "points"
+      ],
+      "properties": {
+        "audit_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "complete_no_fx_needed",
+            "complete_fx_proposed",
+            "complete_fx_passed",
+            "hold_return_to_04"
+          ]
+        },
+        "catalog_ref": {
+          "type": "string",
+          "const": "skills/idol-edit-finishing-fx/references/local-ffmpeg-transition-effect-catalog.md"
+        },
+        "founder_feedback_note": {
+          "type": "string",
+          "description": "Optional founder awkward/thin/hard/missing-transition note that triggered the audit."
+        },
+        "coverage_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Exact full-program coverage receipt recomputed from the hash-bound recipe, marker plan, and audio/cue map. Event ids are sorted and joined with one trailing newline before SHA-256.",
+          "required": [
+            "coverage_version",
+            "coverage_scope",
+            "digest_algorithm",
+            "expected_event_count",
+            "covered_event_count",
+            "expected_event_ids_sha256",
+            "covered_event_ids_sha256"
+          ],
+          "properties": {
+            "coverage_version": {
+              "const": "recipe_marker_audio_exact_v1"
+            },
+            "coverage_scope": {
+              "const": "full_master"
+            },
+            "digest_algorithm": {
+              "const": "sha256_sorted_utf8_lines_v1"
+            },
+            "expected_event_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "covered_event_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "expected_event_ids_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "covered_event_ids_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        },
+        "points": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "point_id",
+              "program_time",
+              "kind",
+              "disposition",
+              "rationale"
+            ],
+            "properties": {
+              "point_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "program_time": {
+                "type": "number"
+              },
+              "program_frame": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Canonical frame in the 04 recipe timebase; program_time is the checked readability projection."
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "section_boundary",
+                  "onset_gate",
+                  "lyric_gate",
+                  "drop_or_release",
+                  "story_handoff",
+                  "other_musical_turn"
+                ]
+              },
+              "section_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^S[0-9]{2,}[A-Z]?$"
+                }
+              },
+              "coverage_event_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "description": "Deterministic ids for exact recipe-boundary, marker-plan, and audio/cue events covered by this reviewed point.",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "coverage_kinds": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "description": "Typed event kinds represented by coverage_event_ids at this exact program frame.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "section_boundary",
+                    "onset_gate",
+                    "lyric_gate",
+                    "drop_or_release",
+                    "story_handoff",
+                    "other_musical_turn"
+                  ]
+                }
+              },
+              "disposition": {
+                "type": "string",
+                "enum": [
+                  "none_needed",
+                  "review_candidate",
+                  "safe_default_proposed",
+                  "manual_fx_proposed",
+                  "return_to_04"
+                ]
+              },
+              "proposed_effect_type": {
+                "type": "string",
+                "description": "Catalog effect_type when disposition proposes FX."
+              },
+              "fx_id_ref": {
+                "type": "string",
+                "description": "Optional fx_records.fx_id link."
+              },
+              "from_slot": {
+                "type": "string",
+                "description": "Optional outgoing 04 recipe slot for a boundary opportunity."
+              },
+              "to_slot": {
+                "type": "string",
+                "description": "Optional incoming 04 recipe slot for a boundary opportunity."
+              },
+              "evidence_ref": {
+                "type": "string",
+                "description": "Optional pointer into a draft seed evidence index or run-owned review evidence."
+              },
+              "rationale": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "disposition": {
+                      "enum": ["safe_default_proposed", "manual_fx_proposed"]
+                    }
+                  },
+                  "required": ["disposition"]
+                },
+                "then": {
+                  "required": ["proposed_effect_type", "fx_id_ref"]
+                }
+              }
+            ]
+          }
+        },
+        "safe_defaults_applied": {
+          "type": "boolean",
+          "description": "True when proposal-level safe defaults from the catalog were used."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "fx_records": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "fx_id",
+          "section_ids",
+          "time_range",
+          "source_edit_segment_refs",
+          "eligibility",
+          "trigger",
+          "visible_basis",
+          "effect_design",
+          "reason_it_helps",
+          "protection_guards",
+          "preview_qc",
+          "status"
+        ],
+        "properties": {
+          "fx_id": {
+            "type": "string",
+            "pattern": "^FX_[A-Z0-9_]{2,80}$"
+          },
+          "section_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^S[0-9]{2,}[A-Z]?$"
+            }
+          },
+          "time_range": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_edit_segment_refs": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Exact segment_id values from the active v3 edit recipe. These are 04 Edit Segments, not upstream Official Core or Branch Production Cuts.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "eligibility": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "edit_preview_passed",
+              "edit_boundary_timing_locked",
+              "source_action_marker_known",
+              "effect_job"
+            ],
+            "properties": {
+              "edit_preview_passed": {
+                "type": "boolean",
+                "const": true
+              },
+              "edit_boundary_timing_locked": {
+                "type": "boolean",
+                "const": true,
+                "description": "The 04-owned Edit Boundary timing has passed preview and is not being re-authored by 04FX."
+              },
+              "source_action_marker_known": {
+                "type": "boolean",
+                "const": true
+              },
+              "effect_job": {
+                "type": "string",
+                "enum": [
+                  "transition_bridge",
+                  "music_accent",
+                  "world_object_continuity",
+                  "tone_source_unification",
+                  "source_reinforcement",
+                  "compact_lyric_or_message_emphasis",
+                  "other_visible_job"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "trigger": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_section_cue", "source_action_marker"],
+            "properties": {
+              "audio_or_section_cue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "lyric_cue_or_no_lyric_guard": {
+                "type": "string"
+              },
+              "source_action_marker": {
+                "type": "string",
+                "minLength": 1
+              },
+              "cut_handoff": {
+                "type": "string"
+              }
+            }
+          },
+          "visible_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Body, object, camera, garment, light, space, or world behavior the effect attaches to."
+          },
+          "effect_design": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "effect_type",
+              "duration_frames",
+              "visible_action",
+              "endpoint"
+            ],
+            "properties": {
+              "effect_type": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Catalog effect_type from local-ffmpeg-transition-effect-catalog.md (e.g. dip_flash, punch_zoom, xfade)."
+              },
+              "duration_frames": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "direction": {
+                "type": "string"
+              },
+              "intensity": {
+                "type": "string"
+              },
+              "blend_or_opacity": {
+                "type": "string"
+              },
+              "xfade_transition": {
+                "type": "string",
+                "description": "When effect_type is xfade, local FFmpeg xfade transition name (fade, fadeblack, wipeleft, ...)."
+              },
+              "program_start_seconds": {
+                "type": "number",
+                "description": "Optional explicit program timeline start for compile into recipe.effects[].start."
+              },
+              "program_start_frame": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Canonical program timeline frame in the source recipe timebase. Seconds are a checked readability projection."
+              },
+              "opacity": {
+                "type": "number"
+              },
+              "factor": {
+                "type": "number"
+              },
+              "parameters": {
+                "type": "object",
+                "description": "Typed effect parameters checked against automation/edit-effect-registry.yaml. Top-level legacy parameter keys remain readable during migration."
+              },
+              "transition_handle_contract": {
+                "type": "object",
+                "additionalProperties": false,
+                "description": "Duration-preserving source-handle allocation for boundary xfade. 04 owns the source/timing change and must re-preview before 04FX can pass.",
+                "required": [
+                  "mode",
+                  "fixed_program_cut_frame",
+                  "transition_frames",
+                  "pre_cut_frames",
+                  "post_cut_frames"
+                ],
+                "properties": {
+                  "mode": {"const": "duration_preserving"},
+                  "fixed_program_cut_frame": {"type": "integer", "minimum": 0},
+                  "fixed_program_cut_seconds": {"type": "number", "minimum": 0},
+                  "transition_frames": {"type": "integer", "minimum": 1},
+                  "pre_cut_frames": {"type": "integer", "minimum": 0},
+                  "post_cut_frames": {"type": "integer", "minimum": 0},
+                  "note": {"type": "string"}
+                }
+              },
+              "transition_handle_ref": {
+                "type": "string",
+                "pattern": "^HANDLE_[A-Z0-9_]{2,80}$",
+                "description": "Reference to the 04-owned source_recipe.boundary_handle_contracts entry. 04FX may select the transition but may not author source handles."
+              },
+              "local_implementation_family": {
+                "type": "string"
+              },
+              "renderer_status": {
+                "type": "string",
+                "enum": [
+                  "supported_now",
+                  "needs_script_extension",
+                  "analysis_only",
+                  "external_tool_required"
+                ]
+              },
+              "visible_action": {
+                "type": "string",
+                "minLength": 1
+              },
+              "endpoint": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "reason_it_helps": {
+            "type": "string",
+            "minLength": 1
+          },
+          "protection_guards": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "face_hand_foot_body",
+              "full_space_world",
+              "tone_and_manner",
+              "timing_feel",
+              "mobile_readability"
+            ],
+            "properties": {
+              "face_hand_foot_body": {
+                "type": "string",
+                "minLength": 1
+              },
+              "full_space_world": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tone_and_manner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "timing_feel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mobile_readability": {
+                "type": "string",
+                "minLength": 1
+              },
+              "flash_or_flicker_safety": {
+                "type": "string"
+              }
+            }
+          },
+          "fail_conditions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "preview_qc": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["checks", "qc_note"],
+            "properties": {
+              "preview_path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "preview_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "contact_sheet_path": {
+                "type": "string"
+              },
+              "contact_sheet_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "checks": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "timing_feel",
+                    "identity_body_preserved",
+                    "full_space_world_preserved",
+                    "tone_manner_preserved",
+                    "mobile_readable",
+                    "flicker_flash_safe",
+                    "source_quality_not_hidden",
+                    "repeated_effect_drift_checked"
+                  ]
+                }
+              },
+              "qc_note": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "preview_needed", "pass", "hold", "reject"]
+          },
+          "status_reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "final_render_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "include_only_passed_fx",
+        "single_high_quality_render_after_fx_pass",
+        "timing_change_returns_to_04_edit",
+        "post_edit_transition_audit_required_before_final_master",
+        "final_qc_no_new_creative_fx_by_default"
+      ],
+      "properties": {
+        "include_only_passed_fx": {
+          "type": "boolean",
+          "const": true
+        },
+        "single_high_quality_render_after_fx_pass": {
+          "type": "boolean",
+          "const": true
+        },
+        "timing_change_returns_to_04_edit": {
+          "type": "boolean",
+          "const": true
+        },
+        "post_edit_transition_audit_required_before_final_master": {
+          "type": "boolean",
+          "const": true,
+          "description": "Require transition_opportunity_audit after passed 04 edit preview and before final master lock."
+        },
+        "final_qc_no_new_creative_fx_by_default": {
+          "type": "boolean",
+          "const": true,
+          "description": "After master lock, defect-only QC should not invent new creative FX. Transition audit is pre-lock finishing work."
+        },
+        "compiled_effects_path": {
+          "type": "string",
+          "description": "Optional path to compiled recipe effects YAML produced for FFmpeg render."
+        },
+        "compiled_effects_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Canonical compiled effects-list digest, not a self-referential output-file digest."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "description": "State that automation may validate structure and referenced paths, but cannot choose effects, approve pass/fail, or promote a final render without review."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "passed_for_final_render"}
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["transition_opportunity_audit"],
+        "properties": {
+          "schema_version": {"const": "idol_edit_finishing_fx.v2"},
+          "preview_gate": {
+            "properties": {
+              "gate_type": {"const": "full_master"}
+            }
+          },
+          "transition_opportunity_audit": {
+            "required": ["coverage_contract"],
+            "properties": {
+              "points": {
+                "items": {
+                  "required": [
+                    "program_frame",
+                    "section_ids",
+                    "coverage_event_ids",
+                    "coverage_kinds"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "idol_edit_finishing_fx.v2"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "dependency_lock",
+          "source_edit_marker_plan",
+          "source_audio_or_cue_map",
+          "effect_registry_ref"
+        ],
+        "properties": {
+          "transition_opportunity_audit": {
+            "properties": {
+              "points": {
+                "items": {
+                  "required": ["program_frame"]
+                }
+              }
+            }
+          },
+          "dependency_lock": {
+            "required": [
+              "source_edit_map_sha256",
+              "source_edit_marker_plan_sha256",
+              "source_audio_or_cue_map_sha256"
+            ]
+          },
+          "fx_records": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {"const": "pass"}
+                    },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "preview_qc": {
+                        "required": [
+                          "preview_path",
+                          "preview_sha256",
+                          "contact_sheet_path",
+                          "contact_sheet_sha256"
+                        ],
+                        "properties": {
+                          "contact_sheet_path": {"type": "string", "minLength": 1}
+                        }
+                      },
+                      "effect_design": {
+                        "required": ["program_start_frame"]
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "status": {"const": "pass"},
+                      "effect_design": {
+                        "properties": {
+                          "effect_type": {"const": "xfade"}
+                        },
+                        "required": ["effect_type"]
+                      }
+                    },
+                    "required": ["status", "effect_design"]
+                  },
+                  "then": {
+                    "properties": {
+                      "effect_design": {
+                        "required": ["transition_handle_ref"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "passed_for_final_render"},
+          "transition_opportunity_audit": {
+            "properties": {
+              "audit_status": {"const": "complete_no_fx_needed"}
+            },
+            "required": ["audit_status"]
+          }
+        },
+        "required": ["status", "transition_opportunity_audit"]
+      },
+      "then": {
+        "properties": {
+          "fx_records": {"maxItems": 0},
+          "transition_opportunity_audit": {
+            "properties": {
+              "points": {
+                "items": {
+                  "properties": {
+                    "disposition": {"const": "none_needed"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "passed_for_final_render"},
+          "transition_opportunity_audit": {
+            "properties": {
+              "audit_status": {"const": "complete_fx_passed"}
+            },
+            "required": ["audit_status"]
+          }
+        },
+        "required": ["status", "transition_opportunity_audit"]
+      },
+      "then": {
+        "properties": {
+          "fx_records": {"minItems": 1}
+        }
+      }
+    }
+  ]
+}

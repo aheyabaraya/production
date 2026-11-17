@@ -1,0 +1,163 @@
+schema_version: idol-company-ops-idol-bridge.v1
+artifact_type: company_ops_idol_bridge_contract
+status: active
+canonical_byte_owner: idol
+
+graph_v2:
+  status: shadow_not_default
+  default_switch: forbidden_without_verified_founder_receipt
+
+company_ops_role_bindings:
+  - company_ops_role_id: kurisu.idol_graph_cdd
+    company_ops_pointers:
+      repository_root_relative: ../../company-ops
+      director_profile: organization/generated/director-profiles/kurisu.idol_graph_cdd.md
+      department_index: organization/generated/department-indexes/idol-operations.md
+      navigation_skill: skills/company-ops-agent-navigation/references/kurisu-idol-graph-cdd.md
+      bot_defaults: organization/generated/bot-defaults/kurisu.idol_graph_cdd.json
+    idol_profile_id: harness_maintenance
+    idol_logical_role: mechanical_coordinator
+    idol_logical_profile_alias: worker_high
+    idol_execution_profile_id: grok_worker_high
+    provider: grok
+    runtime_surface: grok_build_cli_acp
+    may:
+      - coordinate_bounded_harness_maintenance
+      - return_reviewed_milestones
+    must_not:
+      - second_overall_director
+      - creative_promotion_authority
+      - public_release_authority
+      - universal_worker
+      - founder_conversation_owner
+
+ingress_mapping:
+  from: admitted_company_ops_grok_build_work_packet
+  packet_schema: company-ops-grok-build-work.v1
+  required_before_execution:
+    - idol_department_dispatch_v8
+    - idol_native_goal_admitted
+    - idol_role_context_pack_v1
+  after_execution:
+    - result_and_output_hashes
+    - recipient_director_review
+    - terminal_return_or_wake
+  packet_may_request_work: true
+  packet_may_bypass_idol_gates: false
+
+provider_identity:
+  grok_cli:
+    status: preferred_non_media_execution
+    registered_provider: grok
+    runtime_surface: grok_build_cli_acp
+    fallback: none
+  cursor_cli: distinct_not_grok_cli
+  cursor_cloud:
+    lane: distinct_authority_gated_web_implementation
+    live_post: false
+    auto_create_pr: false
+    return_kind: branch_return_only
+  cursor_grok: distinct_not_grok_cli_equivalent
+  grok_bot: record_intake_not_canonical_queue
+  codex: distinct
+  silent_substitution: forbidden
+
+capacity_separation:
+  # v1 compatibility field names below mean physical grok_nonroot capacity.
+  # Their canonical owner is harness-execution-contract.yaml live_worker_capacity.
+  # They are NOT a numeric/depth limit on provider-native spawn_subagent helpers:
+  # providers/grok-build-profiles.yaml sets default_enabled and no project override.
+  idol_native_helper_ordinary_maximum: 8
+  idol_native_helper_reviewed_maximum: 8
+  company_ops_physical_session_maximum: 15
+  company_ops_worker_slots: 13
+  company_ops_reserved_slots: 2
+  company_ops_may_mutate_idol_ceilings: false
+  ceilings_are_multiplied: false
+  cross_process_occupancy_synchronized: false
+
+authority_boundary:
+  self_review: forbidden
+  self_promote: forbidden
+  # New logical owners / inherited creative authority remain forbidden here.
+  # Provider-native helpers stay inside the existing owner and do not gain authority.
+  creative_grandchildren: forbidden
+  maximum_submissions_including_initial: 3
+  other_lane_write: forbidden
+  founder_or_external_authority_inheritance: forbidden
+
+command_representation:
+  human_or_director_general_instruction: strict_markdown_intent
+  model_judgment_and_policy_rubric: schema_validated_yaml
+  executable_transport: validated_json_plus_local_canonical_ledger
+  raw_markdown_yaml_json_judgment_evidence: non_executable
+  second_generic_command_language: forbidden
+
+improvement_loop:
+  reuse_wiki: wiki/harness-improvement-review-loop.md
+  reuse_sidecar: RUN/review/harness-improvement-review.yaml
+  reuse_schema: schemas/harness-improvement-review.schema.json
+  competing_loop: forbidden
+  routine_route: worker_to_reporting_director
+  governing_change_route: independent_review_then_founder_approval
+  proposer_only_approval: forbidden
+  active_goal_hot_swap: forbidden
+  automatic_preference_promotion: forbidden
+  machine_authored_creative_truth: forbidden
+  maximum_submissions_including_initial: 3
+  remaining_defect: upstream_or_hold
+
+invalidation:
+  reopen_scope: invalidated_outputs_only
+  unaffected_hashes: frozen
+
+restart:
+  durable_claim_required: true
+  lost_wake_resume: last_durable_claim_or_admission
+  duplicate_claim: hold
+  duplicate_promotion: hold
+  claim_ledger_path: runs/2026-09-05/HM-COMPANY-OPS-GROK-FINAL/work/claim-ledger.jsonl
+
+cursor_cloud:
+  lane: distinct_authority_gated_web_implementation
+  live_post: false
+  auto_create_pr: false
+  return_kind: branch_return_only
+
+creative_truth_copy:
+  into_company_ops_department_indexes: forbidden
+  into_company_ops_bot_defaults: forbidden
+  from_company_ops_organization_policy_into_idol: forbidden
+
+path_allowlist:
+  prefixes:
+    - automation/company-ops-idol-bridge.yaml
+    - automation/harness-
+    - schemas/company-ops-idol-bridge.schema.json
+    - scripts/validate_company_ops_idol_bridge.rb
+    - scripts/tests/validate_company_ops_idol_bridge_test.rb
+    - wiki/harness-maintenance/
+    - wiki/harness-maintenance-rules.md
+    - wiki/harness-improvement-review-loop.md
+    - policies/INDEX.md
+    - policies/harness-routing-and-sources.md
+    - work/company-ops-grok-finalization-20260905/
+    - work/company-ops-idol-live-admission-latch-20260905/
+    - runs/2026-09-05/HM-COMPANY-OPS-GROK-FINAL/
+    - runs/harness-test/
+  denied_prefixes:
+    - AGENTS.md
+    - skills/
+    - cf/
+    - catalog/
+    - assets/
+    - runs/aurora-m/
+    - runs/2026-07-
+    - runs/2026-08-
+
+company_ops_runner_hold:
+  status: latched
+  hole_id: HOLE-1
+  smallest_owner: company-ops/company_ops/grok_runner.py
+  correction: Live grok_runner invokes scripts/validate_company_ops_idol_bridge.rb against the exact receipt path+SHA-256 before _materialize_claim, git worktree add, or Grok argv. Missing admission is idol_admission_required HOLD routed to kurisu.idol_graph_cdd.
+  idol_validator_latches_company_ops_runner: true

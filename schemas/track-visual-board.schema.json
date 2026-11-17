@@ -1,0 +1,753 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/track-visual-board.schema.json",
+  "title": "IDOL 01A Track Visual Board",
+  "description": "Retired evidence-only 01A visual-board contract. New title member visuals and section-level space, wardrobe, and continuity truth bind through active Front Planning and its current-title member-visual inputs; this schema must not create a standalone 01A step.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "title_catalog",
+    "source_refs",
+    "section_show_load_plan",
+    "board_policy",
+    "background_board",
+    "wardrobe_board",
+    "unit_character_environment_board",
+    "song_flow_use",
+    "asset_promotion_plan",
+    "founder_review",
+    "open_questions"
+  ],
+  "$defs": {
+    "prompt_text_locks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positive_lock",
+        "negative_lock",
+        "lighting_lock",
+        "proportion_lock"
+      ],
+      "properties": {
+        "positive_lock": {
+          "type": "string",
+          "minLength": 1
+        },
+        "negative_lock": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lighting_lock": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proportion_lock": {
+          "type": "string",
+          "minLength": 1
+        },
+        "api_reference_policy": {
+          "type": "string",
+          "description": "States whether the board should stay text-only in API prompts or be attached as an image reference after founder approval."
+        }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "founder_review",
+        "approved_for_01r",
+        "hold",
+        "asset_promoted"
+      ]
+    },
+    "title_catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "album_key",
+        "title_key",
+        "title_display_name",
+        "title_root",
+        "track_creative_board_path",
+        "output_registry_path"
+      ],
+      "properties": {
+        "album_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "title_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+        },
+        "title_display_name": {
+          "type": "string"
+        },
+        "title_root": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+$"
+        },
+        "track_creative_board_path": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+/track-creative-board\\.yaml$"
+        },
+        "output_registry_path": {
+          "type": "string",
+          "pattern": "^catalog/albums/[^/]+/[^/]+/output-registry\\.yaml$"
+        }
+      }
+    },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_audio_analysis",
+        "creative_nucleus",
+        "song_lock",
+        "direction_map"
+      ],
+      "properties": {
+        "selected_audio_analysis": {
+          "type": "string"
+        },
+        "creative_nucleus": {
+          "type": "string"
+        },
+        "song_lock": {
+          "type": "string"
+        },
+        "direction_map": {
+          "type": "string"
+        },
+        "wardrobe_style_review": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "founder_reference_image": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional local path such as a founder-provided board image used as visual structure reference."
+        },
+        "founder_visual_board_analysis": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional run-owned analysis that turns founder-provided board images into background, wardrobe, lighting, proportion, and reject-term text locks."
+        }
+      }
+    },
+    "section_visual_slices": {
+      "type": "array",
+      "description": "Optional 01A section-slice lifecycle for visual locks. Use when background, wardrobe, or unit character boards must be applied section-by-section before 02/02A.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_id",
+          "time_range",
+          "song_cue",
+          "visual_goal",
+          "member_or_unit_use",
+          "visual_refs",
+          "text_lock_paths",
+          "transition_in",
+          "transition_out",
+          "output_paths",
+          "open_questions",
+          "status"
+        ],
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "pattern": "^S[0-9]{2}[A-Z]?$"
+          },
+          "time_range": { "type": "string" },
+          "song_cue": { "type": "string" },
+          "visual_goal": { "type": "string" },
+          "member_or_unit_use": { "type": "string" },
+          "visual_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "text_lock_paths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "transition_in": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": { "type": "string" },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": { "type": "string" },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "transition_out": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": { "type": "string" },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": { "type": "string" },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "output_paths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "open_questions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "done", "blocked", "needs_founder"]
+          }
+        }
+      }
+    },
+    "canonical_visual_lock_package": {
+      "type": "object",
+      "description": "Optional 01A package that groups detailed section flow, album/group look lock, member solo references, space references, object/prop boards, and section-to-reference mapping when the run needs concrete visual locks before 02A/02B.",
+      "additionalProperties": false,
+      "required": [
+        "package_policy",
+        "package_status"
+      ],
+      "properties": {
+        "package_policy": {
+          "type": "string",
+          "description": "Why this run needs a canonical visual lock package and what downstream steps must cite."
+        },
+        "detailed_section_flow_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "album_or_group_look_lock_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "member_solo_reference_paths": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Map member id or member name to the solo reference sheet containing face/hair, upper body, and full-body-in-space views."
+        },
+        "space_reference_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "object_prop_system_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Run-owned or catalog paths for recurring object/prop system boards."
+        },
+        "section_reference_map_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "catalog_copy_policy": {
+          "type": "string",
+          "description": "Explains whether the package remains run-owned only or is also mirrored into catalog/albums after founder lock."
+        },
+        "package_status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "founder_review",
+            "founder_locked",
+            "blocked",
+            "superseded"
+          ]
+        }
+      }
+    },
+    "section_show_load_plan": {
+      "type": "object",
+      "description": "01A planning surface that decides how many distinct image/scene jobs each song section needs before 02A/02B packet expansion. Timing events and cuts are minimum split evidence, not maximum image counts.",
+      "additionalProperties": false,
+      "required": [
+        "planning_rule",
+        "section_jobs"
+      ],
+      "properties": {
+        "planning_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_jobs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "section_id",
+              "time_range",
+              "song_cue",
+              "visible_jobs",
+              "expansion_decision",
+              "packet_count_intent",
+              "retiming_guard"
+            ],
+            "properties": {
+              "section_id": {
+                "type": "string",
+                "pattern": "^S[0-9]{2}[A-Z]?$"
+              },
+              "time_range": {
+                "type": "string",
+                "minLength": 1
+              },
+              "song_cue": {
+                "type": "string",
+                "minLength": 1
+              },
+              "visible_jobs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "expansion_decision": {
+                "type": "string",
+                "minLength": 1
+              },
+              "packet_count_intent": {
+                "type": "string",
+                "minLength": 1
+              },
+              "retiming_guard": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "board_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "paid_generation_gate",
+        "base_asset_rule",
+        "public_copy_rule"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paid_generation_gate": {
+          "type": "string",
+          "enum": [
+            "not_required_for_text_board",
+            "requires_founder_approval_for_image_generation",
+            "approved_for_current_board_generation"
+          ]
+        },
+        "base_asset_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "public_copy_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "background_board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "board_id",
+        "board_image",
+        "visible_feeling_tone",
+        "lighting",
+        "color_material",
+        "space_families",
+        "section_use"
+      ],
+      "properties": {
+        "board_id": {
+          "type": "string"
+        },
+        "board_image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "visible_feeling_tone": {
+          "type": "string",
+          "description": "Screen-read feeling tone translated into visible lighting, material, space, camera, or body-readable locks; do not leave this as mood words alone."
+        },
+        "lighting": {
+          "type": "string"
+        },
+        "color_material": {
+          "type": "string"
+        },
+        "space_families": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "space_id",
+              "name",
+              "visible_features",
+              "song_function",
+              "movement_use"
+            ],
+            "properties": {
+              "space_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "visible_features": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "song_function": {
+                "type": "string"
+              },
+              "movement_use": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "section_use": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "section_or_beat_id",
+              "space_id",
+              "reason"
+            ],
+            "properties": {
+              "section_or_beat_id": {
+                "type": "string"
+              },
+              "space_id": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "prompt_text_locks": {
+          "$ref": "#/$defs/prompt_text_locks"
+        }
+      }
+    },
+    "wardrobe_board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "board_id",
+        "board_image",
+        "wardrobe_lanes",
+        "silhouette_key_items",
+        "color_material_system",
+        "member_application",
+        "motion_read"
+      ],
+      "properties": {
+        "board_id": {
+          "type": "string"
+        },
+        "board_image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "wardrobe_lanes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "silhouette_key_items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "color_material_system": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "member_application": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "motion_read": {
+          "type": "string"
+        },
+        "prompt_text_locks": {
+          "$ref": "#/$defs/prompt_text_locks"
+        }
+      }
+    },
+    "unit_character_environment_board": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "board_id",
+        "board_image",
+        "unit_code",
+        "members",
+        "base_character_board_refs",
+        "album_character_adaptations",
+        "background_integration_rule"
+      ],
+      "properties": {
+        "board_id": {
+          "type": "string"
+        },
+        "board_image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_code": {
+          "type": "string"
+        },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^M(0[1-9]|1[0-3])$"
+          }
+        },
+        "base_character_board_refs": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "album_character_adaptations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "member_code",
+              "song_role",
+              "background_fit",
+              "wardrobe_fit",
+              "motion_or_pose_seed",
+              "do_not_override"
+            ],
+            "properties": {
+              "member_code": {
+                "type": "string",
+                "pattern": "^M(0[1-9]|1[0-3])$"
+              },
+              "song_role": {
+                "type": "string"
+              },
+              "background_fit": {
+                "type": "string"
+              },
+              "wardrobe_fit": {
+                "type": "string"
+              },
+              "motion_or_pose_seed": {
+                "type": "string"
+              },
+              "do_not_override": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "background_integration_rule": {
+          "type": "string"
+        }
+      }
+    },
+    "song_flow_use": {
+      "type": "array",
+      "description": "How 01A text locks or board refs guide the large flow before 02 and 02A. If 01R already created source-assisted direction cards, this field preserves the current-song visual locks rather than reopening source mining.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_or_beat_id",
+          "song_cue",
+          "background_use",
+          "wardrobe_use",
+          "member_or_unit_use",
+          "movement_seed"
+        ],
+        "properties": {
+          "section_or_beat_id": {
+            "type": "string"
+          },
+          "song_cue": {
+            "type": "string"
+          },
+          "background_use": {
+            "type": "string"
+          },
+          "wardrobe_use": {
+            "type": "string"
+          },
+          "member_or_unit_use": {
+            "type": "string"
+          },
+          "movement_seed": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "asset_promotion_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_gate",
+        "target_roots",
+        "manifest_path",
+        "base_board_protection"
+      ],
+      "properties": {
+        "promotion_gate": {
+          "type": "string",
+          "enum": [
+            "after_master_founder_pass",
+            "blocked",
+            "promoted"
+          ]
+        },
+        "target_roots": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "album_assets",
+            "single_member_boards",
+            "unit_or_group_boards"
+          ],
+          "properties": {
+            "album_assets": {
+              "type": "string"
+            },
+            "single_member_boards": {
+              "type": "string"
+            },
+            "unit_or_group_boards": {
+              "type": "string"
+            }
+          }
+        },
+        "manifest_path": {
+          "type": "string"
+        },
+        "base_board_protection": {
+          "type": "string"
+        }
+      }
+    },
+    "founder_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "decision_needed"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_reviewed",
+            "pass",
+            "hold",
+            "revise"
+          ]
+        },
+        "decision_needed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

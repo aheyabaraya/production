@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/audio-branch-cut-placement.schema.json",
+  "title": "IDOL Post-Image Audio Production-Cut Placement",
+  "description": "Active v5 contract. It places every typed passed Production Cut (01 Official Core or 02A Branch) against selected audio using a validated local upscale while preserving the original passed pixels as authority. Camera motion remains unassigned for 03V.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "content_id", "status", "source_audio", "source_audio_motion_map", "source_production_cut_review", "source_01_direction", "source_02a", "source_02b", "coverage", "production_cut_units", "camera_motion_ownership", "automation_boundaries"],
+  "properties": {
+    "schema_version": {"const": "idol_audio_production_cut_placement.v5"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "ready_for_03v", "passed", "hold", "rejected"]},
+    "source_audio": {"$ref": "#/$defs/artifactRef"},
+    "source_audio_motion_map": {"$ref": "#/$defs/artifactRef"},
+    "source_production_cut_review": {"$ref": "#/$defs/artifactRef"},
+    "source_01_direction": {"$ref": "#/$defs/artifactRef"},
+    "source_02a": {"$ref": "#/$defs/artifactRef"},
+    "source_02b": {"$ref": "#/$defs/artifactRef"},
+    "coverage": {"$ref": "#/$defs/coverage"},
+    "production_cut_units": {"type": "array", "minItems": 2, "items": {"$ref": "#/$defs/productionCutPlacementUnit"}},
+    "camera_motion_ownership": {"const": "unassigned_here_03V_authors_temporal_camera_after_inspecting_actual_passed_pixels"},
+    "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactRef": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audio_start_seconds", "audio_end_seconds", "positive_gap_count", "overlap_count", "official_core_count", "branch_count", "production_cut_count", "production_cut_ids", "coverage_note"],
+      "properties": {
+        "audio_start_seconds": {"type": "number", "minimum": 0},
+        "audio_end_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "positive_gap_count": {"type": "integer", "minimum": 0},
+        "overlap_count": {"type": "integer", "minimum": 0},
+        "official_core_count": {"type": "integer", "minimum": 1},
+        "branch_count": {"type": "integer", "minimum": 1},
+        "production_cut_count": {"type": "integer", "minimum": 2},
+        "production_cut_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "coverage_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "productionCutPlacementUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["placement_id", "production_cut_id", "production_cut_type", "parent_core_cut_id", "packet_id", "section_id", "major_scene_id", "active_storyline_version_id", "screen_progression_node_id", "scene_phase_context", "sequence_phase_binding_ids", "core_reference_binding_id", "production_cut_order", "order_within_parent_core", "start_seconds", "end_seconds", "passed_source_image", "placement_image", "placement_image_role", "local_upscale_receipt", "primary_audio_cue", "actual_visible_state", "subject_or_object_transition_need", "previous_next_continuity_need", "choreography_presence_policy", "camera_motion_unassigned", "future_edit_marker_basis"],
+      "properties": {
+        "placement_id": {"type": "string", "pattern": "^APCP_[A-Z0-9_]{2,100}$"},
+        "production_cut_id": {"type": "string", "minLength": 1},
+        "production_cut_type": {"enum": ["official_core", "branch"]},
+        "parent_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "packet_id": {"type": ["string", "null"]},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "scene_phase_context": {"type": "string", "minLength": 1},
+        "sequence_phase_binding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "core_reference_binding_id": {"type": ["string", "null"]},
+        "production_cut_order": {"type": "integer", "minimum": 1},
+        "order_within_parent_core": {"type": "integer", "minimum": 0},
+        "start_seconds": {"type": "number", "minimum": 0},
+        "end_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "passed_source_image": {"$ref": "#/$defs/artifactRef"},
+        "placement_image": {"$ref": "#/$defs/artifactRef"},
+        "placement_image_role": {"enum": ["original_passed_pixels", "validated_local_upscale"]},
+        "local_upscale_receipt": {"oneOf": [{"$ref": "#/$defs/artifactRef"}, {"type": "null"}]},
+        "primary_audio_cue": {"type": "string", "minLength": 1},
+        "actual_visible_state": {"type": "string", "minLength": 1},
+        "subject_or_object_transition_need": {"type": "string", "minLength": 1},
+        "previous_next_continuity_need": {"type": "string", "minLength": 1},
+        "choreography_presence_policy": {"enum": ["primary", "supporting", "minimal_body_gaze_hold_guard", "absent"]},
+        "camera_motion_unassigned": {"const": true},
+        "future_edit_marker_basis": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {"if": {"properties": {"production_cut_type": {"const": "official_core"}}, "required": ["production_cut_type"]}, "then": {"properties": {"production_cut_id": {"pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}, "packet_id": {"type": "null"}, "order_within_parent_core": {"const": 0}, "placement_image_role": {"const": "original_passed_pixels"}, "local_upscale_receipt": {"type": "null"}}}},
+        {"if": {"properties": {"production_cut_type": {"const": "branch"}}, "required": ["production_cut_type"]}, "then": {"properties": {"production_cut_id": {"pattern": "^BC[0-9A-Z_]{2,80}$"}, "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"}, "order_within_parent_core": {"minimum": 1}, "placement_image_role": {"const": "validated_local_upscale"}, "local_upscale_receipt": {"$ref": "#/$defs/artifactRef"}}}}
+      ]
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["passed_images_remain_pixel_authority", "local_upscale_is_transport_derivative_only", "storyboard_board_not_created", "camera_motion_authored", "paid_video_generation_approved", "external_video_execution_approved", "playback_pass_implied", "edit_readiness_implied"],
+      "properties": {
+        "passed_images_remain_pixel_authority": {"const": true},
+        "local_upscale_is_transport_derivative_only": {"const": true},
+        "storyboard_board_not_created": {"const": true},
+        "camera_motion_authored": {"const": false},
+        "paid_video_generation_approved": {"const": false},
+        "external_video_execution_approved": {"const": false},
+        "playback_pass_implied": {"const": false},
+        "edit_readiness_implied": {"const": false}
+      }
+    }
+  }
+}

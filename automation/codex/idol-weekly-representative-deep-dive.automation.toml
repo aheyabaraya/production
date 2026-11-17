@@ -1,0 +1,14 @@
+version = 1
+id = "idol-weekly-representative-deep-dive"
+kind = "cron"
+name = "IDOL Weekly Representative Deep Dive"
+prompt = "Run only the current Asia/Seoul ISO-week representative deep-dive half of weekly_visual_idol_research. Read AGENTS.md and every complete file required by skills/idol-research-radar/SKILL.md and its weekly visual contract. Resolve the route and require idol_luna_studio_department on gpt-5.6-luna at max effort. Require the current-week integrated report, frozen eligible-comeback receipt, fixed-pool rows, M01-M13 target/demand rows, Loom cohort coverage, and audited gross-demand calculation to be complete; otherwise preserve hold_incomplete and do not select independently. Public, source-bound still-image acquisition is approved only for evidence embedded in the current-week self-contained report and ledger; use no login, cookies, private pages, bulk capture, video/audio download, paid API, generation, edit input, upload, publication, or platform sync. Author exactly one selected-brand deep dive, complete the same-week ledger, and advance weekly/latest.md only when both reports and every provenance/image/completion check pass."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO;BYHOUR=23;BYMINUTE=0"
+model = "gpt-5.6-luna"
+reasoning_effort = "max"
+execution_environment = "local"
+target = { type = "project", project_id = "local-110dbb500bf4c69c04c7d514a05555a3" }
+cwds = ["/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL"]
+created_at = 1785061754386
+updated_at = 1785072732000

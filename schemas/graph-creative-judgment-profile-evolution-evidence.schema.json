@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-creative-judgment-profile-evolution-evidence.schema.json",
+  "title": "IDOL Graph Creative Judgment Profile Evolution Evidence",
+  "description": "Typed, hash-bound evidence for profile proposals, representative shadow comparisons, Founder-selected real-song pilots, Founder approval, and the independent Director reviews that close shadow or pilot evidence. It never moves a current pointer or authorizes execution.",
+  "oneOf": [
+    {"$ref": "#/$defs/evolutionEvidence"},
+    {"$ref": "#/$defs/pilotSelection"},
+    {"$ref": "#/$defs/directorReview"}
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"},
+    "token": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,180}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "repositoryPath": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+    "artifactPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sourceValueBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "json_pointer", "value_sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "releasePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "release_value_sha256", "profile_value_sha256"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^automation/graph-creative-judgment-profile-releases/[a-z0-9_]+/[a-f0-9]{64}\\.yaml$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "release_value_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "judgmentPointers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifactPointer"}
+    },
+    "shadowComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id", "coverage_case", "old_release_judgment", "new_release_judgment"],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/token"},
+        "coverage_case": {"enum": ["expected_pass", "correction", "not_applicable", "hard_gate", "counterexample_outside_scope"]},
+        "old_release_judgment": {"$ref": "#/$defs/artifactPointer"},
+        "new_release_judgment": {"$ref": "#/$defs/artifactPointer"},
+        "outside_scope_evidence": {"$ref": "#/$defs/artifactPointer"},
+        "outside_scope_reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [{
+        "if": {"properties": {"coverage_case": {"const": "counterexample_outside_scope"}}, "required": ["coverage_case"]},
+        "then": {"required": ["outside_scope_evidence", "outside_scope_reason"]},
+        "else": {"not": {"anyOf": [{"required": ["outside_scope_evidence"]}, {"required": ["outside_scope_reason"]}]}}
+      }]
+    },
+    "proposalPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["change_reason", "observed_gap_ids", "affected_criterion_ids", "checkpoint_ids", "observed_evidence", "counterexample_evidence", "negative_control_evidence", "expected_improvement", "overfit_guard"],
+      "properties": {
+        "change_reason": {"type": "string", "minLength": 1},
+        "observed_gap_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/token"}},
+        "affected_criterion_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "checkpoint_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "observed_evidence": {"$ref": "#/$defs/judgmentPointers"},
+        "counterexample_evidence": {"$ref": "#/$defs/judgmentPointers"},
+        "negative_control_evidence": {"$ref": "#/$defs/judgmentPointers"},
+        "expected_improvement": {"type": "string", "minLength": 1},
+        "overfit_guard": {"type": "string", "minLength": 1}
+      }
+    },
+    "shadowPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evaluation_id", "checkpoint_ids", "comparisons", "director_review", "regressions_found", "result"],
+      "properties": {
+        "evaluation_id": {"$ref": "#/$defs/token"},
+        "checkpoint_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "comparisons": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/shadowComparison"}
+        },
+        "director_review": {"$ref": "#/$defs/artifactPointer"},
+        "regressions_found": {"const": 0},
+        "result": {"const": "passed_shadow"}
+      }
+    },
+    "pilotPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pilot_id", "run", "song_identity", "song_identity_artifact", "selected_audio", "selected_audio_duration_seconds", "founder_selection_receipt", "checkpoint_ids", "new_release_judgments", "director_review", "founder_selected", "real_song", "synthetic", "result"],
+      "properties": {
+        "pilot_id": {"$ref": "#/$defs/token"},
+        "run": {"type": "string", "pattern": "^runs/(?:[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120})$"},
+        "song_identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["artist", "title", "identity_sha256"],
+          "properties": {
+            "artist": {"type": "string", "minLength": 1},
+            "title": {"type": "string", "minLength": 1},
+            "identity_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "song_identity_artifact": {"$ref": "#/$defs/artifactPointer"},
+        "selected_audio": {"$ref": "#/$defs/artifactPointer"},
+        "selected_audio_duration_seconds": {"type": "number", "minimum": 30},
+        "founder_selection_receipt": {"$ref": "#/$defs/artifactPointer"},
+        "checkpoint_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "new_release_judgments": {"$ref": "#/$defs/judgmentPointers"},
+        "director_review": {"$ref": "#/$defs/artifactPointer"},
+        "founder_selected": {"const": true},
+        "real_song": {"const": true},
+        "synthetic": {"const": false},
+        "result": {"const": "passed_pilot"}
+      }
+    },
+    "founderApprovalPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approval_id", "source_locator", "founder_input_verbatim", "founder_source", "explicit_lock", "decision", "approved_profile_value_sha256"],
+      "properties": {
+        "approval_id": {"$ref": "#/$defs/token"},
+        "source_locator": {"type": "string", "minLength": 1},
+        "founder_input_verbatim": {"type": "string", "minLength": 1},
+        "founder_source": {"$ref": "#/$defs/sourceValueBinding"},
+        "explicit_lock": {"const": true},
+        "decision": {"const": "approved_current_pointer_promotion"},
+        "approved_profile_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "evolutionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "artifact_type", "evidence_id", "profile_id", "phase", "evidence_class", "old_release", "new_release", "payload", "authority", "issued_at"],
+      "properties": {
+        "schema_version": {"const": "idol-graph-creative-judgment-profile-evolution-evidence.v1"},
+        "artifact_type": {"const": "graph_creative_judgment_profile_evolution_evidence"},
+        "evidence_id": {"$ref": "#/$defs/token"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "phase": {"enum": ["proposal", "shadow", "pilot", "founder_approval"]},
+        "evidence_class": {"enum": ["observed_gap_proposal", "representative_shadow_comparison", "founder_selected_real_song_pilot", "founder_authored_approval"]},
+        "old_release": {"$ref": "#/$defs/releasePointer"},
+        "new_release": {"$ref": "#/$defs/releasePointer"},
+        "payload": {"type": "object"},
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["scripts_author_creative_truth", "automatic_profile_tuning", "automatic_pointer_change", "execution_authority", "default_cutover_authority"],
+          "properties": {
+            "scripts_author_creative_truth": {"const": false},
+            "automatic_profile_tuning": {"const": false},
+            "automatic_pointer_change": {"const": false},
+            "execution_authority": {"const": false},
+            "default_cutover_authority": {"const": false}
+          }
+        },
+        "issued_at": {"type": "string", "format": "date-time"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"phase": {"const": "proposal"}}, "required": ["phase"]},
+          "then": {"properties": {"evidence_class": {"const": "observed_gap_proposal"}, "payload": {"$ref": "#/$defs/proposalPayload"}}}
+        },
+        {
+          "if": {"properties": {"phase": {"const": "shadow"}}, "required": ["phase"]},
+          "then": {"properties": {"evidence_class": {"const": "representative_shadow_comparison"}, "payload": {"$ref": "#/$defs/shadowPayload"}}}
+        },
+        {
+          "if": {"properties": {"phase": {"const": "pilot"}}, "required": ["phase"]},
+          "then": {"properties": {"evidence_class": {"const": "founder_selected_real_song_pilot"}, "payload": {"$ref": "#/$defs/pilotPayload"}}}
+        },
+        {
+          "if": {"properties": {"phase": {"const": "founder_approval"}}, "required": ["phase"]},
+          "then": {"properties": {"evidence_class": {"const": "founder_authored_approval"}, "payload": {"$ref": "#/$defs/founderApprovalPayload"}}}
+        }
+      ]
+    },
+    "pilotSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "artifact_type", "selection_id", "profile_id", "new_release", "run", "song_identity_sha256", "song_identity_artifact", "selected_audio", "selected_audio_duration_seconds", "founder_source", "founder_selected", "authority", "issued_at"],
+      "properties": {
+        "schema_version": {"const": "idol-graph-creative-judgment-profile-evolution-evidence.v1"},
+        "artifact_type": {"const": "graph_creative_judgment_profile_real_song_pilot_selection"},
+        "selection_id": {"$ref": "#/$defs/token"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "new_release": {"$ref": "#/$defs/releasePointer"},
+        "run": {"type": "string", "pattern": "^runs/(?:[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120})$"},
+        "song_identity_sha256": {"$ref": "#/$defs/sha256"},
+        "song_identity_artifact": {"$ref": "#/$defs/artifactPointer"},
+        "selected_audio": {"$ref": "#/$defs/artifactPointer"},
+        "selected_audio_duration_seconds": {"type": "number", "minimum": 30},
+        "founder_source": {"$ref": "#/$defs/sourceValueBinding"},
+        "founder_selected": {"const": true},
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["profile_pointer_change_authorized", "execution_authorized", "default_cutover_authorized"],
+          "properties": {
+            "profile_pointer_change_authorized": {"const": false},
+            "execution_authorized": {"const": false},
+            "default_cutover_authorized": {"const": false}
+          }
+        },
+        "issued_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "directorReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "artifact_type", "review_id", "profile_id", "phase", "old_release", "new_release", "reviewer_role", "reviewer_session_id", "review_input_manifest", "review_input_digest_sha256", "director_dispatch", "role_context_pack", "review_output", "reviewed_judgment_sha256s", "decision", "authority", "issued_at"],
+      "properties": {
+        "schema_version": {"const": "idol-graph-creative-judgment-profile-evolution-evidence.v1"},
+        "artifact_type": {"const": "graph_creative_judgment_profile_evolution_director_review"},
+        "review_id": {"$ref": "#/$defs/token"},
+        "profile_id": {"$ref": "#/$defs/identifier"},
+        "phase": {"enum": ["shadow", "pilot"]},
+        "old_release": {"$ref": "#/$defs/releasePointer"},
+        "new_release": {"$ref": "#/$defs/releasePointer"},
+        "reviewer_role": {"const": "overall_director"},
+        "reviewer_session_id": {"type": "string", "minLength": 1},
+        "review_input_manifest": {"$ref": "#/$defs/artifactPointer"},
+        "review_input_digest_sha256": {"$ref": "#/$defs/sha256"},
+        "director_dispatch": {"$ref": "#/$defs/artifactPointer"},
+        "role_context_pack": {"$ref": "#/$defs/artifactPointer"},
+        "review_output": {"$ref": "#/$defs/artifactPointer"},
+        "reviewed_judgment_sha256s": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+        "decision": {"const": "passed_for_profile_evolution"},
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["creative_pass_created", "pointer_change_authorized", "execution_authorized"],
+          "properties": {
+            "creative_pass_created": {"const": false},
+            "pointer_change_authorized": {"const": false},
+            "execution_authorized": {"const": false}
+          }
+        },
+        "issued_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  }
+}

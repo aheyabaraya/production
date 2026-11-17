@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-render-manifest.schema.json",
+  "title": "IDOL Edit Render Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profile", "source_bindings", "render_spec", "encoding", "output"],
+  "properties": {
+    "schema_version": {"const": "idol_edit_render_manifest.v1"},
+    "profile": {"enum": ["proxy", "review", "final"]},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipe", "audio"],
+      "properties": {
+        "recipe": {"$ref": "#/$defs/binding"},
+        "audio": {"$ref": "#/$defs/binding"},
+        "fx_compile_manifest": {"$ref": "#/$defs/binding"}
+      }
+    },
+    "render_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fps", "width", "height", "pixel_format", "fit_mode", "expected_frame_count"],
+      "properties": {
+        "fps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["numerator", "denominator"],
+          "properties": {
+            "numerator": {"type": "integer", "minimum": 1},
+            "denominator": {"type": "integer", "minimum": 1}
+          }
+        },
+        "width": {"type": "integer", "minimum": 2},
+        "height": {"type": "integer", "minimum": 2},
+        "pixel_format": {"type": "string", "minLength": 1},
+        "fit_mode": {"enum": ["fit_pad", "fill_crop", "stretch"]},
+        "expected_frame_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "encoding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["container", "requested_video_codec", "requested_audio_codec"],
+      "properties": {
+        "container": {"type": "string", "minLength": 1},
+        "requested_video_codec": {"type": "string", "minLength": 1},
+        "requested_audio_codec": {"type": "string", "minLength": 1}
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "duration_seconds", "frame_count", "width", "height", "avg_frame_rate", "video_codec", "audio_codec", "pixel_format", "color_range", "color_space", "color_transfer", "color_primaries"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0},
+        "frame_count": {"type": "integer", "minimum": 1},
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1},
+        "avg_frame_rate": {"type": "string", "minLength": 1},
+        "video_codec": {"type": "string", "minLength": 1},
+        "audio_codec": {"type": "string", "minLength": 1},
+        "pixel_format": {"type": "string", "minLength": 1},
+        "color_range": {"type": "string"},
+        "color_space": {"type": "string"},
+        "color_transfer": {"type": "string"},
+        "color_primaries": {"type": "string"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["profile"],
+        "properties": {"profile": {"const": "final"}}
+      },
+      "then": {
+        "properties": {
+          "source_bindings": {
+            "required": ["recipe", "audio", "fx_compile_manifest"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

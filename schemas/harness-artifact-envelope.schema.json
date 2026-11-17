@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-artifact-envelope.schema.json",
+  "title": "IDOL Graph Engineering Artifact Revision Envelope",
+  "description": "Additive wrapper for revisioned graph-engineering artifacts. The envelope keeps payload identity, canonical digest, parent lineage, typed upstream and feedback references, invalidation targets, and independent readiness axes without changing legacy artifact schemas.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-harness-artifact-envelope.v1"
+    },
+    "envelope": {
+      "$ref": "#/$defs/envelope"
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {"$ref": "#/$defs/sha256"},
+        {"type": "null"}
+      ]
+    },
+    "parent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "revision",
+        "content_digest"
+      ],
+      "properties": {
+        "path": {
+          "type": ["string", "null"]
+        },
+        "revision": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "content_digest": {
+          "$ref": "#/$defs/nullableSha256"
+        }
+      }
+    },
+    "referenceBase": {
+      "type": "object",
+      "required": [
+        "ref_id",
+        "ref_type",
+        "artifact_id",
+        "path",
+        "stage_id",
+        "revision",
+        "content_digest",
+        "role"
+      ],
+      "properties": {
+        "ref_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "ref_type": {
+          "enum": ["artifact_revision", "legacy_snapshot"]
+        },
+        "artifact_id": {
+          "$ref": "#/$defs/artifactId"
+        },
+        "path": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "stage_id": {
+          "oneOf": [
+            {"$ref": "#/$defs/identifier"},
+            {"type": "null"}
+          ]
+        },
+        "revision": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "content_digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "role": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"ref_type": {"const": "artifact_revision"}},
+            "required": ["ref_type"]
+          },
+          "then": {
+            "properties": {
+              "revision": {"type": "integer", "minimum": 1},
+              "stage_id": {"$ref": "#/$defs/identifier"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"ref_type": {"const": "legacy_snapshot"}},
+            "required": ["ref_type"]
+          },
+          "then": {
+            "properties": {
+              "revision": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "artifactReference": {
+      "allOf": [
+        {"$ref": "#/$defs/referenceBase"}
+      ],
+      "unevaluatedProperties": false
+    },
+    "feedbackReference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/referenceBase"
+        },
+        {
+          "type": "object",
+          "required": ["feedback_kind", "disposition"],
+          "properties": {
+            "feedback_kind": {
+              "enum": [
+                "founder_review",
+                "creative_review",
+                "schema_validation",
+                "playback_review",
+                "generation_review",
+                "edit_review",
+                "other"
+              ]
+            },
+            "disposition": {
+              "enum": [
+                "pending",
+                "accepted",
+                "partially_accepted",
+                "rejected",
+                "superseded"
+              ]
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_artifact_id",
+        "target_path",
+        "target_revision",
+        "target_digest",
+        "reason"
+      ],
+      "properties": {
+        "target_artifact_id": {"$ref": "#/$defs/artifactId"},
+        "target_path": {"$ref": "#/$defs/nonEmptyString"},
+        "target_revision": {"type": "integer", "minimum": 1},
+        "target_digest": {"$ref": "#/$defs/sha256"},
+        "reason": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "readinessBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_valid",
+        "revision_coherent",
+        "stage_ready",
+        "founder_gate",
+        "next_unit_resumable"
+      ],
+      "properties": {
+        "schema_valid": {"$ref": "#/$defs/stringArray"},
+        "revision_coherent": {"$ref": "#/$defs/stringArray"},
+        "stage_ready": {"$ref": "#/$defs/stringArray"},
+        "founder_gate": {"$ref": "#/$defs/stringArray"},
+        "next_unit_resumable": {"$ref": "#/$defs/stringArray"}
+      }
+    },
+    "stringArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonEmptyString"}
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_valid",
+        "revision_coherent",
+        "stage_ready",
+        "founder_gate",
+        "next_unit_resumable",
+        "basis"
+      ],
+      "properties": {
+        "schema_valid": {"type": "boolean"},
+        "revision_coherent": {"type": "boolean"},
+        "stage_ready": {"type": "boolean"},
+        "founder_gate": {
+          "enum": ["clear", "pending", "not_applicable", "unknown"]
+        },
+        "next_unit_resumable": {"type": "boolean"},
+        "basis": {"$ref": "#/$defs/readinessBasis"}
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "artifact_kind",
+        "run",
+        "stage_id",
+        "owner",
+        "authored_at",
+        "revision",
+        "content_digest",
+        "parent",
+        "payload_schema",
+        "upstream_refs",
+        "feedback_refs",
+        "invalidates",
+        "readiness"
+      ],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/artifactId"},
+        "artifact_kind": {"$ref": "#/$defs/identifier"},
+        "run": {"$ref": "#/$defs/nonEmptyString"},
+        "stage_id": {"$ref": "#/$defs/identifier"},
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "authored_at": {"$ref": "#/$defs/nonEmptyString"},
+        "revision": {"type": "integer", "minimum": 1},
+        "content_digest": {"$ref": "#/$defs/sha256"},
+        "parent": {"$ref": "#/$defs/parent"},
+        "payload_schema": {
+          "type": "string",
+          "pattern": "^schemas/[A-Za-z0-9._-]+\\.schema\\.json$"
+        },
+        "upstream_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifactReference"}
+        },
+        "feedback_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/feedbackReference"}
+        },
+        "invalidates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/invalidation"}
+        },
+        "readiness": {"$ref": "#/$defs/readiness"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"revision": {"const": 1}},
+            "required": ["revision"]
+          },
+          "then": {
+            "properties": {
+              "parent": {
+                "properties": {
+                  "path": {"type": "null"},
+                  "revision": {"type": "null"},
+                  "content_digest": {"type": "null"}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"revision": {"minimum": 2}},
+            "required": ["revision"]
+          },
+          "then": {
+            "properties": {
+              "parent": {
+                "properties": {
+                  "path": {"$ref": "#/$defs/nonEmptyString"},
+                  "revision": {"type": "integer", "minimum": 1},
+                  "content_digest": {"$ref": "#/$defs/sha256"}
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

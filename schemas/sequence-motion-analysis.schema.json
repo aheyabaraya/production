@@ -1,0 +1,789 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/sequence-motion-analysis.schema.json",
+  "title": "IDOL Sequence Motion Analysis",
+  "description": "Provider-neutral Front Planning reference-connection analysis for one material Major and its complete two-to-four Sequence Composition candidate group. It records observed source-video interframe events separately from inferred temporal-camera opportunities, compares literal and function-equivalent motion support, and remains advisory until an independent 01 CDD adoption. The final temporal camera is authored only in 03V after passed Production Cut pixels. source_front_planning intentionally omits a whole-file SHA-256 because the final selected FP candidate later binds this analysis; stable field-level value bindings and candidate_snapshot_sha256 prevent a self-reference cycle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "analysis_id",
+    "content_id",
+    "run_root",
+    "status",
+    "section_id",
+    "major_scene_id",
+    "source_front_planning",
+    "source_audio_motion_map",
+    "analysis_scope",
+    "candidate_analyses",
+    "comparative_recommendation",
+    "dispatch_and_authorship",
+    "authority_boundary",
+    "source_sequence_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_sequence_motion_analysis.v1"},
+    "analysis_id": {"type": "string", "pattern": "^SMA_[A-Z0-9_]{2,100}$"},
+    "content_id": {"type": "string", "minLength": 1},
+    "run_root": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "ready_for_cdd_review", "hold", "rejected"]},
+    "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+    "source_front_planning": {"$ref": "#/$defs/frontPlanningSnapshot"},
+    "source_audio_motion_map": {"$ref": "#/$defs/versionedArtifactRef"},
+    "analysis_scope": {"$ref": "#/$defs/analysisScope"},
+    "candidate_analyses": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/candidateAnalysis"}
+    },
+    "comparative_recommendation": {"$ref": "#/$defs/comparativeRecommendation"},
+    "dispatch_and_authorship": {"$ref": "#/$defs/dispatchAndAuthorship"},
+    "authority_boundary": {"$ref": "#/$defs/authorityBoundary"},
+    "source_sequence_policy": {"$ref": "#/$defs/sourceSequencePolicy"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "versionedArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol_audio_motion_director_map.v1"}
+      }
+    },
+    "valueBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "dispatchFieldBinding": {"$ref": "#/$defs/valueBinding"},
+    "dispatchContractBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "schema_version",
+        "dispatch_id",
+        "attempt_id",
+        "whole_file_sha256_absent_reason",
+        "task_binding",
+        "exact_scope_binding",
+        "goal_contract_binding",
+        "source_set_binding",
+        "bounded_output_binding",
+        "recipient_binding",
+        "selected_profile_binding",
+        "rendered_prompt_binding",
+        "routing_identity_binding"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "schema_version": {"const": "idol-department-dispatch.v8"},
+        "dispatch_id": {"type": "string", "pattern": "^sequence-motion-analysis-MJ[0-9]{2,}[A-Z0-9_]*--attempt-[0-9]{2,}$"},
+        "attempt_id": {"type": "string", "pattern": "^sequence-motion-analysis-MJ[0-9]{2,}[A-Z0-9_]*--attempt-[0-9]{2,}$"},
+        "whole_file_sha256_absent_reason": {"const": "the_final_dispatch_review_binds_this_analysis_sha256_so_only_stable_prework_launch_and_goal_fields_are_value_bound_here_to_avoid_a_hash_cycle"},
+        "task_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "exact_scope_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "goal_contract_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "source_set_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "bounded_output_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "recipient_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "selected_profile_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "rendered_prompt_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "routing_identity_binding": {"$ref": "#/$defs/dispatchFieldBinding"}
+      }
+    },
+    "nativeGoalBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "provider_binding", "native_goal_id_binding", "opened_at_binding", "goal_text_sha256_binding"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "provider_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "native_goal_id_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "opened_at_binding": {"$ref": "#/$defs/dispatchFieldBinding"},
+        "goal_text_sha256_binding": {"$ref": "#/$defs/dispatchFieldBinding"}
+      }
+    },
+    "candidateSourceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence_composition_id",
+        "sequence_composition_id_binding",
+        "typed_sequence_unit_ids_binding",
+        "flow_reading_binding",
+        "mismatch_and_risk_binding"
+      ],
+      "properties": {
+        "sequence_composition_id": {"type": "string", "pattern": "^SCOMP_[A-Z0-9_]{2,100}$"},
+        "sequence_composition_id_binding": {"$ref": "#/$defs/valueBinding"},
+        "typed_sequence_unit_ids_binding": {"$ref": "#/$defs/valueBinding"},
+        "flow_reading_binding": {"$ref": "#/$defs/valueBinding"},
+        "mismatch_and_risk_binding": {"$ref": "#/$defs/valueBinding"}
+      }
+    },
+    "frontPlanningSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "schema_version",
+        "whole_file_sha256_absent_reason",
+        "candidate_snapshot_algorithm",
+        "candidate_snapshot_scope",
+        "candidate_snapshot_sha256",
+        "major_scene_id_binding",
+        "section_id_binding",
+        "semantic_event_or_relation_job_binding",
+        "candidate_set_id_binding",
+        "candidate_bindings"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "schema_version": {"const": "front-planning-readiness.v17"},
+        "whole_file_sha256_absent_reason": {"const": "final_front_planning_candidate_binds_this_analysis_so_a_whole_file_hash_here_would_create_a_self_reference_cycle"},
+        "candidate_snapshot_algorithm": {"const": "sha256_of_canonical_json_with_recursively_sorted_object_keys"},
+        "candidate_snapshot_scope": {"const": "major_identity_section_identity_semantic_job_candidate_set_id_and_each_candidates_composition_id_typed_sequence_unit_ids_flow_reading_mismatch_and_risk"},
+        "candidate_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "major_scene_id_binding": {"$ref": "#/$defs/valueBinding"},
+        "section_id_binding": {"$ref": "#/$defs/valueBinding"},
+        "semantic_event_or_relation_job_binding": {"$ref": "#/$defs/valueBinding"},
+        "candidate_set_id_binding": {"$ref": "#/$defs/valueBinding"},
+        "candidate_bindings": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/candidateSourceBinding"}
+        }
+      }
+    },
+    "analysisScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope_kind", "candidate_group_policy", "candidate_set_id", "candidate_ids", "active_storyline_passage_binding", "cohesion_basis"],
+      "properties": {
+        "scope_kind": {"const": "one_material_major_complete_sequence_composition_candidate_group"},
+        "candidate_group_policy": {"const": "one_worker_reviews_all_candidates_for_the_same_major"},
+        "candidate_set_id": {"type": "string", "pattern": "^SCSET_[A-Z0-9_]{2,100}$"},
+        "candidate_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^SCOMP_[A-Z0-9_]{2,100}$"}
+        },
+        "active_storyline_passage_binding": {"$ref": "#/$defs/valueBinding"},
+        "cohesion_basis": {"type": "string", "minLength": 1}
+      }
+    },
+    "sequenceUnitBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_unit_id", "source_json_pointer", "source_value_sha256", "flow_reading_json_pointer", "flow_reading_value_sha256"],
+      "properties": {
+        "sequence_unit_id": {"type": "string", "pattern": "^SEQU_[A-Z0-9_]{2,100}$"},
+        "source_json_pointer": {"type": "string", "pattern": "^/reference_connection_research/reference_units/[0-9]+/sequence_unit$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "flow_reading_json_pointer": {"type": "string", "pattern": "^/reference_connection_research/reference_units/[0-9]+/sequence_unit/flow_reading$"},
+        "flow_reading_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "audioMotionCueBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cue_id", "source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "cue_id": {"type": "string", "minLength": 1},
+        "source_json_pointer": {"type": "string", "pattern": "^/(?:section_rhythm_map|trigger_map)/(?:0|[1-9][0-9]*)$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sourceVideoRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "source_identity", "inspected_locator", "governing_sequence_unit_id", "governing_manifest_path", "admitted_time_range_seconds"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_identity": {"type": "string", "minLength": 1},
+        "inspected_locator": {"type": "string", "minLength": 1},
+        "governing_sequence_unit_id": {"type": "string", "pattern": "^SEQU_[A-Z0-9_]{2,100}$"},
+        "governing_manifest_path": {"type": "string", "minLength": 1},
+        "admitted_time_range_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"type": "number", "minimum": 0},
+            "end": {"type": "number", "minimum": 0}
+          }
+        }
+      }
+    },
+    "observedInterframeEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "evidence_status",
+        "source_time_range_seconds",
+        "observed_motion_family",
+        "observed_perceptual_functions",
+        "observed_body_action_fact",
+        "observed_gaze_and_head_fact",
+        "observed_camera_translation_fact",
+        "observed_camera_rotation_fact",
+        "observed_rotation_degrees",
+        "observed_full_orbit_completed",
+        "observed_lens_change_fact",
+        "observed_angle_change_fact",
+        "observed_composition_change_fact",
+        "observed_depth_change_fact",
+        "observed_occlusion_change_fact",
+        "observed_reveal_change_fact",
+        "observed_speed_profile",
+        "observed_entry_state",
+        "observed_exit_state",
+        "related_sequence_unit_ids",
+        "confidence"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^OBS_[A-Z0-9_]{2,100}$"},
+        "evidence_status": {"const": "observed"},
+        "source_time_range_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start", "end"],
+          "properties": {
+            "start": {"type": "number", "minimum": 0},
+            "end": {"type": "number", "exclusiveMinimum": 0}
+          }
+        },
+        "observed_motion_family": {"$ref": "#/$defs/motionFamily"},
+        "observed_perceptual_functions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/perceptualFunction"}
+        },
+        "observed_body_action_fact": {"enum": ["none_visible", "intentional_hold", "translating", "rotating", "gestural_hit", "dance_phrase", "object_interaction", "compound", "unknown"]},
+        "observed_gaze_and_head_fact": {"enum": ["not_visible", "stable_nonfrontal", "stable_toward_camera", "shifts_left", "shifts_right", "shifts_up", "shifts_down", "turns_toward_camera", "turns_away_from_camera", "compound", "unknown"]},
+        "observed_camera_translation_fact": {"enum": ["none_observed", "lateral_left", "lateral_right", "push_in", "pull_out", "rise", "fall", "forward_follow", "backward_follow", "compound_translation", "unknown"]},
+        "observed_camera_rotation_fact": {"enum": ["none_observed", "pan_left", "pan_right", "tilt_up", "tilt_down", "roll_clockwise", "roll_counterclockwise", "partial_arc_clockwise", "partial_arc_counterclockwise", "full_orbit_clockwise", "full_orbit_counterclockwise", "compound_rotation", "unknown"]},
+        "observed_rotation_degrees": {"type": ["number", "null"], "minimum": 0, "maximum": 720},
+        "observed_full_orbit_completed": {"type": "boolean"},
+        "observed_lens_change_fact": {"enum": ["none_observed", "zoom_in", "zoom_out", "zoom_pulse", "repeated_in_out", "focal_change_other", "unknown"]},
+        "observed_angle_change_fact": {"enum": ["locked", "lowers", "rises", "moves_to_overhead", "moves_from_overhead", "moves_to_profile", "moves_to_rear", "compound", "unknown"]},
+        "observed_composition_change_fact": {"enum": ["locked", "subject_shifts_left", "subject_shifts_right", "scale_tightens", "scale_opens", "center_reframe", "off_center_reframe", "compound", "unknown"]},
+        "observed_depth_change_fact": {"enum": ["none_observed", "compresses", "expands", "parallax_increases", "parallax_decreases", "compound", "unknown"]},
+        "observed_occlusion_change_fact": {"enum": ["none_observed", "increases", "decreases", "crosses_subject", "crosses_object", "compound", "unknown"]},
+        "observed_reveal_change_fact": {"enum": ["none_observed", "reveals_subject", "reveals_object", "reveals_environment", "withholds", "compound", "unknown"]},
+        "observed_speed_profile": {"type": "string", "minLength": 1},
+        "observed_entry_state": {"type": "string", "minLength": 1},
+        "observed_exit_state": {"type": "string", "minLength": 1},
+        "related_sequence_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^SEQU_[A-Z0-9_]{2,100}$"}
+        },
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"observed_motion_family": {"const": "full_orbit"}}, "required": ["observed_motion_family"]},
+          "then": {
+            "properties": {
+              "observed_camera_rotation_fact": {"enum": ["full_orbit_clockwise", "full_orbit_counterclockwise"]},
+              "observed_rotation_degrees": {"type": "number", "minimum": 330, "maximum": 390},
+              "observed_full_orbit_completed": {"const": true}
+            }
+          },
+          "else": {
+            "properties": {
+              "observed_camera_rotation_fact": {
+                "not": {"enum": ["full_orbit_clockwise", "full_orbit_counterclockwise"]}
+              },
+              "observed_full_orbit_completed": {"const": false}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"observed_motion_family": {"const": "pan"}}, "required": ["observed_motion_family"]},
+          "then": {
+            "properties": {
+              "observed_camera_rotation_fact": {"enum": ["pan_left", "pan_right"]},
+              "observed_full_orbit_completed": {"const": false}
+            }
+          }
+        }
+      ]
+    },
+    "machineMeasurementBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol_sequence_motion_machine_measurement.v1"}
+      }
+    },
+    "continuousMotionSourceReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inspection_status", "source_video", "unavailable_reason", "observed_interframe_events"],
+      "properties": {
+        "inspection_status": {"enum": ["inspected", "source_video_unavailable"]},
+        "source_video": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/sourceVideoRef"}]},
+        "unavailable_reason": {"type": ["string", "null"]},
+        "observed_interframe_events": {"type": "array", "items": {"$ref": "#/$defs/observedInterframeEvent"}},
+        "machine_measurement_binding": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/machineMeasurementBinding"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"inspection_status": {"const": "inspected"}}, "required": ["inspection_status"]},
+          "then": {"properties": {"source_video": {"$ref": "#/$defs/sourceVideoRef"}, "unavailable_reason": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"inspection_status": {"const": "source_video_unavailable"}}, "required": ["inspection_status"]},
+          "then": {
+            "properties": {
+              "source_video": {"type": "null"},
+              "unavailable_reason": {"type": "string", "minLength": 1},
+              "observed_interframe_events": {"maxItems": 0},
+              "machine_measurement_binding": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "motionFamily": {
+      "enum": [
+        "locked_hold",
+        "pan",
+        "lateral_track",
+        "dolly_pulse",
+        "zoom_pulse",
+        "repeated_in_out",
+        "rise_fall",
+        "crane",
+        "partial_arc",
+        "anchored_orbit",
+        "full_orbit",
+        "handheld_follow",
+        "handheld_reframe",
+        "locked_to_burst",
+        "move_to_settle",
+        "push",
+        "pull",
+        "push_arc",
+        "motivated_whip_transition",
+        "subject_counter_rotation",
+        "environment_or_light_led_route"
+      ]
+    },
+    "perceptualFunction": {
+      "enum": ["impact", "speed", "directionality", "surprise", "continuity", "disorientation", "reveal", "scale", "acceleration", "deceleration", "stillness", "parallax", "occlusion"]
+    },
+    "literalTransfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supported",
+        "source_motion_family",
+        "observed_event_ids",
+        "perceptual_functions",
+        "camera_translation_fact",
+        "camera_rotation_fact",
+        "rotation_degrees",
+        "full_orbit_completed",
+        "lens_change_fact",
+        "hold_reason"
+      ],
+      "properties": {
+        "supported": {"type": "boolean"},
+        "source_motion_family": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/motionFamily"}
+          ]
+        },
+        "observed_event_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^OBS_[A-Z0-9_]{2,100}$"}
+        },
+        "perceptual_functions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/perceptualFunction"}
+        },
+        "camera_translation_fact": {"type": ["string", "null"], "enum": [null, "none_observed", "lateral_left", "lateral_right", "push_in", "pull_out", "rise", "fall", "forward_follow", "backward_follow", "compound_translation", "unknown"]},
+        "camera_rotation_fact": {"type": ["string", "null"], "enum": [null, "none_observed", "pan_left", "pan_right", "tilt_up", "tilt_down", "roll_clockwise", "roll_counterclockwise", "partial_arc_clockwise", "partial_arc_counterclockwise", "full_orbit_clockwise", "full_orbit_counterclockwise", "compound_rotation", "unknown"]},
+        "rotation_degrees": {"type": ["number", "null"], "minimum": 0, "maximum": 720},
+        "full_orbit_completed": {"type": ["boolean", "null"]},
+        "lens_change_fact": {"type": ["string", "null"], "enum": [null, "none_observed", "zoom_in", "zoom_out", "zoom_pulse", "repeated_in_out", "focal_change_other", "unknown"]},
+        "hold_reason": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"supported": {"const": false}}, "required": ["supported"]},
+          "then": {
+            "properties": {
+              "source_motion_family": {"type": "null"},
+              "observed_event_ids": {"maxItems": 0},
+              "perceptual_functions": {"maxItems": 0},
+              "camera_translation_fact": {"type": "null"},
+              "camera_rotation_fact": {"type": "null"},
+              "rotation_degrees": {"type": "null"},
+              "full_orbit_completed": {"type": "null"},
+              "lens_change_fact": {"type": "null"},
+              "hold_reason": {"type": "string", "minLength": 1}
+            }
+          },
+          "else": {
+            "properties": {
+              "source_motion_family": {"$ref": "#/$defs/motionFamily"},
+              "observed_event_ids": {"minItems": 1, "maxItems": 1},
+              "perceptual_functions": {"minItems": 1},
+              "camera_translation_fact": {"type": "string"},
+              "camera_rotation_fact": {"type": "string"},
+              "full_orbit_completed": {"type": "boolean"},
+              "lens_change_fact": {"type": "string"},
+              "hold_reason": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "identityVisibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent", "visible_identity_cues", "fidelity_when_visible", "visible_cue_fidelity", "scene_function_reason"],
+      "properties": {
+        "intent": {"enum": ["required_readable", "optional_partial", "intentionally_unreadable", "member_absent"]},
+        "visible_identity_cues": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["face_when_visible", "hair", "styling", "clothing", "body_silhouette", "member_specific_detail"]}
+        },
+        "fidelity_when_visible": {"const": "exact_current_title_identity_nonfrontal_allowed"},
+        "visible_cue_fidelity": {"const": "all_listed_visible_cues_preserve_exact_current_title_fidelity"},
+        "scene_function_reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"intent": {"const": "member_absent"}}, "required": ["intent"]},
+          "then": {"properties": {"visible_identity_cues": {"maxItems": 0}}},
+          "else": {"properties": {"visible_identity_cues": {"minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"intent": {"const": "required_readable"}}, "required": ["intent"]},
+          "then": {"properties": {"visible_identity_cues": {"contains": {"const": "face_when_visible"}}}}
+        },
+        {
+          "if": {"properties": {"intent": {"const": "intentionally_unreadable"}}, "required": ["intent"]},
+          "then": {"properties": {"visible_identity_cues": {"not": {"contains": {"const": "face_when_visible"}}}}}
+        }
+      ]
+    },
+    "supportDimensionFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["support_state", "evidence", "recommended_01_disposition", "official_core_still_requirement", "branch_expansion_requirement"],
+      "properties": {
+        "support_state": {"enum": ["supported", "partial", "unsupported", "not_applicable"]},
+        "evidence": {"type": "string", "minLength": 1},
+        "recommended_01_disposition": {"enum": ["adopt", "partial", "reject"]},
+        "official_core_still_requirement": {"type": "string", "minLength": 1},
+        "branch_expansion_requirement": {"type": ["string", "null"]}
+      }
+    },
+    "structuredMotionSupportFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "candidate_readout",
+        "depth",
+        "alternate_view",
+        "reveal_space",
+        "rear_world_direction",
+        "identity_visibility",
+        "identity",
+        "crop",
+        "occlusion",
+        "continuity",
+        "start_landing"
+      ],
+      "properties": {
+        "authority": {"const": "advisory_until_independently_adopted_partial_or_rejected_by_01_cdd_review"},
+        "candidate_readout": {"type": "string", "minLength": 1},
+        "depth": {"$ref": "#/$defs/supportDimensionFinding"},
+        "alternate_view": {"$ref": "#/$defs/supportDimensionFinding"},
+        "reveal_space": {"$ref": "#/$defs/supportDimensionFinding"},
+        "rear_world_direction": {"$ref": "#/$defs/supportDimensionFinding"},
+        "identity_visibility": {"$ref": "#/$defs/identityVisibility"},
+        "identity": {"$ref": "#/$defs/supportDimensionFinding"},
+        "crop": {"$ref": "#/$defs/supportDimensionFinding"},
+        "occlusion": {"$ref": "#/$defs/supportDimensionFinding"},
+        "continuity": {"$ref": "#/$defs/supportDimensionFinding"},
+        "start_landing": {"$ref": "#/$defs/supportDimensionFinding"}
+      }
+    },
+    "functionEquivalentTransfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported", "alternative_motion_families", "equivalence_reason"],
+      "properties": {
+        "supported": {"type": "boolean"},
+        "alternative_motion_families": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/motionFamily"}
+        },
+        "equivalence_reason": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"supported": {"const": true}}, "required": ["supported"]},
+          "then": {
+            "properties": {
+              "alternative_motion_families": {"minItems": 1},
+              "equivalence_reason": {"type": "string", "minLength": 1}
+            }
+          },
+          "else": {"properties": {"alternative_motion_families": {"maxItems": 0}}}
+        }
+      ]
+    },
+    "jointMotionReading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "body_action_energy",
+        "camera_translation",
+        "camera_rotation",
+        "lens_change",
+        "subject_gaze_and_head_direction",
+        "angle_and_composition_reframing",
+        "depth_occlusion_reveal",
+        "start_and_landing",
+        "continuous_camera_energy_review"
+      ],
+      "properties": {
+        "body_action_energy": {"type": "string", "minLength": 1},
+        "camera_translation": {"type": "string", "minLength": 1},
+        "camera_rotation": {"type": "string", "minLength": 1},
+        "lens_change": {"type": "string", "minLength": 1},
+        "subject_gaze_and_head_direction": {"type": "string", "minLength": 1},
+        "angle_and_composition_reframing": {"type": "string", "minLength": 1},
+        "depth_occlusion_reveal": {"type": "string", "minLength": 1},
+        "start_and_landing": {"type": "string", "minLength": 1},
+        "continuous_camera_energy_review": {
+          "enum": [
+            "continuous_camera_energy_supported_contextually",
+            "intentional_locked_or_hold_is_stronger",
+            "insufficient_evidence_hold"
+          ]
+        }
+      }
+    },
+    "inferredCameraOpportunity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "opportunity_id",
+        "evidence_status",
+        "inference_basis",
+        "observed_event_ids",
+        "perceptual_functions",
+        "geometry_support",
+        "joint_motion_reading",
+        "literal_transfer",
+        "function_equivalent_transfer",
+        "confidence",
+        "uncertainty"
+      ],
+      "properties": {
+        "opportunity_id": {"type": "string", "pattern": "^INF_[A-Z0-9_]{2,100}$"},
+        "evidence_status": {"const": "inferred"},
+        "inference_basis": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["observed_interframe_event", "sequence_frame_observations", "contextual_flow_reading", "major_screen_job", "audio_motion_cue"]}
+        },
+        "observed_event_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^OBS_[A-Z0-9_]{2,100}$"}
+        },
+        "perceptual_functions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/perceptualFunction"}
+        },
+        "geometry_support": {"type": "string", "minLength": 1},
+        "joint_motion_reading": {"$ref": "#/$defs/jointMotionReading"},
+        "literal_transfer": {"$ref": "#/$defs/literalTransfer"},
+        "function_equivalent_transfer": {"$ref": "#/$defs/functionEquivalentTransfer"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "uncertainty": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"inference_basis": {"contains": {"const": "observed_interframe_event"}}}, "required": ["inference_basis"]},
+          "then": {"properties": {"observed_event_ids": {"minItems": 1}}},
+          "else": {"properties": {"observed_event_ids": {"maxItems": 0}}}
+        }
+      ]
+    },
+    "candidateAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence_composition_id",
+        "candidate_source_binding",
+        "sequence_unit_bindings",
+        "audio_motion_cue_bindings",
+        "continuous_motion_source_review",
+        "inferred_camera_opportunities",
+        "motion_support_finding",
+        "mismatch_and_risk"
+      ],
+      "properties": {
+        "sequence_composition_id": {"type": "string", "pattern": "^SCOMP_[A-Z0-9_]{2,100}$"},
+        "candidate_source_binding": {"$ref": "#/$defs/candidateSourceBinding"},
+        "sequence_unit_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sequenceUnitBinding"}
+        },
+        "audio_motion_cue_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/audioMotionCueBinding"}
+        },
+        "continuous_motion_source_review": {"$ref": "#/$defs/continuousMotionSourceReview"},
+        "inferred_camera_opportunities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inferredCameraOpportunity"}
+        },
+        "motion_support_finding": {"$ref": "#/$defs/structuredMotionSupportFinding"},
+        "mismatch_and_risk": {"type": "string", "minLength": 1}
+      }
+    },
+    "comparativeRecommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommended_sequence_composition_id", "compared_candidate_ids", "recommendation_reason", "adoption_state"],
+      "properties": {
+        "recommended_sequence_composition_id": {"type": "string", "pattern": "^SCOMP_[A-Z0-9_]{2,100}$"},
+        "compared_candidate_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^SCOMP_[A-Z0-9_]{2,100}$"}
+        },
+        "recommendation_reason": {"type": "string", "minLength": 1},
+        "adoption_state": {"const": "advisory_only_until_recorded_in_01_cdd_review"}
+      }
+    },
+    "dispatchAndAuthorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dispatch_contract",
+        "native_goal",
+        "studio_role",
+        "profile_id",
+        "logical_profile_alias",
+        "return_recipient_role",
+        "scope_key",
+        "attempt_key",
+        "attempt_number",
+        "previous_attempt_id",
+        "single_writer_scope",
+        "overlap_policy",
+        "review_backpressure",
+        "next_launch_rule",
+        "authorship_owner",
+        "input_digest_sha256",
+        "result_digest_scope",
+        "result_sha256"
+      ],
+      "properties": {
+        "dispatch_contract": {"$ref": "#/$defs/dispatchContractBinding"},
+        "native_goal": {"$ref": "#/$defs/nativeGoalBinding"},
+        "studio_role": {"const": "department_worker"},
+        "profile_id": {"const": "reference_research_generalist"},
+        "logical_profile_alias": {"const": "worker_high"},
+        "return_recipient_role": {"const": "creative_development_director"},
+        "scope_key": {"type": "string", "pattern": "^sequence_motion:[^:]+:S[0-9]{2,}[A-Z]?:MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "attempt_key": {"type": "string", "pattern": "^attempt-[0-9]{2,}$"},
+        "attempt_number": {"type": "integer", "minimum": 1},
+        "previous_attempt_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^sequence-motion-analysis-MJ[0-9]{2,}[A-Z0-9_]*--attempt-[0-9]{2,}$"}
+          ]
+        },
+        "single_writer_scope": {"const": "one_material_major_complete_candidate_group"},
+        "overlap_policy": {"const": "hold_when_an_active_peer_has_the_same_scope_key"},
+        "review_backpressure": {"enum": ["capacity_available", "cdd_review_queue_saturated", "upstream_source_hold"]},
+        "next_launch_rule": {"const": "launch_only_for_a_named_unowned_gap_when_cdd_review_capacity_is_available"},
+        "authorship_owner": {"enum": ["human", "assigned_model"]},
+        "input_digest_sha256": {"$ref": "#/$defs/sha256"},
+        "result_digest_scope": {"const": "candidate_analyses_and_comparative_recommendation"},
+        "result_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_role", "stage_creation", "recommendation_authority", "front_planning_authority", "official_still_truth_owner", "branch_still_truth_owner", "final_temporal_camera_owner", "script_role"],
+      "properties": {
+        "artifact_role": {"const": "front_planning_reference_connection_analysis_not_a_canonical_stage"},
+        "stage_creation": {"const": "forbidden"},
+        "recommendation_authority": {"const": "advisory_until_independently_adopted_by_01_cdd_review"},
+        "front_planning_authority": {"const": "only_selected_candidate_may_bind_one_independently_cdd_reviewed_analysis_row"},
+        "official_still_truth_owner": {"const": "01_authors_actual_still_screen_truth_without_scripted_temporal_camera"},
+        "branch_still_truth_owner": {"const": "02A_authors_still_branch_coverage_only"},
+        "final_temporal_camera_owner": {"const": "03V_after_passed_production_cut_pixel_review"},
+        "script_role": {"const": "validate_and_exact_copy_never_author_creative_truth"}
+      }
+    },
+    "sourceSequencePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active_unit_shape", "active_cadence_seconds", "legacy_three_second_units", "legacy_promotion"],
+      "properties": {
+        "active_unit_shape": {"const": "exactly_five_ordered_consecutive_samples"},
+        "active_cadence_seconds": {"const": 1},
+        "legacy_three_second_units": {"const": "pinned_read_only_evidence_only"},
+        "legacy_promotion": {"const": "forbidden_for_new_authoring_or_automatic_upgrade"}
+      }
+    }
+  }
+}

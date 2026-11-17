@@ -1,0 +1,434 @@
+schema_version: idol-graph-role-context-projection.v1
+status: shadow_not_default
+authority: derived_read_only_no_creative_or_promotion_authority
+
+activation:
+  default_writer: legacy_pinned
+  graph_v2_requires: verified_default_switch_receipt
+  existing_runs: legacy_pinned
+  dual_active_writer: fail_closed
+
+source_registry:
+  path: automation/graph-skill-load-profiles.yaml
+  schema_version: idol-graph-skill-load-profiles.v1
+
+defaults:
+  skill_mode: full_file
+  markdown_read_mode: markdown_headings
+  structured_read_mode: pointer_only
+  ambiguous_locator_action: hold_never_guess
+  missing_source_action: hold_never_default
+  url_projection: exclude_from_pack_recover_via_source_id
+  raw_pool_projection: exclude_from_pack
+
+kernel:
+  required_fields:
+    - active_founder_locks_and_authority_envelope
+    - provider_neutral_studio_kernel
+    - node_type_authority_ban_and_return_contract
+    - active_storyline_and_audio_heads
+    - one_writer_and_no_fallback_invariants
+  must_not_include:
+    - raw_search_pools
+    - full_url_lists
+    - completed_worker_transcripts
+    - graph_engineering_policy_explanations
+    - other_provider_tool_detail
+
+node_local_delta:
+  required_fields:
+    - current_scope_and_immediate_parents_children
+    - selected_references_and_exact_actual_media_pointers
+    - open_holds_correction_units_and_next_legal_action
+    - immediate_neighbors_or_boundary_handles
+    - exact_source_and_result_digests
+  must_not_include:
+    - unrelated_section_or_cohort_media
+    - superseded_prose
+    - raw_02b_generation_history
+    - other_cohort_media
+
+compact_source_projection:
+  url_storage: source_intake_manifest_once
+  pack_fields:
+    - source_id
+    - locator
+    - local_path
+    - sha256
+    - function
+    - role_groups
+    - disposition
+  recoverability:
+    source_id: required
+    locator: required
+    sha256: required
+  missing_recoverability_action: hold_never_infer
+  multi_role_same_bytes: attach_once
+
+forbidden_pack_fields:
+  - url
+  - urls
+  - raw_pool
+  - raw_search_pool
+  - full_url_list
+  - worker_transcript
+  - completed_worker_transcript
+  - superseded_prose
+
+rules:
+  - binding_id: orchestrator
+    profile_ids: [overall_director]
+    mode: markdown_headings
+    headings:
+      - Default And Legacy Writer Boundary
+      - Graph Admission And Node Scheduling
+      - Dynamic CDD Cohorts
+      - Founder G0 Through G4 Gates
+      - Succession, Backpressure, And Same-Session Correction
+      - Active Stage Route
+      - Frontier Discovery
+      - Model Routing
+      - Department Dispatch Contract
+      - Context
+      - Founder Intervention
+      - Stop Gates
+    reason: Overall receives graph admission, writer boundary, cohort routing, G0--G4, succession, backpressure, and stop method; exact skill and output routing are pack fields.
+
+  - binding_id: provider_neutral_studio_kernel
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Purpose
+      - Who Authors And Who Reads
+      - Department Instruction Delivery
+      - Fixed Twelve-Block Command
+      - Same-Session Checkpoint Progression
+      - Return Review
+    reason: Every role receives the shared authority, command, progression, and review kernel without the non-executable duplicate authoring skeleton.
+
+  - binding_id: contextual_creative_judgment
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Purpose
+      - Read / Write Contract
+      - Scale
+      - Prose Evidence Per Criterion
+      - Stage Boundaries
+      - Decision And Graph Edge
+      - Hard Boundaries
+    reason: Every creative checkpoint receives one shared evidence language while the pack carries only its exact stage profile and criteria.
+
+  - binding_id: planning_cdd
+    profile_ids: [planning_cdd_p1, planning_cdd_p2, planning_cdd_p3_ci]
+    mode: markdown_headings
+    headings:
+      - Admission
+      - Shared Workflow
+      - Disjoint Decision Sets
+      - Contextual 0--4 Grades
+      - Graph Contract
+      - Succession And Retirement
+      - Return
+    reason: Each Planning CDD lane receives the shared planning method; mode and cohort identity stay in pack fields.
+
+  - binding_id: planning_p1_story_audience_mode
+    profile_ids: [planning_cdd_p1]
+    mode: markdown_headings
+    headings:
+      - Own
+      - PRE-FP Lock Handling
+      - Review
+      - Founder Projection
+    reason: P1 receives the exact storyline and PRE-FP target-message lock mode without P2 or P3 procedure.
+
+  - binding_id: planning_p2_visual_reference_mode
+    profile_ids: [planning_cdd_p2]
+    mode: markdown_headings
+    headings:
+      - Own
+      - Optional Performance
+      - Review
+    reason: P2 receives exact Pinterest, video, function, four-role, performance-applicability, and reference-transfer judgment.
+
+  - binding_id: planning_p3_section_kinetic_mode
+    profile_ids: [planning_cdd_p3_ci]
+    mode: markdown_headings
+    headings:
+      - Deterministic Cohort Construction
+      - Own
+      - Major Motion Evidence
+      - Review
+    reason: Each P3-Ci receives only its cohort construction, Major motion, composition, and Draft Keyframe review mode.
+
+  - binding_id: mv_camera_module
+    profile_ids: [planning_cdd_p3_ci]
+    mode: full_file
+    reason: P3/FP Close model writer loads the four-axis still-camera vocabulary to author change-point slot sheets; Founder Alignment does not.
+
+  - binding_id: kinetic_slot_sheet_schema
+    profile_ids: [planning_cdd_p3_ci]
+    mode: pointer_only
+    reason: Kinetic slot-sheet schema is pointer-only for P3 kinetic writers; P1, P2, Founder Alignment, and draft-keyframe proof do not load it.
+
+  - binding_id: section_front_planning_policy
+    profile_ids: [planning_cdd_p1]
+    mode: markdown_headings
+    headings:
+      - Front Planning As The Section Spine
+      - PRE-FP Target And Message Handling
+      - Planning CDD Cell And Disjoint Decision Sets
+      - Contextual 0--4 Director Review
+      - G-40 Planning Handoff And Cohort Carry
+    reason: P1 receives the exact Front Planning spine, lock handling, integration authority, judgment method, and G-40 handoff contract.
+
+  - binding_id: section_front_planning_policy
+    profile_ids: [planning_cdd_p2]
+    mode: markdown_headings
+    headings:
+      - Sequence And Scene Reference Handling
+      - Post-Song Research And Development Blocks
+      - Four Production Role Groups
+      - Optional Performance
+      - Contextual 0--4 Director Review
+    reason: P2 receives the exact reference-function, four-role, performance-applicability, and contextual review contract without unrelated planning chapters.
+
+  - binding_id: section_front_planning_policy
+    profile_ids: [planning_cdd_p3_ci]
+    mode: markdown_headings
+    headings:
+      - Sequence Parent And Core Marks
+      - Planning CDD Cell And Disjoint Decision Sets
+      - Roster-Derived Section Cohort Construction
+      - Four Production Role Groups
+      - Optional Performance
+      - Contextual 0--4 Director Review
+      - Material Major Motion Evidence
+      - G-40 Planning Handoff And Cohort Carry
+    reason: P3-Ci receives its exact cohort, kinetic, composition, performance-applicability, review, and G-40 carry contract.
+
+  - binding_id: section_01_02a_policy
+    profile_ids: [planning_cdd_p3_ci]
+    mode: markdown_headings
+    headings:
+      - 02A Branch Coverage
+      - 02A Draft Keyframe Proof
+      - Contextual 0--4 Draft Keyframe Review
+      - G-40 Production-Scope Authorization And Cohort Carry
+    reason: P3-Ci loads the exact Official Core, Branch, Draft Keyframe proof, and G-40 carry contract only at its Draft checkpoint.
+
+  - binding_id: section_cluster_cdd
+    profile_ids: [section_cluster_cdd_ci]
+    mode: markdown_headings
+    headings:
+      - Required Reads
+      - Read / Write Contract
+      - Admission
+      - Checkpoints
+      - Succession
+      - Cross-Cohort Boundary
+      - Return
+      - Quality Gate
+    reason: Section-Cluster CDD receives cohort admission, 02B/03V review, same-cohort succession, and return method.
+
+  - binding_id: front_planning_director
+    profile_ids: [planning_cdd_p1]
+    mode: markdown_headings
+    headings:
+      - Planning Method
+      - Handoff To 01
+      - Quality Gate
+      - Planning CDD Cell Consumption And G-40 Handoff
+    reason: P1 alone exact-links reviewed P2/P3 Decision Sets, compiles the G-40 handoff after G2, and never reopens their write scopes.
+
+  - binding_id: generation
+    profile_ids: [section_image_motion_worker]
+    mode: markdown_headings
+    headings:
+      - 02B Natural-Language Translation
+      - Generated Production Cut Review
+      - Output Boundary
+      - Quality Gate
+    reason: The section media worker receives 02B still translation and pixel-return method only.
+
+  - binding_id: video_prompt
+    profile_ids: [section_image_motion_worker]
+    mode: markdown_headings
+    headings:
+      - Storyboard Board Standard
+      - Subject Motion
+      - Temporal Camera Motion
+      - Playback And 04 Boundary
+    reason: The same section writer receives 03V motion method after passed 02B pixels.
+
+  - binding_id: editing_qc
+    profile_ids: [edit_director]
+    mode: markdown_headings
+    headings:
+      - Execution Ownership
+      - Workflow
+      - Output Boundary
+    reason: Edit Director receives assembly and playback QC method; CDD production authority stays out.
+
+  - binding_id: section_04_policy
+    profile_ids: [edit_director]
+    mode: markdown_headings
+    headings:
+      - 04 Edit Units And Production-Cut Lineage
+    reason: Edit Director receives the exact 04 unit, boundary, timing, and playback contract at its sole checkpoint.
+
+  - binding_id: creative_constitution
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Selected Reference Direct-Follow Preservation
+      - Current-Run Creative Source Isolation
+      - Concrete Review And Prompt Language
+      - Contextual Creative Review Authority
+      - Authoring Method Versus Transport Contract
+      - Asset Alignment
+    reason: Runtime roles receive selected-reference direct-follow, current-source, observable-language, contextual-review, authorship, and asset rules.
+
+  - binding_id: production_system
+    profile_ids: ['*']
+    mode: markdown_headings
+    headings:
+      - Active Route
+      - Dispatch, Context, Review, And Revision
+      - Founder Gates And Detail Sources
+    reason: The pack already carries role and stage ownership; runtime receives only the active route, four-role lineage inside Active Route, Dispatch/review flow, and Founder gate map.
+
+  - binding_id: orchestration_routing_detail
+    profile_ids: [overall_director]
+    mode: markdown_headings
+    headings:
+      - Readiness Matrix
+      - Hold Classification
+      - Dispatch Packet
+      - Resume
+      - Pointer-Only Recovery Surfaces
+      - Completion Record
+    reason: Overall routing needs readiness, dispatch, recovery, and completion procedure without unrelated scheduling detail.
+
+  - binding_id: agents
+    profile_ids: ['*']
+    mode: pointer_only
+    reason: Always-on authority is a hash-bound pointer; the kernel already carries one-writer and no-fallback invariants.
+
+  - binding_id: section_production_policy
+    profile_ids: [overall_director, planning_cdd_p1, planning_cdd_p3_ci, section_cluster_cdd_ci, section_image_motion_worker, edit_director]
+    mode: pointer_only
+    reason: Section owner index stays pointer-only; checkpoint chapters are not inherited.
+
+  - binding_id: routing_policy
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Source-eligibility and Founder-gate chapters remain recoverable by path/hash; historical harness ids stay parse-only.
+
+  - binding_id: department_dispatch_schema
+    profile_ids: ['*']
+    mode: pointer_only
+    reason: Structured contracts are pointer-only with structural preflight.
+
+  - binding_id: role_context_pack_schema
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Pack shape is schema-owned; runtime does not inline the schema.
+
+  - binding_id: graph_director_session_router_state_schema
+    profile_ids: [overall_director, planning_cdd_p1, planning_cdd_p2, planning_cdd_p3_ci, section_cluster_cdd_ci, edit_director, graph_engineering_maintenance]
+    mode: pointer_only
+    reason: Graph-v2 lane and macro-stage succession CAS evidence is structured and pointer-only; the legacy Founder-confirmation router is not projected into Graph Director lanes.
+
+  - binding_id: graph_run_controller_state_schema
+    profile_ids: [overall_director, graph_engineering_maintenance]
+    mode: pointer_only
+    reason: The Goal-to-judgment-to-Director-to-Founder control decision is a dry-run mechanical state contract, not creative prose for every production role.
+
+  - binding_id: graph_creative_judgment_profile_release_schema
+    profile_ids: [graph_engineering_maintenance]
+    mode: pointer_only
+    reason: Immutable judgment releases are maintenance evidence; production roles receive only the checkpoint-bound release pointer in their judgment contract.
+
+  - binding_id: graph_creative_judgment_profile_promotion_schema
+    profile_ids: [graph_engineering_maintenance]
+    mode: pointer_only
+    reason: Profile lifecycle and Founder pointer-promotion evidence is structured and remains pointer-only.
+
+  - binding_id: graph_creative_judgment_profile_promotion_validator
+    profile_ids: [graph_engineering_maintenance]
+    mode: pointer_only
+    reason: The mechanical promotion validator is maintenance-only and never enters production creative prose.
+
+  - binding_id: graph_default_routing
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Writer selection is a structured route table, not prose loaded into every worker.
+
+  - binding_id: graph_role_context_projection_schema
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Projection contract is mechanical.
+
+  - binding_id: graph_skill_load_profiles_schema
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Skill-load contract is mechanical.
+
+  - binding_id: graph_default_routing_schema
+    profile_ids: [overall_director]
+    mode: pointer_only
+    reason: Default-routing contract is mechanical.
+
+  - binding_id: graph_department_dispatch_schema
+    profile_ids: ['*']
+    mode: pointer_only
+    reason: Every Graph node validates its exact assignment lifecycle and return recipient without inlining the schema.
+
+  - binding_id: graph_director_lineage_schema
+    profile_ids: [overall_director, planning_cdd_p1, planning_cdd_p2, planning_cdd_p3_ci, section_cluster_cdd_ci, edit_director]
+    mode: pointer_only
+    reason: Director lanes and their one permitted successor validate single-writer CAS from structured evidence.
+
+  - binding_id: graph_section_cohort_map_schema
+    profile_ids: [planning_cdd_p1, planning_cdd_p3_ci, section_cluster_cdd_ci, section_image_motion_worker]
+    mode: pointer_only
+    reason: P3 cohort identity and the exact same V-Ci and section writers are structure-owned.
+
+  - binding_id: graph_stage_registry
+    profile_ids: ['*']
+    mode: pointer_only
+    reason: Semantic stage and Founder-gate order are registry-owned and never inferred from role prose.
+
+  - binding_id: graph_stage_registry_schema
+    profile_ids: [graph_engineering_maintenance]
+    mode: pointer_only
+    reason: Maintenance validates the stage registry contract without inlining it into production roles.
+
+  - binding_id: graph_ledger_schema
+    profile_ids: [graph_engineering_maintenance]
+    mode: pointer_only
+    reason: Maintenance validates projector input shape; production roles never receive a whole-run ledger.
+
+  - binding_id: section_02b_policy
+    profile_ids: [section_cluster_cdd_ci, section_image_motion_worker]
+    mode: pointer_only
+    reason: The exact 02B chapter is checkpoint-loaded for translation, pixel review, and G2-envelope closure.
+
+  - binding_id: section_03v_policy
+    profile_ids: [section_cluster_cdd_ci, section_image_motion_worker]
+    mode: pointer_only
+    reason: The exact 03V chapter is checkpoint-loaded for motion storyboard and playback review.
+
+  - binding_id: section_workbench_policy
+    profile_ids: [section_cluster_cdd_ci]
+    mode: pointer_only
+    reason: Founder G2 and G3 projections remain recoverable without sending unrelated workbench detail to workers.
+
+invalidation:
+  whole_file_hash_role: source_inventory_and_locator_revalidation
+  fragment_hash_role: localized_runtime_instruction_invalidation
+  founder_change: invalidate_affected_semantic_descendants_only
+  provider_change: invalidate_assignments_resolved_to_changed_provider_snapshot_only
+  unrelated_scope_change: preserve_pack_when_bound_source_set_is_unchanged
+  legacy_id_in_pack: hold_parse_only_never_active_authoring

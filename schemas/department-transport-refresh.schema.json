@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/department-transport-refresh.schema.json",
+  "title": "IDOL Department Transport Refresh Receipt",
+  "description": "An immutable, run-local mechanical overlay for a Department Dispatch whose current byte hash is already corroborated by independent receipts. It changes no creative bytes, opens no worker session or Goal, and consumes no review submission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "refresh_id",
+    "run",
+    "created_at",
+    "status",
+    "owner",
+    "source_dispatch",
+    "classification",
+    "bindings",
+    "output_snapshot",
+    "effect",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-department-transport-refresh.v1"},
+    "artifact_type": {"const": "department_transport_refresh"},
+    "refresh_id": {"$ref": "#/$defs/taskId"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "created_at": {"$ref": "#/$defs/timestamp"},
+    "status": {"const": "applied"},
+    "owner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "role": {"const": "mechanical_coordinator"}
+      }
+    },
+    "source_dispatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id", "path", "sha256", "review_cycle_id", "submission_number"],
+      "properties": {
+        "dispatch_id": {"$ref": "#/$defs/taskId"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "review_cycle_id": {"$ref": "#/$defs/taskId"},
+        "submission_number": {"type": "integer", "minimum": 1, "maximum": 3}
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "proof_rule",
+        "hash_only",
+        "creative_bytes_written",
+        "governing_input_reinterpreted",
+        "worker_session_opened",
+        "native_goal_opened",
+        "semantic_review_reopened",
+        "review_submission_incremented",
+        "dispatch_bytes_rewritten"
+      ],
+      "properties": {
+        "kind": {"const": "corroborated_duplicate_binding_hash_reconciliation"},
+        "proof_rule": {"const": "current_hash_bound_by_at_least_three_receipts_across_two_independent_phases_including_latest_binding_phase"},
+        "hash_only": {"const": true},
+        "creative_bytes_written": {"const": false},
+        "governing_input_reinterpreted": {"const": false},
+        "worker_session_opened": {"const": false},
+        "native_goal_opened": {"const": false},
+        "semantic_review_reopened": {"const": false},
+        "review_submission_incremented": {"const": false},
+        "dispatch_bytes_rewritten": {"const": false}
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/refreshBinding"}
+    },
+    "output_snapshot": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/outputSnapshot"}
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_for_validation",
+        "only_listed_hash_fields_projected",
+        "creative_goal_required",
+        "review_submission_number_before",
+        "review_submission_number_after",
+        "next_owner"
+      ],
+      "properties": {
+        "active_for_validation": {"const": true},
+        "only_listed_hash_fields_projected": {"const": true},
+        "creative_goal_required": {"const": false},
+        "review_submission_number_before": {"type": "integer", "minimum": 1, "maximum": 3},
+        "review_submission_number_after": {"type": "integer", "minimum": 1, "maximum": 3},
+        "next_owner": {"const": "original_recipient_director"}
+      }
+    },
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "taskId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "recordedHash": {"type": "string", "pattern": "^[a-f0-9]{1,128}$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\uac00-\ud7a3][a-z0-9\uac00-\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.codex/|\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "jsonPointer": {"type": "string", "pattern": "^/(?:[^~]|~[01])+(?:/(?:[^~]|~[01])+)*$"},
+    "phase": {"enum": ["launch", "lineage", "runtime", "review", "promotion"]},
+    "refreshBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_label",
+        "target_json_pointer",
+        "source_path",
+        "phase",
+        "family",
+        "previous_sha256",
+        "current_sha256",
+        "consensus_phases",
+        "consensus_json_pointers"
+      ],
+      "properties": {
+        "binding_label": {"$ref": "#/$defs/nonEmptyString"},
+        "target_json_pointer": {"$ref": "#/$defs/jsonPointer"},
+        "source_path": {"$ref": "#/$defs/repositoryPath"},
+        "phase": {"$ref": "#/$defs/phase"},
+        "family": {"enum": ["governing_input_receipt", "working_output_receipt", "canonical_output_receipt", "manifest_or_evidence_receipt"]},
+        "previous_sha256": {"$ref": "#/$defs/recordedHash"},
+        "current_sha256": {"$ref": "#/$defs/sha256"},
+        "consensus_phases": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/phase"}
+        },
+        "consensus_json_pointers": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/jsonPointer"}
+        }
+      }
+    },
+    "outputSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase", "path", "recorded_sha256", "current_sha256"],
+      "properties": {
+        "phase": {"$ref": "#/$defs/phase"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "recorded_sha256": {"$ref": "#/$defs/recordedHash"},
+        "current_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

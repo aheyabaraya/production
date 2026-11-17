@@ -1,0 +1,427 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/luna-section-lifecycle-receipt.schema.json",
+  "title": "IDOL Section Image-Motion Lifecycle Receipt",
+  "description": "Provider-neutral runner-bound evidence for one section image-motion lineage from an Overall-promoted 02A Production Cut section through 03V. Active v2 returns the exact worker result to CDD for typed Production Cut review; Founder final selection and Overall promotion remain separate external authorities. A durable hash-bound checkpoint may resume in a new physical session and 04 edit/QC remains a separate stage and receipt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "section_id",
+    "status",
+    "executor",
+    "session_contract",
+    "sources",
+    "stage_statuses",
+    "production_cut_review_gate",
+    "direct_script_checks",
+    "inspected_asset_manifest",
+    "decision_evidence",
+    "completion_report",
+    "authority_boundaries",
+    "authority_separation"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_luna_section_lifecycle_receipt.v2"},
+    "artifact_type": {"const": "luna_section_lifecycle_receipt"},
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "status": {"enum": ["awaiting_cdd_production_cut_review", "complete", "hold"]},
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logical_role", "logical_profile_alias", "provider_profile_snapshot_ref", "provider_capability_snapshot_sha256", "automatic_fallback", "session_id", "execution_record"],
+      "properties": {
+        "logical_role": {"const": "section_image_motion_worker"},
+        "logical_profile_alias": {"const": "worker_high"},
+        "provider_profile_snapshot_ref": {
+          "type": "string",
+          "pattern": "^automation/harness-provider-profile-registry\\.yaml#/logical_profiles/worker_high/providers/[a-z0-9_-]+(?:/role_profiles/section_image_motion_worker)?$"
+        },
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "automatic_fallback": {"const": "none"},
+        "session_id": {"type": "string", "minLength": 1},
+        "execution_record": {"$ref": "#/$defs/sourcePointer"}
+      }
+    },
+    "session_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fresh_session_boundary",
+        "exactly_one_section",
+        "director_physical_shard_execution_forbidden",
+        "section_lineage_id",
+        "durable_checkpoint_resume_allowed",
+        "same_physical_session_required",
+        "04_edit_session_included",
+        "completed_checkpoint_id"
+      ],
+      "properties": {
+        "fresh_session_boundary": {"const": "overall_promoted_02a_section_boundary"},
+        "exactly_one_section": {"const": true},
+        "director_physical_shard_execution_forbidden": {"const": true},
+        "section_lineage_id": {"type": "string", "minLength": 1},
+        "durable_checkpoint_resume_allowed": {"const": true},
+        "same_physical_session_required": {"const": false},
+        "04_edit_session_included": {"const": false},
+        "completed_checkpoint_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_02a", "source_02b", "context_pack", "planning_source"],
+      "properties": {
+        "source_02a": {"$ref": "#/$defs/sourcePointer"},
+        "source_02b": {
+          "oneOf": [
+            {"$ref": "#/$defs/sourcePointer"},
+            {"type": "null"}
+          ]
+        },
+        "context_pack": {"$ref": "#/$defs/sourcePointer"},
+        "planning_source": {"$ref": "#/$defs/sourcePointer"}
+      }
+    },
+    "stage_statuses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "02a_validation",
+        "02b_exact_compile",
+        "branch_cut_image_generation",
+        "generated_branch_cut_review",
+        "03v_motion_video_work"
+      ],
+      "properties": {
+        "02a_validation": {"$ref": "#/$defs/stageStatus"},
+        "02b_exact_compile": {"$ref": "#/$defs/stageStatus"},
+        "branch_cut_image_generation": {"$ref": "#/$defs/stageStatus"},
+        "generated_branch_cut_review": {"$ref": "#/$defs/stageStatus"},
+        "03v_motion_video_work": {"$ref": "#/$defs/stageStatus"},
+        "04_section_edit_qc": {"$ref": "#/$defs/stageStatus"}
+      }
+    },
+    "production_cut_review_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "decision_owner",
+        "candidate_asset_ids",
+        "reviewed_asset_ids",
+        "production_cut_review",
+        "review_note",
+        "resume_same_section_lineage_required"
+      ],
+      "properties": {
+        "status": {"enum": ["pending", "passed", "hold"]},
+        "decision_owner": {"const": "creative_development_director"},
+        "candidate_asset_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reviewed_asset_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "production_cut_review": {
+          "oneOf": [
+            {"$ref": "#/$defs/sourcePointer"},
+            {"type": "null"}
+          ]
+        },
+        "review_note": {"type": "string"},
+        "resume_same_section_lineage_required": {"const": true}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "passed"}}, "required": ["status"]},
+          "then": {
+            "properties": {
+              "reviewed_asset_ids": {"minItems": 1},
+              "production_cut_review": {"$ref": "#/$defs/sourcePointer"},
+              "review_note": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      ]
+    },
+    "direct_script_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/scriptCheck"}
+    },
+    "inspected_asset_manifest": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/inspectedAsset"}
+    },
+    "decision_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/decisionEvidence"}
+    },
+    "completion_report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reported_to_cdd", "summary", "remaining_risks", "cdd_production_cut_review_required", "founder_final_selection_required", "overall_promotion_required"],
+      "properties": {
+        "reported_to_cdd": {"type": "boolean"},
+        "summary": {"type": "string", "minLength": 1},
+        "remaining_risks": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "cdd_production_cut_review_required": {"const": true},
+        "founder_final_selection_required": {"const": true},
+        "overall_promotion_required": {"const": true}
+      }
+    },
+    "authority_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministic_check_owner",
+        "full_asset_inspection_owner",
+        "creative_review_owner",
+        "final_selection_owner",
+        "promotion_owner",
+        "return_recipient_role",
+        "prompt_or_motion_rewrite_performed",
+        "canonical_creative_write_performed"
+      ],
+      "properties": {
+        "deterministic_check_owner": {"const": "registered_direct_scripts"},
+        "full_asset_inspection_owner": {"const": "section_image_motion_worker"},
+        "creative_review_owner": {"const": "creative_development_director"},
+        "final_selection_owner": {"const": "founder"},
+        "promotion_owner": {"const": "overall_director"},
+        "return_recipient_role": {"const": "creative_development_director"},
+        "prompt_or_motion_rewrite_performed": {"const": false},
+        "canonical_creative_write_performed": {"const": false}
+      }
+    },
+    "authority_separation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cdd_production_cut_review_status", "founder_final_selection_status", "overall_promotion_status", "worker_selection_or_promotion_inferred"],
+      "properties": {
+        "cdd_production_cut_review_status": {"enum": ["pending_external_to_worker_receipt", "bound_passed_review", "hold"]},
+        "founder_final_selection_status": {"const": "pending_external_to_worker_receipt"},
+        "overall_promotion_status": {"const": "pending_external_to_worker_receipt"},
+        "worker_selection_or_promotion_inferred": {"const": false}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "complete"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "sources": {
+            "properties": {"source_02b": {"$ref": "#/$defs/sourcePointer"}}
+          },
+          "stage_statuses": {
+            "properties": {
+              "02a_validation": {"const": "complete"},
+              "02b_exact_compile": {"const": "complete"},
+              "branch_cut_image_generation": {"const": "complete"},
+              "generated_branch_cut_review": {"const": "complete"},
+              "03v_motion_video_work": {"const": "complete"}
+            }
+          },
+          "production_cut_review_gate": {
+            "properties": {"status": {"const": "passed"}}
+          },
+          "completion_report": {
+            "properties": {"reported_to_cdd": {"const": true}}
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "awaiting_cdd_production_cut_review"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "production_cut_review_gate": {
+            "properties": {"status": {"const": "pending"}}
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "stage_statuses": {"not": {"required": ["04_section_edit_qc"]}},
+        "production_cut_review_gate": {
+          "required": ["resume_same_section_lineage_required"]
+        },
+        "inspected_asset_manifest": {
+          "items": {
+            "allOf": [
+              {"$ref": "#/$defs/inspectedAsset"},
+              {
+                "not": {
+                  "properties": {"stage": {"const": "04"}},
+                  "required": ["stage"]
+                }
+              }
+            ]
+          }
+        },
+        "decision_evidence": {
+          "items": {
+            "allOf": [
+              {"$ref": "#/$defs/decisionEvidence"},
+              {
+                "not": {
+                  "properties": {"stage": {"const": "04"}},
+                  "required": ["stage"]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "stageStatus": {"enum": ["pending", "complete", "hold"]},
+    "scriptCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "command_id", "status", "evidence_path", "evidence_sha256"],
+      "properties": {
+        "check_id": {"type": "string", "minLength": 1},
+        "command_id": {"type": "string", "minLength": 1},
+        "status": {"enum": ["pass", "hold"]},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "evidence_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "inspectedAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "stage",
+        "media_type",
+        "actual_path",
+        "sha256",
+        "inspection_status",
+        "observable_facts",
+        "technical_disposition"
+      ],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "stage": {"enum": ["02a_validation", "generated_branch_cut_review", "03v"]},
+        "media_type": {"enum": ["image", "frame", "crop", "clip", "playback"]},
+        "actual_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "inspection_status": {"const": "pixel_or_playback_inspected"},
+        "observable_facts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "technical_disposition": {"enum": ["technical_pass", "technical_hold", "locked_rubric_rerun"]}
+      }
+    },
+    "evidenceSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actual_path",
+        "sha256",
+        "source_or_generated_asset_id",
+        "maps_to_core_cut_ids",
+        "maps_to_branch_cut_ids",
+        "decision_anchor_role",
+        "audio_or_section_cue",
+        "inspected_observable_fact",
+        "relevant_boundary",
+        "media_type"
+      ],
+      "properties": {
+        "actual_path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_or_generated_asset_id": {"type": "string", "minLength": 1},
+        "maps_to_core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "maps_to_branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+        },
+        "decision_anchor_role": {"type": "string", "minLength": 1},
+        "audio_or_section_cue": {"type": "string", "minLength": 1},
+        "inspected_observable_fact": {"type": "string", "minLength": 1},
+        "relevant_boundary": {"type": "string", "minLength": 1},
+        "media_type": {"enum": ["image", "frame", "crop", "clip", "playback"]},
+        "time_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start_seconds", "end_seconds"],
+          "properties": {
+            "start_seconds": {"type": "number", "minimum": 0},
+            "end_seconds": {"type": "number", "exclusiveMinimum": 0}
+          }
+        },
+        "sequence_position": {"enum": ["start", "change", "peak", "end", "diagnostic"]}
+      }
+    },
+    "decisionEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_set_id", "stage", "evidence_kind", "source_anchor_ids", "surfaces"],
+      "properties": {
+        "decision_set_id": {"type": "string", "minLength": 1},
+        "stage": {"enum": ["02a_validation", "generated_branch_cut_review", "03v"]},
+        "evidence_kind": {"enum": ["still_frame_set", "sequence_bundle", "playback_clip"]},
+        "source_anchor_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {"$ref": "#/$defs/evidenceSurface"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"evidence_kind": {"const": "sequence_bundle"}}, "required": ["evidence_kind"]},
+          "then": {"properties": {"surfaces": {"minItems": 2}}}
+        },
+        {
+          "if": {"properties": {"evidence_kind": {"const": "playback_clip"}}, "required": ["evidence_kind"]},
+          "then": {"properties": {"surfaces": {"maxItems": 1}}}
+        }
+      ]
+    }
+  }
+}

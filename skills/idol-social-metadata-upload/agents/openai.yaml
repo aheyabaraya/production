@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Social Posting & Upload"
+  short_description: "Check and route X, TikTok, YouTube, Instagram"
+  default_prompt: "Use $idol-social-metadata-upload to check platform readiness, route the approved social batch, and record the result."

@@ -1,0 +1,2133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-improvement-review.schema.json",
+  "title": "IDOL Graph Engineering Improvement Review Sidecar V3",
+  "description": "Optional run-owned sidecar for material rework and shadow-first Founder creative-feedback closure. V3 stores raw Founder wording only at one canonical source and carries pointer/digest-bound compact judgment context for exact Role Context Pack projection. It creates no stage, gate, creative lock, release authority, or automatic preference promotion. Historical v1 and v2 documents remain readable through frozen legacy schemas.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "status",
+    "created_at",
+    "created_by",
+    "authority",
+    "closeout",
+    "issues",
+    "briefing",
+    "founder_creative_closures"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_harness_improvement_review.v3"
+    },
+    "artifact_type": {
+      "const": "harness_improvement_review"
+    },
+    "run": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "briefing_ready",
+        "closed",
+        "deferred"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "authority": {
+      "const": "non_blocking_review_sidecar_no_stage_gate_creative_or_release_authority"
+    },
+    "closeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger",
+        "production_state",
+        "summary",
+        "release_gate_effect"
+      ],
+      "properties": {
+        "trigger": {
+          "enum": [
+            "stage_05",
+            "run_reset",
+            "run_discard",
+            "long_hold",
+            "manual_review"
+          ]
+        },
+        "production_state": {
+          "enum": [
+            "active",
+            "completed",
+            "reset",
+            "discarded",
+            "held"
+          ]
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "release_gate_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issue"
+      }
+    },
+    "briefing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recurring_patterns",
+        "open_issue_ids",
+        "founder_decision_issue_ids",
+        "next_validation"
+      ],
+      "properties": {
+        "recurring_patterns": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "open_issue_ids": {
+          "$ref": "#/$defs/uniqueIssueIds"
+        },
+        "founder_decision_issue_ids": {
+          "$ref": "#/$defs/uniqueIssueIds"
+        },
+        "next_validation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "founder_creative_closure_ids": {
+          "$ref": "#/$defs/uniqueClosureIds"
+        }
+      }
+    },
+    "founder_creative_closures": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/founderCreativeClosure"
+      }
+    }
+  },
+  "anyOf": [
+    {
+      "properties": {
+        "issues": {
+          "minItems": 1
+        }
+      },
+      "required": [
+        "issues"
+      ]
+    },
+    {
+      "properties": {
+        "founder_creative_closures": {
+          "minItems": 1
+        }
+      },
+      "required": [
+        "founder_creative_closures"
+      ]
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "uniqueStrings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "requiredUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "uniqueIssueIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^HIR_[A-Z0-9][A-Z0-9_-]{2,79}$"
+      }
+    },
+    "uniqueClosureIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/founderCreativeClosureId"
+      }
+    },
+    "founderCreativeClosureId": {
+      "type": "string",
+      "pattern": "^FCF_[A-Z0-9][A-Z0-9_-]{2,79}$"
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "role"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "role": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "evidenceArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/artifactBinding"
+      }
+    },
+    "currentRunResolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "note",
+        "evidence_refs"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "open",
+            "resolved",
+            "accepted_tradeoff",
+            "superseded",
+            "unresolved"
+          ]
+        },
+        "note": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/evidenceArray"
+        }
+      }
+    },
+    "harnessFollowup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "target_surfaces",
+        "proposal",
+        "overfit_guard",
+        "verification_status",
+        "verification_evidence"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "none",
+            "observe",
+            "proposed",
+            "founder_approved",
+            "applied_awaiting_validation",
+            "verified",
+            "rejected"
+          ]
+        },
+        "target_surfaces": {
+          "$ref": "#/$defs/uniqueStrings"
+        },
+        "proposal": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "overfit_guard": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "verification_status": {
+          "enum": [
+            "not_required",
+            "pending_future_run",
+            "passed_future_run",
+            "failed"
+          ]
+        },
+        "verification_evidence": {
+          "$ref": "#/$defs/evidenceArray"
+        },
+        "judgment_profile_evolution": {
+          "$ref": "#/$defs/judgmentProfileEvolution"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "verified"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "verification_status": {
+                "const": "passed_future_run"
+              },
+              "verification_evidence": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "judgmentProfileEvolution": {
+      "type": "object",
+      "description": "A shadow-only proposal for evolving one contextual 0--4 judgment criterion. It cannot tune criteria, calculate an aggregate score, or move a current profile pointer. Any accepted change must complete proposal, shadow, and pilot review before a separate Founder-approved current-pointer promotion.",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "checkpoint_ids",
+        "criterion_id",
+        "change_kind",
+        "observed_failure_mode",
+        "decision_evidence",
+        "counterexample_or_negative_control",
+        "founder_approval_required",
+        "lifecycle_stage",
+        "authority"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,79}$"
+        },
+        "checkpoint_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]{1,79}$"
+          }
+        },
+        "criterion_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,119}$"
+        },
+        "change_kind": {
+          "enum": [
+            "criterion_definition",
+            "evidence_contract",
+            "checkpoint_binding",
+            "minimum_floor",
+            "critical_four",
+            "not_applicable_rule"
+          ]
+        },
+        "observed_failure_mode": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "decision_evidence": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceArray"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "counterexample_or_negative_control": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "claim",
+            "evidence_refs"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "counterexample",
+                "negative_control"
+              ]
+            },
+            "claim": {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            "evidence_refs": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/evidenceArray"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            }
+          }
+        },
+        "founder_approval_required": {
+          "type": "boolean"
+        },
+        "lifecycle_stage": {
+          "enum": [
+            "proposal",
+            "shadow",
+            "pilot"
+          ]
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "aggregate_score_usage",
+            "automatic_criterion_tuning",
+            "current_pointer_effect",
+            "required_sequence",
+            "current_pointer_promotion_requires_founder_approval"
+          ],
+          "properties": {
+            "aggregate_score_usage": {
+              "const": "forbidden"
+            },
+            "automatic_criterion_tuning": {
+              "const": false
+            },
+            "current_pointer_effect": {
+              "const": "none"
+            },
+            "required_sequence": {
+              "const": "proposal_then_shadow_then_pilot_then_separate_current_pointer_promotion"
+            },
+            "current_pointer_promotion_requires_founder_approval": {
+              "const": true
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "change_kind": {
+                "enum": [
+                  "minimum_floor",
+                  "critical_four",
+                  "not_applicable_rule"
+                ]
+              }
+            },
+            "required": [
+              "change_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "founder_approval_required": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "issue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issue_id",
+        "summary",
+        "material_trigger",
+        "detected_stage_id",
+        "earliest_owner_stage_id",
+        "affected_scope",
+        "recurrence_key",
+        "recurrence_count",
+        "evidence_refs",
+        "current_run_resolution",
+        "harness_followup"
+      ],
+      "properties": {
+        "issue_id": {
+          "type": "string",
+          "pattern": "^HIR_[A-Z0-9][A-Z0-9_-]{2,79}$"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "material_trigger": {
+          "enum": [
+            "upstream_return",
+            "same_failure_recurred",
+            "accepted_truth_invalidated",
+            "run_reset_or_discard",
+            "repeated_review_or_generation_cycle",
+            "review_surface_insufficient",
+            "manual_capture"
+          ]
+        },
+        "detected_stage_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "earliest_owner_stage_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "affected_scope": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "recurrence_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,79}$"
+        },
+        "recurrence_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "evidence_refs": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceArray"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "current_run_resolution": {
+          "$ref": "#/$defs/currentRunResolution"
+        },
+        "harness_followup": {
+          "$ref": "#/$defs/harnessFollowup"
+        }
+      }
+    },
+    "shadowAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_gate_effect",
+        "production_lock_effect",
+        "worker_self_claim_closes",
+        "numeric_or_similarity_approves",
+        "script_approves_creative_truth",
+        "auto_preference_lock",
+        "auto_skill_or_policy_rewrite",
+        "founder_form_required"
+      ],
+      "properties": {
+        "production_gate_effect": {
+          "const": "none"
+        },
+        "production_lock_effect": {
+          "const": "none"
+        },
+        "worker_self_claim_closes": {
+          "const": false
+        },
+        "numeric_or_similarity_approves": {
+          "const": false
+        },
+        "script_approves_creative_truth": {
+          "const": false
+        },
+        "auto_preference_lock": {
+          "const": false
+        },
+        "auto_skill_or_policy_rewrite": {
+          "const": false
+        },
+        "founder_form_required": {
+          "const": false
+        }
+      }
+    },
+    "founderCreativeClosureStatus": {
+      "enum": [
+        "captured_shadow",
+        "interpreted",
+        "correction_bound",
+        "corrected_result_recorded",
+        "founder_decided",
+        "git_evidence_recorded",
+        "preference_candidate_recorded",
+        "closed_local",
+        "held",
+        "superseded",
+        "rejected"
+      ]
+    },
+    "preferencePromotionState": {
+      "enum": [
+        "local_named_scope_only",
+        "same_track_candidate",
+        "studio_preference_candidate"
+      ]
+    },
+    "directorInterpretationKind": {
+      "enum": [
+        "hypothesis",
+        "preference",
+        "correction",
+        "explicit_lock",
+        "direct_replacement",
+        "ambiguous_unresolved"
+      ]
+    },
+    "founderShadowDecision": {
+      "enum": [
+        "pass",
+        "patch",
+        "reject",
+        "hold"
+      ]
+    },
+    "namedCreativeTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run",
+        "stage_id",
+        "track_resolution",
+        "baseline_artifact"
+      ],
+      "properties": {
+        "run": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "track_key": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "track_resolution": {
+          "enum": [
+            "named",
+            "unresolved_hold"
+          ]
+        },
+        "stage_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "section_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "major_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "core_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cut_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "baseline_artifact": {
+          "$ref": "#/$defs/artifactBinding"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "track_resolution": {
+                "const": "unresolved_hold"
+              }
+            },
+            "required": [
+              "track_resolution"
+            ]
+          },
+          "then": {
+            "properties": {
+              "track_key": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "track_resolution": {
+                "const": "named"
+              }
+            },
+            "required": [
+              "track_resolution"
+            ]
+          },
+          "then": {
+            "properties": {
+              "track_key": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "founderInputCapture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "captured_at"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/feedbackSourcePointer"
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "directorInterpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "author_role",
+        "intended_screen_job",
+        "founder_perceived_result",
+        "contextual_weakness",
+        "observable_evidence_refs",
+        "positive_preservation_evidence",
+        "preferred_alternative",
+        "change_contract",
+        "ambiguity_notes"
+      ],
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/directorInterpretationKind"
+        },
+        "author_role": {
+          "enum": [
+            "creative_development_director",
+            "overall_director",
+            "edit_director"
+          ]
+        },
+        "intended_screen_job": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "founder_perceived_result": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "contextual_weakness": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "observable_evidence_refs": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/evidenceArray"
+            },
+            {
+              "minItems": 1
+            }
+          ]
+        },
+        "positive_preservation_evidence": {
+          "$ref": "#/$defs/evidenceArray"
+        },
+        "preferred_alternative": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "path",
+                "sha256",
+                "role"
+              ],
+              "properties": {
+                "path": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "role": {
+                  "const": "pairwise_preferred_counterexample"
+                }
+              }
+            }
+          ]
+        },
+        "change_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "preserve",
+            "change",
+            "do_not_infer"
+          ],
+          "properties": {
+            "preserve": {
+              "$ref": "#/$defs/requiredUniqueStrings"
+            },
+            "change": {
+              "$ref": "#/$defs/uniqueStrings"
+            },
+            "do_not_infer": {
+              "$ref": "#/$defs/requiredUniqueStrings"
+            }
+          }
+        },
+        "ambiguity_notes": {
+          "type": "string"
+        },
+        "linked_intervention_receipt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/artifactBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "linked_issue_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^HIR_[A-Z0-9][A-Z0-9_-]{2,79}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "hypothesis",
+                  "ambiguous_unresolved"
+                ]
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "ambiguity_notes": {
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "correction",
+                  "explicit_lock",
+                  "direct_replacement"
+                ]
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "change_contract": {
+                "properties": {
+                  "change": {
+                    "$ref": "#/$defs/requiredUniqueStrings"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "correctionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dispatch_id",
+        "path",
+        "sha256",
+        "json_pointer",
+        "requirement_ids",
+        "acceptance_criteria",
+        "frozen_unaffected_outputs",
+        "command_translation"
+      ],
+      "properties": {
+        "dispatch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+        },
+        "path": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "json_pointer": {
+          "const": "/director_review/correction"
+        },
+        "requirement_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(?:FOUNDER|SKILL|POLICY|CONTRACT|SCHEMA|OUTPUT|QUALITY|HOLD|GOAL)-[A-Z0-9][A-Z0-9._-]{0,80}$"
+          }
+        },
+        "acceptance_criteria": {
+          "$ref": "#/$defs/requiredUniqueStrings"
+        },
+        "frozen_unaffected_outputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/artifactBinding"
+          }
+        },
+        "command_translation": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "correctedResultRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact",
+        "director_reason_solved",
+        "closed_by",
+        "verification_note"
+      ],
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/artifactBinding"
+        },
+        "director_reason_solved": {
+          "enum": [
+            "solved",
+            "not_solved",
+            "unresolved"
+          ]
+        },
+        "closed_by": {
+          "const": "director_byte_review"
+        },
+        "verification_note": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "worker_claim_refs": {
+          "$ref": "#/$defs/evidenceArray"
+        }
+      }
+    },
+    "founderDecisionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "source",
+        "decided_at",
+        "production_gate_effect"
+      ],
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/founderShadowDecision"
+        },
+        "source": {
+          "$ref": "#/$defs/feedbackSourcePointer"
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "production_gate_effect": {
+          "const": "none"
+        }
+      }
+    },
+    "optionalGitSha": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gitEvidenceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_delivery_commit",
+        "feedback_capture_or_dispatch_commit",
+        "corrected_return_commit",
+        "acceptance_commit"
+      ],
+      "properties": {
+        "baseline_delivery_commit": {
+          "$ref": "#/$defs/optionalGitSha"
+        },
+        "feedback_capture_or_dispatch_commit": {
+          "$ref": "#/$defs/optionalGitSha"
+        },
+        "corrected_return_commit": {
+          "$ref": "#/$defs/optionalGitSha"
+        },
+        "acceptance_commit": {
+          "$ref": "#/$defs/optionalGitSha"
+        }
+      }
+    },
+    "preferenceCandidateRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_state",
+        "auto_lock",
+        "founder_confirmation",
+        "evidence_refs"
+      ],
+      "properties": {
+        "promotion_state": {
+          "$ref": "#/$defs/preferencePromotionState"
+        },
+        "auto_lock": {
+          "const": false
+        },
+        "founder_confirmation": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source",
+                "confirmed_at",
+                "evidence_refs"
+              ],
+              "properties": {
+                "source": {
+                  "$ref": "#/$defs/feedbackSourcePointer"
+                },
+                "confirmed_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "evidence_refs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 8,
+                  "uniqueItems": true,
+                  "items": {
+                    "$ref": "#/$defs/artifactBinding"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/artifactBinding"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "promotion_state": {
+                "const": "local_named_scope_only"
+              }
+            },
+            "required": [
+              "promotion_state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "founder_confirmation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "promotion_state": {
+                "const": "same_track_candidate"
+              }
+            },
+            "required": [
+              "promotion_state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence_refs": {
+                "minItems": 1
+              },
+              "founder_confirmation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "promotion_state": {
+                "const": "studio_preference_candidate"
+              }
+            },
+            "required": [
+              "promotion_state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "founder_confirmation": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "founderCreativeClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closure_id",
+        "status",
+        "shadow_authority",
+        "named_target",
+        "founder_input",
+        "preference_scope",
+        "reason_summary",
+        "first_seen_at",
+        "last_seen_at",
+        "evidence_rollup_sha256",
+        "context_projection",
+        "recurrence_key",
+        "recurrence_count",
+        "later_evidence_refs",
+        "director_interpretation",
+        "correction_binding",
+        "corrected_result",
+        "founder_decision",
+        "git_evidence",
+        "preference_candidate"
+      ],
+      "properties": {
+        "closure_id": {
+          "$ref": "#/$defs/founderCreativeClosureId"
+        },
+        "status": {
+          "$ref": "#/$defs/founderCreativeClosureStatus"
+        },
+        "shadow_authority": {
+          "$ref": "#/$defs/shadowAuthority"
+        },
+        "named_target": {
+          "$ref": "#/$defs/namedCreativeTarget"
+        },
+        "founder_input": {
+          "$ref": "#/$defs/founderInputCapture"
+        },
+        "preference_scope": {
+          "$ref": "#/$defs/preferencePromotionState"
+        },
+        "recurrence_key": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{2,79}$"
+        },
+        "recurrence_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "later_evidence_refs": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/artifactBinding"
+          }
+        },
+        "director_interpretation": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/directorInterpretation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correction_binding": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/correctionBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "corrected_result": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/correctedResultRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "founder_decision": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/founderDecisionRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "git_evidence": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/gitEvidenceRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "preference_candidate": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/preferenceCandidateRecord"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason_summary": {
+          "$ref": "#/$defs/compactString"
+        },
+        "first_seen_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_seen_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_rollup_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "context_projection": {
+          "$ref": "#/$defs/founderQualityContextProjection"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "captured_shadow"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "type": "null"
+              },
+              "correction_binding": {
+                "type": "null"
+              },
+              "corrected_result": {
+                "type": "null"
+              },
+              "founder_decision": {
+                "type": "null"
+              },
+              "git_evidence": {
+                "type": "null"
+              },
+              "preference_candidate": {
+                "type": "null"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "interpreted"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "type": "null"
+              },
+              "corrected_result": {
+                "type": "null"
+              },
+              "founder_decision": {
+                "type": "null"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "correction_bound"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "type": "null"
+              },
+              "founder_decision": {
+                "type": "null"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "corrected_result_recorded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "$ref": "#/$defs/correctedResultRecord"
+              },
+              "founder_decision": {
+                "type": "null"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "founder_decided"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "$ref": "#/$defs/correctedResultRecord"
+              },
+              "founder_decision": {
+                "$ref": "#/$defs/founderDecisionRecord"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "git_evidence_recorded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "$ref": "#/$defs/correctedResultRecord"
+              },
+              "founder_decision": {
+                "$ref": "#/$defs/founderDecisionRecord"
+              },
+              "git_evidence": {
+                "$ref": "#/$defs/gitEvidenceRecord"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "preference_candidate_recorded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "$ref": "#/$defs/correctedResultRecord"
+              },
+              "founder_decision": {
+                "$ref": "#/$defs/founderDecisionRecord"
+              },
+              "preference_candidate": {
+                "$ref": "#/$defs/preferenceCandidateRecord"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "closed_local"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "director_interpretation": {
+                "$ref": "#/$defs/directorInterpretation"
+              },
+              "correction_binding": {
+                "$ref": "#/$defs/correctionBinding"
+              },
+              "corrected_result": {
+                "$ref": "#/$defs/correctedResultRecord"
+              },
+              "founder_decision": {
+                "$ref": "#/$defs/founderDecisionRecord"
+              },
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "director_interpretation": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "hypothesis",
+                      "ambiguous_unresolved"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            },
+            "required": [
+              "director_interpretation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "interpreted",
+                  "held",
+                  "superseded",
+                  "rejected"
+                ]
+              },
+              "correction_binding": {
+                "type": "null"
+              },
+              "corrected_result": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "named_target": {
+                "properties": {
+                  "track_resolution": {
+                    "const": "unresolved_hold"
+                  }
+                },
+                "required": [
+                  "track_resolution"
+                ]
+              }
+            },
+            "required": [
+              "named_target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              },
+              "preference_candidate": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "enum": [
+                  "same_track_candidate",
+                  "studio_preference_candidate"
+                ]
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "preference_candidate_recorded"
+              },
+              "preference_candidate": {
+                "$ref": "#/$defs/preferenceCandidateRecord"
+              }
+            },
+            "required": [
+              "preference_candidate"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "const": "same_track_candidate"
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preference_candidate": {
+                "type": "object",
+                "properties": {
+                  "promotion_state": {
+                    "const": "same_track_candidate"
+                  }
+                },
+                "required": [
+                  "promotion_state"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "const": "studio_preference_candidate"
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "preference_candidate": {
+                "type": "object",
+                "properties": {
+                  "promotion_state": {
+                    "const": "studio_preference_candidate"
+                  }
+                },
+                "required": [
+                  "promotion_state"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_candidate": {
+                "type": "object",
+                "properties": {
+                  "promotion_state": {
+                    "const": "same_track_candidate"
+                  }
+                },
+                "required": [
+                  "promotion_state"
+                ]
+              }
+            },
+            "required": [
+              "preference_candidate"
+            ]
+          },
+          "then": {
+            "properties": {
+              "recurrence_count": {
+                "minimum": 2
+              },
+              "later_evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "recurrence_count": {
+                "const": 1
+              }
+            },
+            "required": [
+              "recurrence_count"
+            ]
+          },
+          "then": {
+            "properties": {
+              "later_evidence_refs": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "recurrence_count": {
+                "minimum": 2
+              }
+            },
+            "required": [
+              "recurrence_count"
+            ]
+          },
+          "then": {
+            "properties": {
+              "later_evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "const": "local_named_scope_only"
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "context_projection": {
+                "properties": {
+                  "applicability": {
+                    "properties": {
+                      "scope_mode": {
+                        "const": "exact_named_scope"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "const": "same_track_candidate"
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "context_projection": {
+                "properties": {
+                  "applicability": {
+                    "properties": {
+                      "scope_mode": {
+                        "const": "same_track_scope"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "preference_scope": {
+                "const": "studio_preference_candidate"
+              }
+            },
+            "required": [
+              "preference_scope"
+            ]
+          },
+          "then": {
+            "properties": {
+              "context_projection": {
+                "properties": {
+                  "applicability": {
+                    "properties": {
+                      "scope_mode": {
+                        "const": "studio_confirmed_scope"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "compactString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 360
+    },
+    "compactSignal": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "boundedCompactSignals": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/compactSignal"
+      }
+    },
+    "feedbackSourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorship",
+        "surface",
+        "locator",
+        "content_sha256",
+        "source_artifact",
+        "source_json_pointer",
+        "retention"
+      ],
+      "properties": {
+        "authorship": {
+          "const": "founder"
+        },
+        "surface": {
+          "enum": [
+            "codex_task",
+            "grok_task",
+            "founder_review_artifact",
+            "other"
+          ]
+        },
+        "locator": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_artifact": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/artifactBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_json_pointer": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^/.+"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retention": {
+          "const": "canonical_source_only_no_sidecar_or_runtime_copy"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "surface": {
+                "const": "founder_review_artifact"
+              }
+            },
+            "required": [
+              "surface"
+            ]
+          },
+          "then": {
+            "properties": {
+              "source_artifact": {
+                "$ref": "#/$defs/artifactBinding"
+              },
+              "source_json_pointer": {
+                "type": "string",
+                "pattern": "^/.+"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "contextApplicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_mode",
+        "roles",
+        "profile_ids",
+        "stage_ids",
+        "section_ids"
+      ],
+      "properties": {
+        "scope_mode": {
+          "enum": [
+            "exact_named_scope",
+            "same_track_scope",
+            "studio_confirmed_scope"
+          ]
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "overall_director",
+              "creative_development_director",
+              "edit_director",
+              "department_worker",
+              "section_owner",
+              "edit_shard_worker"
+            ]
+          }
+        },
+        "profile_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(?:\\*|[a-z][a-z0-9_]*)$"
+          }
+        },
+        "stage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(?:\\*|[a-z][a-z0-9_]*)$"
+          }
+        },
+        "section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(?:\\*|S[0-9]{2,}[A-Z]?)$"
+          }
+        }
+      }
+    },
+    "founderQualityContextProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "pattern_type",
+        "priority",
+        "positive_core",
+        "avoid_signals",
+        "director_actions",
+        "review_questions",
+        "applicability"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "eligible",
+            "withheld"
+          ]
+        },
+        "pattern_type": {
+          "enum": [
+            "avoid_failure",
+            "preserve_preference",
+            "decision_rule",
+            "review_question"
+          ]
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "positive_core": {
+          "$ref": "#/$defs/boundedCompactSignals"
+        },
+        "avoid_signals": {
+          "$ref": "#/$defs/boundedCompactSignals"
+        },
+        "director_actions": {
+          "$ref": "#/$defs/boundedCompactSignals"
+        },
+        "review_questions": {
+          "$ref": "#/$defs/boundedCompactSignals"
+        },
+        "applicability": {
+          "$ref": "#/$defs/contextApplicability"
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "positive_core": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "avoid_signals": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "director_actions": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "review_questions": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    }
+  }
+}

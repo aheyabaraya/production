@@ -1,0 +1,568 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/track-creative-board.schema.json",
+  "title": "IDOL Track Creative Board",
+  "description": "Album/title read-model that keeps song, selected-audio analysis, unit, 01A visual boards, spaces, wardrobe, choreography, 01R adaptations, and 02A beat review decisions together for one track.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "album_key",
+    "title_key",
+    "title_display_name",
+    "content_id",
+    "source_run_root",
+    "status",
+    "source_refs",
+    "song_board",
+    "track_usage_board",
+    "visual_board_refs",
+    "beat_review_board",
+    "founder_review",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "album_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+    },
+    "title_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+    },
+    "title_display_name": {
+      "type": "string"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "source_run_root": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "audio_analyzed",
+        "nucleus_ready",
+        "visual_board_ready",
+        "storyboard_review",
+        "prompt_ready",
+        "generated",
+        "packaged",
+        "hold"
+      ]
+    },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_audio_analysis"
+      ],
+      "properties": {
+        "pre_00_research_radar": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reference_song_fit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "suno_prompt_packet": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_audio_analysis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lyrics_direction_bridge": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "creative_nucleus": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "song_lock": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "direction_map": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "track_visual_board": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mv_direction_reference_mining": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "founder_visual_board_analysis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "generation_map": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "master_storyboard": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "story_relock_whale_route": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "high_density_02a_section_link_review": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional pointer to a run-owned high-density 02A section-link review board when the active storyboard expands beyond old local cut-count defaults."
+        },
+        "output_registry": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "active_02a_review_plan": {
+      "type": "object",
+      "description": "Optional album/title pointer to the active 02A review density plan. This allows high-density section-link review boards to become the current track-level planning surface without forcing old cut-count defaults.",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "review_board",
+        "core_cut_count",
+        "branch_cut_count",
+        "count_policy",
+        "story_spine",
+        "priority_assets",
+        "paid_generation_gate"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "review_board": {
+          "type": "string"
+        },
+        "core_cut_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "branch_cut_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "count_policy": {
+          "type": "string"
+        },
+        "story_spine": {
+          "type": "string"
+        },
+        "priority_assets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "paid_generation_gate": {
+          "type": "string"
+        }
+      }
+    },
+    "song_board": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "song_source",
+        "selected_cut_seconds",
+        "lyrics_status",
+        "full_lyrics_read_summary",
+        "message_arc",
+        "hook_or_repeated_phrase",
+        "target_empathy"
+      ],
+      "properties": {
+        "song_source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selected_cut_seconds": {
+          "type": "number",
+          "minimum": 90
+        },
+        "lyrics_status": {
+          "type": "string",
+          "enum": [
+            "full_transcript",
+            "partial_transcript",
+            "founder_summary",
+            "unavailable"
+          ]
+        },
+        "full_lyrics_read_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message_arc": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "hook_or_repeated_phrase": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_empathy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "track_usage_board": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "unit_or_member_plan",
+        "part_distribution",
+        "mv_space_system",
+        "wardrobe_system",
+        "choreography_performance_seed",
+        "prior_track_reuse_check"
+      ],
+      "properties": {
+        "unit_or_member_plan": {
+          "type": "string",
+          "minLength": 1
+        },
+        "part_distribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mv_space_system": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "space_id",
+              "space_description",
+              "song_function"
+            ],
+            "properties": {
+              "space_id": {
+                "type": "string"
+              },
+              "space_description": {
+                "type": "string"
+              },
+              "song_function": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "wardrobe_system": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "choreography_performance_seed": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prior_track_reuse_check": {
+          "type": "string",
+          "minLength": 1
+        },
+        "local_first_direction_planning": {
+          "type": "object",
+          "description": "01 bundle local-first direction planning lock. Check local run sources before any public reference rerun, then record storyline, spaces, camera/body vocabulary, and rerun decision.",
+          "additionalProperties": true,
+          "required": [
+            "local_sources_checked_first",
+            "local_sources_checked",
+            "storyline_spine",
+            "space_pool",
+            "camera_body_vocabulary",
+            "rerun_gate"
+          ],
+          "properties": {
+            "local_sources_checked_first": {
+              "const": true
+            },
+            "local_sources_checked": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "storyline_spine": {
+              "type": "string",
+              "minLength": 1
+            },
+            "space_pool": {
+              "type": "string",
+              "minLength": 1
+            },
+            "camera_body_vocabulary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "rerun_gate": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [
+                "decision",
+                "missing_questions"
+              ],
+              "properties": {
+                "decision": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "missing_questions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "allowed_future_rerun": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "style_system_lock": {
+          "type": "object",
+          "description": "Current-run wardrobe/background style contract for downstream 02A/02B/03V. It must prevent default motif stuffing.",
+          "additionalProperties": true,
+          "required": [
+            "silhouette_material_palette",
+            "motion_read_priorities",
+            "motif_limits",
+            "reject_terms"
+          ],
+          "properties": {
+            "silhouette_material_palette": {
+              "type": "string",
+              "minLength": 1
+            },
+            "motion_read_priorities": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "motif_limits": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reject_terms": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "visual_board_refs": {
+      "type": "object",
+      "description": "01A visual-board pointers used to keep background/world, wardrobe, and unit character/environment decisions with the album/title track record.",
+      "additionalProperties": false,
+      "required": [
+        "track_visual_board",
+        "background_board",
+        "wardrobe_board",
+        "unit_character_environment_board"
+      ],
+      "properties": {
+        "track_visual_board": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "background_board": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "wardrobe_board": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit_character_environment_board": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "founder_visual_board_analysis": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "asset_promotion_manifest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "prompt_text_locks": {
+      "type": "object",
+      "description": "Compact text locks extracted from founder visual boards, 01A, wardrobe review, and run-owned visual analysis for downstream 02A/02B/03V prompt writing.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "beat_review_board": {
+      "type": "array",
+      "description": "Compact 02A-facing beat board. This is founder review material, not the full storyboard replacement.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "beat_id",
+          "time_range",
+          "lyric_or_audio_cue",
+          "member_focus",
+          "space_id",
+          "visible_action",
+          "camera_read",
+          "wardrobe_read",
+          "review_status"
+        ],
+        "properties": {
+          "beat_id": {
+            "type": "string"
+          },
+          "time_range": {
+            "type": "string"
+          },
+          "lyric_or_audio_cue": {
+            "type": "string"
+          },
+          "member_focus": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "space_id": {
+            "type": "string"
+          },
+          "visible_action": {
+            "type": "string"
+          },
+          "camera_read": {
+            "type": "string"
+          },
+          "wardrobe_read": {
+            "type": "string"
+          },
+          "review_status": {
+            "type": "string",
+            "enum": [
+              "not_reviewed",
+              "pass",
+              "hold",
+              "revise",
+              "rejected"
+            ]
+          }
+        }
+      }
+    },
+    "founder_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "next_review_surface",
+        "current_gate",
+        "decision_needed"
+      ],
+      "properties": {
+        "next_review_surface": {
+          "type": "string"
+        },
+        "current_gate": {
+          "type": "string"
+        },
+        "decision_needed": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

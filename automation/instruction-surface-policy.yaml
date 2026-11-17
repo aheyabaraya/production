@@ -1,0 +1,626 @@
+schema_version: idol-instruction-surface-policy.v18
+status: active
+priority: quality_first_efficiency_second
+
+measurement:
+  word_counter: whitespace_words_v1
+  target_behavior: warning
+  reviewed_ceiling_behavior: error
+  size_finding_authority: diagnostic_or_hold_only
+  size_remediation_authority: founder_explicit_current_request_only
+  automatic_size_remediation: false
+  conditional_detail_global_cap: false
+  long_section_detail_index_threshold_words: 4000
+
+# Runtime truth is the exact checkpoint load set in the registered profile
+# registry. Static startup bundles below remain bootstrap diagnostics only.
+runtime_load_measurement:
+  registry_path: automation/harness-skill-load-profiles.yaml
+  projection_registry_path: automation/harness-role-context-projection.yaml
+  receiver_measurement: projected_instruction_content
+  target_words: 45000
+  reviewed_ceiling_words: 70000
+  target_paths: 16
+  reviewed_ceiling_paths: 24
+  profile_checkpoint_overrides:
+    - profile_id: overall_director
+      checkpoint_id: director_startup
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: creative_development_director
+      checkpoint_id: cdd_startup
+      target_words: 55000
+      reviewed_ceiling_words: 70000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: creative_development_director
+      checkpoint_id: cdd_direction_alignment
+      # Founder-facing whole-direction alignment intentionally combines the
+      # professional CDD core with sequence discovery and visual-contract
+      # evidence. Keep that quality context and review it against a dedicated
+      # target. Founder explicitly preserves the complete read set and approves
+      # this checkpoint-only reviewed ceiling instead of deleting context.
+      # The 2026-08-24 lift restores Active Output plus the Sequence-parent
+      # Core-mark heading in the CDD pack.
+      target_words: 60000
+      reviewed_ceiling_words: 72800
+      target_paths: 18
+      reviewed_ceiling_paths: 24
+    - profile_id: source_hub_registration
+      checkpoint_id: source_registration_and_reusable_analysis
+      target_words: 40000
+      reviewed_ceiling_words: 55000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: pre_02a_development_block_fp
+      checkpoint_id: fp_close_shard
+      target_words: 40000
+      reviewed_ceiling_words: 55000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: harness_maintenance
+      checkpoint_id: instruction_policy_wiki
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: harness_maintenance
+      checkpoint_id: schema_contract_registry
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: harness_maintenance
+      checkpoint_id: skill_profile_routing
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+    - profile_id: harness_maintenance
+      checkpoint_id: script_validator_registry
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      # The complete maintenance-only script discovery contract intentionally
+      # includes Start Here, the machine registry/schema/checker, searchable
+      # INDEX, and all ten bounded role guides. Creative checkpoints never
+      # inherit this set.
+      target_paths: 20
+      reviewed_ceiling_paths: 24
+    - profile_id: harness_maintenance
+      checkpoint_id: workbench_runtime_ui
+      target_words: 30000
+      reviewed_ceiling_words: 45000
+      target_paths: 16
+      reviewed_ceiling_paths: 24
+
+surfaces:
+  - id: agents_constitution
+    path: AGENTS.md
+    role: always_on_constitution
+    target_words: 4000
+    # Protected invariants keep this above the aspirational target; detailed
+    # stage procedure belongs in the conditional policy stack.
+    reviewed_ceiling_words: 6400
+  - id: production_router
+    path: wiki/production-system.md
+    role: mandatory_lightweight_router
+    target_words: 4000
+    reviewed_ceiling_words: 5400
+  - id: wiki_index
+    path: wiki/INDEX.md
+    role: mandatory_index
+    target_words: 600
+    reviewed_ceiling_words: 900
+  - id: active_maintenance
+    path: wiki/harness-maintenance-rules.md
+    role: conditional_active_rules
+    target_words: 1500
+    reviewed_ceiling_words: 2600
+  - id: repository_readme
+    path: README.md
+    role: repository_doorway
+    target_words: 600
+    reviewed_ceiling_words: 900
+  - id: policy_index
+    path: policies/INDEX.md
+    role: conditional_policy_index
+    target_words: 600
+    reviewed_ceiling_words: 900
+  - id: scripts_start_here
+    path: scripts/README.md
+    role: runtime_script_start_here
+    target_words: 600
+    reviewed_ceiling_words: 900
+  - id: scripts_full_index
+    path: scripts/INDEX.md
+    role: nonruntime_searchable_script_registry
+    target_words: 14000
+    reviewed_ceiling_words: 18000
+
+startup_profiles:
+  - id: harness_static_startup
+    kind: static_bootstrap_diagnostic
+    paths:
+      - AGENTS.md
+      - wiki/production-system.md
+      - wiki/INDEX.md
+      - README.md
+      - policies/INDEX.md
+    target_words: 8500
+    reviewed_ceiling_words: 9000
+  - id: maintenance_static_startup
+    kind: static_bootstrap_diagnostic
+    paths:
+      - AGENTS.md
+      - wiki/production-system.md
+      - wiki/INDEX.md
+      - wiki/harness-maintenance-rules.md
+      - README.md
+      - policies/INDEX.md
+    target_words: 10000
+    reviewed_ceiling_words: 11000
+
+conditional_references:
+  - id: production_system_detail
+    path: wiki/production-system-detail.md
+    indexed_by: wiki/INDEX.md
+    indexed_token: production-system-detail.md
+    routed_by: wiki/production-system.md
+    routed_token: production-system-detail.md
+    activation_pattern: 'production-system-detail\.md'
+    load_mode: section
+    required_headings:
+      - '## Active Artifact Chain'
+      - '## 00A Closeout'
+      - '## Front Planning Closeout'
+      - '## 01 Closeout'
+      - '## 02A Closeout'
+      - '## 02B Closeout'
+      - '## Context Pack'
+      - '## Generated Review'
+      - '## 03V Closeout'
+      - '## Unified Review'
+      - '## Stage Resume'
+      - '## Failure Handling'
+  - id: creative_production_policy
+    path: policies/creative-production-constitution.md
+    indexed_by: policies/INDEX.md
+    indexed_token: creative-production-constitution.md
+    routed_by: AGENTS.md
+    routed_token: policies/creative-production-constitution.md
+    activation_pattern: 'creative direction, lyrics, screen, prompt, edit, or creative review'
+    load_mode: full
+    required_headings:
+      - '## Production Principle'
+      - '### Concrete Review And Prompt Language'
+      - '#### Natural Language, Creative Registers, And Prompt Translation'
+      - '## Asset Alignment'
+  - id: harness_routing_policy
+    path: policies/harness-routing-and-sources.md
+    indexed_by: policies/INDEX.md
+    indexed_token: harness-routing-and-sources.md
+    routed_by: AGENTS.md
+    routed_token: policies/harness-routing-and-sources.md
+    activation_pattern: 'stage/source/model/session routing, Grok parity'
+    load_mode: full
+    required_headings:
+      - '## Active Route'
+      - '## Source Layers'
+      - '## Front Planning Source Route'
+      - '## Reference Connection Inside Front Planning'
+      - '## Reference Interpretation Carry'
+      - '## Model Routing'
+      - '## Context Pack Policy'
+      - '## Smallest-Owner Routing'
+      - '## Founder Gates'
+  - id: section_production_policy
+    path: policies/section-production.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production.md
+    activation_pattern: 'Front Planning through 04 section authoring'
+    load_mode: full
+    required_headings:
+      - '## Purpose'
+      - '## Owner Model'
+      - '## Chapter Activation'
+      - '## Smallest-Owner Revision'
+  - id: section_production_front_planning
+    path: policies/section-production-front-planning.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-front-planning.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-front-planning.md
+    activation_pattern: 'Front Planning spine, member visuals, sequence units'
+    load_mode: full
+    required_headings:
+      - '## Front Planning As The Section Spine'
+      - '## Current-Title Member Visuals'
+      - '## Sequence And Scene Reference Handling'
+      - '## Post-Song Research And Development Blocks'
+  - id: section_production_01_02a
+    path: policies/section-production-01-02a.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-01-02a.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-01-02a.md
+    activation_pattern: '01 Official Core or 02A Branch coverage'
+    load_mode: full
+    required_headings:
+      - '## 01 Direction Expansion'
+      - '## 02A Branch Coverage'
+  - id: section_production_02b_pixel
+    path: policies/section-production-02b-pixel.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-02b-pixel.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-02b-pixel.md
+    activation_pattern: '02B translation, pixel review, or audio placement'
+    load_mode: full
+    required_headings:
+      - '## 02B Section Translation And Compile'
+      - '## Pixel Review And Audio Placement'
+  - id: section_production_03v
+    path: policies/section-production-03v.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-03v.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-03v.md
+    activation_pattern: '03V storyboard, motion, or playback'
+    load_mode: full
+    required_headings:
+      - '## 03V Storyboard And Motion'
+  - id: section_production_04
+    path: policies/section-production-04.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-04.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-04.md
+    activation_pattern: '04 edit units or edit-shard work'
+    load_mode: full
+    required_headings:
+      - '## 04 Edit Units And Production-Cut Lineage'
+  - id: section_production_workbench
+    path: policies/section-production-workbench.md
+    indexed_by: policies/INDEX.md
+    indexed_token: section-production-workbench.md
+    routed_by: AGENTS.md
+    routed_token: policies/section-production-workbench.md
+    activation_pattern: 'Founder workbench projection'
+    load_mode: full
+    required_headings:
+      - '## Unified Founder Workbench Review'
+  - id: repository_media_security_policy
+    path: policies/repository-media-security.md
+    indexed_by: policies/INDEX.md
+    indexed_token: repository-media-security.md
+    routed_by: AGENTS.md
+    routed_token: policies/repository-media-security.md
+    activation_pattern: 'local media, capture/download, secrets'
+    load_mode: full
+    required_headings:
+      - '## IDOL Repository Work Protocol (Applies to All Work in This Repo)'
+      - '### Audio/Video Runtime Rule'
+      - '### Security and Sensitive Information Rule (Non-Overridable)'
+      - '### `yt-dlp` Source Safety Rule'
+      - '### 02B Current-Title Visual Input Allowlist'
+  - id: idol_studio_ops
+    path: wiki/idol-studio-ops.md
+    indexed_by: wiki/INDEX.md
+    indexed_token: idol-studio-ops.md
+    routed_by: AGENTS.md
+    routed_token: wiki/idol-studio-ops.md
+    activation_pattern: 'Notion IDOL Studio, Drive IDOL_STUDIO, Grok Bot studio roles, or Slack studio rooms'
+    load_mode: full
+    required_headings:
+      - '## Activation'
+      - '## Local Versus Grok Bot Writes'
+      - '## Talk, Record, And Build'
+      - '## Isolation From Production'
+
+protected_invariants:
+  - id: skill_dispatch_and_application_review
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: skill_dispatch_and_application_review -->'
+    required_terms: ['Department Dispatch Contract', EOF, 'real task outputs', 'input/result digests', 'output hashes', 'recipient Director independently', promote, hold, 'worker''s claim', 'Scripts validate', 'Historical manual skill receipts', 'evidence-only', 'whole-stage route', 'one CDD room', 'owns the film']
+    root_required_terms: ['Department Dispatch Contract', 'named Goal first', 'whole-stage route', 'one CDD room', 'owns the film', 'complete job', 'does not load the whole graph-engineering route', 'Canonical detail:']
+    detail_path: wiki/production-system.md
+    detail_heading: '## Dispatch, Context, Review, And Revision'
+    detail_required_terms: ['Department Dispatch Contract', 'exact skills', 'linked EOF reads', 'input digest', 'owner/write scope', 'output paths', 'stop conditions', 'return recipient', 'twelve-block command', 'selected profile/checkpoint', 'Current Assignment Delta', 'pointer-only', 'raw commentary', 'CDD closes', Overall, 'aggregate manifest', 'SHA-256', 'immutable attempt', 'whole-stage route', 'transmits the complete job', 'whole-film route']
+    additional_detail_sources:
+      - path: policies/harness-routing-and-sources.md
+        heading: '## Model Routing'
+        required_terms: ['Overall Director', 'Creative Development Director', 'event waits', 'worker', 'promotion']
+  - id: scripts_never_author_creative_truth
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: scripts_never_author_creative_truth -->'
+    required_terms: ['human or the assigned model', 'source path', 'JSON pointer', 'source-value SHA-256', 'authorship receipt', 'creative defaults', paraphrase, 'same value', placeholders, model_authored, 'run-owned repair helper', hold]
+    root_required_terms: ['human or assigned model', 'source path', 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '### Authoring Method Versus Transport Contract'
+    detail_required_terms: ['human/model authorship', 'source coverage', 'pointer and exact-copy integrity', 'SHA-256', 'creative values', 'fixed alternative counts', 'deterministic tool', 'repair missing creative truth']
+  - id: harness_serves_creative_translation
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: harness_serves_creative_translation -->'
+    # Terms track current AGENTS wording: no inherited prior-album visual, passed
+    # member visuals, and no separate background/world package (space stays
+    # Major/Key Screen text + scene references).
+    required_terms: ['executable prompts', 'images never exist to satisfy it', 'Front Planning/reference dispositions', '01 and 02A', subject, 'action/hold', composition, 'must-show scene facts', 'still-camera height/distance/direction/angle/depth', 'Every album/title builds', 'prior album visual', 'Passed member visuals', 'Member visuals', 'background/world asset package', 'Space and background', 'no separate face-only', 'sequence frame sheets', 'selected frames/crops', 'combined attachment order', 'Never generate', 'schema, pack, receipt', 'smallest owner', 'transport drift', 'without changing the image job']
+    root_required_terms: ['executable prompts', 'Front Planning/reference', 'Canonical detail:']
+    detail_path: policies/section-production-02b-pixel.md
+    detail_heading: '## 02B Section Translation And Compile'
+    detail_required_terms: ['exact 02A approval', 'one physical section shard', 'current-section member', 'selected reference interpretations', 'five required natural-language prompt items', 'Identity reference rule', 'Visible details', 'Action cue', 'combined attachment order', 'hold']
+    additional_detail_sources:
+      - path: policies/creative-production-constitution.md
+        heading: '## Asset Alignment'
+        required_terms: ['Passed member visuals', 'No separate background/world asset package', 'Space/background direction', 'Face-only is the sole approved facial-identity source']
+  - id: harness_change_registry_and_founder_size_authority
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: harness_change_registry_and_founder_size_authority -->'
+    required_terms: ['contract-version registry', 'surface revision', SHA-256, 'same patch', hold, 'diagnostics or holds only', 'explicit Founder instruction in the current request', preserve, 'does not grant that authority']
+    root_required_terms: ['contract-version registry', 'surface revision', 'Canonical detail:']
+    detail_path: wiki/harness-maintenance/instruction-policy-wiki.md
+    detail_heading: '## Conditional Routing And Size'
+    detail_required_terms: ['instruction-surface-policy.yaml', 'numeric source', 'stable headings', 'activation rule', 'Size warnings are diagnostics', 'explicit Founder authority']
+  - id: founder_intervention_propagation
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: founder_intervention_propagation -->'
+    required_terms: [verbatim, 'explicit lock', 'owning stage', sections, 'Revise upstream', 'invalidate only affected', 'preserve unaffected', hold, 'Scripts validate only', 'never interpret']
+    root_required_terms: ['Founder input verbatim', 'owning stage', 'Canonical detail:']
+    detail_path: policies/section-production.md
+    detail_heading: '## Smallest-Owner Revision'
+    detail_required_terms: ['Founder intervention receipt', 'verbatim input', 'last passed baseline', 'affected section ids', 'downstream invalidations', 'Unaffected sections', 'Founder direct replacement', 'schema, hash, asset, safety, pixel/playback', 'Workers do not independently reinterpret']
+  - id: founder_reference_disposition
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: founder_reference_disposition -->'
+    required_terms: [applied, combined, held, rejected, function, target, reason, 'canonical actual', 'SHA-256', 'pixel inspection', 'function-only', interpretation_receipt, 'reference_connection_research.reference_units', section_plan, 'section_directions.reference_applications', '02A core-cut and branch-cut bindings', 'model/session change', 'revision invalidates', 'whole-sheet fallback']
+    root_required_terms: [applied, 'canonical actual path', 'Canonical detail:']
+    detail_path: policies/harness-routing-and-sources.md
+    detail_heading: '## Reference Interpretation Carry'
+    detail_required_terms: ['source bytes or meaning change', 'original receipt is incomplete', 'identity, safety, or feasibility', 'Founder explicitly requests re-review', 'Front Planning interpretation receipt', '01 interpretation binding', '02A branch-cut binding', '02B combined visual attachment', 'generated pixel review', '03V storyboard/source frame binding', 'Later sessions consume', 'function-only prose']
+  - id: official_original_first_and_restricted_edits
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: official_original_first_and_restricted_edits -->'
+    required_terms: ['official/original professional primary source', 'Founder-explicit-approval-only', AMV, MAD, 'fan edit', 'Founder-provided link or file is not approval', 'permission to study edit rhythm', 'scene binding', founder_permission_missing, HOLD, 'Direct scene binding requires its own explicit lock']
+    root_required_terms: ['official or original', 'Founder permission', 'Canonical detail:']
+    detail_path: policies/harness-routing-and-sources.md
+    detail_heading: '### Official/Original Source Eligibility'
+    detail_required_terms: ['official/original professional primary sources', 'official MVs', 'visual or concept films', 'AMV', MAD, 'fan edit', 'fan trailer', 'unofficial music edit', 'exact current-task Founder approval', 'source identity or URL', 'purpose', 'allowed action', 'do not query', 'pixel-inspect', 'Founder supply is not approval', 'edit-rhythm approval', 'scene binding', 'founder_permission_missing', 'Historical catalog rows remain evidence-only']
+  - id: director_independence_until_explicit_lock
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: director_independence_until_explicit_lock -->'
+    required_terms: ['automatic correctness', 'explicit Founder lock', independently, flatten]
+    root_required_terms: ['automatic correctness', 'explicit Founder lock', 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '## Production Principle'
+    detail_required_terms: ['human/model directorial decisions', 'automatic lock', 'Overall Director', 'Creative Development Director', 'G-30', 'G-40', 'whole-video progression', 'paid execution authorization remains separate']
+  - id: audience_research_drives_content_direction
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: audience_research_drives_content_direction -->'
+    required_terms: ['two to four target connections', 'surface-only similarity', counterevidence, 'audience promise', 'content pillars', 'observable screen consequences', 'do-not-serve rules', 'locked PRE-00 target', 'whole-video content roles']
+    root_required_terms: ['PRE-00', 'target connections', 'Canonical detail:']
+    detail_path: policies/harness-routing-and-sources.md
+    detail_heading: '## Audience And Trend Foundation To Front Planning'
+    detail_required_terms: ['audience evidence', 'current trend evidence', 'two to four possible audience connections', 'surface-only similarity', 'counterevidence', 'audience promise', 'content pillars', 'do-not-serve rules', 'expiry/volatility', 'Founder locks one primary audience', 'reviewable main music-video', 'supporting references']
+  - id: whole_film_message_progression
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: whole_film_message_progression -->'
+    required_terms: ['whole-song MV timeline', 'Do not repeat', section, afterimage]
+    root_required_terms: ['whole-song MV timeline', 'Do not repeat', 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '## Production Principle'
+    detail_required_terms: ['full selected-song MV timeline', 'full selected song/audio timeline', 'whole-video progression', 'central message', 'afterimage', 'audio/action/camera/continuity truth']
+  - id: pre00_full_storyline_is_the_whole_film_root
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: pre00_full_storyline_is_the_whole_film_root -->'
+    required_terms: ['complete natural-language', 'opening-to-ending', 'Preserve that original forever', 'append-only full-text descendant', 'Front Planning expands', 'Song Room', 'Front Planning', '01', '02A', '02B', '03V', '04', 'contextual density review', 'reference functions/exclusions', 'never substitute']
+    root_required_terms: ['complete natural-language opening-to-ending MV storyline', 'Preserve that original forever', 'Canonical detail:']
+    detail_path: policies/harness-routing-and-sources.md
+    detail_heading: '### PRE-00 Full-Storyline Lineage'
+    detail_required_terms: ['pre00_storyline_original', 'never overwritten', 'append-only', 'full replacement text', 'parent version id and SHA-256', 'changed passages', 'preserved invariants', 'reference bindings', 'contextual Director review', 'numeric density score', 'Song Room', 'Front Planning', '01', '02A', '02B', '03V', '04', 'plants Majors', 'Extracting Sequence frames alone is not expansion']
+  - id: observable_screen_truth
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: observable_screen_truth -->'
+    required_terms: [audio, action, camera, composition, identity, continuity]
+    root_required_terms: ['audio/section cue', continuity, 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '### Concrete Review And Prompt Language'
+    detail_required_terms: ['observable screen language', 'screen-proof sentence', '02A/02B/03V prompt prose', 'observable detail', 'Automation status reports']
+  - id: natural_language_and_creative_register
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: natural_language_and_creative_register -->'
+    required_terms: [languages, 'natural language', 'literal-translation', 'not a ban on abstraction', Lyrics, metaphor, Story, prompts, 'spatial pressure', flatten]
+    root_required_terms: ['natural language', 'literal-translation', 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '#### Natural Language, Creative Registers, And Prompt Translation'
+    detail_required_terms: ['Korean, English', 'literal translation', 'ordinary verbs', 'Lyrics', metaphor, ambiguous, 'production handoff', 'spatial pressure', 'visible conditions', 'audible behavior', 'Do not mechanically blacklist abstract words', 'preserve the source meaning']
+  - id: contextual_creative_review_not_machine_similarity
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: contextual_creative_review_not_machine_similarity -->'
+    required_terms: ['Creative adequacy is LLM-only', structure, provenance, approval, 'semantic similarity', 'After 02A merge', 'section-and-whole-video owner-parity review']
+    root_required_terms: ['Creative adequacy', 'semantic similarity', 'Canonical detail:']
+    detail_path: policies/creative-production-constitution.md
+    detail_heading: '### Contextual Creative Review Authority'
+    detail_required_terms: ['contextual creative judgments', 'deterministic rule', schema, types, enums, ids, hashes, 'semantic similarity', 'reference frequency', 'section length']
+    additional_detail_sources:
+      - path: policies/section-production-workbench.md
+        heading: '## Unified Founder Workbench Review'
+        required_terms: ['one stable active HTML projection', 'ordered review cycles', 'G-30', 'G-40', 'G-50', 'G-60', 'PASS, HOLD, or REJECT', 'does not grant paid execution']
+  - id: graph_bound_zero_to_four_prose_judgment
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: graph_bound_zero_to_four_prose_judgment -->'
+    required_terms: ['checkpoint-specific 0--4 judgment profile', 'Role Context Pack', 'evidence locator', 'observable claim', 'screen consequence', 'preserve/change/do-not-infer', 'correction action', 'acceptance evidence', 'Never total, average, weight, percentage-convert', 'Target empathy and message', 'Motion and still composition', 'critical `4`', not_applicable, 'Director review', 'never creative PASS']
+    root_required_terms: ['checkpoint-specific 0--4 judgment profile', 'Never total, average, weight, percentage-convert', 'Canonical detail:']
+    detail_path: skills/idol-contextual-creative-judgment/SKILL.md
+    detail_heading: '## Stage Boundaries'
+    detail_required_terms: ['PRE-FP judges and locks target empathy', 'Later stages do not rescore', 'Reference work judges', 'media_type', 'Motion is mandatory', 'scene visual package', 'each function is judged separately', fp_hero_core, '02B judges actual generated pixels', '03V and 04 judge actual playback']
+  - id: section_reference_comparison_floor
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: section_reference_comparison_floor -->'
+    required_terms: ['decision-ready actual visual units', 'fixed per-section discovery quota', 'every active visual section', 'exactly five', 'ordered consecutive samples', 'one-second cadence', 'exact path/SHA-256', 'bundle counts as one unit', 'linked Sequence Units', 'Legacy three-second', 'read-only evidence', 'whole contact sheet', 'counts as zero', applied, combined, held, rejected, 'Major Scene', 'five required downstream cuts', full_scene_direct, sequence_direct]
+    root_required_terms: ['actual visual units', 'active visual section', 'exactly five', 'one-second cadence', 'Legacy three-second', 'Major Scene', 'Canonical detail:']
+    detail_path: policies/section-production-front-planning.md
+    detail_heading: '## Front Planning As The Section Spine'
+    detail_required_terms: ['decision-ready actual units', 'discovery counts are not creative completion quotas', 'exactly five ordered consecutive samples', 'one-second cadence', 'five frame observations', 'one contextual flow reading', 'Existing three-second Units', 'counts as zero', 'Founder-selected', 'full_scene_direct', 'sequence_direct']
+    additional_detail_sources:
+      - path: policies/harness-routing-and-sources.md
+        heading: '## Reference Connection Inside Front Planning'
+        required_terms: ['actual source', 'locator', 'function', 'section binding', 'applied or combined']
+  - id: single_prompt_truth_multiple_execution_surfaces
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: single_prompt_truth_multiple_execution_surfaces -->'
+    required_terms: ['idol_one_cut_one_image.v1', 'Hero Core', 'Official Core', 'Official Branch', 'exactly five natural-language lines', 'Identity reference rule', 'Scene intent', 'Visible details', 'Action cue', Avoid, 'exact scene reference', 'combined attachment order', 'exact-copies authored components', 'adds fixed labels only', 4K, 'high quality', 'high detail', gpt-image-2, 'Grok subscription', 'xAI API', 'never silently fall back', 'Actual pixel review', 03V]
+    root_required_terms: ['exactly five', 'gpt-image-2', 'Canonical detail:']
+    detail_path: policies/section-production-02b-pixel.md
+    detail_heading: '## 02B Section Translation And Compile'
+    detail_required_terms: ['idol_one_cut_one_image.v1', fp_hero_core, official_core, official_branch, 'exactly five required natural-language prompt items', 'Identity reference rule', 'Scene intent', 'Visible details', 'Action cue', 'Avoid', '4K', 'high quality', 'high detail', 'authoring owner', 'hash/order', 'exact Cut', 'current-section member', 'combined attachment order', 'exact-copies bindings', 'hold']
+    additional_detail_sources:
+      - path: policies/section-production-02b-pixel.md
+        heading: '## Pixel Review And Audio Placement'
+        required_terms: ['Generated Production-Cut Review', 'full-size pixel review', '03V']
+  - id: uncapped_core_branch_cut_cardinality
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: uncapped_core_branch_cut_cardinality -->'
+    required_terms: ['no global', 'core cut', 'branch cut', '1..N', 'start/end label alone', 'new governing event', 'new Major']
+    root_required_terms: ['no global', '1..N', 'Canonical detail:']
+    detail_path: policies/section-production-01-02a.md
+    detail_heading: '## 02A Branch Coverage'
+    detail_required_terms: ['02A owns the Official Branch Plan', 'imported 01 Core Storyboard', '1..N', 'start/end label', 'Start a new Major']
+  - id: major_event_sequence_core_branch
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: major_event_sequence_core_branch -->'
+    required_terms: ['not capped at one event', 'Major count has no global cap', 'expands the PRE-00 storyline original', 'plants Majors', 'adds further Cores', 'Extracting Sequence frames alone is not expansion', '2--3 second transition tendency', 'do not count seconds', 'Sequence parent', 'one or two', 'start/middle/end', '1/3/5', 'Branch Cuts diversify', 'still gallery does not replace Major']
+    root_required_terms: ['not capped at one event', 'one or two', 'Canonical detail:']
+    detail_path: policies/section-production-front-planning.md
+    detail_heading: '## Sequence Parent And Core Marks'
+    detail_required_terms: ['several events', 'Major count has no global cap', 'Sequence is the parent', 'one or two', 'start / middle / end', 'Branch, not extra Cores, diversifies', 'adds further Cores or Majors', 'expanded PRE-00', 'criterion for adding a further Core', 'do not require one Core per 2--3 second interval']
+    additional_detail_sources:
+      - path: policies/section-production-01-02a.md
+        heading: '## 02A Branch Coverage'
+        required_terms: ['One event typically leaves one or two key Cores', 'start / middle / end', 'Branch Cuts diversify']
+      - path: policies/section-production-workbench.md
+        heading: '## Unified Founder Workbench Review'
+        required_terms: ['grouping each event sheet', 'one or two Core marks', 'still gallery does not replace Major']
+      - path: policies/section-production-front-planning.md
+        heading: '## Existing-Flow Compatibility'
+        required_terms: ['does not add a stage', 'FP-A', 'frozen COLOR STAY', 'front-planning-readiness.v17', 'Do not raise v17']
+      - path: skills/idol-front-planning-director/SKILL.md
+        heading: '## Sequence Parent, Majors, And Cores'
+        required_terms: ['Sequence is the parent', 'one or two', 'Do not count seconds', 'new Major']
+  - id: anti_flat_current_work_evidence
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: anti_flat_current_work_evidence -->'
+    required_terms: ['current-work evidence', 'noun swap', 'state change', 'Major/Core', 'Branches add information', 'recurrence transforms', 'source-to-screen deltas', 'one coherent complete video', 'strongest idea', 'self-report is not evidence']
+    root_required_terms: ['noun swap', 'strongest idea', 'Canonical detail:']
+    detail_path: policies/section-production-front-planning.md
+    detail_heading: '## Post-Song Research And Development Blocks'
+    detail_required_terms: ['current-work return', 'noun swapping', 'before/trigger/after state', 'Core event/action/consequence', 'changed meaning/carrier/condition', 'source-to-screen delta', 'whole-video route', 'feasibility', 'strongest idea invariant', 'schema PASS']
+  - id: canonical_archive_lifecycle
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: canonical_archive_lifecycle -->'
+    required_terms: ['one active canonical', Git, 'physical archives', 'never automatic', 'Founder-approved']
+    root_required_terms: ['one active canonical owner', Git, 'Canonical detail:']
+    detail_path: wiki/artifact-management-system.md
+    detail_heading: '## Canonical, Archive, And Ephemeral Lifecycle'
+    detail_required_terms: ['one active path per logical artifact', 'Git history', 'physical archive', 'approved cleanup pass', 'Keep one canonical byte copy']
+  - id: adaptive_quality_routing
+    path: AGENTS.md
+    marker: '<!-- idol-invariant: adaptive_quality_routing -->'
+    required_terms: ['Exactly one Overall Director', 'Founder-visible CDD', 'exactly one active role binding', director_deep, worker_high, 'worker requirement review', 'Grok CLI', '02B image generation', '03V video generation', 'projection-only Grok CLI', 'Terra is excluded', 'physical Song Room', 'provider-native', 'image-only World/Still', 'Pinterest Visual/Composition worker', 'CDD-reviewed', 'Member Visual Identity', 'Two to four development blocks', 'role-routed 01', '02A Branch', 'one physical section', 'section-scoped 02B', 'image and 03V', 'separate Edit Director', 'Creative delegation is flat', 'single-writer', 'Scripts validate transport only', full_flow, 'Founder explicitly selects it', 'hash-bound boundary', 'never mid-reference']
+    root_required_terms: ['Overall Director', 'active Edit Director', 'director_deep/xhigh', 'bounded adversarial adviser', 'Canonical detail:']
+    detail_path: policies/harness-routing-and-sources.md
+    detail_heading: '## Model Routing'
+    detail_required_terms: ['Overall Director', 'Creative Development Director', 'Edit Director', 'director_deep/xhigh', worker_high, 'Grok CLI', 'post-02A 02B/03V', 'section_image_motion_worker / worker_high', 'Founder briefing uses the run-resolved Grok CLI', 'bounded adversarial adviser', 'Terra is not an ordinary creative-production route', 'return recipient', 'reviewed milestone']
+    additional_detail_sources:
+      - path: wiki/production-system.md
+        heading: '## Active Route'
+        required_terms: ['disjoint video/still/Pinterest assignments needed for named gaps', 'provider-native helpers', 'fresh exact-one-section lineage', 'Founder-visible Edit Director']
+
+# Bind each routing_consistency_contract to the canonical owner file.
+# Consumer skills cite that owner; do not copy the same required_terms into
+# every skill. Optional canonical_owner_path + consumer_cite_term checks the
+# terms on the owner and only the cite on the consumer.
+routing_consistency_contracts:
+  # Routing/authority drift only. These checks do not grade creative prose.
+  - id: frozen_cf_and_active_teaser_owner
+    path: AGENTS.md
+    required_terms: ['cf-legacy-20260909', 'teaser/AGENTS.md', 'Do not run CF operations']
+    forbidden_terms: []
+  - id: frozen_cf_readme_route
+    path: README.md
+    canonical_owner_path: AGENTS.md
+    consumer_cite_term: 'teaser/AGENTS.md'
+    required_terms: ['Do not run CF operations']
+    forbidden_terms: ['| CF-code advertising |']
+  - id: frozen_cf_wiki_route
+    path: wiki/INDEX.md
+    canonical_owner_path: AGENTS.md
+    consumer_cite_term: 'teaser/AGENTS.md'
+    required_terms: ['Do not run CF operations']
+    forbidden_terms: ['CF-code remains isolated under']
+  - id: frozen_cf_production_route
+    path: wiki/production-system.md
+    canonical_owner_path: AGENTS.md
+    consumer_cite_term: 'teaser/AGENTS.md'
+    required_terms: ['Do not run CF operations']
+    forbidden_terms: ['read `cf/AGENTS.md` before CF work']
+  - id: frozen_cf_mirror_generator
+    path: scripts/idol_asset_drive_sync.py
+    required_terms: ['teaser/AGENTS.md', 'CF is frozen', 'cf-legacy-20260909']
+    forbidden_terms: ['### CF-code Ad Mode', '## CF-code Mode', 'For CF-code ad mode']
+  - id: frozen_cf_mirror_manifest
+    path: drive-sync/MANIFEST.md
+    canonical_owner_path: AGENTS.md
+    consumer_cite_term: 'teaser/AGENTS.md'
+    required_terms: ['Do not run CF operations']
+    forbidden_terms: ['active order is CF00', 'idol_image_generation_request.v1`', 'files still live under `runs/YYYY-MM-DD/CONTENT_ID/`']
+  - id: orchestrator_active_stage_and_local_revision_route
+    path: skills/idol-orchestrator/SKILL.md
+    canonical_owner_path: wiki/production-system.md
+    consumer_cite_term: '`wiki/production-system.md` heading `## Active Route`'
+    required_terms: ['Overall Director', 'Creative Development Director', 'Department Dispatch Contract', 'physical Founder-visible Song Room', 'fresh Founder-visible Edit Director']
+    forbidden_terms: ['direction_discovery', 'multi_stage_execution', 'three video-capable integrated generalist reference groups', 'up to three primary sources each', 'no seventh reference room']
+  - id: orchestrator_skill_routing_and_local_revision_facts
+    path: skills/idol-orchestrator/SKILL.md
+    required_terms: ['Front Planning + 01R/01R-C', 'Do not create separate active 00, 01A, or 02 artifacts', 'adaptive named-gap video-capable integrated generalist reference assignments', 'idol-reference-research-department', 'physical image-only World/Still department', 'idol-world-still-reference-department', 'physical Pinterest Visual/Composition worker', 'idol-pinterest-reference-worker', 'hash-bound contact sheets', 'idol-video-reference-hub', 'Provider-native capacity is a ceiling, never an assignment quota', 'conditional physical current-title Member Visual Identity', 'idol-front-planning-development-block', 'two to four ordinary pre-02A worker_high development blocks', 'fresh exact-one-section 02B/image-generation Grok CLI session', 'Director Dispatch Index', 'one physical section', 'smallest owner', '02B: render wording only', '03V: subject/camera motion', 'director_deep/xhigh', 'bounded adversarial adviser']
+    forbidden_terms: ['direction_discovery', 'multi_stage_execution', 'three video-capable integrated generalist reference groups', 'up to three primary sources each', 'no seventh reference room']
+  - id: pre_02a_coverage_authoring
+    path: skills/idol-front-planning-development-block/references/02a-coverage-authoring-detail.md
+    required_terms: ['02A Coverage Test', 'There is no count cap', 'Visual Input Selection', 'current-title member visual', 'combined attachment order', 'Do not attach a member visual to a world/object-only frame', 'Still-Camera And Whole-Section Review', 'Temporal camera movement remains unassigned until 03V', 'noncanonical section shard']
+    forbidden_terms: ['02B Translation Test', 'Image Render Correction Fast Lane', 'Generation Handoff']
+  - id: post_02a_prompt_authoring
+    path: skills/idol-generation/references/prompt-packet-compile-detail.md
+    required_terms: ['Identity reference rule', 'Scene intent', 'Visible details', 'Action cue', Avoid, 4K, 'high quality', 'high detail', 'same section', 'One v1.6 delta', 'active compiler consumes v1.6', 'Compiler Boundary', 'Generation Handoff']
+    forbidden_terms: ['01A', 'One v1.1 delta', 'One v1.2 delta', 'One v1.3 delta', 'One v1.4 delta', 'One v1.5 delta', 'active compiler consumes v1.1', 'active compiler consumes v1.2', 'active compiler consumes v1.3', 'active compiler consumes v1.4', 'active compiler consumes v1.5']
+  - id: post_02a_generation_owner_current_contracts
+    path: skills/idol-generation/SKILL.md
+    required_terms: ['section_02b_image', 'media-security policy', 'idol_prompt_packet_delta.v1.6', 'idol-harness-context-pack.v7', 'idol_image_generation_request.v12', 'active compiler consumes one v1.6 delta']
+    forbidden_terms: ['idol_harness_context_pack.v5', 'idol-harness-context-pack.v5', 'idol-harness-context-pack.v6', 'idol_prompt_packet_delta.v1.2', 'idol_prompt_packet_delta.v1.3', 'idol_prompt_packet_delta.v1.4', 'idol_prompt_packet_delta.v1.5', 'idol_image_generation_request.v8', 'idol_image_generation_request.v9', 'idol_image_generation_request.v10', 'idol_image_generation_request.v11', 'active compiler consumes one v1.1 delta', 'active compiler consumes one v1.2 delta', 'active compiler consumes one v1.3 delta', 'active compiler consumes one v1.4 delta', 'active compiler consumes one v1.5 delta']
+  - id: routing_context_pack_current_contract
+    path: policies/harness-routing-and-sources.md
+    required_terms: ['idol-harness-context-pack.v7']
+    forbidden_terms: ['idol_harness_context_pack.v5', 'idol-harness-context-pack.v5', 'idol-harness-context-pack.v6']
+  - id: section_prompt_contract_versions
+    path: policies/section-production-02b-pixel.md
+    required_terms: ['The v1.6 delta', 'The v1.6 compiler', 'ordered v2.6 canonical merge']
+    forbidden_terms: ['The v1.0 delta', 'The v1.0 compiler', 'The v1.3 delta', 'The v1.3 compiler', 'The v1.4 delta', 'The v1.4 compiler', 'The v1.5 delta', 'The v1.5 compiler', 'ordered v2.1 canonical merge', 'ordered v2.2 canonical merge', 'ordered v2.3 canonical merge', 'ordered v2.4 canonical merge', 'ordered v2.5 canonical merge']
+  - id: media_security_image_request_current_version
+    path: policies/repository-media-security.md
+    required_terms: ['current v12 Production-Cut request']
+    forbidden_terms: ['current v7 Branch-Cut request', 'current v8 Branch-Cut request', 'current v9 Production-Cut request', 'current v10 Production-Cut request', 'current v11 Production-Cut request']
+
+maintenance_history:
+  active_path: wiki/harness-maintenance-rules.md
+  frozen_path: wiki/harness-maintenance-history.md
+  frozen_status_marker: 'Status: frozen migration snapshot'
+  active_pointer_required: wiki/harness-maintenance-history.md
+  frozen_max_words: 12834
+  frozen_excluded_from_startup_profiles: true
+  active_forbidden_patterns:
+    - '^## Historical Changes\s*$'
+    - '^- \*\*\d{4}-\d{2}-\d{2}\*\*:'
+
+reviewed_size_exceptions: []

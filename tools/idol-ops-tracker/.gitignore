@@ -1,0 +1,4 @@
+dist/
+macos/.build/
+__pycache__/
+*.pyc

@@ -1,0 +1,868 @@
+schema_version: idol-graph-skill-load-profiles.v1
+status: shadow_not_default
+authority: derived_read_only_no_creative_or_promotion_authority
+
+activation:
+  default_writer: legacy_pinned
+  graph_v2_requires: verified_default_switch_receipt
+  existing_runs: legacy_pinned
+  dual_active_writer: fail_closed
+  historical_harness_ids: parse_only_legacy_capsule
+
+registry_policy:
+  provider_neutral: true
+  exact_paths_only: true
+  phase_loaded: true
+  no_implicit_fallback: true
+  hash_binding: sha256_current_bytes
+  runtime_proof: graph_department_dispatch_lifecycle
+  node_exact_packs: true
+  no_fixed_cdd_count: true
+
+legacy_boundary:
+  parse_only_id_prefixes:
+    - harness-
+    - idol-harness-
+    - idol_harness_
+  active_authoring_forbidden_id_prefixes:
+    - harness-
+    - idol-harness-
+    - idol_harness_
+  ordinary_runtime_must_not_load_legacy_capsule: true
+
+cohort_instantiation:
+  source: section_roster_derived
+  partition_rule: contiguous_2_or_3_when_two_or_more_sections
+  singleton_rule: one_section_title_only
+  capacity_may_not_create_cohort: true
+  every_section_maps_once: true
+  p3_identity_carries_to_v: true
+  one_section_output_writer: section_image_motion_worker
+  one_cohort_cdd_reviewer: section_cluster_cdd_ci
+
+skill_bindings:
+  - binding_id: orchestrator
+    path: skills/idol-orchestrator/SKILL.md
+    revision: "40"
+    sha256: f4285f4b5f2c2a587cde2d4082aad53d386c981a418ccc4b1e005723e2b85e5c
+    eof_required: true
+    purpose: overall_graph_admission_and_node_scheduling
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: planning_cdd
+    path: skills/idol-planning-cdd/SKILL.md
+    revision: "3"
+    sha256: 1bc61d94f391efa3a3925204bd7e70115fd346a44092553fc4b0bb90fb5d9b2f
+    eof_required: true
+    purpose: planning_cdd_p1_p2_p3_ci_shared_skill
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_cluster_cdd
+    path: skills/idol-section-cluster-cdd/SKILL.md
+    revision: "2"
+    sha256: ddfd5c63dbdcbeb60fc251028050bf0ec7ba48dbb9d4235523f3c12d1b5de93d
+    eof_required: true
+    purpose: section_cluster_cdd_v_ci_shared_skill
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: front_planning_director
+    path: skills/idol-front-planning-director/SKILL.md
+    revision: "74"
+    sha256: 82cf9551ed2aa5dac370cf0c97c4ea3b64c809414a83ee3f4ccdfecdd6cf5bfc
+    eof_required: true
+    purpose: g40_planning_cell_integrator
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: generation
+    path: skills/idol-generation/SKILL.md
+    revision: "58"
+    sha256: c977a84e6d92a504c0cff233b12d7e3a3280c5547046e58df812c99b08753cf1
+    eof_required: true
+    purpose: section_02b_image_writer
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: video_prompt
+    path: skills/idol-video-prompt/SKILL.md
+    revision: "24"
+    sha256: 592d03567c16ca36e79fb7cf3e20d4b35682ae9d6ff8d8622fa3df313ff7fc67
+    eof_required: true
+    purpose: section_03v_motion_writer
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: editing_qc
+    path: skills/idol-editing-qc/SKILL.md
+    revision: "19"
+    sha256: 174253a0da649af74bae12e44e5ca460df0e16ffd9e156940caf6886042ed124
+    eof_required: true
+    purpose: edit_director_playback_qc
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: contextual_creative_judgment
+    path: skills/idol-contextual-creative-judgment/SKILL.md
+    revision: "5"
+    sha256: 2c0999a90ae3af18db9e32a5961504d64a573b2f01ffc730cf1bf59b904a2857
+    eof_required: true
+    purpose: checkpoint_bound_zero_to_four_prose_evidence_and_next_edge_selection
+    activation: graph_v2_after_verified_default_switch
+
+read_bindings:
+  - binding_id: graph_production_review_schema
+    path: schemas/graph-production-review.schema.json
+    revision: "1"
+    sha256: 33e6c9c5923cb0d705be6d039ba7fdf09514692ef0ba574f9f2dff16bb7c7485
+    eof_required: true
+    purpose: exact_returned_work_review_input_and_independent_return_binding
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: agents
+    path: AGENTS.md
+    revision: content-addressed
+    sha256: 85492a3a40b685ab7d51754437cf5a14b689a377c10eba0adb36d66c16eb56d1
+    eof_required: true
+    purpose: always_on_authority_kernel
+    activation: shared_kernel_always_hash_bound
+  - binding_id: production_system
+    path: wiki/production-system.md
+    revision: content-addressed
+    sha256: 07ff04ece27a9c62e03df72fb221ad8801f5e296c606953f1f435180f892d09f
+    eof_required: true
+    purpose: compact_stage_map
+    activation: shared_kernel_always_hash_bound
+  - binding_id: creative_constitution
+    path: policies/creative-production-constitution.md
+    revision: content-addressed
+    sha256: 7419694d705eb0e96c59731346049e4fd0f074904fe3c8882af8649d66184098
+    eof_required: true
+    purpose: authorship_and_observable_screen_rules
+    activation: shared_kernel_always_hash_bound
+  - binding_id: routing_policy
+    path: policies/harness-routing-and-sources.md
+    revision: "content-addressed"
+    sha256: f95a034b8d89f73563c4565107b74ec4f72706aed394cba6fd9e23b4f73b0f7c
+    eof_required: true
+    purpose: source_eligibility_and_founder_gates_pointer
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_production_policy
+    path: policies/section-production.md
+    revision: content-addressed
+    sha256: e704d36b3f1afcdc1471e8fef90b9f6255d01450b09e7aa76f81cc2dd83aed20
+    eof_required: true
+    purpose: section_owner_index
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_front_planning_policy
+    path: policies/section-production-front-planning.md
+    revision: "content-addressed"
+    sha256: 7047b2ec9f01fa88d4c1d5fffcb426f96447440dc65952bd7e8d576393a56b69
+    eof_required: true
+    purpose: planning_cdd_exact_front_planning_spine_and_mode_authority
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_01_02a_policy
+    path: policies/section-production-01-02a.md
+    revision: content-addressed
+    sha256: 6cf47e85d41b1a770e05e5c3ed7a99205218f8419972ebc512fb86e116021acb
+    eof_required: true
+    purpose: p3_draft_keyframe_official_core_and_branch_authority
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: planning_p1_story_audience_mode
+    path: skills/idol-planning-cdd/references/story-audience-lead.md
+    revision: "2"
+    sha256: 830e24fd1b8d652f7f10c12c85b6f2d72d111750a283d68587455bec930a3e72
+    eof_required: true
+    purpose: p1_story_audience_and_pre_fp_lock_mode
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: planning_p2_visual_reference_mode
+    path: skills/idol-planning-cdd/references/visual-reference-development.md
+    revision: "3"
+    sha256: cce19071c7c3c9f855e27438c1d4bc94daf8275485f4ffc752a249b85c4525b3
+    eof_required: true
+    purpose: p2_pinterest_video_function_and_four_role_reference_mode
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: planning_p3_section_kinetic_mode
+    path: skills/idol-planning-cdd/references/section-kinetic-architecture.md
+    revision: "4"
+    sha256: 71d954d1844545905debf852dabc9d1907b4fd8e7c18b73e811bc95865500682
+    eof_required: true
+    purpose: p3_cohort_major_motion_composition_and_draft_keyframe_mode
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: mv_camera_module
+    path: skills/idol-mv-director/modules/camera-coverage-vocabulary.md
+    revision: content-addressed
+    sha256: cdfbb1947aff60d8e478d3754e953309e9617b2a679a94965386caa829a1c372
+    eof_required: true
+    purpose: four_axis_still_geometry_at_p3_and_fp_close_model_writer
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: kinetic_slot_sheet_schema
+    path: schemas/kinetic-change-point-slot-sheet.schema.json
+    revision: content-addressed
+    sha256: 7a0ae7b30acde3e46ffaf36ad349087eee57a4bcb1da0345676603fbacf87fc3
+    eof_required: true
+    purpose: p3_and_fp_close_change_point_slot_sheet_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_04_policy
+    path: policies/section-production-04.md
+    revision: content-addressed
+    sha256: 6dac8b7161a4b2f36cbf7ccda9f0f98900de8de6f949faa3924405059147a5f4
+    eof_required: true
+    purpose: edit_section_units_boundary_and_playback_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: provider_neutral_studio_kernel
+    path: skills/idol-orchestrator/references/provider-neutral-studio-kernel.md
+    revision: "18"
+    sha256: 8e7c1c062c6d63d134b893fa025aba2fe192384bdd49683695843354668ce3ff
+    eof_required: true
+    purpose: shared_studio_kernel
+    activation: shared_kernel_always_hash_bound
+  - binding_id: orchestration_routing_detail
+    path: skills/idol-orchestrator/references/orchestration-routing-detail.md
+    revision: content-addressed
+    sha256: 0db8ca35655f3ddf3a703e690e45f22ff6a59eb0275327710c9d058f2481810e
+    eof_required: true
+    purpose: dispatch_resume_and_hold_procedure
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: department_dispatch_schema
+    path: schemas/department-dispatch.schema.json
+    revision: content-addressed
+    sha256: cabc527c372bd49b4558327bed8e907d527678d227994356c75a4ddda05d7c29
+    eof_required: true
+    purpose: dispatch_lifecycle_contract
+    activation: shared_kernel_always_hash_bound
+  - binding_id: role_context_pack_schema
+    path: schemas/role-context-pack.schema.json
+    revision: content-addressed
+    sha256: e4c622b8b23dd3e4ab8c335eac0ccbd3929b20bb5662f0bc05ff3020ae740734
+    eof_required: true
+    purpose: exact_node_pack_shape
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_director_session_router_state_schema
+    path: schemas/graph-director-session-router-state.schema.json
+    revision: content-addressed
+    sha256: af461c071ae3e7be7abbe1da58e7de160d3b0007a8a76bc7aec56acfb31fa6ba
+    eof_required: true
+    purpose: graph_v2_lane_and_macro_stage_primary_successor_single_writer_cas_state
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_run_controller_state_schema
+    path: schemas/graph-run-controller-state.schema.json
+    revision: content-addressed
+    sha256: d989da63a94b462fe7ec0cdd0e14aa8eb0384943ccc0f1f4c77552994a667155
+    eof_required: true
+    purpose: graph_v2_goal_judgment_director_correction_and_founder_stop_dry_run_state
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_default_routing
+    path: automation/graph-default-routing.yaml
+    revision: "7"
+    sha256: 58f0415375ca449c532ba23e8656848f6a42c723aada936b33e430343b96e313
+    eof_required: true
+    purpose: writer_boundary_and_g0_g4
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_skill_load_profiles_schema
+    path: schemas/graph-skill-load-profiles.schema.json
+    revision: "1"
+    sha256: e1f8ad67f98517f0acfe9515710f93c0c33833563ed4a29a0d00bc070bcc76be
+    eof_required: true
+    purpose: graph_skill_load_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_role_context_projection_schema
+    path: schemas/graph-role-context-projection.schema.json
+    revision: "1"
+    sha256: c2fb53537cb1220320fafa8af2aef2e5c207fd8fd3546c220f614f12641cce82
+    eof_required: true
+    purpose: graph_pack_projection_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_default_routing_schema
+    path: schemas/graph-default-routing.schema.json
+    revision: "3"
+    sha256: 1d11fbed521e261eef5facd55fdfad91fc15beb5896f779190793f5514c022a5
+    eof_required: true
+    purpose: graph_default_routing_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_department_dispatch_schema
+    path: schemas/graph-department-dispatch.schema.json
+    revision: "1"
+    sha256: 6e5567dc67f5b6c102439ff9db2e5f5441b9abc035103e8b737e17d54876727e
+    eof_required: true
+    purpose: graph_exact_node_dispatch_and_return_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_director_lineage_schema
+    path: schemas/graph-director-lineage.schema.json
+    revision: "1"
+    sha256: 47974dca2e4e4bbeb56529fef1358591e4421c6fa56c025aa5ab73b33dd1214b
+    eof_required: true
+    purpose: logical_lane_and_physical_successor_cas_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_section_cohort_map_schema
+    path: schemas/graph-section-cohort-map.schema.json
+    revision: "1"
+    sha256: 27b276dc227981ddb0238ddfe9b3b7fd7bd5c5931fa0370a4179fb42679d12c5
+    eof_required: true
+    purpose: contiguous_section_partition_and_p3_to_v_identity_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_creative_judgment_registry
+    path: automation/graph-creative-judgment-registry.yaml
+    revision: "3"
+    sha256: 92d1899a9d987896dcba1dd940acff1b7398c7ba085d5c44aa84e28660db6566
+    eof_required: true
+    purpose: checkpoint_to_criteria_floor_and_decision_edge_registry
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_creative_judgment_registry_schema
+    path: schemas/graph-creative-judgment-registry.schema.json
+    revision: "3"
+    sha256: 704c4172de5d9339a9b4104abd61b5e03fef789694723b49904a365f2ec16904
+    eof_required: true
+    purpose: graph_creative_judgment_registry_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_creative_judgment_profile_release_schema
+    path: schemas/graph-creative-judgment-profile-release.schema.json
+    revision: "1"
+    sha256: 5df6107dd213861beba60d6d9bfec9ca4de06f94d17231612c0734820cbf4481
+    eof_required: true
+    purpose: immutable_policy_and_profile_release_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_creative_judgment_profile_promotion_schema
+    path: schemas/graph-creative-judgment-profile-promotion.schema.json
+    revision: "1"
+    sha256: 4bca325e4af173a08eccb0f14804d44fc5c7640e8af0df4953004f7683579c1e
+    eof_required: true
+    purpose: hash_bound_profile_lifecycle_and_founder_pointer_promotion_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_creative_judgment_profile_promotion_validator
+    path: scripts/validate_graph_judgment_profile_promotion.rb
+    revision: "1"
+    sha256: 79a2cefb3f1b4dc8fdaa5e589bcd7d2b56c5c0485278fcab9d54c79253f4cda0
+    eof_required: true
+    purpose: immutable_seed_or_full_lifecycle_profile_pointer_validation
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_contextual_judgment_schema
+    path: schemas/graph-contextual-judgment.schema.json
+    revision: "3"
+    sha256: 476e5cf65955a28fc5e84043e69512edff5b9283dfb2114254875dc6541c538a
+    eof_required: true
+    purpose: zero_to_four_prose_evidence_artifact_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_contextual_judgment_validator
+    path: scripts/validate_graph_contextual_judgment.rb
+    revision: "6"
+    sha256: e2c82414789f3dd6eb7a4733baba3d4e39e81284b55c8d03e9b9476b70d84871
+    eof_required: true
+    purpose: exact_profile_source_hash_floor_hard_gate_and_next_edge_validation
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_stage_registry
+    path: automation/graph-stage-registry.yaml
+    revision: "1"
+    sha256: 1d10dbc07d0f8c4f37b117fc94f7acae3309dae9889b851e4dbecf36b0339c87
+    eof_required: true
+    purpose: graph_semantic_stage_and_founder_gate_order
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_stage_registry_schema
+    path: schemas/graph-stage-registry.schema.json
+    revision: "1"
+    sha256: 12be04acfc79db263858d15e4a42bcb47db66ec76839fb4f7f798b47ba77d77c
+    eof_required: true
+    purpose: graph_stage_registry_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: graph_ledger_schema
+    path: schemas/graph-ledger.schema.json
+    revision: "1"
+    sha256: 496f20cd096b46b8d53457e07da216e2f636c2da6f203e5d0c754ebf055653ae
+    eof_required: true
+    purpose: graph_projector_input_ledger_contract
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_02b_policy
+    path: policies/section-production-02b-pixel.md
+    revision: content-addressed
+    sha256: 5e6e3a84580e3ac0380bf708bc8d223944bb145f564d8625a1f8d672995d4671
+    eof_required: true
+    purpose: section_02b_translation_pixel_review_and_g2_envelope
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_03v_policy
+    path: policies/section-production-03v.md
+    revision: "content-addressed"
+    sha256: 9bc6f7caea20e780fa2ea8b60db630e63da4e458147c08b5f306449eb8f9ebb9
+    eof_required: true
+    purpose: same_cohort_motion_storyboard_and_playback_review
+    activation: graph_v2_after_verified_default_switch
+  - binding_id: section_workbench_policy
+    path: policies/section-production-workbench.md
+    revision: content-addressed
+    sha256: 881e62e47d1f822c939521e2617ededcb0a60ca1760c2ee9c868ce2640fadc44
+    eof_required: true
+    purpose: founder_g2_g3_projection_and_review_surface
+    activation: graph_v2_after_verified_default_switch
+
+profiles:
+  - profile_id: overall_director
+    profile_kind: exact_node
+    node_class: overall_lane
+    role: overall_director
+    provider_neutral: true
+    logical_tier: frontier_director
+    stage_ids: [creative_route_discovery, front_planning_integration, mv_storyboard_direction, master_package_release]
+    required_skill_ids: [orchestrator, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, routing_policy, section_production_policy, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, role_context_pack_schema, graph_director_session_router_state_schema, graph_run_controller_state_schema, graph_default_routing, graph_skill_load_profiles_schema, graph_role_context_projection_schema, graph_default_routing_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry, graph_production_review_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: exact_returned_work_review
+          stage_ids: [creative_route_discovery, front_planning_integration, mv_storyboard_direction, master_package_release]
+          activation: assigned_independent_review_of_exact_returned_work
+          required_skill_ids: [orchestrator, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, routing_policy, section_production_policy, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, role_context_pack_schema, graph_director_session_router_state_schema,
+            graph_run_controller_state_schema, graph_default_routing, graph_skill_load_profiles_schema, graph_role_context_projection_schema, graph_default_routing_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry,
+            graph_production_review_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+        - checkpoint_id: director_startup
+          activation: dispatch_launch
+          required_skill_ids: [orchestrator]
+          required_read_ids: [agents, production_system, creative_constitution, routing_policy, section_production_policy, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, role_context_pack_schema, graph_director_session_router_state_schema, graph_run_controller_state_schema, graph_default_routing, graph_skill_load_profiles_schema, graph_role_context_projection_schema, graph_default_routing_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+        - checkpoint_id: g40_planning_cell_handoff
+          judgment_profile_id: front_planning_close
+          stage_ids: [front_planning_integration]
+          activation: founder_g2_passed_p1_g40_handoff_ready
+          required_skill_ids: [orchestrator, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_run_controller_state_schema, graph_default_routing, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+    output_contract:
+      kinds: [director_development_report, decision_set]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: overall_director
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [route_recommendation, director_promotion, founder_presentation, graph_admission]
+      must_not: [secret_exposure, unapproved_external_action, automatic_founder_lock, dual_active_writer, graph_v2_without_switch_receipt]
+    return_route:
+      recipient_role: founder
+      director_review_required: true
+      promotion_route: role_owner_after_required_review
+    hold_conditions: [missing_required_read, stale_input_digest, unresolved_founder_gate, dual_active_writer, graph_v2_without_verified_switch_receipt, existing_run_graph_write]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: planning_cdd_p1
+    profile_kind: exact_node
+    node_class: planning_cdd_lane
+    role: planning_cdd_p1
+    provider_neutral: true
+    logical_tier: frontier_director
+    planning_cdd_mode: story_audience_lead
+    writable_decision_set: story_audience_and_planning_integration
+    stage_ids: [creative_route_discovery, front_planning_integration]
+    required_skill_ids: [planning_cdd, front_planning_director, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, planning_p1_story_audience_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry, graph_production_review_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: exact_returned_work_review
+          stage_ids: [creative_route_discovery, front_planning_integration]
+          activation: assigned_independent_review_of_exact_returned_work
+          required_skill_ids: [planning_cdd, front_planning_director, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, planning_p1_story_audience_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema,
+            graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry, graph_production_review_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+        - checkpoint_id: p1_story_audience_lead
+          judgment_profile_id: pre_fp_storyline
+          stage_ids: [creative_route_discovery]
+          activation: dispatch_launch
+          required_skill_ids: [planning_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_front_planning_policy, planning_p1_story_audience_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: p2_p3_review_ready
+        - checkpoint_id: p1_g40_integration_handoff
+          judgment_profile_id: front_planning_close
+          stage_ids: [front_planning_integration]
+          activation: founder_g2_passed_and_draft_keyframe_proof_closed
+          required_skill_ids: [planning_cdd, front_planning_director, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, planning_p1_story_audience_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+    output_contract:
+      kinds: [director_development_report, decision_set]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: planning_cdd_p1
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [story_audience_decision_set, exact_link_p2_p3_decision_sets]
+      must_not: [founder_lock, canonical_promotion, rewrite_p2_or_p3_truth, write_visual_reference_decision_set, write_section_kinetic_decision_set]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [overlapping_write_scope, missing_dispatch_scope, third_session, stale_required_read]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: planning_cdd_p2
+    profile_kind: exact_node
+    node_class: planning_cdd_lane
+    role: planning_cdd_p2
+    provider_neutral: true
+    logical_tier: frontier_director
+    planning_cdd_mode: visual_reference_development
+    writable_decision_set: visual_reference
+    stage_ids: [creative_route_discovery, front_planning_integration]
+    required_skill_ids: [planning_cdd, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_front_planning_policy, planning_p2_visual_reference_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: p2_visual_reference_development
+          judgment_profile_id: reference_candidate
+          stage_ids: [creative_route_discovery]
+          activation: dispatch_launch
+          required_skill_ids: [planning_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_front_planning_policy, planning_p2_visual_reference_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: p1_integration_return
+    output_contract:
+      kinds: [decision_set]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: planning_cdd_p2
+      review_owner: planning_cdd_p1
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [visual_reference_decision_set]
+      must_not: [founder_lock, canonical_promotion, write_story_audience_decision_set, write_section_kinetic_decision_set, planning_integration_rewrite]
+    return_route:
+      recipient_role: planning_cdd_p1
+      director_review_required: true
+      promotion_route: planning_cdd_p1_exact_link
+    hold_conditions: [overlapping_write_scope, missing_dispatch_scope, third_session, unrecoverable_source_locator]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: planning_cdd_p3_ci
+    profile_kind: cohort_template
+    node_class: planning_section_cohort_lane
+    role: planning_cdd_p3_ci
+    provider_neutral: true
+    logical_tier: frontier_director
+    planning_cdd_mode: section_kinetic_architecture
+    cohort_template: true
+    instance_id_pattern: "^planning_cdd_p3_c[1-9][0-9]*$"
+    lane_id_pattern: "^planning_p3_c[1-9][0-9]*$"
+    identity_carry_to: section_cluster_cdd_ci
+    writable_decision_set: section_kinetic_cohort
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [planning_cdd, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, section_01_02a_policy, planning_p3_section_kinetic_mode, kinetic_slot_sheet_schema, mv_camera_module, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: p3_section_kinetic_architecture
+          judgment_profile_id: front_planning_close
+          stage_ids: [front_planning_integration]
+          activation: selected_audio_and_provisional_section_map_ready
+          required_skill_ids: [planning_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, planning_p3_section_kinetic_mode, kinetic_slot_sheet_schema, mv_camera_module, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: p1_integration_return
+        - checkpoint_id: p3_draft_keyframe_proof
+          judgment_profile_id: draft_keyframe_proof
+          stage_ids: [front_planning_integration]
+          activation: fp_hero_core_draft_pixels_ready_before_g40
+          required_skill_ids: [planning_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_front_planning_policy, section_01_02a_policy, planning_p3_section_kinetic_mode, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: p1_integration_return
+    output_contract:
+      kinds: [decision_set]
+      canonical_write: forbidden
+      expected_scope: cohort
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: planning_cdd_p3_ci
+      review_owner: planning_cdd_p1
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [section_kinetic_decision_set]
+      must_not: [founder_lock, canonical_promotion, write_story_audience_decision_set, write_visual_reference_decision_set, open_before_section_map, fill_capacity_with_extra_cohort]
+    return_route:
+      recipient_role: planning_cdd_p1
+      director_review_required: true
+      promotion_route: planning_cdd_p1_exact_link
+    hold_conditions: [missing_section_cohort_id, overlapping_cohort, singleton_on_multi_section_title, third_session, capacity_created_cohort]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: section_cluster_cdd_ci
+    profile_kind: cohort_template
+    node_class: section_cluster_cdd_lane
+    role: section_cluster_cdd_ci
+    provider_neutral: true
+    logical_tier: frontier_director
+    cohort_template: true
+    instance_id_pattern: "^section_cluster_cdd_c[1-9][0-9]*$"
+    lane_id_pattern: "^section_cluster_v_c[1-9][0-9]*$"
+    identity_carry_from: planning_cdd_p3_ci
+    writable_decision_set: section_cluster_cohort_review
+    stage_ids: [generated_branch_cut_review, video_playback_review]
+    required_skill_ids: [section_cluster_cdd, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry, section_02b_policy, section_03v_policy, section_workbench_policy, graph_production_review_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: exact_returned_work_review
+          stage_ids: [generated_branch_cut_review, video_playback_review]
+          activation: assigned_independent_review_of_exact_returned_work
+          required_skill_ids: [section_cluster_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema,
+            graph_section_cohort_map_schema, graph_stage_registry, section_02b_policy, section_03v_policy, section_workbench_policy, graph_production_review_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+        - checkpoint_id: v_ci_02b_pixel_review
+          judgment_profile_id: pixel_02b
+          stage_ids: [generated_branch_cut_review]
+          activation: g40_same_cohort_handoff
+          required_skill_ids: [section_cluster_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry, section_02b_policy, section_workbench_policy]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: v_ci_03v_successor
+        - checkpoint_id: v_ci_03v_playback_review
+          judgment_profile_id: playback_03v
+          stage_ids: [video_playback_review]
+          activation: same_cohort_02b_pixel_closed
+          required_skill_ids: [section_cluster_cdd, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_section_cohort_map_schema, graph_stage_registry, section_03v_policy, section_workbench_policy]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+    output_contract:
+      kinds: [director_development_report, decision_set]
+      canonical_write: forbidden
+      expected_scope: cohort
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: section_cluster_cdd_ci
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [cohort_pixel_review, cohort_playback_review]
+      must_not: [founder_conversation, whole_film_promotion, write_other_cohort, section_02b_03v_output_bytes]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [wrong_cohort_succession, overlapping_cohort, third_session, missing_g40_handoff, section_writer_collision]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: section_image_motion_worker
+    profile_kind: exact_node
+    node_class: worker_package
+    role: section_image_motion_worker
+    provider_neutral: true
+    logical_tier: worker_high
+    stage_ids: [branch_cut_generation, video_motion_direction]
+    required_skill_ids: [generation, video_prompt, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_department_dispatch_schema, graph_section_cohort_map_schema, graph_stage_registry, section_02b_policy, section_03v_policy]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: section_02b_image
+          judgment_profile_id: pixel_02b
+          stage_ids: [branch_cut_generation]
+          activation: dispatch_launch
+          required_skill_ids: [generation, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_department_dispatch_schema, graph_section_cohort_map_schema, graph_stage_registry, section_02b_policy]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cohort_cdd_pixel_review
+        - checkpoint_id: section_03v_motion
+          judgment_profile_id: playback_03v
+          stage_ids: [video_motion_direction]
+          activation: same_section_02b_pixels_passed
+          required_skill_ids: [video_prompt, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_department_dispatch_schema, graph_section_cohort_map_schema, graph_stage_registry, section_03v_policy]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cohort_cdd_playback_review
+    output_contract:
+      kinds: [bounded_artifact]
+      canonical_write: owner_only
+      expected_scope: section
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: section_image_motion_worker
+      review_owner: section_cluster_cdd_ci
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [section_02b_output, section_03v_output]
+      must_not: [cohort_review, founder_lock, other_section_write, creative_child_spawn]
+    return_route:
+      recipient_role: section_cluster_cdd_ci
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_section_id, overlapping_section_writer, raw_pool_in_pack, unrecoverable_source_locator]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: edit_director
+    profile_kind: exact_node
+    node_class: edit_director_lane
+    role: edit_director
+    provider_neutral: true
+    logical_tier: frontier_director
+    stage_ids: [edit_assembly_playback_qc]
+    required_skill_ids: [editing_qc, contextual_creative_judgment]
+    required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_04_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry, graph_production_review_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: exact_returned_work_review
+          stage_ids: [edit_assembly_playback_qc]
+          activation: assigned_independent_review_of_exact_returned_work
+          required_skill_ids: [editing_qc, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_04_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema,
+            graph_director_lineage_schema, graph_stage_registry, graph_production_review_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+        - checkpoint_id: edit_qc_section
+          judgment_profile_id: edit_04_playback
+          stage_ids: [edit_assembly_playback_qc]
+          activation: passed_03v_playback_handoff
+          required_skill_ids: [editing_qc, contextual_creative_judgment]
+          required_read_ids: [agents, production_system, creative_constitution, section_production_policy, section_04_policy, provider_neutral_studio_kernel, department_dispatch_schema, graph_director_session_router_state_schema, graph_department_dispatch_schema, graph_director_lineage_schema, graph_stage_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+    output_contract:
+      kinds: [director_development_report]
+      canonical_write: owner_only
+      expected_scope: stage
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: edit_director
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [edit_map, playback_qc]
+      must_not: [cdd_production_authority, founder_conversation, whole_film_promotion_without_overall]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_playback_pass, overlapping_edit_writer, third_session]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point
+
+  - profile_id: graph_engineering_maintenance
+    profile_kind: maintenance_only
+    node_class: graph_maintenance
+    role: mechanical_coordinator
+    provider_neutral: true
+    logical_tier: mechanical_coordinator
+    maintenance_only: true
+    stage_ids: []
+    required_skill_ids: []
+    required_read_ids: [agents, production_system, department_dispatch_schema, graph_skill_load_profiles_schema, graph_role_context_projection_schema, graph_default_routing_schema, graph_default_routing, graph_department_dispatch_schema, graph_director_lineage_schema, graph_director_session_router_state_schema, graph_run_controller_state_schema, graph_section_cohort_map_schema, graph_stage_registry, graph_stage_registry_schema, graph_ledger_schema, graph_creative_judgment_registry, graph_creative_judgment_registry_schema, graph_creative_judgment_profile_release_schema, graph_creative_judgment_profile_promotion_schema, graph_creative_judgment_profile_promotion_validator, graph_contextual_judgment_schema, graph_contextual_judgment_validator]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: graph_runtime_projection_maintenance
+          activation: maintenance_dispatch
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, department_dispatch_schema, graph_skill_load_profiles_schema, graph_role_context_projection_schema, graph_default_routing_schema, graph_default_routing, graph_department_dispatch_schema, graph_director_lineage_schema, graph_director_session_router_state_schema, graph_run_controller_state_schema, graph_section_cohort_map_schema, graph_stage_registry, graph_stage_registry_schema, graph_ledger_schema, graph_creative_judgment_registry, graph_creative_judgment_registry_schema, graph_creative_judgment_profile_release_schema, graph_creative_judgment_profile_promotion_schema, graph_creative_judgment_profile_promotion_validator, graph_contextual_judgment_schema, graph_contextual_judgment_validator]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+    output_contract:
+      kinds: [bounded_artifact]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: mechanical_coordinator
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [structural_validation]
+      must_not: [creative_truth, founder_lock, canonical_promotion, ordinary_creative_dispatch]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: none
+    hold_conditions: [missing_required_read, dual_active_writer]
+    compact_exclusions: [raw_search_pools, full_url_lists, completed_worker_transcripts, superseded_prose, unrelated_section_or_cohort_media, graph_engineering_policy_explanations, other_provider_tool_detail]
+    succession:
+      logical_lineage: one_per_lane
+      physical_generation_max: 2
+      third_session: hold_never_auto_spawn
+      cas_required: true
+      source_after_cas: read_only_rollback_point

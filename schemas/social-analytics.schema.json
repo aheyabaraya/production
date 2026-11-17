@@ -1,0 +1,450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/social-analytics.schema.json",
+  "title": "IDOL Social Analytics",
+  "description": "Definitions-only row contract library for IDOL social post and metric ledgers. Runtime validation currently uses scripts/validate_social_analytics.rb; do not treat this file as a top-level ledger document schema until a separate top-level contract is added.",
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repo_relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["x", "tiktok", "youtube", "youtube_shorts", "instagram_reels"]
+    },
+    "template_type": {
+      "type": "string",
+      "enum": [
+        "track",
+        "clip",
+        "question_poll",
+        "youtube_full_master",
+        "work_root",
+        "derived_clip",
+        "hook_loop",
+        "member_still",
+        "member_carousel",
+        "member_clip",
+        "craft_gift",
+        "harness_proof",
+        "process_thread"
+      ]
+    },
+    "content_lane": {
+      "type": "string",
+      "enum": [
+        "work_root",
+        "derived_clip",
+        "derived_clip_3_8",
+        "hook_loop_3_8",
+        "member_key_visual",
+        "member_still",
+        "member_carousel",
+        "member_clip",
+        "lip_sync_reel",
+        "mv_highlight",
+        "cf_key_visual",
+        "section_clip",
+        "member_focus_3_8",
+        "cf_hook_3_8",
+        "before_after",
+        "craft_gift",
+        "harness_proof",
+        "process_thread",
+        "question_poll",
+        "full_master",
+        "cf_film_drop",
+        "mv_film_drop",
+        "mv_cutdown",
+        "x_derived_clip",
+        "x_craft_gift",
+        "x_harness_proof",
+        "x_process_film_drop",
+        "x_reply_boards_image_prompt",
+        "x_reply_video_prompt",
+        "x_reply_stack"
+      ]
+    },
+    "content_family": {
+      "type": "string",
+      "enum": [
+        "legacy_track",
+        "legacy_clip",
+        "question_poll",
+        "full_master",
+        "work_root",
+        "derived_clip",
+        "hook_loop",
+        "member_still",
+        "member_carousel",
+        "member_clip",
+        "craft_gift",
+        "harness_proof",
+        "process_thread",
+        "reply_support",
+        "key_visual",
+        "before_after"
+      ]
+    },
+    "format_family": {
+      "type": "string",
+      "enum": ["video", "still", "carousel", "thread", "poll", "full_master", "unknown"]
+    },
+    "post_status": {
+      "type": "string",
+      "enum": ["planned", "scheduled", "published", "skipped", "failed"]
+    },
+    "analysis_scope": {
+      "type": "string",
+      "enum": ["scheduler_whitelist", "date_based"]
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["repeat", "transform", "watch", "pause"]
+    },
+    "platform_post": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "post_id",
+        "content_id",
+        "platform",
+        "template_type",
+        "message",
+        "asset_or_clip",
+        "caption",
+        "hashtags",
+        "scheduled_at",
+        "status",
+        "analysis_scope"
+      ],
+      "properties": {
+        "post_id": { "type": "string", "minLength": 1 },
+        "content_id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$" },
+        "platform": { "$ref": "#/$defs/platform" },
+        "template_type": { "$ref": "#/$defs/template_type" },
+        "content_lane": { "$ref": "#/$defs/content_lane" },
+        "content_family": { "$ref": "#/$defs/content_family" },
+        "format_family": { "$ref": "#/$defs/format_family" },
+        "media_kind": { "type": "string", "minLength": 1 },
+        "api_upload_quality_profile": {
+          "type": "string",
+          "const": "idol_api_upload_2k30_high_quality.v1"
+        },
+        "api_upload_quality_receipt": { "type": "string", "minLength": 1 },
+        "shared_media_source_post_id": { "type": "string", "minLength": 1 },
+        "reply_to_post_id": { "type": "string", "minLength": 1 },
+        "thread_role": { "enum": ["root", "reply_1", "reply_2", "reply_3"] },
+        "harness_intensity": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "member": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "member_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^M[0-9]{2}$" }
+        },
+        "member_intro_line": { "type": "string", "minLength": 1 },
+        "content_pillar": {
+          "enum": ["loom_idol_member", "cf_finish", "production_harness", "unclassified"]
+        },
+        "primary_channel_job": {
+          "enum": ["discovery", "proof", "relationship", "return", "unclassified"]
+        },
+        "duration_band": { "type": "string", "minLength": 1 },
+        "hook_type": { "type": "string", "minLength": 1 },
+        "first_frame_type": { "type": "string", "minLength": 1 },
+        "payoff_timestamp": { "type": ["number", "string"], "minLength": 1 },
+        "edit_density": { "type": ["number", "string"], "minLength": 1 },
+        "data_completeness": { "enum": ["complete", "partial", "unavailable"] },
+        "known_gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "message": { "type": "string", "minLength": 1 },
+        "asset_or_clip": { "type": "string", "minLength": 1 },
+        "caption": { "type": "string", "minLength": 1 },
+        "hashtags": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "scheduled_at": { "type": "string", "format": "date-time" },
+        "status": { "$ref": "#/$defs/post_status" },
+        "analysis_scope": { "$ref": "#/$defs/analysis_scope" },
+        "platform_post_id": { "type": "string" },
+        "published_url": { "type": "string" },
+        "published_at": { "type": "string" },
+        "release_provenance_version": { "const": "idol_release_provenance.v2" },
+        "release_package_contract": { "$ref": "#/$defs/repo_relative_path" },
+        "release_package_contract_sha256": { "$ref": "#/$defs/sha256" },
+        "release_package_deliverable_manifest_sha256": { "$ref": "#/$defs/sha256" },
+        "release_package_output_id": { "type": "string", "minLength": 1 },
+        "release_package_output_role": { "type": "string", "minLength": 1 },
+        "release_package_linkage": {
+          "enum": ["exact_deliverable", "child_of_upload_package"]
+        },
+        "release_production_graph_trace_sha256": { "$ref": "#/$defs/sha256" },
+        "release_edit_segment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^SEG_[A-Z0-9_]{2,80}$" }
+        },
+        "release_screen_progression_node_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "release_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$" }
+        },
+        "release_asset_sha256": { "$ref": "#/$defs/sha256" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "platform": { "const": "x" } },
+            "required": ["platform"]
+          },
+          "then": {
+            "properties": { "analysis_scope": { "const": "scheduler_whitelist" } }
+          },
+          "else": {
+            "properties": { "analysis_scope": { "const": "date_based" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "template_type": { "const": "youtube_full_master" } },
+            "required": ["template_type"]
+          },
+          "then": {
+            "properties": { "platform": { "const": "youtube" } }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "template_type": {
+                "enum": [
+                  "work_root", "derived_clip", "hook_loop", "member_still",
+                  "member_carousel", "member_clip", "craft_gift",
+                  "harness_proof", "process_thread"
+                ]
+              }
+            },
+            "required": ["template_type"]
+          },
+          "then": { "required": ["content_lane"] }
+        },
+        {
+          "if": {
+            "properties": {
+              "platform": { "const": "x" },
+              "member": { "type": "array", "minItems": 1 }
+            },
+            "required": ["platform", "member"]
+          },
+          "then": { "required": ["member_intro_line"] }
+        },
+        {
+          "if": {
+            "anyOf": [
+              { "required": ["release_provenance_version"] },
+              { "required": ["release_production_graph_trace_sha256"] },
+              { "required": ["release_edit_segment_ids"] }
+            ]
+          },
+          "then": {
+            "required": [
+              "release_provenance_version",
+              "release_package_contract",
+              "release_package_contract_sha256",
+              "release_package_deliverable_manifest_sha256",
+              "release_package_output_id",
+              "release_package_output_role",
+              "release_package_linkage",
+              "release_production_graph_trace_sha256",
+              "release_edit_segment_ids",
+              "release_screen_progression_node_ids",
+              "release_section_ids",
+              "release_asset_sha256"
+            ]
+          }
+        }
+      ]
+    },
+    "platform_metric": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "captured_at",
+        "observed_date",
+        "post_id",
+        "content_id",
+        "platform",
+        "views",
+        "engagement",
+        "source"
+      ],
+      "properties": {
+        "captured_at": { "type": "string", "format": "date-time" },
+        "observed_date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "post_id": { "type": "string", "minLength": 1 },
+        "content_id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$" },
+        "platform": { "$ref": "#/$defs/platform" },
+        "views": { "type": "number", "minimum": 0 },
+        "engagement": { "type": "number", "minimum": 0 },
+        "likes": { "type": "number", "minimum": 0 },
+        "comments": { "type": "number", "minimum": 0 },
+        "shares": { "type": "number", "minimum": 0 },
+        "saves": { "type": "number", "minimum": 0 },
+        "quotes": { "type": "number", "minimum": 0 },
+        "average_view_duration_sec": { "type": "number", "minimum": 0 },
+        "average_view_percentage": { "type": "number", "minimum": 0 },
+        "estimated_minutes_watched": { "type": "number", "minimum": 0 },
+        "subscribers_gained": { "type": "number", "minimum": 0 },
+        "subscribers_lost": { "type": "number", "minimum": 0 },
+        "engaged_views": { "type": "number", "minimum": 0 },
+        "watch_retention": { "type": ["number", "null"], "minimum": 0 },
+        "completion_rate": { "type": ["number", "null"], "minimum": 0 },
+        "platform_video_id": { "type": "string", "minLength": 1 },
+        "tiktok_studio_import_id": { "type": "string", "minLength": 1 },
+        "tiktok_studio_detail_status": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/tiktok_studio_detail_status" }
+        },
+        "completion_rate_status": {
+          "type": "string",
+          "enum": [
+            "reported_by_provider",
+            "not_exposed_by_youtube_analytics_api_v2",
+            "unavailable_data_api_fallback"
+          ]
+        },
+        "top_countries": {
+          "type": ["array", "null"],
+          "items": { "$ref": "#/$defs/youtube_breakdown_row" }
+        },
+        "youtube_analytics_breakdowns": {
+          "$ref": "#/$defs/youtube_analytics_breakdowns"
+        },
+        "youtube_analytics_breakdown_status": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/youtube_analytics_detail_status" }
+        },
+        "youtube_analytics_retention_curve": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/youtube_retention_row" }
+        },
+        "youtube_analytics_retention_status": {
+          "$ref": "#/$defs/youtube_analytics_detail_status"
+        },
+        "measurement_window": {
+          "type": "string",
+          "enum": ["T+24h", "T+72h", "T+7d"]
+        },
+        "checkpoint_target_at": { "type": "string", "format": "date-time" },
+        "checkpoint_lag_seconds": { "type": "integer", "minimum": 0 },
+        "source": { "type": "string", "minLength": 1 },
+        "source_locator": { "type": "string", "minLength": 1 },
+        "metric_scope": { "type": "string", "minLength": 1 },
+        "views_semantics": { "type": "string", "minLength": 1 },
+        "known_gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "data_completeness": { "enum": ["complete", "partial", "unavailable"] },
+        "snapshot_id": { "type": "string", "minLength": 1 },
+        "snapshot_kind": { "type": "string", "minLength": 1 },
+        "decision": { "$ref": "#/$defs/decision" }
+      }
+    },
+    "tiktok_studio_detail_status": {
+      "type": "object",
+      "required": ["source_dimension", "status", "row_count"],
+      "properties": {
+        "source_dimension": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": ["populated", "not_in_export", "manual_ui_required", "request_failed"]
+        },
+        "row_count": { "type": "integer", "minimum": 0 },
+        "reason_code": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "youtube_breakdown_row": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "country": { "type": "string", "minLength": 1 },
+        "age_group": { "type": "string", "minLength": 1 },
+        "gender": { "type": "string", "minLength": 1 },
+        "device_type": { "type": "string", "minLength": 1 },
+        "operating_system": { "type": "string", "minLength": 1 },
+        "traffic_source_type": { "type": "string", "minLength": 1 },
+        "playback_location_type": { "type": "string", "minLength": 1 },
+        "subscribed_status": { "type": "string", "minLength": 1 },
+        "youtube_product": { "type": "string", "minLength": 1 },
+        "sharing_service": { "type": "string", "minLength": 1 },
+        "views": { "type": "number", "minimum": 0 },
+        "shares": { "type": "number", "minimum": 0 },
+        "average_view_duration_sec": { "type": "number", "minimum": 0 },
+        "average_view_percentage": { "type": "number", "minimum": 0 },
+        "estimated_minutes_watched": { "type": "number", "minimum": 0 }
+      }
+    },
+    "youtube_analytics_breakdowns": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/youtube_breakdown_row" }
+      }
+    },
+    "youtube_analytics_detail_status": {
+      "type": "object",
+      "required": ["source_dimension", "status", "row_count"],
+      "properties": {
+        "source_dimension": { "type": "string", "minLength": 1 },
+        "status": {
+          "type": "string",
+          "enum": [
+            "populated",
+            "no_rows",
+            "unsupported_or_unavailable",
+            "request_failed",
+            "not_requested_public_statistics_fallback"
+          ]
+        },
+        "row_count": { "type": "integer", "minimum": 0 },
+        "reason_code": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "youtube_retention_row": {
+      "type": "object",
+      "required": ["elapsed_video_time_ratio"],
+      "properties": {
+        "elapsed_video_time_ratio": { "type": "number", "minimum": 0 },
+        "audience_watch_ratio": { "type": "number", "minimum": 0 },
+        "relative_retention_performance": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

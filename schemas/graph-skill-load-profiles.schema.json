@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-skill-load-profiles.schema.json",
+  "title": "IDOL Graph Engineering Skill Load Profiles",
+  "description": "Graph v2 exact-node skill/read profiles for Overall admission, dynamic Planning P1/P2/P3-Ci and Section V-C1..V-Cn CDD cohorts, section media writers, and Edit. Shadow until a verified default-switch receipt. Scripts validate structure and provenance only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority",
+    "activation",
+    "registry_policy",
+    "legacy_boundary",
+    "cohort_instantiation",
+    "skill_bindings",
+    "read_bindings",
+    "profiles"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-skill-load-profiles.v1"},
+    "status": {"enum": ["shadow_not_default", "hold"]},
+    "authority": {"const": "derived_read_only_no_creative_or_promotion_authority"},
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_writer",
+        "graph_v2_requires",
+        "existing_runs",
+        "dual_active_writer",
+        "historical_harness_ids"
+      ],
+      "properties": {
+        "default_writer": {"const": "legacy_pinned"},
+        "graph_v2_requires": {"const": "verified_default_switch_receipt"},
+        "existing_runs": {"const": "legacy_pinned"},
+        "dual_active_writer": {"const": "fail_closed"},
+        "historical_harness_ids": {"const": "parse_only_legacy_capsule"}
+      }
+    },
+    "registry_policy": {"$ref": "#/$defs/registryPolicy"},
+    "legacy_boundary": {"$ref": "#/$defs/legacyBoundary"},
+    "cohort_instantiation": {"$ref": "#/$defs/cohortInstantiation"},
+    "skill_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "read_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/profile"}
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "registryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_neutral",
+        "exact_paths_only",
+        "phase_loaded",
+        "no_implicit_fallback",
+        "hash_binding",
+        "runtime_proof",
+        "node_exact_packs",
+        "no_fixed_cdd_count"
+      ],
+      "properties": {
+        "provider_neutral": {"const": true},
+        "exact_paths_only": {"const": true},
+        "phase_loaded": {"const": true},
+        "no_implicit_fallback": {"const": true},
+        "hash_binding": {"const": "sha256_current_bytes"},
+        "runtime_proof": {"const": "graph_department_dispatch_lifecycle"},
+        "node_exact_packs": {"const": true},
+        "no_fixed_cdd_count": {"const": true}
+      }
+    },
+    "legacyBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parse_only_id_prefixes",
+        "active_authoring_forbidden_id_prefixes",
+        "ordinary_runtime_must_not_load_legacy_capsule"
+      ],
+      "properties": {
+        "parse_only_id_prefixes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "active_authoring_forbidden_id_prefixes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "ordinary_runtime_must_not_load_legacy_capsule": {"const": true}
+      }
+    },
+    "cohortInstantiation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "partition_rule",
+        "singleton_rule",
+        "capacity_may_not_create_cohort",
+        "every_section_maps_once",
+        "p3_identity_carries_to_v",
+        "one_section_output_writer",
+        "one_cohort_cdd_reviewer"
+      ],
+      "properties": {
+        "source": {"const": "section_roster_derived"},
+        "partition_rule": {"const": "contiguous_2_or_3_when_two_or_more_sections"},
+        "singleton_rule": {"const": "one_section_title_only"},
+        "capacity_may_not_create_cohort": {"const": true},
+        "every_section_maps_once": {"const": true},
+        "p3_identity_carries_to_v": {"const": true},
+        "one_section_output_writer": {"const": "section_image_motion_worker"},
+        "one_cohort_cdd_reviewer": {"const": "section_cluster_cdd_ci"}
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "path",
+        "revision",
+        "sha256",
+        "eof_required",
+        "activation"
+      ],
+      "properties": {
+        "binding_id": {"$ref": "#/$defs/id"},
+        "path": {"$ref": "#/$defs/path"},
+        "revision": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true},
+        "purpose": {"type": "string", "minLength": 1},
+        "activation": {
+          "enum": [
+            "graph_v2_after_verified_default_switch",
+            "proposal_source_until_atomic_skill_promotion",
+            "shared_kernel_always_hash_bound"
+          ]
+        }
+      }
+    },
+    "phaseCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "activation",
+        "required_skill_ids",
+        "required_read_ids",
+        "fresh_input_digest",
+        "unload_after"
+      ],
+      "properties": {
+        "checkpoint_id": {"$ref": "#/$defs/id"},
+        "judgment_profile_id": {"$ref": "#/$defs/id"},
+        "stage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "activation": {"type": "string", "minLength": 1},
+        "required_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "required_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "fresh_input_digest": {"const": true},
+        "same_lineage": {"type": "boolean"},
+        "unload_after": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"required": ["judgment_profile_id"]},
+          "then": {"required": ["stage_ids"]}
+        }
+      ]
+    },
+    "phaseLoad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preload_skill_ids", "preload_read_ids", "checkpoints"],
+      "properties": {
+        "preload_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "preload_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "checkpoints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/phaseCheckpoint"}
+        }
+      }
+    },
+    "outputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kinds",
+        "canonical_write",
+        "expected_scope",
+        "aggregate_manifest_when_multiple",
+        "director_review_required"
+      ],
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "canonical_write": {"enum": ["forbidden", "owner_only"]},
+        "expected_scope": {
+          "enum": ["run", "section", "section_set", "stage", "cohort"]
+        },
+        "aggregate_manifest_when_multiple": {"const": true},
+        "director_review_required": {"const": true}
+      }
+    },
+    "authorityBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assigned_owner",
+        "review_owner",
+        "promotion_owner",
+        "founder_lock_owner",
+        "external_action_owner",
+        "may_decide",
+        "must_not"
+      ],
+      "properties": {
+        "assigned_owner": {"type": "string", "minLength": 1},
+        "review_owner": {"type": "string", "minLength": 1},
+        "promotion_owner": {"const": "overall_director"},
+        "founder_lock_owner": {"const": "founder"},
+        "external_action_owner": {"const": "founder"},
+        "may_decide": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "must_not": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "succession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_lineage",
+        "physical_generation_max",
+        "third_session",
+        "cas_required",
+        "source_after_cas"
+      ],
+      "properties": {
+        "logical_lineage": {"enum": ["one", "one_per_lane"]},
+        "physical_generation_max": {"const": 2},
+        "third_session": {"const": "hold_never_auto_spawn"},
+        "cas_required": {"const": true},
+        "source_after_cas": {"const": "read_only_rollback_point"}
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "profile_kind",
+        "node_class",
+        "role",
+        "provider_neutral",
+        "logical_tier",
+        "stage_ids",
+        "required_skill_ids",
+        "required_read_ids",
+        "phase_load",
+        "output_contract",
+        "authority",
+        "return_route",
+        "hold_conditions",
+        "compact_exclusions",
+        "succession"
+      ],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/id"},
+        "profile_kind": {"enum": ["exact_node", "cohort_template", "maintenance_only"]},
+        "node_class": {
+          "enum": [
+            "overall_lane",
+            "planning_cdd_lane",
+            "planning_section_cohort_lane",
+            "section_cluster_cdd_lane",
+            "edit_director_lane",
+            "worker_package",
+            "graph_maintenance"
+          ]
+        },
+        "role": {"type": "string", "minLength": 1},
+        "provider_neutral": {"const": true},
+        "logical_tier": {
+          "enum": ["frontier_director", "worker_high", "research_medium", "mechanical_coordinator"]
+        },
+        "maintenance_only": {"type": "boolean"},
+        "cohort_template": {"type": "boolean"},
+        "planning_cdd_mode": {
+          "enum": [
+            "story_audience_lead",
+            "visual_reference_development",
+            "section_kinetic_architecture"
+          ]
+        },
+        "instance_id_pattern": {"type": "string", "minLength": 1},
+        "lane_id_pattern": {"type": "string", "minLength": 1},
+        "identity_carry_from": {"type": "string", "minLength": 1},
+        "identity_carry_to": {"type": "string", "minLength": 1},
+        "writable_decision_set": {"type": "string", "minLength": 1},
+        "stage_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "required_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "phase_load": {"$ref": "#/$defs/phaseLoad"},
+        "output_contract": {"$ref": "#/$defs/outputContract"},
+        "authority": {"$ref": "#/$defs/authorityBlock"},
+        "return_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recipient_role", "director_review_required", "promotion_route"],
+          "properties": {
+            "recipient_role": {"type": "string", "minLength": 1},
+            "director_review_required": {"const": true},
+            "promotion_route": {
+              "enum": [
+                "overall_director_after_review",
+                "planning_cdd_p1_exact_link",
+                "role_owner_after_required_review",
+                "none"
+              ]
+            }
+          }
+        },
+        "hold_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "compact_exclusions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "raw_search_pools",
+              "full_url_lists",
+              "completed_worker_transcripts",
+              "superseded_prose",
+              "unrelated_section_or_cohort_media",
+              "graph_engineering_policy_explanations",
+              "other_provider_tool_detail"
+            ]
+          }
+        },
+        "succession": {"$ref": "#/$defs/succession"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"profile_kind": {"const": "cohort_template"}},
+            "required": ["profile_kind"]
+          },
+          "then": {
+            "required": ["cohort_template", "instance_id_pattern", "lane_id_pattern"],
+            "properties": {"cohort_template": {"const": true}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"profile_kind": {"const": "maintenance_only"}},
+            "required": ["profile_kind"]
+          },
+          "then": {
+            "required": ["maintenance_only"],
+            "properties": {
+              "maintenance_only": {"const": true},
+              "stage_ids": {"maxItems": 0},
+              "required_skill_ids": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

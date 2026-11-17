@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>IDOL Ops Control</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/workers.css">
+  </head>
+  <body>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="주요 메뉴">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div>
+            <strong>IDOL</strong>
+            <small>OPS CONTROL</small>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-view="overview" type="button">
+            <span class="nav-icon">⌂</span><span>전체 현황</span>
+          </button>
+          <button class="nav-item" data-view="projects" type="button">
+            <span class="nav-icon">◫</span><span>프로젝트</span>
+          </button>
+          <button class="nav-item" data-view="timeline" type="button">
+            <span class="nav-icon">⌁</span><span>일정</span>
+          </button>
+          <button class="nav-item" data-view="decisions" type="button">
+            <span class="nav-icon">◇</span><span>Founder 결정</span>
+            <span class="nav-count" id="decision-count">0</span>
+          </button>
+          <button class="nav-item" data-view="executions" type="button">
+            <span class="nav-icon">◎</span><span>AI 작업</span>
+            <span class="nav-count" id="execution-count">0</span>
+          </button>
+          <button class="nav-item" data-view="workers" type="button">
+            <span class="nav-icon">⌬</span><span>MV 작업자</span>
+            <span class="nav-count" id="worker-count">0</span>
+          </button>
+          <button class="nav-item" data-view="sources" type="button">
+            <span class="nav-icon">⌘</span><span>원본·신뢰도</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+        <div class="boundary-card">
+          <span class="pulse-dot"></span>
+          <div>
+            <strong>하네스 보호 모드</strong>
+            <p>원본은 읽기 전용</p>
+          </div>
+        </div>
+        <div class="sidebar-meta">
+          <span id="data-revision">DATA REV —</span>
+          <span>LOCAL ONLY</span>
+        </div>
+      </aside>
+
+      <div class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="view-eyebrow">IDOL REPOSITORY</p>
+            <h1 id="view-title">전체 현황</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="refresh-status">
+              <span>최근 확인</span>
+              <strong id="generated-at">—</strong>
+            </div>
+            <button class="button button-quiet" id="refresh-button" type="button">새로고침</button>
+            <button class="button button-primary" id="add-project-button" type="button">+ 프로젝트</button>
+          </div>
+        </header>
+
+        <main class="main-content">
+          <section class="view is-active" id="view-overview" data-view-panel="overview">
+            <div class="hero-panel">
+              <div class="hero-copy">
+                <span class="hero-kicker"><span class="pulse-dot"></span> IDOL REPO CONTROL PLANE</span>
+                <h2>진행 중인 모든 일을<br><em>증거 기준</em>으로 봅니다.</h2>
+                <p>AI가 실행 중이라는 사실과 실제 목표 완수는 분리합니다. 잠긴 기준선, PASS gate, 존재하는 증거만 완료율에 반영됩니다.</p>
+              </div>
+              <div class="hero-signal" aria-hidden="true">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="signal-core">IDOL</div>
+                <span class="signal-node node-one"></span>
+                <span class="signal-node node-two"></span>
+                <span class="signal-node node-three"></span>
+                <span class="signal-node node-four"></span>
+              </div>
+            </div>
+
+            <div class="metric-strip" id="metric-strip" aria-label="핵심 운영 지표"></div>
+
+            <div class="dashboard-grid">
+              <section class="panel panel-focus">
+                <div class="panel-heading">
+                  <div>
+                    <span class="section-label">ACTION QUEUE</span>
+                    <h3>지금 볼 것</h3>
+                  </div>
+                  <span class="panel-note">우선순위·막힘·다음 행동</span>
+                </div>
+                <div id="focus-list" class="focus-list"></div>
+              </section>
+
+              <section class="panel panel-lanes">
+                <div class="panel-heading">
+                  <div>
+                    <span class="section-label">PORTFOLIO MIX</span>
+                    <h3>Lane 구성</h3>
+                  </div>
+                </div>
+                <div id="lane-summary" class="lane-summary"></div>
+              </section>
+            </div>
+
+            <section class="section-block">
+              <div class="section-heading">
+                <div>
+                  <span class="section-label">ACTIVE PORTFOLIO</span>
+                  <h2>프로젝트 현황</h2>
+                </div>
+                <button class="text-button" type="button" data-go-view="projects">전체 프로젝트 보기 →</button>
+              </div>
+              <div class="project-grid" id="overview-projects"></div>
+            </section>
+          </section>
+
+          <section class="view" id="view-projects" data-view-panel="projects">
+            <div class="toolbar panel">
+              <div class="segmented" id="lane-filter" role="group" aria-label="Lane 필터"></div>
+              <div class="toolbar-right">
+                <label class="search-field">
+                  <span class="sr-only">프로젝트 검색</span>
+                  <input id="project-search" type="search" placeholder="프로젝트 검색">
+                </label>
+              </div>
+            </div>
+            <div class="project-grid project-grid-wide" id="all-projects"></div>
+          </section>
+
+          <section class="view" id="view-timeline" data-view-panel="timeline">
+            <section class="panel timeline-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">START → TARGET → REVIEW</span>
+                  <h3>프로젝트 일정</h3>
+                </div>
+                <span class="panel-note">기간 미정은 숨기지 않고 그대로 표시</span>
+              </div>
+              <div class="timeline-legend">
+                <span><i class="legend-progress"></i> 검증 완료율</span>
+                <span><i class="legend-time"></i> 기간 경과율</span>
+                <span><i class="legend-review"></i> 다음 점검</span>
+              </div>
+              <div id="timeline-list" class="timeline-list"></div>
+            </section>
+            <section class="panel schedule-table-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">UPCOMING</span>
+                  <h3>다가오는 날짜</h3>
+                </div>
+              </div>
+              <div class="table-wrap"><table id="schedule-table"></table></div>
+            </section>
+          </section>
+
+          <section class="view" id="view-decisions" data-view-panel="decisions">
+            <div class="section-heading actions-heading">
+              <div>
+                <span class="section-label">FOUNDER GATES</span>
+                <h2>결정함</h2>
+                <p>결정 대기와 실행 상태를 섞지 않습니다.</p>
+              </div>
+              <button class="button button-primary" id="add-decision-button" type="button">+ 결정 추가</button>
+            </div>
+            <div id="decision-list" class="decision-list"></div>
+          </section>
+
+          <section class="view" id="view-executions" data-view-panel="executions">
+            <div class="section-heading actions-heading">
+              <div>
+                <span class="section-label">AI DELEGATION LOG</span>
+                <h2>AI 작업</h2>
+                <p>실행·반환·검토를 기록하되 프로젝트 완료율에는 포함하지 않습니다.</p>
+              </div>
+              <button class="button button-primary" id="add-execution-button" type="button">+ AI 작업 추가</button>
+            </div>
+            <div class="policy-banner">
+              <strong>완료율 제외</strong>
+              <span>running, 파일 수, 대화량, 토큰 사용량은 목표 완수 증거가 아닙니다.</span>
+            </div>
+            <div id="execution-list" class="execution-list"></div>
+          </section>
+
+          <section class="view" id="view-workers" data-view-panel="workers">
+            <div class="section-heading actions-heading">
+              <div>
+                <span class="section-label">REGISTERED MV DISPATCHES</span>
+                <h2>MV 작업자 현황</h2>
+                <p>lineage별 최신 attempt만 펼칩니다. 실행 등록·반환·Director 검토·Overall 승격은 서로 다른 상태입니다.</p>
+              </div>
+              <div class="worker-toolbar-top">
+                <label class="compact-select-label"><span>RUN</span><select id="worker-run-select" class="inline-select"></select></label>
+              </div>
+            </div>
+
+            <section id="worker-run-banner" class="worker-run-banner panel"></section>
+            <div id="worker-summary" class="worker-summary"></div>
+
+            <section class="panel worker-browser">
+              <div class="panel-heading worker-browser-heading">
+                <div>
+                  <span class="section-label">CURRENT LINEAGE HEADS</span>
+                  <h3>등록된 하위 작업자</h3>
+                </div>
+                <div class="worker-filters">
+                  <select id="worker-state-filter" class="inline-select" aria-label="작업자 상태 필터">
+                    <option value="all">모든 상태</option>
+                    <option value="prepared">준비</option>
+                    <option value="launched">실행 등록</option>
+                    <option value="returned">반환</option>
+                    <option value="reviewed">검토됨</option>
+                    <option value="promoted">승격</option>
+                    <option value="hold">HOLD</option>
+                  </select>
+                  <label class="search-field worker-search"><span class="sr-only">작업자 검색</span><input id="worker-search" type="search" placeholder="dispatch · section · stage 검색"></label>
+                </div>
+              </div>
+              <div id="worker-projection-note" class="worker-projection-note"></div>
+              <div id="worker-list" class="worker-list"></div>
+            </section>
+          </section>
+
+          <section class="view" id="view-sources" data-view-panel="sources">
+            <div class="source-summary" id="repo-signals"></div>
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">SOURCE INVENTORY</span>
+                  <h3>원본 경로 상태</h3>
+                </div>
+                <span class="panel-note">본문 수집 없음 · metadata only</span>
+              </div>
+              <div class="table-wrap"><table id="source-table"></table></div>
+            </section>
+            <section class="panel methodology-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">METHODOLOGY</span>
+                  <h3>계산·보호 원칙</h3>
+                </div>
+              </div>
+              <div id="methodology-list" class="methodology-list"></div>
+            </section>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog class="drawer" id="project-dialog">
+      <form method="dialog" class="drawer-shell" id="project-form">
+        <header class="drawer-header">
+          <div>
+            <span class="section-label" id="project-dialog-lane">PROJECT</span>
+            <h2 id="project-dialog-title">프로젝트</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="닫기" type="submit">×</button>
+        </header>
+        <div class="drawer-body">
+          <div id="project-baseline-card"></div>
+          <section class="form-section">
+            <div class="form-section-title"><h3>운영 정보</h3><span>tracker 전용 데이터</span></div>
+            <div class="form-grid two-column">
+              <label class="field field-span-2"><span>프로젝트명</span><input name="title" required></label>
+              <label class="field field-span-2"><span>목표</span><textarea name="objective" rows="3"></textarea></label>
+              <label class="field"><span>상태</span><select name="status"></select></label>
+              <label class="field"><span>수동 건강도</span><select name="declared_health"></select></label>
+              <label class="field"><span>우선순위</span><select name="priority"></select></label>
+              <label class="field"><span>Owner</span><input name="owner"></label>
+              <label class="field"><span>시작일</span><input name="start_date" type="date"></label>
+              <label class="field"><span>목표일</span><input name="target_date" type="date"></label>
+              <label class="field"><span>다음 점검</span><input name="next_review_at" type="datetime-local"></label>
+              <label class="field"><span>점검 주기(일)</span><input name="review_cadence_days" type="number" min="1" max="365"></label>
+              <label class="field field-span-2"><span>다음 행동</span><textarea name="next_action" rows="2"></textarea></label>
+              <label class="field field-span-2"><span>원본·근거 경로 (한 줄에 하나)</span><textarea name="source_refs" rows="4" placeholder="runs/.../artifact.yaml"></textarea></label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <h3>마일스톤</h3>
+              <button class="text-button" id="add-milestone-button" type="button">+ 마일스톤</button>
+            </div>
+            <div id="milestone-editor" class="milestone-editor"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="form-section-title">
+              <h3>Blocker</h3>
+              <button class="text-button" id="add-blocker-button" type="button">+ Blocker</button>
+            </div>
+            <div id="blocker-editor" class="blocker-editor"></div>
+          </section>
+        </div>
+        <footer class="drawer-footer">
+          <span id="project-save-status"></span>
+          <div>
+            <button class="button button-quiet" value="cancel" type="submit">취소</button>
+            <button class="button button-primary" id="save-project-button" value="default" type="button">저장</button>
+          </div>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="create-project-dialog">
+      <form method="dialog" class="modal-shell" id="create-project-form">
+        <header class="modal-header">
+          <div><span class="section-label">NEW PROJECT</span><h2>프로젝트 추가</h2></div>
+          <button class="icon-button" value="cancel" aria-label="닫기" type="submit">×</button>
+        </header>
+        <div class="modal-body form-grid two-column">
+          <label class="field field-span-2"><span>템플릿</span><select name="template_id" required></select></label>
+          <label class="field field-span-2"><span>프로젝트명</span><input name="title" required></label>
+          <label class="field field-span-2"><span>목표</span><textarea name="objective" rows="3"></textarea></label>
+          <label class="field"><span>Owner</span><input name="owner" value="Founder"></label>
+          <label class="field"><span>우선순위</span><select name="priority"></select></label>
+          <label class="field"><span>시작일</span><input name="start_date" type="date"></label>
+          <label class="field"><span>목표일</span><input name="target_date" type="date"></label>
+          <label class="field field-span-2"><span>첫 다음 행동</span><input name="next_action" value="기준선과 첫 마일스톤 상태 확정"></label>
+        </div>
+        <footer class="modal-footer">
+          <button class="button button-quiet" value="cancel" type="submit">취소</button>
+          <button class="button button-primary" id="create-project-submit" value="default" type="button">추가</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="decision-dialog">
+      <form method="dialog" class="modal-shell" id="decision-form">
+        <header class="modal-header">
+          <div><span class="section-label">FOUNDER GATE</span><h2>결정 추가</h2></div>
+          <button class="icon-button" value="cancel" aria-label="닫기" type="submit">×</button>
+        </header>
+        <div class="modal-body form-grid two-column">
+          <label class="field field-span-2"><span>결정할 내용</span><input name="title" required></label>
+          <label class="field"><span>연결 프로젝트</span><select name="project_id"></select></label>
+          <label class="field"><span>필요일</span><input name="needed_by" type="date"></label>
+          <label class="field"><span>Owner</span><input name="owner" value="Founder"></label>
+          <label class="field field-span-2"><span>영향</span><textarea name="impact" rows="3"></textarea></label>
+          <label class="field field-span-2"><span>근거 경로 (한 줄에 하나)</span><textarea name="source_refs" rows="3"></textarea></label>
+        </div>
+        <footer class="modal-footer">
+          <button class="button button-quiet" value="cancel" type="submit">취소</button>
+          <button class="button button-primary" id="decision-submit" value="default" type="button">추가</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="execution-dialog">
+      <form method="dialog" class="modal-shell" id="execution-form">
+        <header class="modal-header">
+          <div><span class="section-label">AI WORK</span><h2>AI 작업 추가</h2></div>
+          <button class="icon-button" value="cancel" aria-label="닫기" type="submit">×</button>
+        </header>
+        <div class="modal-body form-grid two-column">
+          <label class="field field-span-2"><span>작업명</span><input name="title" required></label>
+          <label class="field"><span>프로젝트</span><select name="project_id" required></select></label>
+          <label class="field"><span>Agent</span><input name="agent" value="Codex"></label>
+          <label class="field"><span>상태</span><select name="status"></select></label>
+          <label class="field"><span>Thread / Task ref</span><input name="thread_ref"></label>
+          <label class="field field-span-2"><span>기대 산출물</span><textarea name="expected_output" rows="2"></textarea></label>
+          <label class="field field-span-2"><span>다음 행동</span><input name="next_action"></label>
+        </div>
+        <footer class="modal-footer">
+          <button class="button button-quiet" value="cancel" type="submit">취소</button>
+          <button class="button button-primary" id="execution-submit" value="default" type="button">추가</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog class="modal confirm-modal" id="confirm-dialog">
+      <form method="dialog" class="modal-shell">
+        <header class="modal-header"><div><span class="section-label">FOUNDER CONFIRM</span><h2 id="confirm-title">확인</h2></div></header>
+        <div class="modal-body"><p id="confirm-message"></p></div>
+        <footer class="modal-footer">
+          <button class="button button-quiet" value="cancel" type="submit">취소</button>
+          <button class="button button-primary" id="confirm-accept" value="default" type="button">확정</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="loading-screen" id="loading-screen">
+      <div class="loading-mark"><span></span><span></span><span></span></div>
+      <strong>IDOL Ops Control</strong>
+      <p>원본 신호를 읽는 중</p>
+    </div>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

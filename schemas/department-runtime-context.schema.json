@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/department-runtime-context.schema.json",
+  "title": "IDOL exact launched Department context transport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authority",
+    "dispatch_id",
+    "run",
+    "attempt_id",
+    "dispatch_input_sha256",
+    "source_dispatch",
+    "goal_binding",
+    "prepared_at",
+    "role_context_pack",
+    "worker_prompt",
+    "worker_prompt_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-department-runtime-context.v1"
+    },
+    "authority": {
+      "const": "transport_context_no_creative_or_promotion_authority"
+    },
+    "dispatch_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "pattern": "^runs/"
+    },
+    "attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dispatch_input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_dispatch": {
+      "$ref": "#/$defs/contextPointer"
+    },
+    "goal_binding": {
+      "$ref": "#/$defs/goalBinding"
+    },
+    "prepared_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "role_context_pack": {
+      "$ref": "role-context-pack.schema.json"
+    },
+    "worker_prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "worker_prompt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "contextPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^runs/.+/work/department-dispatches/contexts/[^/]+/[^/]+(?:\\.launched\\.yaml|\\.context\\.json)$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "goalBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "native_goal_id",
+        "native_session_id",
+        "assignment_key",
+        "dispatch_id",
+        "attempt_id",
+        "runtime_surface",
+        "goal_text_sha256",
+        "raw_event_sha256",
+        "observed_at",
+        "evidence_source",
+        "objective",
+        "request_id"
+      ],
+      "properties": {
+        "provider": {
+          "const": "grok"
+        },
+        "native_goal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "native_session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assignment_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dispatch_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_surface": {
+          "const": "grok_build_cli_acp"
+        },
+        "goal_text_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "raw_event_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "observed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_source": {
+          "const": "grok_acp_goal_updated_event"
+        },
+        "objective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "applicationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "context_packet",
+        "dispatch_id",
+        "attempt_id",
+        "dispatch_input_sha256",
+        "native_goal_id",
+        "native_session_id",
+        "native_goal_raw_event_sha256",
+        "pack_id",
+        "pack_digest",
+        "source_set_sha256",
+        "instruction_content_sha256",
+        "applied_at"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "idol-department-context-application.v1"
+        },
+        "context_packet": {
+          "$ref": "#/$defs/contextPointer"
+        },
+        "dispatch_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attempt_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dispatch_input_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "native_goal_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "native_session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "native_goal_raw_event_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "pack_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pack_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_set_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "instruction_content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "applied_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

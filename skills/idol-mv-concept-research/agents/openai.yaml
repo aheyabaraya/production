@@ -1,0 +1,5 @@
+interface:
+  display_name: "IDOL MV Concept Research"
+  short_description: "Research message, story, and reference directions"
+  default_prompt: "Use $idol-mv-concept-research to develop three distinct MV concept research sets from this song and its references."
+

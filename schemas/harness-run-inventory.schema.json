@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-run-inventory.schema.json",
+  "title": "IDOL Graph Engineering Run Inventory",
+  "description": "Derived, hash-bound inventory of the files, stage routes, contract versions, current-next pointer, and title output registry connected to one run. A date-first run is valid only when the producer resolves its exact registered in-flight transition. The report is state only and never becomes creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {"properties": {"layout_status": {"const": "album_layout"}}},
+      "then": {"properties": {"run": {"pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"}}}
+    },
+    {
+      "if": {"properties": {"layout_status": {"const": "registered_in_flight_transition"}}},
+      "then": {"properties": {"run": {"pattern": "^runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"}}}
+    }
+  ],
+  "required": ["schema_version", "generated_at", "run", "layout_status", "album_key", "title_key", "run_id", "content_id", "status", "run_identity", "stage_registry", "artifact_routing", "contract_version_registry", "current_next", "title_registry", "summary", "stage_connections", "holds", "warnings"],
+  "properties": {
+    "schema_version": {"const": "idol-harness-run-inventory.v2"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "run": {
+      "oneOf": [
+        {"type": "string", "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+        {"type": "string", "pattern": "^runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"}
+      ]
+    },
+    "layout_status": {"enum": ["album_layout", "registered_in_flight_transition"]},
+    "album_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,120}$"},
+    "title_key": {"type": "string", "pattern": "^[a-z0-9가-힣][a-z0-9가-힣-]{1,120}$"},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pass", "hold"]},
+    "run_identity": {"$ref": "#/$defs/fileBinding"},
+    "stage_registry": {"$ref": "#/$defs/fileBinding"},
+    "artifact_routing": {"$ref": "#/$defs/fileBinding"},
+    "contract_version_registry": {"$ref": "#/$defs/fileBinding"},
+    "current_next": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["yaml_path", "yaml_run", "yaml_matches_run", "markdown_path", "markdown_run", "markdown_matches_yaml", "generated_at_matches", "yaml_status", "markdown_status", "status_matches", "yaml_owner", "markdown_owner", "owner_matches"],
+      "properties": {
+        "yaml_path": {"type": "string", "minLength": 1},
+        "yaml_run": {"type": "string"},
+        "yaml_matches_run": {"type": "boolean"},
+        "markdown_path": {"type": "string", "minLength": 1},
+        "markdown_run": {"type": "string"},
+        "markdown_matches_yaml": {"type": "boolean"},
+        "generated_at_matches": {"type": "boolean"},
+        "yaml_status": {"type": "string"},
+        "markdown_status": {"type": "string"},
+        "status_matches": {"type": "boolean"},
+        "yaml_owner": {"type": "string"},
+        "markdown_owner": {"type": "string"},
+        "owner_matches": {"type": "boolean"}
+      }
+    },
+    "title_registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "album_key", "title_key", "run_registered", "registered_output_count", "linked_output_paths"],
+      "properties": {
+        "path": {"type": ["string", "null"]},
+        "album_key": {"type": ["string", "null"]},
+        "title_key": {"type": ["string", "null"]},
+        "run_registered": {"type": "boolean"},
+        "registered_output_count": {"type": "integer", "minimum": 0},
+        "linked_output_paths": {"$ref": "#/$defs/stringArray"}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_count", "connected_stage_count", "connected_artifact_count", "current_version_count", "unmanaged_version_count"],
+      "properties": {
+        "stage_count": {"type": "integer", "minimum": 0},
+        "connected_stage_count": {"type": "integer", "minimum": 0},
+        "connected_artifact_count": {"type": "integer", "minimum": 0},
+        "current_version_count": {"type": "integer", "minimum": 0},
+        "unmanaged_version_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "stage_connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage_id", "order", "owner", "artifact_class", "canonical_patterns", "supporting_roots", "artifacts"],
+        "properties": {
+          "stage_id": {"$ref": "#/$defs/identifier"},
+          "order": {"type": "integer"},
+          "owner": {"type": "string", "minLength": 1},
+          "artifact_class": {"enum": ["canonical_stage_truth", "research", "review", "export", "generated", "package"]},
+          "canonical_patterns": {"$ref": "#/$defs/stringArray"},
+          "supporting_roots": {"$ref": "#/$defs/stringArray"},
+          "artifacts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "byte_size", "schema_version", "contract_id", "version_status"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"$ref": "#/$defs/sha256"},
+                "byte_size": {"type": "integer", "minimum": 0},
+                "schema_version": {"type": ["string", "null"]},
+                "contract_id": {"type": ["string", "null"]},
+                "version_status": {"enum": ["current", "unmanaged_contract", "unknown_version", "no_schema_version"]}
+              }
+            }
+          }
+        }
+      }
+    },
+    "holds": {"$ref": "#/$defs/stringArray"},
+    "warnings": {"$ref": "#/$defs/stringArray"}
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "stringArray": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "integrity_profile", "cache"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "integrity_profile": {"enum": ["canonical_gate", "repeat_local_validation"]},
+        "cache": {"enum": ["hit", "miss", "forced"]}
+      }
+    }
+  }
+}

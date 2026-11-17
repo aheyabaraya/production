@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title><!-- RUN_TITLE --> — FP Founder Visual Review Board</title>
+<!--
+  Managed structure shell. CSS source of truth:
+  skills/idol-front-planning-director/references/founder-visual-review-board/board-shell.css
+
+  When shipping a run board that must open via file://, embed the CSS contents
+  inside <style> (stamp from board-shell.css). Do not invent a parallel layout.
+  Fill only run-bound content blocks; keep element ids listed in the contract.
+-->
+<link rel="stylesheet" href="board-shell.css"/>
+</head>
+<body>
+<div class="top">
+  <h1><!-- RUN_TITLE --> — FP Founder Visual Review Board</h1>
+  <p class="sub">한 보드: 곡/메시지 → 멤버 face index → Core-Cut face+styling / refs → 02A Branch Cuts · 클릭 확대</p>
+  <nav>
+    <a href="#global-spine">곡·전체레프</a>
+    <a href="#summary">요약</a>
+    <a href="#member-index">멤버 face</a>
+    <a href="#core-cut-board">Core Cuts</a>
+    <!-- NAV_CORE_LINKS: <a href="#CC01_slug">CC01</a> ... -->
+  </nav>
+</div>
+
+<main>
+  <!-- ========== 1. GLOBAL SPINE (required) ========== -->
+  <section class="global-spine" id="global-spine">
+    <div class="gs-h">
+      <h2>곡 구조 · 전체 레퍼런스 스파인</h2>
+      <p>검수 시 먼저 여기. 섹션/멤버 맵은 이 스파인의 지역 적용. 이미지 클릭 확대.</p>
+    </div>
+    <div class="gs-body">
+      <div class="gs-meta">
+        <div class="box">
+          <h3>SELECTED TRACK</h3>
+          <!-- TRACK_META: title, content id, tempo class, duration, primary thesis -->
+        </div>
+        <div class="box">
+          <h3>WHOLE-FILM RULES</h3>
+          <!-- WHOLE_FILM_RULES: bullets from active locks only -->
+        </div>
+        <div class="box">
+          <h3>AUDIO ANCHORS</h3>
+          <!-- AUDIO_ANCHORS: timed audible turns that gate screen jobs -->
+        </div>
+      </div>
+
+      <h3 style="margin:0 0 8px;font-size:12px;color:var(--amber)">SECTION TIMELINE</h3>
+      <div class="timeline" id="song-structure-timeline">
+        <!-- TIMELINE_CELLS: one .tl-cell per active visual section, link to #Sxx -->
+      </div>
+
+      <div class="gs-tables">
+        <!-- PAIRING_OR_TABLES: optional; omit when the run has no multi-table pairing -->
+      </div>
+
+      <div class="gs-ref-block" id="global-refs-shared">
+        <h3>SHARED / WHOLE-FILM REFS</h3>
+        <div class="gs-ref-grid">
+          <!-- SHARED_REF_FIGURES: fig.fig-map + .thumb + img.zoomable -->
+        </div>
+      </div>
+
+      <div class="gs-ref-block" id="global-refs-transition">
+        <h3>TRANSITION / SYSTEM SPINE (if any)</h3>
+        <div class="gs-ref-grid">
+          <!-- TRANSITION_REF_FIGURES: only when the run locks a shared transition grammar -->
+        </div>
+      </div>
+
+      <div class="gs-ref-block" id="global-refs-scene-pools">
+        <h3>SCENE / SPACE REFERENCE EXEMPLARS</h3>
+        <div class="gs-ref-grid">
+          <!-- SCENE_POOL_FIGURES: exact scene refs; no separate background package -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 2. SUMMARY (required) ========== -->
+  <section class="summary" id="summary">
+    <div class="card">
+      <h2>스토리라인 요약</h2>
+      <!-- STORYLINE_SUMMARY -->
+    </div>
+    <div class="card">
+      <h2>멤버 스타일링 / 출처 정직 노트</h2>
+      <!-- STYLING_HONESTY_NOTES -->
+    </div>
+  </section>
+
+  <!-- ========== 3. MEMBER FACE INDEX (navigation only) ========== -->
+  <section class="member-map" id="member-index">
+    <h2>MEMBER FACE INDEX</h2>
+    <p class="hint">멤버 탐색용. 스타일링과 씬 레퍼런스는 해당 Core-Cut 카드 안에서만 판단한다.</p>
+    <div class="member-face-strip">
+      <!-- MEMBER_FACE_TILE: figure.idcard > a[href="#CCxx"] > img.zoomable + figcaption -->
+    </div>
+  </section>
+
+  <!-- ========== 4. CORE-CUT BOARD (same page, expandable) ========== -->
+  <section id="core-cut-board" aria-label="Core-Cut review cards">
+    <!-- Repeat one article per presentation anchor / official 02A Core Cut. -->
+    <article class="review-card target-level-core_cut core-card" id="CCxx_slug">
+      <header class="sec-h">
+        <!-- SECTION / ORDER / STATUS / PRESENTATION ANCHOR / OFFICIAL 02A ID IF BOUND -->
+      </header>
+      <section class="first-read-band">
+        <!-- EXACT FIRST-READ / INTERPRETATION RECEIPTS; omit only when no refs apply -->
+      </section>
+      <div class="core-visual-layout">
+        <aside class="member-visual-rail" aria-label="Member face and styling visuals">
+          <!-- MEMBER_FACE first: figure.media-panel.display-lane-member_face > img.zoomable -->
+          <!-- MEMBER_STYLING next: figure.media-panel.display-lane-member_styling > img.zoomable -->
+          <!-- Object/world card: explicit .member-visual-empty, never shift refs left -->
+        </aside>
+        <section class="media-carousel" data-carousel data-count="<!-- REFERENCE_COUNT -->" style="--visible-slots:4" aria-label="Character and scene references">
+          <div class="carousel-head"><span>CHARACTER / SCENE REFERENCES</span><span class="carousel-count"><!-- NN --> IMAGES</span></div>
+          <button class="carousel-arrow carousel-prev" type="button" data-carousel-prev aria-label="Previous images">&#8592;</button>
+          <div class="core-reference-grid" data-carousel-track tabindex="0">
+            <!-- REFERENCE_FIGURES in declared order; each .media-panel includes .media-index NN / TOTAL. Repeat without a count cap. -->
+          </div>
+          <button class="carousel-arrow carousel-next" type="button" data-carousel-next aria-label="Next images">&#8594;</button>
+          <div class="carousel-status" data-carousel-status aria-live="polite"></div>
+        </section>
+      </div>
+      <details class="branch-cut-extension">
+        <summary>02A Branch Cuts</summary>
+        <!-- OFFICIAL_02A_BRANCH_CARDS: ordered children only after 02A binds ids -->
+      </details>
+    </article>
+  </section>
+
+  <footer>
+    <p>FP Founder Visual Review Board structure · skills/idol-front-planning-director/references/founder-visual-review-board-contract.md</p>
+    <p>CSS shell · skills/idol-front-planning-director/references/founder-visual-review-board/board-shell.css</p>
+    <!-- RUN_SOURCE_POINTERS -->
+  </footer>
+</main>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="이미지 확대">
+  <span class="lb-x" id="lb-x" title="닫기">×</span>
+  <span class="lb-hint">클릭 배경 / Esc · 시트는 확대해서 셀 확인</span>
+  <img id="lb-img" src="" alt="확대"/>
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+<script src="board-lightbox.js"></script>
+</body>
+</html>

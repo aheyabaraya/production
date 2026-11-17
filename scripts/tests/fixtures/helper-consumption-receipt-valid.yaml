@@ -1,0 +1,10 @@
+schema_version: idol-helper-consumption-receipt.v1
+receipt_id: HCR_FIXTURE_CONSUME_001
+parent_dispatch_id: DISPATCH_FIXTURE_PARENT
+helper_id: helper_collision_audit
+inspected_inputs:
+  - work/fixture/candidate-a.yaml
+  - work/fixture/candidate-b.yaml
+finding: Pairwise collision on the same event family; keep candidate A.
+director_disposition: consume
+output_sha256: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef

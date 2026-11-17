@@ -1,0 +1,246 @@
+schema_version: idol-grok-build-provider-profiles.v1
+status: active
+provider: grok
+runtime_surface: grok_build_cli_acp
+profile_source_policy:
+  exact_model_and_effort_owner: this_file
+  resolved_snapshot_required: true
+  live_inventory_refresh_required: true
+  requested_observed_match_required: true
+  silent_downgrade_or_fallback: forbidden
+  provider_native_subagents: default_enabled
+  project_numeric_helper_override: none
+  accepted_auth_lanes:
+    - subscription_oauth
+    - founder_approved_existing_xai_api_key
+  auth_material_storage: runtime_environment_only_never_registry_log_receipt_or_ui
+  child_shell_secret_inheritance: forbidden
+
+nonmedia_activation_evidence:
+  evidence_scope: exact_profile_readiness_only_no_default_switch_no_creative_pass
+  external_or_generative_actions: 0
+  evidence_refs:
+    actual_binary_role_lifecycle_receipt:
+      path: development/front-planning-workbench/docs/evidence/grok-1.0.3-role-lifecycle-receipt-2026-08-14.json
+      sha256: 98f9a77d0429ddef7e16907c5008fc238dce76c1c14df17fcbb454894e490ea2
+    cdd_session_router_implementation:
+      path: scripts/idol_director_dispatch_index.rb
+      sha256: 98446aa646a80f00920829ae15a1ba95354ab439726d8ccc4d6d826f0b11618e
+    cdd_session_router_state_schema:
+      path: schemas/cdd-session-router-state.schema.json
+      sha256: 038d70b8d2af28347822fbb40fce2949c9b7688e5b94c60fedbb9f8c165aa677
+    cdd_session_router_isolated_test:
+      path: scripts/tests/idol_cdd_session_router_test.rb
+      sha256: 8b150e3bd5f04cef05d300a3fa9f5a8dd8ce22e99f416db79aecae60b9a36f55
+    cdd_successor_contract:
+      path: policies/harness-routing-and-sources.md
+      sha256: f95a034b8d89f73563c4565107b74ec4f72706aed394cba6fd9e23b4f73b0f7c
+  director_successor_offline_evidence:
+    status: pass
+    evidence_class: mocked_acp_offline_contract
+    verified_semantics:
+      - provider_neutral_current_cdd_route_resolution
+      - zero_turn_read_only_successor_session_new
+      - native_goal_before_admission_prompt
+      - durable_terminal_before_preflight_pass
+      - provider_native_goal_admission_mapping
+      - exact_router_state_sha_generation_cas
+      - inactive_source_denied_after_commit
+      - successor_authorized_only_after_commit
+      - rollback_denies_successor_and_reactivates_source
+      - every_operation_rechecks_current_router_state
+      - no_invented_grok_archive_api
+      - html_review_board_and_creative_bytes_immutable
+    live_binary_claim: false
+    external_or_generative_actions: 0
+  director_successor_live_evidence:
+    status: present
+    path: development/front-planning-workbench/docs/evidence/grok-1.0.3-cdd-direct-session-router-receipt-2026-08-17.json
+    sha256: 6075cb232220b88c335889ebad565087f1ea32b1bc58e1456d52225ad33c8a9d
+    required_capabilities:
+      - two_distinct_director_sessions
+      - successor_created_with_zero_model_turns
+      - successor_goal_completed_admission_without_assignment_completion
+      - actual_session_router_source_to_successor_state_sha_generation_cas
+      - inactive_source_denied_and_successor_authorized_after_commit
+      - rollback_denies_successor_and_reactivates_source
+      - exact_successor_resume_continue
+      - no_repo_media_external_writes
+      - no_cross_provider_fallback
+    missing_action: hold_shared_director_deep_without_provider_fallback
+  profile_decisions:
+    grok_director_deep:
+      status: ready
+      verified_requirements:
+        - create_send_wait_resume_continue
+        - fork_successor_with_retained_session
+        - harness_logical_retire_reactivate
+        - provider_native_goal_admission_event_and_attestation
+        - registered_session_router_active_role_singleton_cas
+        - pre00_to_05_no_fallback_shadow
+        - actual_binary_two_session_successor_receipt
+      blocking_requirements: []
+      required_next_evidence: none
+    grok_director_frontier:
+      status: ready
+      verified_requirements:
+        - create_send_wait_resume_continue
+        - fork_successor_with_retained_session
+        - harness_logical_retire_reactivate
+        - provider_native_goal_admission_event_and_attestation
+        - registered_session_router_active_role_singleton_cas
+        - pre00_to_05_no_fallback_shadow
+        - actual_binary_two_session_successor_receipt
+      blocking_requirements: []
+      required_next_evidence: none
+    grok_worker_high:
+      status: ready
+      verified_requirements:
+        - exact_department_dispatch
+        - native_goal_event_and_attestation
+        - parent_scoped_authority
+        - exact_output_and_return_recipient
+        - no_provider_fallback
+      blocking_requirements: []
+      required_next_evidence: none
+    grok_worker_medium:
+      status: hold
+      verified_requirements: []
+      blocking_requirements:
+        - exact_provider_inventory_model_display_effort_receipt
+        - assignment_schema_registry_closure
+      required_next_evidence: grok_46_medium_research_inventory_and_registry_closure
+
+media_activation_evidence:
+  video_subscription_cli:
+    status: pass_for_registered_lane_not_generation
+    path: development/front-planning-workbench/docs/evidence/grok-1.0.4-video-lane-readiness-receipt-2026-08-17.json
+    sha256: 48202af8e93489a9554b7af413642f89d773df526eadaaf51ac8018199977eef
+    zero_model_turns: true
+    generation_calls: 0
+    registered_adapter_command: idol-grok-live-video-prompt
+    direct_imagine_video_command_present: false
+    current_assignment_inventory_or_adapter_match_required: true
+    cue_specific_founder_external_generation_authority_required: true
+    automatic_fallback: none
+
+profiles:
+  grok_director_deep:
+    exact_model: grok-4.6
+    reasoning_effort: xhigh
+    eligible_logical_roles:
+      - overall_director
+      - creative_development_director
+      - edit_director
+    capability_status: founder_verified
+    harness_status: active
+    full_owner_ready: true
+    owner_readiness_requires:
+      - create_send_wait_resume_continue
+      - fork_successor_with_retained_session
+      - harness_logical_retire_reactivate
+      - provider_native_goal_admission_event_and_attestation
+      - registered_session_router_active_role_singleton_cas
+      - pre00_to_05_no_fallback_shadow
+      - actual_binary_two_session_successor_receipt
+    unavailable_or_mismatch_action: hold_and_report
+    logical_tier: frontier_director
+    graph_engineering_profile_id: grok_director_frontier
+    compatibility_logical_alias: director_deep
+  grok_director_frontier:
+    exact_model: grok-4.6
+    reasoning_effort: xhigh
+    eligible_logical_roles:
+      - overall_director
+      - creative_development_director
+      - edit_director
+    capability_status: founder_verified
+    harness_status: active
+    full_owner_ready: true
+    owner_readiness_requires:
+      - create_send_wait_resume_continue
+      - fork_successor_with_retained_session
+      - harness_logical_retire_reactivate
+      - provider_native_goal_admission_event_and_attestation
+      - registered_session_router_active_role_singleton_cas
+      - pre00_to_05_no_fallback_shadow
+      - actual_binary_two_session_successor_receipt
+    unavailable_or_mismatch_action: hold_and_report
+    logical_tier: frontier_director
+    compatibility_logical_alias: director_deep
+  # Compatibility profile ID; new substantive work uses xhigh.
+  # Historical high receipts and admitted run snapshots are not rewritten.
+  grok_worker_high:
+    exact_model: grok-4.6
+    reasoning_effort: xhigh
+    eligible_logical_roles:
+      - worker
+      - department_worker
+      - mechanical_coordinator
+      - section_image_motion_worker
+    capability_status: founder_verified
+    harness_status: active
+    full_owner_ready: true
+    worker_readiness_requires:
+      - exact_department_dispatch
+      - native_goal_event_and_attestation
+      - parent_scoped_authority
+      - exact_output_and_return_recipient
+      - no_provider_fallback
+    unavailable_or_mismatch_action: hold_and_report
+    logical_tier: worker_high
+  grok_worker_medium:
+    exact_model: grok-4.6
+    reasoning_effort: medium
+    eligible_logical_roles:
+      - research_worker
+      - department_worker
+    capability_status: hold
+    harness_status: hold
+    full_owner_ready: false
+    worker_readiness_requires:
+      - exact_department_dispatch
+      - native_goal_event_and_attestation
+      - parent_scoped_authority
+      - exact_output_and_return_recipient
+      - no_provider_fallback
+    unavailable_or_mismatch_action: hold_and_report
+    logical_tier: research_medium
+    selection_authority: candidate_only_no_select_apply_promotion_or_media
+
+media_capabilities:
+  image_subscription_cli:
+    auth_lane: subscription_oauth
+    capability_status: founder_verified
+    harness_status: active
+    adapter_id: grok_image
+    tools:
+      - image_edit
+      - image_gen
+    tool_selection: attachments_nonzero_image_edit_zero_image_gen
+    prompt_rewrite_policy: forbidden
+    output_contract: exact_expected_output_path_sha256_pixel_review
+    local_output_required: true
+    automatic_fallback: none
+  video_subscription_cli:
+    auth_lane: subscription_oauth
+    capability_status: founder_verified
+    harness_status: active
+    adapter_id: grok_build_video
+    tools:
+      - image_to_video
+      - reference_to_video
+    direct_image_to_video: forbidden
+    prompt_rewrite_policy: forbidden
+    automatic_fallback: none
+    output_contract: exact_expected_output_path_sha256_playback_review
+    local_output_required: true
+    current_assignment_inventory_or_adapter_match_required: true
+    cue_specific_founder_external_generation_authority_required: true
+    allowed_durations_seconds:
+      - 6
+      - 10
+    allowed_resolutions:
+      - 480p
+      - 720p
+    resolution_1080p: rejected

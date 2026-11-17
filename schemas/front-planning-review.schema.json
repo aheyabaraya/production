@@ -1,0 +1,448 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/front-planning-review.schema.json",
+  "title": "IDOL Front Planning Founder Review",
+  "description": "Active v3 only. Run-owned, hash-bound Founder Direction Alignment review record. PASS establishes the message, Major, form, and section-reference direction baseline and hands the same development epoch back to the Director for internal FP Close, 01, and 02A. It never records FP Close, 02A PASS, paid generation, or public release approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_id",
+    "status",
+    "run",
+    "content",
+    "decision",
+    "review_basis",
+    "asset_decisions",
+    "sequence_snapshot",
+    "open_questions",
+    "downstream_gate",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "front-planning-review.v3"
+    },
+    "review_id": {
+      "type": "string",
+      "pattern": "^FP_REVIEW_[A-Z0-9][A-Z0-9_-]{2,80}_V[1-9][0-9]*$"
+    },
+    "status": {
+      "const": "recorded"
+    },
+    "run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_root", "content_id", "review_path"],
+      "properties": {
+        "run_root": {
+          "$ref": "#/$defs/runRoot"
+        },
+        "content_id": {
+          "$ref": "#/$defs/contentId"
+        },
+        "review_path": {
+          "type": "string",
+          "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}/review/front-planning/founder-review-v[1-9][0-9]*\\.json$"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["album_key", "title_key", "title_display_name"],
+      "properties": {
+        "album_key": {
+          "$ref": "#/$defs/catalogKey"
+        },
+        "title_key": {
+          "$ref": "#/$defs/catalogKey"
+        },
+        "title_display_name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "explicit_founder_decision",
+        "reviewed_by",
+        "reviewed_at",
+        "review_source",
+        "decision_note"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": ["pass", "hold", "reject"]
+        },
+        "explicit_founder_decision": {
+          "const": true
+        },
+        "reviewed_by": {
+          "const": "founder"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "review_source": {
+          "enum": ["workbench", "chat", "manual_file", "codex_session"]
+        },
+        "decision_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "review_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plan", "canvas", "review_surfaces"],
+      "properties": {
+        "plan": {
+          "$ref": "#/$defs/planBinding"
+        },
+        "canvas": {
+          "$ref": "#/$defs/canvasBinding"
+        },
+        "review_surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/reviewSurface"
+          }
+        }
+      }
+    },
+    "asset_decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_asset_ids",
+        "held_asset_ids",
+        "rejected_asset_ids",
+        "candidate_asset_ids"
+      ],
+      "properties": {
+        "selected_asset_ids": {
+          "$ref": "#/$defs/uniqueIds"
+        },
+        "held_asset_ids": {
+          "$ref": "#/$defs/uniqueIds"
+        },
+        "rejected_asset_ids": {
+          "$ref": "#/$defs/uniqueIds"
+        },
+        "candidate_asset_ids": {
+          "$ref": "#/$defs/uniqueIds"
+        }
+      }
+    },
+    "sequence_snapshot": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sequenceEntry"
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "downstream_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "readiness_path",
+        "readiness_status",
+        "ready_for",
+        "next_allowed_step",
+        "auto_advance",
+        "mutates_current_next",
+        "mutates_downstream_artifacts"
+      ],
+      "properties": {
+        "readiness_path": {
+          "type": "string",
+          "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}/research/front-planning-readiness-v[1-9][0-9]*\\.yaml$"
+        },
+        "readiness_status": {
+          "enum": ["direction_aligned", "hold", "rejected"]
+        },
+        "ready_for": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/safeHandoffTarget"
+          }
+        },
+        "next_allowed_step": {
+          "enum": [
+            "continue_continuous_pre02a_development",
+            "hold_for_smallest_owner_revision",
+            "reject_front_planning_route"
+          ]
+        },
+        "auto_advance": {
+          "const": false
+        },
+        "mutates_current_next": {
+          "const": false
+        },
+        "mutates_downstream_artifacts": {
+          "const": false
+        }
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "outcome": {
+                "const": "pass"
+              }
+            },
+            "required": ["outcome"]
+          }
+        },
+        "required": ["decision"]
+      },
+      "then": {
+        "properties": {
+          "review_basis": {
+            "properties": {
+              "canvas": {
+                "properties": {
+                  "pending_reconciliation_dirty": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          },
+          "downstream_gate": {
+            "properties": {
+              "readiness_status": {
+                "const": "direction_aligned"
+              },
+              "next_allowed_step": {
+                "const": "continue_continuous_pre02a_development"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "outcome": {
+                "const": "hold"
+              }
+            },
+            "required": ["outcome"]
+          }
+        },
+        "required": ["decision"]
+      },
+      "then": {
+        "properties": {
+          "downstream_gate": {
+            "properties": {
+              "readiness_status": {
+                "const": "hold"
+              },
+              "next_allowed_step": {
+                "const": "hold_for_smallest_owner_revision"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "outcome": {
+                "const": "reject"
+              }
+            },
+            "required": ["outcome"]
+          }
+        },
+        "required": ["decision"]
+      },
+      "then": {
+        "properties": {
+          "downstream_gate": {
+            "properties": {
+              "readiness_status": {
+                "const": "rejected"
+              },
+              "next_allowed_step": {
+                "const": "reject_front_planning_route"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "runRoot": {
+      "type": "string",
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "contentId": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "catalogKey": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "uniqueIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/id"
+      }
+    },
+    "planBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}/research/front-planning-v[1-9][0-9]*\\.md$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "canvasBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "file_sha256",
+        "content_digest",
+        "revision_number",
+        "updated_at",
+        "pending_reconciliation_dirty"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}/work/front_planning_integration/canvas-state\\.json$"
+        },
+        "file_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "content_digest": {
+          "$ref": "#/$defs/sha256"
+        },
+        "revision_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "pending_reconciliation_dirty": {
+          "type": "boolean"
+        }
+      }
+    },
+    "reviewSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "sha256", "scope", "section_ids"],
+      "properties": {
+        "kind": {
+          "enum": ["ordered_contact_sheet", "spatial_board_snapshot"]
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}/review/front-planning/(contact-sheets|board-snapshots)/.+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "scope": {
+          "enum": ["selection", "section", "all"]
+        },
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      }
+    },
+    "sequenceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_id", "asset_id", "section_id", "order", "timeline", "purpose"],
+      "properties": {
+        "sequence_id": {
+          "$ref": "#/$defs/id"
+        },
+        "asset_id": {
+          "$ref": "#/$defs/id"
+        },
+        "section_id": {
+          "$ref": "#/$defs/id"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timeline": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        }
+      }
+    },
+    "safeHandoffTarget": {
+      "const": "continuous_pre02a_development"
+    }
+  }
+}

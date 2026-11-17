@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/pre-00-selection-handoff.schema.json",
+  "title": "IDOL PRE-00 Founder Selection Handoff",
+  "description": "Active v4 deterministic, hash-bound bridge from one Founder-selected PRE-00 1.8 radar. It exact-copies the immutable storyline lineage, typed A/B/C and X/Y/Z hierarchies, target/message/emotional progression, sequence-run pointers, autonomy and authority envelopes, and the verified FP Launch Lock. The bridge creates no stage and grants no source acquisition, planning-image, paid, or external generation authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "handoff_id",
+    "run",
+    "created_at",
+    "source_radar",
+    "storyline_lineage",
+    "visual_reference_hierarchy",
+    "audio_reference_hierarchy",
+    "reference_transfer_exclusion_map",
+    "audience_profiles",
+    "x_reference_audience_envelope",
+    "title_target_intersection",
+    "message_progression",
+    "emotional_progression",
+    "sequence_runs",
+    "fp_autonomy_envelope",
+    "source_acquisition_authority",
+    "planning_image_authority",
+    "operating_observation",
+    "fp_launch_lock",
+    "selected_target",
+    "selected_connection",
+    "selected_routes",
+    "reference_preview",
+    "founder_response",
+    "must_and_avoid",
+    "startup",
+    "authority_boundary",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-pre00-selection-handoff.v4"},
+    "artifact_type": {"const": "pre00_founder_selection_handoff"},
+    "handoff_id": {"type": "string", "pattern": "^PRE00_HANDOFF_[A-Z0-9][A-Z0-9_-]{2,100}$"},
+    "run": {"type": "string", "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "source_radar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "radar_id", "status"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "1.8"},
+        "radar_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"},
+        "status": {"const": "selected"}
+      }
+    },
+    "storyline_lineage": {"$ref": "#/$defs/exactCopyBinding"},
+    "visual_reference_hierarchy": {"$ref": "#/$defs/exactCopyBinding"},
+    "audio_reference_hierarchy": {"$ref": "#/$defs/exactCopyBinding"},
+    "reference_transfer_exclusion_map": {"$ref": "#/$defs/exactCopyBinding"},
+    "audience_profiles": {"$ref": "#/$defs/exactCopyBinding"},
+    "x_reference_audience_envelope": {"$ref": "#/$defs/exactCopyBinding"},
+    "title_target_intersection": {"$ref": "#/$defs/exactCopyBinding"},
+    "message_progression": {"$ref": "#/$defs/exactCopyBinding"},
+    "emotional_progression": {"$ref": "#/$defs/exactCopyBinding"},
+    "sequence_runs": {"$ref": "#/$defs/exactCopyBinding"},
+    "fp_autonomy_envelope": {"$ref": "#/$defs/exactCopyBinding"},
+    "source_acquisition_authority": {"$ref": "#/$defs/exactCopyBinding"},
+    "planning_image_authority": {"$ref": "#/$defs/exactCopyBinding"},
+    "operating_observation": {"$ref": "#/$defs/exactCopyBinding"},
+    "fp_launch_lock": {"$ref": "#/$defs/exactCopyBinding"},
+    "selected_target": {"$ref": "#/$defs/exactCopyBinding"},
+    "selected_connection": {"$ref": "#/$defs/exactCopyBinding"},
+    "selected_routes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/exactCopyBinding"}
+    },
+    "reference_preview": {"$ref": "#/$defs/exactCopyBinding"},
+    "founder_response": {"$ref": "#/$defs/exactCopyBinding"},
+    "must_and_avoid": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_contract", "attraction_triggers", "rejection_triggers", "do_not_serve", "trend_do_not_copy"],
+      "properties": {
+        "content_contract": {"$ref": "#/$defs/exactCopyBinding"},
+        "attraction_triggers": {"$ref": "#/$defs/exactCopyBinding"},
+        "rejection_triggers": {"$ref": "#/$defs/exactCopyBinding"},
+        "do_not_serve": {"$ref": "#/$defs/exactCopyBinding"},
+        "trend_do_not_copy": {"$ref": "#/$defs/exactCopyBinding"}
+      }
+    },
+    "startup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["song_room", "visual_preparation"],
+      "properties": {
+        "song_room": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "session_route", "created_by", "reports_to", "context_source", "duplicate_founder_brief_forbidden", "model_turn_at_handoff"],
+          "properties": {
+            "action": {"const": "open_existing_song_room_context"},
+            "session_route": {"const": "cdd_physical_song_room"},
+            "created_by": {"const": "creative_development_director"},
+            "reports_to": {"const": "creative_development_director"},
+            "context_source": {"const": "this_hash_bound_handoff"},
+            "duplicate_founder_brief_forbidden": {"const": true},
+            "model_turn_at_handoff": {"const": false}
+          }
+        },
+        "visual_preparation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action", "owner", "allowed_scope", "returns_to", "context_source", "parallel_with_song_conversation", "external_or_paid_generation_allowed"],
+          "properties": {
+            "action": {"const": "start_asynchronous_cdd_preparation_context"},
+            "owner": {"const": "creative_development_director"},
+            "allowed_scope": {
+              "type": "array",
+              "const": ["reference_preview_preparation", "identity_gap_check", "visual_research_question_preparation"]
+            },
+            "returns_to": {"const": "creative_development_director"},
+            "context_source": {"const": "this_hash_bound_handoff"},
+            "parallel_with_song_conversation": {"const": true},
+            "external_or_paid_generation_allowed": {"const": false}
+          }
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["new_stage_created", "stage_order_changed", "creative_lock_scope", "paid_generation_authorized", "external_action_authorized", "downstream_truth_authorized"],
+      "properties": {
+        "new_stage_created": {"const": false},
+        "stage_order_changed": {"const": false},
+        "creative_lock_scope": {"const": "selected_pre00_target_storyline_reference_hierarchies_and_fp_launch_values_only"},
+        "paid_generation_authorized": {"const": false},
+        "external_action_authorized": {"const": false},
+        "downstream_truth_authorized": {"const": false}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["copy_policy", "consumer_start_order", "storyline_consumer_chain", "storyline_preservation_rule", "handoff_payload_sha256"],
+      "properties": {
+        "copy_policy": {"const": "exact_copy_from_source_json_pointer_no_creative_defaults"},
+        "consumer_start_order": {"type": "array", "const": ["song_room_context", "visual_preparation_context"]},
+        "storyline_consumer_chain": {
+          "type": "array",
+          "const": ["song_room_context", "front_planning", "section_01", "section_02a", "section_02b", "section_03v", "section_04"]
+        },
+        "storyline_preservation_rule": {"const": "exact_copy_original_active_full_text_revision_history_density_review_and_reference_bindings_no_summary_substitution"},
+        "handoff_payload_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "repoPath": {"type": "string", "pattern": "^(?:automation|runs)/.+"},
+    "exactCopyBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_pointer", "value", "value_sha256"],
+      "properties": {
+        "source_pointer": {"type": "string", "pattern": "^/.*"},
+        "value": {},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

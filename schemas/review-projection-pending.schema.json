@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/review-projection-pending.schema.json",
+  "title": "IDOL Founder Review Projection Pending Index",
+  "description": "A derived, run-owned pointer list for review assets that remain unassigned after deterministic board assembly. Current-next may display it, but it does not create a task, creative meaning, or approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "status",
+    "source_set",
+    "board_manifest",
+    "board_revision",
+    "active_cycle_id",
+    "summary",
+    "items",
+    "next_action",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-review-projection-pending.v1"},
+    "artifact_type": {"const": "review_projection_pending_index"},
+    "run": {"type": "string", "pattern": "^runs/.+"},
+    "status": {"enum": ["clear", "pending"]},
+    "source_set": {"$ref": "#/$defs/artifactBinding"},
+    "board_manifest": {"$ref": "#/$defs/artifactBinding"},
+    "board_revision": {"type": "integer", "minimum": 1},
+    "active_cycle_id": {"type": "string", "minLength": 1},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_count", "inventory_count", "projected_asset_count", "projected_binding_count", "excluded_count", "unresolved_count"],
+      "properties": {
+        "source_count": {"type": "integer", "minimum": 1},
+        "inventory_count": {"type": "integer", "minimum": 0},
+        "projected_asset_count": {"type": "integer", "minimum": 1},
+        "projected_binding_count": {"type": "integer", "minimum": 1},
+        "excluded_count": {"type": "integer", "minimum": 0},
+        "unresolved_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["asset_id", "binding_id", "source_stage", "dispatch_id", "director_dispatch_index", "reason"],
+        "properties": {
+          "asset_id": {"type": "string", "minLength": 1},
+          "binding_id": {"type": "string", "minLength": 1},
+          "source_stage": {"type": "string", "minLength": 1},
+          "dispatch_id": {"type": "string", "minLength": 1},
+          "director_dispatch_index": {"$ref": "#/$defs/artifactBinding"},
+          "reason": {"const": "new_unassigned_review_asset_requires_lane_and_target_classification"}
+        }
+      }
+    },
+    "next_action": {"const": "route_unassigned_items_through_existing_director_dispatch_then_reassemble_same_stable_board"},
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_truth_written", "task_created", "approval_inferred", "current_next_selection_overridden"],
+      "properties": {
+        "creative_truth_written": {"const": false},
+        "task_created": {"const": false},
+        "approval_inferred": {"const": false},
+        "current_next_selection_overridden": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

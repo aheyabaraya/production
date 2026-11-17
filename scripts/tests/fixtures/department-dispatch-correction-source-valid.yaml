@@ -1,0 +1,23 @@
+dispatch_id: DISPATCH_FIXTURE_001
+artifact_type: department_dispatch_correction_source_fixture
+director_review:
+  disposition: hold
+  correction:
+    problem: The returned still does not make the named section job visible.
+    evidence:
+      - kind: returned_output
+        locator: scripts/tests/fixtures/run-followup-sidecar-valid.yaml
+        source_sha256: bb377b2a054a2f2f0b109f52033d6e09caa6628ad93cc43394201c2cc7616604
+        observation: The fixture stands in for the exact Director-reviewed bytes.
+    screen_consequence: The section job cannot be judged from the selected still.
+    correction_action: Reopen only the invalidated still and show the named section job.
+    remaining_risk: A replacement may solve visibility while weakening identity continuity.
+    affected_owner: creative_development_director
+    invalidated_outputs:
+      - path: scripts/tests/fixtures/run-followup-sidecar-valid.yaml
+        sha256: bb377b2a054a2f2f0b109f52033d6e09caa6628ad93cc43394201c2cc7616604
+        role: invalidated_returned_output
+    complete_problem_set: true
+    acceptance_criteria:
+      - The named section job is visible in the corrected still.
+    retry_route: same_session_new_attempt

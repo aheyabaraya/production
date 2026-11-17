@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-role-context-projection.schema.json",
+  "title": "IDOL Graph Engineering Role Context Projection Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority",
+    "source_registry",
+    "defaults",
+    "rules",
+    "invalidation"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-role-context-projection.v1"},
+    "status": {"const": "active"},
+    "authority": {"const": "derived_read_only_no_creative_or_promotion_authority"},
+    "source_registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schema_version"],
+      "properties": {
+        "path": {"const": "automation/harness-skill-load-profiles.yaml"},
+        "schema_version": {"const": "idol-harness-skill-load-profiles.v2"}
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_mode",
+        "markdown_read_mode",
+        "structured_read_mode",
+        "ambiguous_locator_action",
+        "missing_source_action"
+      ],
+      "properties": {
+        "skill_mode": {"const": "full_file"},
+        "markdown_read_mode": {"const": "full_file"},
+        "structured_read_mode": {"const": "pointer_only"},
+        "ambiguous_locator_action": {"const": "hold_never_guess"},
+        "missing_source_action": {"const": "hold_never_default"}
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/rule"}
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "whole_file_hash_role",
+        "fragment_hash_role",
+        "founder_change",
+        "provider_change",
+        "unrelated_scope_change"
+      ],
+      "properties": {
+        "whole_file_hash_role": {"const": "source_inventory_and_locator_revalidation"},
+        "fragment_hash_role": {"const": "localized_runtime_instruction_invalidation"},
+        "founder_change": {"const": "invalidate_affected_semantic_descendants_only"},
+        "provider_change": {"const": "invalidate_assignments_resolved_to_changed_provider_snapshot_only"},
+        "unrelated_scope_change": {"const": "preserve_pack_when_bound_source_set_is_unchanged"}
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "profile_ids", "mode", "reason"],
+      "properties": {
+        "binding_id": {"$ref": "#/$defs/identifier"},
+        "profile_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "oneOf": [
+              {"const": "*"},
+              {"$ref": "#/$defs/identifier"}
+            ]
+          }
+        },
+        "mode": {"enum": ["full_file", "pointer_only", "markdown_headings"]},
+        "headings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "markdown_headings"}}, "required": ["mode"]},
+          "then": {"required": ["headings"]},
+          "else": {"not": {"required": ["headings"]}}
+        }
+      ]
+    }
+  }
+}

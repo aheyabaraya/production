@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-checkpoint-closure-catalog.schema.json",
+  "title": "IDOL Graph Engineering Checkpoint Closure Catalog",
+  "description": "Recipe-owned mechanical closure cards. Directors may append Current Assignment Delta rows; they may not delete recipe rows. Scripts check presence, count, hash, and enum only.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority",
+    "append_policy",
+    "checkpoints"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-checkpoint-closure-catalog.v1"},
+    "status": {"const": "active"},
+    "authority": {"const": "recipe_owned_mechanical_presence_count_hash_enum_only"},
+    "append_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipe_rows",
+        "director_may_append_assignment_delta_rows",
+        "recipe_row_deletion"
+      ],
+      "properties": {
+        "recipe_rows": {"const": "immutable"},
+        "director_may_append_assignment_delta_rows": {"const": true},
+        "recipe_row_deletion": {"const": "forbidden"}
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/checkpoint"}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "requirementId": {
+      "type": "string",
+      "pattern": "^(?:FOUNDER|SKILL|POLICY|CONTRACT|SCHEMA|OUTPUT|QUALITY|HOLD|GOAL)-[A-Z0-9][A-Z0-9._-]{0,80}$"
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_group",
+        "profile_ids",
+        "checkpoint_ids",
+        "consume_validators",
+        "rows"
+      ],
+      "properties": {
+        "checkpoint_group": {"$ref": "#/$defs/identifier"},
+        "profile_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "checkpoint_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "consume_validators": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/recipeRow"}
+        }
+      }
+    },
+    "recipeRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirement_id",
+        "category",
+        "source_locator",
+        "check_kind",
+        "expected",
+        "evidence_type"
+      ],
+      "properties": {
+        "requirement_id": {"$ref": "#/$defs/requirementId"},
+        "category": {
+          "enum": ["founder", "skill", "policy", "contract", "schema", "output", "quality", "hold", "goal"]
+        },
+        "source_locator": {"type": "string", "minLength": 1},
+        "check_kind": {"enum": ["presence", "count", "hash", "enum", "director_judgment"]},
+        "expected": {"type": "string", "minLength": 1},
+        "evidence_type": {
+          "enum": ["field", "artifact", "media", "validator", "registry", "hold", "runtime_goal"]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/prompt-packets-v2.2-legacy.schema.json",
+  "title": "IDOL 02B Prompt Packets 2.2 Legacy Reader",
+  "description": "Pinned read-only 2.2 Branch-only reader. New authoring and execution use prompt-packets.schema.json 2.3; this contract must never be selected for a new generation request.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "input_files",
+    "status",
+    "packet_policy",
+    "imagegen_validation_contract",
+    "prompt_packets",
+    "section_shards",
+    "review_surface",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.2"},
+    "content_id": {"type": "string", "minLength": 1},
+    "input_files": {"$ref": "#/$defs/inputFiles"},
+    "status": {"enum": ["draft", "founder_review", "approved", "hold", "rejected"]},
+    "packet_policy": {"$ref": "#/$defs/packetPolicy"},
+    "imagegen_validation_contract": {"$ref": "#/$defs/imagegenValidationContract"},
+    "prompt_packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/promptPacket"}
+    },
+    "section_shards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionShard"}
+    },
+    "review_surface": {"$ref": "#/$defs/reviewSurface"},
+    "open_questions": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "artifact_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "inputFiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "master_storyboard",
+        "master_storyboard_sha256",
+        "storyboard_context_review",
+        "storyboard_context_review_sha256"
+      ],
+      "properties": {
+        "master_storyboard": {"type": "string", "minLength": 1},
+        "master_storyboard_sha256": {"$ref": "#/$defs/sha256"},
+        "storyboard_context_review": {"type": "string", "minLength": 1},
+        "storyboard_context_review_sha256": {"$ref": "#/$defs/sha256"},
+        "founder_direct_intervention": {"type": "string", "minLength": 1},
+        "founder_direct_intervention_sha256": {"$ref": "#/$defs/sha256"},
+        "section_compile_shard_id": {"type": "string", "minLength": 1},
+        "section_compile_scope_sha256": {"$ref": "#/$defs/sha256"},
+        "section_review_intakes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "section_context_reviews": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sectionContextReviewRef"}
+        }
+      },
+      "dependentRequired": {
+        "founder_direct_intervention": ["founder_direct_intervention_sha256"],
+        "founder_direct_intervention_sha256": ["founder_direct_intervention"],
+        "section_compile_shard_id": ["section_compile_scope_sha256"],
+        "section_compile_scope_sha256": ["section_compile_shard_id"]
+      }
+    },
+    "packetPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit",
+        "count_rule",
+        "prompt_structure",
+        "translation_rule",
+        "component_authoring_rule",
+        "storyline_authoring_rule",
+        "member_visual_rule",
+        "scene_reference_rule",
+        "context_rule",
+        "still_camera_rule",
+        "motion_camera_rule",
+        "revision_rule"
+      ],
+      "properties": {
+        "unit": {"const": "one_packet_per_02a_branch_cut"},
+        "count_rule": {"const": "uncapped_event_and_directorially_driven_1_to_n_branch_cuts_per_core_cut"},
+        "prompt_structure": {
+          "const": "Identity reference rule_then_Scene intent_then_Visible details_then_Action cue_then_Avoid"
+        },
+        "translation_rule": {
+          "const": "human_or_model_authored_natural_language_translation_from_02a_never_schema_dump_or_script_authored_prose"
+        },
+        "component_authoring_rule": {
+          "const": "human_or_assigned_model_inspects_exact_02a_storyline_current_title_visuals_and_reference_bindings_then_authors_every_component_scripts_only_validate_and_serialize_fixed_labels"
+        },
+        "storyline_authoring_rule": {
+          "const": "whole_film_section_planning_cut_and_02a_expansion_storyline_hashes_must_be_bound_and_component_mapped_before_prompt_authorship_then_independently_read_by_the_recipient_director"
+        },
+        "member_visual_rule": {
+          "const": "current_title_package_only_smallest_branch_cut_relevant_subset_no_separate_face_input"
+        },
+        "scene_reference_rule": {
+          "const": "preserve_selected_action_staging_composition_still_camera_subject_placement_crop_and_order"
+        },
+        "context_rule": {
+          "const": "exact_current_branch_and_parent_core_plus_immediate_branch_siblings_and_immediate_previous_and_next_core_cuts_in_same_section_only"
+        },
+        "still_camera_rule": {
+          "const": "preserve_02a_height_distance_direction_angle_depth_placement_and_crop"
+        },
+        "motion_camera_rule": {
+          "const": "temporal_push_pull_pan_tilt_track_orbit_speed_and_envelope_are_forbidden_until_03v_after_pixel_pass"
+        },
+        "revision_rule": {
+          "const": "founder_or_model_local_revision_updates_smallest_core_or_branch_owner_and_reprojects_only_affected_packets"
+        }
+      }
+    },
+    "imagegenValidationContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "quality",
+        "dimension_policy",
+        "required_prompt_terms",
+        "reference_attachment_rule",
+        "cross_album_rule",
+        "paid_generation_gate"
+      ],
+      "properties": {
+        "model": {"const": "gpt-image-2"},
+        "quality": {"const": "highest_available"},
+        "dimension_policy": {"const": "maximum_supported_dimensions_for_locked_aspect_ratio"},
+        "required_prompt_terms": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "4K"},
+            {"const": "high quality"},
+            {"const": "high detail"}
+          ],
+          "items": false
+        },
+        "reference_attachment_rule": {
+          "const": "attach_only_hash_bound_inputs_selected_for_this_branch_cut_in_declared_order"
+        },
+        "cross_album_rule": {
+          "const": "hold_cross_album_pixels_unless_founder_selected_the_exact_direct_reference_for_this_title"
+        },
+        "paid_generation_gate": {"const": "founder_explicit_approval_required"}
+      }
+    },
+    "sectionShard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shard_id",
+        "section_id",
+        "core_cut_ids",
+        "packet_ids",
+        "status",
+        "review_order",
+        "canonical_merge_policy",
+        "local_lineage"
+      ],
+      "properties": {
+        "shard_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}
+        },
+        "packet_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"}
+        },
+        "status": {"enum": ["draft", "founder_review", "passed", "hold", "rejected"]},
+        "review_order": {"const": "core_cut_then_branch_cut_sequence"},
+        "canonical_merge_policy": {
+          "const": "lossless_ordered_merge_after_section_founder_review_pass"
+        },
+        "local_lineage": {"$ref": "#/$defs/localLineage"}
+      }
+    },
+    "sectionContextReviewRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "path", "artifact_sha256"],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "path": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "packetLineageState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_id",
+        "state",
+        "packet_value_sha256",
+        "source_02a_branch_cut_value_sha256",
+        "source_storyline_alignment_binding_sha256",
+        "source_core_cut_context_value_sha256",
+        "source_same_section_context_sha256"
+      ],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "state": {"enum": ["compiled", "carried_forward"]},
+        "packet_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_02a_branch_cut_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_storyline_alignment_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "source_core_cut_context_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_same_section_context_sha256": {"$ref": "#/$defs/sha256"},
+        "source_section_artifact": {"$ref": "#/$defs/artifactRef"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"state": {"const": "carried_forward"}},
+            "required": ["state"]
+          },
+          "then": {"required": ["source_section_artifact"]},
+          "else": {
+            "not": {"required": ["source_section_artifact"]}
+          }
+        }
+      ]
+    },
+    "localLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "source_02a_section_invariants_sha256",
+        "entry_boundary_sha256",
+        "exit_boundary_sha256",
+        "packet_states"
+      ],
+      "properties": {
+        "contract_version": {"const": "idol_02a_02b_local_lineage.v2"},
+        "source_02a_section_invariants_sha256": {"$ref": "#/$defs/sha256"},
+        "entry_boundary_sha256": {"$ref": "#/$defs/sha256"},
+        "exit_boundary_sha256": {"$ref": "#/$defs/sha256"},
+        "packet_states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/packetLineageState"}
+        }
+      }
+    },
+    "sameSectionContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "section_id",
+        "current_core_cut_id",
+        "current_branch_cut_id",
+        "previous_branch_cut",
+        "next_branch_cut",
+        "previous_core_cut",
+        "next_core_cut",
+        "first_core_cut_boundary_rule",
+        "last_core_cut_boundary_rule",
+        "context_value_sha256"
+      ],
+      "properties": {
+        "policy": {
+          "const": "current_branch_plus_parent_core_immediate_branch_siblings_and_immediate_previous_and_next_core_cuts_in_same_section_only"
+        },
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "current_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "current_branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "previous_branch_cut": {
+          "oneOf": [
+            {"$ref": "#/$defs/neighborBranchCutRef"},
+            {"type": "null"}
+          ]
+        },
+        "next_branch_cut": {
+          "oneOf": [
+            {"$ref": "#/$defs/neighborBranchCutRef"},
+            {"type": "null"}
+          ]
+        },
+        "previous_core_cut": {
+          "oneOf": [
+            {"$ref": "#/$defs/neighborCoreCutRef"},
+            {"type": "null"}
+          ]
+        },
+        "next_core_cut": {
+          "oneOf": [
+            {"$ref": "#/$defs/neighborCoreCutRef"},
+            {"type": "null"}
+          ]
+        },
+        "first_core_cut_boundary_rule": {
+          "const": "use_current_section_entry_continuity_when_previous_core_cut_is_null"
+        },
+        "last_core_cut_boundary_rule": {
+          "const": "use_current_section_exit_continuity_when_next_core_cut_is_null"
+        },
+        "context_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "neighborBranchCutRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch_cut_id", "value_sha256"],
+      "properties": {
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "neighborCoreCutRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_cut_id", "value_sha256"],
+      "properties": {
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "stillCameraSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "shot_scale_distance",
+        "camera_height",
+        "direction_angle",
+        "depth_design",
+        "subject_placement",
+        "crop_negative_space",
+        "motion_camera_ownership"
+      ],
+      "properties": {
+        "contract_version": {"const": "still_camera_direction.v3"},
+        "shot_scale_distance": {"type": "string", "minLength": 1},
+        "camera_height": {"type": "string", "minLength": 1},
+        "direction_angle": {"type": "string", "minLength": 1},
+        "depth_design": {"type": "string", "minLength": 1},
+        "subject_placement": {"type": "string", "minLength": 1},
+        "crop_negative_space": {"type": "string", "minLength": 1},
+        "lens_feel": {"type": "string", "minLength": 1},
+        "motion_camera_ownership": {"const": "03V_after_passed_image_pixel_inspection"}
+      }
+    },
+    "memberVisualCompileInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "member_visual_reference_policy",
+        "selected_album_member_visual_asset_ids",
+        "selection_reason",
+        "framing_class",
+        "head_orientation",
+        "occlusion",
+        "package_album_key",
+        "package_title_key",
+        "visual_control_policy"
+      ],
+      "properties": {
+        "member_visual_reference_policy": {"enum": ["required", "prohibited"]},
+        "member_visual_applicability": {
+          "enum": [
+            "meaningfully_visible",
+            "visible_but_member_visual_unnecessary",
+            "not_visible"
+          ],
+          "description": "Human/model-authored distinction between physical member visibility and member-visual attachment need. Omission preserves legacy 2.1 behavior."
+        },
+        "selected_album_member_visual_asset_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "selection_reason": {"type": "string", "minLength": 1},
+        "framing_class": {"type": "string", "minLength": 1},
+        "head_orientation": {"type": "string", "minLength": 1},
+        "occlusion": {"type": "string", "minLength": 1},
+        "package_album_key": {"type": "string", "minLength": 1},
+        "package_title_key": {"type": "string", "minLength": 1},
+        "visual_control_policy": {
+          "const": "current_title_member_visual_controls_appearance_hair_makeup_wardrobe_material_silhouette_and_body_continuity_only_branch_cut_controls_pose_head_gaze_action_still_camera_placement_crop_occlusion_and_proportions"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "required"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {
+              "selected_album_member_visual_asset_ids": {"minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "prohibited"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {
+              "selected_album_member_visual_asset_ids": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_applicability": {"const": "meaningfully_visible"}},
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {"member_visual_reference_policy": {"const": "required"}}
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "member_visual_applicability": {
+                "enum": ["visible_but_member_visual_unnecessary", "not_visible"]
+              }
+            },
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {"member_visual_reference_policy": {"const": "prohibited"}}
+          }
+        }
+      ]
+    },
+    "visualReferenceBinding": {
+      "type": "object",
+      "description": "Exact hash-bound 02A binding. Member visuals come only from the current title package. Founder sequence sheets/crops/scene images retain their selected direct grammar.",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "asset_id",
+        "source_owner",
+        "actual_path",
+        "sha256",
+        "role",
+        "reference_scope",
+        "reference_class",
+        "order",
+        "must_inspect_pixels",
+        "preserve",
+        "discard",
+        "attachment_permission"
+      ],
+      "properties": {
+        "binding_id": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"},
+        "asset_id": {"type": "string", "minLength": 1},
+        "source_owner": {
+          "enum": [
+            "founder_supplied",
+            "front_planning_album_visual_asset",
+            "front_planning_sequence_scene_reference",
+            "01_visual_projection",
+            "reference_contact_sheet_selected_cell",
+            "generated_branch_cut",
+            "run_owned_reference_intake"
+          ]
+        },
+        "actual_path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "(^|/)face-only-reference(?:-|\\.|/)"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "source_kind": {
+          "enum": ["main_reference", "supporting_visual_reference"]
+        },
+        "role": {"type": "string", "minLength": 1},
+        "reference_scope": {"enum": ["member_visual", "scene_visual"]},
+        "reference_class": {
+          "enum": [
+            "current_title_member_visual",
+            "current_title_world_or_background",
+            "founder_sequence_subreference",
+            "founder_scene_subreference",
+            "other_scene_visual"
+          ]
+        },
+        "order": {"type": "integer", "minimum": 1},
+        "must_inspect_pixels": {"const": true},
+        "preserve": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "discard": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "attachment_permission": {
+          "enum": [
+            "planning_and_prompt_only",
+            "attach_after_exact_founder_approval",
+            "exact_founder_approved_current_job"
+          ]
+        },
+        "source_approval": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"reference_scope": {"const": "member_visual"}},
+            "required": ["reference_scope"]
+          },
+          "then": {
+            "properties": {
+              "source_owner": {"const": "front_planning_album_visual_asset"},
+              "reference_class": {"const": "current_title_member_visual"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"attachment_permission": {"const": "exact_founder_approved_current_job"}},
+            "required": ["attachment_permission"]
+          },
+          "then": {"required": ["source_approval"]}
+        }
+      ]
+    },
+    "branchStorylineAlignmentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_cut_id",
+        "source_key_screen_id",
+        "source_01_json_pointer",
+        "source_front_planning_json_pointer",
+        "source_value_sha256",
+        "projected_value",
+        "02a_expansion_delta",
+        "prompt_lineage_rule"
+      ],
+      "properties": {
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "source_key_screen_id": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+        "source_01_json_pointer": {"type": "string", "pattern": "^/section_directions/[0-9]+/planning_cut_alignment_projections/[0-9]+/projected_value$"},
+        "source_front_planning_json_pointer": {"type": "string", "pattern": "^/founder_visual_alignment/planning_cut_readouts/[0-9]+$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {},
+        "02a_expansion_delta": {"type": "string", "minLength": 1},
+        "prompt_lineage_rule": {
+          "const": "02B_must_read_this_exact_storyline_value_and_hash_before_authoring_the_five_prompt_items"
+        }
+      }
+    },
+    "branchCutLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch_cut_id",
+        "packet_id",
+        "branch_role",
+        "branch_sequence",
+        "core_event_derivation",
+        "distinct_screen_contribution",
+        "branch_time_relation",
+        "visible_action",
+        "composition_lock",
+        "camera_treatment",
+        "still_camera_spec",
+        "shot_scale",
+        "space_or_object",
+        "required_visibility",
+        "render_facing_action_cue",
+        "continuity_in",
+        "continuity_out",
+        "visible_member_focus",
+        "member_visual_compile_input",
+        "visual_reference_bindings",
+        "storyline_alignment_binding"
+      ],
+      "properties": {
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "branch_role": {"type": "string", "minLength": 1},
+        "branch_sequence": {"type": "integer", "minimum": 1},
+        "core_event_derivation": {"type": "string", "minLength": 1},
+        "distinct_screen_contribution": {"type": "string", "minLength": 1},
+        "branch_time_relation": {"type": "string", "minLength": 1},
+        "visible_action": {"type": "string", "minLength": 1},
+        "composition_lock": {"type": "string", "minLength": 1},
+        "camera_treatment": {"type": "string", "minLength": 1},
+        "still_camera_spec": {"$ref": "#/$defs/stillCameraSpec"},
+        "shot_scale": {"type": "string", "minLength": 1},
+        "space_or_object": {"type": "string", "minLength": 1},
+        "required_visibility": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "render_facing_action_cue": {"type": "string", "minLength": 1},
+        "continuity_in": {"type": "string", "minLength": 1},
+        "continuity_out": {"type": "string", "minLength": 1},
+        "visible_member_focus": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^M(0[1-9]|1[0-3])$"}
+        },
+        "member_visual_compile_input": {"$ref": "#/$defs/memberVisualCompileInput"},
+        "visual_reference_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/visualReferenceBinding"}
+        },
+        "storyline_alignment_binding": {"$ref": "#/$defs/branchStorylineAlignmentBinding"}
+      },
+      "not": {
+        "anyOf": [
+          {"required": ["identity_compile_input"]},
+          {"required": ["prompt_blueprint"]},
+          {"required": ["camera_route_spec"]}
+        ]
+      }
+    },
+    "memberVisualAssetInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "actual_path",
+        "sha256",
+        "package_album_key",
+        "package_title_key",
+        "order"
+      ],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "actual_path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {"pattern": "(^|/)face-only-reference(?:-|\\.|/)"}
+        },
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "package_album_key": {"type": "string", "minLength": 1},
+        "package_title_key": {"type": "string", "minLength": 1},
+        "order": {"type": "integer", "minimum": 1}
+      }
+    },
+    "memberVisualLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "member_visual_reference_policy",
+        "visible_member_focus",
+        "package_album_key",
+        "package_title_key",
+        "selected_assets",
+        "selection_rule",
+        "visual_control_policy"
+      ],
+      "properties": {
+        "member_visual_reference_policy": {"enum": ["required", "prohibited"]},
+        "member_visual_applicability": {
+          "enum": [
+            "meaningfully_visible",
+            "visible_but_member_visual_unnecessary",
+            "not_visible"
+          ]
+        },
+        "visible_member_focus": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^M(0[1-9]|1[0-3])$"}
+        },
+        "package_album_key": {"type": "string", "minLength": 1},
+        "package_title_key": {"type": "string", "minLength": 1},
+        "selected_assets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/memberVisualAssetInput"}
+        },
+        "selection_rule": {
+          "const": "smallest_branch_cut_relevant_subset_from_front_planning_authorized_current_title_pool"
+        },
+        "visual_control_policy": {
+          "const": "member_visual_controls_only_appearance_hair_makeup_wardrobe_material_silhouette_and_body_continuity_never_forces_face_frontal_gaze_pose_camera_crop_or_proportions"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "required"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {"selected_assets": {"minItems": 1}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_reference_policy": {"const": "prohibited"}},
+            "required": ["member_visual_reference_policy"]
+          },
+          "then": {
+            "properties": {"selected_assets": {"maxItems": 0}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_applicability": {"const": "meaningfully_visible"}},
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {
+              "member_visual_reference_policy": {"const": "required"},
+              "visible_member_focus": {"minItems": 1},
+              "selected_assets": {"minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "member_visual_applicability": {
+                "const": "visible_but_member_visual_unnecessary"
+              }
+            },
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {
+              "member_visual_reference_policy": {"const": "prohibited"},
+              "visible_member_focus": {"minItems": 1},
+              "selected_assets": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"member_visual_applicability": {"const": "not_visible"}},
+            "required": ["member_visual_applicability"]
+          },
+          "then": {
+            "properties": {
+              "member_visual_reference_policy": {"const": "prohibited"},
+              "visible_member_focus": {"maxItems": 0},
+              "selected_assets": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "promptBlueprint": {
+      "type": "object",
+      "description": "Five required render-facing prompt items authored at 02B. Visible details and Action cue have required internal authored components; the compiler may add only fixed labels, separators, and punctuation when serializing the items as the unchanged five labeled lines.",
+      "additionalProperties": false,
+      "required": [
+        "authoring_owner",
+        "identity_reference_rule",
+        "scene_intent",
+        "visible_details",
+        "action_cue",
+        "avoid"
+      ],
+      "properties": {
+        "authoring_owner": {"enum": ["human_authored_02b", "model_authored_02b"]},
+        "identity_reference_rule": {"type": "string", "minLength": 1},
+        "scene_intent": {"type": "string", "minLength": 1},
+        "visible_details": {"$ref": "#/$defs/structuredVisibleDetails"},
+        "action_cue": {"$ref": "#/$defs/structuredActionCue"},
+        "avoid": {"type": "string", "minLength": 1}
+      }
+    },
+    "structuredStillCameraAndComposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "camera_height",
+        "shot_scale_distance",
+        "direction_angle",
+        "depth_design",
+        "subject_placement",
+        "crop_negative_space",
+        "lens_feel"
+      ],
+      "properties": {
+        "camera_height": {"type": "string", "minLength": 1},
+        "shot_scale_distance": {"type": "string", "minLength": 1},
+        "direction_angle": {"type": "string", "minLength": 1},
+        "depth_design": {"type": "string", "minLength": 1},
+        "subject_placement": {"type": "string", "minLength": 1},
+        "crop_negative_space": {"type": "string", "minLength": 1},
+        "lens_feel": {"type": "string", "minLength": 1}
+      }
+    },
+    "structuredVisibleDetails": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "background_and_space",
+        "still_camera_and_composition",
+        "lighting_color_material",
+        "render_quality"
+      ],
+      "properties": {
+        "background_and_space": {"type": "string", "minLength": 1},
+        "still_camera_and_composition": {"$ref": "#/$defs/structuredStillCameraAndComposition"},
+        "lighting_color_material": {"type": "string", "minLength": 1},
+        "render_quality": {"const": "4K, high quality, high detail"}
+      }
+    },
+    "structuredActionCue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject_state_or_pose",
+        "visible_action_or_hold",
+        "object_environment_response"
+      ],
+      "properties": {
+        "subject_state_or_pose": {"type": "string", "minLength": 1},
+        "visible_action_or_hold": {"type": "string", "minLength": 1},
+        "object_environment_response": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      }
+    },
+    "authoringInspectionReceipt": {
+      "type": "object",
+      "description": "A human/model declaration that the exact source truth and bound visual inputs were inspected before creative fields were authored. The compiler validates hashes and exact sets only; it cannot claim that reading or author the values.",
+      "additionalProperties": false,
+      "required": [
+        "inspection_owner",
+        "source_02a_branch_cut_sha256",
+        "source_storyline_alignment_binding_sha256",
+        "inspected_storyline_levels",
+        "inspected_visual_reference_binding_ids",
+        "inspected_current_title_asset_ids",
+        "authored_component_order",
+        "creative_fill_policy",
+        "storyline_inspection_note",
+        "inspection_note"
+      ],
+      "properties": {
+        "inspection_owner": {"enum": ["human_authored_02b", "model_authored_02b"]},
+        "source_02a_branch_cut_sha256": {"$ref": "#/$defs/sha256"},
+        "source_storyline_alignment_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "inspected_storyline_levels": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "whole_film"},
+            {"const": "section"},
+            {"const": "planning_cut"},
+            {"const": "02a_branch_expansion"}
+          ],
+          "items": false
+        },
+        "inspected_visual_reference_binding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"}
+        },
+        "inspected_current_title_asset_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "authored_component_order": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "identity_reference_rule"},
+            {"const": "scene_intent"},
+            {"const": "visible_details.background_and_space"},
+            {"const": "visible_details.still_camera_and_composition.camera_height"},
+            {"const": "visible_details.still_camera_and_composition.shot_scale_distance"},
+            {"const": "visible_details.still_camera_and_composition.direction_angle"},
+            {"const": "visible_details.still_camera_and_composition.depth_design"},
+            {"const": "visible_details.still_camera_and_composition.subject_placement"},
+            {"const": "visible_details.still_camera_and_composition.crop_negative_space"},
+            {"const": "visible_details.still_camera_and_composition.lens_feel"},
+            {"const": "visible_details.lighting_color_material"},
+            {"const": "action_cue.subject_state_or_pose"},
+            {"const": "action_cue.visible_action_or_hold"},
+            {"const": "action_cue.object_environment_response"},
+            {"const": "avoid"}
+          ],
+          "items": false
+        },
+        "creative_fill_policy": {
+          "const": "human_or_assigned_model_inspects_source_truth_and_authors_every_creative_component_scripts_may_only_validate_hash_and_serialize_fixed_labels"
+        },
+        "storyline_inspection_note": {"type": "string", "minLength": 1},
+        "inspection_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "storylineComponentList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "scene_intent",
+          "visible_details.background_and_space",
+          "visible_details.still_camera_and_composition",
+          "visible_details.lighting_color_material",
+          "action_cue.subject_state_or_pose",
+          "action_cue.visible_action_or_hold",
+          "action_cue.object_environment_response",
+          "avoid"
+        ]
+      }
+    },
+    "storylineAuthoringBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planning_cut_id",
+        "source_key_screen_id",
+        "source_branch_storyline_binding_sha256",
+        "whole_film_readout_sha256",
+        "section_readout_sha256",
+        "planning_cut_readout_sha256",
+        "02a_expansion_delta_sha256",
+        "component_consumption",
+        "coverage_rule",
+        "semantic_review_rule"
+      ],
+      "properties": {
+        "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+        "source_key_screen_id": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+        "source_branch_storyline_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "whole_film_readout_sha256": {"$ref": "#/$defs/sha256"},
+        "section_readout_sha256": {"$ref": "#/$defs/sha256"},
+        "planning_cut_readout_sha256": {"$ref": "#/$defs/sha256"},
+        "02a_expansion_delta_sha256": {"$ref": "#/$defs/sha256"},
+        "component_consumption": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["whole_film", "section", "planning_cut", "02a_branch_expansion"],
+          "properties": {
+            "whole_film": {"$ref": "#/$defs/storylineComponentList"},
+            "section": {"$ref": "#/$defs/storylineComponentList"},
+            "planning_cut": {"$ref": "#/$defs/storylineComponentList"},
+            "02a_branch_expansion": {"$ref": "#/$defs/storylineComponentList"}
+          }
+        },
+        "coverage_rule": {
+          "const": "the_union_must_cover_every_storyline_sensitive_prompt_component_before_compile"
+        },
+        "semantic_review_rule": {
+          "const": "mechanical_mapping_is_not_semantic_proof_the_recipient_director_must_read_the_storyline_and_prompt_then_accept_or_hold"
+        }
+      }
+    },
+    "directPromptRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revision_id",
+        "authoring_owner",
+        "authoring_reason",
+        "source_02a_branch_cut_lock_sha256",
+        "storyline_authoring_binding",
+        "preserved_lock_assertions",
+        "authoring_inspection_receipt",
+        "prompt_blueprint"
+      ],
+      "properties": {
+        "revision_id": {"type": "string", "pattern": "^02BPR_[A-Z0-9_]{2,80}$"},
+        "authoring_owner": {"enum": ["human_authored_02b", "model_authored_02b"]},
+        "authoring_reason": {
+          "const": "translate_the_exact_02a_branch_cut_and_bounded_context_into_natural_render_language_without_schema_dumping"
+        },
+        "source_02a_branch_cut_lock_sha256": {"$ref": "#/$defs/sha256"},
+        "storyline_authoring_binding": {"$ref": "#/$defs/storylineAuthoringBinding"},
+        "preserved_lock_assertions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "parent_core_cut_timing_and_section_ownership",
+            "branch_cut_id_sequence_derivation_and_distinct_contribution",
+            "member_visual_input_set_and_order",
+            "visual_reference_binding_set_and_order",
+            "founder_visual_alignment_storyline",
+            "explicit_founder_locks",
+            "expected_output_path"
+          ],
+          "properties": {
+            "parent_core_cut_timing_and_section_ownership": {"const": true},
+            "branch_cut_id_sequence_derivation_and_distinct_contribution": {"const": true},
+            "member_visual_input_set_and_order": {"const": true},
+            "visual_reference_binding_set_and_order": {"const": true},
+            "founder_visual_alignment_storyline": {"const": true},
+            "explicit_founder_locks": {"const": true},
+            "expected_output_path": {"const": true}
+          }
+        },
+        "authoring_inspection_receipt": {"$ref": "#/$defs/authoringInspectionReceipt"},
+        "prompt_blueprint": {"$ref": "#/$defs/promptBlueprint"}
+      }
+    },
+    "compiledPromptBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity_reference_rule",
+        "scene_intent",
+        "visible_details",
+        "action_cue",
+        "avoid",
+        "full_prompt_text",
+        "full_prompt_sha256",
+        "label_order"
+      ],
+      "properties": {
+        "identity_reference_rule": {"type": "string", "minLength": 1},
+        "scene_intent": {"type": "string", "minLength": 1},
+        "visible_details": {"type": "string", "minLength": 1},
+        "action_cue": {"type": "string", "minLength": 1},
+        "avoid": {"type": "string", "minLength": 1},
+        "full_prompt_text": {"type": "string", "minLength": 1},
+        "full_prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "label_order": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "Identity reference rule"},
+            {"const": "Scene intent"},
+            {"const": "Visible details"},
+            {"const": "Action cue"},
+            {"const": "Avoid"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "localTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compiler_version",
+        "compiler_profile",
+        "source_02a_artifact_sha256",
+        "source_parent_core_cut_value_sha256",
+        "source_branch_cut_value_sha256",
+        "source_storyline_alignment_binding_sha256",
+        "direct_prompt_revision_sha256",
+        "member_visual_inputs_sha256",
+        "visual_reference_bindings_sha256",
+        "same_section_context_sha256"
+      ],
+      "properties": {
+        "compiler_version": {"const": "1.1"},
+        "compiler_profile": {"const": "front_planning_member_visual_storyline_02b_structured_translation_v2_2"},
+        "source_02a_artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "source_parent_core_cut_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_branch_cut_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_storyline_alignment_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "direct_prompt_revision_sha256": {"$ref": "#/$defs/sha256"},
+        "member_visual_inputs_sha256": {"$ref": "#/$defs/sha256"},
+        "visual_reference_bindings_sha256": {"$ref": "#/$defs/sha256"},
+        "same_section_context_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "exportContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_output_path",
+        "request_unit",
+        "model",
+        "quality",
+        "dimension_policy",
+        "approval_state"
+      ],
+      "properties": {
+        "expected_output_path": {"type": "string", "minLength": 1},
+        "request_unit": {"const": "one_packet_one_request"},
+        "model": {"const": "gpt-image-2"},
+        "quality": {"const": "highest_available"},
+        "dimension_policy": {"const": "maximum_supported_dimensions_for_locked_aspect_ratio"},
+        "approval_state": {"const": "not_inferred"}
+      }
+    },
+    "promptPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "packet_id",
+        "branch_cut_id",
+        "core_cut_id",
+        "source_sections",
+        "execution_section_id",
+        "time_range",
+        "status",
+        "local_trace",
+        "same_section_context",
+        "branch_cut_lock",
+        "storyline_alignment_lock",
+        "member_visual_lock",
+        "visual_reference_bindings",
+        "direct_prompt_revision",
+        "compiled_prompt_block",
+        "export_contract"
+      ],
+      "properties": {
+        "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+        "branch_cut_id": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"},
+        "source_sections": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+        },
+        "execution_section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "time_range": {"type": "string", "minLength": 1},
+        "status": {"enum": ["draft", "founder_review", "approved", "hold", "rejected"]},
+        "local_trace": {"$ref": "#/$defs/localTrace"},
+        "same_section_context": {"$ref": "#/$defs/sameSectionContext"},
+        "branch_cut_lock": {"$ref": "#/$defs/branchCutLock"},
+        "storyline_alignment_lock": {"$ref": "#/$defs/branchStorylineAlignmentBinding"},
+        "member_visual_lock": {"$ref": "#/$defs/memberVisualLock"},
+        "visual_reference_bindings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/visualReferenceBinding"}
+        },
+        "direct_prompt_revision": {"$ref": "#/$defs/directPromptRevision"},
+        "compiled_prompt_block": {"$ref": "#/$defs/compiledPromptBlock"},
+        "export_contract": {"$ref": "#/$defs/exportContract"}
+      },
+      "not": {
+        "anyOf": [
+          {"required": ["identity_lock"]},
+          {"required": ["identity_inputs"]},
+          {"required": ["camera_route_spec"]}
+        ]
+      }
+    },
+    "reviewSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "html_contract_version",
+        "hierarchy",
+        "decision_values",
+        "revision_scope_values"
+      ],
+      "properties": {
+        "html_contract_version": {"const": "idol-html-review-board.v10"},
+        "hierarchy": {
+          "const": "target_and_message_then_whole_film_and_section_flow_then_sections_then_core_cuts_then_branch_cuts"
+        },
+        "decision_values": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "PASS"},
+            {"const": "HOLD"},
+            {"const": "REJECT"}
+          ],
+          "items": false
+        },
+        "revision_scope_values": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "branch_cut"},
+            {"const": "core_cut"},
+            {"const": "section"},
+            {"const": "whole_film"}
+          ],
+          "items": false
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "approved"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "input_files": {"required": ["section_review_intakes"]},
+          "section_shards": {
+            "items": {
+              "properties": {"status": {"const": "passed"}}
+            }
+          },
+          "prompt_packets": {
+            "items": {
+              "properties": {"status": {"const": "approved"}}
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "input_files": {
+            "required": ["section_compile_shard_id", "section_compile_scope_sha256"]
+          }
+        }
+      }
+    }
+  ]
+}

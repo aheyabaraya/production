@@ -1,0 +1,20 @@
+# Official local runtime for scripts/idol-video-python.
+# Prefer Python 3.12.x for this pinned media/runtime package set unless the
+# requirements and `scripts/idol-video-python --check` have been deliberately
+# revalidated on a newer interpreter. Do not use bare system python3 for IDOL
+# media work after OS or Homebrew Python upgrades.
+# Example:
+#   /path/to/python3.12 -m venv .venv-video
+#   .venv-video/bin/python -m pip install -r requirements-video.txt
+numpy==2.4.6
+scipy==1.18.0
+librosa==0.11.0
+soundfile==0.14.0
+moviepy==2.2.1
+opencv-python==5.0.0.93
+matplotlib==3.10.9
+imageio==2.37.3
+imageio-ffmpeg==0.6.0
+pillow==11.3.0
+PyYAML==6.0.3
+jsonschema==4.26.0

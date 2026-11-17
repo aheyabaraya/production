@@ -1,0 +1,4 @@
+interface:
+  display_name: "Founder Briefing Assistant"
+  short_description: "프로덕션 진행상황을 해시 기반으로 간결하게 브리핑"
+  default_prompt: "현재 IDOL run의 OD/CDD/Edit 검토 완료 이정표만 읽어 Founder용 진행 브리핑을 갱신하세요."

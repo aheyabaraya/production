@@ -1,0 +1,24 @@
+---
+schema_version: harness-action-queue.v1
+generated_at: '2026-06-14T00:00:00+09:00'
+run: runs/2026-05-26/0526_SONG_SELECTION
+album_key: aurora-m
+title_key: low
+status: archived
+source_state_report: low_founder_discard_closeout
+state_summary:
+  overall_status: low_founder_discarded_archive_only
+  pass: 0
+  fail: 0
+  missing: 0
+  blocking: 0
+active_founder_gate_decision: {}
+queues: []
+founder_decisions_needed: []
+automation_boundaries:
+- Automation may read LOW records only as archive/audit context.
+- Automation must not regenerate or resume LOW 03V queues, founder gates, Grok handoffs,
+  packages, uploads, publishing plans, or source-pool rebuilds.
+- Automation must not run paid generation, external execution, Drive mutation, platform
+  sync, upload, schedule, or publish actions for LOW.
+refresh_commands: []

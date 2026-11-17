@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/terra-section-lifecycle-execution-record.schema.json",
+  "title": "IDOL Terra Section Lifecycle Execution Record",
+  "description": "Retired evidence-only Terra/XHigh execution record. Historical checkpoints remain validator-readable, but new post-02A work must use the active Luna Section Lifecycle Execution Record; this schema cannot open or resume a new lineage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "producer",
+    "surface_owner",
+    "session_type",
+    "session_id",
+    "profile",
+    "source_02a_sha256",
+    "assigned_section_ids",
+    "fresh_session_boundary",
+    "section_lineage_id",
+    "checkpoint_id",
+    "durable_checkpoint_resume",
+    "same_physical_session_required",
+    "04_edit_session_included",
+    "completion_state",
+    "canonical_creative_write_performed"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_terra_section_lifecycle_execution_record.v3"},
+    "producer": {"const": "registered_codex_section_lifecycle_runner"},
+    "surface_owner": {"const": "codex"},
+    "session_type": {"const": "terra_section_image_motion_checkpoint"},
+    "session_id": {"type": "string", "minLength": 1},
+    "profile": {"const": "terra_xhigh"},
+    "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "assigned_section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+    },
+    "fresh_session_boundary": {"const": "sol_approved_02a_section"},
+    "section_lineage_id": {"type": "string", "minLength": 1},
+    "checkpoint_id": {"type": "string", "minLength": 1},
+    "durable_checkpoint_resume": {"type": "boolean"},
+    "same_physical_session_required": {"const": false},
+    "04_edit_session_included": {"const": false},
+    "completion_state": {"enum": ["awaiting_sol_branch_cut_selection", "complete", "hold"]},
+    "canonical_creative_write_performed": {"const": false}
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/package-v1-legacy.schema.json",
+  "title": "IDOL Package v1 Legacy Reader",
+  "description": "Compatibility-only reader for preserved idol_package.v1 bytes. New 05 authoring is forbidden here and uses schemas/package.schema.json v2.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "created_at_kst",
+    "created_by",
+    "source_contracts",
+    "deliverable_policy",
+    "approval_gates"
+  ],
+  "properties": {
+    "schema_version": { "const": "idol_package.v1" },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "packaged_ready_local",
+        "ready_for_social_planning",
+        "founder_review",
+        "approved_for_public_release",
+        "final_complete_platform_records_closed",
+        "blocked",
+        "hold",
+        "archived"
+      ]
+    },
+    "created_at_kst": { "type": "string", "minLength": 1 },
+    "created_by": { "type": "string", "minLength": 1 },
+    "source_contracts": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "required": ["edit_map"],
+      "properties": {
+        "edit_map": { "type": "string", "minLength": 1 },
+        "final_recipe": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Deprecated compatibility pointer. If present in a final-ready package it must resolve to the exact compiled recipe bound by finishing_fx_compile_manifest; automation may not treat it as a separate recipe truth."
+        },
+        "final_qc_review": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Deprecated human-readable supporting record only. It cannot grant readiness; canonical QC/closeout truth is reached through source_contracts.edit_map and its final_closeout_inventory plus typed render lineage."
+        },
+        "closeout_review": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Deprecated human-readable supporting record only. It cannot replace the live edit-map final_closeout_inventory or typed compile/render receipts."
+        },
+        "finishing_fx_map": {
+          "$ref": "#/$defs/legacy_or_finishing_fx_map_ref",
+          "description": "Typed, hash-bound 04FX transition-opportunity audit for public-release-ready packages. Nonpublic base edit/package and social-planning states do not require this separate finishing lineage."
+        },
+        "finishing_fx_compile_manifest": {
+          "$ref": "#/$defs/legacy_or_finishing_fx_compile_manifest_ref",
+          "description": "Typed, hash-bound final_pass_only compile receipt for public-release-ready packages. Zero compiled effects is valid when the audited conclusion is complete_no_fx_needed."
+        },
+        "final_render_manifest": {
+          "$ref": "#/$defs/legacy_or_final_render_manifest_ref",
+          "description": "Typed, hash-bound final renderer receipt that binds the audited 04FX compile manifest before public release."
+        }
+      }
+    },
+    "final_master": { "$ref": "#/$defs/deliverable" },
+    "package_outputs": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "90s_plus_master": { "$ref": "#/$defs/deliverable_or_list" },
+        "45s_cutdown": { "$ref": "#/$defs/deliverable_or_list" },
+        "short_derivatives": { "$ref": "#/$defs/deliverable_or_list" },
+        "platform_upload_packages": { "$ref": "#/$defs/deliverable_or_list" }
+      }
+    },
+    "deliverable_policy": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "required": [
+        "master_release_source",
+        "social_clip_source",
+        "raw_source_upload_policy"
+      ],
+      "properties": {
+        "master_release_source": { "type": "string", "minLength": 1 },
+        "social_clip_source": { "type": "string", "minLength": 1 },
+        "raw_source_upload_policy": { "type": "string", "minLength": 1 },
+        "platform_16x9_policy": { "type": "string" }
+      }
+    },
+    "supporting_records": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "approval_gates": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 },
+      "required": [
+        "local_final_master",
+        "public_release",
+        "upload_or_schedule",
+        "external_sync"
+      ],
+      "properties": {
+        "local_final_master": { "type": "string", "minLength": 1 },
+        "public_release": { "type": "string", "minLength": 1 },
+        "upload_or_schedule": { "type": "string", "minLength": 1 },
+        "external_sync": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "anyOf": [
+    { "required": ["final_master"] },
+    {
+      "required": ["package_outputs"],
+      "properties": {
+        "package_outputs": {
+          "anyOf": [
+            { "required": ["90s_plus_master"] },
+            { "required": ["45s_cutdown"] },
+            { "required": ["short_derivatives"] },
+            { "required": ["platform_upload_packages"] }
+          ]
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "approved_for_public_release",
+              "final_complete_platform_records_closed"
+            ]
+          }
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["final_master"],
+        "properties": {
+          "final_master": { "$ref": "#/$defs/hash_bound_deliverable" },
+          "source_contracts": {
+            "required": [
+              "finishing_fx_map",
+              "finishing_fx_compile_manifest",
+              "final_render_manifest"
+            ],
+            "properties": {
+              "finishing_fx_map": { "$ref": "#/$defs/finishing_fx_map_ref" },
+              "finishing_fx_compile_manifest": { "$ref": "#/$defs/finishing_fx_compile_manifest_ref" },
+              "final_render_manifest": { "$ref": "#/$defs/final_render_manifest_ref" }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "legacy_or_finishing_fx_map_ref": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "$ref": "#/$defs/finishing_fx_map_ref" }
+      ]
+    },
+    "legacy_or_finishing_fx_compile_manifest_ref": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "$ref": "#/$defs/finishing_fx_compile_manifest_ref" }
+      ]
+    },
+    "legacy_or_final_render_manifest_ref": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "$ref": "#/$defs/final_render_manifest_ref" }
+      ]
+    },
+    "finishing_fx_map_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "schema_version", "path", "sha256", "validation_status"],
+      "properties": {
+        "artifact_type": { "const": "finishing_fx_map" },
+        "schema_version": { "const": "idol_edit_finishing_fx.v2" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "validation_status": { "const": "pass" }
+      }
+    },
+    "finishing_fx_compile_manifest_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "schema_version", "path", "sha256", "validation_status"],
+      "properties": {
+        "artifact_type": { "const": "finishing_fx_compile_manifest" },
+        "schema_version": { "const": "idol_04fx_compile_manifest.v1" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "validation_status": { "const": "pass" }
+      }
+    },
+    "final_render_manifest_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "schema_version", "path", "sha256", "validation_status"],
+      "properties": {
+        "artifact_type": { "const": "final_render_manifest" },
+        "schema_version": { "const": "idol_edit_render_manifest.v1" },
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "validation_status": { "const": "pass" }
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "deliverable_or_list": {
+      "oneOf": [
+        { "$ref": "#/$defs/deliverable" },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/deliverable" }
+        }
+      ]
+    },
+    "hash_bound_deliverable": {
+      "allOf": [
+        { "$ref": "#/$defs/deliverable" },
+        {
+          "type": "object",
+          "required": ["path", "sha256"]
+        }
+      ]
+    },
+    "deliverable": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["output_id"],
+      "properties": {
+        "output_id": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "public_url": { "type": "string", "minLength": 1 },
+        "youtube_url": { "type": "string", "minLength": 1 },
+        "embed_url": { "type": "string", "minLength": 1 },
+        "platform_url": { "type": "string", "minLength": 1 },
+        "platform_id": { "type": "string", "minLength": 1 },
+        "youtube_id": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "role": {
+          "type": "string",
+          "enum": [
+            "90s_plus_master",
+            "45s_cutdown",
+            "short_derivative",
+            "platform_upload_package",
+            "manual_upload_package",
+            "social_asset",
+            "final_public_master",
+            "remote_public_master",
+            "other"
+          ]
+        },
+        "aspect_ratio": { "type": "string" },
+        "dimensions": { "type": "string" },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "frame_rate": { "type": "number", "exclusiveMinimum": 0 },
+        "qc_contact_sheet": { "type": "string" },
+        "qc_status": {
+          "type": "object",
+          "additionalProperties": { "type": ["string", "number", "boolean", "null"] }
+        }
+      },
+      "anyOf": [
+        { "required": ["path"] },
+        { "required": ["public_url"] },
+        { "required": ["youtube_url"] },
+        { "required": ["embed_url"] },
+        { "required": ["platform_url"] },
+        { "required": ["platform_id"] },
+        { "required": ["youtube_id"] }
+      ]
+    }
+  }
+}

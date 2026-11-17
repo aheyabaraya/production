@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/api-upload-video.schema.json",
+  "title": "IDOL API Upload Video Receipt",
+  "description": "Run-owned receipt for a byte-identical or high-quality prepared platform API video. It does not authorize upload or public release.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "content_id", "status", "quality_profile", "source",
+    "transform", "output", "external_action"
+  ],
+  "properties": {
+    "schema_version": { "const": "idol_api_upload_video.v1" },
+    "content_id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$" },
+    "status": { "const": "prepared_local" },
+    "quality_profile": { "const": "idol_api_upload_2k30_high_quality.v1" },
+    "source": { "$ref": "#/$defs/source" },
+    "transform": { "$ref": "#/$defs/transform" },
+    "output": { "$ref": "#/$defs/output" },
+    "external_action": { "const": "not_performed" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "width", "height", "avg_frame_rate"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "avg_frame_rate": { "type": "string", "minLength": 1 }
+      }
+    },
+    "transform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode", "no_downscale", "scale_filter", "target_fps", "video_codec",
+        "video_preset", "video_crf", "pixel_format", "audio_codec",
+        "audio_bit_rate", "audio_sample_rate", "faststart"
+      ],
+      "properties": {
+        "mode": { "enum": ["byte_identical_copy", "high_quality_transcode"] },
+        "no_downscale": { "const": true },
+        "scale_filter": { "const": "lanczos" },
+        "target_fps": { "const": "30/1_cfr" },
+        "video_codec": { "const": "libx264" },
+        "video_preset": { "const": "slow" },
+        "video_crf": { "const": 14 },
+        "pixel_format": { "const": "yuv420p" },
+        "audio_codec": { "const": "aac" },
+        "audio_bit_rate": { "const": 320000 },
+        "audio_sample_rate": { "const": 48000 },
+        "faststart": { "const": true }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path", "sha256", "bytes", "width", "height", "avg_frame_rate",
+        "r_frame_rate", "video_codec", "pixel_format", "audio_codec",
+        "audio_bit_rate", "audio_sample_rate", "duration_seconds"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "width": { "type": "integer", "minimum": 1440 },
+        "height": { "type": "integer", "minimum": 1440 },
+        "avg_frame_rate": { "const": "30/1" },
+        "r_frame_rate": { "const": "30/1" },
+        "video_codec": { "const": "h264" },
+        "pixel_format": { "const": "yuv420p" },
+        "audio_codec": { "const": "aac" },
+        "audio_bit_rate": { "type": "integer", "minimum": 256000 },
+        "audio_sample_rate": { "const": 48000 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            { "properties": { "width": { "minimum": 2560 } } },
+            { "properties": { "height": { "minimum": 2560 } } }
+          ]
+        }
+      ]
+    }
+  }
+}

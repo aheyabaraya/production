@@ -1,0 +1,28 @@
+schema_version: idol-run-layout-transition.v1
+status: active
+active_run_template: runs/ALBUM_KEY/TITLE_KEY/RUN_ID
+generic_date_first_authoring: forbidden
+new_date_first_run_creation: forbidden
+quality_flow_change_authority: none
+
+in_flight_exceptions:
+  - run_root: runs/2026-07-29/0729_ONE_MOVE
+    album_key: aurora-m
+    title_key: one-move
+    run_id: 0729_ONE_MOVE
+    content_id: 0729_ONE_MOVE
+    state: in_flight_finish_in_place
+    current_next_allowed: true
+    existing_canonical_continuation_allowed: true
+    new_run_creation_allowed: false
+    migration_execution_allowed: false
+    target_run_root: runs/aurora-m/one-move/0729_ONE_MOVE
+    expires_when: run_closed_or_validated_migration_completed
+    migration_plan:
+      path: runs/2026-07-29/0729_ONE_MOVE/work/run-layout-migration-plan-v1.yaml
+      sha256: d4bb00ab4d90b4c2056dbdf98c267a468a4e4a19a516f381cb5c71d95bf9b853
+      required_status: hold
+    flow_lock:
+      stage_registry_path: automation/harness-stage-registry.yaml
+      stage_registry_sha256: ecddf2d74fdc7ceb6009ca6d90a44b234c5f9b5af8a7a5f98c016af45719f354
+      stage_sequence_sha256: d7265ce47264f77428c2ab46c5aacc2e77616ae38bf70d6c74618e22e6cb034e

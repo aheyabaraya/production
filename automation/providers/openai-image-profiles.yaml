@@ -1,0 +1,19 @@
+schema_version: idol-openai-image-provider-profiles.v1
+status: active
+provider: openai
+runtime_surface: openai_images_api
+profile_source_policy:
+  exact_model_owner: this_file
+  resolved_snapshot_required: true
+  requested_observed_match_required: true
+  silent_model_or_auth_fallback: forbidden
+
+profiles:
+  openai_image_api_current:
+    exact_model: gpt-image-2
+    image_adapter_id: openai_api_gpt_image_2
+    auth_lane: founder_approved_api
+    capability_status: active
+    harness_status: active
+    default_enabled: false
+    unavailable_or_mismatch_action: hold_and_report

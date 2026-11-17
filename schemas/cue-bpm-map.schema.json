@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/cue-bpm-map.schema.json",
+  "title": "IDOL Cue BPM Map",
+  "description": "Retired evidence-only timing contract. New edit and motion work must bind the active Audio Motion Director Map by path and SHA-256 through Edit Marker Plan v4 and Edit Map v3; this schema must not be newly authored.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_audio_analysis",
+    "source_audio_analysis_data",
+    "source_audio_motion_director_map",
+    "source_cue_sheet",
+    "purpose",
+    "tempo_basis",
+    "cue_tempo_map"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "idol_cue_bpm_map.v1"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string"
+    },
+    "source_audio_analysis": {
+      "type": "string"
+    },
+    "source_audio_analysis_data": {
+      "type": "string"
+    },
+    "source_audio_motion_director_map": {
+      "type": "string"
+    },
+    "source_cue_sheet": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "use_rule"],
+      "properties": {
+        "summary": { "type": "string" },
+        "use_rule": { "type": "string" }
+      }
+    },
+    "tempo_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_grid_bpm",
+        "double_time_candidate_bpm",
+        "local_bpm_rule"
+      ],
+      "properties": {
+        "main_grid_bpm": { "type": "number", "exclusiveMinimum": 0 },
+        "double_time_candidate_bpm": { "type": "number", "exclusiveMinimum": 0 },
+        "local_bpm_rule": { "type": "string" }
+      }
+    },
+    "cue_tempo_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot",
+          "time",
+          "audio_section",
+          "measured_energy",
+          "motion_energy",
+          "duration_seconds",
+          "main_grid_bpm",
+          "double_time_candidate_bpm",
+          "beat_count_on_main_grid",
+          "beat_count_on_double_time",
+          "local_bpm_estimate",
+          "confidence",
+          "strong_onset_count",
+          "nearby_strong_onsets_seconds",
+          "motion_tempo",
+          "camera_rhythm",
+          "beat_behavior",
+          "prompt_overlay",
+          "tempo_pulse_summary",
+          "audio_cue_summary",
+          "bpm_use_note"
+        ],
+        "properties": {
+          "slot": { "type": "string", "pattern": "^R[0-9]{2}[A-Z]?$" },
+          "time": { "type": "string" },
+          "audio_section": { "type": "string" },
+          "measured_energy": { "type": "string" },
+          "motion_energy": { "type": "string" },
+          "duration_seconds": { "type": ["number", "null"], "minimum": 0 },
+          "absolute_start_seconds": { "type": ["number", "null"], "minimum": 0 },
+          "absolute_end_seconds": { "type": ["number", "null"], "minimum": 0 },
+          "main_grid_bpm": { "type": "number", "exclusiveMinimum": 0 },
+          "double_time_candidate_bpm": { "type": "number", "exclusiveMinimum": 0 },
+          "beat_count_on_main_grid": { "type": ["number", "null"], "minimum": 0 },
+          "beat_count_on_double_time": { "type": ["number", "null"], "minimum": 0 },
+          "local_bpm_estimate": { "type": ["number", "null"], "exclusiveMinimum": 0 },
+          "confidence": { "type": "string" },
+          "strong_onset_count": { "type": "integer", "minimum": 0 },
+          "nearby_strong_onsets_seconds": {
+            "type": "array",
+            "items": { "type": "number", "minimum": 0 }
+          },
+          "motion_tempo": { "type": "string" },
+          "camera_rhythm": { "type": "string" },
+          "beat_behavior": { "type": "string" },
+          "prompt_overlay": { "type": "string" },
+          "tempo_pulse_summary": { "type": "string" },
+          "audio_cue_summary": { "type": "string" },
+          "bpm_use_note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+---
+schema_version: harness-founder-decision.v1
+generated_at: '2026-06-14T00:00:00+09:00'
+run: runs/2026-05-26/0526_SONG_SELECTION
+album_key: aurora-m
+title_key: low
+status: archived
+source_current_next: automation/current-next.yaml
+source_founder_gate: automation/founder-gates/2026-06-11-0526_SONG_SELECTION-03v-front-gate-s00-s14.yaml
+source_next_unit: automation/next-units/2026-06-11-0526_SONG_SELECTION-harness-next-unit.yaml
+source_action_queue: automation/action-queues/2026-06-11-0526_SONG_SELECTION-03v-action-queue.yaml
+gate_id: front_03v_playback_gate_S00-S14
+gate_type: 03v_front_playback_generation
+section_range: S00-S14
+section_ids:
+- S00
+- S01
+- S02
+- S03
+- S04
+- S05
+- S06
+- S07
+- S08
+- S09
+- S10
+- S11
+- S12
+- S13
+- S14
+packet_count: 41
+decision_id: archive_only_no_action
+decision_label: Archive only; no LOW action
+decision_input_text: LOW discarded by founder on 2026-06-14; prior generation approval
+  is not active.
+decision_source: founder_discard_closeout
+decision_note: Archived by runs/2026-05-26/0526_SONG_SELECTION/review/low-discard-closeout-v1.md.
+  No generation, external execution, upload, publish, sync, or QA continuation is
+  approved for LOW.
+requires_explicit_approval: false
+explicit_approval_recorded: false
+approved_execution_route: ''
+allows_paid_generation: false
+allows_external_execution: false
+continues_local_qa: false
+marks_section_qa_pass: false
+next_local_section: ''
+next_action: Keep LOW closed unless the founder explicitly requests archive recovery
+  or a fresh rebuild.
+automation_boundaries:
+- Automation may read this decision only as archive/audit context.
+- Automation must not treat prior LOW generation approval records as active after
+  founder discard.
+forbidden_actions:
+- Do not run paid video generation or external execution for LOW from this archived
+  decision.
+- Do not mark section QA pass from this archived decision.
+- Do not use this decision as upload, publish, Drive mutation, or platform API approval.

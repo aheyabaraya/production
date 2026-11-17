@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/03v-playback-review-worklist.schema.json",
+  "title": "IDOL 03V Playback Review Worklist",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "status",
+    "route",
+    "source_intake",
+    "source_worklist",
+    "source_section_qa",
+    "section_range",
+    "section_ids",
+    "clips_root",
+    "summary",
+    "section_reviews",
+    "automation_boundaries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol_03v_playback_review_worklist.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": ["archived", "waiting_for_clips", "partial_clip_intake", "pending_playback_review"]
+    },
+    "route": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_intake": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_worklist": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_section_qa": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_range": {
+      "type": "string",
+      "minLength": 1
+    },
+    "section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "clips_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "section_count",
+        "packet_count",
+        "present_clip_count",
+        "missing_clip_count",
+        "media_probe_issue_count",
+        "pending_playback_review_count",
+        "required_check_count"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "section_count": {"type": "integer", "minimum": 0},
+        "packet_count": {"type": "integer", "minimum": 0},
+        "present_clip_count": {"type": "integer", "minimum": 0},
+        "missing_clip_count": {"type": "integer", "minimum": 0},
+        "media_probe_issue_count": {"type": "integer", "minimum": 0},
+        "pending_playback_review_count": {"type": "integer", "minimum": 0},
+        "required_check_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "section_reviews": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/section_review"}
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "review_check": {
+      "type": "object",
+      "required": ["id", "label", "pass_condition", "hold_or_fix_if"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "pass_condition": {"type": "string", "minLength": 1},
+        "hold_or_fix_if": {"type": "string", "minLength": 1}
+      }
+    },
+    "packet_review": {
+      "type": "object",
+      "required": [
+        "packet_id",
+        "section_key",
+        "timeline",
+        "audio_motion_slot",
+        "clip_status",
+        "clip_file_status",
+        "media_probe",
+        "playback_review_status",
+        "generated_clip_path",
+        "prompt_path",
+        "start_image",
+        "end_image",
+        "upload_pack",
+        "upload_prompt",
+        "start_audio_cue",
+        "end_audio_cue",
+        "prev_end_to_start",
+        "end_to_next_start",
+        "required_checks",
+        "review_action"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "packet_id": {"type": "string", "minLength": 1},
+        "section_key": {"type": "string", "minLength": 1},
+        "timeline": {"type": "string"},
+        "audio_motion_slot": {"type": "string"},
+        "clip_status": {"enum": ["missing", "present"]},
+        "clip_file_status": {
+          "enum": ["missing", "present_probe_ok", "present_probe_failed"]
+        },
+        "media_probe": {"$ref": "#/$defs/media_probe"},
+        "playback_review_status": {"enum": ["waiting_clip", "pending_review"]},
+        "generated_clip_path": {"type": "string"},
+        "generated_clip_sha256": {"type": "string", "pattern": "^(?:[a-f0-9]{64})?$"},
+        "prompt_path": {"type": "string"},
+        "start_image": {"type": "string"},
+        "end_image": {"type": "string"},
+        "upload_pack": {"type": "string"},
+        "upload_prompt": {"type": "string"},
+        "start_audio_cue": {"type": "string"},
+        "end_audio_cue": {"type": "string"},
+        "prev_end_to_start": {"type": "string"},
+        "end_to_next_start": {"type": "string"},
+        "required_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/review_check"}
+        },
+        "review_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "section_review": {
+      "type": "object",
+      "required": [
+        "section_key",
+        "section_label",
+        "section_status",
+        "packet_count",
+        "present_clip_count",
+        "missing_clip_count",
+        "media_probe_issue_count",
+        "playback_review_status",
+        "section_pass_rule",
+        "entry_continuity",
+        "exit_continuity",
+        "packets"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "section_key": {"type": "string", "minLength": 1},
+        "section_label": {"type": "string"},
+        "section_status": {"type": "string"},
+        "packet_count": {"type": "integer", "minimum": 0},
+        "present_clip_count": {"type": "integer", "minimum": 0},
+        "missing_clip_count": {"type": "integer", "minimum": 0},
+        "media_probe_issue_count": {"type": "integer", "minimum": 0},
+        "playback_review_status": {"enum": ["waiting_clip", "partial_clip_intake", "pending_review"]},
+        "section_pass_rule": {"type": "string", "minLength": 1},
+        "entry_continuity": {"type": "string"},
+        "exit_continuity": {"type": "string"},
+        "packets": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/packet_review"}
+        }
+      }
+    },
+    "media_probe": {
+      "type": "object",
+      "required": [
+        "status",
+        "playable",
+        "duration_seconds",
+        "video_stream_count",
+        "audio_stream_count",
+        "width",
+        "height",
+        "codec_name",
+        "error"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"enum": ["ok", "probe_failed", "not_run"]},
+        "playable": {"type": "boolean"},
+        "duration_seconds": {"type": "number", "minimum": 0},
+        "video_stream_count": {"type": "integer", "minimum": 0},
+        "audio_stream_count": {"type": "integer", "minimum": 0},
+        "width": {"type": "integer", "minimum": 0},
+        "height": {"type": "integer", "minimum": 0},
+        "codec_name": {"type": "string"},
+        "error": {"type": "string"}
+      }
+    }
+  }
+}

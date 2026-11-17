@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-production-review.schema.json",
+  "title": "Graph exact production Director review",
+  "description": "Machine-projected provenance plus independently authored observations and decisions. Its shape and hashes cannot prove perception or creative quality. Existing Founder gates and stage contracts remain authoritative.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/input"
+    },
+    {
+      "$ref": "#/$defs/envelope"
+    },
+    {
+      "$ref": "#/$defs/output"
+    }
+  ],
+  "$defs": {
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "observation"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "contextual_judgment",
+        "worker_dispatch",
+        "worker_role_context_pack",
+        "profile_release",
+        "output_manifest",
+        "profile_id",
+        "profile_value_sha256",
+        "candidate_outputs",
+        "inspection_targets",
+        "criterion_evidence",
+        "hard_gate_evidence",
+        "scope",
+        "reviewer",
+        "author_session_id",
+        "founder_context",
+        "authority_binding",
+        "node_context",
+        "selected_context_sources",
+        "authority"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "idol-graph-production-review.v1"
+        },
+        "artifact_type": {
+          "const": "graph_production_review_input"
+        },
+        "contextual_judgment": {
+          "$ref": "#/$defs/pointer"
+        },
+        "worker_dispatch": {
+          "$ref": "#/$defs/pointer"
+        },
+        "worker_role_context_pack": {
+          "$ref": "#/$defs/pointer"
+        },
+        "profile_release": {
+          "$ref": "#/$defs/pointer"
+        },
+        "output_manifest": {
+          "$ref": "#/$defs/pointer"
+        },
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_value_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "candidate_outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/pointer"
+          }
+        },
+        "inspection_targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/pointer"
+          }
+        },
+        "criterion_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object"
+          }
+        },
+        "hard_gate_evidence": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object"
+          }
+        },
+        "scope": {
+          "type": "object"
+        },
+        "reviewer": {
+          "type": "object"
+        },
+        "author_session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "founder_context": {
+          "type": "object"
+        },
+        "authority_binding": {
+          "type": "object"
+        },
+        "node_context": {
+          "type": "object"
+        },
+        "selected_context_sources": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object"
+          }
+        },
+        "authority": {
+          "const": "derived_review_input_no_creative_or_promotion_authority"
+        }
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "review_input_manifest",
+        "role_context_pack",
+        "review_input_digest_sha256",
+        "director_dispatch",
+        "review_output"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "idol-graph-production-review.v1"
+        },
+        "artifact_type": {
+          "const": "graph_production_director_review"
+        },
+        "review_input_manifest": {
+          "$ref": "#/$defs/pointer"
+        },
+        "role_context_pack": {
+          "$ref": "#/$defs/pointer"
+        },
+        "review_input_digest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "director_dispatch": {
+          "$ref": "#/$defs/pointer"
+        },
+        "review_output": {
+          "$ref": "#/$defs/pointer"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "review_input_manifest",
+        "role_context_pack",
+        "review_input_digest_sha256",
+        "reviewer_role",
+        "reviewer_session_id",
+        "inspected_artifacts",
+        "decision",
+        "findings",
+        "correction_requirements",
+        "automatic_creative_pass"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "idol-graph-production-review.v1"
+        },
+        "artifact_type": {
+          "const": "graph_production_director_review_output"
+        },
+        "review_input_manifest": {
+          "$ref": "#/$defs/pointer"
+        },
+        "role_context_pack": {
+          "$ref": "#/$defs/pointer"
+        },
+        "review_input_digest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "reviewer_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewer_session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inspected_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/observation"
+          }
+        },
+        "decision": {
+          "enum": [
+            "accept",
+            "correct",
+            "hold",
+            "reject"
+          ]
+        },
+        "findings": {
+          "type": "string",
+          "minLength": 1
+        },
+        "correction_requirements": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "automatic_creative_pass": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "decision": {
+                "const": "correct"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "correction_requirements": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

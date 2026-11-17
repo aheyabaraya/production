@@ -1,0 +1,177 @@
+schema_version: idol-artifact-lifecycle-policy.v3
+status: active
+scope: active_authoring_and_promotion_closeout
+
+run_layout:
+  active_template: runs/ALBUM_KEY/TITLE_KEY/RUN_ID
+  manifest_name: run-manifest.yaml
+  manifest_schema: schemas/run-manifest.schema.json
+  new_run_date_first_layout_forbidden: true
+  run_id_owns_attempt_or_major_run_revision: true
+  ordinary_artifact_revision_owner: git
+  in_flight_migration_requires_validated_plan: true
+  transition_registry: automation/run-layout-transition.yaml
+  registered_in_flight_exception_only: true
+
+placements:
+  canonical_stage_truth: RUN_ROOT
+  research_and_source_interpretation: RUN_ROOT/research
+  noncanonical_work_and_receipts: RUN_ROOT/work
+  founder_and_pixel_playback_review: RUN_ROOT/review
+  reproducible_exports: RUN_ROOT/exports
+  generated_media_and_renders: RUN_ROOT/generations
+  worker_handoffs: RUN_ROOT/handoff
+  release_package: RUN_ROOT/package
+  exceptional_archive: RUN_ROOT/archive
+  durable_cross_run_sources: source-materials
+  current_title_assets: assets/members/album-assets/ALBUM_KEY/TITLE_KEY
+  pointer_read_models: [catalog, automation, handoff]
+
+canonical:
+  one_active_path_per_logical_artifact: true
+  patch_stable_stage_contracts_in_place: true
+  ordinary_text_history_owner: git
+  multi_file_lane_pointer: aggregate_manifest_or_index
+
+versions:
+  creative_candidate_count_unbounded_before_selection: true
+  selection_or_review_close_triggers_lifecycle_check: true
+  max_active_supporting_revisions_per_family: 2
+  max_rollback_checkpoints_per_family: 1
+  older_revision_action: reference_check_then_archive_or_cleanup
+  stable_filename_and_internal_revision_preferred: true
+  versioned_directory_families_follow_same_active_limit: true
+  immutable_binary_revision_uses_new_artifact_id: true
+  immutable_event_records_are_append_only: true
+  rebuildable_projection_keeps_one_current: true
+
+research:
+  durable_root: RUN_ROOT/research
+  durable_selected_reference_root: RUN_ROOT/research/reference-intake
+  ephemeral_research_directories:
+    - drafts
+    - probes
+    - tmp
+    - style-drafts
+    - _local_reference_cache
+  reusable_video_source_hub: source-materials/video-sources/{platform}/by-source/SOURCE_ID
+  selected_still_or_crop_must_leave_ephemeral_cache: true
+  selected_reference_requires_source_identity_sha256_disposition_sections_and_downstream_use: true
+  large_folder_manifest_or_index_required: true
+  optional_empty_directories_forbidden: true
+  folder_version_pileups_checked: true
+
+final_closeout:
+  final_delivery_root: RUN_ROOT/package/final-delivery
+  manifest_path: RUN_ROOT/package/final-delivery/manifest.yaml
+  manifest_schema: schemas/final-delivery-manifest.schema.json
+  required_before_production_cleanup: true
+  adds_stage_or_founder_gate: false
+  final_only_definition: deliverables_plus_exact_used_originals_reference_dependencies_and_lineage
+  final_delivery_manifest_is_pointer_first: true
+  original_generated_image_bytes_required: true
+  used_raw_video_bytes_required: true
+  lossy_derivative_cannot_replace_only_original: true
+  all_planned_derivatives_close_before_unused_passed_media_becomes_cleanup_candidate: true
+  manifest_never_authorizes_deletion: true
+
+archive:
+  directory_name: archive
+  manifest_name: manifest.yaml
+  manifest_schema: schemas/artifact-archive-manifest.schema.json
+  physical_archive_exception_only: true
+  derived_rebuildable_archive_forbidden: true
+  allowed_retention_reasons:
+    - founder_selected_irreproducible_source
+    - paid_generation_provenance
+    - release_or_publishing_proof
+    - legal_or_source_provenance
+    - reviewed_learning
+    - rollback_checkpoint
+
+ephemeral:
+  gate_authority: none
+  allowed_path_markers:
+    - /work/
+    - /research/drafts/
+    - /research/probes/
+    - /research/tmp/
+    - /research/style-drafts/
+    - /research/_local_reference_cache/
+  allowed_path_globs:
+    - runs/**/research/suno-prompt-packet-v*.md
+    - runs/**/research/suno-style-pack-*.md
+    - runs/**/research/suno-style-probe-*.md
+    - runs/**/research/audio-analysis-*.json
+    - runs/**/research/*-image-refs/**
+  cleanup_gate: canonical_promoted_and_review_closed
+
+mirrors:
+  pointer_over_copy_default: true
+  canonical_owner_required: true
+  cleanup_after_gate_required: true
+  may_be_latest_pointer: false
+
+storage:
+  duplicate_scan_min_bytes: 1048576
+  large_file_bytes: 10485760
+  manifest_required_file_count: 20
+  manifest_required_total_bytes: 52428800
+  forbidden_new_root_directories: [output, outputs, exports]
+  tracked_large_binary_metadata_required: [canonical_owner, sha256, size_bytes, retention_reason, provenance]
+
+integrity:
+  policy_version: idol-artifact-integrity.v1
+  purpose: artifact_identity_and_change_detection_not_security
+  profiles:
+    canonical_gate:
+      algorithm: sha256
+      cache_mode: force_recompute
+      applies_to: [canonical_truth, founder_lock, approval_receipt, promotion, release]
+    promotion_or_external_transfer:
+      algorithm: sha256
+      cache_mode: force_recompute
+      applies_to: [asset_promotion, worker_handoff, external_transfer, public_release]
+    repeat_local_validation:
+      algorithm: sha256
+      cache_mode: reuse_when_size_mtime_ns_device_inode_match
+      applies_to: [unchanged_local_validation, inventory, repeated_preflight]
+    working_derived_media:
+      algorithm: stat-v1
+      cache_mode: none
+      applies_to: [unpromoted_preview, rebuildable_derived_media, local_working_copy]
+    ephemeral:
+      algorithm: none
+      cache_mode: none
+      applies_to: [temporary_probe, disposable_cache, scratch]
+  cache_path: .runtime/cache/artifact-integrity-sha256-v1.json
+  cache_has_no_gate_authority: true
+  promotion_forces_sha256: true
+  alternate_digest_requires_measured_local_speed_win_and_contract_migration: true
+
+cleanup:
+  production_auto_delete_allowed: false
+  harmless_cache_apply_only: true
+  founder_approval_required: true
+  exact_hash_and_size_required: true
+  reverse_reference_check_required: true
+  canonical_replacement_check_required_when_applicable: true
+  protected_classes:
+    - founder_or_user_provided
+    - founder_selected_or_locked
+    - passed_or_published
+    - member_identity_asset
+    - paid_generation_original
+    - release_or_publishing_proof
+    - active_contract_reference
+    - final_delivery_inventory_binding
+    - dirty_or_untracked
+
+legacy:
+  existing_debt_nonblocking_by_default: true
+  explicit_migration_or_cleanup_required: true
+  historical_artifacts_evidence_only: true
+  active_authoring_compatibility: forbidden
+  generic_old_layout_authoring_forbidden: true
+  registered_in_flight_exception_may_finish: true
+  new_old_layout_run_forbidden: true

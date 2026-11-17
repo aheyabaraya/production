@@ -1,0 +1,7 @@
+{
+  "evidence_class": "synthetic_fixture",
+  "fixture_notice": "synthetic_test_evidence_not_pixel_inspection_or_production_pass",
+  "sequence_sample_timestamps_seconds": [10, 11, 12, 13, 14],
+  "authored_visible_facts": "The subject stands still at the doorway facing frame left. No limb travel is recorded in this fixture.",
+  "authored_scene_function": "doorway hold as a still beat"
+}

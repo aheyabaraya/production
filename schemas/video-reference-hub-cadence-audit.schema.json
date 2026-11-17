@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-reference-hub-cadence-audit.schema.json",
+  "title": "IDOL Video Reference Hub Cadence Audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "hub_root", "overall_status", "cadence_policy", "summary", "unregistered_local_source_roots", "unregistered_sources", "sources"],
+  "properties": {
+    "schema_version": {"const": "idol-video-reference-hub-cadence-audit.v1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "hub_root": {"type": "string", "minLength": 1},
+    "overall_status": {"enum": ["pass", "needs_attention"]},
+    "cadence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["short_source_max_seconds", "short_sampling_seconds", "short_part_seconds", "long_source_max_seconds", "long_sampling_seconds", "long_part_seconds", "selected_range_sampling_seconds"],
+      "properties": {
+        "short_source_max_seconds": {"const": 60},
+        "short_sampling_seconds": {"const": 1},
+        "short_part_seconds": {"const": 5},
+        "long_source_max_seconds": {"const": 270},
+        "long_sampling_seconds": {"const": 3},
+        "long_part_seconds": {"const": 15},
+        "selected_range_sampling_seconds": {"const": 1}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registered_source_count", "pass_count", "hold_count", "warning_count", "unregistered_local_source_root_count"],
+      "properties": {
+        "registered_source_count": {"type": "integer", "minimum": 0},
+        "pass_count": {"type": "integer", "minimum": 0},
+        "hold_count": {"type": "integer", "minimum": 0},
+        "warning_count": {"type": "integer", "minimum": 0},
+        "unregistered_local_source_root_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "unregistered_local_source_roots": {"$ref": "#/$defs/stringArray"},
+    "unregistered_sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/unregisteredSourceRow"}
+    },
+    "sources": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceRow"}
+    }
+  },
+  "$defs": {
+    "stringArray": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "sourceRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_key", "platform", "platform_id", "source_manifest", "duration_seconds", "duration_evidence", "expected_cadence", "registered_cadence_directories", "registered_sheet_count", "selected_range_evidence", "legacy_extra_cadence_directories", "status", "holds", "warnings"],
+      "properties": {
+        "source_key": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "platform_id": {"type": "string", "minLength": 1},
+        "source_manifest": {"type": "string", "minLength": 1},
+        "duration_seconds": {"type": ["number", "null"], "minimum": 0},
+        "duration_evidence": {"enum": ["source_manifest", "info_json", "registered_cadence_only", "missing"]},
+        "expected_cadence": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["lane", "sampling_seconds", "part_seconds", "directory"],
+              "properties": {
+                "lane": {"enum": ["short_source", "long_source"]},
+                "sampling_seconds": {"enum": [1, 3]},
+                "part_seconds": {"enum": [5, 15]},
+                "directory": {"enum": ["segments-5s-1s", "segments-15s"]}
+              }
+            }
+          ]
+        },
+        "registered_cadence_directories": {"$ref": "#/$defs/stringArray"},
+        "registered_sheet_count": {"type": "integer", "minimum": 0},
+        "selected_range_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sheet_paths", "manifest_paths", "required_sampling_seconds", "cadence_proven"],
+          "properties": {
+            "sheet_paths": {"$ref": "#/$defs/stringArray"},
+            "manifest_paths": {"$ref": "#/$defs/stringArray"},
+            "required_sampling_seconds": {"const": 1},
+            "cadence_proven": {"type": "boolean"}
+          }
+        },
+        "legacy_extra_cadence_directories": {"$ref": "#/$defs/stringArray"},
+        "status": {"enum": ["pass", "hold"]},
+        "holds": {"$ref": "#/$defs/stringArray"},
+        "warnings": {"$ref": "#/$defs/stringArray"}
+      }
+    },
+    "unregisteredSourceRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_key", "platform", "platform_id", "source_root", "duration_seconds", "duration_evidence", "expected_cadence", "available_cadence_directories", "selected_range_evidence", "status", "holds"],
+      "properties": {
+        "source_key": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "platform_id": {"type": "string", "minLength": 1},
+        "source_root": {"type": "string", "minLength": 1},
+        "duration_seconds": {"type": ["number", "null"], "minimum": 0},
+        "duration_evidence": {"enum": ["info_json", "missing"]},
+        "expected_cadence": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["lane", "sampling_seconds", "part_seconds", "directory"],
+              "properties": {
+                "lane": {"enum": ["short_source", "long_source"]},
+                "sampling_seconds": {"enum": [1, 3]},
+                "part_seconds": {"enum": [5, 15]},
+                "directory": {"enum": ["segments-5s-1s", "segments-15s"]}
+              }
+            }
+          ]
+        },
+        "available_cadence_directories": {"$ref": "#/$defs/stringArray"},
+        "selected_range_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sheet_paths", "manifest_paths", "required_sampling_seconds", "cadence_proven"],
+          "properties": {
+            "sheet_paths": {"$ref": "#/$defs/stringArray"},
+            "manifest_paths": {"$ref": "#/$defs/stringArray"},
+            "required_sampling_seconds": {"const": 1},
+            "cadence_proven": {"type": "boolean"}
+          }
+        },
+        "status": {"const": "hold"},
+        "holds": {"$ref": "#/$defs/stringArray"}
+      }
+    }
+  }
+}

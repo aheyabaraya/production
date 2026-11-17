@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/title-output-registry.schema.json",
+  "title": "IDOL Album/Track Output Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "album_key",
+    "title_key",
+    "title_display_name",
+    "status",
+    "canonical_title_root",
+    "content_ids",
+    "source_runs",
+    "output_roots",
+    "outputs",
+    "latest_pointers",
+    "review_summary",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "album_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+    },
+    "title_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z가-힣][0-9a-z가-힣-]{1,120}$"
+    },
+    "title_display_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "generated", "founder_review", "packaged", "hold", "archived"]
+    },
+    "canonical_title_root": {
+      "type": "string",
+      "pattern": "^catalog/albums/[^/]+/[^/]+$"
+    },
+    "content_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+      }
+    },
+    "source_runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "run_root",
+          "content_id",
+          "role",
+          "first_registered_at",
+          "last_updated_at"
+        ],
+      "properties": {
+          "run_root": { "type": "string" },
+          "content_id": { "type": "string" },
+          "role": { "type": "string" },
+          "first_registered_at": { "type": "string" },
+          "last_updated_at": { "type": "string" }
+        }
+      }
+    },
+    "output_roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title_root",
+        "run_roots",
+        "prompt_exports",
+        "imagegen_manifests",
+        "review_boards",
+        "branch_cut_images",
+        "video_prompts",
+        "generated_videos",
+        "edits",
+        "packages"
+      ],
+        "properties": {
+        "title_root": { "type": "string" },
+        "track_creative_board": { "type": "string" },
+        "visual_boards": { "type": "string" },
+        "run_roots": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "prompt_exports": { "type": "string" },
+        "imagegen_manifests": { "type": "string" },
+        "review_boards": { "type": "string" },
+        "branch_cut_images": { "type": "string" },
+        "contact_sheets": { "type": "string" },
+        "reference_index": { "type": "string" },
+        "contact_sheet_index": { "type": "string" },
+        "reference_cache_roots": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "canonical_album_assets": { "type": "string" },
+        "video_prompts": { "type": "string" },
+        "generated_videos": { "type": "string" },
+        "edits": { "type": "string" },
+        "packages": { "type": "string" }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "output_id",
+          "output_type",
+          "path",
+          "source_run_root",
+          "content_id",
+          "source_step",
+          "status",
+          "registered_at",
+          "last_seen_at",
+          "notes"
+        ],
+        "properties": {
+          "output_id": {
+            "type": "string",
+            "pattern": "^OUT_[A-Z0-9_]{3,80}$"
+          },
+          "output_type": {
+            "type": "string",
+            "enum": [
+              "02b_prompt_export",
+              "02a_high_density_section_link_review",
+              "track_creative_board",
+              "01a_visual_board",
+              "album_look_lock",
+              "solo_section_reference_board",
+              "solo_reference_sheet_image",
+              "space_reference_contact_sheet_image",
+              "object_system_lock",
+              "object_contact_sheet_image",
+              "background_board_image",
+              "wardrobe_board_image",
+              "wardrobe_contact_sheet_image",
+              "unit_character_board_image",
+              "album_asset_manifest",
+              "album_reference_index",
+              "album_contact_sheet_index",
+              "reference_cache_manifest",
+              "reference_source_video",
+              "reference_source_image",
+              "reference_source_audio",
+              "reference_contact_sheet",
+              "imagegen_manifest",
+              "review_board_image",
+              "branch_cut_image",
+              "contact_sheet_image",
+              "batch_api_state",
+              "batch_api_request",
+              "batch_api_result",
+              "drive_handoff_package",
+              "video_prompt",
+              "03v_source_snapshot",
+              "video_prompt_source_pack",
+              "video_prompt_authoring_request",
+              "generated_video",
+              "edit_master",
+              "cutdown",
+              "short",
+              "package",
+              "social_asset",
+              "publishing_record",
+              "analytics_snapshot",
+              "remote_publication",
+              "qc_artifact",
+              "other"
+            ]
+          },
+          "path": { "type": "string" },
+          "source_run_root": { "type": "string" },
+          "content_id": { "type": "string" },
+          "packet_id": { "type": ["string", "null"] },
+          "core_cut_id": { "type": ["string", "null"] },
+          "branch_cut_id": { "type": ["string", "null"] },
+          "beat_id": { "type": ["string", "null"] },
+          "section_id": { "type": ["string", "null"] },
+          "cue_id": { "type": ["string", "null"] },
+          "shard_id": { "type": ["string", "null"] },
+          "time_range": { "type": ["string", "null"] },
+          "source_step": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Producer step or gate that created/registered this row. This may be a canonical graph-engineering step such as 02B or 04 edit, or a narrower run-specific gate label. Validators own semantic checks."
+          },
+          "status": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Current output status. `declared`, `missing`, and `archived` rows may be retained as pointers/history, but latest_pointers must name only existing active artifacts."
+          },
+          "registered_at": { "type": "string" },
+          "last_seen_at": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "latest_pointers": {
+      "type": "object",
+      "description": "Latest findable existing artifact by output_type. Future declared, hold, missing, and archived paths stay in outputs[] and must not be promoted here.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "review_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "founder_review_status",
+        "passed_output_ids",
+        "held_output_ids",
+        "rejected_output_ids"
+      ],
+      "properties": {
+        "founder_review_status": {
+          "type": "string",
+          "enum": ["not_reviewed", "mixed", "pass", "hold", "reject"]
+        },
+        "passed_output_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "held_output_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rejected_output_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

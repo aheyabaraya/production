@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/reference-evaluation.schema.json",
+  "title": "IDOL reference evaluation case and independent review",
+  "description": "Evidence-bound evaluation case plus an independently authored review. Machine checks completeness and exact source binding only. Artifact authority is the scope discriminator; do not add production-pass booleans on authored case/review. category is open descriptive metadata and is never branched. Minimal model-observed authoring: schema_version, artifact_type, authority, case_id, category, evidence_class=model_observed_real_case, inspection_kind=authored_pixel_inspection, claimed_observation.prose, source_artifacts path+sha256, evidence_bindings path+sha256+role, expected_contextual_observation.prose+uncertainty, authorship.owner+author_role+author_session_id. Omit fixture_notice on real cases. Optional runtime_artifacts are inspectable path/sha256 evidence, not native-session proof. Pixel meaning remains human or assigned-model judgment. JSON Schema cannot express consecutive exact one-second Sequence cadence; the library overlay does.",
+  "oneOf": [
+    {"$ref": "#/$defs/case"},
+    {"$ref": "#/$defs/review"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "criterionEvidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "dependentRequired": {
+        "json_pointer": ["value_sha256"],
+        "value_sha256": ["json_pointer"]
+      }
+    },
+    "evidenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {
+          "enum": [
+            "original_video",
+            "source_manifest",
+            "one_second_analysis_surface",
+            "selected_range_surface",
+            "selected_frame_or_crop",
+            "authored_source_observation",
+            "other_hash_bound_evidence"
+          ]
+        },
+        "json_pointer": {"type": "string", "pattern": "^/"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      },
+      "dependentRequired": {
+        "json_pointer": ["value_sha256"],
+        "value_sha256": ["json_pointer"]
+      }
+    },
+    "timeClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "timestamps_seconds"],
+      "description": "sequence_samples asserts the existing exact-five Sequence contract. review_interval is an arbitrary finite nonnegative interval and is not a Sequence unit. JSON Schema can require five numbers for sequence_samples but cannot express consecutive 1.0s cadence; the library overlay requires five finite nonnegative timestamps at 1.0s ± 0.001 and does not duplicate sample_count or cadence fields.",
+      "properties": {
+        "kind": {
+          "enum": ["sequence_samples", "review_interval"]
+        },
+        "timestamps_seconds": {
+          "type": "array",
+          "items": {"type": "number", "minimum": 0}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"kind": {"const": "sequence_samples"}},
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "timestamps_seconds": {
+                "minItems": 5,
+                "maxItems": 5
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"kind": {"const": "review_interval"}},
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "timestamps_seconds": {"minItems": 2}
+            }
+          }
+        }
+      ]
+    },
+    "authorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "author_role", "author_session_id"],
+      "properties": {
+        "owner": {"const": "human_or_assigned_model"},
+        "author_role": {"$ref": "#/$defs/identifier"},
+        "author_session_id": {"type": "string", "minLength": 1},
+        "runtime_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        }
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "session_id"],
+      "properties": {
+        "owner": {"const": "human_or_assigned_model"},
+        "role": {"$ref": "#/$defs/identifier"},
+        "session_id": {"type": "string", "minLength": 1},
+        "runtime_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        }
+      }
+    },
+    "claimedObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prose"],
+      "properties": {
+        "prose": {"type": "string", "minLength": 1},
+        "action_claim": {"type": "string", "minLength": 1}
+      }
+    },
+    "expectedObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prose", "uncertainty"],
+      "properties": {
+        "prose": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "boolean"}
+      }
+    },
+    "sceneFunctionClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "function_prose"],
+      "properties": {
+        "source_path": {"$ref": "#/$defs/repoPath"},
+        "function_prose": {"type": "string", "minLength": 1}
+      }
+    },
+    "reviewObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "prose", "uncertainty"],
+      "properties": {
+        "evidence": {"$ref": "#/$defs/criterionEvidenceRef"},
+        "prose": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "boolean"}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "authority",
+        "case_id",
+        "category",
+        "evidence_class",
+        "inspection_kind",
+        "claimed_observation",
+        "source_artifacts",
+        "evidence_bindings",
+        "expected_contextual_observation",
+        "authorship"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol-reference-evaluation.v1"},
+        "artifact_type": {"const": "reference_evaluation_case"},
+        "authority": {"const": "evaluation_evidence_only_never_production_pass"},
+        "case_id": {"type": "string", "pattern": "^REFEV_[A-Z0-9_]{2,80}$"},
+        "category": {"type": "string", "minLength": 1, "maxLength": 200},
+        "evidence_class": {
+          "enum": ["synthetic_fixture", "model_observed_real_case"]
+        },
+        "fixture_notice": {"type": "string", "minLength": 1},
+        "inspection_kind": {
+          "enum": ["not_pixel_inspection", "authored_pixel_inspection"]
+        },
+        "claimed_observation": {"$ref": "#/$defs/claimedObservation"},
+        "source_artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "evidence_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/evidenceBinding"}
+        },
+        "time_claim": {"$ref": "#/$defs/timeClaim"},
+        "scene_function_claims": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sceneFunctionClaim"}
+        },
+        "camera_subject_resolution": {
+          "enum": [
+            "unresolved_2d_projection_cannot_separate_camera_from_subject",
+            "authored_camera_motion",
+            "authored_subject_motion",
+            "not_applicable"
+          ]
+        },
+        "expected_contextual_observation": {"$ref": "#/$defs/expectedObservation"},
+        "authorship": {"$ref": "#/$defs/authorship"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"evidence_class": {"const": "synthetic_fixture"}},
+            "required": ["evidence_class"]
+          },
+          "then": {
+            "required": ["fixture_notice"],
+            "properties": {
+              "inspection_kind": {"const": "not_pixel_inspection"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"evidence_class": {"const": "model_observed_real_case"}},
+            "required": ["evidence_class"]
+          },
+          "then": {
+            "not": {"required": ["fixture_notice"]},
+            "properties": {
+              "inspection_kind": {"const": "authored_pixel_inspection"}
+            }
+          }
+        }
+      ]
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "authority",
+        "review_id",
+        "case",
+        "reviewer",
+        "observations",
+        "review_decision"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol-reference-evaluation.v1"},
+        "artifact_type": {"const": "reference_evaluation_review"},
+        "authority": {"const": "independent_authored_review_never_production_pass"},
+        "review_id": {"type": "string", "pattern": "^REFEVR_[A-Z0-9_]{2,80}$"},
+        "case": {"$ref": "#/$defs/artifactRef"},
+        "reviewer": {"$ref": "#/$defs/reviewer"},
+        "observations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/reviewObservation"}
+        },
+        "review_decision": {
+          "enum": ["agree", "disagree", "hold", "uncertain"]
+        }
+      }
+    }
+  }
+}

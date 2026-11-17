@@ -1,0 +1,653 @@
+schema_version: "1.2"
+radar_id: PRE00_RESEARCH_RADAR_2026_07_16
+date: "2026-07-16"
+mode: automation
+status: founder_review
+research_policy:
+  method_basis: "AGENTS.md + wiki/production-system.md + wiki/pre-00-song-system.md + automation/pre-00-research-radar.md + skills/idol-research-radar/SKILL.md + research-radar-authoring-detail.md"
+  current_research_required: true
+  minimum_reference_count: 4
+  candidate_route_count: 5
+  reference_families: [song, media_narrative, fashion, idol]
+  unit_registry: assets/unit-registry.yaml
+  reference_depth_goal: "Compact paired PRE-00/PRE-00S discovery using the active July pulse, SS26 fashion rail, public web checks on 2026-07-16 KST, and active member/unit/voice assets."
+  combination_rule: "Every route combines song, media_narrative, fashion, and idol support into one new IDOL route; no route is one source with decorations."
+  unity_rule: "Tone, mood, message, object hook, and unit ownership must cohere before founder selection."
+  ref_id_integrity_rule: "Use keyed family IDs once and keep song, media_narrative, fashion, and idol lanes separate."
+  allowed_output: scoped_route_candidate_brief_before_00
+  handoff_target: 00_creative_nucleus_draft
+research_freshness:
+  policy_ref: "automation/pre-00-research-radar.md#Freshness Windows"
+  recheck_before_00:
+    - "Recheck public web references if founder selection happens after 2026-07-30."
+    - "Recheck short-lived idol, chart, platform, and fashion-current claims before 00 if the chosen route waits more than 2-4 weeks."
+    - "The weekly idol and short-form reports are still TBD/not_started in this repository, so current-run public checks were used only as bounded support."
+  durable_record_rule: "Do not promote ordinary radar findings into source-materials or reference-library until founder selection or repeated run validation."
+  bank_record_rule: "Checked creative-bank/message-hooks; today avoids repeating the May and July value-tag, board-game, mirror, scarf-receipt, and band-last-light routes as renamed cards."
+research_vectors:
+  - vector_id: trend_hypothesis_fit
+    research_question: "Which current public signals refresh July's bright-proof-under-pressure bias without repeating the 2026-07-12 route set?"
+    sample_rule: "Use active July pulse plus public song/idol/media/fashion checks; reject unsupported demographic or chart claims."
+    extraction_fields: ["current signal", "counter-signal", "first-15s proof", "route risk"]
+    downstream_targets:
+      - {stage: pre00_recommended_00_draft, artifact_or_schema: schemas/pre-00-research-radar.schema.json, field_path: "candidate_routes[].combined_signal", handoff_use: "State why the route is timely enough to expand."}
+    reject_if_missing: "Reject if the route only renames a prior July card."
+  - vector_id: song_hook_structure
+    research_question: "Which song surface gives a 3-8s entry tag, pre-hook reason, and chorus/body object before 00?"
+    sample_rule: "Extract functions from hard public club pressure, hyperpop club gesture, dance-unity percussion, narrative pop anthem, and melodic risk heat."
+    extraction_fields: ["entry tag", "pre-hook reason", "chorus proof", "memory tag"]
+    downstream_targets:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: schemas/reference-song-fit.schema.json, field_path: "function_breakdown[].prompt_translation", handoff_use: "Guide PRE-00S only if founder selects a song-led route or supplies exact references."}
+    reject_if_missing: "Reject if only genre is named and no section function exists."
+  - vector_id: target_empathy_message
+    research_question: "What can a global K-pop fan receive as self-image rather than only admire as styling or power?"
+    sample_rule: "Every route names viewer state, identification point, aftertaste, and mismatch risk."
+    extraction_fields: ["viewer state", "identification point", "aftertaste", "risk"]
+    downstream_targets:
+      - {stage: 00_creative_nucleus, artifact_or_schema: schemas/creative-nucleus.schema.json, field_path: target_empathy_lock, handoff_use: "Seed future 00 target empathy after founder selection."}
+    reject_if_missing: "Reject if the route is only concept gloss with no human stake."
+  - vector_id: mv_world_storyline
+    research_question: "Which visible world, object, or system can carry the message before choreography and 02A cuts are written?"
+    sample_rule: "Use media narrative references as screen-function sources, not plot-copy commands."
+    extraction_fields: ["space", "object", "turn", "camera cue"]
+    downstream_targets:
+      - {stage: 01_song_choreography_performance_mv_map, artifact_or_schema: 01-song-choreography-performance-mv-map.yaml, field_path: director_chain.space_or_object, handoff_use: "Keep a concrete world/object carrier for later 01 expansion."}
+    reject_if_missing: "Reject if no frameable object, room, or transition system exists."
+  - vector_id: wardrobe_material_motion
+    research_question: "Which SS26/current styling rails create visible movement or identity without period-costume drift?"
+    sample_rule: "Use fashion-season records plus public fashion pages; keep styling as motion/support, not narrative proof."
+    extraction_fields: ["silhouette", "material", "accessory cue", "body-proportion risk"]
+    downstream_targets:
+      - {stage: 01a_track_visual_board, artifact_or_schema: schemas/track-visual-board.schema.json, field_path: wardrobe_locks, handoff_use: "Seed 01A wardrobe/material locks only after founder selection."}
+    reject_if_missing: "Reject if styling is decorative and cannot help action, camera, or member identity."
+  - vector_id: unit_member_identity_fit
+    research_question: "Which active code-style unit owns the route without retired unit names?"
+    sample_rule: "Use assets/unit-registry.yaml, assets/member-registry.yaml, and assets/voice-style-index.md."
+    extraction_fields: ["unit purpose", "member role", "center risk", "voice/performance fit"]
+    downstream_targets:
+      - {stage: pre00_recommended_00_draft, artifact_or_schema: schemas/pre-00-research-radar.schema.json, field_path: "candidate_routes[].recommended_unit", handoff_use: "Keep active unit and member focus explicit for founder selection."}
+    reject_if_missing: "Reject if the route needs an ad hoc or retired unit."
+research_inputs:
+  REF_SONG_JULY_PULSE:
+    title: "2026-07 Pulse 01 Trend Record"
+    path_or_url: "source-materials/trend-pulse-records/2026-07-pulse-01.md"
+    reference_family: song
+    reference_lane: song_structure
+    short_note: "July route bias: bright proof under pressure with one sound tag, one human reason, one body cue, and one fan-explainable object."
+    useful_function: "Current PRE-00 section-function hypothesis before selected audio exists."
+    collection_method: trend_record
+    source_use_boundary: "Biweekly working hypothesis only; selected audio can override it."
+    raw_observation: "The pulse favors bright or melodic surfaces with one pressure engine underneath and a save-trigger pre-hook."
+    observed_aspects: [trend_hypothesis_fit, song_hook_structure, target_empathy_message]
+  REF_SONG_BLACKPINK_JUMP:
+    title: "BLACKPINK - Jump public release reference"
+    path_or_url: "https://pitchfork.com/news/blackpink-share-new-song-jump-amid-deadline-world-tour-watch-the-video"
+    reference_family: song
+    reference_lane: performance_song
+    short_note: "Hard public club pressure and stadium-scale first-impact group return."
+    useful_function: "Use for public impact where the first sound stamp and chorus pressure must be instantly legible."
+    collection_method: published_article
+    source_use_boundary: "Song/performance signal only; no melody, lyric, member identity, or MV copy."
+    raw_observation: "The useful function is a big public club-pop pivot with a first-stamp hook and group-scale pressure."
+    observed_aspects: [trend_hypothesis_fit, song_hook_structure, derivative_social_viability]
+  REF_SONG_KATSEYE_PINKY:
+    title: "KATSEYE - Pinky Up public release reference"
+    path_or_url: "https://www.teenvogue.com/story/vivian-wilson-says-katseye-pinky-up-mv-was-the-role-of-a-lifetime"
+    reference_family: song
+    reference_lane: hook_mechanics
+    short_note: "Hyperpop/club gesture signal with high-energy fashion, surreal objects, and spotlighted members."
+    useful_function: "Use for a small-finger gesture that becomes a public defiance cue instead of a generic challenge."
+    collection_method: published_article
+    source_use_boundary: "Song/MV hook function only; no plot, cameo, styling, lyric, or choreography copy."
+    raw_observation: "The useful function is a compact hand gesture expanded into chaotic club confidence and member spotlight moments."
+    observed_aspects: [song_hook_structure, choreography_performance_readability, derivative_social_viability]
+  REF_SONG_BABYMONSTER_CHOON:
+    title: "BABYMONSTER - Choom public release reference"
+    path_or_url: "https://en.wikipedia.org/wiki/Choom_(EP)"
+    reference_family: song
+    reference_lane: rhythm_pressure
+    short_note: "Hip-hop dance unity lane with bouncy synth riff and heavy percussion."
+    useful_function: "Use for body-first route where dance is a unifying rule, not only a display."
+    collection_method: browser_public_page
+    source_use_boundary: "Song/rhythm function only; no melody, lyric, choreography, or group identity copy."
+    raw_observation: "The transferable function is heavy percussive dance pressure tied to fan unity through movement."
+    observed_aspects: [song_hook_structure, choreography_performance_readability]
+  REF_SONG_HUNTRIX_GOLDEN:
+    title: "HUNTRIX - Golden narrative song reference"
+    path_or_url: "https://www.vanityfair.com/hollywood/story/kpop-demon-hunters-golden-ejae-interview"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "Narrative pop anthem where voice, hidden pain, and hope carry the story function."
+    useful_function: "Use for a route where the pre-hook admits hidden pressure before a clean lift."
+    collection_method: published_article
+    source_use_boundary: "Meaning-delivery reference only; no melody, lyric, lore, or character copy."
+    raw_observation: "The useful function is pain and identity converted into a bright song mission through vocal lift."
+    observed_aspects: [song_hook_structure, target_empathy_message]
+  REF_SONG_LESSERAFIM_HOT:
+    title: "LE SSERAFIM - Hot public release reference"
+    path_or_url: "https://en.wikipedia.org/wiki/Hot_(Le_Sserafim_song)"
+    reference_family: song
+    reference_lane: song_message
+    short_note: "Pop/disco/rock passion lane framed as chasing desire without fear of the outcome."
+    useful_function: "Use for melodic risk heat where chorus lift comes from commitment rather than generic confidence."
+    collection_method: browser_public_page
+    source_use_boundary: "Song-message and energy signal only; no melody, choreography, or styling copy."
+    raw_observation: "The useful function is passion stated as movement toward risk."
+    observed_aspects: [song_hook_structure, target_empathy_message]
+  REF_MEDIA_NARRATIVE_KPOP_DEMON:
+    title: "KPop Demon Hunters hidden-duty identity signal"
+    path_or_url: "https://www.thetimes.com/culture/theatre-dance/article/mark-sonnenblick-interview-songwriter-golden-kpop-demon-hunters-midnight-never-get-sr8x7pg5t"
+    reference_family: media_narrative
+    reference_lane: audience_context
+    short_note: "Public idol image plus hidden pressure travels when the song visibly advances character truth."
+    useful_function: "Use for routes that need bright public surface with a second responsibility underneath."
+    collection_method: published_article
+    source_use_boundary: "Audience/context function only; no character, demon, folklore, or animation-style copy."
+    raw_observation: "The transferable function is dual surface: idol brightness remains public while pressure is carried as a readable hidden duty."
+    observed_aspects: [target_empathy_message, mv_world_storyline, derivative_social_viability]
+  REF_MEDIA_NARRATIVE_SPEED_RACER:
+    title: "Speed Racer 4K color/motion reference"
+    path_or_url: "https://www.techradar.com/televisions/blu-ray/one-of-the-best-dolby-vision-and-dolby-atmos-4k-blu-rays-ive-ever-tested-speed-racer-on-4k-is-so-good-its-going-to-be-my-new-go-to-disc-for-tv-and-soundbar-testing"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "Saturated color, high-motion audiovisual proof, and race-track readability."
+    useful_function: "Use for a route where color lanes and speed lines make the chorus readable."
+    collection_method: published_article
+    source_use_boundary: "Motion/color grammar only; no race plot, car design, or IP copy."
+    raw_observation: "The transferable function is bold color separation plus motion handling that remains legible under speed."
+    observed_aspects: [camera_edit_grammar, mv_world_storyline, generation_promptability_risk]
+  REF_MEDIA_NARRATIVE_THE_SUBSTANCE:
+    title: "The Substance public body-image pressure reference"
+    path_or_url: "https://people.com/demi-moore-the-substance-review-8713167"
+    reference_family: media_narrative
+    reference_lane: concept_semantics
+    short_note: "Beauty-pressure satire where the public image punishes the body that made it."
+    useful_function: "Use for routes about rejecting a flawless duplicate and keeping the real trace."
+    collection_method: published_article
+    source_use_boundary: "Concept-semantic source only; no horror, gore, plot, body mutation, or visual copy."
+    raw_observation: "The useful function is public perfection pressure split against embodied truth."
+    observed_aspects: [target_empathy_message, mv_world_storyline, generation_promptability_risk]
+  REF_MEDIA_NARRATIVE_GLOBAL_FANDOM:
+    title: "Global K-pop fandom target baseline"
+    path_or_url: "source-materials/audience-research/global-kpop-fandom-target-v1.md"
+    reference_family: media_narrative
+    reference_lane: audience_context
+    short_note: "Default audience expects idol identity, cinematic MV worlds, visual systems, and replayable screen moments."
+    useful_function: "Use to keep PRE-00 routes fan-explainable and MV-world-led, not generic global pop."
+    collection_method: trend_record
+    source_use_boundary: "Audience baseline only."
+    raw_observation: "The baseline asks each route to provide identity, world/object/camera system, and a replayable moment."
+    observed_aspects: [target_empathy_message, mv_world_storyline, derivative_social_viability]
+  REF_FASHION_SS26_LOCAL:
+    title: "2026 SS fashion trend record"
+    path_or_url: "source-materials/fashion-trend-records/2026-ss.md"
+    reference_family: fashion
+    reference_lane: material_texture
+    short_note: "Utility, trench, sport layer, satin, lace, scarf, chiffon, chrome, and saturated cue colors stay active."
+    useful_function: "Use as styling hypothesis for movement-safe silhouettes and accessory gestures."
+    collection_method: trend_record
+    source_use_boundary: "Season-level styling hypothesis only."
+    raw_observation: "The record supports utility/sport structures for discipline and scarf/chiffon/fringe motion for airflow or memory."
+    observed_aspects: [wardrobe_material_motion, source_diversity_raw_trace]
+  REF_FASHION_BANDANA_2026:
+    title: "Vogue - bandana kerchief summer 2026"
+    path_or_url: "https://www.vogue.com/article/bandana-kerchief-summer-2026-history"
+    reference_family: fashion
+    reference_lane: accessory_styling
+    short_note: "Bandana/kerchief styling is a current summer signal with red, navy, sky blue, and white variants."
+    useful_function: "Use for head/neck/hand cue that can become a gesture object and not just decoration."
+    collection_method: published_article
+    source_use_boundary: "Fashion/accessory function only; not media narrative."
+    raw_observation: "The useful function is a small textile cue that can read in closeup, hairline, wrist, or hand choreography."
+    observed_aspects: [wardrobe_material_motion, derivative_social_viability]
+  REF_FASHION_SS26_VOGUE:
+    title: "Vogue - Spring/Summer 2026 fashion trends"
+    path_or_url: "https://www.vogue.com/article/spring-2026-fashion-trends"
+    reference_family: fashion
+    reference_lane: fashion_season_trend
+    short_note: "SS26 emphasizes tactile texture, fringe, lace, feathers, satin, scarves, button-downs, and expressive wearability."
+    useful_function: "Use for bright routes that need motion texture and personal-feeling styling."
+    collection_method: published_article
+    source_use_boundary: "Fashion signal only; not media narrative."
+    raw_observation: "The article frames SS26 as expressive, tactile, and wearable, with scarf/fluid styling and color layering."
+    observed_aspects: [wardrobe_material_motion, generation_promptability_risk]
+  REF_FASHION_TRACK_SATIN:
+    title: "Who What Wear - summer 2026 taffeta, satin bags, track shorts"
+    path_or_url: "https://www.whowhatwear.com/fashion/trendy-summer-fashion-2026"
+    reference_family: fashion
+    reference_lane: wardrobe_construction
+    short_note: "Track shorts, satin bags, taffeta pants, and embellishment details support sporty/luxury contrast."
+    useful_function: "Use for routes where athletic body proof meets polished object handling."
+    collection_method: published_article
+    source_use_boundary: "Styling function only; not a media narrative source."
+    raw_observation: "The useful function is a summer mix of athletic pieces and polished tactile objects."
+    observed_aspects: [wardrobe_material_motion, choreography_performance_readability]
+  REF_FASHION_DRESS_FRINGE:
+    title: "Harper's Bazaar - summer dress trends 2026"
+    path_or_url: "https://www.harpersbazaar.com/fashion/trends/a71871150/summer-dress-trends-2026/"
+    reference_family: fashion
+    reference_lane: silhouette
+    short_note: "Bodycon, poplin, sheer relaxed fit, fringe, and eyelet update summer movement and texture."
+    useful_function: "Use for melodic/close-range routes where fabric motion needs a light present-tense body line."
+    collection_method: published_article
+    source_use_boundary: "Fashion signal only; not media narrative."
+    raw_observation: "The useful function is playful but wearable fabric movement that can be performance-safe if controlled."
+    observed_aspects: [wardrobe_material_motion, generation_promptability_risk]
+  REF_IDOL_TUI_06:
+    title: "IDOL unit registry - TUI_06"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Public hook strength, stage-readable first impression, and chorus identity with tension."
+    useful_function: "Use when the route needs bright first contact, polished hook, clean vocal lift, and a precise tension cue."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "M01, M02, M05, M07, M09, and M12 cover opener, precision guide, vocal lift, formation center, hook drive, and cue vocal."
+    observed_aspects: [unit_member_identity_fit, target_empathy_message]
+  REF_IDOL_CURL_06:
+    title: "IDOL unit registry - CURL_06"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Global performance energy, formation proof, and campaign-readable motion."
+    useful_function: "Use for full-body save triggers and athletic chorus proof."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "M01, M03, M06, M08, M10, and M12 give opener, rhythm anchor, precision, counter, power, and cue top-line."
+    observed_aspects: [unit_member_identity_fit, choreography_performance_readability]
+  REF_IDOL_SYNC_05:
+    title: "IDOL unit registry - SYNC_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Digital concept precision, mirror/chrome texture, and controlled performance geometry."
+    useful_function: "Use for self-image pressure, exact hand/body geometry, and cold synth performance."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "M02, M05, M06, M07, and M08 cover precision guide, vocal lift, cue pressure, formation center, and low-mid counter."
+    observed_aspects: [unit_member_identity_fit, camera_edit_grammar]
+  REF_IDOL_ECHO_05:
+    title: "IDOL unit registry - ECHO_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Mature R&B/dance mood, vocal-rap character, and close-range attitude."
+    useful_function: "Use for tactile pressure, close-range vocal-rap contrast, and member-specific maturity."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "M03, M04, M05, M08, and M11 can carry cool rhythm, emotional bridge, vocal lift, low-mid counter, and crowd rap."
+    observed_aspects: [unit_member_identity_fit, target_empathy_message]
+  REF_IDOL_CLI_05:
+    title: "IDOL unit registry - CLI_05"
+    path_or_url: "assets/unit-registry.yaml"
+    reference_family: idol
+    reference_lane: idol_member_asset
+    short_note: "Melodic character lift, live-vocal energy, and emotional hook drive with member personality."
+    useful_function: "Use when the route needs live-feeling release and bright vocal memory."
+    collection_method: local_asset
+    source_use_boundary: "Active unit ownership rail only."
+    raw_observation: "M01, M03, M04, M05, and M09 can cover opener, rhythm anchor, emotional bridge, vocal lift, and hook drive."
+    observed_aspects: [unit_member_identity_fit, target_empathy_message]
+candidate_routes:
+  - route_id: R01
+    route_name: "BANDANA WARNING LIGHT"
+    recommendation_message: "Select this if the next route should be bright, public, and immediately readable: a small red kerchief becomes the warning signal that the polished unit refuses to hide pressure."
+    recommended_unit:
+      unit_code: TUI_06
+      unit_purpose: "Public hook strength, stage-readable first impression, and chorus identity with tension."
+      member_codes: [M01, M02, M05, M07, M09, M12]
+      center_roles: {opening_vocal: M01, precision_guide: M02, vocal_lift: M05, formation_center: M07, hook_drive: M09, cool_cue: M12}
+      unit_fit_reason: "The route needs bright first contact, clean hook memory, formation polish, and one precise accessory cue."
+      unit_risk: "Can become scarf styling only unless the kerchief acts as a warning object."
+    member_focus: [M01, M02, M05, M07, M09, M12]
+    source_ref_ids: [REF_SONG_BLACKPINK_JUMP, REF_MEDIA_NARRATIVE_GLOBAL_FANDOM, REF_FASHION_BANDANA_2026, REF_IDOL_TUI_06]
+    lane_ref_ids:
+      song: [REF_SONG_BLACKPINK_JUMP, REF_SONG_JULY_PULSE]
+      media_narrative: [REF_MEDIA_NARRATIVE_GLOBAL_FANDOM, REF_MEDIA_NARRATIVE_KPOP_DEMON]
+      fashion: [REF_FASHION_BANDANA_2026, REF_FASHION_SS26_LOCAL]
+      idol: [REF_IDOL_TUI_06]
+    combined_signal: "Hard public club pressure plus July's bright-proof-under-pressure pulse becomes a public hook route where a red kerchief warns that the polished face is carrying real heat."
+    tone_mood_message_unity:
+      tone_and_manner: "bright, sharp, public, controlled"
+      mood: "summer polish with a warning stripe"
+      message: "I can look bright and still name the pressure."
+      unity_reason: "BLACKPINK-scale pressure, K-pop fan need for an explainable object, current bandana styling, and TUI_06 public hook roles all point to a first-contact warning cue."
+      mismatch_watch: "Avoid another scarf-receipt route; this must be warning signal and public hook, not old-trace fabric memory."
+    possible_message: "빨간 신호를 숨기지 않아서, 내가 더 선명해진다."
+    song_feeling: "hard-bright dance-pop with a short entry stamp, a pre-hook breath under pressure, and a clean chorus lift."
+    choreography_hook: "M12 flicks the kerchief from wrist to shoulder, M09 answers with a shoulder-pop step, and the unit snaps the red cue down on the chorus hit."
+    performance_image: "M01 opens the bright human signal, M07 holds the public line, M05 lifts the chorus, and M02/M12 make the warning cue exact."
+    mv_image: "A clean public concourse where red kerchiefs first look decorative, then turn into visible warning lights above doors, wrists, and floor marks."
+    why_aurora_m_can_own_it: "AURORA-M can make polish human by letting the accessory expose pressure instead of just styling the members."
+    risk_or_gap: "Needs founder-selected song reference before Suno/manual prompt so hard pressure does not flatten the human warning."
+    downstream_handoff_map:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: schemas/reference-song-fit.schema.json, field_path: "function_breakdown[].wanted_function", handoff_use: "Measure first-stamp pressure plus pre-hook breath if selected."}
+      - {stage: 00_creative_nucleus, artifact_or_schema: schemas/creative-nucleus.schema.json, field_path: target_empathy_lock, handoff_use: "Seed warning-signal empathy as self-image."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "BANDANA WARNING LIGHT"
+      goal: "Build a bright public-hook MV where a red kerchief turns pressure into a visible warning signal the unit controls."
+      thesis:
+        message: "Pressure becomes power when the warning is shown on purpose."
+        one_line: "The red cue flashes, the chorus hits, and the unit refuses to hide the heat."
+        audience_feel: "A global K-pop fan gets a clean first image and a human reason to replay it."
+        hook_moment: "Kerchief flick from wrist to shoulder into chorus shoulder-pop."
+      target_empathy_seed:
+        target_viewer: "A global K-pop fan who likes polished public hooks but wants pressure to feel honest."
+        viewer_feeling_state: "Trying to stay bright while carrying a visible warning inside."
+        identification_point: "They recognize the relief of showing the pressure instead of disguising it."
+        desired_aftertaste: "Bright control with one red object fans can name."
+        empathy_risk: "If the kerchief is only a trend accessory, the message becomes styling."
+        member_bridge: "M01 opens warmth, M07 holds composure, M05 gives lift, and M12/M02 make the cue precise."
+        message_translation: "The kerchief is the warning; showing it is the first proof of control."
+      storyline_spine_seed:
+        summary: "A clean public concourse treats red kerchiefs as accessories until the unit reveals them as warning lights that guide the chorus route."
+        beats:
+          - {order: 1, beat: "hidden warning", primary_member: "M01", primary_screen_driver: member_led, world_or_object_anchor: "red wrist kerchief", core_action: "M01 faces camera while the red kerchief sits still at her wrist.", visual_function: "human signal before pressure", camera_or_world_cue: "front medium close with concourse depth"}
+          - {order: 2, beat: "public pressure", primary_member: "M07", primary_screen_driver: mixed_member_world, world_or_object_anchor: "warning door lights", core_action: "M07 walks through doors that flash red only after she passes.", visual_function: "turn polish into alert system", camera_or_world_cue: "three-quarter tracking frame"}
+          - {order: 3, beat: "pre-hook reveal", primary_member: "M12", primary_screen_driver: member_led, world_or_object_anchor: "kerchief at shoulder", core_action: "M12 flicks the kerchief from wrist to shoulder on the breath before the hook.", visual_function: "make pressure visible", camera_or_world_cue: "tight hand-to-face crop"}
+          - {order: 4, beat: "chorus control", primary_member: "M09", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "red floor line", core_action: "M09 leads a shoulder-pop step as the unit lands on the red line together.", visual_function: "turn warning into public hook", camera_or_world_cue: "front full-body proof"}
+      founder_input_seed: {current_founder_anchor: "No new song/section/timestamp anchor supplied in this automation prompt.", reference_song_fit_status: "not_triggered_until_founder_selects_route_or_song_refs"}
+      asset_alignment_seed:
+        selected_unit: TUI_06
+        selected_members: [M01, M02, M05, M07, M09, M12]
+        identity_constraints: "Keep the red cue readable but off the face; preserve active vocal and formation roles."
+      song_structure_seed: {first_signal: "hard-bright stamp plus red stillness", pre_hook: "breath before kerchief reveal", chorus: "shoulder-pop lift on red line", memory_tag: "red cue flashes after the final face hold"}
+      choreography_seed: {hook_action: "wrist-to-shoulder kerchief flick, shoulder pop, down-snap", crop_safety: "hand-face closeup plus front full-body proof", avoid: "random scarf posing"}
+      visual_world_seed: {mv_world: "clean public concourse with red warning-light system", camera_language: "front polish, tracking corridor, tight hand cue, full-body chorus", wardrobe: "button-down or technical base with one red kerchief cue"}
+      generation_plan_seed: {keyframe_risk: "Red cue can dominate palette; keep it one object or line per keyframe.", prompt_guard: "No brand logos, no period costume, no generic luxury ad."}
+      derivative_plan_seed: ["8s kerchief flick", "15s red warning to chorus line", "45s public concourse pressure arc"]
+      founder_locks_seed: ["choose hard-bright reference song", "confirm kerchief as wrist, collar, or hair cue"]
+      source_links_seed: ["https://pitchfork.com/news/blackpink-share-new-song-jump-amid-deadline-world-tour-watch-the-video", "https://www.vogue.com/article/bandana-kerchief-summer-2026-history", "assets/unit-registry.yaml"]
+      open_questions_seed: ["Should this combine with R05's hidden voice, or stay public-hook-first?"]
+  - route_id: R02
+    route_name: "PINKY CHAOS CUP"
+    recommendation_message: "Select this if the route should feel cheeky, fast, and high-contrast: a tiny pinky-up gesture destabilizes a too-perfect etiquette room."
+    recommended_unit:
+      unit_code: CURL_06
+      unit_purpose: "Global performance energy, formation proof, and campaign-readable motion."
+      member_codes: [M01, M03, M06, M08, M10, M12]
+      center_roles: {opening_vocal: M01, rhythm_anchor: M03, precision_captain: M06, point_dance_counter: M08, power_impact: M10, cool_cue: M12}
+      unit_fit_reason: "The route needs full-body energy, exact hand proof, and enough impact to make a small gesture feel large."
+      unit_risk: "Can become empty chaos unless the cup/gesture rule is legible."
+    member_focus: [M01, M03, M06, M08, M10, M12]
+    source_ref_ids: [REF_SONG_KATSEYE_PINKY, REF_MEDIA_NARRATIVE_SPEED_RACER, REF_FASHION_TRACK_SATIN, REF_IDOL_CURL_06]
+    lane_ref_ids:
+      song: [REF_SONG_KATSEYE_PINKY, REF_SONG_JULY_PULSE]
+      media_narrative: [REF_MEDIA_NARRATIVE_SPEED_RACER, REF_MEDIA_NARRATIVE_GLOBAL_FANDOM]
+      fashion: [REF_FASHION_TRACK_SATIN, REF_FASHION_SS26_LOCAL]
+      idol: [REF_IDOL_CURL_06]
+    combined_signal: "Hyperpop hand-gesture pressure plus saturated motion grammar becomes a performance route where a polite cup room breaks into readable full-body chaos."
+    tone_mood_message_unity:
+      tone_and_manner: "cheeky, kinetic, saturated, precise"
+      mood: "etiquette room turning into speed-line performance"
+      message: "Small defiance can reroute the whole room."
+      unity_reason: "Pinky-up hook logic, Speed Racer-style color/motion readability, track/satin styling contrast, and CURL_06 formation proof all support tiny gesture to big movement."
+      mismatch_watch: "Avoid random surreal clutter or copying KATSEYE's MV objects."
+    possible_message: "작은 손끝 하나로 방의 규칙을 바꾼다."
+    song_feeling: "hyperpop or club-pop with clipped hand-gesture hook, fast synth cutups, and a chorus that explodes from a tiny cue."
+    choreography_hook: "M12 lifts a pinky beside a cup, M06 locks the wrist angle, M10 breaks the table-line with a chest hit, and M08 slides the shoulder out."
+    performance_image: "M12 and M06 define the gesture, M10 gives impact, M08 makes the counter move, M03 stabilizes rhythm, and M01 keeps the opener bright."
+    mv_image: "A tea-table etiquette room with satin cups, track-short contrast, and color lanes that stretch when the pinky rises."
+    why_aurora_m_can_own_it: "AURORA-M can make a small gesture feel designed because CURL_06 has both cue precision and global performance force."
+    risk_or_gap: "Needs careful 01/02A object rules so cups, tables, and color lanes do not overload keyframes."
+    downstream_handoff_map:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: schemas/reference-song-fit.schema.json, field_path: melody_topline_fit.hook_motif_behavior, handoff_use: "Check whether the hook should be clipped chant, sung tag, or spoken cue."}
+      - {stage: 02a_master_storyboard, artifact_or_schema: schemas/master-storyboard.schema.json, field_path: compile_seed.source_refs, handoff_use: "Keep pinky/cup/color-lane objects as traceable screen drivers."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "PINKY CHAOS CUP"
+      goal: "Build a kinetic MV where a tiny pinky-up cue breaks an etiquette room into controlled performance chaos."
+      thesis:
+        message: "A small, precise refusal can change the whole room's rules."
+        one_line: "The cup tilts, the pinky rises, and the room starts moving too fast to obey."
+        audience_feel: "A global K-pop fan gets a playful, screenshot-ready object hook with serious performance proof."
+        hook_moment: "Pinky lift beside cup into chest-hit table break."
+      target_empathy_seed:
+        target_viewer: "A global K-pop fan who likes playful high-energy girl-group performance with a clear object rule."
+        viewer_feeling_state: "Held inside a polite room where every gesture is watched."
+        identification_point: "They feel how one tiny gesture can be enough to break etiquette pressure."
+        desired_aftertaste: "Cheeky speed and precise confidence."
+        empathy_risk: "If chaos leads, the fan loses the rule and only sees props."
+        member_bridge: "M12 gives cue top-line, M06 defines hand geometry, M10 breaks the room, and M08 gives the counterpoint."
+        message_translation: "The pinky is the defiance; the cup/table reaction is the room losing control."
+      storyline_spine_seed:
+        summary: "An etiquette room watches every hand position; one pinky-up cue makes color lanes stretch across the table until the unit turns the room into a chorus track."
+        beats:
+          - {order: 1, beat: "polite trap", primary_member: "M12", primary_screen_driver: member_led, world_or_object_anchor: "satin cup", core_action: "M12 holds a cup perfectly still while her pinky is forced down.", visual_function: "show gesture pressure", camera_or_world_cue: "tight hand and eyes"}
+          - {order: 2, beat: "cue lift", primary_member: "M06", primary_screen_driver: member_led, world_or_object_anchor: "cup rim", core_action: "M06 locks the wrist angle and lets the pinky lift one beat early.", visual_function: "break the room rule", camera_or_world_cue: "front close crop"}
+          - {order: 3, beat: "table break", primary_member: "M10", primary_screen_driver: mixed_member_world, world_or_object_anchor: "long tea table", core_action: "M10 hits the chest stop and the table line splits into color lanes.", visual_function: "expand tiny cue into motion", camera_or_world_cue: "wide front table-depth proof"}
+          - {order: 4, beat: "chorus track", primary_member: "M08", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "color lane floor", core_action: "M08 slides the shoulder as the unit steps down the newly formed color lanes.", visual_function: "turn defiance into group performance", camera_or_world_cue: "low side tracking shot"}
+      founder_input_seed: {current_founder_anchor: "No new song/section/timestamp anchor supplied in this automation prompt.", reference_song_fit_status: "not_triggered_until_founder_selects_route_or_song_refs"}
+      asset_alignment_seed:
+        selected_unit: CURL_06
+        selected_members: [M01, M03, M06, M08, M10, M12]
+        identity_constraints: "Keep props below face line; use full-body proof for chorus, not cluttered table closeups."
+      song_structure_seed: {first_signal: "cup stillness and clipped hand cue", pre_hook: "pinky lifts early", chorus: "table split into speed lanes", memory_tag: "cup tilts without spilling"}
+      choreography_seed: {hook_action: "pinky lift, wrist lock, chest hit, shoulder slide", crop_safety: "tight hand cue then full-body lane proof", avoid: "random prop chaos"}
+      visual_world_seed: {mv_world: "etiquette room with satin cups and color-lane floor", camera_language: "hand closeup, front table depth, low tracking lane", wardrobe: "track shorts or sporty base with satin/small accessory contrast"}
+      generation_plan_seed: {keyframe_risk: "Cups and lanes can crowd the image; one cup and one color lane per keyframe.", prompt_guard: "No copied plush/motorcycle imagery, no tea-party costume, no period styling."}
+      derivative_plan_seed: ["8s pinky cue", "12s cup-to-color-lane split", "45s etiquette-room chaos arc"]
+      founder_locks_seed: ["choose hyperpop versus cleaner club-pop pulse", "confirm cup, ring, or glove as the hand-object"]
+      source_links_seed: ["https://www.teenvogue.com/story/vivian-wilson-says-katseye-pinky-up-mv-was-the-role-of-a-lifetime", "https://www.techradar.com/televisions/blu-ray/one-of-the-best-dolby-vision-and-dolby-atmos-4k-blu-rays-ive-ever-tested-speed-racer-on-4k-is-so-good-its-going-to-be-my-new-go-to-disc-for-tv-and-soundbar-testing", "assets/unit-registry.yaml"]
+      open_questions_seed: ["Should this combine with R03 if the founder wants body-image pressure instead of etiquette pressure?"]
+  - route_id: R03
+    route_name: "TRACE DUPLICATE MIRROR"
+    recommendation_message: "Select this if the route should be colder and more psychological: the unit rejects a flawless duplicate reflection and keeps the imperfect trace."
+    recommended_unit:
+      unit_code: SYNC_05
+      unit_purpose: "Digital concept precision, mirror/chrome texture, and controlled performance geometry."
+      member_codes: [M02, M05, M06, M07, M08]
+      center_roles: {precision_guide: M02, vocal_lift: M05, precision_cue: M06, formation_center: M07, low_mid_counter: M08}
+      unit_fit_reason: "The route needs exact mirror geometry, body-image pressure, cold hand work, and enough vocal lift to keep the system emotional."
+      unit_risk: "Can become abstract chrome unless the real-trace decision is visible."
+    member_focus: [M02, M05, M06, M07, M08]
+    source_ref_ids: [REF_SONG_JULY_PULSE, REF_MEDIA_NARRATIVE_THE_SUBSTANCE, REF_FASHION_SS26_VOGUE, REF_IDOL_SYNC_05]
+    lane_ref_ids:
+      song: [REF_SONG_JULY_PULSE, REF_SONG_HUNTRIX_GOLDEN]
+      media_narrative: [REF_MEDIA_NARRATIVE_THE_SUBSTANCE, REF_MEDIA_NARRATIVE_GLOBAL_FANDOM]
+      fashion: [REF_FASHION_SS26_VOGUE, REF_FASHION_SS26_LOCAL]
+      idol: [REF_IDOL_SYNC_05]
+    combined_signal: "Hidden-pressure anthem logic plus public body-image critique becomes a mirror-system route where the members choose the real trace over the perfect duplicate."
+    tone_mood_message_unity:
+      tone_and_manner: "cold, precise, tense, intimate"
+      mood: "flawless mirror room with one returning mark"
+      message: "The trace proves I am here; the duplicate only proves the system worked."
+      unity_reason: "The hidden-voice song function, body-image pressure reference, tactile SS26 surfaces, and SYNC_05 precision all support a mirror route with emotional access."
+      mismatch_watch: "No horror, gore, body mutation, or faceless mannequin concept."
+    possible_message: "완벽한 복사보다, 남은 자국이 더 나답다."
+    song_feeling: "cold synth-pop or pressure-bright anthem with a sotto voce pre-hook and clean vocal lift."
+    choreography_hook: "M02 wipes a mirror line, M06 locks the elbow, M08 marks the real trace with a low shoulder cut, and M05 lifts over the reflection."
+    performance_image: "M02 owns precision, M06 controls the system, M08 breaks the duplicate, M07 centers the geometry, and M05 gives the human lift."
+    mv_image: "A white/chrome mirror room where a duplicate reflection moves too perfectly until one fingerprint stays behind on the real glass."
+    why_aurora_m_can_own_it: "AURORA-M can make digital polish human because SYNC_05 has precision plus vocal lift and low-mid counterweight."
+    risk_or_gap: "Needs strict prompt guards later so the route stays idol-psychological, not horror or beauty-punishment imagery."
+    downstream_handoff_map:
+      - {stage: 00_creative_nucleus, artifact_or_schema: schemas/creative-nucleus.schema.json, field_path: storyline_spine_seed, handoff_use: "Carry real trace versus duplicate as the route spine if selected."}
+      - {stage: 01a_track_visual_board, artifact_or_schema: schemas/track-visual-board.schema.json, field_path: material_locks, handoff_use: "Use mirror/texture only where it helps identity proof."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "TRACE DUPLICATE MIRROR"
+      goal: "Build a cold digital MV where the unit rejects flawless duplicate reflections and keeps the imperfect trace as proof of being real."
+      thesis:
+        message: "A trace is stronger than a perfect copy because it proves presence."
+        one_line: "The duplicate keeps smiling; the fingerprint stays real."
+        audience_feel: "A global K-pop fan feels concept coolness with a clear human identity crack."
+        hook_moment: "Mirror wipe into returning fingerprint and low shoulder cut."
+      target_empathy_seed:
+        target_viewer: "A global K-pop fan who likes digital precision but wants emotional access inside the system."
+        viewer_feeling_state: "Trying to look flawless while feeling replaced by a cleaner version."
+        identification_point: "They recognize the imperfect trace as proof that the real self stayed."
+        desired_aftertaste: "Cool self-recognition, not body shame."
+        empathy_risk: "If the duplicate image becomes too literal, it risks horror or beauty-punishment readings."
+        member_bridge: "M02 guides the mirror, M06 locks the duplicate, M08 marks the trace, and M05 opens the vocal release."
+        message_translation: "The duplicate is pressure; the fingerprint is the chosen real self."
+      storyline_spine_seed:
+        summary: "A mirror room produces perfect reflections; the members first match them, then leave one real fingerprint that the duplicate cannot copy."
+        beats:
+          - {order: 1, beat: "perfect copy", primary_member: "M02", primary_screen_driver: member_led, world_or_object_anchor: "chrome mirror", core_action: "M02 matches a reflection that moves one beat too perfectly.", visual_function: "establish duplicate pressure", camera_or_world_cue: "front mirror close"}
+          - {order: 2, beat: "system lock", primary_member: "M06", primary_screen_driver: system_transition, world_or_object_anchor: "mirror grid", core_action: "M06 freezes the elbow and the mirror grid locks into equal panels.", visual_function: "show perfection as control", camera_or_world_cue: "centered geometric frame"}
+          - {order: 3, beat: "real trace", primary_member: "M08", primary_screen_driver: member_led, world_or_object_anchor: "fingerprint", core_action: "M08 cuts the shoulder low and leaves a fingerprint on the real glass.", visual_function: "break duplicate obedience", camera_or_world_cue: "low three-quarter reflection"}
+          - {order: 4, beat: "voice lift", primary_member: "M05", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "trace path", core_action: "M05 lifts the chorus as the unit steps along the fingerprint path instead of matching the mirrors.", visual_function: "choose trace as route", camera_or_world_cue: "wide reflection proof"}
+      founder_input_seed: {current_founder_anchor: "No new song/section/timestamp anchor supplied in this automation prompt.", reference_song_fit_status: "not_triggered_until_founder_selects_route_or_song_refs"}
+      asset_alignment_seed:
+        selected_unit: SYNC_05
+        selected_members: [M02, M05, M06, M07, M08]
+        identity_constraints: "Keep one controlled reflection per frame; preserve face identity and avoid duplicate-face confusion."
+      song_structure_seed: {first_signal: "mirror match over cold pulse", pre_hook: "quiet admission under duplicate pressure", chorus: "fingerprint path and vocal lift", memory_tag: "real trace left on glass"}
+      choreography_seed: {hook_action: "wipe line, elbow lock, low shoulder cut, reflected step", crop_safety: "hand-face closeup plus wide path proof", avoid: "empty chrome posing"}
+      visual_world_seed: {mv_world: "white/chrome mirror room with one real fingerprint path", camera_language: "front reflection close, centered grid, low mirror depth, wide path", wardrobe: "clean technical line with tactile fringe/lace accent only as trace"}
+      generation_plan_seed: {keyframe_risk: "Mirrors can confuse identities; use one reflected plane and one visible real member per keyframe.", prompt_guard: "No gore, no body mutation, no faceless mannequins, no period costume."}
+      derivative_plan_seed: ["8s fingerprint return", "12s duplicate mismatch", "45s mirror-trace route"]
+      founder_locks_seed: ["choose cold synth-pop reference song", "confirm fingerprint versus thread mark as the trace object"]
+      source_links_seed: ["https://people.com/demi-moore-the-substance-review-8713167", "https://www.vanityfair.com/hollywood/story/kpop-demon-hunters-golden-ejae-interview", "assets/unit-registry.yaml"]
+      open_questions_seed: ["Should this combine with R05 if the founder wants warmer hidden-voice release?"]
+  - route_id: R04
+    route_name: "CHOOM FLOOR PACT"
+    recommendation_message: "Select this if the route should be body-first and group-owned: dance becomes a pact marked by floor taps, not a generic challenge."
+    recommended_unit:
+      unit_code: CURL_06
+      unit_purpose: "Global performance energy, formation proof, and campaign-readable motion."
+      member_codes: [M01, M03, M06, M08, M10, M12]
+      center_roles: {opening_vocal: M01, rhythm_anchor: M03, precision_captain: M06, point_dance_counter: M08, power_impact: M10, cool_cue: M12}
+      unit_fit_reason: "The route needs heavy percussion, formation proof, and crop-safe floor/body action."
+      unit_risk: "Can become dance-only unless the pact object and member reason are explicit."
+    member_focus: [M01, M03, M06, M08, M10, M12]
+    source_ref_ids: [REF_SONG_BABYMONSTER_CHOON, REF_MEDIA_NARRATIVE_KPOP_DEMON, REF_FASHION_TRACK_SATIN, REF_IDOL_CURL_06]
+    lane_ref_ids:
+      song: [REF_SONG_BABYMONSTER_CHOON, REF_SONG_JULY_PULSE]
+      media_narrative: [REF_MEDIA_NARRATIVE_KPOP_DEMON, REF_MEDIA_NARRATIVE_GLOBAL_FANDOM]
+      fashion: [REF_FASHION_TRACK_SATIN, REF_FASHION_SS26_LOCAL]
+      idol: [REF_IDOL_CURL_06]
+    combined_signal: "Dance-unity percussion plus hidden-duty friendship pressure becomes a floor-pact MV where the members prove belonging through repeated taps."
+    tone_mood_message_unity:
+      tone_and_manner: "grounded, percussive, bright-pressure, team-coded"
+      mood: "practice floor becoming a public oath"
+      message: "We move together because the pact is visible under our feet."
+      unity_reason: "BABYMONSTER-style dance unity, KPop Demon Hunters' public/hidden team duty, sporty summer styling, and CURL_06 motion proof all support floor-tap pact logic."
+      mismatch_watch: "Avoid pure challenge bait or direct board-game reuse from earlier routes."
+    possible_message: "같이 밟은 박자가 약속이 된다."
+    song_feeling: "percussive dance-pop or hip-hop pop with bouncy synth riff, group chant, and floor-hit post-hook."
+    choreography_hook: "M03 starts a double floor tap, M06 cuts the formation, M10 hits the downbeat, and M12 seals the cue with a hand mark."
+    performance_image: "M03 keeps the groove, M06 sets precision, M10 drives impact, M08 makes the point move readable, and M12 makes the pact cue."
+    mv_image: "A practice floor where each tap leaves a temporary light mark that only completes when all six hit the pattern together."
+    why_aurora_m_can_own_it: "AURORA-M can make dance proof emotionally specific by tying formation to a pact viewers can see."
+    risk_or_gap: "Needs a selected song section with enough percussive space for floor taps and vocal lift."
+    downstream_handoff_map:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: schemas/reference-song-fit.schema.json, field_path: arrangement_instrumentation_fit.drum_percussion_function, handoff_use: "Check whether the reference supports floor-tap punctuation before prompt writing."}
+      - {stage: 00a_song_lock, artifact_or_schema: schemas/song-lock.schema.json, field_path: section_interpretation.proof_target, handoff_use: "Compatibility schema field: preserve the crop-safe floor/body readability target after selected audio exists."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "CHOOM FLOOR PACT"
+      goal: "Build a dance-unity MV where repeated floor taps become the visible pact that turns pressure into belonging."
+      thesis:
+        message: "A shared beat becomes real when every member leaves a mark on it."
+        one_line: "The floor remembers who hit the beat together."
+        audience_feel: "A global K-pop fan gets performance proof with a team reason."
+        hook_moment: "Double floor tap into light-mark formation seal."
+      target_empathy_seed:
+        target_viewer: "A global K-pop fan who likes powerful dance but needs the move to carry relationship, not just skill."
+        viewer_feeling_state: "Wanting proof that a group can hold pressure together."
+        identification_point: "They see belonging as a repeated action, not a slogan."
+        desired_aftertaste: "Grounded team energy and replayable footwork."
+        empathy_risk: "If the pact mark is too abstract, it becomes generic practice-room performance."
+        member_bridge: "M03 anchors rhythm, M06 controls the cut, M10 gives impact, M12 seals the cue, and M08 makes the point move clear."
+        message_translation: "The floor mark is the pact; the synchronized tap is the proof."
+      storyline_spine_seed:
+        summary: "A practice floor keeps temporary light marks from each member's taps; the marks vanish alone but hold when the unit lands together."
+        beats:
+          - {order: 1, beat: "first mark", primary_member: "M03", primary_screen_driver: member_led, world_or_object_anchor: "floor light mark", core_action: "M03 double-taps the floor and a small light mark appears under one sneaker.", visual_function: "establish pact mark", camera_or_world_cue: "low foot-level close"}
+          - {order: 2, beat: "pressure cut", primary_member: "M06", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "vanishing marks", core_action: "M06 cuts the formation and the solo marks disappear behind her.", visual_function: "show individual marks are not enough", camera_or_world_cue: "front wide proof"}
+          - {order: 3, beat: "impact seal", primary_member: "M10", primary_screen_driver: mixed_member_world, world_or_object_anchor: "six-mark pattern", core_action: "M10 hits the downbeat as all six marks connect into one line.", visual_function: "make the pact physical", camera_or_world_cue: "high three-quarter floor view"}
+          - {order: 4, beat: "team release", primary_member: "M12", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "completed floor line", core_action: "M12 seals the cue with a hand mark while the unit moves down the lit line.", visual_function: "turn pact into chorus route", camera_or_world_cue: "tracking full-body frame"}
+      founder_input_seed: {current_founder_anchor: "No new song/section/timestamp anchor supplied in this automation prompt.", reference_song_fit_status: "not_triggered_until_founder_selects_route_or_song_refs"}
+      asset_alignment_seed:
+        selected_unit: CURL_06
+        selected_members: [M01, M03, M06, M08, M10, M12]
+        identity_constraints: "Keep footwork and full-body movement readable; use low camera only for marks, not as the whole MV."
+      song_structure_seed: {first_signal: "double floor tap", pre_hook: "solo marks vanish", chorus: "six marks connect", memory_tag: "floor remembers final line"}
+      choreography_seed: {hook_action: "double tap, formation cut, downbeat hit, hand seal", crop_safety: "low foot insert plus front wide proof", avoid: "generic challenge-only steps"}
+      visual_world_seed: {mv_world: "practice floor with temporary light marks", camera_language: "low foot close, front formation, high floor view, tracking full-body", wardrobe: "sport layers, track shorts, technical sneakers, one saturated cue color"}
+      generation_plan_seed: {keyframe_risk: "Floor marks must be simple and not look like a game board; keep one line or six dots.", prompt_guard: "No copied board-game visuals, no sports brand marks, no fantasy arena."}
+      derivative_plan_seed: ["8s double tap mark", "12s solo marks vanish then connect", "45s floor-pact performance arc"]
+      founder_locks_seed: ["choose percussive hip-hop pop versus brighter dance-pop", "confirm floor light mark versus tape mark"]
+      source_links_seed: ["https://en.wikipedia.org/wiki/Choom_(EP)", "https://www.thetimes.com/culture/theatre-dance/article/mark-sonnenblick-interview-songwriter-golden-kpop-demon-hunters-midnight-never-get-sr8x7pg5t", "assets/unit-registry.yaml"]
+      open_questions_seed: ["Should this stay CURL_06 or move to EXEC_06 if founder wants heavier rap/dance pressure?"]
+  - route_id: R05
+    route_name: "GOLDEN HIDDEN VOICE"
+    recommendation_message: "Select this if the route should be melodic and emotionally higher: the unit hides one trembling voice until the chorus turns it into the visible gold line."
+    recommended_unit:
+      unit_code: CLI_05
+      unit_purpose: "Melodic character lift, live-vocal energy, and emotional hook drive with member personality."
+      member_codes: [M01, M03, M04, M05, M09]
+      center_roles: {opening_vocal: M01, rhythm_anchor: M03, emotional_bridge: M04, vocal_lift: M05, hook_drive: M09}
+      unit_fit_reason: "The route needs melodic lift, emotional bridge, bright opener, and a hook voice that feels personal rather than system-led."
+      unit_risk: "Can become generic inspirational pop unless the hidden voice has a concrete screen carrier."
+    member_focus: [M01, M03, M04, M05, M09]
+    source_ref_ids: [REF_SONG_HUNTRIX_GOLDEN, REF_MEDIA_NARRATIVE_KPOP_DEMON, REF_FASHION_DRESS_FRINGE, REF_IDOL_CLI_05]
+    lane_ref_ids:
+      song: [REF_SONG_HUNTRIX_GOLDEN, REF_SONG_LESSERAFIM_HOT, REF_SONG_JULY_PULSE]
+      media_narrative: [REF_MEDIA_NARRATIVE_KPOP_DEMON, REF_MEDIA_NARRATIVE_GLOBAL_FANDOM]
+      fashion: [REF_FASHION_DRESS_FRINGE, REF_FASHION_SS26_LOCAL]
+      idol: [REF_IDOL_CLI_05]
+    combined_signal: "Narrative anthem meaning delivery plus hidden-duty identity becomes a melodic CLI route where one private voice thread becomes a gold line fans can see."
+    tone_mood_message_unity:
+      tone_and_manner: "melodic, candid, luminous, emotionally direct"
+      mood: "quiet voice thread opening into warm light"
+      message: "The part I hid becomes the line that carries us."
+      unity_reason: "Golden's song-as-story function, KPop Demon Hunters' hidden identity pressure, light fabric motion, and CLI_05 vocal-character lift all support a hidden voice becoming visible."
+      mismatch_watch: "Avoid fantasy lore, weapon imagery, or broad inspirational slogans."
+    possible_message: "숨긴 목소리가, 결국 우리를 잇는 선이 된다."
+    song_feeling: "melodic dance-pop or pop-rock lift with a quiet pre-hook confession and a bright chorus release."
+    choreography_hook: "M04 touches the throat lightly, M05 opens the hand forward on the lift, and M09 turns the gold-line gesture into the repeatable hook."
+    performance_image: "M04 carries the hidden emotion, M05 releases the vocal center, M09 makes the hook immediate, M01 opens brightness, and M03 grounds the rhythm."
+    mv_image: "A dim rehearsal hallway where a thin gold line appears only when the hidden vocal phrase is admitted, then connects the members."
+    why_aurora_m_can_own_it: "AURORA-M can make a vocal-empathy route specific because CLI_05 has clear melodic roles and emotional bridge color."
+    risk_or_gap: "Needs PRE-00S reference-song fit before prompt packets so the hidden-voice section does not become too ballad or too generic."
+    downstream_handoff_map:
+      - {stage: pre00s_reference_song_fit, artifact_or_schema: schemas/reference-song-fit.schema.json, field_path: meaning_delivery_fit.transfer_method, handoff_use: "Analyze how the selected reference uses hidden admission before chorus release."}
+      - {stage: 00_creative_nucleus, artifact_or_schema: schemas/creative-nucleus.schema.json, field_path: target_empathy_lock, handoff_use: "Seed hidden voice as the central empathy path."}
+    recommended_00_draft:
+      content_role: 90s_master
+      selected_creative_route: "GOLDEN HIDDEN VOICE"
+      goal: "Build a melodic MV where a hidden vocal thread becomes the visible gold line connecting the unit."
+      thesis:
+        message: "The voice you hid can become the line that lets others find you."
+        one_line: "A quiet throat touch becomes a gold line across the chorus."
+        audience_feel: "A global K-pop fan feels emotional lift with an object/camera system they can explain."
+        hook_moment: "Throat touch into open-hand gold-line release."
+      target_empathy_seed:
+        target_viewer: "A global K-pop fan who responds to vocal-emotional lift and member vulnerability inside an idol MV world."
+        viewer_feeling_state: "Holding back the truest voice because it may reveal too much."
+        identification_point: "They recognize the moment a hidden part becomes a connection instead of a flaw."
+        desired_aftertaste: "Warm courage and replayable vocal-image memory."
+        empathy_risk: "If too inspirational, the route loses the private admission that makes it human."
+        member_bridge: "M04 carries the hidden admission, M05 opens the lift, M09 makes the hook repeatable, and M01/M03 keep brightness and rhythm."
+        message_translation: "The gold line is the admitted voice; connecting members makes the confession safe."
+      storyline_spine_seed:
+        summary: "A dim hallway hides one vocal thread; the member admits it in the pre-hook and the thread becomes a gold line that connects the unit for the chorus."
+        beats:
+          - {order: 1, beat: "held voice", primary_member: "M04", primary_screen_driver: member_led, world_or_object_anchor: "thin gold thread", core_action: "M04 touches the throat as a faint gold line appears but stops at her hand.", visual_function: "show hidden admission", camera_or_world_cue: "tight face and throat close"}
+          - {order: 2, beat: "rhythm support", primary_member: "M03", primary_screen_driver: mixed_member_world, world_or_object_anchor: "hallway floor line", core_action: "M03 steps beside the broken line and keeps the groove without forcing it open.", visual_function: "support the hidden voice", camera_or_world_cue: "side medium hallway depth"}
+          - {order: 3, beat: "release lift", primary_member: "M05", primary_screen_driver: member_led, world_or_object_anchor: "opening gold line", core_action: "M05 opens her hand forward and the line extends across the frame.", visual_function: "turn admission into lift", camera_or_world_cue: "front medium, line crossing foreground"}
+          - {order: 4, beat: "hook connection", primary_member: "M09", primary_screen_driver: unit_or_group_led, world_or_object_anchor: "connected gold line", core_action: "M09 leads the repeat hook as the line links every member's hand position.", visual_function: "make the voice shared", camera_or_world_cue: "wide warm chorus proof"}
+      founder_input_seed: {current_founder_anchor: "No new song/section/timestamp anchor supplied in this automation prompt.", reference_song_fit_status: "not_triggered_until_founder_selects_route_or_song_refs"}
+      asset_alignment_seed:
+        selected_unit: CLI_05
+        selected_members: [M01, M03, M04, M05, M09]
+        identity_constraints: "Keep the line as a screen object, not magic lore; preserve vocal-role clarity and member face identity."
+      song_structure_seed: {first_signal: "quiet held voice", pre_hook: "private admission", chorus: "gold line opens with vocal lift", memory_tag: "line connects hands in final tag"}
+      choreography_seed: {hook_action: "throat touch, open-hand release, linked hand positions", crop_safety: "face/throat close then wide connection proof", avoid: "literal fantasy powers"}
+      visual_world_seed: {mv_world: "dim rehearsal hallway turning warm through one gold line", camera_language: "tight confession close, side support step, front line release, wide connected chorus", wardrobe: "light fabric/fringe or poplin movement over simple performance base"}
+      generation_plan_seed: {keyframe_risk: "Gold line can become magic beam; keep it thin, material-like, and tied to hand positions.", prompt_guard: "No demon-hunter lore, no weapons, no fantasy armor, no generic angelic imagery."}
+      derivative_plan_seed: ["8s throat touch and first gold line", "15s hidden voice to chorus release", "45s hallway connection arc"]
+      founder_locks_seed: ["choose melodic anthem versus pop-rock heat reference", "confirm gold line as thread, light tape, or reflected line"]
+      source_links_seed: ["https://www.vanityfair.com/hollywood/story/kpop-demon-hunters-golden-ejae-interview", "https://www.harpersbazaar.com/fashion/trends/a71871150/summer-dress-trends-2026/", "assets/unit-registry.yaml"]
+      open_questions_seed: ["Should this combine with R03 for a colder hidden-self route, or stay warmer and vocal-led?"]
+founder_decision_needed:
+  - "Select one route for run-owned LEFT-style intake."
+  - "Combine named functions from two routes, if desired."
+  - "Request another radar/reference fit pass with a narrower song, unit, or visual anchor."
+  - "After selection, continue into PRE-00S reference-song fit and then a Suno/manual prompt packet only when exact song references or a selected sound lane exist."
+  - "Archive this radar if none of the five routes should continue."
+automation_notes: "Combined founder selection view: five materially distinct routes are ready for founder review: R01 BANDANA WARNING LIGHT, R02 PINKY CHAOS CUP, R03 TRACE DUPLICATE MIRROR, R04 CHOOM FLOOR PACT, and R05 GOLDEN HIDDEN VOICE. No new founder-provided song, section, timestamp, or sound-anchor note was supplied in this 2026-07-16 automation prompt, so no separate reference-song-fit artifact was created. PRE-00S should begin only after route selection or exact song references. Public web research was bounded to current public pages/articles and local repo sources; no private connectors, Drive, GitHub, secrets, browser session stores, paid generation APIs, publishing, uploads, Bilibili mining, or yt-dlp were used."

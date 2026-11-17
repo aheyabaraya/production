@@ -1,0 +1,356 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/downloaded-reference-hub.schema.json",
+  "title": "IDOL Downloaded Reference Hub",
+  "description": "One contract for the pointer-only global catalog, canonical per-source manifest, and contact-sheet frame index used by the run-external downloaded-reference hub. Raw media and rendered sheets remain local evidence; this contract creates no download, creative lock, generation input, or external-action approval.",
+  "oneOf": [
+    {"$ref": "#/$defs/catalog"},
+    {"$ref": "#/$defs/sourceManifest"},
+    {"$ref": "#/$defs/frameIndex"}
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "platform_id", "normalized_url", "source_key"],
+      "properties": {
+        "platform": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,63}$"},
+        "platform_id": {"type": "string", "minLength": 1, "maxLength": 160},
+        "normalized_url": {"type": "string", "pattern": "^https://"},
+        "source_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,63}:\\S+$"}
+      }
+    },
+    "pathEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"}
+      }
+    },
+    "occurrence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_index_path",
+        "source_index_sha256",
+        "record_kind",
+        "reference_id",
+        "identity",
+        "declared_paths",
+        "media_sha256s",
+        "registration_status"
+      ],
+      "properties": {
+        "source_index_path": {"$ref": "#/$defs/repoPath"},
+        "source_index_sha256": {"$ref": "#/$defs/sha256"},
+        "record_kind": {"enum": ["legacy_source_index", "canonical_source_manifest"]},
+        "reference_id": {"type": "string", "minLength": 1},
+        "identity": {"$ref": "#/$defs/identity"},
+        "title": {"type": ["string", "null"]},
+        "declared_paths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["media", "contact_sheets", "frame_indexes", "metadata"],
+          "properties": {
+            "media": {"type": "array", "items": {"$ref": "#/$defs/pathEvidence"}},
+            "contact_sheets": {"type": "array", "items": {"$ref": "#/$defs/pathEvidence"}},
+            "frame_indexes": {"type": "array", "items": {"$ref": "#/$defs/pathEvidence"}},
+            "metadata": {"type": "array", "items": {"$ref": "#/$defs/pathEvidence"}}
+          }
+        },
+        "media_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "registration_status": {"enum": ["evidence_declared", "metadata_only"]},
+        "discovery_metadata": {"$ref": "#/$defs/discoveryMetadata"}
+      }
+    },
+    "catalogSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_key",
+        "canonical_identity",
+        "canonical_source_root",
+        "aliases",
+        "titles",
+        "media_sha256s",
+        "occurrences",
+        "registration",
+        "acquisition_policy"
+      ],
+      "properties": {
+        "source_key": {"type": "string", "minLength": 3},
+        "canonical_identity": {"$ref": "#/$defs/identity"},
+        "canonical_source_root": {
+          "type": "string",
+          "pattern": "^source-materials/video-sources/[a-z0-9][a-z0-9_-]*/by-source/[^/]+$"
+        },
+        "aliases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/identity"}
+        },
+        "titles": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "media_sha256s": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/sha256"}
+        },
+        "occurrences": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/occurrence"}
+        },
+        "registration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "evidence_declared_occurrence_count", "metadata_only_occurrence_count"],
+          "properties": {
+            "state": {"enum": ["evidence_declared", "metadata_only"]},
+            "evidence_declared_occurrence_count": {"type": "integer", "minimum": 0},
+            "metadata_only_occurrence_count": {"type": "integer", "minimum": 0}
+          }
+        },
+        "acquisition_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["new_capture_default", "historical_existing_only"],
+          "properties": {
+            "new_capture_default": {
+              "enum": ["public_bilibili_current_task_only", "exact_founder_approval_required"]
+            },
+            "historical_existing_only": {"type": "boolean"}
+          }
+        },
+        "discovery_metadata": {"$ref": "#/$defs/discoveryMetadata"}
+      }
+    },
+    "generatedSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "record_kind"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "record_kind": {"enum": ["legacy_source_index", "canonical_source_manifest"]}
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "hub_root",
+        "catalog_path",
+        "scan_contract",
+        "generated_from",
+        "source_index_set_sha256",
+        "sources",
+        "scan_warnings",
+        "automation_boundaries"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_downloaded_reference_hub.v1"},
+        "artifact_type": {"const": "catalog"},
+        "hub_root": {"const": "source-materials/video-sources"},
+        "catalog_path": {"$ref": "#/$defs/repoPath"},
+        "scan_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "legacy_source_index_glob",
+            "canonical_manifest_glob",
+            "network_access",
+            "catalog_pointer_only",
+            "deterministic_no_timestamp"
+          ],
+          "properties": {
+            "legacy_source_index_glob": {"const": "**/source-index-v*.yaml"},
+            "canonical_manifest_glob": {"const": "*/by-source/*/source-manifest.yaml"},
+            "network_access": {"const": false},
+            "catalog_pointer_only": {"const": true},
+            "deterministic_no_timestamp": {"const": true}
+          }
+        },
+        "generated_from": {"type": "array", "items": {"$ref": "#/$defs/generatedSource"}},
+        "source_index_set_sha256": {"$ref": "#/$defs/sha256"},
+        "sources": {"type": "array", "items": {"$ref": "#/$defs/catalogSource"}},
+        "scan_warnings": {"type": "array", "items": {"type": "string"}},
+        "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+      }
+    },
+    "mediaEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "sha256", "byte_size"],
+      "properties": {
+        "kind": {"enum": ["video", "audio", "other_media"]},
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "sheetEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sheet_id", "path", "sha256", "byte_size"],
+      "properties": {
+        "sheet_id": {"type": "string", "pattern": "^SHEET_[0-9]{3,}$"},
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 1},
+        "sampling_note": {"type": ["string", "null"]}
+      }
+    },
+    "filePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_size"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repoPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_size": {"type": "integer", "minimum": 1}
+      }
+    },
+    "approvalBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "basis", "approved_url"],
+      "properties": {
+        "mode": {"enum": ["public_bilibili_current_task", "exact_non_bilibili_approval", "historical_existing_only"]},
+        "basis": {"type": ["string", "null"]},
+        "approved_url": {"type": ["string", "null"]}
+      }
+    },
+    "discoveryMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Capture-time source metadata used by 01R discovery evidence. Popularity never outranks target/message relevance or diversity, and upload age is intentionally not normalized.",
+      "required": [
+        "duration_seconds",
+        "discovery_lane",
+        "raw_view_count",
+        "metadata_file",
+        "ranking_policy",
+        "upload_age_normalization_applied"
+      ],
+      "properties": {
+        "duration_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 270},
+        "discovery_lane": {"enum": ["shorts_reference", "music_reference"]},
+        "raw_view_count": {"type": ["integer", "null"], "minimum": 0},
+        "metadata_file": {
+          "oneOf": [
+            {"$ref": "#/$defs/filePointer"},
+            {"type": "null"}
+          ]
+        },
+        "ranking_policy": {"const": "relevance_and_diversity_then_raw_view_count_descending"},
+        "upload_age_normalization_applied": {"const": false}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"duration_seconds": {"maximum": 60}},
+            "required": ["duration_seconds"]
+          },
+          "then": {"properties": {"discovery_lane": {"const": "shorts_reference"}}},
+          "else": {"properties": {"discovery_lane": {"const": "music_reference"}}}
+        }
+      ]
+    },
+    "sourceManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "identity",
+        "title",
+        "canonical_source_root",
+        "approval_basis",
+        "media",
+        "contact_sheets",
+        "frame_index_path",
+        "evidence_status",
+        "automation_boundaries"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_downloaded_reference_hub.v1"},
+        "artifact_type": {"const": "source_manifest"},
+        "identity": {"$ref": "#/$defs/identity"},
+        "title": {"type": ["string", "null"]},
+        "canonical_source_root": {
+          "type": "string",
+          "pattern": "^source-materials/video-sources/[a-z0-9][a-z0-9_-]*/by-source/[^/]+$"
+        },
+        "approval_basis": {"$ref": "#/$defs/approvalBasis"},
+        "discovery_metadata": {"$ref": "#/$defs/discoveryMetadata"},
+        "media": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/mediaEvidence"}},
+        "contact_sheets": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sheetEvidence"}},
+        "frame_index_path": {"$ref": "#/$defs/repoPath"},
+        "evidence_status": {"const": "registered_local_evidence"},
+        "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+      }
+    },
+    "frameIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "source_key",
+        "source_manifest_path",
+        "sheets",
+        "frame_index_set_sha256",
+        "automation_boundaries"
+      ],
+      "properties": {
+        "schema_version": {"const": "idol_downloaded_reference_hub.v1"},
+        "artifact_type": {"const": "frame_index"},
+        "source_key": {"type": "string", "minLength": 3},
+        "source_manifest_path": {"$ref": "#/$defs/repoPath"},
+        "contact_sheet_manifest": {
+          "oneOf": [
+            {"$ref": "#/$defs/filePointer"},
+            {"type": "null"}
+          ]
+        },
+        "sheets": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sheetEvidence"}},
+        "frame_index_set_sha256": {"$ref": "#/$defs/sha256"},
+        "automation_boundaries": {"$ref": "#/$defs/automationBoundaries"}
+      }
+    },
+    "automationBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_access_performed",
+        "download_approved",
+        "creative_lock_created",
+        "generation_input_allowed",
+        "edit_source_allowed"
+      ],
+      "properties": {
+        "network_access_performed": {"const": false},
+        "download_approved": {"const": false},
+        "creative_lock_created": {"const": false},
+        "generation_input_allowed": {"const": false},
+        "edit_source_allowed": {"const": false}
+      }
+    }
+  }
+}

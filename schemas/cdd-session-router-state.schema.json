@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/cdd-session-router-state.schema.json",
+  "title": "IDOL CDD Session Router State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "router_id",
+    "assignment_id",
+    "provider",
+    "runtime_surface",
+    "logical_lineage_id",
+    "generation",
+    "phase",
+    "active_writer_session_id",
+    "source_session",
+    "successor_session",
+    "route_binding",
+    "admission",
+    "last_transition",
+    "history",
+    "noncanonical_proof_root"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-cdd-session-router-state.v1"},
+    "router_id": {"type": "string", "minLength": 8},
+    "assignment_id": {"const": "creative_development_director:development-through-03v"},
+    "provider": {"enum": ["codex", "cursor", "grok"]},
+    "runtime_surface": {"type": "string", "minLength": 3},
+    "logical_lineage_id": {"type": "string", "minLength": 3},
+    "generation": {"type": "integer", "minimum": 0},
+    "phase": {"enum": ["successor_preflight", "successor_admitted", "successor_active", "rolled_back"]},
+    "active_writer_session_id": {"type": "string", "minLength": 3},
+    "source_session": {"$ref": "#/$defs/session"},
+    "successor_session": {"$ref": "#/$defs/session"},
+    "route_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_root",
+        "route_manifest",
+        "provider_source",
+        "boot_pack",
+        "router_implementation",
+        "state_schema"
+      ],
+      "properties": {
+        "run_root": {"type": "string", "minLength": 3},
+        "route_manifest": {"$ref": "#/$defs/pointer"},
+        "provider_source": {"$ref": "#/$defs/pointer"},
+        "boot_pack": {"$ref": "#/$defs/pointer"},
+        "router_implementation": {"$ref": "#/$defs/pointer"},
+        "state_schema": {"$ref": "#/$defs/pointer"}
+      }
+    },
+    "admission": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "admission_digest",
+            "goal_id",
+            "goal_semantics",
+            "goal_objective_sha256",
+            "goal_terminal_state",
+            "goal_last_event",
+            "goal_terminal_event_sha256"
+          ],
+          "properties": {
+            "admission_digest": {"$ref": "#/$defs/sha256"},
+            "goal_id": {"type": "string", "minLength": 3},
+            "goal_semantics": {"enum": ["codex_thread_goal_active", "cursor_external_goal_runtime_receipt", "grok_goal_completed_admission"]},
+            "goal_objective_sha256": {"$ref": "#/$defs/sha256"},
+            "goal_terminal_state": {"enum": ["active", "complete", "success"]},
+            "goal_last_event": {"enum": ["goal_active", "goal_completed", "cli_terminal_success"]},
+            "goal_terminal_event_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      ]
+    },
+    "last_transition": {"$ref": "#/$defs/transition"},
+    "history": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/transition"}
+    },
+    "noncanonical_proof_root": {"type": "boolean"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "state"],
+      "properties": {
+        "session_id": {"type": "string", "minLength": 3},
+        "state": {
+          "enum": [
+            "active_single_writer",
+            "reactivated_single_writer",
+            "zero_turn_read_only_preflight",
+            "admitted_read_only",
+            "harness_logically_retired"
+          ]
+        }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event",
+        "recorded_at",
+        "generation_before",
+        "generation_after",
+        "source_session_id",
+        "successor_session_id",
+        "active_writer_before",
+        "active_writer_after",
+        "previous_state_sha256",
+        "basis_sha256"
+      ],
+      "properties": {
+        "event": {"enum": ["initialized", "admitted", "committed", "rolled_back"]},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "generation_before": {"type": "integer", "minimum": 0},
+        "generation_after": {"type": "integer", "minimum": 0},
+        "source_session_id": {"type": "string", "minLength": 3},
+        "successor_session_id": {"type": "string", "minLength": 3},
+        "active_writer_before": {"type": ["string", "null"]},
+        "active_writer_after": {"type": "string", "minLength": 3},
+        "previous_state_sha256": {
+          "oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]
+        },
+        "basis_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

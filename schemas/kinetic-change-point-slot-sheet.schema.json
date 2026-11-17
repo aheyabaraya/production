@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/kinetic-change-point-slot-sheet.schema.json",
+  "title": "IDOL Kinetic Change-Point Slot Sheet",
+  "description": "New Front Planning Close / P3 coverage layer for one Major event. A slot exists only at a change point (angle, action, person, background, or authored hold). Sequence remains evidence. Core marks 1-2 nails. Key Screen inherits Core-bound slot camera and action; this schema does not convert Sequence frames, scene_phases, Core slots, or Key Screens. Scripts check presence and pair completeness only; they never score uniqueness or cinema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "major_scene_id",
+    "section_id",
+    "automatic_creative_pass",
+    "sequence_evidence",
+    "slots",
+    "core_nail_slot_ids",
+    "key_screen_inheritances",
+    "collected_production_start_pairs"
+  ],
+  "properties": {
+    "schema_version": {"const": "kinetic_change_point_slot_sheet.v1"},
+    "major_scene_id": {"$ref": "#/$defs/majorSceneId"},
+    "section_id": {"$ref": "#/$defs/sectionId"},
+    "section_cohort_id": {"type": "string", "minLength": 1},
+    "automatic_creative_pass": {"const": false},
+    "sequence_evidence": {"$ref": "#/$defs/sequenceEvidence"},
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/slot"}
+    },
+    "core_nail_slot_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/slotId"}
+    },
+    "key_screen_inheritances": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/keyScreenInheritance"}
+    },
+    "collected_production_start_pairs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/productionStartPair"}
+    }
+  },
+  "$defs": {
+    "majorSceneId": {"type": "string", "pattern": "^MJ[0-9]{2,}$"},
+    "sectionId": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "slotId": {"type": "string", "pattern": "^KSL_[A-Z0-9_]{2,100}$"},
+    "keyScreenId": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+    "changeAxis": {
+      "enum": ["angle", "action", "person", "background", "authored_hold"]
+    },
+    "sequenceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_unit_ids", "not_cut_plan"],
+      "properties": {
+        "sequence_unit_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "not_cut_plan": {"const": true}
+      }
+    },
+    "fourAxisCamera": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "camera_height",
+        "shot_scale_distance",
+        "direction_angle",
+        "depth"
+      ],
+      "properties": {
+        "camera_height": {"type": "string", "minLength": 1},
+        "shot_scale_distance": {"type": "string", "minLength": 1},
+        "direction_angle": {"type": "string", "minLength": 1},
+        "depth": {"type": "string", "minLength": 1}
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "ordinal",
+        "change_axis",
+        "previous_slot_id",
+        "production_binding",
+        "screen_job",
+        "visible_action_or_hold"
+      ],
+      "properties": {
+        "slot_id": {"$ref": "#/$defs/slotId"},
+        "ordinal": {"type": "integer", "minimum": 1},
+        "change_axis": {"$ref": "#/$defs/changeAxis"},
+        "previous_slot_id": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/slotId"}
+          ]
+        },
+        "production_binding": {"enum": ["core", "branch"]},
+        "screen_job": {"type": "string", "minLength": 1},
+        "visible_action_or_hold": {"type": "string", "minLength": 1},
+        "still_camera": {"$ref": "#/$defs/fourAxisCamera"},
+        "hold_reason": {"type": "string", "minLength": 1},
+        "continuity_in": {"type": "string", "minLength": 1},
+        "continuity_out": {"type": "string", "minLength": 1},
+        "sequence_frame_locators": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "pin_function_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"change_axis": {"const": "authored_hold"}},
+            "required": ["change_axis"]
+          },
+          "then": {
+            "required": ["hold_reason", "continuity_in", "continuity_out"]
+          }
+        },
+        {
+          "if": {
+            "properties": {"production_binding": {"const": "core"}},
+            "required": ["production_binding"]
+          },
+          "then": {
+            "required": ["still_camera"]
+          }
+        }
+      ]
+    },
+    "keyScreenInheritance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key_screen_id",
+        "inherits_from_slot_id",
+        "inherits",
+        "camera_reauthored"
+      ],
+      "properties": {
+        "key_screen_id": {"$ref": "#/$defs/keyScreenId"},
+        "inherits_from_slot_id": {"$ref": "#/$defs/slotId"},
+        "inherits": {"const": "still_camera_and_action"},
+        "camera_reauthored": {"const": false}
+      }
+    },
+    "productionStartPair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left_slot_id",
+        "right_slot_id",
+        "declared_change_axis_or_hold",
+        "same_image_exact_carry"
+      ],
+      "properties": {
+        "left_slot_id": {"$ref": "#/$defs/slotId"},
+        "right_slot_id": {"$ref": "#/$defs/slotId"},
+        "declared_change_axis_or_hold": {"$ref": "#/$defs/changeAxis"},
+        "same_image_exact_carry": {"type": "boolean"}
+      }
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-contract-version-registry.schema.json",
+  "title": "IDOL Graph Engineering Contract and Schema Lifecycle Registry",
+  "description": "Registers one active authoring version per contract and classifies every non-authoring root schema as compatibility-only, definitions-only, or retired evidence. Historical versions remain run evidence and are not compatibility inputs for new work.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "routing_rule", "contracts", "non_authoring_schemas"],
+  "properties": {
+    "schema_version": {
+      "const": "idol-harness-contract-version-registry.v3"
+    },
+    "status": {
+      "const": "active"
+    },
+    "routing_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_work",
+        "historical_artifacts",
+        "compatibility_authoring",
+        "unknown_version",
+        "non_authoring_new_work",
+        "unclassified_schema"
+      ],
+      "properties": {
+        "new_work": {
+          "const": "current_authoring_version_only"
+        },
+        "historical_artifacts": {
+          "const": "evidence_only"
+        },
+        "compatibility_authoring": {
+          "const": "forbidden"
+        },
+        "unknown_version": {
+          "const": "hold"
+        },
+        "non_authoring_new_work": {
+          "const": "forbidden"
+        },
+        "unclassified_schema": {
+          "const": "hold"
+        }
+      }
+    },
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contract_id",
+          "owner",
+          "schema",
+          "current_authoring_version",
+          "readable_versions",
+          "producer",
+          "consumers"
+        ],
+        "properties": {
+          "contract_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schema": {
+            "type": "string",
+            "pattern": "^(?:schemas/[A-Za-z0-9._-]+|development/front-planning-workbench/(?:contracts|founder-briefing)/[A-Za-z0-9._-]+)\\.schema\\.json$"
+          },
+          "current_authoring_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "readable_versions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "producer": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consumers": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "non_authoring_schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "owner",
+          "lifecycle_state",
+          "replacement_contracts",
+          "allowed_consumers",
+          "new_authoring",
+          "physical_disposition",
+          "reason",
+          "migration_blocker",
+          "sha256"
+        ],
+        "properties": {
+          "schema": {
+            "type": "string",
+            "pattern": "^schemas/[A-Za-z0-9._-]+\\.schema\\.json$"
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lifecycle_state": {
+            "enum": ["compatibility_read_only", "definitions_only", "retired_evidence"]
+          },
+          "replacement_contracts": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$"
+            }
+          },
+          "allowed_consumers": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "new_authoring": {
+            "const": false
+          },
+          "physical_disposition": {
+            "enum": ["keep_in_place", "archive_only"]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "migration_blocker": {
+            "type": ["string", "null"]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

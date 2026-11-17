@@ -1,0 +1,14 @@
+version = 1
+id = "idol-weekly-integrated-research"
+kind = "cron"
+name = "IDOL Weekly Integrated Research"
+prompt = "Run only the current Asia/Seoul ISO-week integrated half of weekly_visual_idol_research. Read AGENTS.md and every complete file required by skills/idol-research-radar/SKILL.md, including the weekly visual contract, automation contract, templates, current research pointers, member/unit/voice indexes, and Loom cohort inputs. Resolve the route and require idol_luna_studio_department on gpt-5.6-luna at max effort. Use current public sources and canonical local Loom ledgers. Public, source-bound still-image acquisition is approved only for evidence embedded in the current-week self-contained HTML and ledger; use no login, cookies, private pages, bulk capture, video/audio download, paid API, generation, edit input, upload, publication, or platform sync. Validate and refresh only the approved cohort snapshot, then author or hold only the current-week integrated HTML and image ledger. Freeze exactly one eligible official-comeback selection receipt, complete the fixed comparison pool and Loom target/demand section, preserve evidence/inference/proxy limits, and keep latest.md unchanged until the paired deep dive and ledger pass."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO;BYHOUR=22;BYMINUTE=0"
+model = "gpt-5.6-luna"
+reasoning_effort = "max"
+execution_environment = "local"
+target = { type = "project", project_id = "local-110dbb500bf4c69c04c7d514a05555a3" }
+cwds = ["/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL"]
+created_at = 1785061754386
+updated_at = 1785072732000

@@ -1,0 +1,577 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/02a-creative-context-review.schema.json",
+  "title": "IDOL 02A Creative Context Review",
+  "description": "Active v7 only. Hash-bound contextual review of every 02A visual section followed by whole-film reconciliation. In addition to Core/Branch event judgment, the continuing Director independently reads the exact Founder-aligned whole-film, section, and planning-cut storyline values and judges whether every Branch Cut preserves their detailed observable truth while adding a coherent 02A expansion. This semantic review is separate from mechanical lineage validation and worker claims. A section may carry forward only when its full section-value hash is unchanged; changed sections and whole-film reconciliation remain in one continuing Director session.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_02a",
+    "review_policy",
+    "route",
+    "section_reviews",
+    "whole_film_review",
+    "founder_gate"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-02a-creative-context-review.v7"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {
+      "enum": ["draft", "llm_review_complete", "founder_review", "hold", "passed", "superseded"]
+    },
+    "source_02a": {"$ref": "#/$defs/sourceArtifact"},
+    "review_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "creative_judgment_owner",
+        "machine_creative_judgment_forbidden",
+        "every_section_review_required",
+        "whole_film_review_required"
+      ],
+      "properties": {
+        "creative_judgment_owner": {"const": "llm_contextual_review"},
+        "machine_creative_judgment_forbidden": {"const": true},
+        "every_section_review_required": {"const": true},
+        "whole_film_review_required": {"const": true}
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surface_owner", "section_reviewer_profile", "whole_film_reviewer_profile", "ownership_note"],
+      "properties": {
+        "surface_owner": {"enum": ["codex", "grok"]},
+        "section_reviewer_profile": {"const": "director_deep"},
+        "whole_film_reviewer_profile": {"const": "director_deep"},
+        "section_review_mode": {"const": "continuing_root_session_sequential"},
+        "ownership_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "section_reviews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionReview"}
+    },
+    "whole_film_review": {"$ref": "#/$defs/wholeFilmReview"},
+    "founder_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["review_html_path", "decision", "allowed_decisions", "canonical_02a_write_performed"],
+      "properties": {
+        "review_html_path": {"type": "string", "minLength": 1},
+        "review_html_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "review_projection_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Canonical SHA-256 of source, route, section reviews, and whole-film review. Active runner-bound review requires the same digest in the Founder HTML data-idol-review-projection-sha256 marker."
+        },
+        "decision": {"enum": ["pending", "pass", "hold", "reject"]},
+        "allowed_decisions": {
+          "type": "array",
+          "const": ["pass", "hold", "reject"]
+        },
+        "canonical_02a_write_performed": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "schema_version": {"const": "3.0"}
+      }
+    },
+    "artifactPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "sectionReviewLineage": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {"const": "current_source_review"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "source_review",
+            "source_section_review_value_sha256"
+          ],
+          "properties": {
+            "mode": {"const": "carried_forward_unchanged_section"},
+            "source_review": {"$ref": "#/$defs/artifactPointer"},
+            "source_section_review_value_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      ]
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "execution_scope", "evidence_basis", "canonical_semantic_write_performed"],
+      "properties": {
+        "profile": {"const": "director_deep"},
+        "execution_scope": {"type": "string", "minLength": 1},
+        "evidence_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "execution_receipt": {
+          "oneOf": [
+            {"$ref": "#/$defs/codexSectionExecutionReceipt"},
+            {"$ref": "#/$defs/codexRootExecutionReceipt"},
+            {"$ref": "#/$defs/grokRootSectionExecutionReceipt"},
+            {"$ref": "#/$defs/grokRootExecutionReceipt"}
+          ]
+        },
+        "canonical_semantic_write_performed": {"const": false}
+      }
+    },
+    "executionRecordRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "producer"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "producer": {"enum": ["registered_codex_reviewer_runner", "registered_grok_native_reviewer_runner", "registered_grok_root_reviewer_runner"]}
+      }
+    },
+    "codexSectionExecutionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_type",
+        "role_id",
+        "session_id",
+        "assigned_section_ids",
+        "source_02a_sha256",
+        "completed",
+        "execution_record"
+      ],
+      "properties": {
+        "session_type": {"const": "codex_section_review"},
+        "role_id": {"const": "idol-02a-section-context-reviewer"},
+        "session_id": {"type": "string", "minLength": 1},
+        "assigned_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "uniqueItems": true
+        },
+        "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "completed": {"const": true},
+        "execution_record": {"$ref": "#/$defs/executionRecordRef"}
+      }
+    },
+    "codexRootExecutionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_type",
+        "role_id",
+        "session_id",
+        "assigned_section_ids",
+        "source_02a_sha256",
+        "section_receipts_verified",
+        "completed",
+        "execution_record"
+      ],
+      "properties": {
+        "session_type": {"const": "codex_root_reconciliation"},
+        "role_id": {"const": "idol-02a-whole-film-reconciler"},
+        "session_id": {"type": "string", "minLength": 1},
+        "assigned_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "uniqueItems": true
+        },
+        "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "section_receipts_verified": {"const": true},
+        "completed": {"const": true},
+        "execution_record": {"$ref": "#/$defs/executionRecordRef"}
+      }
+    },
+    "grokRootExecutionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_type",
+        "role_id",
+        "session_id",
+        "assigned_section_ids",
+        "source_02a_sha256",
+        "section_receipts_verified",
+        "composer_role_used",
+        "completed",
+        "execution_record"
+      ],
+      "properties": {
+        "session_type": {"const": "root_reconciliation"},
+        "role_id": {"const": "grok-root-whole-film-reconciler"},
+        "session_id": {"type": "string", "minLength": 1},
+        "assigned_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "uniqueItems": true
+        },
+        "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "section_receipts_verified": {"const": true},
+        "composer_role_used": {"const": false},
+        "completed": {"const": true},
+        "execution_record": {"$ref": "#/$defs/executionRecordRef"}
+      }
+    },
+    "grokRootSectionExecutionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_type",
+        "role_id",
+        "session_id",
+        "assigned_section_ids",
+        "source_02a_sha256",
+        "completed",
+        "execution_record"
+      ],
+      "properties": {
+        "session_type": {"const": "grok_root_section_review"},
+        "role_id": {"const": "grok-root-section-context-reviewer"},
+        "session_id": {"type": "string", "minLength": 1},
+        "assigned_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "uniqueItems": true
+        },
+        "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "completed": {"const": true},
+        "execution_record": {"$ref": "#/$defs/executionRecordRef"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "severity",
+        "scope",
+        "affected_core_cut_ids",
+        "affected_branch_cut_ids",
+        "observation",
+        "screen_consequence",
+        "recommendation",
+        "patch_owner"
+      ],
+      "properties": {
+        "finding_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,100}$"},
+        "severity": {"enum": ["note", "revise", "hold"]},
+        "scope": {"enum": ["section", "boundary", "whole_film", "reference", "structure"]},
+        "affected_core_cut_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "affected_branch_cut_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "observation": {"type": "string", "minLength": 1},
+        "screen_consequence": {"type": "string", "minLength": 1},
+        "recommendation": {"type": "string", "minLength": 1},
+        "patch_owner": {"enum": ["none", "front_planning", "01", "02A"]}
+      }
+    },
+    "upstreamRealizationReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "judgment_owner",
+        "reviewed_core_cut_ids",
+        "source_01_field_refs",
+        "core_cut_realization_verdict",
+        "script_substitution_detected",
+        "review_summary"
+      ],
+      "properties": {
+        "judgment_owner": {"const": "llm_contextual_review"},
+        "reviewed_core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true,
+          "description": "Exact 02A parent cuts compared with their applicable 01 direction."
+        },
+        "source_01_field_refs": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true,
+          "description": "Canonical 01 field pointers used by the LLM to judge cut-by-cut realization."
+        },
+        "core_cut_realization_verdict": {"enum": ["pass", "revise", "hold"]},
+        "script_substitution_detected": {"type": "boolean"},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "LLM-owned comparison of the 01 direction and its observable 02A core-cut and branch-cut execution; not a machine similarity score."
+        }
+      }
+    },
+    "coreBranchRealizationReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "judgment_owner",
+        "reviewed_core_cut_ids",
+        "reviewed_branch_cut_ids",
+        "core_event_fidelity_verdict",
+        "branch_distinctness_verdict",
+        "start_end_template_detected",
+        "event_theft_detected",
+        "review_summary"
+      ],
+      "properties": {
+        "judgment_owner": {"const": "llm_contextual_review"},
+        "reviewed_core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reviewed_branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "core_event_fidelity_verdict": {"enum": ["pass", "revise", "hold"]},
+        "branch_distinctness_verdict": {"enum": ["pass", "revise", "hold"]},
+        "start_end_template_detected": {"type": "boolean"},
+        "event_theft_detected": {"type": "boolean"},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Director-owned judgment of parent-event fidelity, each branch's distinct observable contribution, repetition, and whether any branch belongs under another core event."
+        }
+      }
+    },
+    "storylineRealizationReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "judgment_owner",
+        "source_section_alignment_sha256",
+        "source_planning_cut_alignment_hashes",
+        "reviewed_branch_cut_ids",
+        "detailed_storyline_preservation_verdict",
+        "branch_expansion_coherence_verdict",
+        "02b_prompt_readiness_verdict",
+        "review_summary"
+      ],
+      "properties": {
+        "judgment_owner": {"const": "llm_contextual_review"},
+        "source_section_alignment_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "source_planning_cut_alignment_hashes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["planning_cut_id", "source_key_screen_id", "value_sha256"],
+            "properties": {
+              "planning_cut_id": {"type": "string", "pattern": "^PC_[A-Z0-9_]{2,100}$"},
+              "source_key_screen_id": {"type": "string", "pattern": "^KS_[A-Z0-9_]{2,100}$"},
+              "value_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        },
+        "reviewed_branch_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}
+        },
+        "detailed_storyline_preservation_verdict": {"enum": ["pass", "revise", "hold"]},
+        "branch_expansion_coherence_verdict": {"enum": ["pass", "revise", "hold"]},
+        "02b_prompt_readiness_verdict": {"enum": ["pass", "hold"]},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Director-owned comparison naming concrete subject, action, camera, light/material, reference-combination, continuity, and misread consequences; a generic assurance is insufficient."
+        }
+      }
+    },
+    "sectionReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "source_core_cut_ids",
+        "reviewer",
+        "verdict",
+        "review_summary",
+        "core_import_immutability_review",
+        "upstream_realization_review",
+        "core_branch_realization_review",
+        "storyline_realization_review",
+        "core_branch_event_ownership",
+        "branching_variety_and_repetition",
+        "strengths",
+        "findings"
+      ],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "source_section_value_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "review_lineage": {"$ref": "#/$defs/sectionReviewLineage"},
+        "source_core_cut_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "reviewer": {"$ref": "#/$defs/reviewer"},
+        "verdict": {"enum": ["pass", "revise", "hold"]},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Integrated contextual judgment in the director's natural language. Active runner-bound review requires this instead of checklist-shaped topic prose. Observable claims should name their canonical core-cut/branch-cut evidence."
+        },
+        "core_import_immutability_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verdict", "reviewed_core_cut_ids", "one_image_per_core_verified", "core_reference_binding_verified", "02a_core_mutation_detected", "review_summary"],
+          "properties": {
+            "verdict": {"enum": ["pass", "hold", "reject"]},
+            "reviewed_core_cut_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}},
+            "one_image_per_core_verified": {"type": "boolean"},
+            "core_reference_binding_verified": {"type": "boolean"},
+            "02a_core_mutation_detected": {"type": "boolean"},
+            "review_summary": {"type": "string", "minLength": 1}
+          }
+        },
+        "upstream_realization_review": {"$ref": "#/$defs/upstreamRealizationReview"},
+        "core_branch_realization_review": {"$ref": "#/$defs/coreBranchRealizationReview"},
+        "storyline_realization_review": {"$ref": "#/$defs/storylineRealizationReview"},
+        "story_progression": {"type": "string", "minLength": 1},
+        "core_branch_event_ownership": {"type": "string", "minLength": 1},
+        "branching_variety_and_repetition": {"type": "string", "minLength": 1},
+        "camera_and_composition": {"type": "string", "minLength": 1},
+        "reference_use": {"type": "string", "minLength": 1},
+        "repetition_context": {"type": "string", "minLength": 1},
+        "continuity_in": {"type": "string", "minLength": 1},
+        "continuity_out": {"type": "string", "minLength": 1},
+        "strengths": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "findings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/finding"}
+        }
+      }
+    },
+    "wholeFilmReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_ids",
+        "reviewer",
+        "verdict",
+        "review_summary",
+        "storyline_progression_review",
+        "core_branch_rhythm_and_variety",
+        "strengths",
+        "findings"
+      ],
+      "properties": {
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "uniqueItems": true
+        },
+        "reviewer": {"$ref": "#/$defs/reviewer"},
+        "verdict": {"enum": ["pass", "revise", "hold"]},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Integrated whole-film judgment covering only the relationships that matter for this film. Active review requires this natural-language synthesis; optional focused fields may retain supporting detail."
+        },
+        "storyline_progression_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "judgment_owner",
+            "source_whole_film_readout_sha256",
+            "reviewed_section_ids",
+            "progressive_detail_verdict",
+            "review_summary"
+          ],
+          "properties": {
+            "judgment_owner": {"const": "llm_contextual_review"},
+            "source_whole_film_readout_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "reviewed_section_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}
+            },
+            "progressive_detail_verdict": {"enum": ["pass", "revise", "hold"]},
+            "review_summary": {"type": "string", "minLength": 1}
+          }
+        },
+        "story_and_relationship_progression": {"type": "string", "minLength": 1},
+        "world_and_action_progression": {"type": "string", "minLength": 1},
+        "camera_and_edit_progression": {"type": "string", "minLength": 1},
+        "core_branch_rhythm_and_variety": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Whole-film judgment of core-event pacing, branch-cut density, directorial variety, intentional reprises, and unintentional repetition."
+        },
+        "reference_fidelity": {"type": "string", "minLength": 1},
+        "repetition_and_reprise_judgment": {"type": "string", "minLength": 1},
+        "ending_resolution": {"type": "string", "minLength": 1},
+        "strengths": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "findings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/finding"}
+        }
+      }
+    }
+  }
+}

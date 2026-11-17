@@ -1,0 +1,1192 @@
+schema_version: idol-harness-execution-contract.v36
+status: active
+
+baseline:
+  git_commit: d851f4d23356a2695c8c9aa5cef92212f0586334
+  initial_final_improvement_attachment_sha256: 3bb54d160022f1c97c2be310292ef51806e2c7b499edb677e861867cb3c1107b
+  final_steering_attachment_sha256: 9212636957e87168624a60cc7d4c02344b5655251ca3c6d48e735ab90db0fac1
+
+operating_language:
+  repository_and_internal: English
+  founder_reply: Founder's apparent language
+
+migration_policy:
+  compatibility_branch: none
+  historical_named_run_status: closed_outside_active_route
+  historical_bytes: evidence_only
+  retired_active_artifacts: ["00", "01A", "02"]
+
+objective:
+  primary: highest_quality_complete_music_video
+  secondary: [token_efficiency, production_speed]
+  founder_intervention: normally_pass_hold_reject_only
+
+authority:
+  founder: explicit_locks_track_selection_paid_generation_pass_hold_reject_public_release
+  overall_director: exactly_one_final_creative_recommendation_and_whole_work_authority
+  creative_development_director: one_distinct_durable_founder_visible_pre02a_decision_workbench_lineage_with_one_active_physical_session_reporting_to_overall_director
+  song_room: one_physical_founder_visible_song_room_owned_by_cdd_returning_00a_to_cdd
+  department_worker: bounded_research_or_pre02a_development_output_only
+  member_visual_identity_owner: conditional_physical_current_title_identity_worker_reporting_to_cdd
+  section_owner: one_fresh_post02a_section_lineage_through_03v
+  mechanical_coordinator: schema_hash_path_exact_copy_and_presence_only
+  edit_director: one_separate_04_merge_owner_after_passed_03v_playback_reporting_to_overall
+  edit_shard_worker: bounded_physical_04_section_or_connected_chunk_returning_only_to_edit_director
+
+studio_session_routing:
+  provider_neutral_roles: [overall_director, creative_development_director, song_room, department_worker, member_visual_identity_owner, section_owner, edit_director, edit_shard_worker, mechanical_coordinator]
+  provider_adapters:
+    grok:
+      provider: grok
+      runtime_surface: registered_grok_tui_slash_goal_or_acp_native_goal_session
+      provider_adapter_skill_id: grok_harness_owner
+      roles: [overall_director, creative_development_director, song_room, department_worker, member_visual_identity_owner, section_owner, edit_director, edit_shard_worker, mechanical_coordinator]
+      goal_admission:
+        admissible_surfaces: [interactive_tui_slash_goal, acp_matching_native_goal_event]
+        interactive_tui_evidence: slash_goal_state_event_matching_dispatch_objective
+        acp_evidence: native_goal_id_objective_state_event_matching_dispatch_objective
+        matching_objective_required: true
+        before_required_reads_or_work: true
+        headless_without_matching_native_goal_event: forbidden
+        unavailable_status: goal_surface_unavailable
+        unavailable_action: hold_with_zero_work_and_zero_output
+        work_count_on_unavailable: 0
+        output_count_on_unavailable: 0
+      lifecycle_operations:
+        create: tui_slash_goal_or_acp_native_goal_create
+        send: provider_native_send
+        wait: provider_native_wait
+        resume: provider_native_resume_from_checkpoint
+        retire: provider_native_retire_after_closed_checkpoint
+        successor: provider_native_successor_from_director_boot_pack_then_registered_router_cas
+      same_dispatch_contract_as_cursor: true
+      creative_contract_rewrite_allowed: false
+    cursor:
+      provider: cursor
+      runtime_surface: cursor_cli_local_physical_chat
+      roles: [overall_director, creative_development_director, department_worker, section_owner, edit_director, mechanical_coordinator]
+      same_dispatch_contract_as_grok: true
+      creative_contract_rewrite_allowed: false
+      alias_to_codex: forbidden
+      harness_status: active_with_assignment_holds
+      authentication: file_credential_store
+      goal_admission: external_goal_record_before_cli_launch
+      lifecycle_operations:
+        create: cli_first_run
+        send: cli_prompt
+        wait: cli_terminal_result
+        resume: cli_resume_session_id
+        cancel: cli_process_cancel
+        retire: logical_retire_process_exit
+        successor: independent_cli_session_then_registered_router_cas
+  provider_may_rewrite_creative_contract: false
+  registered_profile_only: true
+  silent_fallback_allowed: false
+  cross_provider_fallback_allowed: false
+  unavailable_profile_action: hold_and_report
+  founder_selected_nonmedia_preference:
+    provider: grok
+    runtime_surface: grok_cli_acp_or_tui
+    applies_to: new_nonmedia_director_and_worker_assignments
+    excluded_execution_lanes: [02b_image_generation, 03v_video_generation]
+    fixed_provider_exceptions:
+      founder_briefing_assistant: none
+    activation_requires: exact_run_resolved_profile_live_inventory_sandbox_and_readiness
+    preference_is_static_active_binding: false
+    unavailable_action: hold_without_cross_provider_fallback
+  overall_director:
+    persistent_sessions: 1
+    interaction_surface: founder_visible_stage_room
+    founder_visible: true
+    durable: true
+    allowed_profiles: [standard]
+    standing_final_director_allowed: false
+    owns_final_recommendation: true
+  creative_development_director:
+    persistent_sessions: 1
+    durable_semantics: decision_and_workbench_lineage
+    maximum_active_physical_sessions: 1
+    interaction_surface: founder_visible_stage_room
+    founder_visible: true
+    durable: true
+    must_be_distinct_from_overall_director: true
+    opens_at: authorized_studio_run_start
+    reports_to: overall_director
+    becomes_dormant_after: exact_03v_playback_reviewed_milestone
+    owns_pre_02a_workers: true
+    worker_returns_to: creative_development_director
+    wait_mode: event_driven_no_polling
+    wake_event_kinds: [final, hold, authority_request, milestone]
+    successor_rollover: enabled_fail_closed_provider_neutral_session_router
+  song_room:
+    persistent_sessions: 1
+    interaction_surface: founder_visible_stage_room
+    founder_visible: true
+    durable: true
+    physical_task: true
+    created_by: creative_development_director
+    reports_to: creative_development_director
+    return_package: 00a_package
+    route_stages: [pre_00s, candidate_track_analysis, audio_screen_motion_map, song_production_lock, 00a_preparation]
+    revision_policy: continue_same_visible_task
+  pre_song_departments:
+    dispatch_policy: smallest_disjoint_named_gap_assignments_only
+    assignment_basis: unresolved_abstract_department_axis
+    zero_assignment_when_director_ready: true
+    capacity_policy: provider_cap_and_cdd_backpressure_are_ceilings_not_launch_targets
+    section_based_dispatch_allowed: false
+    return_recipient_role: creative_development_director
+    direct_return_to_overall_forbidden: true
+  post_song_reference_wave:
+    eligible_departments: [reference_research_generalist, world_still_reference_department, pinterest_visual_composition_worker]
+    dispatch_policy: smallest_disjoint_named_gap_assignments_only
+    assignment_count_policy: floor_six_disjoint_then_named_gap_adaptive
+    assignment_count_floor: 6
+    floor_omission_action: hold
+    floor_skip_requires: closed_not_applicable_reason_per_row
+    floor_is_fetch_not_completion_quota: true
+    floor_assignments:
+      - {department: reference_research_generalist, checkpoint: reference_story_sequence_role, topology: internal_subagent_unless_founder_visible}
+      - {department: reference_research_generalist, checkpoint: reference_camera_composition_role, topology: internal_subagent_unless_founder_visible}
+      - {department: reference_research_generalist, checkpoint: reference_world_object_material_role, topology: internal_subagent_unless_founder_visible}
+      - {department: reference_research_generalist, checkpoint: reference_performance_role, topology: internal_subagent_unless_founder_visible}
+      - {department: world_still_reference_department, checkpoint: world_still_physical, topology: physical}
+      - {department: pinterest_visual_composition_worker, checkpoint: pinterest_physical, topology: physical}
+    generalist_role_routing:
+      eligible_checkpoints: [reference_story_sequence_role, reference_camera_composition_role, reference_world_object_material_role, reference_performance_role]
+      assignment_basis: cdd_section_function_coverage_matrix_declared_medium_and_current_evidence_gap
+      distinct_role_or_section_territory_required: true
+      duplicate_assignment_requires: cdd_named_disjoint_section_or_function_gap
+      all_role_modules_per_worker: forbidden
+      quality_stop: professionally_decision_ready_not_minimum_context
+    followup_policy: reuse_existing_owner_or_add_disjoint_assignment_only_for_remaining_named_gap
+    source_count_policy: adaptive_to_professional_decision_readiness_no_fixed_source_floor_or_ceiling
+    candidate_count_policy: adaptive_to_named_gap_no_fixed_discovery_or_application_quota
+    world_still_candidate_policy:
+      scope: dispatched_world_space_object_material_functions
+      stop_policy: stop_when_professionally_decision_ready_with_nearest_alternative_and_risk
+      pinterest_ownership: forbidden_pointer_handoff_only
+      raw_pool_quota: none
+    pinterest_candidate_policy:
+      scope: named_visual_section_major_or_core_gap
+      stop_policy: stop_when_professionally_decision_ready_with_nearest_alternative_and_risk
+      existing_reference_pool_replacement_allowed: false
+      candidate_pool_is_generation_attachment_quota: false
+      section_processing: bounded_sequential_batches_in_same_pinterest_lineage
+    launch_policy: never_fill_provider_capacity
+    queue_policy: provider_cap_cdd_backpressure_owner_path_collision_and_pending_review
+    role_return_and_named_gap_reuse_same_sessions: true
+    maximum_active_department_sessions: 14
+    provider_live_cap: lower_registered_provider_cap
+    external_discovery_permission: explicit_per_dispatch
+    source_registration_permission: explicit_per_dispatch
+    local_registered_source_read: allowed_without_external_permission
+    download_capture_or_upload: separate_exact_permission_required
+    world_still_video_access: forbidden
+    world_still_pinterest_access: forbidden_pointer_handoff_only
+    world_still_every_multi_image_comparison: required_hash_bound_uncropped_contact_sheet
+    world_still_contact_sheet_before_every_cdd_return: required_hash_bound_uncropped_comparison
+    pinterest_video_or_private_access: forbidden
+    pinterest_every_section_comparison: required_hash_bound_uncropped_contact_sheet_and_individual_images
+    return_recipient_role: creative_development_director
+    direct_return_to_overall_forbidden: true
+  member_visual_identity:
+    route_kind: conditional_physical_current_title_member_visual_identity
+    interaction_surface: founder_visible_stage_room
+    create_when: required_card_missing_or_new_or_full_restyle_authorized
+    do_not_create_when: every_required_current_title_card_is_passed
+    physical_task: true
+    internal_or_nested_worker_route_allowed: false
+    founder_visible: true
+    persistent_sessions: 1
+    one_member_at_a_time: true
+    pinterest_styling_candidate_policy: adaptive_named_component_gap_set_until_professionally_decision_ready
+    pinterest_face_identity_use: forbidden
+    founder_correction_policy: continue_same_physical_task_with_new_immutable_attempt
+    created_by: creative_development_director
+    reports_to: creative_development_director
+    return_recipient_role: creative_development_director
+    direct_return_to_overall_forbidden: true
+    passed_card_promotion: cdd_review_overall_presentation_founder_pass_overall_canonical_promotion
+  pre_02a_development_wave:
+    development_epoch: founder_direction_alignment_then_internal_fp_close_then_role_routed_01_then_02a
+    founder_intermediate_refill: forbidden
+    internal_checkpoint_review: cdd_single_flight_then_overall_promotion
+    fp_close_storyline: exact_hash_bound_preserved_for_02a_final_planning
+    early_founder_exception_reasons: [new_or_fully_restyled_member_visual, material_departure_from_aligned_direction, identity_conflict, safety_conflict, source_conflict, feasibility_conflict]
+    final_founder_gate: 02a_final_planning
+    final_gate_authority: affected_02b_route_only_paid_generation_separate
+    total_sessions: {minimum: 2, ordinary_maximum: 4, exception_maximum: 5}
+    exception_requires_named_unmergeable_section: true
+    section_count_per_block: {minimum: 1, maximum: 3}
+    grouped_sections_must_be_connected: true
+    separate_section_outputs_required: true
+    ordinary_blocks_are_internal: true
+    high_touch_block_may_be_founder_visible: true
+    maximum_active_department_sessions: 14
+    provider_live_cap: lower_registered_provider_cap
+    return_recipient_role: creative_development_director
+    direct_return_to_overall_forbidden: true
+    stage_reuse: same_block_followup_for_fp_close_01_02a
+
+live_worker_capacity:
+  ordinary_combined_creative_workers: 14
+  reviewed_maximum_combined_creative_workers: 14
+  excludes_roles: [overall_director, creative_development_director, edit_director, mechanical_coordinator]
+  provider_live_cap_rule: lower_provider_runtime_cap_always_wins
+  post_02a_sections: {ordinary_maximum: 14, reviewed_maximum: 14}
+  edit_shards: {ordinary_maximum: 4, reviewed_maximum: 6}
+  provider_capacity:
+    cursor_nonroot: {ordinary_maximum: 6, reviewed_maximum: 6, probe: cursor_cli_active_session_inventory_before_launch}
+    grok_nonroot: {ordinary_maximum: 8, reviewed_maximum: 8, probe: native_and_headless_inventory_before_launch}
+    ambiguous_state_action: hold_and_report
+    launch_to_fill_capacity: false
+    queue_when_director_review_pending: true
+    queue_launch_when: next_consumes_pending_bytes_or_owner_path_collision
+
+session_route:
+  interaction_surface: provider_neutral_internal_or_founder_visible_stage_room
+  logical_dispatcher_roles: [overall_director, creative_development_director, edit_director]
+  ui_creator_role: root_orchestrator
+  return_recipient_roles: [overall_director, creative_development_director, edit_director]
+  provider: cursor_or_grok
+  runtime_surface: provider_registered_surface
+  session_id: required_runtime_field
+  parent_session_id: required_nullable_runtime_field
+  parent_task_scope: run_or_task_id
+  reuse_policies: [followup_same_agent, continue_same_visible_task, fresh_exact_section]
+  founder_revision_surface: owning_task_role
+  founder_review_board: RUN/review/founder-workbench.html
+  department_dispatch_required: true
+  director_review_required: true
+  director_dispatch_index_required: true
+  duplicate_owner_forbidden: true
+  founder_briefing_projection:
+    assignment: department_worker:founder-briefing
+    profile: founder_briefing
+    provider: grok
+    logical_profile_alias: worker_high
+    model_family: grok_high
+    founder_visible: true
+    source_scope: od_cdd_edit_reviewed_milestones_only
+    dispatch_output_kind: founder_briefing_projection
+    working_output_path: RUN/work/department-dispatches/outputs/DISPATCH_ID.json
+    activation: source_set_digest_change_or_founder_explicit_refresh_never_ui_open
+    same_digest_action: display_current_zero_model_turn_zero_write_zero_review_queue
+    publication: overall_review_then_mechanical_exact_copy_and_current_refresh
+    current_path: RUN/work/founder-briefing/current.json
+    immutable_history_path: RUN/work/founder-briefing/history
+    canonical_or_creative_authority: none
+    grok_terminal_output_auto_admission: forbidden
+    return_recipient_role: overall_director
+  department_worker_execution_topology:
+    selector: run_route_manifest_assignment_founder_visible
+    default: internal_subagent
+    internal:
+      founder_visible: false
+      surface: internal_subagent_not_projected_as_founder_task
+    physical:
+      founder_visible: true
+      surface: fresh_assignment_scoped_workbench_visible_session
+      cursor: separate_cursor_cli_physical_chat
+      grok: separate_native_cli_style_session_projected_like_terminal
+    same_contract: [studio_role, model_or_registered_equivalent, effort_and_quality_gate, department_dispatch, native_goal_first, output_owner, return_recipient, director_review, promotion_boundary]
+    visibility_changes_authority: false
+    worker_creative_grandchildren: forbidden
+    split_route: return_exact_unowned_subscopes_to_parent_director_for_sibling_dispatch
+    ordinary_worker_may_use_parent_scoped_helpers: true
+    parent_scoped_helpers:
+      grok_tool: spawn_subagent
+      not_a_physical_session: true
+      cdd_fp_02a_multi_leaf_min: 4
+      exact_byte_return_review_min: 0
+      below_min_action: helper_floor_unmet_hold
+  session_and_helper_operating_lock:
+    authority: automation/harness-execution-contract.yaml
+    physical_session_is_not_a_subagent: true
+    image_section_worker: physical_post_02a_session
+    cdd_dispatch_and_review: parent_scoped_spawn_subagent_min_4
+    ordinary_02a_block: internal_subagent_min_4
+    high_touch_02a: one_founder_visible_terminal_optional
+    overall_assigns_checkpoint_not_a_new_cdd: true
+    cdd_dormant_after_03v_playback_milestone: true
+    edit_opens_edit_director_not_cdd: true
+  intermediate_videoization: forbidden_all_02a_major_core_and_other_mid_pipeline
+  compiled_launch_prompt:
+    derivation: studio_kernel_plus_exact_role_context_pack_plus_current_run_creative_delta
+    profile_registry: automation/harness-skill-load-profiles.yaml
+    reusable_fixed_creative_prompt: forbidden
+    first_runtime_action: open_native_goal_from_goal_contract_then_validate_role_context_pack_before_work
+    block_order:
+      - dispatch_identity
+      - role_and_authority
+      - current_creative_job
+      - exact_scope_and_non_scope
+      - input_pointers
+      - skill_route
+      - required_work
+      - output_contract
+      - quality_proof
+      - return_ready_conditions
+      - hold_stop_split_conditions
+      - return_and_wake
+    current_run_creative_delta_required_values: [founder_verbatim_and_explicit_locks, locked_target_and_audience_reward, selected_song_or_audio_cue, whole_film_and_assigned_section_content_role, current_screen_or_reference_gap]
+    reference_work_delta_required_values: [source_discovery_mode, named_current_gap, source_eligibility_or_exact_permission_pointer]
+    script_assembly: fixed_labels_and_exact_copy_only
+    script_may_author_infer_summarize_or_repair_creative_truth: false
+    hash_bindings: [studio_kernel, selected_profile_checkpoint, profile_registry, role_context_pack, role_context_source_set, current_run_creative_delta_sources, goal_contract, requirement_manifest, compiled_input, rendered_prompt]
+  startup_admission:
+    schema: schemas/harness-startup-admission.schema.json
+    packet_schema_version: idol-harness-startup-admission.v2
+    compiler: scripts/idol_startup_admission.rb
+    workbench_bridge: run.compileStartupAdmission
+    trigger: explicit_current_run_start_or_resume_or_registered_route_authorization
+    placement: before_first_overall_model_turn_inside_existing_session_route
+    creates_stage: false
+    creates_approval_gate: false
+    preserves_existing_stage_order_and_authority: true
+    current_run_binding: [run_root, run_manifest, plan, canvas, founder_epoch, active_owner_role]
+    profile_registry: automation/harness-skill-load-profiles.yaml
+    profile_registry_sha256_required: true
+    runtime_instruction_input: idol-role-context-pack.v1
+    broad_profile_reads_are_runtime_additive: false
+    role_context_receipt_required: true
+    transient_only: true
+    persistence_scope: run_owned_or_workbench_artifact
+    persisted_prompt_or_founder_message: false
+    overall:
+      profile_id: overall_director
+      checkpoint_id: director_startup
+      first_turn: startup_read_gate
+      founder_message: exact_verbatim_live_memory_only
+      current_run_pointers: exact_copy_with_sha256
+      stale_or_missing_action: hold_before_model_turn
+      delta_author: overall_director_model_only
+      machine_delta_authoring_summarizing_or_repair: forbidden
+      compiled_launch_continuation: second_turn_same_physical_overall_session
+    creative_development_director:
+      route_author: overall_director_model_only
+      profile_id: creative_development_director
+      checkpoint_id: cdd_startup
+      launch: only_after_valid_overall_typed_route
+      startup_delta_author: overall_director_model_only
+      role_context_receipt_return_required: true
+      worker_launch_before_return: forbidden
+      no_route_behavior: continue_with_overall_without_cdd_or_worker_launch
+    lifecycle_projection: existing_canvas_session_links_only
+    downstream_dispatch: existing_department_dispatch_v8_goal_compliance_review_submission_cap_and_single_flight
+    paid_external_or_public_action_authorized: false
+  event_wait_and_wake:
+    polling: forbidden
+    wake_event_kinds: [final, hold, authority_request, milestone]
+    compact_pointer_fields: [output_pointers, aggregate_manifest, hold_or_rejection_pointers, risk_or_unresolved_decision_pointers]
+    raw_commentary_in_wake: forbidden
+    returned_or_schema_valid_means_creative_pass: false
+  visible_task_authorization:
+    required: true
+    authorizing_actor: founder
+    accepted_evidence: explicit_current_run_route_authorization_or_run_manifest_flag
+    applies_to_roles: [creative_development_director, song_room, member_visual_identity_owner, section_owner, edit_director, edit_shard_worker, department_worker]
+    department_worker_condition: only_when_assignment_founder_visible_true
+    absent_action: hold_without_creation
+    authorization_does_not_imply_external_action: true
+
+post_02a_session_routing:
+  route_id: physical_section_shard
+  studio_role: section_owner
+  assignment_kind: post_02a_image_motion
+  session_scope: exactly_one_physical_section
+  interaction_surface: founder_visible_stage_room
+  founder_visible: true
+  durable: true
+  return_recipient_role: creative_development_director
+  through_stage: 03v
+  fresh_session_required: true
+  pre_02a_session_reuse_allowed: false
+  never_load_pre_02a_chat: true
+  never_load_another_section: true
+  lineage_start: after_exact_02a_section_approval
+  lineage_end: passed_03v_handoff_or_section_hold
+  physical_session_resume: exact_durable_checkpoint_only
+  generated_branch_cut_overall_director_gate: one_pause_then_resume_the_same_lineage
+  pixel_and_playback_review_window: fresh_session_on_returned_artifacts_only
+  never_load_generator_chat_into_review: true
+  review_window_is_not_a_second_director: true
+  disjoint_section_parallelism: allowed_only_with_disjoint_sources_paths_and_outputs
+  maximum_active_sessions: 14
+  reviewed_maximum_sessions: 14
+  provider_live_cap: lower_registered_provider_cap
+  edit_boundary: 04_is_a_separate_execution_unit
+  silent_fallback_allowed: false
+  unavailable_profile_action: hold_and_report
+
+edit_routing:
+  edit_director:
+    route_id: edit_director_04_05
+    interaction_surface: founder_visible_stage_room
+    physical_task: true
+    persistent_sessions: 1
+    starts_after: all_required_03v_handoffs_pass
+    reports_to: overall_director
+    owns: [04_marker_plan, edit_shard_map, full_recipe_merge, full_film_boundary_review, 04fx_coverage, 05_package_handoff]
+    canonical_merge_owner: true
+    return_recipient_role: overall_director
+    image_motion_lineage_reuse_allowed: false
+  edit_shards:
+    route_id: physical_edit_section_or_connected_chunk
+    interaction_surface: founder_visible_stage_room
+    physical_task: true
+    scope: one_section_or_one_connected_chunk
+    ordinary_maximum_sessions: 4
+    reviewed_maximum_sessions: 6
+    provider_live_cap: lower_registered_provider_cap
+    created_by: edit_director
+    reports_to: edit_director
+    return_recipient_role: edit_director
+    shard_is_final_edit_truth: false
+    final_truth_owner: edit_director
+    launch_when: long_source_heavy_or_repeatedly_revised_run
+    single_writer_for_canonical_edit_map: edit_director
+  finishing_specialists:
+    vfx_route: exact_locked_04_window_requested_by_edit_director_or_edit_shard
+    fx_route: bounded_transition_accent_grade_audit_returning_to_edit_director
+
+delegation:
+  creative_delegation_depth: one_level_below_director
+  maximum_creative_worker_depth: 1
+  ordinary_worker_may_create_creative_grandchildren: false
+  deterministic_tools_allowed: true
+  split_request_route: return_exact_unowned_subscopes_to_parent_director
+  parent_director_opens_sibling_dispatches: true
+  duplicate_owner_forbidden: true
+
+session_lineage:
+  identities:
+    lineage_id: one_logical_worker_or_founder_visible_task_lineage
+    session_id: current_provider_chat_or_task_runtime
+    attempt_id: one_hash_bound_launch_return_review_submission
+    dispatch_id: unique_record_for_one_attempt
+  required_runtime_fields: [provider, runtime_surface, model_or_role_profile, session_id, parent_session_id, parent_lineage_id, parent_dispatch_id, bounded_scope, input_digest, checkpoint, output_manifest, result_digest, review_state, successor_lineage_id, retirement_state]
+  attempt_fields: [attempt_number, attempt_id, input_digest, output_manifest, result_digest, director_review, promotion_or_hold, previous_attempt_id]
+  review_submission_fields: [review_cycle_id, submission_number, maximum_submissions, submission_kind, root_attempt_id, previous_submission_attempt_id, correction_source, repair_targets, repair_acceptance_criteria, frozen_outputs]
+  maximum_review_submissions_per_cycle: 3
+  initial_submission_counts: true
+  review_submission_counter_independent_of_attempt_number: true
+  targeted_correction_scope: exact_invalidated_output_paths_only
+  unaffected_output_policy: hash_frozen_no_regeneration
+  review_cycle_reset_by_session_provider_model_or_founder_epoch: false
+  run_local_dispatch_path: RUN/work/department-dispatches/DISPATCH_ID.yaml
+  run_local_transport_refresh_path: RUN/work/department-transport-refreshes/REFRESH_ID.yaml
+  transport_refresh_contract: schemas/department-transport-refresh.schema.json
+  transport_hash_only_rule: one_mechanical_coordinator_no_worker_session_no_goal_no_review_submission
+  changed_governing_input_rule: original_recipient_director_rechecks_impact_once_before_worker_correction
+  changed_output_rule: quality_hold_never_mechanical_refresh
+  global_worker_directory: forbidden
+  immutable_attempt_records: true
+  correction_policy: new_hash_bound_attempt_same_reusable_lineage
+  replacement_policy: successor_lineage_from_last_validated_checkpoint_after_retirement
+  full_chat_transcript_storage: forbidden
+  active_attempt_projection: expose_only_current_attempt_by_default
+
+director_dispatch_index:
+  path_template: RUN/work/director-dispatch-index.yaml
+  scoped_views_path_template: RUN/work/director-dispatch-views/
+  canonical_owner: deterministic_index_builder
+  pointer_only: true
+  single_writer: true
+  no_hand_editing: true
+  source_admission:
+    inventory: every_run_owned_department_dispatch_path_hash_exactly_once
+    active_projection: idol_department_dispatch_v8_only
+    legacy_v4: hash_pinned_evidence_only_never_active_projection
+    unsupported_or_scope_owner_overlap: hold
+    scope_and_owner_receipt_required: true
+    silent_omission_forbidden: true
+  current_head_uniqueness:
+    logical_identity: stage_scope_canonical_path_sha256_v1
+    maximum_current_per_logical_artifact_and_scope: 1
+    explicit_verified_two_way_successor_chain_required_for_replacement: true
+    ambiguous_multiple_promotions: hold
+    mechanical_latest_wins_forbidden: true
+  required_row_fields: [task_id, logical_role, provider, runtime_surface, session_id, parent_session_id, parent_lineage_id, lineage_id, attempt_id, dispatch_id, stage, section_or_chunk, artifact_scope, active_owner_lock, interaction_surface, dispatch_path, input_digest, result_digest, lifecycle_state, aggregate_manifest_path, output_count, output_hashes, director_review_disposition, board_cycle_id, next_action, hold_scope, resume_policy, successor_id, retirement_state]
+  review_queue:
+    schema_version: idol-director-dispatch-index.v4
+    policy: single_flight_per_recipient_director_then_global_overall_promotion
+    selection_order: dependency_rank_then_returned_at_then_dispatch_id
+    same_recipient_active_review_maximum: 1
+    overall_active_promotion_maximum: 1
+    next_review_requires_prior_closed_baseline: true
+  aggregate_manifest_rule:
+    required_for_multi_file_return: true
+    central_index_stores_pointer_not_embedded_bytes: true
+    manifest_contains_paths_hashes_and_counts: true
+  rebuild:
+    sorted_source_dispatches_and_manifests: true
+    source_set_digest_required: true
+    compare_and_swap: true
+    atomic_write: true
+    abort_if_source_revision_changes: true
+
+reference_working_index:
+  path_template: RUN/research/reference-working-index.yaml
+  owner_role: creative_development_director
+  pointer_only: true
+  worker_return_shape: disjoint_reference_index_delta
+  creative_review_owner: creative_development_director
+  mechanical_merge_owner: mechanical_coordinator
+  shared_writer: mechanical_coordinator_only
+  source_rows_require_exact_locator_and_function: true
+  downstream_consumers: [front_planning, section_plan, stage_01, stage_02a]
+  active_source_eligibility:
+    default: official_or_original_professional_primary_source
+    priority: [official_mv, visual_or_concept_film, official_teaser_trailer_or_highlight_film, official_performance, official_campaign_or_editorial, director_or_production_company_source, official_film_series_anime_or_game_source, official_or_verified_creator_still]
+    repost_or_aggregator: navigation_only_until_origin_verified
+    unresolved_origin_action: hold_unresolved_origin
+    public_pinterest_pin_identity: pin_url_or_pin_id_plus_local_path_and_sha256
+    public_pinterest_non_pin_origin_required: false
+    public_pinterest_allowed_roles: [main_reference, supporting_visual_reference]
+    restricted_edits: [amv, mad, fan_edit]
+    restricted_edit_permission: exact_current_task_founder_approval_with_source_identity_or_url_purpose_and_allowed_action
+    supplied_link_or_file_implies_permission: false
+    rhythm_analysis_permission_implies_scene_binding: false
+    missing_permission_action: hold_founder_permission_missing
+    historical_rows: evidence_only_excluded_from_active_reuse
+  discovery_routes:
+    founder_main_reference: main_then_origin_verification_then_genealogy_and_functional_discovery_then_placement
+    no_founder_main_reference: need_or_function_then_official_discovery_then_origin_verification_then_comparison_then_placement
+  reference_connection:
+    causal_chain: [need, observed_source_evidence, bounded_transfer, observable_screen_consequence, exact_section_placement]
+    quality_proof: [existing_connection_role, comparative_necessity, nonduplicate_screen_contribution, mismatch_risk, screen_information_lost_if_removed]
+    existing_projection: [front_planning_reference_connection_research_reference_units, front_planning_section_plan_reference_ids, stage_01_reference_applications, stage_02a_bindings]
+    pinterest_projection: exact_founder_passed_pin_source_kind_and_role_through_front_planning_01_02a_02b_image_request
+    pinterest_candidate_pool_is_generation_attachment_quota: false
+    new_creative_judgment_surface: forbidden
+
+director_boot_pack:
+  builder: deterministic_boot_pack_builder
+  source: director_dispatch_index_and_canonical_heads
+  deterministic: true
+  includes: [current_stage, decision_epoch, active_founder_locks, open_or_held_tasks, review_queue, current_canonical_heads, active_board_cycle, next_actions, exact_lineage_checkpoint]
+  excludes: [raw_candidate_pools, full_child_transcripts, unrelated_section_artifacts, unselected_reference_media, historical_prompt_or_scene_prose]
+  load_scope: exact_stage_or_section_only
+  cdd_successor:
+    status: enabled_fail_closed_provider_neutral_session_router
+    schema: schemas/director-boot-pack.schema.json
+    schema_version: idol-director-boot-pack.v3
+    compiler: scripts/idol_director_dispatch_index.rb cdd-successor
+    native_bridge: optional_workbench_run.compileCddSuccessor_or_direct_cdd_session_router
+    router_state_schema: schemas/cdd-session-router-state.schema.json
+    router_state_schema_version: idol-cdd-session-router-state.v1
+    router_actions: [route-initialize, route-admit, route-commit, route-authorize, route-rollback, route-snapshot]
+    profile: cdd_successor
+    source_checkpoint: immutable_hash_equal_cdd_checkpoint
+    state_blocks: [identity, role_and_authority, founder_truth, creative_spine, director_decision_checkpoint, evidence_view, canonical_heads, execution_state, review_and_next_route, transfer_integrity]
+    full_transcript_included: false
+    script_authors_creative_summary: false
+    fresh_session_creation: provider_native_zero_turn_successor
+    preflight_authority: read_only_no_creative_or_canonical_authority
+    required_questions: [scope_and_authority, founder_locks_and_proposals, current_recommendation_and_reason, do_not_revive, unresolved_decisions, heads_evidence_and_pending_owner, next_stop_and_wake]
+    required_answer_envelope: one_hash_bound_final_envelope
+    provider_goal_admission:
+      cursor: external_goal_record_and_cli_runtime_receipt_active
+      grok: complete_goal_completed_is_successor_admission_only
+      assignment_authority: current_router_state_not_goal_status
+    founder_confirmations: 2
+    prior_retirement: provider_native_or_harness_logical_retirement_only_after_validated_preflight_and_second_confirmation
+    canonical_switch: exact_router_state_sha_generation_cas_then_optional_canvas_session_link
+    operation_gate: every_prompt_resume_dispatch_review_and_canonical_write_requires_current_router_authorization
+    rollback: exact_router_b_to_a_cas_then_restore_optional_canvas
+    creative_surface_immutability: [html, review_board, canvas, storyline, section_truth, canonical_artifacts]
+    other_provider_behavior: hold_until_equivalent_admission_inactive_session_denial_cas_and_rollback_proof
+    no_rollover_zones:
+      - open_founder_gate_or_unrecorded_founder_intervention
+      - active_worker_return_or_cdd_review_in_progress
+      - canonical_or_workbench_single_writer_update_in_progress
+      - unresolved_owner_or_output_path_collision
+      - stale_policy_schema_skill_source_or_canonical_hash
+    warning_or_size_diagnostic_authorizes_rollover: false
+
+single_writer_and_backpressure:
+  single_writers:
+    director_dispatch_index: deterministic_index_builder
+    director_dispatch_views: deterministic_index_builder
+    reference_working_index: mechanical_coordinator_after_cdd_review
+    founder_workbench_manifest_and_html: board_coordinator_and_renderer
+    canonical_edit_map: edit_director
+  backpressure:
+    pause_new_launch_when_returned_work_waits_for_director_review: true
+    pause_new_launch_when_board_or_index_writer_is_behind: true
+    pause_on_active_owner_or_output_path_collision: true
+    provider_capacity_lower_limit_wins: true
+    available_model_capacity_does_not_override_review: true
+    same_recipient_director_review_single_flight: true
+    overall_promotion_single_flight: true
+    next_return_waits_for_prior_disposition_promotion_and_baseline_refresh: true
+
+instruction_fulfillment:
+  department_dispatch_schema: schemas/department-dispatch.schema.json
+  department_dispatch_version: idol-department-dispatch.v8
+  department_transport_refresh_schema: schemas/department-transport-refresh.schema.json
+  department_transport_refresh_version: idol-department-transport-refresh.v1
+  director_dispatch_index_schema: schemas/director-dispatch-index.schema.json
+  director_dispatch_index_version: idol-director-dispatch-index.v4
+  goal_first:
+    required_for_every_cursor_and_grok_worker: true
+    open_before_required_reads_or_creative_work: true
+    goal_text_exact_copies_dispatch_objective: true
+    native_identity_and_state_returned: true
+    complete_only_after_valid_return_and_worker_self_check: true
+    unsupported_surface_action: goal_surface_unavailable_hold_before_work
+    provider_native_surfaces:
+      cursor: {set: external_goal_record_before_cli_launch, evidence: cli_init_and_terminal_runtime_receipt, identity_field: session_id, objective_field: objective_sha256, state_field: terminal_status}
+      grok:
+        admissible_surfaces: [interactive_tui_slash_goal, acp_matching_native_goal_event]
+        interactive_tui_set: slash_goal
+        interactive_tui_evidence: slash_goal_state_event_matching_dispatch_objective
+        acp_set: matching_native_goal_event
+        acp_evidence: native_goal_id_objective_state_event
+        identity_field: id
+        objective_field: objective
+        state_field: state
+        headless_without_matching_native_goal_event: forbidden
+        unavailable_action: goal_surface_unavailable_hold_zero_work_zero_output
+  requirement_manifest_categories: [founder, skill, policy, contract, schema, output, quality, hold, goal]
+  verification_layers:
+    mechanical: schema_fields_cross_fields_paths_hashes_registry_versions_consumer_versions_lifecycle_and_coverage_only
+    worker: one_fulfillment_claim_per_requirement_with_exact_output_evidence_or_explicit_hold
+    director: independent_exact_revision_read_and_semantic_judgment_per_requirement
+    schema_pass_means_creative_pass: false
+    worker_claim_means_director_pass: false
+    director_read_closure_required: true
+  sequential_review_and_promotion:
+    parallel_worker_returns_allowed: true
+    parallel_mechanical_preflight_allowed: true
+    same_recipient_director_active_review_lease_maximum: 1
+    selection_order: dependency_rank_then_returned_at_then_dispatch_id
+    next_review_starts_after: prior_disposition_promotion_or_hold_single_writer_commit_and_baseline_refresh
+    overall_global_promotion_lease_maximum: 1
+    batch_accept_or_batch_promotion: forbidden
+    queue_projection: director_dispatch_index_review_queue
+    review_receipt_identity: reviewer_role_plus_exact_input_result_digest_scope_and_founder_epoch
+    unchanged_receipt_carries_forward: true
+    new_session_provider_or_model_is_re_review_trigger: false
+    overall_reviews: cdd_curated_milestone_and_whole_work_consequence_not_raw_worker_checklist
+    successor_requires: canonical_same_run_predecessor_with_return_review_and_promoted_or_hold_closure
+    authority_request_or_milestone_authorizes_successor: false
+    maximum_review_submissions_per_cycle: 3
+    initial_submission_counts: true
+    targeted_correction_scope: exact_invalidated_outputs_only
+    unaffected_output_policy: hash_frozen_no_regeneration
+    submission_three_failure_route: upstream_owner_or_hold
+    review_cycle_reset_by_session_provider_model_or_founder_epoch: false
+    transport_hash_only_route: mechanical_coordinator_receipt_without_worker_goal_or_submission_increment
+    changed_governing_input_route: original_recipient_director_impact_recheck_once
+    changed_output_route: quality_hold_or_targeted_creative_correction
+  provider_parity: cursor_and_grok_use_the_same_goal_compliance_review_and_promotion_contract
+  failure_action: hold_affected_dispatch_without_promoting_or_rewriting_unaffected_truth
+
+skill_load_profiles:
+  registry_path: automation/harness-skill-load-profiles.yaml
+  profile_body_source: registry_path_is_the_only_authoring_source
+  provider_neutral: true
+  eof_required: true
+  runtime_application_evidence_required: true
+  exact_current_revision_and_sha256_copied_into_dispatch: true
+  profile_fallback_allowed: false
+  profiles:
+    overall_director: {profile_id: overall_director}
+    creative_development_director: {profile_id: creative_development_director}
+    pre_song_research: {profile_id: pre_song_research}
+    song_room_prompt: {profile_id: song_room_prompt}
+    song_room_00a: {profile_id: song_room_00a}
+    reference_research_generalist: {profile_id: reference_research_generalist}
+    world_still_reference_department: {profile_id: world_still_reference_department}
+    pinterest_visual_composition_worker: {profile_id: pinterest_visual_composition_worker}
+    source_hub_registration: {profile_id: source_hub_registration}
+    member_visual_identity: {profile_id: member_visual_identity}
+    pre_02a_development_block_fp: {profile_id: pre_02a_development_block_fp}
+    post_02a_02b_image: {profile_id: post_02a_02b_image}
+    post_02a_03v: {profile_id: post_02a_03v}
+    edit_director: {profile_id: edit_director}
+    edit_shard: {profile_id: edit_shard}
+    board_coordinator: {profile_id: board_coordinator}
+    founder_briefing: {profile_id: founder_briefing}
+
+role_context_projection:
+  schema_version: idol-harness-role-context-projection.v1
+  projection_registry: automation/harness-role-context-projection.yaml
+  projection_schema: schemas/harness-role-context-projection.schema.json
+  pack_schema_version: idol-role-context-pack.v1
+  pack_schema: schemas/role-context-pack.schema.json
+  builder: scripts/idol_role_context_pack.rb
+  builder_library: scripts/lib/idol_role_context_pack.rb
+  build_sources: [selected_skill_load_profile_checkpoint, department_dispatch_v8, exact_current_run_source_pointers, optional_v3_founder_quality_context, provider_profile_registry]
+  applies_to_roles: [overall_director, creative_development_director, edit_director, song_room, department_worker, member_visual_identity_owner, section_owner, edit_shard_worker]
+  startup_consumers: [overall_director, creative_development_director]
+  dispatch_consumers: [edit_director, song_room, department_worker, member_visual_identity_owner, section_owner, edit_shard_worker]
+  build_timing: after_native_goal_admission_and_before_task_work_except_existing_session_startup_admission
+  complete_source_validation: mechanical_projector_reads_and_hash_verifies_registered_closure_to_eof
+  runtime_application: receiver_applies_exact_projected_fragments_plus_named_current_creative_sources
+  founder_quality_context:
+    source: current_run_review_harness_improvement_review_v3_only
+    consumers: [overall_director, creative_development_director, edit_director, department_worker, section_owner, edit_shard_worker]
+    director_scope: matching_current_run_whole_work_review_view
+    worker_scope: exact_matching_role_profile_stage_and_section_only
+    included_fields: [reason_summary, recurrence_key, recurrence_count, first_seen_at, last_seen_at, evidence_rollup_sha256, positive_core, avoid_signals, director_actions, review_questions, applicability, source_sidecar_pointer]
+    raw_founder_wording_or_transcript: forbidden
+    max_patterns_per_pack: 12
+    ordering: author_priority_then_recurrence_then_recency
+    similarity_or_taste_inference_by_script: forbidden
+    authority: advisory_no_lock_gate_pass_or_promotion
+    graph_edge: semantic_exact_context_digest_to_assignment
+  replacement_rule: runtime_pack_replaces_broad_instruction_reads_and_is_not_an_additional_required_layer
+  structured_source_rule: pointer_only_with_structural_preflight
+  markdown_slice_rule: exact_registered_heading_or_fail_closed
+  provider_binding: exact_registered_grok_or_cursor_snapshot_no_fallback
+  authority: derived_read_only_no_creative_or_promotion_authority
+  invalidation_policy: bound_fragment_or_exact_dependency_change_only_except_always_on_authority
+  always_invalidate_on: [authority, founder_epoch_or_lock, stage, active_owner, provider_binding]
+  distinct_existing_context_surfaces: [idol-director-boot-pack.v3, idol-harness-context-pack.v7]
+  hold_on: [missing_or_ambiguous_heading, stale_whole_file_or_fragment_hash, source_set_or_pack_digest_mismatch, unresolved_provider_snapshot]
+
+board_decision_semantics:
+  stable_workbench_path: RUN/review/founder-workbench.html
+  manifest_root: RUN/review/manifests/
+  one_stable_html_lineage: true
+  one_active_cycle_id: true
+  superseded_cycles_read_only: true
+  decision_owner_required: true
+  decision_question_required: true
+  legal_actions_required: true
+  affected_scope_required: true
+  blocking_effect_required: true
+  board_card_bindings: [source_paths_and_hashes, dispatch_id, returned_output_hash, lineage_id, attempt_id, session_id, director_dispatch_index_path_hash_row, director_review_row, review_target, decision_epoch, founder_decision_receipt]
+  raw_pools_forbidden: true
+  contact_sheets_and_proxy_previews_are_evidence_not_gates: true
+  founder_checkpoint_sequence: [direction_alignment, 02a_final_planning]
+  internal_sequence_between_founder_checkpoints: [fp_close, stage_01, stage_02a]
+  internal_fp_close_is_decision_gate: false
+  02a_final_planning_projection: exact_fp_close_storyline_plus_01_expansion_plus_02a_core_branch_plan
+  02a_final_planning_pass_authority: affected_02b_route_only
+  paid_generation_separate: true
+  founder_facing_scope_term: whole_video
+  legacy_whole_film_transport_token: complete_mv_teaser_or_selected_song_video_not_feature_film_requirement
+  cycle_kinds: [reference_discovery, direction_synthesis, member_visual_identity, fp_final, generated_branch_cut, 03v_playback, edit_shard, edit_final]
+  cycle_kind_mode_mapping:
+    reference_discovery: discovery
+    direction_synthesis: direction_synthesis
+    member_visual_identity: fp_final
+    fp_final: fp_final
+    generated_branch_cut: fp_final
+    03v_playback: fp_final
+    edit_shard: fp_final
+    edit_final: fp_final
+  modes:
+    discovery:
+      legal_actions: [attracted, reject, hold, connect_these, keep_only, search_further, direct_comment]
+      blocking_effect: non_gating_signal_only
+      lock_inference: forbidden
+    direction_synthesis:
+      founder_facing_label: Direction Alignment
+      legal_actions: [select_candidate, lock_fields, hold, reject, direct_comment]
+      blocking_effect: only_explicitly_named_field_or_card_is_fixed
+      lock_inference: forbidden
+    fp_final:
+      founder_facing_label: 02A Final Planning
+      legal_actions: [pass, hold, reject]
+      blocking_effect: advances_or_holds_only_bound_scope
+      lock_inference: forbidden
+  decision_intake:
+    preserves_founder_wording_verbatim: true
+    infers_locks: false
+    routes_to_smallest_owner: true
+    binds_manifest_path_hash_and_card_ids: true
+    updates_dispatch_index_route: true
+    direction_selected_candidate_maximum: 1
+    candidate_merge_or_fp_pass_inferred: false
+
+validation_routing:
+  ordinary_active_check: scripts/idol_harness_frontier_check.rb
+  broad_audit: scripts/idol_harness_state_check.rb
+  broad_audit_use: explicit_harness_maintenance_or_release_closeout_only
+  founder_review_default_mode: promote
+  pre_founder_pass_downstream_execute_checks: false
+  modes:
+    explore:
+      use: discovery_worker_drafts_and_candidate_search
+      checks: [scope, source_availability, basic_shape]
+      whole_repository_validation: false
+      downstream_final_validation: false
+    promote:
+      use: worker_to_director_handoff_canonical_promotion_and_section_boundary
+      checks: [owner_and_founder_epoch, input_and_result_digests, source_bindings, relevant_schema, director_creative_review]
+      whole_repository_validation: false
+      downstream_final_validation: false
+    execute:
+      use: paid_or_external_generation_merge_playback_delivery_and_release
+      checks: [strict_hashes, permissions, exact_output_state, pixel_or_playback_evidence]
+      whole_repository_validation: explicit_closeout_only
+      downstream_final_validation: true
+
+active_route:
+  - creative_route_discovery
+  - song_direction_design
+  - candidate_track_analysis
+  - audio_screen_motion_map
+  - song_production_lock
+  - front_planning_integration
+  - mv_performance_direction
+  - mv_storyboard_direction
+  - storyboard_review
+  - image_prompt_compilation
+  - image_generation_release_gate
+  - branch_cut_generation
+  - generated_branch_cut_review
+  - audio_branch_cut_placement
+  - video_motion_direction
+  - video_playback_review
+  - edit_assembly_playback_qc
+  - edit_finishing_fx
+  - master_package_release
+
+pre00_selection_handoff:
+  schema: schemas/pre-00-selection-handoff.schema.json
+  builder: scripts/idol_pre00_selection_handoff.rb
+  trigger: founder_selected_radar_with_locked_primary_target
+  consumers: [song_room_context, visual_preparation_context]
+  consumer_start_order: [song_room_context, visual_preparation_context]
+  duplicate_founder_brief_forbidden: true
+  new_stage_created: false
+  model_turn_at_handoff: false
+  external_or_paid_generation_authorized: false
+
+front_planning:
+  schema: schemas/front-planning-readiness.schema.json
+  starts_after: actual_selected_audio_lyrics_sections_and_00a_lock_exist
+  internal_substages:
+    - audience_message_lock
+    - current_title_visual_package
+    - reference_connection_01r
+    - pinterest_section_comparison_at_direction_alignment
+    - optional_reference_crop_lock_01r_c
+    - member_and_section_assignment
+    - whole_video_and_section_spine
+    - founder_direction_alignment
+    - internal_fp_close
+  owns:
+    - primary_target_and_evidence_backed_connection
+    - message_audience_promise_and_do_not_serve_rules
+    - current_title_member_visual_identity_and_text_reference_bound_space
+    - whole_video_and_section_progression
+    - member_assignment_by_section
+    - major_section_scenes_actions_holds_objects_spaces_and_transitions
+    - reference_research_interpretation_disposition_and_section_assignment
+  does_not_need_to_lock:
+    - final_core_cut_count
+    - final_branch_cut_count
+    - final_image_prompt_wording
+    - temporal_video_camera_route
+  founder_direction_gate: direction_alignment_select_lock_hold_reject
+  internal_close_status: director_closed
+  next_founder_gate: 02a_final_planning_PASS_HOLD_REJECT
+  next_gate_input: exact_fp_close_storyline_plus_01_plus_02a
+  next_gate_pass_authority: affected_02b_route_only
+
+current_title_visual_package:
+  root_pattern: assets/members/album-assets/ALBUM_KEY/TITLE_KEY/**
+  ink_policy: organization_and_review_depth_example_only
+  face_only_lane: identity_source_only_before_downstream_card_promotion
+  member_visual_job: appearance_hair_makeup_wardrobe_material_silhouette_and_body_continuity
+  member_visual_forbidden_effects:
+    - forcing_face_visibility_or_readability
+    - forcing_frontal_head_or_gaze
+    - forcing_portrait_crop_or_reference_pose
+    - forcing_reference_camera_geometry
+    - changing_body_proportions
+    - copying_reference_board_layout
+  branch_attachment_rule: smallest_applicable_current_title_subset_per_branch_cut_only
+
+reference_handling:
+  sequence_reference: ordered_frame_sheet_whose_frame_flow_must_be_interpreted
+  scene_reference: selected_frame_crop_or_founder_supplied_separate_image
+  whole_sheet_use: navigation_evidence_only
+  selected_derivative: own_path_and_sha256_required
+  dispositions: [applied, combined, held, rejected]
+  direct_reference_preservation:
+    - action_and_body_or_object_route
+    - composition_and_subject_placement
+    - still_camera_height_distance_direction_angle_and_depth
+    - crop_negative_space_and_occlusion
+    - ordered_frame_and_scene_grammar
+
+section_expansion:
+  stage_01_schema: schemas/song-choreography-performance-mv-map.schema.json
+  stage_02a_schema: schemas/master-storyboard.schema.json
+  stage_01_job: author_every_official_core_cut_and_exactly_one_passed_primary_image_per_core_from_passed_front_planning_without_reselecting_governing_truth
+  stage_02a_job: exact_import_01_official_core_bytes_unchanged_and_author_only_one_to_n_ordered_branch_cuts_per_core
+  official_core_owner: stage_01
+  official_core_primary_image_rule: exactly_one_passed_primary_image_per_official_core
+  stage_02a_core_policy: immutable_exact_import_no_core_reauthoring
+  stage_02a_authored_scope: ordered_branch_cuts_only
+  core_cut_definition: parent_major_event_action_effect_condition_or_dramatic_beat_that_may_span_multiple_independently_framed_screen_realizations
+  branch_cut_definition: one_independently_framed_and_generatable_screen_realization_derived_from_the_parent_core_event_with_a_distinct_observable_directorial_job
+  branch_cut_cardinality: one_to_n_per_core_cut_without_global_cap_or_start_end_template
+  new_core_cut_rule: stage_01_authors_a_new_official_core_when_the_governing_event_changes_02a_returns_any_core_change_to_01_and_materially_different_views_of_the_same_event_remain_branch_cuts
+  still_camera_owner: front_planning_observes_reference_01_authors_core_camera_02a_authors_branch_camera_and_02b_exact_carries
+  temporal_camera_owner: 03v_after_passed_pixels
+
+image_prompt_translation:
+  delta_schema: schemas/prompt-packet-delta.schema.json
+  packet_schema: schemas/prompt-packets.schema.json
+  compiler: scripts/idol_prompt_packet_compile.rb
+  authorship: human_or_assigned_model_natural_language_translation_from_exact_02a_branch_cut
+  prompt_lines:
+    - "Identity reference rule:"
+    - "Scene intent:"
+    - "Visible details:"
+    - "Action cue:"
+    - "Avoid:"
+  required_quality_terms: ["4K", "high quality", "high detail"]
+  context: compact_target_message_whole_film_spine_current_parent_core_current_branch_immediate_branch_siblings_and_immediate_same_section_core_neighbors
+  forbidden_prompt_content:
+    - schema_or_process_instructions
+    - local_paths_hashes_or_internal_ids
+    - reference_analysis_dump
+    - unselected_assets
+    - temporal_camera_movement
+  ambiguous_phase_terms: [landing, endpoint, "final frame"]
+
+image_generation:
+  request_schema: schemas/image-generation-request.schema.json
+  provider_model_resolution:
+    provider_omitted_image_request: current_session_native
+    current_session_native_provider_binding: exact_current_assignment_provider
+    cursor_luna_image:
+      profile_source: exact_registered_cursor_profile
+      adapter: cursor_luna_image
+      condition: explicit_founder_selection_and_media_transfer_proof_only
+      current_status: available_founder_explicit_substitute
+    openai_api_gpt_image_2:
+      model: gpt-image-2
+      condition: exact_registered_openai_api_lane
+    grok_build_oauth_subscription:
+      model_or_tool_source: exact_registered_grok_provider_profile_and_selected_native_tool
+      condition: exact_registered_subscription_lane
+    xai_api_media:
+      model_source: exact_hash_bound_registered_provider_profile
+      missing_registration_action: hold_before_credentials_or_network
+    explicit_api_selection_required: true
+    cross_provider_tool_auth_or_model_aliasing: forbidden
+    automatic_fallback: none
+  request_granularity: one_request_per_packet
+  attachment_lane: one_combined_ordered_visual_attachment_list
+  identity_sentence_job: current_title_member_appearance_input_or_explicit_none
+  member_visibility_rule: attach_only_when_member_appearance_continuity_is_meaningful
+  output_review: byte_hash_pixel_inspection_and_generated_branch_cut_review_required
+
+video_motion:
+  generated_review_schema: schemas/review.schema.json
+  audio_placement_schema: schemas/audio-branch-cut-placement.schema.json
+  storyboard_schema: schemas/video-prompt-storyboard-assist.schema.json
+  manifest_schema: schemas/video-prompt-manifest.schema.json
+  standard_board_images: one_to_three_ordered_passed_branch_cut_images
+  one_image_board_rule: allowed_when_one_branch_cut_is_a_sufficient_motion_anchor_with_authored_reason_and_temporal_route
+  more_than_three_images: split_into_linked_boards
+  attachment_grammar:
+    - "@image1_storyboard_board"
+    - "@image2_first_original"
+    - "@image3_second_original_when_present"
+    - "@image4_third_original_when_present"
+  board_authority: timing_blocking_subject_route_and_temporal_camera_motion
+  original_branch_image_authority: pixels_appearance_wardrobe_light_composition_and_visible_states
+  direct_image_to_video: forbidden
+
+review_workbench:
+  schema_version: idol-html-review-board.v12
+  canonical_cycles: [g00_direction_draft, g10_song_lock, g20_visual_identity_lock, g30_fp_final, g30_experiment_disposition, g40_core_branch_authorization, g50_branch_results, video_playback_internal, g60_playback_edit, g70_release]
+  legacy_aliases: {discovery: g00_direction_draft, direction_synthesis: g30_fp_final, fp_final: g40_core_branch_authorization}
+  video_playback_internal_owner: creative_development_director
+  founder_facing_owner: overall_director
+  manifest_schema: schemas/html-review-board.schema.json
+  decision_export_schema: schemas/html-review-decision-export.schema.json
+  decision_intake_schema: schemas/founder-review-decision-intake.schema.json
+  generator: scripts/idol_html_review_board.rb
+  projection_source_set_schema: schemas/review-projection-source-set.schema.json
+  projection_pending_schema: schemas/review-projection-pending.schema.json
+  projection_assembler: scripts/idol_review_projection_assembler.rb
+  projection_stable_paths:
+    source_set: RUN/work/review-projection-source-set.yaml
+    pending: RUN/work/review-projection-pending.yaml
+    manifest: RUN/review/manifests/founder-workbench.yaml
+    html: RUN/review/founder-workbench.html
+  decision_ingest_bridge: reviewBoard.ingestDecision
+  hierarchy:
+    - target_and_message
+    - whole_video_and_section_flow
+    - section
+    - core_cut
+    - branch_cut
+  modes:
+    discovery:
+      founder_facing_label: Internal Discovery
+      candidate_policy: adaptive_named_gap_set_no_fixed_candidate_floor_or_ceiling
+      decision_ready_evidence: actual_visual_units_nearest_alternative_and_material_risk
+      stage_gate: false
+      lock_only_when_explicit: true
+    direction_synthesis:
+      founder_facing_label: Direction Alignment
+      candidate_policy: adaptive_complete_directions_no_fixed_candidate_floor_or_ceiling
+      recommendation_policy: cdd_recommends_only_when_evidence_is_decision_ready
+      selection_action: select_candidate
+      selection_is_fp_pass: false
+      cross_candidate_delta_policy: cdd_reauthors_complete_candidate_no_script_merge
+      fit_tension_policy: compare_reading_evidence_counterreading_screen_consequence_no_auto_filter
+      stage_gate: true
+    fp_final:
+      founder_facing_label: 02A Final Planning
+      required_projection: exact_fp_close_storyline_plus_01_expansion_plus_02a_core_branch_plan
+      decisions: [PASS, HOLD, REJECT]
+      stage_gate: true
+      pass_authority: affected_02b_route_only
+  one_stable_html_lineage: true
+  one_active_manifest_pointer: true
+  smallest_revision_scope_required: true
+  projection_profile: founder-workbench-continuity-v1
+  asset_register: pointer_only_revision_aware_single_record_with_typed_bindings
+  new_asset_inbox: new_since_last_review_until_targeted_and_lane_classified
+  inactive_asset_policy: collapsed_count_bearing_and_never_discarded
+  default_media_filters: [new, active_used]
+  available_media_filters: [new, active_used, candidate_held, rejected, superseded, outputs]
+  combined_review_order: [exact_fp_close_storyline, stage_01_expansion, stage_02a_plan]
+  continuous_pre02a_development_after_alignment: true
+  founder_intermediate_refill: false
+  provisional_01_02a_preparation_allowed: false
+  failed_fp_scope_exposes_approved_02a_truth: false
+  workbench_html_projection_identity: exact_revision_cycle_counts_groups_order_and_decisions
+  revision_mismatch_action: visible_stale_refresh_hold
+  post_02a_projection_adapters:
+    stages: ["01", "02A", "02B", generated_branch_review, "03V", "04"]
+    authority: read_only_pointer_and_status_projection
+    stage_writing_allowed: false
+    generated_branch_rule: canonical_pointer_and_sha256_under_owning_section_without_media_copy
+  founder_drag_instruction_route:
+    receipt_schema: schemas/founder-intervention-receipt.schema.json
+    correction_kind: sequence_reorder_and_instruction
+    owning_truth_surface: front_planning_sequence
+    integration_order: smallest_owner_then_affected_invalidation_revalidation_board_rerender_workbench_reload
+    silent_retry_allowed: false
+    last_passed_rollback_pair_required: true
+
+revision_propagation:
+  baseline: last_passed_owner_bytes_and_affected_field_hashes
+  local_change: revise_smallest_owning_truth_then_reproject_only_affected_dependents
+  unaffected_truth: carry_forward_unchanged
+  boundary_check: current_branch_parent_core_immediate_branch_siblings_and_immediate_same_section_core_neighbors
+  full_upstream_rewrite: forbidden_unless_governing_truth_changed
+
+creative_source_isolation:
+  admitted_current_sources:
+    - current_run_hash_bound_artifacts
+    - current_title_hash_bound_assets
+    - selected_hash_bound_source_materials
+  forbidden_context_sources:
+    - another_run_without_current_run_intake
+    - test_fixtures
+    - maintenance_examples
+    - historical_prompt_or_scene_prose
+  shared_instruction_rule: nonprescriptive_teaching_examples_may_show_decision_method_and_multiple_routes_but_never_supply_ready_to_copy_scene_action_camera_motion_or_composition_truth
+  prior_run_learning_rule: preserve_failure_mode_and_invariant_without_promoting_run_nouns_actions_camera_or_composition
+  runtime_admission_rule: reject_unadmitted_repository_paths_before_context_pack_or_generation_request
+
+automation_boundaries:
+  scripts_may:
+    - validate_schema_paths_hashes_ids_status_and_coverage
+    - exact_copy_already_authored_truth
+    - assemble_review_surfaces_and_storyboard_boards
+    - package_hash_bound_execution_requests
+    - rebuild_pointer_only_dispatch_and_reference_indexes
+    - build_deterministic_director_boot_packs
+    - build_deterministic_role_context_packs
+    - compare_and_swap_single_writer_projections
+  scripts_must_not:
+    - author_or_paraphrase_creative_truth
+    - infer_missing_reference_or_identity_bindings
+    - create_founder_approval
+    - treat_similarity_or_schema_validity_as_quality
+    - call_paid_or_external_services_without_approval
+    - choose_creative_workers_or_founder_decisions
+    - bypass_director_review_backpressure_or_single_writer_ownership
+  schema_pass: never_equals_creative_pass
+  external_or_paid_action: requires_exact_current_task_founder_approval
+
+current_next_projection:
+  path: automation/current-next.yaml
+  schema: schemas/harness-current-next.schema.json
+  active_version: harness-current-next.v2
+  authority_source: director_dispatch_index_v4_only
+  exact_file_sha_source_set_row_pointer_and_row_sha256_required: true
+  precedence: [open_hold, blocking_review_queue, active_next_action, no_actionable_unit, migration_hold]
+  canonical_head_uniqueness_required: true
+  pending_projection_non_overriding: true
+  legacy_v1_selection_authority: false
+  missing_or_stale_or_ambiguous_action: hold
+
+# v35 keeps v34 topology and makes the graph-projected Role Context Pack the
+# active receiver instruction surface in place of broad runtime rereads. v34 keeps v33 provider-resolution and adds parent-scoped helper min 4 plus
+# post-song reference worker fetch floor 6. v33 preserved provider-resolution, director xhigh, role-singleton requirements,
+# and provider-specific current-session native image execution while adding the
+# provider-neutral direct CDD session-router CAS/authorization/rollback contract without
+# materializing a run's provider, profile, binding id, or session in shared
+# bytes. Exact values live only in provider-specific sources and immutable
+# run-owned snapshots.
+provider_profile_resolution:
+  registry_path: automation/harness-provider-profile-registry.yaml
+  registry_schema: schemas/harness-provider-profile-registry.schema.json
+  registry_sha256: b2106ed9528390a6cf324dc72a8cc7c806458bbe1bbab1b63e1153dbe26a8f86
+  candidate_registry_role: available_profiles_only
+  active_resolution_owner: run_owned_resolved_profile_snapshot
+  run_snapshot_required_fields: [logical_profile_alias, execution_profile_id, provider, resolved_provider_model, reasoning_effort, provider_capability_snapshot_sha256, resolved_profile_snapshot_ref, fallback_policy]
+  exact_model_literal_owner: provider_specific_profile_or_immutable_run_snapshot_only
+  fallback_policy: forbidden
+
+active_role_bindings:
+  ownership: run_owned_resolved_profile_snapshot
+  provider_registry_role: candidate_inventory_only
+  static_binding_materialization: forbidden_in_shared_contract
+  overall_director: {required_active_binding_count: 1, logical_role: overall_director, logical_profile_alias: director_deep, return_recipient_role: founder, founder_conversation_authority: exclusive_owner}
+  creative_development_director: {required_active_binding_count: 1, logical_role: creative_development_director, logical_profile_alias: director_deep, return_recipient_role: overall_director, founder_conversation_authority: none}
+  edit_director: {required_active_binding_count: 1, logical_role: edit_director, logical_profile_alias: director_deep, return_recipient_role: overall_director, founder_conversation_authority: none}
+
+founder_conversation:
+  owner_role: overall_director
+  concurrent_second_conversation_owner_allowed: false
+  cdd_and_edit_director_visibility: reviewed_milestones_via_overall_only
+
+execution_topology:
+  provider_native_helper_policy: {availability: default, project_numeric_gate: none, depth_gate: none, logical_role_granted: false}
+  physical_transfer_policy:
+    same_work_package_simultaneous_internal_and_physical_owner: forbidden
+    transfer_requires: frozen_scope_inputs_outputs_recipient_and_new_physical_owner_receipt
+  provider_fallback_policy: forbidden
+
+return_routing:
+  image_and_03v_recipient_role: creative_development_director
+  stage_04_shards_recipient_role: edit_director
+  reviewed_director_milestones_recipient_role: overall_director
+  founder_conversation_owner_role: overall_director
+
+transport_closure:
+  department_dispatch_version: idol-department-dispatch.v8
+  role_context_pack_version: idol-role-context-pack.v1
+  context_pack_version: idol-harness-context-pack.v7
+  artifact_envelope_active: false
+  nested_return_field: runtime_return.transport_closure_summary
+  status_values: [clean, auto_refreshed, director_impact_required, blocked]
+  creative_bytes_change_requires_director_impact: true
+
+stable_stage_id_policy:
+  branch_cut_generation: stable_id_generic_production_cut_scope
+  generated_branch_cut_review: stable_id_generic_generated_production_cut_review_scope
+  rename_requires_migrated_queue_history_and_reachability: true
+
+external_or_generative_actions_authorized: false

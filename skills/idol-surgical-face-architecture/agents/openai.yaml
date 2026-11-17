@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Surgical Face Architecture"
+  short_description: "Design differentiated photoreal idol faces"
+  default_prompt: "Use $idol-surgical-face-architecture to design differentiated idol face structures and compile concise photoreal prompts."

@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/album-reference-index.schema.json",
+  "title": "IDOL Album Reference And Contact Sheet Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "album_key",
+    "title_key",
+    "title_display_name",
+    "canonical_title_root",
+    "index_type",
+    "storage_policy",
+    "items",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "album-reference-index.v1"
+    },
+    "album_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+    },
+    "title_key": {
+      "type": "string",
+      "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+    },
+    "title_display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_title_root": {
+      "type": "string",
+      "pattern": "^catalog/albums/[^/]+/[^/]+$"
+    },
+    "index_type": {
+      "type": "string",
+      "enum": [
+        "reference_index",
+        "contact_sheet_index",
+        "combined_reference_contact_sheet_index"
+      ]
+    },
+    "storage_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_is_pointer_only",
+        "large_file_canonical_owners",
+        "catalog_copy_rule",
+        "promotion_rule",
+        "cleanup_rule"
+      ],
+      "properties": {
+        "catalog_is_pointer_only": {
+          "type": "boolean",
+          "const": true
+        },
+        "large_file_canonical_owners": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "runs",
+              "source-materials",
+              "assets/members/album-assets"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "catalog_copy_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "promotion_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cleanup_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/indexItem"
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "indexItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "asset_kind",
+        "owner_layer",
+        "canonical_path",
+        "status",
+        "downstream_use",
+        "notes"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9_-]{2,100}$"
+        },
+        "asset_kind": {
+          "type": "string",
+          "enum": [
+            "reference_video",
+            "reference_image",
+            "reference_audio",
+            "reference_manifest",
+            "reference_frame_index",
+            "contact_sheet",
+            "contact_sheet_index",
+            "review_board",
+            "album_visual_asset",
+            "album_identity_source_copy",
+            "other"
+          ]
+        },
+        "owner_layer": {
+          "type": "string",
+          "enum": [
+            "runs",
+            "source-materials",
+            "assets/members/album-assets"
+          ]
+        },
+        "canonical_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mirror_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "source_run_root": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_ref_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "section_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contact_sheet_for": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selected_cells_or_frames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "retention_class": {
+          "type": "string",
+          "enum": [
+            "canonical_keep",
+            "working_cache",
+            "review_surface",
+            "mirror_only",
+            "superseded_keep_pointer",
+            "cleanup_candidate"
+          ]
+        },
+        "promotion_target": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "declared",
+            "selected",
+            "founder_locked",
+            "asset_promoted",
+            "working",
+            "superseded",
+            "missing",
+            "cleanup_candidate"
+          ]
+        },
+        "downstream_use": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

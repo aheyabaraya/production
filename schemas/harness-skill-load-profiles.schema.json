@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-skill-load-profiles.schema.json",
+  "title": "IDOL Graph Engineering Skill Load Profiles",
+  "description": "Provider-neutral, exact-path, hash-bound and phase-loaded skill/read profiles for IDOL Graph Engineering.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "registry_policy",
+    "skill_bindings",
+    "read_bindings",
+    "profiles"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-skill-load-profiles.v2"},
+    "status": {"enum": ["active", "draft", "hold"]},
+    "registry_policy": {"$ref": "#/$defs/registryPolicy"},
+    "skill_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "read_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/profile"}
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "maintenanceSurface": {
+      "enum": [
+        "instruction_policy_wiki",
+        "schema_contract_registry",
+        "skill_profile_routing",
+        "script_validator_registry",
+        "workbench_runtime_ui"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:[A-Za-z0-9_.-]+/)*[A-Za-z0-9_.-]+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["binding_id", "path", "revision", "sha256", "eof_required"],
+      "properties": {
+        "binding_id": {"$ref": "#/$defs/id"},
+        "path": {"$ref": "#/$defs/path"},
+        "revision": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "eof_required": {"const": true},
+        "purpose": {"type": "string", "minLength": 1}
+      }
+    },
+    "registryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_neutral",
+        "exact_paths_only",
+        "phase_loaded",
+        "no_implicit_fallback",
+        "hash_binding",
+        "runtime_proof"
+      ],
+      "properties": {
+        "provider_neutral": {"const": true},
+        "exact_paths_only": {"const": true},
+        "phase_loaded": {"const": true},
+        "no_implicit_fallback": {"const": true},
+        "hash_binding": {"const": "sha256_current_bytes"},
+        "runtime_proof": {"const": "department_dispatch_lifecycle"}
+      }
+    },
+    "phaseCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "activation",
+        "required_skill_ids",
+        "required_read_ids",
+        "fresh_input_digest",
+        "unload_after"
+      ],
+      "properties": {
+        "checkpoint_id": {"$ref": "#/$defs/id"},
+        "activation": {"type": "string", "minLength": 1},
+        "required_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Exact complete skill load set for this checkpoint. No profile-level or neighboring-phase skill is implicitly inherited.",
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "required_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Exact complete registered read load set for this checkpoint; current-run assets and checkpoints remain hash-bound dispatch inputs.",
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "fresh_input_digest": {"const": true},
+        "same_lineage": {"type": "boolean"},
+        "unload_after": {"type": "string", "minLength": 1}
+      }
+    },
+    "phaseLoad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preload_skill_ids", "preload_read_ids", "checkpoints"],
+      "properties": {
+        "preload_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "preload_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "checkpoints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/phaseCheckpoint"}
+        }
+      }
+    },
+    "outputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kinds",
+        "canonical_write",
+        "expected_scope",
+        "aggregate_manifest_when_multiple",
+        "director_review_required"
+      ],
+      "properties": {
+        "kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "canonical_write": {"enum": ["forbidden", "owner_only"]},
+        "expected_scope": {"enum": ["run", "section", "section_set", "stage"]},
+        "aggregate_manifest_when_multiple": {"const": true},
+        "director_review_required": {"const": true}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assigned_owner",
+        "review_owner",
+        "promotion_owner",
+        "founder_lock_owner",
+        "external_action_owner",
+        "may_decide",
+        "must_not"
+      ],
+      "properties": {
+        "assigned_owner": {"$ref": "#/$defs/id"},
+        "review_owner": {"$ref": "#/$defs/id"},
+        "promotion_owner": {"$ref": "#/$defs/id"},
+        "founder_lock_owner": {"$ref": "#/$defs/id"},
+        "external_action_owner": {"$ref": "#/$defs/id"},
+        "may_decide": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "must_not": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "role",
+        "provider_neutral",
+        "stage_ids",
+        "required_skill_ids",
+        "required_read_ids",
+        "phase_load",
+        "output_contract",
+        "authority",
+        "return_route",
+        "hold_conditions"
+      ],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/id"},
+        "role": {"$ref": "#/$defs/id"},
+        "provider_neutral": {"const": true},
+        "maintenance_only": {"type": "boolean"},
+        "projection_only": {"type": "boolean"},
+        "maintenance_surface_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/maintenanceSurface"}
+        },
+        "stage_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_skill_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Allowed union of skill bindings across this profile's checkpoints. Runtime loads use the exact checkpoint set.",
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "required_read_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Allowed union of registered read bindings across this profile. Exact current-run assets are dispatch inputs rather than global registry rows.",
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "phase_load": {"$ref": "#/$defs/phaseLoad"},
+        "output_contract": {"$ref": "#/$defs/outputContract"},
+        "authority": {"$ref": "#/$defs/authority"},
+        "return_route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recipient_role", "director_review_required", "promotion_route"],
+          "properties": {
+            "recipient_role": {"$ref": "#/$defs/id"},
+            "director_review_required": {"const": true},
+            "promotion_route": {
+              "enum": [
+                "overall_director_after_review",
+                "role_owner_after_required_review",
+                "overall_review_then_mechanical_projection_publication_no_creative_promotion",
+                "none"
+              ]
+            }
+          }
+        },
+        "hold_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"maintenance_only": {"const": true}},
+            "required": ["maintenance_only"]
+          },
+          "then": {
+            "required": ["maintenance_surface_ids"],
+            "properties": {
+              "stage_ids": {"maxItems": 0},
+              "required_skill_ids": {"maxItems": 0},
+              "maintenance_surface_ids": {"minItems": 1}
+            }
+          },
+          "else": {
+            "if": {
+              "properties": {"projection_only": {"const": true}},
+              "required": ["projection_only"]
+            },
+            "then": {
+              "properties": {
+                "stage_ids": {"maxItems": 0},
+                "required_skill_ids": {"minItems": 1},
+                "maintenance_surface_ids": {"maxItems": 0}
+              }
+            },
+            "else": {
+              "properties": {
+                "stage_ids": {"minItems": 1},
+                "required_skill_ids": {"minItems": 1},
+                "maintenance_surface_ids": {"maxItems": 0}
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

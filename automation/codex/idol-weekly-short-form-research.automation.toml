@@ -1,0 +1,12 @@
+version = 1
+id = "idol-weekly-short-form-research"
+kind = "cron"
+name = "IDOL Weekly Short-Form Research"
+prompt = "Inside the IDOL repository, run the current KST week public-source TikTok and Instagram Reels observation pass. Read AGENTS.md, skills/idol-research-radar/SKILL.md, automation/weekly-short-form-platform-trend-html-report.md, the report README/template/latest pointers, the active trend pulse, and the latest idol bundle. Use gpt-5.6-luna at max effort. Observe only public no-login sources and store links plus literal observations; use no cookies, personalized feed, private connector, paid API, download, media capture, upload, publication, or platform sync. Write one self-contained weekly HTML report with platform scope, source dates, evidence status, lifecycle phase, proxy limits, contradictions, transferable function, and pulse nomination status. Update weekly/latest.md only after the report is complete; otherwise keep the last completed pointer and record a named hold."
+status = "ACTIVE"
+rrule = "FREQ=WEEKLY;BYDAY=MO;BYHOUR=20;BYMINUTE=0"
+model = "gpt-5.6-luna"
+reasoning_effort = "max"
+execution_environment = "local"
+target = { type = "project", project_id = "local-110dbb500bf4c69c04c7d514a05555a3" }
+cwds = ["/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL"]

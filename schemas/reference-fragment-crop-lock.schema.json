@@ -1,0 +1,810 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/reference-fragment-crop-lock.schema.json",
+  "title": "IDOL 01R-C Reference Fragment Crop Lock",
+  "description": "Run-owned 01R-C sub-artifact for selected contact-sheet cells, frame crops, still-image crops, or visual asset fragments. Active v3 sends selected fragment provenance and direct-follow surfaces into 01 reference applications; 01 becomes the creative application owner and 02A/02B receive only selected 01 application ids and current-song consequences. This artifact never decides song meaning, approves API attachment, or writes the final 02A Core-Cut and Branch-Cut storyboard.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_files",
+    "automation_gate",
+    "fragment_policy",
+    "fragments",
+    "section_fragment_map",
+    "downstream_contract",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "idol_reference_fragment_crop_lock.v3"
+    },
+    "interpretation_contract_version": {
+      "type": "string",
+      "const": "reference_interpretation_receipt.v1",
+      "description": "Required interpretation receipt contract for active 01R-C work."
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready_for_01",
+        "adapted_to_01",
+        "founder_review",
+        "hold",
+        "rejected"
+      ]
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mv_direction_reference_mining"
+      ],
+      "properties": {
+        "mv_direction_reference_mining": {
+          "type": "string",
+          "minLength": 1
+        },
+        "local_reference_cache_manifest": {
+          "type": "string"
+        },
+        "album_reference_index": {
+          "type": "string"
+        },
+        "album_contact_sheet_index": {
+          "type": "string"
+        },
+        "front_planning_readiness": {
+          "type": "string"
+        },
+        "song_choreography_performance_mv_map": {
+          "type": "string"
+        },
+        "asset_manifest": {
+          "type": "string"
+        },
+        "founder_direction_ref": {
+          "type": "string"
+        }
+      }
+    },
+    "automation_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "current_step",
+        "next_allowed_step",
+        "founder_review_required",
+        "paid_generation_allowed",
+        "api_attachment_allowed",
+        "blockers"
+      ],
+      "properties": {
+        "current_step": {
+          "type": "string",
+          "const": "01R_reference_fragment_crop_lock"
+        },
+        "next_allowed_step": {
+          "type": "string",
+          "enum": [
+            "01_song_choreography_performance_mv_map_update",
+            "hold_for_founder_review",
+            "blocked"
+          ]
+        },
+        "founder_review_required": {
+          "type": "boolean"
+        },
+        "paid_generation_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "api_attachment_allowed": {
+          "type": "boolean",
+          "const": false
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "fragment_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_basis",
+        "direct_follow_policy",
+        "source_use_policy",
+        "downstream_use_policy",
+        "render_prompt_policy",
+        "non_selected_material_policy"
+      ],
+      "properties": {
+        "selection_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direct_follow_policy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State that selected surfaces should be followed directly for camera/composition/body-object/material/light/crop/edit behavior while recomposed into current song context; this is not a weak mood abstraction."
+        },
+        "source_use_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "downstream_use_policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "render_prompt_policy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "State that source ids, crop paths, sheet labels, and process notes remain operator-facing unless a downstream packet contract explicitly allows them."
+        },
+        "non_selected_material_policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "fragments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fragment"
+      }
+    },
+    "section_fragment_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sectionFragmentMap"
+      }
+    },
+    "downstream_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "01_reference_applications_must_resolve_fragment_ids": {"type": "boolean", "const": true},
+        "downstream_must_use_01_application_ids": {"type": "boolean", "const": true},
+        "raw_fragment_paths_must_not_replace_application_bindings_downstream": {"type": "boolean", "const": true},
+        "master_storyboard_must_trace_01_application_ids": {
+          "type": "boolean",
+          "const": true
+        },
+        "direct_follow_surfaces_must_survive": {
+          "type": "boolean",
+          "const": true,
+          "description": "02 and 02A must preserve the selected fragment's directly followed camera, composition, body/object, material, light, crop, or edit-surface locks unless a current-song reason explicitly changes them."
+        },
+        "master_storyboard_contract_fields": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "enum": [
+              "core_event_lock",
+              "core_visual_direction",
+              "branching_contract",
+              "compile_seed.branch_cuts[].visual_reference_bindings",
+              "compile_seed.branch_cuts[].still_camera_spec",
+              "compile_seed.branch_cuts[].continuity_in_and_out"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "prompt_packets_must_inherit_text_locks": {
+          "type": "boolean",
+          "const": true
+        },
+        "api_attachment_policy": {
+          "type": "string",
+          "enum": [
+            "text_locks_only_no_api_attachment_without_founder_approval",
+            "direct_attachment_only_with_founder_or_packet_contract"
+          ]
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "interpretationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interpretation_id",
+        "component_owner",
+        "components",
+        "inspected_sources",
+        "revision",
+        "disposition",
+        "target_section_ids",
+        "target_scopes",
+        "consume_mode"
+      ],
+      "properties": {
+        "interpretation_id": {
+          "type": "string",
+          "pattern": "^RINT_[A-Z0-9][A-Z0-9_-]{2,100}$"
+        },
+        "component_owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {"type": "string", "enum": ["self", "front_planning_source_ref"]},
+            "source_ref_id": {"type": "string", "minLength": 1},
+            "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"mode": {"const": "self"}}, "required": ["mode"]},
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {"required": ["source_ref_id"]},
+                    {"required": ["artifact_sha256"]}
+                  ]
+                }
+              }
+            },
+            {
+              "if": {"properties": {"mode": {"const": "front_planning_source_ref"}}, "required": ["mode"]},
+              "then": {"required": ["source_ref_id", "artifact_sha256"]}
+            }
+          ]
+        },
+        "components": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "json_pointer", "value_sha256"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": ["source_observation", "evidence_locator", "selected_function", "preserve_discard_guard"]
+              },
+              "json_pointer": {"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])*)*$"},
+              "value_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          },
+          "allOf": [
+            {"contains": {"type": "object", "properties": {"role": {"const": "source_observation"}}, "required": ["role"]}},
+            {"contains": {"type": "object", "properties": {"role": {"const": "evidence_locator"}}, "required": ["role"]}},
+            {"contains": {"type": "object", "properties": {"role": {"const": "selected_function"}}, "required": ["role"]}}
+          ]
+        },
+        "inspected_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inspectedInterpretationSource"}
+        },
+        "revision": {"$ref": "#/$defs/interpretationRevision"},
+        "disposition": {"type": "string", "enum": ["applied", "combined", "held", "rejected"]},
+        "target_section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{1,80}$"}
+        },
+        "target_scopes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "consume_mode": {"type": "string", "const": "consume_bound_interpretation_without_source_reread"}
+      }
+    },
+    "inspectedInterpretationSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "media_kind", "inspection_scope", "selected_cells_or_frames"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "media_kind": {
+          "type": "string",
+          "enum": ["image", "video", "video_frame", "contact_sheet", "board", "crop", "generated_image", "other"]
+        },
+        "inspection_scope": {
+          "type": "string",
+          "enum": ["full_image", "full_frame", "selected_sheet_cells", "selected_frame", "selected_crop", "selected_board_cells"]
+        },
+        "selected_cells_or_frames": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "selected_surface_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["surface_id", "path", "sha256"],
+            "properties": {
+              "surface_id": {"type": "string", "minLength": 1},
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "source_path": {"type": "string", "minLength": 1},
+              "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "derivation_kind": {"enum": ["contact_sheet_cell_crop", "board_cell_crop"]}
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {"properties": {"media_kind": {"const": "contact_sheet"}}, "required": ["media_kind"]},
+              {"properties": {"inspection_scope": {"enum": ["selected_sheet_cells", "selected_board_cells"]}}, "required": ["inspection_scope"]}
+            ]
+          },
+          "then": {
+            "required": ["selected_surface_artifacts"],
+            "properties": {
+              "selected_cells_or_frames": {"minItems": 1},
+              "selected_surface_artifacts": {
+                "minItems": 1,
+                "items": {"required": ["source_path", "source_sha256", "derivation_kind"]}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"inspection_scope": {"enum": ["selected_frame", "selected_crop"]}},
+            "required": ["inspection_scope"]
+          },
+          "then": {"properties": {"selected_cells_or_frames": {"minItems": 1}}}
+        }
+      ]
+    },
+    "interpretationRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "reopen_trigger", "previous_receipt_sha256", "invalidates_from_stage", "reason"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "reopen_trigger": {
+          "type": "string",
+          "enum": [
+            "initial_analysis",
+            "source_bytes_changed",
+            "selected_surface_changed_or_missing",
+            "interpretation_incomplete_or_held",
+            "selected_audio_materially_changes_function",
+            "identity_safety_feasibility_conflict",
+            "founder_explicit_reinterpretation"
+          ]
+        },
+        "previous_receipt_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "invalidates_from_stage": {"type": "string", "enum": ["none", "creative_nucleus_lock", "mv_performance_direction"]},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"number": {"const": 1}}, "required": ["number"]},
+          "then": {
+            "properties": {
+              "reopen_trigger": {"const": "initial_analysis"},
+              "previous_receipt_sha256": {"type": "null"},
+              "invalidates_from_stage": {"const": "none"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"number": {"minimum": 2}}, "required": ["number"]},
+          "then": {
+            "properties": {
+              "reopen_trigger": {
+                "enum": [
+                  "source_bytes_changed",
+                  "selected_surface_changed_or_missing",
+                  "interpretation_incomplete_or_held",
+                  "selected_audio_materially_changes_function",
+                  "identity_safety_feasibility_conflict",
+                  "founder_explicit_reinterpretation"
+                ]
+              },
+              "previous_receipt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "invalidates_from_stage": {"enum": ["creative_nucleus_lock", "mv_performance_direction"]}
+            }
+          }
+        }
+      ]
+    },
+    "fragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fragment_id",
+        "status",
+        "source_kind",
+        "source_label",
+        "source_ref",
+        "selected_cell_or_frame_ref",
+        "target_section_ids",
+        "current_song_function",
+        "follow_strength",
+        "transfer_locks",
+        "downstream_targets",
+        "reject_risks"
+      ],
+      "properties": {
+        "fragment_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9_-]{2,100}$"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "selected",
+            "candidate",
+            "needs_founder",
+            "rejected",
+            "superseded"
+          ]
+        },
+        "source_kind": {
+          "type": "string",
+          "enum": [
+            "contact_sheet_cell",
+            "video_frame_crop",
+            "still_image_crop",
+            "visual_asset_crop",
+            "generated_reference_crop",
+            "board_cell",
+            "other"
+          ]
+        },
+        "source_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reference_id",
+            "source_path_or_url",
+            "source_note"
+          ],
+          "properties": {
+            "reference_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_path_or_url": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_note": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_time_range": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "selected_cell_or_frame_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "crop_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "crop_path": {
+              "type": "string"
+            },
+            "crop_box": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "x",
+                "y",
+                "width",
+                "height",
+                "units"
+              ],
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "width": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "height": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "units": {
+                  "type": "string",
+                  "enum": [
+                    "pixels",
+                    "normalized"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "target_section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^S[0-9]{2,}[A-Z]?$"
+          },
+          "uniqueItems": true
+        },
+        "current_song_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "follow_strength": {
+          "type": "string",
+          "enum": [
+            "direct_surface_follow",
+            "strong_surface_follow_with_recomposition"
+          ],
+          "description": "Required lock for selected fragments. Use direct_surface_follow when the chosen crop/cell surface should be followed closely; use strong_surface_follow_with_recomposition when several selected surfaces are combined into the current song section."
+        },
+        "transfer_locks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "camera_geometry",
+            "composition",
+            "body_or_object_action",
+            "wardrobe_or_material",
+            "lighting_color",
+            "crop_or_proportion_guard"
+          ],
+          "properties": {
+            "camera_geometry": {
+              "type": "string",
+              "minLength": 1
+            },
+            "composition": {
+              "type": "string",
+              "minLength": 1
+            },
+            "body_or_object_action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "wardrobe_or_material": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lighting_color": {
+              "type": "string",
+              "minLength": 1
+            },
+            "crop_or_proportion_guard": {
+              "type": "string",
+              "minLength": 1
+            },
+            "space_or_system_response": {
+              "type": "string"
+            }
+          }
+        },
+        "downstream_targets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_scaffold_jobs"
+          ],
+          "properties": {
+            "section_scaffold_jobs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Open directorial Branch-Cut job derived from the parent Core event; start/end labels alone do not qualify."
+              },
+              "uniqueItems": true
+            },
+            "target_02a_contract_fields": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "core_event_lock",
+                  "core_visual_direction",
+                  "branching_contract",
+                  "compile_seed.branch_cuts[].visual_reference_bindings",
+                  "compile_seed.branch_cuts[].still_camera_spec",
+                  "compile_seed.branch_cuts[].continuity_in_and_out"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "target_01_reference_application": {
+              "type": "boolean",
+              "description": "Selected fragments resolve into 01 reference applications before any 02A/02B projection."
+            },
+            "target_01_branching_opportunity": {
+              "type": "boolean"
+            },
+            "target_02a_master_storyboard": {
+              "type": "boolean"
+            },
+            "target_02b_prompt_packet": {
+              "type": "boolean"
+            }
+          }
+        },
+        "interpretation_receipt": {
+          "$ref": "#/$defs/interpretationReceipt"
+        },
+        "reject_risks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sectionFragmentMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "fragment_ids",
+        "section_storyboard_jobs",
+        "section_use_note",
+        "transition_use",
+        "status"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2,}[A-Z]?$"
+        },
+        "fragment_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z0-9][A-Z0-9_-]{2,100}$"
+          },
+          "uniqueItems": true
+        },
+        "section_storyboard_jobs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Open directorial Branch-Cut job derived from the parent Core event; start/end labels alone do not qualify."
+          },
+          "uniqueItems": true
+        },
+        "section_use_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transition_use": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "ready_for_01",
+            "adapted_to_01",
+            "hold",
+            "needs_founder"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "interpretation_contract_version": {"const": "reference_interpretation_receipt.v1"}
+        },
+        "required": ["interpretation_contract_version"]
+      },
+      "then": {
+        "properties": {
+          "fragments": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {"status": {"const": "selected"}},
+                    "required": ["status"]
+                  },
+                  "then": {"required": ["interpretation_receipt"]}
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "downstream_contract": {
+          "required": [
+            "01_reference_applications_must_resolve_fragment_ids",
+            "downstream_must_use_01_application_ids",
+            "raw_fragment_paths_must_not_replace_application_bindings_downstream",
+            "master_storyboard_must_trace_01_application_ids",
+            "direct_follow_surfaces_must_survive",
+            "master_storyboard_contract_fields",
+            "prompt_packets_must_inherit_text_locks",
+            "api_attachment_policy"
+          ]
+        },
+        "section_fragment_map": {
+          "items": {
+            "properties": {
+              "status": {"enum": ["draft", "ready_for_01", "adapted_to_01", "hold", "needs_founder"]}
+            }
+          }
+        },
+        "fragments": {
+          "items": {
+            "properties": {
+              "downstream_targets": {
+                "required": [
+                  "section_scaffold_jobs",
+                  "target_01_reference_application",
+                  "target_02a_contract_fields"
+                ],
+                "properties": {
+                  "target_01_reference_application": {"const": true}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

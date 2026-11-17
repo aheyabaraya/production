@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-current-next-v1-legacy.schema.json",
+  "title": "IDOL Harness Current Next v1 Legacy Reader",
+  "description": "Frozen compatibility-only reader for the Queue -> Next Unit -> Founder Gate v1 projection. New active frontier authoring uses harness-current-next.v2 and DDI v4; v1 bytes are evidence-only.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "album_key",
+    "title_key",
+    "status",
+    "source_next_unit",
+    "source_founder_gate",
+    "source_action_queue",
+    "selected_unit_id",
+    "selected_unit_status",
+    "owner",
+    "requires_founder_decision",
+    "selected_unit",
+    "active_founder_gate_decision",
+    "current_gate",
+    "founder_response_examples",
+    "founder_decision_options",
+    "automation_boundaries",
+    "forbidden_actions",
+    "refresh_commands"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "harness-current-next.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "album_key": {
+      "type": "string"
+    },
+    "title_key": {
+      "type": ["string", "null"]
+    },
+    "status": {
+      "enum": [
+        "founder_input_needed",
+        "selected",
+        "no_actionable_units",
+        "no_active_unit",
+        "action_queue_missing_or_empty"
+      ]
+    },
+    "source_next_unit": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "source_founder_gate": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "source_action_queue": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "selected_unit_id": {
+      "type": "string"
+    },
+    "selected_unit_status": {
+      "type": "string"
+    },
+    "owner": {
+      "enum": ["", "codex", "founder", "grok", "automation", "mixed"]
+    },
+    "requires_founder_decision": {
+      "type": "boolean"
+    },
+    "selected_unit": {
+      "type": "object",
+      "required": [
+        "id",
+        "unit_type",
+        "status",
+        "owner",
+        "requires_founder_decision",
+        "action",
+        "source_ref",
+        "source_check",
+        "source_artifact",
+        "worklist_artifact",
+        "validate_after",
+        "reason_for_selection",
+        "details"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "unit_type": {"type": "string"},
+        "status": {"type": "string"},
+        "owner": {"type": "string"},
+        "requires_founder_decision": {"type": "boolean"},
+        "action": {"type": "string"},
+        "source_ref": {"type": "string"},
+        "source_check": {"type": "string"},
+        "source_artifact": {"type": "string"},
+        "worklist_artifact": {"type": "string"},
+        "validate_after": {"type": "string"},
+        "reason_for_selection": {"type": "string"},
+        "details": {"type": "object"}
+      }
+    },
+    "active_founder_gate_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"type": "string"},
+        "status": {"type": "string"},
+        "source_decision": {"type": "string"},
+        "source_founder_gate": {"type": "string"},
+        "source_next_unit": {"type": "string"},
+        "source_action_queue": {"type": "string"},
+        "gate_id": {"type": "string"},
+        "gate_type": {"type": "string"},
+        "section_range": {"type": "string"},
+        "decision_id": {"type": "string"},
+        "allows_paid_generation": {"type": "boolean"},
+        "allows_external_execution": {"type": "boolean"},
+        "continues_local_qa": {"type": "boolean"},
+        "marks_section_qa_pass": {"type": "boolean"},
+        "approved_execution_route": {"type": "string"},
+        "next_local_section": {"type": "string"},
+        "next_action": {"type": "string"}
+      }
+    },
+    "current_gate": {
+      "type": ["object", "null"],
+      "required": [
+        "gate_id",
+        "gate_type",
+        "section_range",
+        "section_ids",
+        "packet_count",
+        "local_ready_sections",
+        "remaining_check",
+        "next_local_section",
+        "next_local_continuation_allowed",
+        "decision_needed",
+        "allowed_decision_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "gate_type": {"enum": ["03v_front_playback_generation"]},
+        "section_range": {"type": "string", "minLength": 1},
+        "section_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "packet_count": {"type": "integer", "minimum": 1},
+        "local_ready_sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "remaining_check": {"type": "string", "minLength": 1},
+        "next_local_section": {"type": "string"},
+        "next_local_continuation_allowed": {"type": "boolean"},
+        "decision_needed": {"type": "string", "minLength": 1},
+        "allowed_decision_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "review_projection_pending": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "status",
+        "board_manifest",
+        "board_revision",
+        "active_cycle_id",
+        "unresolved_count",
+        "items",
+        "next_action"
+      ],
+      "properties": {
+        "source": {"$ref": "#/$defs/artifactBinding"},
+        "status": {"enum": ["clear", "pending"]},
+        "board_manifest": {"$ref": "#/$defs/artifactBinding"},
+        "board_revision": {"type": "integer", "minimum": 1},
+        "active_cycle_id": {"type": "string", "minLength": 1},
+        "unresolved_count": {"type": "integer", "minimum": 0},
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["asset_id", "binding_id", "source_stage", "dispatch_id"],
+            "properties": {
+              "asset_id": {"type": "string", "minLength": 1},
+              "binding_id": {"type": "string", "minLength": 1},
+              "source_stage": {"type": "string", "minLength": 1},
+              "dispatch_id": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "next_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "founder_response_examples": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "decision_id",
+          "requires_explicit_approval",
+          "apply_command",
+          "notes"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "text": {"type": "string", "minLength": 1},
+          "decision_id": {"type": "string", "minLength": 1},
+          "requires_explicit_approval": {"type": "boolean"},
+          "apply_command": {"type": "string", "minLength": 1},
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "founder_decision_options": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "requires_explicit_approval",
+          "allows_paid_generation",
+          "allows_external_execution",
+          "continues_local_qa",
+          "marks_section_qa_pass",
+          "next_action"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "requires_explicit_approval": {"type": "boolean"},
+          "allows_paid_generation": {"type": "boolean"},
+          "allows_external_execution": {"type": "boolean"},
+          "continues_local_qa": {"type": "boolean"},
+          "marks_section_qa_pass": {"type": "boolean"},
+          "next_action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "discarded_runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["run", "album_key", "title_key", "discarded_at_kst", "discard_closeout", "rule"],
+        "properties": {
+          "run": {"type": "string", "minLength": 1},
+          "album_key": {"type": "string", "minLength": 1},
+          "title_key": {"type": "string", "minLength": 1},
+          "discarded_at_kst": {"type": "string", "minLength": 1},
+          "discard_closeout": {"type": "string", "minLength": 1},
+          "rule": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "refresh_commands": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

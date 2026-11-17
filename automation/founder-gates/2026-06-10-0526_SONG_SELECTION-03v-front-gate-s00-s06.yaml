@@ -1,0 +1,61 @@
+---
+schema_version: harness-founder-gate.v1
+generated_at: '2026-06-14T00:00:00+09:00'
+run: runs/2026-05-26/0526_SONG_SELECTION
+album_key: aurora-m
+title_key: low
+gate_id: front_03v_playback_gate_S00-S06
+gate_type: 03v_front_playback_generation
+status: archived
+source_next_unit: automation/next-units/2026-06-10-0526_SONG_SELECTION-harness-next-unit.yaml
+source_action_queue: automation/action-queues/2026-06-10-0526_SONG_SELECTION-03v-action-queue.yaml
+source_worklist: runs/2026-05-26/0526_SONG_SELECTION/review/03v-section-video-prompt-qa-worklist-v1.yaml
+source_artifact: runs/2026-05-26/0526_SONG_SELECTION/review/low-discard-closeout-v1.md
+selected_unit:
+  id: front_03v_playback_gate:S00-S06
+  status: archived
+  action: Former LOW S00-S06 03V gate is closed after founder discard.
+  reason: LOW concept/planning route was discarded; this gate is archive-only.
+section_range: S00-S06
+section_ids:
+- S00
+- S01
+- S02
+- S03
+- S04
+- S05
+- S06
+packet_count: 19
+current_local_status:
+  local_ready_sections: []
+  remaining_check: none_low_discarded
+  next_local_section: ''
+  next_local_continuation_allowed: false
+  source_summary: LOW S00-S06 gate was closed after founder discard; no generation/playback
+    decision remains.
+decision_needed: None. LOW is discarded and this founder gate is archived.
+allowed_decisions:
+- id: archive_only_no_action
+  label: Archive only; no LOW action
+  effect: No generation, review, prompt refinement, upload, publish, sync, or QA continuation
+    is approved for LOW.
+  requires_explicit_approval: false
+  allows_paid_generation: false
+  allows_external_execution: false
+  continues_local_qa: false
+  marks_section_qa_pass: false
+  next_action: Keep LOW closed unless the founder explicitly requests archive recovery
+    or a fresh rebuild.
+forbidden_actions:
+- Do not mark section QA pass from this archived gate.
+- Do not treat Drive mirror prompt files as active or canonical.
+- Do not run paid video generation or external execution for LOW.
+- Do not resume playback approval from this archived gate.
+- Do not use this gate packet as upload, publish, Drive mutation, or platform API
+  approval.
+automation_boundaries:
+- Automation may read this gate only as archive/audit context.
+- Automation must not infer founder pass/hold/reject decisions from old LOW gates.
+- Automation must not run paid generation, upload, publish, schedule, external sync,
+  Drive mutation, or platform API calls for LOW.
+refresh_commands: []

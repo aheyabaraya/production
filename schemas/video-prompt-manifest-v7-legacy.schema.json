@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-prompt-manifest-v7-legacy.schema.json",
+  "title": "IDOL 03V Video Prompt Manifest v7 Legacy",
+  "description": "Read-only legacy v7 compatibility contract. New authoring uses video-prompt-manifest.schema.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "content_id", "status", "run_root", "source_front_planning", "source_01_direction", "source_master_storyboard", "source_02a_context_review", "source_prompt_packets", "source_production_cut_review", "source_audio_branch_cut_placement", "source_storyboard_assist", "storyline_lineage_projection", "screen_progression_projection", "storyline_projection", "prompt_authoring_policy", "canonical_video_prompt_output_root", "section_shards", "cues", "return_recipient_role"],
+  "properties": {
+    "schema_version": {"const": "idol_video_prompt_manifest.v7"},
+    "content_id": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "ready_for_cdd_review", "passed", "hold", "rejected"]},
+    "run_root": {"type": "string", "minLength": 1},
+    "source_front_planning": {"$ref": "#/$defs/artifactRef"},
+    "source_01_direction": {"$ref": "#/$defs/artifactRef"},
+    "source_master_storyboard": {"$ref": "#/$defs/artifactRef"},
+    "source_02a_context_review": {"$ref": "#/$defs/artifactRef"},
+    "source_prompt_packets": {"$ref": "#/$defs/artifactRef"},
+    "source_production_cut_review": {"$ref": "#/$defs/artifactRef"},
+    "source_audio_branch_cut_placement": {"$ref": "#/$defs/artifactRef"},
+    "source_storyboard_assist": {"$ref": "#/$defs/artifactRef"},
+    "storyline_lineage_projection": {"$ref": "#/$defs/sourceProjection"},
+    "screen_progression_projection": {"$ref": "#/$defs/sourceProjection"},
+    "storyline_projection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["active_storyline_version_id", "active_storyline_full_text_sha256", "screen_progression_map_id"],
+      "properties": {
+        "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "active_storyline_full_text_sha256": {"$ref": "#/$defs/sha256"},
+        "screen_progression_map_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "prompt_authoring_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["derivation_order", "passed_pixel_authority", "sequence_motion_analysis_role", "temporal_camera_owner", "edit_owner", "compact_motion_prompt", "prompt_rewrite_policy", "default_execution_source", "reference_execution_gate", "duration_seconds", "resolutions", "resolution_1080p", "direct_image_to_video", "return_after_playback"],
+      "properties": {
+        "derivation_order": {"const": "active_storyline_to_selected_sequence_to_core_reference_to_passed_core_or_branch_to_compact_motion_prompt"},
+        "passed_pixel_authority": {"const": "identity_style_light_and_still_composition"},
+        "sequence_motion_analysis_role": {"const": "selected_exact_advisory_input_only_reassessed_against_passed_pixels"},
+        "temporal_camera_owner": {"const": "03V_after_passed_production_cut_review_and_audio_production_cut_placement"},
+        "edit_owner": {"const": "04_after_passed_03V_playback"},
+        "compact_motion_prompt": {"const": "start_view_subject_route_one_camera_route_depth_endpoint_continuity_edit_handoff"},
+        "prompt_rewrite_policy": {"const": "forbidden"},
+        "default_execution_source": {"const": "one_passed_production_cut_still_image_one_frame"},
+        "reference_execution_gate": {"const": "founder_selected_exact_image_ids_and_order"},
+        "duration_seconds": {"const": [6, 10]}, "resolutions": {"const": ["480p", "720p"]},
+        "resolution_1080p": {"const": "rejected"}, "direct_image_to_video": {"const": "forbidden"},
+        "return_after_playback": {"const": "creative_development_director"}
+      }
+    },
+    "canonical_video_prompt_output_root": {"type": "string", "minLength": 1},
+    "section_shards": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sectionShard"}},
+    "cues": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/cue"}},
+    "return_recipient_role": {"const": "creative_development_director"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactRef": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "sourceProjection": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "projected_value"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"}
+      }
+    },
+    "valueBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256"],
+      "properties": {"source_json_pointer": {"type": "string", "pattern": "^/"}, "source_value_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "screenJobBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "value"],
+      "properties": {"source_json_pointer": {"type": "string", "pattern": "^/"}, "source_value_sha256": {"$ref": "#/$defs/sha256"}, "value": {"type": "string", "minLength": 1}}
+    },
+    "activeStorylineBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "active_version_id", "active_full_text_sha256"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/"}, "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "active_version_id": {"type": "string", "minLength": 1}, "active_full_text_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "majorSceneBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_json_pointer", "source_value_sha256", "major_scene_id"],
+      "properties": {
+        "source_json_pointer": {"type": "string", "pattern": "^/major_scene_catalog/"}, "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"}
+      }
+    },
+    "sequenceUnitSource": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sequence_unit_id", "source_json_pointer", "source_value_sha256", "flow_reading_sha256"],
+      "properties": {
+        "sequence_unit_id": {"type": "string", "minLength": 1}, "source_json_pointer": {"type": "string", "pattern": "^/reference_connection_research/reference_units/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}, "flow_reading_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sequenceMotionAnalysisBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "json_pointer", "value_sha256", "independent_cdd_review_binding"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol_sequence_motion_analysis.v1"},
+        "json_pointer": {"type": "string", "pattern": "^/candidate_analyses/(?:0|[1-9][0-9]*)$"},
+        "value_sha256": {"$ref": "#/$defs/sha256"},
+        "independent_cdd_review_binding": {"$ref": "#/$defs/sequenceMotionReviewBinding"}
+      }
+    },
+    "sequenceMotionReviewBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "json_pointer", "value_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"},
+        "schema_version": {"const": "idol-department-dispatch.v8"}, "json_pointer": {"const": "/director_review"},
+        "value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "selectedSequenceBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["selected_sequence_composition_id", "source_json_pointer", "source_value_sha256", "sequence_flow_reading_sha256", "sequence_unit_sources", "sequence_motion_analysis_binding"],
+      "properties": {
+        "selected_sequence_composition_id": {"type": "string", "minLength": 1}, "source_json_pointer": {"type": "string", "pattern": "^/major_scene_catalog/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}, "sequence_flow_reading_sha256": {"$ref": "#/$defs/sha256"},
+        "sequence_unit_sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sequenceUnitSource"}},
+        "sequence_motion_analysis_binding": {"$ref": "#/$defs/sequenceMotionAnalysisBinding"}
+      }
+    },
+    "screenNodeSource": {
+      "type": "object", "additionalProperties": false,
+      "required": ["screen_progression_node_id", "source_json_pointer", "source_value_sha256"],
+      "properties": {
+        "screen_progression_node_id": {"type": "string", "minLength": 1}, "source_json_pointer": {"type": "string", "pattern": "^/screen_progression_map_projection/projected_value/nodes/"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "screenProgressionBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["screen_progression_map_id", "source_json_pointer", "source_value_sha256", "node_sources"],
+      "properties": {
+        "screen_progression_map_id": {"type": "string", "minLength": 1}, "source_json_pointer": {"const": "/screen_progression_map_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"}, "node_sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/screenNodeSource"}}
+      }
+    },
+    "sectionShard": {
+      "type": "object", "additionalProperties": false,
+      "required": ["section_id", "cue_ids", "status", "actual_pixels_checked", "transition_in", "transition_out", "output_prompt_paths"],
+      "properties": {
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+        "cue_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"}},
+        "status": {"enum": ["draft", "ready_for_cdd_review", "passed", "hold", "rejected"]},
+        "actual_pixels_checked": {"const": true}, "transition_in": {"type": "string", "minLength": 1},
+        "transition_out": {"type": "string", "minLength": 1}, "output_prompt_paths": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "cameraMotionRoute": {
+      "type": "object", "additionalProperties": false,
+      "required": ["movement_family", "movement_direction", "speed", "motion_envelope", "depth_parallax_focus_change", "stop_trigger", "landing_state_or_reveal", "readability_reason"],
+      "properties": {
+        "movement_family": {"enum": ["locked_hold", "push", "pull", "track", "pan", "tilt", "orbit", "follow", "handheld", "crane", "rack_focus", "combined_motivated_route"]},
+        "movement_direction": {"type": "string", "minLength": 1}, "speed": {"type": "string", "minLength": 1},
+        "motion_envelope": {"type": "string", "minLength": 1}, "depth_parallax_focus_change": {"type": "string", "minLength": 1},
+        "stop_trigger": {"type": "string", "minLength": 1}, "landing_state_or_reveal": {"type": "string", "minLength": 1},
+        "readability_reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "productionCutSource": {
+      "type": "object", "additionalProperties": false,
+      "required": ["production_cut_id", "production_cut_type", "parent_core_cut_id", "packet_id", "path", "sha256", "pixel_review_status", "source_production_cut_review", "source_02a_cut", "section_id", "major_scene_id", "active_storyline_version_id", "screen_progression_node_id", "scene_phase_context", "primary_audio_cue", "sequence_phase_binding_ids", "core_reference_binding_id", "screen_job_binding"],
+      "properties": {
+        "production_cut_id": {"type": "string", "minLength": 1}, "production_cut_type": {"enum": ["official_core", "branch"]},
+        "parent_core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}, "packet_id": {"type": ["string", "null"], "minLength": 1},
+        "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "pixel_review_status": {"const": "passed_production_cut"},
+        "source_production_cut_review": {"$ref": "#/$defs/valueBinding"}, "source_02a_cut": {"$ref": "#/$defs/valueBinding"},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}, "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "active_storyline_version_id": {"type": "string", "minLength": 1}, "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "scene_phase_context": {"type": "string", "minLength": 1}, "primary_audio_cue": {"type": "string", "minLength": 1},
+        "sequence_phase_binding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "core_reference_binding_id": {"type": "string", "minLength": 1}, "screen_job_binding": {"$ref": "#/$defs/screenJobBinding"}
+      },
+      "allOf": [
+        {"if": {"properties": {"production_cut_type": {"const": "official_core"}}, "required": ["production_cut_type"]}, "then": {"properties": {"packet_id": {"type": "null"}}}},
+        {"if": {"properties": {"production_cut_type": {"const": "branch"}}, "required": ["production_cut_type"]}, "then": {"properties": {"packet_id": {"type": "string", "minLength": 1}}}}
+      ]
+    },
+    "founderReferenceSelection": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object", "additionalProperties": false, "required": ["selection_id", "selected_image_ids_in_order", "decision", "founder_authored"], "properties": {
+          "selection_id": {"type": "string", "minLength": 1}, "selected_image_ids_in_order": {"type": "array", "minItems": 2, "maxItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "decision": {"const": "selected_for_reference_to_video"}, "founder_authored": {"const": true}
+        }}
+      ]
+    },
+    "source480pReview": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "object", "additionalProperties": false, "required": ["video_job_id", "resolution_pass", "requested_resolution", "observed_resolution", "decision", "reviewer_role", "playback_review_record_path", "playback_review_record_sha256"], "properties": {
+          "video_job_id": {"type": "string", "minLength": 1}, "resolution_pass": {"const": "480p_test"},
+          "requested_resolution": {"const": "480p"}, "observed_resolution": {"const": "480p"}, "decision": {"const": "pass"},
+          "reviewer_role": {"const": "creative_development_director"}, "playback_review_record_path": {"type": "string", "minLength": 1},
+          "playback_review_record_sha256": {"$ref": "#/$defs/sha256"}
+        }}
+      ]
+    },
+    "videoExecutionJob": {
+      "type": "object", "additionalProperties": false,
+      "required": ["video_job_id", "direct_image_to_video", "source_stage", "source_production_cut_id", "source_production_cut_type", "source_image_path", "source_image_sha256", "source_image_frame_count", "source_image_review_status", "prompt_source", "prompt_rewrite_policy", "prompt_sha256", "selected_tool", "additional_reference_image_ids", "founder_reference_selection", "requested_duration_seconds", "requested_aspect_ratio", "resolution_pass", "requested_resolution", "selected_adapter_id", "auth_lane", "provider_profile_id", "provider_profile_sha256", "automatic_fallback", "founder_generation_authority_id", "source_480p_playback_review"],
+      "properties": {
+        "video_job_id": {"type": "string", "minLength": 1}, "direct_image_to_video": {"const": "forbidden"}, "source_stage": {"const": "passed_03v"},
+        "source_production_cut_id": {"type": "string", "minLength": 1}, "source_production_cut_type": {"enum": ["official_core", "branch"]},
+        "source_image_path": {"type": "string", "minLength": 1}, "source_image_sha256": {"$ref": "#/$defs/sha256"},
+        "source_image_frame_count": {"const": 1}, "source_image_review_status": {"const": "passed_production_cut"},
+        "prompt_source": {"const": "exact_03v_rendered_prompt"}, "prompt_rewrite_policy": {"const": "forbidden"}, "prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_tool": {"enum": ["image_to_video", "reference_to_video"]}, "additional_reference_image_ids": {"type": "array", "maxItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "founder_reference_selection": {"$ref": "#/$defs/founderReferenceSelection"}, "requested_duration_seconds": {"enum": [6, 10]},
+        "requested_aspect_ratio": {"type": "string", "pattern": "^[0-9]+:[0-9]+$"}, "resolution_pass": {"enum": ["480p_test", "720p_candidate"]},
+        "requested_resolution": {"enum": ["480p", "720p"]}, "selected_adapter_id": {"type": "string", "minLength": 1},
+        "auth_lane": {"enum": ["grok_build_oauth", "xai_api"]}, "provider_profile_id": {"type": "string", "minLength": 1},
+        "provider_profile_sha256": {"$ref": "#/$defs/sha256"}, "automatic_fallback": {"const": "none"},
+        "founder_generation_authority_id": {"type": ["string", "null"]}, "source_480p_playback_review": {"$ref": "#/$defs/source480pReview"}
+      },
+      "allOf": [
+        {"if": {"properties": {"selected_tool": {"const": "image_to_video"}}, "required": ["selected_tool"]}, "then": {"properties": {"additional_reference_image_ids": {"maxItems": 0}, "founder_reference_selection": {"type": "null"}}}},
+        {"if": {"properties": {"selected_tool": {"const": "reference_to_video"}}, "required": ["selected_tool"]}, "then": {"properties": {"additional_reference_image_ids": {"minItems": 1}, "founder_reference_selection": {"type": "object"}}}},
+        {"if": {"properties": {"resolution_pass": {"const": "480p_test"}}, "required": ["resolution_pass"]}, "then": {"properties": {"requested_resolution": {"const": "480p"}, "source_480p_playback_review": {"type": "null"}}}},
+        {"if": {"properties": {"resolution_pass": {"const": "720p_candidate"}}, "required": ["resolution_pass"]}, "then": {"properties": {"requested_resolution": {"const": "720p"}, "source_480p_playback_review": {"type": "object"}}}}
+      ]
+    },
+    "cue": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cue_id", "active_storyline_version_id", "screen_progression_map_id", "screen_progression_node_id", "screen_progression_node_ids", "section_id", "major_scene_id", "core_cut_id", "branch_cut_ids", "active_storyline_passage_pointer", "active_storyline_binding", "selected_sequence_composition_id", "selected_sequence_unit_ids", "sequence_flow_reading_sha256", "selected_sequence_binding", "major_scene_binding", "screen_progression_binding", "selected_core_reference_binding_id", "selected_core_reference_binding_ids", "core_branch_screen_job", "motion_derivation_note", "source_production_cut_images", "source_image_ids", "source_pixel_hashes", "storyboard_id", "inherited_start_view", "subject_motion_route", "camera_motion_route", "previous_next_continuity", "edit_handoff", "prompt_text", "prompt_rewrite_policy", "grok_execution"],
+      "properties": {
+        "cue_id": {"type": "string", "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"}, "active_storyline_version_id": {"type": "string", "minLength": 1},
+        "screen_progression_map_id": {"type": "string", "minLength": 1}, "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}, "major_scene_id": {"type": "string", "pattern": "^MJ[0-9]{2,}[A-Z0-9_]*$"},
+        "core_cut_id": {"type": "string", "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"}, "branch_cut_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^BC[0-9A-Z_]{2,80}$"}},
+        "active_storyline_passage_pointer": {"type": "string", "minLength": 1}, "active_storyline_binding": {"$ref": "#/$defs/activeStorylineBinding"},
+        "selected_sequence_composition_id": {"type": "string", "minLength": 1},
+        "selected_sequence_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "sequence_flow_reading_sha256": {"$ref": "#/$defs/sha256"}, "selected_sequence_binding": {"$ref": "#/$defs/selectedSequenceBinding"},
+        "major_scene_binding": {"$ref": "#/$defs/majorSceneBinding"}, "screen_progression_binding": {"$ref": "#/$defs/screenProgressionBinding"},
+        "selected_core_reference_binding_id": {"type": "string", "minLength": 1}, "selected_core_reference_binding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "core_branch_screen_job": {"type": "string", "minLength": 1}, "motion_derivation_note": {"type": "string", "minLength": 1},
+        "source_production_cut_images": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/productionCutSource"}},
+        "source_image_ids": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"type": "string", "minLength": 1}},
+        "source_pixel_hashes": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/sha256"}},
+        "storyboard_id": {"type": "string", "pattern": "^03VSB_[A-Z0-9_]{2,80}$"}, "inherited_start_view": {"type": "string", "minLength": 1},
+        "subject_motion_route": {"type": "string", "minLength": 1}, "camera_motion_route": {"$ref": "#/$defs/cameraMotionRoute"},
+        "previous_next_continuity": {"type": "string", "minLength": 1}, "edit_handoff": {"type": "string", "minLength": 1},
+        "prompt_text": {"type": "string", "minLength": 1}, "prompt_rewrite_policy": {"const": "forbidden"}, "grok_execution": {"$ref": "#/$defs/videoExecutionJob"}
+      }
+    }
+  }
+}

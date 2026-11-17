@@ -1,0 +1,103 @@
+schema_version: "1.0"
+content_id: AURORA_M_FULL_CODE_ROOT_SIGNAL
+run_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL"
+created_by: "Codex"
+created_at_kst: "2026-05-27T14:30:00+09:00"
+request_packet_path: "drive-sync/02_GPT_GROK_HANDOFF/2026-05-27-grok-video-prompt-request-v1.md"
+source_review_record_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/validation/review-state.yaml"
+source_03v_video_prompt_manifest_path:
+source_02a_master_storyboard_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/02A-master-storyboard.yaml"
+source_02b_prompt_packets_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/02B-prompt-packets.yaml"
+source_02b_export_index_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/export-index.yaml"
+source_audio_motion_director_map_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/research/audio-motion-director-map-v1.yaml"
+source_cue_bpm_map_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/research/cue-bpm-map-v1.yaml"
+source_cue_sheet_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/handoff/02-03-grok-imagine-v12-webp/00-review/cue-sheet-v12.md"
+source_motion_count_guide_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/handoff/grok-solo-backdancer-motion-count-guide-2026-05-27.md"
+status: completed
+
+record_rule:
+  source_of_truth: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/generations/video-prompts/"
+  process_only_founder_passed_boards: true
+  do_not_process_statuses:
+    - hold
+    - reject
+    - unreviewed
+  per_prompt_template: "handoff/grok/templates/video-prompt-template.md"
+  motion_decision_sources_when_guide_exists:
+    - passed_review_board_image
+    - matching_cue_sheet_row_or_board
+    - motion_count_guide
+
+prompts:
+  - beat_id: "B05"
+    packet_id: "PKT_B05_FIRST_ALIVE_HOOK_POINT"
+    founder_review_status: pass
+    source_review_board_image_path: "exports/02B/review-images-story-camera-v3/PKT_B05_FIRST_ALIVE_HOOK_POINT-review-board.png"
+    source_02a_storyboard_ref: "02A-master-storyboard.yaml#B05"
+    source_02b_prompt_export_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/prompts-story-camera-v3/PKT_B05_FIRST_ALIVE_HOOK_POINT.md"
+    source_02b_manifest_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/manifests-story-camera-v3/PKT_B05_FIRST_ALIVE_HOOK_POINT-manifest.yaml"
+    source_compiled_prompt_hash: "b05examplehash001"
+    source_review_prompt_sentence: "Natsu and Aria make the first hook point readable with a wide camera and clear hand/foot landing."
+    selected_skill: "idol-video-prompt"
+    legacy_lane_label: "mv"
+    app_alias_used:
+    skill_selection_reason: "보드의 핵심이 MV cinematic 세계관과 emotional hook 전달에 있음. Stage 요소는 보조적."
+    audio_motion_slot: "R09"
+    audio_motion_overlay: "Make this a readable chorus point-dance board with wider camera and clear hit-stop landings."
+    cue_slot: "R09"
+    tempo_pulse_summary: "92.29/184.57 BPM; ~12.3/24.6 beats; grid-derived; strong mid pulse"
+    audio_cue_summary: "first chorus / high / hook impact; clear onset cue/tension; wide stage motion"
+    cue_action_hint: "Natsu and Aria hit the first hook as a duo, with Natsu visible in the action."
+    cue_cut_summary: "CUT01 first alive hand opens -> CUT02 lead foot plants on the hook -> CUT03 answer ripple resolves in center frame"
+    cue_prompt_summary: "two hook faces, hand open, lead-foot plant"
+    source_motion_count_guide_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/handoff/grok-solo-backdancer-motion-count-guide-2026-05-27.md"
+    motion_count_summary: "1-2 setup, 3& hand accent, 4 foot plant, 7-8 landing"
+    output_prompt_path: "generations/video-prompts/B05-MV-integrated.md"
+    prompt_status: founder_review
+    target_tools:
+      - Kling
+      - Grok Imagine Video
+    usage_notes: "3초 훅 강하게, 수직광선 활용, identity reflection 강조"
+    open_decisions: []
+
+  - beat_id: "B07A"
+    packet_id: "PKT_B07A_NO_BORROWED_SHAPE"
+    founder_review_status: pass
+    source_review_board_image_path: "exports/02B/review-images-wardrobe-v2/PKT_B07A_NO_BORROWED_SHAPE-review-board.png"
+    source_02a_storyboard_ref: "02A-master-storyboard.yaml#B07A"
+    source_02b_prompt_export_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/prompts-wardrobe-v2/PKT_B07A_NO_BORROWED_SHAPE.md"
+    source_02b_manifest_path: "runs/2026-05-24/AURORA_M_FULL_CODE_ROOT_SIGNAL/exports/02B/manifests-wardrobe-v2/PKT_B07A_NO_BORROWED_SHAPE-manifest.yaml"
+    source_compiled_prompt_hash: "b07aexamplehash01"
+    source_review_prompt_sentence: "Karin compresses the borrowed-shape refusal into a low stance and short physical handoff."
+    selected_skill: "idol-video-prompt"
+    legacy_lane_label: "hybrid"
+    app_alias_used:
+    skill_selection_reason: "MV narrative와 stage performance 에너지가 동시에 필요한 hybrid 보드"
+    audio_motion_slot: "R15"
+    audio_motion_overlay: "Keep it short and physical: pull, step, hit, and hand off."
+    cue_slot: "R15"
+    tempo_pulse_summary: "92.29/184.57 BPM; ~9.2/18.5 beats; grid-derived; clipped short phrase"
+    audio_cue_summary: "second verse / medium high / clipped intensity; short motion hit"
+    cue_action_hint: "Karin compresses the shape force into a short, controlled solo hit."
+    cue_cut_summary: "CUT01 low stance claims the shape -> CUT02 wrap-line arm crosses and snaps open -> CUT03 half-turn closes into grounded freeze"
+    cue_prompt_summary: "low stance, wrap-knot arm line, face identity"
+    source_motion_count_guide_path:
+    motion_count_summary:
+    output_prompt_path: "generations/video-prompts/B07A-Mix-hybrid.md"
+    prompt_status: founder_review
+    target_tools:
+      - Runway
+      - Kling
+    usage_notes: "formation과 diagonal movement 강조, hands visibility 중요"
+    open_decisions:
+      - "그룹 formation에서 손 제스처 타이밍을 더 디테일하게 할지 여부"
+
+handoff_copy:
+  updated: true
+  path: "handoff/grok/video-prompts.md"
+  note: "2026-05-27 기준 주요 pass 보드 2개에 대한 프롬프트 생성 완료. B12는 founder 추가 지시 대기 중."
+
+drive_sync_mirror:
+  updated: true
+  path: "drive-sync/02_GPT_GROK_HANDOFF/03-review_aurora-m-full-code-root-signal_video-prompts/AURORA_M_FULL_CODE_ROOT_SIGNAL/"
+  note: "Mirrored from the canonical run-owned video prompt folder after validation."

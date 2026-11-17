@@ -1,0 +1,102 @@
+{
+  "schema_version": "idol-graph-section-cohort-map.v1",
+  "artifact_type": "graph_section_cohort_map",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "phase": "production_active",
+  "partition_basis": "roster_derived_not_capacity",
+  "section_roster": ["S01", "S02", "S03", "S04", "S05"],
+  "cohorts": [
+    {
+      "section_cohort_id": "C1",
+      "planning_lane_id": "planning_p3_c1",
+      "production_lane_id": "section_cluster_v_c1",
+      "section_ids": ["S01", "S02"],
+      "cdd_reviewer": {
+        "owner": "fixture-cdd-v-c1",
+        "role": "creative_development_director",
+        "lane_id": "section_cluster_v_c1",
+        "session_id": "VC1_PRIMARY",
+        "logical_lineage_id": "VC1_LINEAGE_G6"
+      },
+      "return_recipient": {
+        "owner": "fixture-overall",
+        "role": "overall_director",
+        "return_route": "overall_reviewed_milestone"
+      },
+      "section_output_writers": [
+        {
+          "section_id": "S01",
+          "owner": "fixture-section-s01-writer",
+          "role": "section_image_motion_worker"
+        },
+        {
+          "section_id": "S02",
+          "owner": "fixture-section-s02-writer",
+          "role": "section_image_motion_worker"
+        }
+      ]
+    },
+    {
+      "section_cohort_id": "C2",
+      "planning_lane_id": "planning_p3_c2",
+      "production_lane_id": "section_cluster_v_c2",
+      "section_ids": ["S03", "S04", "S05"],
+      "cdd_reviewer": {
+        "owner": "fixture-cdd-v-c2",
+        "role": "creative_development_director",
+        "lane_id": "section_cluster_v_c2",
+        "session_id": "VC2_PRIMARY",
+        "logical_lineage_id": "VC2_LINEAGE_G6"
+      },
+      "return_recipient": {
+        "owner": "fixture-overall",
+        "role": "overall_director",
+        "return_route": "overall_reviewed_milestone"
+      },
+      "section_output_writers": [
+        {
+          "section_id": "S03",
+          "owner": "fixture-section-s03-writer",
+          "role": "section_image_motion_worker"
+        },
+        {
+          "section_id": "S04",
+          "owner": "fixture-section-s04-writer",
+          "role": "section_image_motion_worker"
+        },
+        {
+          "section_id": "S05",
+          "owner": "fixture-section-s05-writer",
+          "role": "section_image_motion_worker"
+        }
+      ]
+    }
+  ],
+  "p3_to_v_carry": [
+    {
+      "section_cohort_id": "C1",
+      "planning_lane_id": "planning_p3_c1",
+      "production_lane_id": "section_cluster_v_c1",
+      "exact_section_ids": ["S01", "S02"],
+      "exact_carry": true,
+      "planning_handoff": {
+        "path": "scripts/tests/fixtures/graph-authority/planning-handoff-c1.json",
+        "sha256": "a9b03bae4b3483c6159d52b065f05a702f9419c36aafb6ef123ac6667473c1d1",
+        "role": "p3_c1_g40_handoff"
+      }
+    },
+    {
+      "section_cohort_id": "C2",
+      "planning_lane_id": "planning_p3_c2",
+      "production_lane_id": "section_cluster_v_c2",
+      "exact_section_ids": ["S03", "S04", "S05"],
+      "exact_carry": true,
+      "planning_handoff": {
+        "path": "scripts/tests/fixtures/graph-authority/planning-handoff-c2.json",
+        "sha256": "d3ae480ba5b7e5ab29668243e9431793da864eb4837d77191097afa08156898e",
+        "role": "p3_c2_g40_handoff"
+      }
+    }
+  ],
+  "founder_partition_waiver": null
+}

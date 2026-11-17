@@ -1,0 +1,33 @@
+schema_version: idol-graph-runtime-case.v1
+case_id: wrong_cohort_succession
+expect: fail
+expect_error_substrings:
+  - P3-Ci must exact-carry into the same V-Ci cohort
+run:
+  run_class: new_run
+  section_count: 4
+writer:
+  requested: graph_v2
+  active: [graph_v2]
+switch_receipt:
+  receipt_id: GRAPH_SWITCH_FIXTURE_001
+  founder_authority: founder
+  graph_revision: idol-graph-skill-load-profiles.v1
+  switch_boundary: new_runs_only_after_verified_receipt
+  source_set_sha256: 05a6443dda241a3daf42c9a75f4e0caa90d37ef63c1f10092bea8a8fd4d5bdeb
+  verified_at: "2026-09-03T00:00:00Z"
+active_authoring_ids: [section_cluster_v_c1]
+active_writers:
+  - {scope: section_cluster_v_c1, lane_id: section_cluster_v_c1, role: section_cluster_cdd_ci, section_cohort_id: C1, stage: section_cluster_production, writer_id: v_c1_primary}
+sessions:
+  - {lane_id: section_cluster_v_c1, session_id: v_c1_primary, role: section_cluster_cdd_ci, section_cohort_id: C1, stage: section_cluster_production, provider: grok, generation: primary, state: active_writer}
+cohorts:
+  - {cohort_id: C1, sections: [S01, S02], runtime_stage: section_cluster_production, scheduling_state: active}
+  - {cohort_id: C2, sections: [S03, S04], runtime_stage: section_cluster_production, scheduling_state: queued}
+succession:
+  - from_cohort_id: C1
+    to_cohort_id: C2
+pack:
+  source_id: SRC_FIXTURE_007
+  locator: still:frame_01
+  sha256: f5aca518f06a58471c99a16a7c16201dcad5fbb3e185238cc716671b5587339a

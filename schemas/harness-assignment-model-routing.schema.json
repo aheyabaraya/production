@@ -1,0 +1,551 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-assignment-model-routing.schema.json",
+  "title": "IDOL Assignment-Scoped Model Routing",
+  "description": "Provider-neutral assignment selector. Profile ids only; exact model/effort literals remain in provider-specific sources.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "implementation_baseline",
+    "selector_policy",
+    "concurrency",
+    "graph_engineering_director_lanes",
+    "media",
+    "assignments"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-harness-assignment-model-routing.v1"},
+    "status": {"const": "grok_default_with_founder_opt_in_substitutes"},
+    "implementation_baseline": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "selector_policy": {"$ref": "#/$defs/selectorPolicy"},
+    "concurrency": {"$ref": "#/$defs/concurrency"},
+    "graph_engineering_director_lanes": {"$ref": "#/$defs/graphEngineeringDirectorLanes"},
+    "media": {"$ref": "#/$defs/media"},
+    "assignments": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/assignment"}
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_:-]*$"
+    },
+    "selectorPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_model_literals",
+        "no_fallback",
+        "cursor_grok_forbidden",
+        "registered_cursor_grok_profile_use",
+        "cursor_auto_forbidden",
+        "default_medium_forbidden",
+        "default_max_forbidden_for",
+        "ultra_forbidden",
+        "silent_provider_or_model_substitution",
+        "existing_run_snapshots_mutated",
+        "default_provider",
+        "default_runtime_surface",
+        "non_grok_requires_founder_explicit_substitute",
+        "founder_default_switch_required_for_activation",
+        "cdd_grade_resolves_only_to_frontier_director",
+        "no_fixed_cdd_count"
+      ],
+      "properties": {
+        "contains_model_literals": {"const": false},
+        "no_fallback": {"const": true},
+        "cursor_grok_forbidden": {"const": true},
+        "registered_cursor_grok_profile_use": {
+          "const": "founder_explicit_distinct_cursor_provider_only"
+        },
+        "cursor_auto_forbidden": {"const": true},
+        "default_medium_forbidden": {"const": true},
+        "default_max_forbidden_for": {
+          "const": ["cursor_opus_thinking_high", "cursor_fable_thinking_xhigh", "cursor_sol_xhigh"]
+        },
+        "ultra_forbidden": {"const": true},
+        "silent_provider_or_model_substitution": {"const": "forbidden"},
+        "existing_run_snapshots_mutated": {"const": false},
+        "default_provider": {"const": "grok"},
+        "default_runtime_surface": {"const": "grok_cli"},
+        "non_grok_requires_founder_explicit_substitute": {"const": true},
+        "founder_default_switch_required_for_activation": {"const": false},
+        "cdd_grade_resolves_only_to_frontier_director": {"const": true},
+        "no_fixed_cdd_count": {"const": true}
+      }
+    },
+    "concurrency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_active", "proposed_future_operational_ceiling"],
+      "properties": {
+        "current_active": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authoritative_until_atomic_migration",
+            "ordinary_combined_creative_workers",
+            "reviewed_maximum_combined_creative_workers",
+            "post_02a_sections_ordinary",
+            "post_02a_sections_reviewed",
+            "grok_nonroot_ordinary",
+            "grok_nonroot_reviewed",
+            "cursor_nonroot_ordinary",
+            "cursor_nonroot_reviewed",
+            "maximum_active_department_sessions",
+            "one_outstanding_media_job_per_section",
+            "launch_to_fill_capacity",
+            "lower_provider_cap_wins"
+          ],
+          "properties": {
+            "authoritative_until_atomic_migration": {"const": true},
+            "ordinary_combined_creative_workers": {"const": 14},
+            "reviewed_maximum_combined_creative_workers": {"const": 14},
+            "post_02a_sections_ordinary": {"const": 14},
+            "post_02a_sections_reviewed": {"const": 14},
+            "grok_nonroot_ordinary": {"const": 8},
+            "grok_nonroot_reviewed": {"const": 8},
+            "cursor_nonroot_ordinary": {"const": 6},
+            "cursor_nonroot_reviewed": {"const": 6},
+            "maximum_active_department_sessions": {"const": 14},
+            "one_outstanding_media_job_per_section": {"const": true},
+            "launch_to_fill_capacity": {"const": false},
+            "lower_provider_cap_wins": {"const": true}
+          }
+        },
+        "proposed_future_operational_ceiling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "ordinary_physical_workers",
+            "hard_safety_ceiling",
+            "ordinary_section_mv_open_all_sections",
+            "activation"
+          ],
+          "properties": {
+            "status": {"const": "activated"},
+            "ordinary_physical_workers": {"const": 14},
+            "hard_safety_ceiling": {"const": 14},
+            "ordinary_section_mv_open_all_sections": {"const": "7_to_12"},
+            "activation": {"const": "founder_activated_current_request"}
+          }
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_image", "optional_luna_image", "video"],
+      "properties": {
+        "default_image": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["owner", "provider", "profile_id", "tools", "provider_omitted_resolution", "status"],
+          "properties": {
+            "owner": {"const": "current_post_02a_section_owner"},
+            "provider": {"const": "grok"},
+            "profile_id": {"const": "grok_worker_high"},
+            "tools": {"const": ["image_gen", "image_edit"]},
+            "provider_omitted_resolution": {"const": "current_grok_native_only"},
+            "status": {"const": "default_active_registered_lane"}
+          }
+        },
+        "optional_luna_image": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "profile_id", "default_enabled", "status", "requires_cross_provider_transfer"],
+          "properties": {
+            "provider": {"const": "cursor"},
+            "profile_id": {"const": "cursor_luna_max"},
+            "default_enabled": {"const": false},
+            "status": {"const": "available_founder_explicit_substitute"},
+            "requires_cross_provider_transfer": {"const": "cursor_luna_owner_to_grok_cli_03v_owner"}
+          }
+        },
+        "video": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "profile_id", "tools", "substitution", "status"],
+          "properties": {
+            "provider": {"const": "grok"},
+            "profile_id": {"const": "grok_worker_high"},
+            "tools": {"const": ["image_to_video", "reference_to_video"]},
+            "substitution": {"const": "forbidden"},
+            "status": {"const": "default_active_registered_lane"}
+          }
+        }
+      }
+    },
+    "assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_id",
+        "studio_role",
+        "profile_id",
+        "logical_profile_alias",
+        "provider",
+        "topology",
+        "activation",
+        "return_recipient",
+        "no_fallback",
+        "status"
+      ],
+      "properties": {
+        "assignment_id": {"$ref": "#/$defs/id"},
+        "studio_role": {"$ref": "#/$defs/id"},
+        "profile_id": {"$ref": "#/$defs/id"},
+        "logical_profile_alias": {
+          "enum": [
+            "frontier_director",
+            "director_deep",
+            "worker_high",
+            "research_medium",
+            "cursor_advisory"
+          ]
+        },
+        "provider": {"enum": ["grok", "cursor"]},
+        "topology": {
+          "enum": [
+            "physical_grok_cli",
+            "new_cursor_physical_chat"
+          ]
+        },
+        "activation": {
+          "enum": [
+            "default_active",
+            "founder_explicit_substitute",
+            "disabled_hold",
+            "graph_v2_after_verified_default_switch"
+          ]
+        },
+        "return_recipient": {
+          "enum": [
+            "founder",
+            "overall_director",
+            "creative_development_director",
+            "edit_director",
+            "planning_cdd_p1",
+            "planning_cdd_p2",
+            "planning_cdd_p3_ci",
+            "section_cluster_cdd_v_ci"
+          ]
+        },
+        "no_fallback": {"const": true},
+        "status": {
+          "enum": [
+            "default_active_grok_cli",
+            "available_founder_explicit_substitute",
+            "implementation_required_hold",
+            "shadow_registered_hold"
+          ]
+        },
+        "goal_first": {
+          "enum": [
+            "required_observable_native_goal",
+            "external_goal_record_before_cli_launch",
+            "required_if_observable_else_hold"
+          ]
+        },
+        "authority": {"type": "string", "minLength": 1},
+        "notes": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"provider": {"const": "grok"}}, "required": ["provider"]},
+          "then": {
+            "properties": {
+              "topology": {"const": "physical_grok_cli"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {"const": "grok"},
+              "logical_profile_alias": {"enum": ["frontier_director", "director_deep"]}
+            },
+            "required": ["provider", "logical_profile_alias"]
+          },
+          "then": {
+            "properties": {
+              "profile_id": {"enum": ["grok_director_deep", "grok_director_frontier"]},
+              "activation": {"enum": ["default_active", "graph_v2_after_verified_default_switch"]},
+              "status": {"enum": ["default_active_grok_cli", "shadow_registered_hold"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {"const": "grok"},
+              "logical_profile_alias": {"const": "worker_high"}
+            },
+            "required": ["provider", "logical_profile_alias"]
+          },
+          "then": {
+            "properties": {
+              "profile_id": {"const": "grok_worker_high"},
+              "activation": {"const": "default_active"},
+              "status": {"const": "default_active_grok_cli"}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provider": {"const": "grok"},
+              "logical_profile_alias": {"const": "research_medium"}
+            },
+            "required": ["provider", "logical_profile_alias"]
+          },
+          "then": {
+            "properties": {
+              "profile_id": {"const": "grok_worker_medium"},
+              "activation": {"const": "disabled_hold"},
+              "status": {"const": "implementation_required_hold"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"provider": {"const": "cursor"}}, "required": ["provider"]},
+          "then": {
+            "properties": {
+              "topology": {"const": "new_cursor_physical_chat"},
+              "logical_profile_alias": {
+                "enum": [
+                  "frontier_director",
+                  "director_deep",
+                  "worker_high",
+                  "research_medium",
+                  "cursor_advisory"
+                ]
+              },
+              "activation": {"enum": ["founder_explicit_substitute", "disabled_hold"]},
+              "status": {
+                "enum": ["available_founder_explicit_substitute", "implementation_required_hold"]
+              },
+              "goal_first": {
+                "enum": [
+                  "external_goal_record_before_cli_launch",
+                  "required_if_observable_else_hold"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "graphEngineeringDirectorLanes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_tier",
+        "compatibility_logical_alias",
+        "no_fallback",
+        "no_fixed_cdd_count",
+        "physical_sessions_per_lane_stage",
+        "overall",
+        "edit_director",
+        "planning_cell",
+        "section_cluster",
+        "cohort_partition"
+      ],
+      "properties": {
+        "logical_tier": {"const": "frontier_director"},
+        "compatibility_logical_alias": {"const": "director_deep"},
+        "no_fallback": {"const": true},
+        "no_fixed_cdd_count": {"const": true},
+        "physical_sessions_per_lane_stage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary", "successor", "maximum", "third_session_action"],
+          "properties": {
+            "primary": {"const": 1},
+            "successor": {"const": 1},
+            "maximum": {"const": 2},
+            "third_session_action": {"const": "hold_without_auto_spawn"}
+          }
+        },
+        "overall": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lane_id_pattern"],
+          "properties": {
+            "lane_id_pattern": {"const": "^overall$"}
+          }
+        },
+        "edit_director": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lane_id_pattern"],
+          "properties": {
+            "lane_id_pattern": {"const": "^edit_director$"}
+          }
+        },
+        "planning_cell": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["active_until", "lanes"],
+          "properties": {
+            "active_until": {"const": "g40_handoff_then_readonly"},
+            "lanes": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["p1", "p2", "p3_ci"],
+              "properties": {
+                "p1": {
+                  "allOf": [
+                    {"$ref": "#/$defs/fixedPlanningLane"},
+                    {
+                      "type": "object",
+                      "properties": {
+                        "lane_id_pattern": {"const": "^planning_p1$"}
+                      }
+                    }
+                  ]
+                },
+                "p2": {
+                  "allOf": [
+                    {"$ref": "#/$defs/fixedPlanningLane"},
+                    {
+                      "type": "object",
+                      "properties": {
+                        "lane_id_pattern": {"const": "^planning_p2$"}
+                      }
+                    }
+                  ]
+                },
+                "p3_ci": {"$ref": "#/$defs/dynamicCohortLane"}
+              }
+            }
+          }
+        },
+        "section_cluster": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "active_after",
+            "assignment_id",
+            "lane_id_pattern",
+            "cardinality",
+            "no_fixed_count",
+            "physical_toml",
+            "physical_toml_semantics",
+            "provider_runtime_profile_id",
+            "return_recipient",
+            "same_cohort_02b_to_03v_successor"
+          ],
+          "properties": {
+            "active_after": {"const": "g40"},
+            "assignment_id": {"const": "section_cluster_cdd_v_ci"},
+            "lane_id_pattern": {"const": "^section_cluster_v_c[1-9][0-9]*$"},
+            "cardinality": {"const": "same_cohort_id_as_matching_p3"},
+            "no_fixed_count": {"const": true},
+            "physical_toml": {"const": ".codex/agents/idol-sol-section-cluster-cdd.toml"},
+            "physical_toml_semantics": {"const": "codex_role_template_only_never_provider_selection"},
+            "provider_runtime_profile_id": {"const": "grok_director_frontier"},
+            "return_recipient": {"const": "overall_director"},
+            "same_cohort_02b_to_03v_successor": {"const": true}
+          }
+        },
+        "cohort_partition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "two_or_more_sections",
+            "singleton_allowed",
+            "capacity_never_creates_cohort",
+            "examples"
+          ],
+          "properties": {
+            "two_or_more_sections": {"const": "only_2_or_3"},
+            "singleton_allowed": {"const": "whole_title_one_section_only"},
+            "capacity_never_creates_cohort": {"const": true},
+            "examples": {
+              "type": "array",
+              "minItems": 5,
+              "maxItems": 5,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["section_count", "cohorts"],
+                "properties": {
+                  "section_count": {"type": "integer", "minimum": 4},
+                  "cohorts": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {"enum": [2, 3]}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fixedPlanningLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_id",
+        "lane_id_pattern",
+        "mode",
+        "cardinality",
+        "physical_toml",
+        "physical_toml_semantics",
+        "provider_runtime_profile_id",
+        "return_recipient"
+      ],
+      "properties": {
+        "assignment_id": {"$ref": "#/$defs/id"},
+        "lane_id_pattern": {"type": "string", "minLength": 1},
+        "mode": {
+          "enum": ["story_audience_lead", "visual_reference_development"]
+        },
+        "cardinality": {"const": "one"},
+        "physical_toml": {"const": ".codex/agents/idol-sol-planning-cdd.toml"},
+        "physical_toml_semantics": {"const": "codex_role_template_only_never_provider_selection"},
+        "provider_runtime_profile_id": {"const": "grok_director_frontier"},
+        "return_recipient": {
+          "enum": ["overall_director", "planning_cdd_p1"]
+        }
+      }
+    },
+    "dynamicCohortLane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_id",
+        "lane_id_pattern",
+        "mode",
+        "cardinality",
+        "no_fixed_count",
+        "physical_toml",
+        "physical_toml_semantics",
+        "provider_runtime_profile_id",
+        "return_recipient"
+      ],
+      "properties": {
+        "assignment_id": {"const": "planning_cdd_p3_ci"},
+        "lane_id_pattern": {"const": "^planning_p3_c[1-9][0-9]*$"},
+        "mode": {"const": "section_kinetic_architecture"},
+        "cardinality": {"const": "roster_derived_contiguous_2_or_3_section_cohorts"},
+        "no_fixed_count": {"const": true},
+        "physical_toml": {"const": ".codex/agents/idol-sol-planning-cdd.toml"},
+        "physical_toml_semantics": {"const": "codex_role_template_only_never_provider_selection"},
+        "provider_runtime_profile_id": {"const": "grok_director_frontier"},
+        "return_recipient": {"const": "planning_cdd_p1"}
+      }
+    }
+  }
+}

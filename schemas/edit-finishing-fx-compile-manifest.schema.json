@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-finishing-fx-compile-manifest.schema.json",
+  "title": "IDOL 04FX Compile Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "compile_mode",
+    "source_bindings",
+    "selection",
+    "merge_policy",
+    "compiled_output"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_04fx_compile_manifest.v1"},
+    "compile_mode": {"enum": ["preview", "final_pass_only"]},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fx_map", "recipe", "effect_registry"],
+      "properties": {
+        "fx_map": {"$ref": "#/$defs/binding"},
+        "recipe": {"$ref": "#/$defs/binding"},
+        "effect_registry": {"$ref": "#/$defs/binding"}
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audit_status",
+        "selected_pass_fx_ids",
+        "compiled_fx_ids",
+        "excluded_nonpass_fx_ids",
+        "skipped_pass_fx_ids"
+      ],
+      "properties": {
+        "audit_status": {"type": ["string", "null"]},
+        "selected_pass_fx_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "compiled_fx_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "excluded_nonpass_fx_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "skipped_pass_fx_ids": {"type": "array", "maxItems": 0, "items": {"type": "string"}}
+      }
+    },
+    "merge_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "preserved_base_effect_count", "replaced_prior_04fx_effect_count"],
+      "properties": {
+        "policy": {"const": "preserve_04_base_replace_prior_04fx"},
+        "preserved_base_effect_count": {"type": "integer", "minimum": 0},
+        "replaced_prior_04fx_effect_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "compiled_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "kind",
+        "sha256",
+        "compiled_effects_sha256",
+        "merged_effects_sha256",
+        "total_effect_count",
+        "compiled_04fx_count"
+      ],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["merged_recipe", "effects_projection"]},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "compiled_effects_sha256": {"$ref": "#/$defs/sha256"},
+        "merged_effects_sha256": {"$ref": "#/$defs/sha256"},
+        "total_effect_count": {"type": "integer", "minimum": 0},
+        "compiled_04fx_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"compile_mode": {"const": "final_pass_only"}}},
+      "then": {
+        "properties": {
+          "selection": {
+            "properties": {
+              "audit_status": {"enum": ["complete_no_fx_needed", "complete_fx_passed"]}
+            }
+          },
+          "compiled_output": {
+            "properties": {"kind": {"const": "merged_recipe"}}
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

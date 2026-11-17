@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/01r-reference-gap-worklist.schema.json",
+  "title": "IDOL Front Planning v17 Adaptive Named Reference Gap Worklist",
+  "description": "Deterministic, noncanonical evidence for exact one-second Sequence Units and section bindings inside Front Planning 01R. Counts are diagnostic only; no fixed discovery, identity, function, or worker quota is a creative floor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "run",
+    "source_front_planning",
+    "input_set_sha256",
+    "status",
+    "summary",
+    "section_checks",
+    "work_items",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_01r_reference_gap_worklist.v6"},
+    "artifact_type": {"const": "derived_section_reference_comparison_worklist"},
+    "run": {
+      "type": "string",
+      "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"
+    },
+    "source_front_planning": {"$ref": "#/$defs/sourcePointer"},
+    "input_set_sha256": {"$ref": "#/$defs/sha256"},
+    "status": {"enum": ["open_named_gaps", "decision_ready_evidence_observable_pass"]},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_sections", "passing_sections", "open_sections"],
+      "properties": {
+        "total_sections": {"type": "integer", "minimum": 1},
+        "passing_sections": {"type": "integer", "minimum": 0},
+        "open_sections": {"type": "integer", "minimum": 0}
+      }
+    },
+    "section_checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sectionCheck"}
+    },
+    "work_items": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/workItem"}
+    },
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derived_noncanonical",
+        "network_access_performed",
+        "search_executed",
+        "candidate_selected",
+        "reference_interpreted",
+        "creative_adequacy_claimed",
+        "comparison_floor_is_not_creative_pass"
+      ],
+      "properties": {
+        "derived_noncanonical": {"const": true},
+        "network_access_performed": {"const": false},
+        "search_executed": {"const": false},
+        "candidate_selected": {"const": false},
+        "reference_interpreted": {"const": false},
+        "creative_adequacy_claimed": {"const": false},
+        "comparison_floor_is_not_creative_pass": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sectionId": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "idArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "missingRequirement": {
+      "enum": [
+        "minimum_one_selected_exact_five_one_second_sequence_unit",
+        "unknown_assigned_reference_unit",
+        "assigned_reference_unit_not_targeted_to_section"
+      ]
+    },
+    "missingRequirements": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/missingRequirement"}
+    },
+    "sourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sectionCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "active_reference_unit_ids",
+        "assigned_reference_unit_ids",
+        "unknown_assigned_reference_unit_ids",
+        "mistargeted_assigned_reference_unit_ids",
+        "comparison_count",
+        "source_identity_count",
+        "directorial_function_count",
+        "selected_sequence_unit_count",
+        "floor_status",
+        "missing_requirements"
+      ],
+      "properties": {
+        "section_id": {"$ref": "#/$defs/sectionId"},
+        "active_reference_unit_ids": {"$ref": "#/$defs/idArray"},
+        "assigned_reference_unit_ids": {"$ref": "#/$defs/idArray"},
+        "unknown_assigned_reference_unit_ids": {"$ref": "#/$defs/idArray"},
+        "mistargeted_assigned_reference_unit_ids": {"$ref": "#/$defs/idArray"},
+        "comparison_count": {"type": "integer", "minimum": 0},
+        "source_identity_count": {"type": "integer", "minimum": 0},
+        "directorial_function_count": {"type": "integer", "minimum": 0},
+        "selected_sequence_unit_count": {"type": "integer", "minimum": 0},
+        "floor_status": {"enum": ["decision_ready_evidence_observable_pass", "named_gap"]},
+        "missing_requirements": {"$ref": "#/$defs/missingRequirements"}
+      }
+    },
+    "workItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_item_id",
+        "section_id",
+        "current_reference_unit_ids",
+        "missing_requirements",
+        "next_action",
+        "semantic_owner",
+        "automation_scope",
+        "close_when"
+      ],
+      "properties": {
+        "work_item_id": {"type": "string", "pattern": "^01R_GAP_S[0-9]{2,}[A-Z]?$"},
+        "section_id": {"$ref": "#/$defs/sectionId"},
+        "current_reference_unit_ids": {"$ref": "#/$defs/idArray"},
+        "missing_requirements": {
+          "allOf": [
+            {"$ref": "#/$defs/missingRequirements"},
+            {"minItems": 1}
+          ]
+        },
+        "next_action": {"const": "bounded_named_reference_gap_review_required"},
+        "semantic_owner": {"const": "front_planning_director"},
+        "automation_scope": {"const": "count_exact_one_second_sequence_units_and_exact_section_bindings_without_fixed_discovery_quota"},
+        "close_when": {"const": "front_planning_v17_named_reference_gaps_are_observable_and_semantic_owner_accepts_decision_ready_units"}
+      }
+    }
+  }
+}

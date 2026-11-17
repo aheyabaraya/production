@@ -1,0 +1,43 @@
+schema_version: idol_harness_improvement_review.v1
+artifact_type: harness_improvement_review
+run: runs/harness-test/department-dispatch/DISPATCH_FIXTURE
+status: open
+created_at: "2026-08-24T00:00:00Z"
+created_by: fixture-director
+authority: non_blocking_review_sidecar_no_stage_gate_creative_or_release_authority
+closeout:
+  trigger: manual_review
+  production_state: active
+  summary: Material helper hold captured as run_followup. Skills are not auto-written.
+  release_gate_effect: none
+issues:
+  - issue_id: HIR_FIXTURE_HOLD_001
+    summary: Helper collision held for Founder review.
+    material_trigger: manual_capture
+    detected_stage_id: front_planning
+    earliest_owner_stage_id: front_planning
+    affected_scope: helper_collision_audit
+    recurrence_key: helper_collision_hold
+    recurrence_count: 1
+    evidence_refs:
+      - path: scripts/tests/fixtures/helper-consumption-receipt-valid.yaml
+        sha256: ae1e2f40b285a483415ed404bf490612ec5fdf3ea769cef24c3c3d87d7ec1674
+        role: inspected_input
+    current_run_resolution:
+      status: open
+      note: Held pending Founder. Do not auto-write a skill.
+      evidence_refs: []
+    harness_followup:
+      status: observe
+      target_surfaces:
+        - schemas/harness-helper-consumption-receipt.schema.json
+      proposal: Keep consume/reject/hold receipts as the helper graph edge.
+      overfit_guard: One helper hold does not rewrite a shared skill.
+      verification_status: not_required
+      verification_evidence: []
+briefing:
+  recurring_patterns: []
+  open_issue_ids:
+    - HIR_FIXTURE_HOLD_001
+  founder_decision_issue_ids: []
+  next_validation: Re-run helper receipt consume path on the next return.

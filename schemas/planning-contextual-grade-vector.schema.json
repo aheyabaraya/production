@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/planning-contextual-grade-vector.schema.json",
+  "title": "IDOL Planning Contextual 0-4 Grade Vector",
+  "description": "Planning-only contextual grades for PRE-FP storyline, FP reference close, FP cohort kinetic close, or the existing fp_hero_core Draft Keyframe Proof checkpoint. This artifact cannot be reused as the generated Production-Cut pixel rubric and never creates an aggregate score or automatic creative PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "stage", "scope_id", "authoring_owner", "reviewer_role", "performance_mode", "source_artifacts", "criteria", "decision", "target_message_treatment", "aggregate_score_present", "automatic_creative_pass", "downstream_pixel_rubric_reuse", "status"],
+  "properties": {
+    "schema_version": {"const": "idol_planning_contextual_grade_vector.v1"},
+    "artifact_type": {"const": "planning_contextual_grade_vector"},
+    "stage": {"enum": ["pre_fp_storyline", "front_planning_reference_close", "front_planning_section_kinetic_close", "draft_keyframe_proof"]},
+    "preview_packet_mode": {"const": "fp_hero_core"},
+    "scope_id": {"type": "string", "minLength": 1},
+    "authoring_owner": {"const": "human_or_assigned_model"},
+    "reviewer_role": {"enum": ["overall_director", "planning_cdd_p1", "planning_cdd_p2", "planning_cdd_p3_ci"]},
+    "performance_mode": {"enum": ["none", "supporting", "primary"]},
+    "source_artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifactRef"}},
+    "criteria": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"$ref": "#/$defs/criterion"}},
+    "decision": {"enum": ["eligible_for_director_review", "combine_or_correct", "hold", "reject"]},
+    "target_message_treatment": {"const": "pre_fp_locks_not_downstream_pixel_scores"},
+    "aggregate_score_present": {"const": false},
+    "automatic_creative_pass": {"const": false},
+    "downstream_pixel_rubric_reuse": {"const": "forbidden"},
+    "status": {"enum": ["draft", "reviewed", "hold", "rejected"]}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "json_pointer": {"type": "string", "pattern": "^/"}, "value_sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "result", "evidence_locator", "review_note"],
+      "properties": {
+        "criterion_id": {"enum": ["whole_film_opening_to_ending_causality", "target_audience_promise_lock", "message_progression_without_repetition", "storyline_reference_influence_accounting", "storyline_section_major_causality", "selected_audio_kinetic_edit_usefulness", "contiguous_motion_change_and_landing", "still_camera_composition_depth_edit_value", "four_role_coverage_and_synthesis", "major_core_whole_film_non_duplication", "transfer_provenance_feasibility", "section_major_causal_job", "two_to_three_second_kinetic_tendency", "cohort_non_duplication", "boundary_continuity", "cut_screen_job_neighbor_delta", "character_visual", "scene_visual_package", "action_pose_motion_readiness", "angle_distance_depth_crop_transition_diversity", "reference_transfer_generation_feasibility", "prop_interaction_readability", "performance_readability"]},
+        "result": {"oneOf": [{"type": "integer", "minimum": 0, "maximum": 4}, {"enum": ["not_applicable", "not_applicable_member_absent", "not_applicable_no_material_prop"]}]},
+        "evidence_locator": {"type": "string", "minLength": 1},
+        "review_note": {"type": "string", "minLength": 1},
+        "not_applicable_reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {"if": {"properties": {"result": {"type": "string", "pattern": "^not_applicable"}}, "required": ["result"]}, "then": {"required": ["not_applicable_reason"]}, "else": {"not": {"required": ["not_applicable_reason"]}}}
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"stage": {"const": "draft_keyframe_proof"}}, "required": ["stage"]},
+      "then": {"required": ["preview_packet_mode"]},
+      "else": {"not": {"required": ["preview_packet_mode"]}}
+    }
+  ]
+}

@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-reference-source-manifest.schema.json",
+  "title": "IDOL Reusable Still-Image Source Manifest",
+  "description": "Immutable-source manifest for one reusable externally obtained still image. It owns provenance and original bytes only; run-owned analysis, creative disposition, current-title identity, and generation attachment authority remain outside this manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "source_id",
+    "source_identity",
+    "source_title",
+    "source_kind",
+    "origin",
+    "original",
+    "availability",
+    "provenance",
+    "reuse_policy",
+    "analysis_refs",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_image_reference_source_manifest.v1"
+    },
+    "artifact_type": {
+      "const": "reusable_still_image_source_manifest"
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^IMG_[A-Z0-9_]{3,100}$"
+    },
+    "source_identity": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_kind": {
+      "enum": [
+        "public_web_still",
+        "public_official_still",
+        "founder_supplied_file",
+        "existing_local_still"
+      ]
+    },
+    "origin": {
+      "$ref": "#/$defs/origin"
+    },
+    "original": {
+      "$ref": "#/$defs/original"
+    },
+    "availability": {
+      "$ref": "#/$defs/availability"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "reuse_policy": {
+      "$ref": "#/$defs/reusePolicy"
+    },
+    "analysis_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fileRef"
+      }
+    },
+    "status": {
+      "enum": [
+        "registered",
+        "hold",
+        "retired"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "fileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_url",
+        "source_locator",
+        "source_platform_or_owner",
+        "access_method",
+        "capture_basis",
+        "captured_at"
+      ],
+      "properties": {
+        "source_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "source_locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_platform_or_owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "access_method": {
+          "enum": [
+            "founder_supplied",
+            "public_no_account_download",
+            "public_no_account_screenshot",
+            "existing_local_file"
+          ]
+        },
+        "capture_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "original": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "mime_type",
+        "width",
+        "height",
+        "byte_state"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^source-materials/image-sources/by-source/[^/]+/originals/[^/]+$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mime_type": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/tiff",
+            "image/heic"
+          ]
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "byte_state": {
+          "const": "immutable_original"
+        }
+      }
+    },
+    "availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_state",
+        "backup_state",
+        "missing_behavior"
+      ],
+      "properties": {
+        "local_state": {
+          "enum": [
+            "present",
+            "missing",
+            "hold"
+          ]
+        },
+        "backup_state": {
+          "enum": [
+            "local_only",
+            "verified_external_backup",
+            "founder_preserved_original"
+          ]
+        },
+        "missing_behavior": {
+          "const": "hold_never_silent_redownload"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original_filename",
+        "attribution_note",
+        "provenance_strength",
+        "rights_or_use_status"
+      ],
+      "properties": {
+        "original_filename": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attribution_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provenance_strength": {
+          "enum": [
+            "strong_original_or_official",
+            "resolved_creator_or_publication",
+            "founder_supplied",
+            "weak_provenance"
+          ]
+        },
+        "rights_or_use_status": {
+          "enum": [
+            "observation_only",
+            "planning_and_prompt_only",
+            "exact_current_job_founder_approved"
+          ]
+        }
+      }
+    },
+    "reusePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_owned_analysis_required",
+        "current_run_intake_required",
+        "generation_attachment_authority",
+        "current_title_identity_authority",
+        "selected_crop_owner"
+      ],
+      "properties": {
+        "run_owned_analysis_required": {
+          "const": true
+        },
+        "current_run_intake_required": {
+          "const": true
+        },
+        "generation_attachment_authority": {
+          "const": "not_granted_by_this_manifest"
+        },
+        "current_title_identity_authority": {
+          "const": "none"
+        },
+        "selected_crop_owner": {
+          "const": "runs_album_title_run_id_research_reference_intake"
+        }
+      }
+    }
+  }
+}

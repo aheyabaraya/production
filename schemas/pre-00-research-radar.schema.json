@@ -1,0 +1,1623 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/pre-00-research-radar.schema.json",
+  "title": "IDOL PRE-00 Research Radar",
+  "description": "Active 1.8 contract only. PRE-00 types the visual reference hierarchy as A/B/C and the audio hierarchy as X/Y/Z, verifies the X-song audience envelope and the evidence-bounded title-target intersection, preserves message and emotional progression, and carries one complete immutable natural-language MV storyline plus append-only full-text revisions. Timing remains an optional operating observation and never a creative gate. PRE-00 cannot author timecodes, camera plans, Core/Branch Cuts, prompts, Front Planning execution truth, generation truth, source acquisition, or planning-image authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "radar_id",
+    "date",
+    "mode",
+    "status",
+    "research_policy",
+    "visual_reference_hierarchy",
+    "audio_reference_hierarchy",
+    "reference_transfer_exclusion_map",
+    "audience_profiles",
+    "x_reference_audience_envelope",
+    "title_target_intersection",
+    "message_progression",
+    "emotional_progression",
+    "storyline_lineage",
+    "sequence_runs",
+    "fp_autonomy_envelope",
+    "source_acquisition_authority",
+    "planning_image_authority",
+    "operating_observation",
+    "fp_launch_lock",
+    "founder_decision_needed"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.8"},
+    "radar_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "date": {"type": "string", "format": "date"},
+    "mode": {"enum": ["automation", "manual", "mixed"]},
+    "status": {
+      "enum": ["draft", "founder_review", "selected", "archived", "hold"]
+    },
+    "research_policy": {"$ref": "#/$defs/researchPolicy"},
+    "research_freshness": {"$ref": "#/$defs/researchFreshness"},
+    "research_vectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/researchVector"}
+    },
+    "research_inputs": {
+      "type": "object",
+      "minProperties": 4,
+      "propertyNames": {"$ref": "#/$defs/refId"},
+      "additionalProperties": {"$ref": "#/$defs/researchInput"}
+    },
+    "target_trend_foundation": {"$ref": "#/$defs/targetTrendFoundation"},
+    "visual_reference_hierarchy": {"$ref": "#/$defs/visualReferenceHierarchy"},
+    "audio_reference_hierarchy": {"$ref": "#/$defs/audioReferenceHierarchy"},
+    "reference_transfer_exclusion_map": {
+      "type": "array",
+      "minItems": 6,
+      "items": {"$ref": "#/$defs/referenceTransferExclusion"}
+    },
+    "audience_profiles": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/typedAudienceProfile"}
+    },
+    "x_reference_audience_envelope": {"$ref": "#/$defs/xReferenceAudienceEnvelope"},
+    "title_target_intersection": {"$ref": "#/$defs/titleTargetIntersection"},
+    "message_progression": {"$ref": "#/$defs/progression"},
+    "emotional_progression": {"$ref": "#/$defs/progression"},
+    "candidate_routes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/candidateRoute"}
+    },
+    "storyline_lineage": {"$ref": "#/$defs/storylineLineage"},
+    "sequence_runs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/pre00SequenceRun"}
+    },
+    "fp_autonomy_envelope": {"$ref": "#/$defs/fpAutonomyEnvelope"},
+    "source_acquisition_authority": {"$ref": "#/$defs/sourceAcquisitionAuthority"},
+    "planning_image_authority": {"$ref": "#/$defs/planningImageAuthority"},
+    "operating_observation": {"$ref": "#/$defs/operatingObservation"},
+    "fp_launch_lock": {"$ref": "#/$defs/fpLaunchLock"},
+    "founder_selection": {"$ref": "#/$defs/founderSelection"},
+    "founder_decision_needed": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "automation_notes": {"type": "string"},
+    "hold_report": {"$ref": "#/$defs/holdReport"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "hold"}},
+        "required": ["status"]
+      },
+      "then": {"required": ["hold_report"]},
+      "else": {
+        "required": [
+          "research_freshness",
+          "research_vectors",
+          "research_inputs",
+          "target_trend_foundation",
+          "candidate_routes"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "selected"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["founder_selection", "target_trend_foundation", "storyline_lineage"],
+        "properties": {
+          "target_trend_foundation": {
+            "properties": {
+              "lock_status": {"const": "founder_locked"},
+              "primary_target": {
+                "properties": {
+                  "reference_audience_lineage": {
+                    "properties": {
+                      "main_reference_song": {
+                        "properties": {
+                          "transplant_status": {"const": "adopted_as_target_base"},
+                          "evidence": {
+                            "properties": {
+                              "evidence_status": {"const": "verified_current_run"}
+                            }
+                          }
+                        }
+                      },
+                      "intersection_decision": {
+                        "properties": {
+                          "status": {"const": "resolved"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "founder_selection": {
+            "properties": {
+              "action": {"enum": ["select_one", "combine_routes"]},
+              "route_ids": {"minItems": 1}
+            }
+          },
+          "storyline_lineage": {
+            "properties": {
+              "contextual_density_review": {
+                "properties": {"decision": {"const": "pass"}}
+              }
+            }
+          },
+          "title_target_intersection": {
+            "properties": {
+              "status": {"const": "resolved"},
+              "evidence_status": {"const": "verified_current_run"}
+            }
+          },
+          "x_reference_audience_envelope": {
+            "properties": {"evidence_status": {"const": "verified_current_run"}}
+          },
+          "fp_launch_lock": {
+            "properties": {
+              "status": {"const": "locked"},
+              "target_evidence_status": {"const": "verified_current_run"},
+              "timing_used_as_gate": {"const": false}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "archived"}},
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["founder_selection"],
+        "properties": {
+          "founder_selection": {
+            "properties": {"action": {"const": "archive"}}
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "evidenceStatus": {
+      "enum": ["verified_current_run", "working_hypothesis", "research_gap"]
+    },
+    "typedReferenceSlot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot_id",
+        "source_ref_id",
+        "source_identity",
+        "selected_locator",
+        "named_function",
+        "evidence_status",
+        "disposition",
+        "transfer_boundary",
+        "do_not_transfer"
+      ],
+      "properties": {
+        "slot_id": {"enum": ["A", "B", "C", "X", "Y", "Z"]},
+        "source_ref_id": {"$ref": "#/$defs/refId"},
+        "source_identity": {"type": "string", "minLength": 1},
+        "selected_locator": {"type": "string", "minLength": 1},
+        "named_function": {"type": "string", "minLength": 1},
+        "evidence_status": {"$ref": "#/$defs/evidenceStatus"},
+        "disposition": {"enum": ["applied", "combined", "held", "rejected"]},
+        "transfer_boundary": {"type": "string", "minLength": 1},
+        "do_not_transfer": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "visualReferenceHierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main_a", "subs_b_c", "hierarchy_rule"],
+      "properties": {
+        "main_a": {
+          "allOf": [
+            {"$ref": "#/$defs/typedReferenceSlot"},
+            {"properties": {"slot_id": {"const": "A"}}}
+          ]
+        },
+        "subs_b_c": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {"allOf": [{"$ref": "#/$defs/typedReferenceSlot"}, {"properties": {"slot_id": {"const": "B"}}}]},
+            {"allOf": [{"$ref": "#/$defs/typedReferenceSlot"}, {"properties": {"slot_id": {"const": "C"}}}]}
+          ],
+          "items": false
+        },
+        "hierarchy_rule": {"const": "A_governs_visual_direction_B_and_C_supply_distinct_named_functions_without_averaging_or_replacing_A"}
+      }
+    },
+    "audioReferenceHierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main_x", "subs_y_z", "hierarchy_rule"],
+      "properties": {
+        "main_x": {
+          "allOf": [
+            {"$ref": "#/$defs/typedReferenceSlot"},
+            {"properties": {"slot_id": {"const": "X"}, "source_ref_id": {"pattern": "^REF_SONG_[A-Z0-9_]{2,40}$"}}}
+          ]
+        },
+        "subs_y_z": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {"allOf": [{"$ref": "#/$defs/typedReferenceSlot"}, {"properties": {"slot_id": {"const": "Y"}}}]},
+            {"allOf": [{"$ref": "#/$defs/typedReferenceSlot"}, {"properties": {"slot_id": {"const": "Z"}}}]}
+          ],
+          "items": false
+        },
+        "hierarchy_rule": {"const": "X_is_the_main_song_specific_reference_Y_and_Z_supply_distinct_bounded_audio_functions"}
+      }
+    },
+    "referenceTransferExclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot_id", "source_ref_id", "transfer_functions", "exclusions"],
+      "properties": {
+        "slot_id": {"enum": ["A", "B", "C", "X", "Y", "Z"]},
+        "source_ref_id": {"$ref": "#/$defs/refId"},
+        "transfer_functions": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "exclusions": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "typedAudienceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "reference_slot", "profile_scope", "audience_profile", "evidence", "classification"],
+      "properties": {
+        "profile_id": {"type": "string", "pattern": "^AUD_PROFILE_[A-Z0-9_]{2,80}$"},
+        "reference_slot": {"enum": ["A", "B", "C", "X", "Y", "Z"]},
+        "profile_scope": {"enum": ["song_specific", "artist_relevant_segment", "scene_or_surface_reference"]},
+        "audience_profile": {"$ref": "#/$defs/referenceAudienceProfile"},
+        "evidence": {"$ref": "#/$defs/referenceAudienceEvidence"},
+        "classification": {"enum": ["target_base_input", "aligned_narrowing", "bounded_acquisition_bridge", "surface_or_technical", "rejected"]}
+      }
+    },
+    "xReferenceAudienceEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main_x_source_ref_id", "song_specific_profile_id", "artist_relevant_segment_profile_id", "evidence_status", "counterevidence", "envelope_definition", "exclusions"],
+      "properties": {
+        "main_x_source_ref_id": {"type": "string", "pattern": "^REF_SONG_[A-Z0-9_]{2,40}$"},
+        "song_specific_profile_id": {"type": "string", "pattern": "^AUD_PROFILE_[A-Z0-9_]{2,80}$"},
+        "artist_relevant_segment_profile_id": {"type": "string", "pattern": "^AUD_PROFILE_[A-Z0-9_]{2,80}$"},
+        "evidence_status": {"$ref": "#/$defs/evidenceStatus"},
+        "counterevidence": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "envelope_definition": {"type": "string", "minLength": 1},
+        "exclusions": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "titleTargetIntersection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_status", "x_envelope_role", "included_reference_profile_ids", "classified_reference_profiles", "final_target_definition", "viewer_situation", "desired_reward", "code_literacy", "platform_behavior", "rejection_triggers", "counterevidence", "intersection_rule"],
+      "properties": {
+        "status": {"enum": ["proposed", "resolved", "hold_empty_or_conflicted"]},
+        "evidence_status": {"$ref": "#/$defs/evidenceStatus"},
+        "x_envelope_role": {"const": "base"},
+        "included_reference_profile_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "classified_reference_profiles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["profile_id", "classification", "reason"],
+            "properties": {
+              "profile_id": {"type": "string", "minLength": 1},
+              "classification": {"enum": ["aligned_narrowing", "bounded_acquisition_bridge", "surface_or_technical", "rejected"]},
+              "reason": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "final_target_definition": {"type": "string", "minLength": 1},
+        "viewer_situation": {"type": "string", "minLength": 1},
+        "desired_reward": {"type": "string", "minLength": 1},
+        "code_literacy": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "platform_behavior": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "rejection_triggers": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "counterevidence": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "intersection_rule": {"const": "X_audience_envelope_is_the_base_other_reference_profiles_may_narrow_or_bridge_but_never_form_an_unbounded_fandom_union"}
+      }
+    },
+    "progression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opening_state", "ordered_turns", "ending_or_afterimage", "non_repetition_rule"],
+      "properties": {
+        "opening_state": {"type": "string", "minLength": 1},
+        "ordered_turns": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+        "ending_or_afterimage": {"type": "string", "minLength": 1},
+        "non_repetition_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "pre00SequenceRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sequence_run_id", "ordered_sequence_unit_ids", "storyline_function", "status"],
+      "properties": {
+        "sequence_run_id": {"type": "string", "pattern": "^SEQR_[A-Z0-9_]{2,100}$"},
+        "ordered_sequence_unit_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^SEQU_[A-Z0-9_]{2,100}$"}},
+        "storyline_function": {"type": "string", "minLength": 1},
+        "status": {"enum": ["proposed", "selected", "held", "rejected"]}
+      }
+    },
+    "fpAutonomyEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["director_may_author_three_complete_routes", "director_may_develop_without_mid_gate", "founder_intervention_points", "external_or_paid_actions_authorized"],
+      "properties": {
+        "director_may_author_three_complete_routes": {"const": true},
+        "director_may_develop_without_mid_gate": {"const": true},
+        "founder_intervention_points": {"type": "array", "const": ["direction_alignment", "g40_core_branch_authorization"]},
+        "external_or_paid_actions_authorized": {"const": false}
+      }
+    },
+    "sourceAcquisitionAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "scope", "authority_id"],
+      "properties": {
+        "status": {"enum": ["not_authorized", "founder_authorized_scoped"]},
+        "scope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "authority_id": {"type": ["string", "null"]}
+      }
+    },
+    "planningImageAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "scope", "authority_id", "paid_generation_authorized"],
+      "properties": {
+        "status": {"enum": ["not_authorized", "founder_authorized_scoped"]},
+        "scope": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "authority_id": {"type": ["string", "null"]},
+        "paid_generation_authorized": {"const": false}
+      }
+    },
+    "operatingObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_duration_minutes", "founder_dialogue_seconds", "source_blocked_seconds", "song_creation_seconds", "timing_is_gate"],
+      "properties": {
+        "target_duration_minutes": {"type": ["number", "null"], "minimum": 0},
+        "founder_dialogue_seconds": {"type": ["number", "null"], "minimum": 0},
+        "source_blocked_seconds": {"type": ["number", "null"], "minimum": 0},
+        "song_creation_seconds": {"type": ["number", "null"], "minimum": 0},
+        "timing_is_gate": {"const": false}
+      }
+    },
+    "fpLaunchLock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "target_evidence_status", "active_storyline_version_id", "active_storyline_sha256", "visual_reference_slots", "audio_reference_slots", "timing_used_as_gate"],
+      "properties": {
+        "status": {"enum": ["pending", "locked", "hold"]},
+        "target_evidence_status": {"$ref": "#/$defs/evidenceStatus"},
+        "active_storyline_version_id": {"type": "string", "pattern": "^PRE00_STORYLINE_V[0-9]{3,}$"},
+        "active_storyline_sha256": {"$ref": "#/$defs/sha256"},
+        "visual_reference_slots": {"type": "array", "const": ["A", "B", "C"]},
+        "audio_reference_slots": {"type": "array", "const": ["X", "Y", "Z"]},
+        "timing_used_as_gate": {"const": false}
+      }
+    },
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "storylineReferenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref_id",
+        "source_json_pointer",
+        "source_value_sha256",
+        "source_snapshot",
+        "selected_locator",
+        "storyline_function",
+        "transfer_boundary",
+        "do_not_transfer",
+        "affected_story_scope",
+        "disposition",
+        "direct_visual_use_authorized"
+      ],
+      "properties": {
+        "source_ref_id": {"$ref": "#/$defs/refId"},
+        "source_json_pointer": {"type": "string", "pattern": "^/research_inputs/REF_(AUDIENCE|TREND|SONG|MEDIA_NARRATIVE|FASHION|IDOL)_[A-Z0-9_]{2,40}$"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "source_snapshot": {"$ref": "#/$defs/researchInput"},
+        "selected_locator": {"type": "string", "minLength": 1},
+        "storyline_function": {"type": "string", "minLength": 1},
+        "transfer_boundary": {"type": "string", "minLength": 1},
+        "do_not_transfer": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "affected_story_scope": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["applied_to_storyline", "combined_into_storyline", "context_only"]},
+        "direct_visual_use_authorized": {"const": false}
+      }
+    },
+    "storylineAuthorshipReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authored_by", "authoring_method", "authored_at", "founder_status", "verbatim_full_text_preserved"],
+      "properties": {
+        "authored_by": {"enum": ["founder", "assigned_director"]},
+        "authoring_method": {"enum": ["founder_written_natural_language", "assigned_director_model_authored_natural_language"]},
+        "authored_at": {"type": "string", "format": "date-time"},
+        "founder_status": {"enum": ["pending", "selected", "revised_by_founder"]},
+        "verbatim_full_text_preserved": {"const": true}
+      }
+    },
+    "storylineOriginalVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_id",
+        "parent_version_id",
+        "parent_full_storyline_text_sha256",
+        "full_storyline_text",
+        "full_storyline_text_sha256",
+        "selected_route_ids",
+        "reference_bindings",
+        "authorship_receipt",
+        "execution_detail_boundary"
+      ],
+      "properties": {
+        "version_id": {"const": "PRE00_STORYLINE_V001"},
+        "parent_version_id": {"type": "null"},
+        "parent_full_storyline_text_sha256": {"type": "null"},
+        "full_storyline_text": {"type": "string", "minLength": 1},
+        "full_storyline_text_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_route_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"}},
+        "reference_bindings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/storylineReferenceBinding"}},
+        "authorship_receipt": {"$ref": "#/$defs/storylineAuthorshipReceipt"},
+        "execution_detail_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["natural_language_whole_mv_flow", "timecodes", "camera_geometry", "core_or_branch_cuts", "generation_prompts"],
+          "properties": {
+            "natural_language_whole_mv_flow": {"const": true},
+            "timecodes": {"const": false},
+            "camera_geometry": {"const": false},
+            "core_or_branch_cuts": {"const": false},
+            "generation_prompts": {"const": false}
+          }
+        }
+      }
+    },
+    "storylineRevisionVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_id",
+        "parent_version_id",
+        "parent_full_storyline_text_sha256",
+        "full_storyline_text",
+        "full_storyline_text_sha256",
+        "change_trigger",
+        "change_reason",
+        "changed_story_passages",
+        "preserved_story_invariants",
+        "selected_route_ids",
+        "reference_bindings",
+        "authorship_receipt",
+        "execution_detail_boundary"
+      ],
+      "properties": {
+        "version_id": {"type": "string", "pattern": "^PRE00_STORYLINE_V(?:00[2-9]|0[1-9][0-9]|[1-9][0-9]{2,})$"},
+        "parent_version_id": {"type": "string", "pattern": "^PRE00_STORYLINE_V[0-9]{3,}$"},
+        "parent_full_storyline_text_sha256": {"$ref": "#/$defs/sha256"},
+        "full_storyline_text": {"type": "string", "minLength": 1},
+        "full_storyline_text_sha256": {"$ref": "#/$defs/sha256"},
+        "change_trigger": {"enum": ["founder_revision", "new_reference_applied", "reference_function_changed", "target_or_song_lock_changed", "upstream_conflict_resolution"]},
+        "change_reason": {"type": "string", "minLength": 1},
+        "changed_story_passages": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "preserved_story_invariants": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "selected_route_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"}},
+        "reference_bindings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/storylineReferenceBinding"}},
+        "authorship_receipt": {"$ref": "#/$defs/storylineAuthorshipReceipt"},
+        "execution_detail_boundary": {"$ref": "#/$defs/storylineOriginalVersion/properties/execution_detail_boundary"}
+      }
+    },
+    "storylineDensityReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "reviewed_version_id",
+        "reviewed_full_storyline_text_sha256",
+        "decision",
+        "opening_to_ending_flow_review",
+        "causal_or_associative_continuity_review",
+        "state_and_turn_specificity_review",
+        "reference_influence_review",
+        "ending_afterimage_review",
+        "execution_detail_deferral_review"
+      ],
+      "properties": {
+        "method": {"const": "assigned_director_contextual_review_no_machine_similarity_or_numeric_density_score"},
+        "reviewed_version_id": {"type": "string", "pattern": "^PRE00_STORYLINE_V[0-9]{3,}$"},
+        "reviewed_full_storyline_text_sha256": {"$ref": "#/$defs/sha256"},
+        "decision": {"enum": ["pass", "hold"]},
+        "opening_to_ending_flow_review": {"type": "string", "minLength": 1},
+        "causal_or_associative_continuity_review": {"type": "string", "minLength": 1},
+        "state_and_turn_specificity_review": {"type": "string", "minLength": 1},
+        "reference_influence_review": {"type": "string", "minLength": 1},
+        "ending_afterimage_review": {"type": "string", "minLength": 1},
+        "execution_detail_deferral_review": {"type": "string", "minLength": 1}
+      }
+    },
+    "storylineLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "pre00_storyline_original",
+        "pre00_storyline_revisions",
+        "active_version",
+        "contextual_density_review",
+        "preservation_contract"
+      ],
+      "properties": {
+        "contract_version": {"const": "pre00_storyline_lineage.v1"},
+        "pre00_storyline_original": {"$ref": "#/$defs/storylineOriginalVersion"},
+        "pre00_storyline_revisions": {"type": "array", "items": {"$ref": "#/$defs/storylineRevisionVersion"}},
+        "active_version": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["version_id", "version_json_pointer", "full_storyline_text_sha256"],
+          "properties": {
+            "version_id": {"type": "string", "pattern": "^PRE00_STORYLINE_V[0-9]{3,}$"},
+            "version_json_pointer": {"type": "string", "pattern": "^/storyline_lineage/(?:pre00_storyline_original|pre00_storyline_revisions/[0-9]+)$"},
+            "full_storyline_text_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "contextual_density_review": {"$ref": "#/$defs/storylineDensityReview"},
+        "preservation_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["original_rule", "revision_rule", "reference_rule", "downstream_rule", "summary_rule"],
+          "properties": {
+            "original_rule": {"const": "pre00_storyline_original_is_immutable_and_is_never_overwritten_or_deleted"},
+            "revision_rule": {"const": "every_change_appends_a_new_full_text_version_with_parent_hash_reason_changed_passages_and_preserved_invariants"},
+            "reference_rule": {"const": "every_storyline_reference_travels_with_exact_source_snapshot_hash_function_transfer_boundary_and_do_not_transfer_scope"},
+            "downstream_rule": {"const": "song_room_front_planning_01_02a_02b_03v_and_04_consume_the_original_active_version_revision_history_and_reference_bindings"},
+            "summary_rule": {"const": "whole_film_progression_and_other_summaries_are_indexes_only_and_never_substitute_for_the_full_storyline"}
+          }
+        }
+      }
+    },
+    "memberCode": {
+      "type": "string",
+      "pattern": "^M(0[1-9]|1[0-3])$"
+    },
+    "activeUnitCode": {
+      "type": "string",
+      "enum": [
+        "EXEC_06",
+        "TUI_06",
+        "CACHE_05",
+        "SYNC_05",
+        "ECHO_05",
+        "CURL_06",
+        "CLI_05",
+        "REPO"
+      ]
+    },
+    "refId": {
+      "type": "string",
+      "pattern": "^REF_(AUDIENCE|TREND|SONG|MEDIA_NARRATIVE|FASHION|IDOL)_[A-Z0-9_]{2,40}$"
+    },
+    "researchFamily": {
+      "enum": ["audience", "trend", "song", "media_narrative", "fashion", "idol"]
+    },
+    "downstreamRole": {
+      "enum": [
+        "song_direction_design",
+        "candidate_audio_evaluation_question",
+        "selected_audio_analysis_question",
+        "pre00_target_trend_lock",
+        "front_planning_locked_target_translation",
+        "front_planning_visual_world_candidate",
+        "front_planning_reference_connection_candidate",
+        "front_planning_current_title_asset_candidate"
+      ]
+    },
+    "researchAspect": {
+      "enum": [
+        "trend_hypothesis_fit",
+        "song_hook_structure",
+        "target_empathy_message",
+        "choreography_performance_readability",
+        "still_camera_composition_grammar",
+        "mv_world_storyline",
+        "wardrobe_material_motion",
+        "unit_member_identity_fit",
+        "generation_promptability_risk",
+        "derivative_social_viability",
+        "short_form_platform_behavior",
+        "source_diversity_raw_trace"
+      ]
+    },
+    "researchPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_basis",
+        "current_research_required",
+        "minimum_reference_count",
+        "candidate_route_count",
+        "reference_families",
+        "unit_registry",
+        "reference_depth_goal",
+        "combination_rule",
+        "unity_rule",
+        "ref_id_integrity_rule",
+        "allowed_output",
+        "handoff_target"
+      ],
+      "properties": {
+        "method_basis": {"type": "string", "minLength": 1},
+        "current_research_required": {"const": true},
+        "minimum_reference_count": {"const": 6},
+        "candidate_route_count": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 7
+        },
+        "reference_families": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/researchFamily"}
+        },
+        "unit_registry": {"const": "assets/unit-registry.yaml"},
+        "reference_depth_goal": {"type": "string", "minLength": 1},
+        "combination_rule": {"type": "string", "minLength": 1},
+        "unity_rule": {"type": "string", "minLength": 1},
+        "ref_id_integrity_rule": {"type": "string", "minLength": 1},
+        "allowed_output": {
+          "const": "target_trend_locked_route_brief_before_song_selection"
+        },
+        "handoff_target": {
+          "const": "locked_target_to_song_direction_and_candidate_audio_path"
+        },
+        "public_reference_mining_policy": {
+          "$ref": "#/$defs/publicReferenceMiningPolicy"
+        }
+      }
+    },
+    "researchFreshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_ref",
+        "recheck_before_song_selection",
+        "durable_record_rule",
+        "bank_record_rule"
+      ],
+      "properties": {
+        "policy_ref": {"type": "string", "minLength": 1},
+        "recheck_before_song_selection": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "durable_record_rule": {"type": "string", "minLength": 1},
+        "bank_record_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "researchVector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vector_id",
+        "research_question",
+        "sample_rule",
+        "extraction_fields",
+        "downstream_roles",
+        "reject_if_missing"
+      ],
+      "properties": {
+        "vector_id": {"$ref": "#/$defs/researchAspect"},
+        "research_question": {"type": "string", "minLength": 1},
+        "sample_rule": {"type": "string", "minLength": 1},
+        "extraction_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "downstream_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/downstreamRole"}
+        },
+        "reject_if_missing": {"type": "string", "minLength": 1}
+      }
+    },
+    "researchInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "path_or_url",
+        "reference_family",
+        "reference_lane",
+        "short_note",
+        "useful_function",
+        "source_use_boundary"
+      ],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "path_or_url": {"type": "string", "minLength": 1},
+        "reference_family": {"$ref": "#/$defs/researchFamily"},
+        "reference_lane": {
+          "enum": [
+            "audience_behavior",
+            "audience_need_and_rejection",
+            "current_opportunity",
+            "trend_lifecycle",
+            "song_feeling",
+            "vocal_phrase_contour",
+            "hook_mechanics",
+            "song_structure",
+            "song_message",
+            "rhythm_pressure",
+            "vocal_rap_color",
+            "performance_song",
+            "media_narrative",
+            "mv_storyline",
+            "character_arc",
+            "audience_context",
+            "concept_semantics",
+            "fashion_season_trend",
+            "silhouette",
+            "material_texture",
+            "color_palette",
+            "accessory_styling",
+            "wardrobe_construction",
+            "idol_identity",
+            "idol_member_asset",
+            "idol_performance",
+            "idol_brand_bridge",
+            "industry_signal"
+          ]
+        },
+        "short_note": {"type": "string", "minLength": 1},
+        "useful_function": {"type": "string", "minLength": 1},
+        "collection_method": {
+          "enum": [
+            "manual_observation",
+            "browser_public_page",
+            "bilibili_yt_dlp_metadata",
+            "bilibili_yt_dlp_short_analysis_cut",
+            "bilibili_yt_dlp_contact_sheet",
+            "local_asset",
+            "founder_provided",
+            "published_article",
+            "trend_record"
+          ]
+        },
+        "source_use_boundary": {"type": "string", "minLength": 1},
+        "raw_observation": {"type": "string", "minLength": 1},
+        "observed_aspects": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/researchAspect"}
+        },
+        "source_time_ranges": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sourceTimeRange"}
+        },
+        "function_extracts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/functionExtract"}
+        }
+      }
+    },
+    "sourceTimeRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "time_range_label",
+        "start",
+        "end",
+        "observed_event",
+        "function_note"
+      ],
+      "properties": {
+        "time_range_label": {"type": "string", "minLength": 1},
+        "start": {"type": "string", "minLength": 1},
+        "end": {"type": "string", "minLength": 1},
+        "observed_event": {"type": "string", "minLength": 1},
+        "function_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "functionExtract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aspect",
+        "observation",
+        "candidate_function",
+        "downstream_roles",
+        "selection_note"
+      ],
+      "properties": {
+        "aspect": {"$ref": "#/$defs/researchAspect"},
+        "observation": {"type": "string", "minLength": 1},
+        "candidate_function": {"type": "string", "minLength": 1},
+        "downstream_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/downstreamRole"}
+        },
+        "selection_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "laneRefIds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["song", "media_narrative", "fashion", "idol"],
+      "properties": {
+        "song": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REF_SONG_[A-Z0-9_]{2,40}$"
+          }
+        },
+        "media_narrative": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REF_MEDIA_NARRATIVE_[A-Z0-9_]{2,40}$"
+          }
+        },
+        "fashion": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REF_FASHION_[A-Z0-9_]{2,40}$"
+          }
+        },
+        "idol": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REF_IDOL_[A-Z0-9_]{2,40}$"
+          }
+        }
+      }
+    },
+    "recommendedUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_code",
+        "unit_purpose",
+        "member_codes",
+        "unit_fit_reason",
+        "unit_risk"
+      ],
+      "properties": {
+        "unit_code": {"$ref": "#/$defs/activeUnitCode"},
+        "unit_purpose": {"type": "string", "minLength": 1},
+        "member_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/memberCode"}
+        },
+        "unit_fit_reason": {"type": "string", "minLength": 1},
+        "unit_risk": {"type": "string", "minLength": 1}
+      }
+    },
+    "targetTrendFoundation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lock_status",
+        "connection_candidates",
+        "primary_target",
+        "trend_synthesis",
+        "content_contract",
+        "evidence",
+        "downstream_rule"
+      ],
+      "properties": {
+        "lock_status": {"enum": ["proposed", "founder_locked"]},
+        "connection_candidates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/targetConnection"}
+        },
+        "primary_target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selected_connection_id",
+            "audience_definition",
+            "viewer_situation",
+            "desire_or_tension",
+            "audience_promise",
+            "attraction_triggers",
+            "rejection_triggers",
+            "do_not_serve",
+            "platform_behavior",
+            "reference_audience_lineage"
+          ],
+          "properties": {
+            "selected_connection_id": {
+              "type": "string",
+              "pattern": "^TARGET_CONNECTION_[A-Z0-9_]{2,40}$"
+            },
+            "audience_definition": {"type": "string", "minLength": 1},
+            "viewer_situation": {"type": "string", "minLength": 1},
+            "desire_or_tension": {"type": "string", "minLength": 1},
+            "audience_promise": {"type": "string", "minLength": 1},
+            "attraction_triggers": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "rejection_triggers": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "do_not_serve": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "platform_behavior": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "reference_audience_lineage": {"$ref": "#/$defs/referenceAudienceLineage"}
+          }
+        },
+        "trend_synthesis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "durable_signals",
+            "current_opportunities",
+            "expiry_or_volatility",
+            "do_not_copy",
+            "source_ref_ids"
+          ],
+          "properties": {
+            "durable_signals": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "current_opportunities": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "expiry_or_volatility": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "do_not_copy": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "source_ref_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^REF_TREND_[A-Z0-9_]{2,40}$"
+              }
+            }
+          }
+        },
+        "content_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "content_pillars",
+            "familiar_codes_to_retain",
+            "novelty_or_tension_to_add",
+            "song_reward_requirements",
+            "screen_reward_requirements"
+          ],
+          "properties": {
+            "content_pillars": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "familiar_codes_to_retain": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "novelty_or_tension_to_add": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "song_reward_requirements": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "screen_reward_requirements": {"$ref": "#/$defs/nonEmptyStringArray"}
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "audience_source_ref_ids",
+            "counterevidence",
+            "evidence_strength",
+            "freshness_note"
+          ],
+          "properties": {
+            "audience_source_ref_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^REF_AUDIENCE_[A-Z0-9_]{2,40}$"
+              }
+            },
+            "counterevidence": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "evidence_strength": {"enum": ["low", "medium", "high"]},
+            "freshness_note": {"type": "string", "minLength": 1}
+          }
+        },
+        "downstream_rule": {
+          "const": "the_locked_target_is_a_fixed_input;_song_and_front_planning_may_test_fit_but_must_not_silently_reselect_it"
+        }
+      }
+    },
+    "targetConnection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "connection_id",
+        "connection_type",
+        "audience_definition",
+        "response_mechanism",
+        "expected_song_reward",
+        "expected_screen_reward",
+        "reference_preview",
+        "evidence_ref_ids",
+        "counterevidence",
+        "recommendation"
+      ],
+      "properties": {
+        "connection_id": {
+          "type": "string",
+          "pattern": "^TARGET_CONNECTION_[A-Z0-9_]{2,40}$"
+        },
+        "connection_type": {
+          "enum": [
+            "actual_audience_overlap",
+            "shared_reward_adjacency",
+            "acquisition_bridge",
+            "surface_only_similarity"
+          ]
+        },
+        "audience_definition": {"type": "string", "minLength": 1},
+        "response_mechanism": {"type": "string", "minLength": 1},
+        "expected_song_reward": {"type": "string", "minLength": 1},
+        "expected_screen_reward": {"type": "string", "minLength": 1},
+        "reference_preview": {"$ref": "#/$defs/targetReferencePreview"},
+        "evidence_ref_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/refId"}
+        },
+        "counterevidence": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "recommendation": {"enum": ["primary", "secondary", "test_only", "reject"]}
+      }
+    },
+    "targetReferencePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_reference",
+        "supporting_references",
+        "comparison_note",
+        "preview_boundary"
+      ],
+      "properties": {
+        "main_reference": {
+          "$ref": "#/$defs/targetReferencePreviewItem",
+          "properties": {"role": {"const": "main_governing_candidate"}}
+        },
+        "supporting_references": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/targetReferencePreviewItem",
+            "properties": {"role": {"const": "supporting_candidate"}}
+          }
+        },
+        "comparison_note": {"type": "string", "minLength": 1},
+        "preview_boundary": {
+          "const": "target_selection_evidence_only;_front_planning_must_reinspect_and_bind_final_section_use"
+        }
+      }
+    },
+    "targetReferencePreviewItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref_id",
+        "role",
+        "medium",
+        "locator_note",
+        "target_response_reason",
+        "proposed_transfer_function",
+        "mismatch_risk"
+      ],
+      "properties": {
+        "source_ref_id": {"$ref": "#/$defs/refId"},
+        "role": {"enum": ["main_governing_candidate", "supporting_candidate"]},
+        "medium": {
+          "enum": [
+            "music_video",
+            "performance_video",
+            "film_or_series_scene",
+            "editorial_still",
+            "fashion_campaign",
+            "other_visual"
+          ]
+        },
+        "locator_note": {"type": "string", "minLength": 1},
+        "target_response_reason": {"type": "string", "minLength": 1},
+        "proposed_transfer_function": {"type": "string", "minLength": 1},
+        "mismatch_risk": {"type": "string", "minLength": 1}
+      }
+    },
+    "referenceAudienceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "audience_definition",
+        "viewer_situation",
+        "desired_reward",
+        "literacy_and_codes",
+        "platform_behavior",
+        "attraction_triggers",
+        "rejection_triggers"
+      ],
+      "properties": {
+        "audience_definition": {"type": "string", "minLength": 1},
+        "viewer_situation": {"type": "string", "minLength": 1},
+        "desired_reward": {"type": "string", "minLength": 1},
+        "literacy_and_codes": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "platform_behavior": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "attraction_triggers": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "rejection_triggers": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "referenceAudienceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref_ids",
+        "evidence_status",
+        "counterevidence",
+        "freshness_note"
+      ],
+      "properties": {
+        "source_ref_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/refId"}
+        },
+        "evidence_status": {
+          "enum": ["verified_current_run", "working_hypothesis", "research_gap"]
+        },
+        "counterevidence": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "freshness_note": {"type": "string", "minLength": 1}
+      }
+    },
+    "mainReferenceSongAudience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref_id",
+        "artist_or_group",
+        "song_title",
+        "locator_note",
+        "audience_profile",
+        "evidence",
+        "transplant_status"
+      ],
+      "properties": {
+        "source_ref_id": {
+          "type": "string",
+          "pattern": "^REF_SONG_[A-Z0-9_]{2,40}$"
+        },
+        "artist_or_group": {"type": "string", "minLength": 1},
+        "song_title": {"type": "string", "minLength": 1},
+        "locator_note": {"type": "string", "minLength": 1},
+        "audience_profile": {"$ref": "#/$defs/referenceAudienceProfile"},
+        "evidence": {"$ref": "#/$defs/referenceAudienceEvidence"},
+        "transplant_status": {
+          "enum": ["adopted_as_target_base", "provisional_hold", "rejected"]
+        }
+      }
+    },
+    "sceneReferenceAudience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref_id",
+        "locator_note",
+        "audience_profile",
+        "evidence",
+        "fit_disposition",
+        "effect_on_base_target",
+        "selected_for_intersection"
+      ],
+      "properties": {
+        "source_ref_id": {
+          "type": "string",
+          "pattern": "^REF_(MEDIA_NARRATIVE|FASHION|IDOL)_[A-Z0-9_]{2,40}$"
+        },
+        "locator_note": {"type": "string", "minLength": 1},
+        "audience_profile": {"$ref": "#/$defs/referenceAudienceProfile"},
+        "evidence": {"$ref": "#/$defs/referenceAudienceEvidence"},
+        "fit_disposition": {
+          "enum": [
+            "aligned_narrowing",
+            "bounded_acquisition_bridge",
+            "surface_only_test",
+            "rejected"
+          ]
+        },
+        "effect_on_base_target": {"type": "string", "minLength": 1},
+        "selected_for_intersection": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"selected_for_intersection": {"const": true}},
+            "required": ["selected_for_intersection"]
+          },
+          "then": {
+            "properties": {
+              "fit_disposition": {
+                "enum": ["aligned_narrowing", "bounded_acquisition_bridge"]
+              },
+              "evidence": {
+                "properties": {
+                  "evidence_status": {"const": "verified_current_run"}
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "referenceAudienceIntersectionDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "base_source_ref_id",
+        "selected_scene_source_ref_ids",
+        "final_target_definition",
+        "shared_viewer_situation",
+        "shared_reward",
+        "shared_literacy_and_codes",
+        "shared_platform_behavior",
+        "preserved_rejection_triggers",
+        "exclusions",
+        "decision_rule"
+      ],
+      "properties": {
+        "status": {"enum": ["proposed", "resolved", "hold_empty_or_conflicted"]},
+        "base_source_ref_id": {
+          "type": "string",
+          "pattern": "^REF_SONG_[A-Z0-9_]{2,40}$"
+        },
+        "selected_scene_source_ref_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^REF_(MEDIA_NARRATIVE|FASHION|IDOL)_[A-Z0-9_]{2,40}$"
+          }
+        },
+        "final_target_definition": {"type": "string", "minLength": 1},
+        "shared_viewer_situation": {"type": "string", "minLength": 1},
+        "shared_reward": {"type": "string", "minLength": 1},
+        "shared_literacy_and_codes": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "shared_platform_behavior": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "preserved_rejection_triggers": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "exclusions": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "decision_rule": {
+          "const": "main_reference_song_audience_is_the_base;_selected_scene_audiences_may_narrow_or_bridge_but_never_silently_replace_or_union"
+        }
+      }
+    },
+    "referenceAudienceLineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "brand_baseline_role",
+        "main_reference_song",
+        "scene_reference_audiences",
+        "intersection_decision"
+      ],
+      "properties": {
+        "contract_version": {"const": "reference_audience_transplant.v1"},
+        "brand_baseline_role": {"const": "context_only_not_title_target"},
+        "main_reference_song": {"$ref": "#/$defs/mainReferenceSongAudience"},
+        "scene_reference_audiences": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/sceneReferenceAudience"}
+        },
+        "intersection_decision": {
+          "$ref": "#/$defs/referenceAudienceIntersectionDecision"
+        }
+      }
+    },
+    "lockedTargetFit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_reward_served",
+        "response_mechanism",
+        "route_specific_risk",
+        "validation_question"
+      ],
+      "properties": {
+        "target_reward_served": {"type": "string", "minLength": 1},
+        "response_mechanism": {"type": "string", "minLength": 1},
+        "route_specific_risk": {"type": "string", "minLength": 1},
+        "validation_question": {"type": "string", "minLength": 1}
+      }
+    },
+    "frontPlanningCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message_translation_hypothesis",
+        "visual_identity_hypothesis",
+        "whole_film_progression_hypothesis",
+        "reference_connection_questions",
+        "current_title_asset_questions"
+      ],
+      "properties": {
+        "message_translation_hypothesis": {"type": "string", "minLength": 1},
+        "visual_identity_hypothesis": {"type": "string", "minLength": 1},
+        "whole_film_progression_hypothesis": {"type": "string", "minLength": 1},
+        "reference_connection_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "current_title_asset_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "routeSeed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "song_direction_questions",
+        "candidate_audio_validation_questions",
+        "front_planning_candidate",
+        "source_links",
+        "risks",
+        "open_questions"
+      ],
+      "properties": {
+        "song_direction_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "candidate_audio_validation_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "front_planning_candidate": {
+          "$ref": "#/$defs/frontPlanningCandidate"
+        },
+        "source_links": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/refId"}
+        },
+        "risks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "open_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "candidateRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "route_name",
+        "situation_feeling",
+        "provisional_message",
+        "provisional_song_direction",
+        "locked_target_fit",
+        "recommended_unit",
+        "source_ref_ids",
+        "lane_ref_ids",
+        "combined_signal",
+        "visual_world_candidate",
+        "first_screen_hook",
+        "primary_screen_driver",
+        "why_aurora_m_can_own_it",
+        "risk_or_gap",
+        "route_seed"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "pattern": "^ROUTE_[A-Z0-9_]{2,40}$"
+        },
+        "route_name": {"type": "string", "minLength": 1},
+        "situation_feeling": {"type": "string", "minLength": 1},
+        "provisional_message": {"type": "string", "minLength": 1},
+        "provisional_song_direction": {"type": "string", "minLength": 1},
+        "locked_target_fit": {
+          "$ref": "#/$defs/lockedTargetFit"
+        },
+        "recommended_unit": {"$ref": "#/$defs/recommendedUnit"},
+        "source_ref_ids": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/refId"}
+        },
+        "lane_ref_ids": {"$ref": "#/$defs/laneRefIds"},
+        "combined_signal": {"type": "string", "minLength": 1},
+        "visual_world_candidate": {"type": "string", "minLength": 1},
+        "first_screen_hook": {"type": "string", "minLength": 1},
+        "primary_screen_driver": {
+          "enum": [
+            "member_led",
+            "unit_or_group_led",
+            "world_object_led",
+            "environment_insert",
+            "system_transition",
+            "mixed_member_world"
+          ]
+        },
+        "why_aurora_m_can_own_it": {"type": "string", "minLength": 1},
+        "risk_or_gap": {"type": "string", "minLength": 1},
+        "route_seed": {"$ref": "#/$defs/routeSeed"}
+      }
+    },
+    "founderSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "route_ids",
+        "selection_note",
+        "next_song_direction_action"
+      ],
+      "properties": {
+        "action": {
+          "enum": [
+            "select_one",
+            "combine_routes",
+            "request_another_pass",
+            "archive"
+          ]
+        },
+        "route_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^ROUTE_[A-Z0-9_]{2,40}$"
+          }
+        },
+        "selection_note": {"type": "string", "minLength": 1},
+        "next_song_direction_action": {
+          "enum": [
+            "design_song_direction",
+            "prepare_manual_or_suno_candidate",
+            "analyze_founder_selected_audio",
+            "hold"
+          ]
+        }
+      }
+    },
+    "holdReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hold_reason",
+        "missing_requirements",
+        "usable_reference_count",
+        "partial_reference_families",
+        "next_action"
+      ],
+      "properties": {
+        "hold_reason": {"type": "string", "minLength": 1},
+        "missing_requirements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "usable_reference_count": {"type": "integer", "minimum": 0},
+        "partial_reference_families": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/researchFamily"}
+        },
+        "next_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "publicReferenceMiningPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "purpose",
+        "allowed_platforms",
+        "yt_dlp_scope",
+        "account_boundary",
+        "allowed_outputs",
+        "forbidden_uses",
+        "trend_alignment_rule",
+        "source_hub_rule",
+        "downstream_use_rule",
+        "raw_cache_rule"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["founder_approved_bilibili_only", "hold"]
+        },
+        "purpose": {"type": "string", "minLength": 1},
+        "allowed_platforms": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {"const": "Bilibili"}
+        },
+        "yt_dlp_scope": {"type": "string", "minLength": 1},
+        "account_boundary": {"type": "string", "minLength": 1},
+        "allowed_outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "forbidden_uses": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "trend_alignment_rule": {"type": "string", "minLength": 1},
+        "source_hub_rule": {"type": "string", "minLength": 1},
+        "downstream_use_rule": {"type": "string", "minLength": 1},
+        "raw_cache_rule": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Planning CDD"
+  short_description: "P1/P2/P3-Ci Planning CDD Cell lane director"
+  default_prompt: "Use $idol-planning-cdd to direct one pre-G-40 Planning CDD lane with a disjoint Decision Set."

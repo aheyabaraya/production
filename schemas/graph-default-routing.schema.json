@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-default-routing.schema.json",
+  "title": "IDOL Graph Engineering Default Routing",
+  "description": "New-run versus legacy-pinned writer boundary, G0--G4 Founder gates, P3-Ci/V-Ci same-cohort succession, backpressure, and same-session correction. Graph v2 is not the default writer until a verified default-switch receipt exists. Dual active writers fail closed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority",
+    "writer_boundary",
+    "switch_receipt",
+    "founder_gates",
+    "cohort_succession",
+    "session_caps",
+    "backpressure",
+    "same_session_correction",
+    "orchestrator_route"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-default-routing.v1"},
+    "status": {"enum": ["shadow_not_default", "hold"]},
+    "authority": {"const": "mechanical_route_selection_no_creative_or_promotion_authority"},
+    "writer_boundary": {"$ref": "#/$defs/writerBoundary"},
+    "switch_receipt": {"$ref": "#/$defs/switchReceipt"},
+    "founder_gates": {"$ref": "#/$defs/founderGates"},
+    "cohort_succession": {"$ref": "#/$defs/cohortSuccession"},
+    "session_caps": {"$ref": "#/$defs/sessionCaps"},
+    "backpressure": {"$ref": "#/$defs/backpressure"},
+    "same_session_correction": {"$ref": "#/$defs/sameSessionCorrection"},
+    "orchestrator_route": {"$ref": "#/$defs/orchestratorRoute"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "writerBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dual_active_writer",
+        "historical_harness_ids",
+        "existing_runs",
+        "new_runs",
+        "parse_only_prefixes",
+        "active_graph_surfaces",
+        "legacy_surfaces"
+      ],
+      "properties": {
+        "dual_active_writer": {"const": "fail_closed"},
+        "historical_harness_ids": {"const": "parse_only_legacy_capsule"},
+        "existing_runs": {"const": "legacy_pinned"},
+        "new_runs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["default", "graph_v2_requires", "missing_receipt_action"],
+          "properties": {
+            "default": {"const": "legacy_pinned"},
+            "graph_v2_requires": {"const": "verified_default_switch_receipt"},
+            "missing_receipt_action": {"const": "hold_keep_legacy_writer"}
+          }
+        },
+        "parse_only_prefixes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "active_graph_surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "legacy_surfaces": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "switchReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_fields",
+        "verified_means",
+        "missing_action",
+        "partial_migration_action",
+        "rollback"
+      ],
+      "properties": {
+        "required_fields": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "receipt_id",
+              "founder_authority",
+              "graph_revision",
+              "switch_boundary",
+              "source_set_sha256",
+              "verified_at"
+            ]
+          }
+        },
+        "verified_means": {
+          "const": "founder_named_graph_revision_and_boundary_with_source_set_sha256"
+        },
+        "missing_action": {"const": "hold_keep_legacy_writer"},
+        "partial_migration_action": {"const": "fail_closed_no_dual_writer"},
+        "rollback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["pointer", "graph_v2_after_rollback", "creative_bytes"],
+          "properties": {
+            "pointer": {"const": "last_passed_legacy_revision"},
+            "graph_v2_after_rollback": {"const": "read_only_shadow"},
+            "creative_bytes": {"const": "never_rewrite"}
+          }
+        }
+      }
+    },
+    "founderGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "founder_judges", "must_already_be_closed", "bypass_action"],
+      "properties": {
+        "gate_id": {"enum": ["G0", "G1", "G2", "G3", "G4"]},
+        "founder_judges": {"type": "string", "minLength": 1},
+        "must_already_be_closed": {"type": "string", "minLength": 1},
+        "bypass_action": {"const": "hold"}
+      }
+    },
+    "founderGates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["normal_cycle", "gates", "material_escalation", "non_material_state"],
+      "properties": {
+        "normal_cycle": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"enum": ["G0", "G1", "G2", "G3", "G4"]}
+        },
+        "gates": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/founderGate"}
+        },
+        "material_escalation": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "non_material_state": {"const": "director_owned_hold_and_route"}
+      }
+    },
+    "cohortSuccession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "p3_requires",
+        "g40_planning_state",
+        "lane_id_pattern",
+        "same_cohort_carry",
+        "pixel_to_playback",
+        "section_output_writer",
+        "promotion_owner",
+        "wrong_cohort_action",
+        "cross_cohort_parallelism"
+      ],
+      "properties": {
+        "p3_requires": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "g40_planning_state": {"const": "read_only_rollback_point"},
+        "lane_id_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "overall",
+            "planning_p1",
+            "planning_p2",
+            "planning_p3_ci",
+            "section_cluster_v_ci",
+            "edit_director"
+          ],
+          "properties": {
+            "overall": {"const": "^overall$"},
+            "planning_p1": {"const": "^planning_p1$"},
+            "planning_p2": {"const": "^planning_p2$"},
+            "planning_p3_ci": {"const": "^planning_p3_c[1-9][0-9]*$"},
+            "section_cluster_v_ci": {"const": "^section_cluster_v_c[1-9][0-9]*$"},
+            "edit_director": {"const": "^edit_director$"}
+          }
+        },
+        "same_cohort_carry": {"const": "p3_ci_section_cohort_id_exact_carries_to_v_ci"},
+        "pixel_to_playback": {"const": "same_cohort_cdd_successor"},
+        "section_output_writer": {"const": "one_section_image_motion_worker"},
+        "promotion_owner": {"const": "overall_director"},
+        "wrong_cohort_action": {"const": "hold"},
+        "cross_cohort_parallelism": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "planning_p3_ci",
+            "section_cluster_v_ci",
+            "capacity_creates_lane",
+            "requires_disjoint_write_scope",
+            "lower_provider_combined_cap_and_backpressure_win"
+          ],
+          "properties": {
+            "planning_p3_ci": {"const": "allowed_for_disjoint_cohort_lanes"},
+            "section_cluster_v_ci": {"const": "allowed_for_disjoint_cohort_lanes"},
+            "capacity_creates_lane": {"const": false},
+            "requires_disjoint_write_scope": {"const": true},
+            "lower_provider_combined_cap_and_backpressure_win": {"const": true}
+          }
+        }
+      }
+    },
+    "sessionCaps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_overall",
+        "active_writer_per_lane_stage",
+        "physical_per_lane_stage",
+        "successor_before_cas",
+        "cas_commit",
+        "provider_physical_ceiling",
+        "third_session"
+      ],
+      "properties": {
+        "logical_overall": {"const": 1},
+        "active_writer_per_lane_stage": {"const": 1},
+        "physical_per_lane_stage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primary", "successor", "maximum"],
+          "properties": {
+            "primary": {"const": 1},
+            "successor": {"const": 1},
+            "maximum": {"const": 2}
+          }
+        },
+        "successor_before_cas": {"const": "read_only_not_active_writer"},
+        "cas_commit": {"const": "atomic_retire_primary_then_activate_successor"},
+        "provider_physical_ceiling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["grok_build_nonroot", "cursor_agent_nonroot", "combined", "lower_live_cap_wins"],
+          "properties": {
+            "grok_build_nonroot": {"const": 8},
+            "cursor_agent_nonroot": {"const": 6},
+            "combined": {"const": 14},
+            "lower_live_cap_wins": {"const": true}
+          }
+        },
+        "third_session": {"const": "hold_never_auto_spawn"}
+      }
+    },
+    "backpressure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capacity_is",
+        "pause_when",
+        "unreviewed_aggregate_manifest_limit_per_lane",
+        "new_launch_when_limit_reached"
+      ],
+      "properties": {
+        "capacity_is": {"const": "ceiling_never_quota"},
+        "pause_when": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "unreviewed_aggregate_manifest_limit_per_lane": {"const": 2},
+        "new_launch_when_limit_reached": {"const": "forbidden"}
+      }
+    },
+    "sameSessionCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "creates",
+        "physical_session",
+        "prior_evidence",
+        "max_child_submissions",
+        "after_submission_three",
+        "must_not"
+      ],
+      "properties": {
+        "creates": {"const": "new_immutable_attempt_same_room"},
+        "physical_session": {"const": "same_session"},
+        "prior_evidence": {"const": "preserve"},
+        "max_child_submissions": {"const": 3},
+        "after_submission_three": {"const": "route_upstream_or_hold"},
+        "must_not": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "orchestratorRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "selects_writer_from",
+        "graph_v2_owns",
+        "legacy_owns",
+        "skill_load_registry",
+        "projection_registry",
+        "role_context_pack"
+      ],
+      "properties": {
+        "owner": {"const": "overall_director"},
+        "selects_writer_from": {"const": "automation/graph-default-routing.yaml"},
+        "graph_v2_owns": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "legacy_owns": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "skill_load_registry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["graph_v2", "legacy_pinned"],
+          "properties": {
+            "graph_v2": {"const": "automation/graph-skill-load-profiles.yaml"},
+            "legacy_pinned": {"const": "automation/harness-skill-load-profiles.yaml"}
+          }
+        },
+        "projection_registry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["graph_v2", "legacy_pinned"],
+          "properties": {
+            "graph_v2": {"const": "automation/graph-role-context-projection.yaml"},
+            "legacy_pinned": {"const": "automation/harness-role-context-projection.yaml"}
+          }
+        },
+        "role_context_pack": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["exact_node", "replaces_broad_reads", "urls_and_raw_pools"],
+          "properties": {
+            "exact_node": {"const": true},
+            "replaces_broad_reads": {"const": true},
+            "urls_and_raw_pools": {"const": "excluded_recoverable_via_source_id_locator_sha256"}
+          }
+        }
+      }
+    }
+  }
+}

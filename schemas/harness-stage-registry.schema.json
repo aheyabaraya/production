@@ -1,0 +1,424 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-stage-registry.schema.json",
+  "title": "IDOL Active Graph Engineering Stage Registry",
+  "description": "Breaking active-route contract for the Front Planning-centered song and MV graph-engineering runtime. Historical run artifacts are evidence only and are not authoring fallbacks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "studio_execution",
+    "migration_policy",
+    "decision_ownership_policy",
+    "validation_authority_policy",
+    "context_pack_policy",
+    "review_model",
+    "phases",
+    "stages"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-harness-stage-registry.v8"
+    },
+    "status": {
+      "const": "active"
+    },
+    "studio_execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_contract_path",
+        "department_dispatch_schema",
+        "director_dispatch_index_schema",
+        "reference_working_index_schema",
+        "skill_load_profiles_registry",
+        "provider_profile_registry",
+        "founder_workbench_path_template",
+        "startup_owner",
+        "startup_development_session",
+        "director_profile_alias",
+        "worker_profile_alias",
+        "active_director_binding_rule",
+        "ordinary_department_and_section_worker",
+        "native_subagent_policy",
+        "canonical_promotion_owner",
+        "founder_conversation_owner",
+        "cdd_review_extent",
+        "edit_director_review_extent",
+        "ordinary_terra_route"
+      ],
+      "properties": {
+        "execution_contract_path": {
+          "const": "automation/harness-execution-contract.yaml"
+        },
+        "department_dispatch_schema": {
+          "const": "schemas/department-dispatch.schema.json"
+        },
+        "director_dispatch_index_schema": {
+          "const": "schemas/director-dispatch-index.schema.json"
+        },
+        "reference_working_index_schema": {
+          "const": "schemas/reference-working-index.schema.json"
+        },
+        "skill_load_profiles_registry": {
+          "const": "automation/harness-skill-load-profiles.yaml"
+        },
+        "provider_profile_registry": {
+          "const": "automation/harness-provider-profile-registry.yaml"
+        },
+        "founder_workbench_path_template": {
+          "const": "RUN/review/founder-workbench.html"
+        },
+        "startup_owner": {
+          "const": "overall_director"
+        },
+        "startup_development_session": {
+          "const": "creative_development_director"
+        },
+        "director_profile_alias": {
+          "const": "director_deep"
+        },
+        "worker_profile_alias": {
+          "const": "worker_high"
+        },
+        "active_director_binding_rule": {
+          "const": "exactly_one_per_open_logical_role"
+        },
+        "ordinary_department_and_section_worker": {
+          "const": "provider_resolved_worker_high"
+        },
+        "native_subagent_policy": {
+          "const": "provider_native_default_without_project_numeric_or_depth_override"
+        },
+        "canonical_promotion_owner": {
+          "const": "overall_director"
+        },
+        "founder_conversation_owner": {
+          "const": "overall_director"
+        },
+        "cdd_review_extent": {
+          "const": "pre_00_through_image_pixels_motion_storyboard_and_03v_playback"
+        },
+        "edit_director_review_extent": {
+          "const": "stage_04_through_05"
+        },
+        "ordinary_terra_route": {
+          "const": "forbidden"
+        }
+      }
+    },
+    "migration_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compatibility_branch",
+        "historical_artifact_use",
+        "retired_active_stage_labels",
+        "fallback_to_historical_contracts"
+      ],
+      "properties": {
+        "compatibility_branch": {
+          "const": "none"
+        },
+        "historical_artifact_use": {
+          "const": "evidence_only"
+        },
+        "retired_active_stage_labels": {
+          "type": "array",
+          "const": ["00", "01A", "02"]
+        },
+        "fallback_to_historical_contracts": {
+          "const": "forbidden"
+        }
+      }
+    },
+    "decision_ownership_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "one_owner_per_truth",
+        "founder_direct_update_scope",
+        "local_revision_default",
+        "upstream_reopen_rule"
+      ],
+      "properties": {
+        "one_owner_per_truth": {
+          "const": true
+        },
+        "founder_direct_update_scope": {
+          "const": "exact_named_fields_and_affected_units"
+        },
+        "local_revision_default": {
+          "const": "revise_smallest_owner_then_reproject_affected_dependents"
+        },
+        "upstream_reopen_rule": {
+          "const": "only_when_governing_truth_changes"
+        }
+      }
+    },
+    "validation_authority_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deterministic_authority",
+        "director_authority",
+        "forbidden_machine_claims"
+      ],
+      "properties": {
+        "deterministic_authority": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "director_authority": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "forbidden_machine_claims": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        }
+      }
+    },
+    "context_pack_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "front_planning_to_01",
+        "image_prompt_section",
+        "video_motion_section",
+        "adjacent_context_rule",
+        "quality_rule"
+      ],
+      "properties": {
+        "front_planning_to_01": {
+          "const": "passed_fp_a_b_c_selection_plus_storyline_lineage_screen_progression_map_major_stack_sequence_composition_and_exact_core_reference_bindings"
+        },
+        "image_prompt_section": {
+          "const": "exact_selected_scope_storyline_sequence_parent_official_core_current_production_cut_neighbors_ordered_member_visual_then_scene_references_and_provider_snapshot"
+        },
+        "video_motion_section": {
+          "const": "exact_active_storyline_selected_sequence_passed_official_core_or_branch_pixels_audio_placement_motion_storyboard_and_provider_snapshot_for_one_section"
+        },
+        "adjacent_context_rule": {
+          "const": "previous_and_next_production_cut_inside_the_parent_core_plus_previous_and_next_official_core_inside_the_same_section_only"
+        },
+        "quality_rule": {
+          "const": "compression_never_removes_required_creative_truth"
+        }
+      }
+    },
+    "review_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "generator",
+        "decision_values",
+        "cumulative_gate_ids",
+        "hierarchy",
+        "revision_scopes"
+      ],
+      "properties": {
+        "schema": {
+          "const": "schemas/html-review-board.schema.json"
+        },
+        "generator": {
+          "const": "scripts/idol_html_review_board.rb"
+        },
+        "decision_values": {
+          "type": "array",
+          "const": ["PASS", "HOLD", "REJECT"]
+        },
+        "cumulative_gate_ids": {
+          "type": "array",
+          "const": ["G-30", "G-40", "G-50", "G-60"]
+        },
+        "hierarchy": {
+          "type": "array",
+          "const": [
+            "target_and_message",
+            "whole_film_and_section_flow",
+            "fp_route",
+            "section",
+            "major_scene",
+            "sequence_composition",
+            "official_core",
+            "production_cut",
+            "motion_storyboard",
+            "playback"
+          ]
+        },
+        "revision_scopes": {
+          "type": "array",
+          "const": ["whole_film", "fp_route", "section", "major_scene", "sequence_composition", "official_core", "production_cut", "motion_storyboard", "playback"]
+        }
+      }
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/phase"
+      }
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/stage"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "nonEmptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["phase_id", "order", "name", "stage_ids"],
+      "properties": {
+        "phase_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "order",
+        "code",
+        "name",
+        "owner_skill",
+        "professional_role",
+        "decision_mode",
+        "scope",
+        "inputs",
+        "output_contracts",
+        "founder_gate",
+        "active"
+      ],
+      "properties": {
+        "stage_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner_skill": {
+          "type": "string",
+          "pattern": "^idol-[a-z0-9-]+$"
+        },
+        "professional_role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decision_mode": {
+          "enum": [
+            "authors",
+            "derives",
+            "executes",
+            "reviews",
+            "packages",
+            "records"
+          ]
+        },
+        "scope": {
+          "enum": [
+            "whole_run",
+            "whole_film",
+            "one_section",
+            "one_core_cut",
+            "one_branch_cut",
+            "one_production_cut",
+            "release"
+          ]
+        },
+        "session_route": {
+          "enum": [
+            "creative_development_director",
+            "cdd_physical_song_room",
+            "pre_02a_luna_development_block",
+            "cdd_review_then_overall_milestone",
+            "post_02a_luna_image_motion_lineage",
+            "edit_director_04_05"
+          ]
+        },
+        "inputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "output_contracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "substage_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "founder_gate": {
+          "enum": [
+            "none",
+            "track_selection",
+            "pass_hold_reject",
+            "paid_generation_approval",
+            "public_release_approval"
+          ]
+        },
+        "active": {
+          "const": true
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

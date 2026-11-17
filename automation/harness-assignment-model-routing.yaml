@@ -1,0 +1,500 @@
+schema_version: idol-harness-assignment-model-routing.v1
+status: grok_default_with_founder_opt_in_substitutes
+implementation_baseline: 6d11a1290379d6b7e045c54eebb18681c457484b
+selector_policy:
+  contains_model_literals: false
+  no_fallback: true
+  cursor_grok_forbidden: true
+  registered_cursor_grok_profile_use: founder_explicit_distinct_cursor_provider_only
+  cursor_auto_forbidden: true
+  default_medium_forbidden: true
+  default_max_forbidden_for:
+    - cursor_opus_thinking_high
+    - cursor_fable_thinking_xhigh
+    - cursor_sol_xhigh
+  ultra_forbidden: true
+  silent_provider_or_model_substitution: forbidden
+  existing_run_snapshots_mutated: false
+  default_provider: grok
+  default_runtime_surface: grok_cli
+  non_grok_requires_founder_explicit_substitute: true
+  founder_default_switch_required_for_activation: false
+  cdd_grade_resolves_only_to_frontier_director: true
+  no_fixed_cdd_count: true
+concurrency:
+  current_active:
+    authoritative_until_atomic_migration: true
+    ordinary_combined_creative_workers: 14
+    reviewed_maximum_combined_creative_workers: 14
+    post_02a_sections_ordinary: 14
+    post_02a_sections_reviewed: 14
+    grok_nonroot_ordinary: 8
+    grok_nonroot_reviewed: 8
+    cursor_nonroot_ordinary: 6
+    cursor_nonroot_reviewed: 6
+    maximum_active_department_sessions: 14
+    one_outstanding_media_job_per_section: true
+    launch_to_fill_capacity: false
+    lower_provider_cap_wins: true
+  proposed_future_operational_ceiling:
+    status: activated
+    ordinary_physical_workers: 14
+    hard_safety_ceiling: 14
+    ordinary_section_mv_open_all_sections: 7_to_12
+    activation: founder_activated_current_request
+graph_engineering_director_lanes:
+  logical_tier: frontier_director
+  compatibility_logical_alias: director_deep
+  no_fallback: true
+  no_fixed_cdd_count: true
+  physical_sessions_per_lane_stage:
+    primary: 1
+    successor: 1
+    maximum: 2
+    third_session_action: hold_without_auto_spawn
+  overall:
+    lane_id_pattern: "^overall$"
+  edit_director:
+    lane_id_pattern: "^edit_director$"
+  planning_cell:
+    active_until: g40_handoff_then_readonly
+    lanes:
+      p1:
+        assignment_id: planning_cdd_p1
+        lane_id_pattern: "^planning_p1$"
+        mode: story_audience_lead
+        cardinality: one
+        physical_toml: .codex/agents/idol-sol-planning-cdd.toml
+        physical_toml_semantics: codex_role_template_only_never_provider_selection
+        provider_runtime_profile_id: grok_director_frontier
+        return_recipient: overall_director
+      p2:
+        assignment_id: planning_cdd_p2
+        lane_id_pattern: "^planning_p2$"
+        mode: visual_reference_development
+        cardinality: one
+        physical_toml: .codex/agents/idol-sol-planning-cdd.toml
+        physical_toml_semantics: codex_role_template_only_never_provider_selection
+        provider_runtime_profile_id: grok_director_frontier
+        return_recipient: planning_cdd_p1
+      p3_ci:
+        assignment_id: planning_cdd_p3_ci
+        lane_id_pattern: "^planning_p3_c[1-9][0-9]*$"
+        mode: section_kinetic_architecture
+        cardinality: roster_derived_contiguous_2_or_3_section_cohorts
+        no_fixed_count: true
+        physical_toml: .codex/agents/idol-sol-planning-cdd.toml
+        physical_toml_semantics: codex_role_template_only_never_provider_selection
+        provider_runtime_profile_id: grok_director_frontier
+        return_recipient: planning_cdd_p1
+  section_cluster:
+    active_after: g40
+    assignment_id: section_cluster_cdd_v_ci
+    lane_id_pattern: "^section_cluster_v_c[1-9][0-9]*$"
+    cardinality: same_cohort_id_as_matching_p3
+    no_fixed_count: true
+    physical_toml: .codex/agents/idol-sol-section-cluster-cdd.toml
+    physical_toml_semantics: codex_role_template_only_never_provider_selection
+    provider_runtime_profile_id: grok_director_frontier
+    return_recipient: overall_director
+    same_cohort_02b_to_03v_successor: true
+  cohort_partition:
+    two_or_more_sections: only_2_or_3
+    singleton_allowed: whole_title_one_section_only
+    capacity_never_creates_cohort: true
+    examples:
+      - section_count: 4
+        cohorts: [2, 2]
+      - section_count: 5
+        cohorts: [2, 3]
+      - section_count: 7
+        cohorts: [2, 2, 3]
+      - section_count: 8
+        cohorts: [2, 3, 3]
+      - section_count: 9
+        cohorts: [3, 3, 3]
+media:
+  default_image:
+    owner: current_post_02a_section_owner
+    provider: grok
+    profile_id: grok_worker_high
+    tools:
+      - image_gen
+      - image_edit
+    provider_omitted_resolution: current_grok_native_only
+    status: default_active_registered_lane
+  optional_luna_image:
+    provider: cursor
+    profile_id: cursor_luna_max
+    default_enabled: false
+    status: available_founder_explicit_substitute
+    requires_cross_provider_transfer: cursor_luna_owner_to_grok_cli_03v_owner
+  video:
+    provider: grok
+    profile_id: grok_worker_high
+    tools:
+      - image_to_video
+      - reference_to_video
+    substitution: forbidden
+    status: default_active_registered_lane
+assignments:
+  - assignment_id: overall_director
+    studio_role: overall_director
+    profile_id: grok_director_deep
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: founder
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+    authority: one_overall_director
+    notes: director_deep remains the compatibility logical alias until atomic registry cutover.
+  - assignment_id: creative_development_director
+    studio_role: creative_development_director
+    profile_id: grok_director_deep
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: overall_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+    authority: compatibility_single_cdd_lineage_until_atomic_graph_engineering_switch
+    notes: Graph Engineering uses planning_cdd_p1/p2/p3_ci and section_cluster_cdd_v_ci instead of a fixed CDD count.
+  - assignment_id: edit_director
+    studio_role: edit_director
+    profile_id: grok_director_deep
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: overall_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+    authority: one_separate_edit_director
+    notes: director_deep remains the compatibility logical alias until atomic registry cutover.
+  - assignment_id: founder_briefing
+    studio_role: department_worker
+    profile_id: grok_worker_high
+    logical_profile_alias: worker_high
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: overall_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+    authority: projection_only_no_creative_dispatch_promotion_generation_or_external
+  - assignment_id: song_room
+    studio_role: song_room
+    profile_id: grok_worker_high
+    logical_profile_alias: worker_high
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+  - assignment_id: ordinary_research_development_worker
+    studio_role: department_worker
+    profile_id: grok_worker_high
+    logical_profile_alias: worker_high
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+  - assignment_id: post_02a_section_owner
+    studio_role: section_owner
+    profile_id: grok_worker_high
+    logical_profile_alias: worker_high
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+  - assignment_id: named_boundary_adversarial_close_review
+    studio_role: department_worker
+    profile_id: grok_director_deep
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: default_active
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: default_active_grok_cli
+    goal_first: required_observable_native_goal
+    authority: adviser_only_named_boundary_migam_and_director_judgment_cards_no_mechanical_recount_no_promotion_veto_or_founder_conversation
+    notes: default_active means CDD may open this registered lane without a separate Founder assignment-id pick. It does not auto-open on every worker return. Return is the CDD re-instruction loop, not a standing Overall reviewer.
+  - assignment_id: pre00_close_direction_review
+    studio_role: department_worker
+    profile_id: cursor_opus_thinking_high
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: advisory_decision_set_only_no_fp_authoring_dispatch_promotion_or_gate
+  - assignment_id: fp_close_direction_review
+    studio_role: department_worker
+    profile_id: cursor_fable_thinking_xhigh
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: advisory_01_wave_package_only_no_01_02a_authoring_dispatch_promotion_or_gate
+  - assignment_id: visual_evidence_analysis
+    studio_role: department_worker
+    profile_id: cursor_gemini_31_pro_thinking_high
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: observable_facts_only_cdd_owns_disposition
+  - assignment_id: named_cross_artifact_conflict_review
+    studio_role: department_worker
+    profile_id: cursor_sol_xhigh
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: named_conflict_only_no_standing_route
+  - assignment_id: cursor_grok_46_advisory_worker
+    studio_role: department_worker
+    profile_id: cursor_grok_46_xhigh
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: bounded_read_only_advisory_no_canonical_write_dispatch_promotion_generation_or_grok_cli_equivalence
+    notes: Exact Founder-selected Cursor-hosted Grok 4.6 Extra High non-fast profile. It remains a distinct Cursor provider session and never borrows Grok CLI Goal tools auth or media surfaces.
+  - assignment_id: optional_cursor_luna_image
+    studio_role: section_owner
+    profile_id: cursor_luna_max
+    logical_profile_alias: cursor_advisory
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: optional_image_only_requires_founder_section_selection_and_luna_to_grok_transfer
+  - assignment_id: cursor_overall_director
+    studio_role: overall_director
+    profile_id: cursor_sol_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: founder
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_cursor_alternative_for_legacy_codex_sol_overall
+  - assignment_id: cursor_creative_development_director
+    studio_role: creative_development_director
+    profile_id: cursor_sol_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: overall_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_cursor_alternative_for_legacy_codex_sol_cdd
+  - assignment_id: cursor_edit_director
+    studio_role: edit_director
+    profile_id: cursor_sol_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: overall_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_cursor_alternative_for_legacy_codex_sol_edit
+  - assignment_id: cursor_general_worker
+    studio_role: department_worker
+    profile_id: cursor_luna_max
+    logical_profile_alias: worker_high
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_cursor_alternative_for_legacy_codex_luna_worker
+  - assignment_id: cursor_section_image_motion_worker
+    studio_role: section_owner
+    profile_id: cursor_luna_max
+    logical_profile_alias: worker_high
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: founder_explicit_substitute
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: available_founder_explicit_substitute
+    goal_first: external_goal_record_before_cli_launch
+    authority: text_planning_only_media_tools_held
+  - assignment_id: planning_cdd_p1
+    studio_role: creative_development_director
+    profile_id: grok_director_frontier
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: graph_v2_after_verified_default_switch
+    return_recipient: overall_director
+    no_fallback: true
+    status: shadow_registered_hold
+    goal_first: required_observable_native_goal
+    authority: planning_p1_story_audience_lead_and_integration_writer_no_promotion
+    notes: One P1 lane. It exact-links reviewed P2 and P3-Ci Decision Sets and never silently rewrites them.
+  - assignment_id: planning_cdd_p2
+    studio_role: creative_development_director
+    profile_id: grok_director_frontier
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: graph_v2_after_verified_default_switch
+    return_recipient: planning_cdd_p1
+    no_fallback: true
+    status: shadow_registered_hold
+    goal_first: required_observable_native_goal
+    authority: planning_p2_visual_reference_decision_set_writer_no_promotion
+    notes: One P2 lane. Cardinality is not increased to fill capacity.
+  - assignment_id: planning_cdd_p3_ci
+    studio_role: creative_development_director
+    profile_id: grok_director_frontier
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: graph_v2_after_verified_default_switch
+    return_recipient: planning_cdd_p1
+    no_fallback: true
+    status: shadow_registered_hold
+    goal_first: required_observable_native_goal
+    authority: planning_p3_ci_section_kinetic_architecture_one_roster_derived_cohort
+    notes: Template only. Instantiate one P3-Ci lane per contiguous 2--3-section cohort after selected audio and section-boundary readiness. Do not pre-create C1..Cn to fill capacity.
+  - assignment_id: section_cluster_cdd_v_ci
+    studio_role: creative_development_director
+    profile_id: grok_director_frontier
+    logical_profile_alias: frontier_director
+    provider: grok
+    topology: physical_grok_cli
+    activation: graph_v2_after_verified_default_switch
+    return_recipient: overall_director
+    no_fallback: true
+    status: shadow_registered_hold
+    goal_first: required_observable_native_goal
+    authority: section_cluster_v_ci_integrated_02b_pixel_and_same_cohort_03v_playback_review_no_promotion
+    notes: Template only. Exact-carry the matching P3 cohort id into one V-Ci lane. CDD count equals the roster-derived cohort count and is never a fixed three.
+  - assignment_id: ordinary_research_medium_worker
+    studio_role: department_worker
+    profile_id: grok_worker_medium
+    logical_profile_alias: research_medium
+    provider: grok
+    topology: physical_grok_cli
+    activation: disabled_hold
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: required_observable_native_goal
+    authority: discovery_metadata_dedupe_candidate_only_no_select_apply_promotion_or_media
+    notes: Graph Engineering research default. Remains HOLD until inventory receipt and registry closure. No fallback to worker_high or Luna Max.
+  - assignment_id: optional_cursor_luna_xhigh_worker
+    studio_role: department_worker
+    profile_id: cursor_luna_xhigh
+    logical_profile_alias: worker_high
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: disabled_hold
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: external_goal_record_before_cli_launch
+    authority: optional_luna_xhigh_worker_only_never_default_or_luna_max_alias
+    notes: Optional Founder-enabled Extra High worker route. Current Luna Max remains a distinct profile and is never this alias.
+  - assignment_id: optional_cursor_luna_xhigh_research
+    studio_role: department_worker
+    profile_id: cursor_luna_xhigh
+    logical_profile_alias: research_medium
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: disabled_hold
+    return_recipient: creative_development_director
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: external_goal_record_before_cli_launch
+    authority: optional_luna_xhigh_research_only_never_default_or_luna_max_alias
+    notes: Optional Founder-enabled Extra High research route. Current Luna Max remains a distinct profile and is never this alias.
+  - assignment_id: cursor_grok_46_frontier_overall_director
+    studio_role: overall_director
+    profile_id: cursor_grok_46_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: disabled_hold
+    return_recipient: founder
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_non_fast_cursor_grok_frontier_alternative_no_grok_cli_equivalence
+    notes: Founder-selected Cursor-hosted Extra High non-fast frontier candidate for Overall. HOLD until this exact profile has full-owner lifecycle and successor-CAS evidence.
+  - assignment_id: cursor_grok_46_frontier_creative_development_director
+    studio_role: creative_development_director
+    profile_id: cursor_grok_46_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: disabled_hold
+    return_recipient: overall_director
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_non_fast_cursor_grok_frontier_alternative_no_grok_cli_equivalence
+    notes: Founder-selected Cursor-hosted Extra High non-fast frontier candidate for CDD-grade work. HOLD until this exact profile has full-owner lifecycle and successor-CAS evidence.
+  - assignment_id: cursor_grok_46_frontier_edit_director
+    studio_role: edit_director
+    profile_id: cursor_grok_46_xhigh
+    logical_profile_alias: frontier_director
+    provider: cursor
+    topology: new_cursor_physical_chat
+    activation: disabled_hold
+    return_recipient: overall_director
+    no_fallback: true
+    status: implementation_required_hold
+    goal_first: external_goal_record_before_cli_launch
+    authority: explicit_non_fast_cursor_grok_frontier_alternative_no_grok_cli_equivalence
+    notes: Founder-selected Cursor-hosted Extra High non-fast frontier candidate for Edit Director. HOLD until this exact profile has full-owner lifecycle and successor-CAS evidence.

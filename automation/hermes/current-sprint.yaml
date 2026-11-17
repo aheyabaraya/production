@@ -1,0 +1,44 @@
+schema_version: hermes_current_sprint.v1
+timezone: Asia/Seoul
+created_at_kst: "2026-06-08T00:00:00+09:00"
+updated_at_kst: "2026-06-14T18:47:40+09:00"
+
+sprint:
+  id: HERMES_IDOL_2026_06_08
+  cadence: 7_day_tight_sprint
+  start_date: "2026-06-08"
+  end_date: "2026-06-14"
+  status: closed
+  weekly_goal: "LOW active review/generation path closed after founder discard."
+  closeout:
+    status: low_discarded_not_active
+    discard_closeout: runs/2026-05-26/0526_SONG_SELECTION/review/low-discard-closeout-v1.md
+    note: LOW must not remain an active Hermes, Grok, current-next, package,
+      publish, sync, or generation task.
+
+active_context:
+  active_run: null
+  active_content_id: null
+  album_key: aurora-m
+  title_key: null
+  observed_status:
+    status: no_active_low_context
+    discarded_low_run: runs/2026-05-26/0526_SONG_SELECTION
+    discarded_low_title_key: low
+    discard_closeout: runs/2026-05-26/0526_SONG_SELECTION/review/low-discard-closeout-v1.md
+    current_next: automation/current-next.yaml
+    grok_handoff: handoff/grok/current.md
+
+founder_decisions_needed: []
+
+codex_tasks:
+  - id: low_active_pointer_cleanup
+    task: "Remove LOW from active handoff/current-next/Hermes surfaces and keep it as archive-only."
+    status: completed
+
+grok_tasks: []
+
+forbidden_actions:
+  - "Do not resume LOW 03V prompt review or video generation."
+  - "Do not publish, upload, schedule, Drive-sync, or externally execute LOW."
+  - "Do not regenerate a LOW source pool unless the founder explicitly reopens it."

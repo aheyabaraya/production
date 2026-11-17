@@ -1,0 +1,1940 @@
+schema_version: idol-harness-contract-version-registry.v3
+status: active
+
+routing_rule:
+  new_work: current_authoring_version_only
+  historical_artifacts: evidence_only
+  compatibility_authoring: forbidden
+  unknown_version: hold
+  non_authoring_new_work: forbidden
+  unclassified_schema: hold
+
+contracts:
+  - contract_id: harness_stage_registry
+    owner: idol-orchestrator
+    schema: schemas/harness-stage-registry.schema.json
+    current_authoring_version: idol-harness-stage-registry.v8
+    readable_versions: [idol-harness-stage-registry.v8]
+    producer: automation/harness-stage-registry.yaml
+    consumers: [idol-orchestrator, active_stage_discovery]
+
+  - contract_id: harness_artifact_routing
+    owner: idol-orchestrator
+    schema: schemas/harness-artifact-routing.schema.json
+    current_authoring_version: idol-harness-artifact-routing.v2
+    readable_versions: [idol-harness-artifact-routing.v2]
+    producer: automation/harness-artifact-routing.yaml
+    consumers: [idol-orchestrator, active_run_inventory, artifact_placement_validation]
+
+  - contract_id: harness_section_slice
+    owner: assigned_section_owner
+    schema: schemas/harness-section-slice.schema.json
+    current_authoring_version: idol-harness-section-slice.v1
+    readable_versions: [idol-harness-section-slice.v1]
+    producer: department_worker_or_section_owner
+    consumers: [creative_development_review, overall_director_promotion, mechanical_coordinator_merge]
+
+  - contract_id: artifact_lifecycle_policy
+    owner: idol-orchestrator
+    schema: schemas/artifact-lifecycle-policy.schema.json
+    current_authoring_version: idol-artifact-lifecycle-policy.v3
+    readable_versions: [idol-artifact-lifecycle-policy.v3]
+    producer: automation/artifact-lifecycle-policy.yaml
+    consumers: [active_run_authoring, promotion_closeout, cleanup_planning]
+
+  - contract_id: final_delivery_manifest
+    owner: idol-orchestrator
+    schema: schemas/final-delivery-manifest.schema.json
+    current_authoring_version: idol-final-delivery-manifest.v2
+    readable_versions: [idol-final-delivery-manifest.v2]
+    producer: human_or_model_05_closeout_owner
+    consumers: [final_delivery_validation, production_cleanup_planning, run_closeout, social_release_projection]
+
+  - contract_id: run_manifest
+    owner: idol-orchestrator
+    schema: schemas/run-manifest.schema.json
+    current_authoring_version: idol-run-manifest.v1
+    readable_versions: [idol-run-manifest.v1]
+    producer: scripts/idol_run_layout.py
+    consumers: [all_active_stage_owners, active_run_inventory, current_next]
+
+  - contract_id: run_layout_transition
+    owner: idol-orchestrator
+    schema: schemas/run-layout-transition.schema.json
+    current_authoring_version: idol-run-layout-transition.v1
+    readable_versions: [idol-run-layout-transition.v1]
+    producer: automation/run-layout-transition.yaml
+    consumers: [active_run_resolution, active_run_inventory, current_next]
+
+  - contract_id: harness_run_inventory
+    owner: idol-orchestrator
+    schema: schemas/harness-run-inventory.schema.json
+    current_authoring_version: idol-harness-run-inventory.v2
+    readable_versions: [idol-harness-run-inventory.v2]
+    producer: scripts/idol_harness_run_inventory.rb
+    consumers: [active_run_resume, harness_maintenance, migration_closeout]
+
+  - contract_id: harness_execution_contract
+    owner: idol-orchestrator
+    schema: schemas/harness-execution-contract.schema.json
+    current_authoring_version: idol-harness-execution-contract.v36
+    readable_versions: [idol-harness-execution-contract.v36]
+    producer: automation/harness-execution-contract.yaml
+    consumers: [all_active_stage_owners, active_contract_validation]
+
+  - contract_id: harness_startup_admission
+    owner: idol-orchestrator
+    schema: schemas/harness-startup-admission.schema.json
+    current_authoring_version: idol-harness-startup-admission.v2
+    readable_versions: [idol-harness-startup-admission.v2]
+    producer: scripts/idol_startup_admission.rb
+    consumers: [overall_director_workbench, creative_development_director_workbench, startup_admission_validation]
+
+  - contract_id: harness_role_context_projection
+    owner: idol-orchestrator
+    schema: schemas/harness-role-context-projection.schema.json
+    current_authoring_version: idol-harness-role-context-projection.v1
+    readable_versions: [idol-harness-role-context-projection.v1]
+    producer: automation/harness-role-context-projection.yaml
+    consumers: [idol_role_context_pack, startup_admission, department_dispatch_launch]
+
+  - contract_id: harness_checkpoint_closure_catalog
+    owner: idol-orchestrator
+    schema: schemas/harness-checkpoint-closure-catalog.schema.json
+    current_authoring_version: idol-harness-checkpoint-closure-catalog.v1
+    readable_versions: [idol-harness-checkpoint-closure-catalog.v1]
+    producer: automation/harness-checkpoint-closure-catalog.yaml
+    consumers: [validate_department_dispatch, validate_checkpoint_closure_catalog, idol_harness_state_check]
+
+  - contract_id: harness_standing_constraint_catalog
+    owner: idol-orchestrator
+    schema: schemas/harness-standing-constraint-catalog.schema.json
+    current_authoring_version: idol-harness-standing-constraint-catalog.v1
+    readable_versions: [idol-harness-standing-constraint-catalog.v1]
+    producer: automation/harness-standing-constraint-catalog.yaml
+    consumers: [validate_standing_constraint_catalog, harness_maintenance]
+
+  - contract_id: helper_consumption_receipt
+    owner: idol-orchestrator
+    schema: schemas/harness-helper-consumption-receipt.schema.json
+    current_authoring_version: idol-helper-consumption-receipt.v1
+    readable_versions: [idol-helper-consumption-receipt.v1]
+    producer: scripts/validate_helper_consumption_receipt.rb
+    consumers: [validate_helper_consumption_receipt, validate_department_dispatch, creative_development_director, harness_maintenance]
+
+  - contract_id: department_runtime_context
+    owner: idol-orchestrator
+    schema: schemas/department-runtime-context.schema.json
+    current_authoring_version: idol-department-runtime-context.v1
+    readable_versions: [idol-department-runtime-context.v1]
+    producer: scripts/idol_department_context.rb
+    consumers: [workbench_department_context_prepare, workbench_department_context_validate, validate_department_dispatch]
+
+  - contract_id: role_context_pack
+    owner: idol-orchestrator
+    schema: schemas/role-context-pack.schema.json
+    current_authoring_version: idol-role-context-pack.v1
+    readable_versions: [idol-role-context-pack.v1]
+    producer: scripts/idol_role_context_pack.rb
+    consumers: [overall_director, creative_development_director, grok_role_adapter, cursor_role_adapter, department_workers, graph_contextual_judgment_validation, graph_director_session_router]
+
+  - contract_id: harness_surface_version_registry
+    owner: idol-orchestrator
+    schema: schemas/harness-surface-version-registry.schema.json
+    current_authoring_version: idol-harness-surface-version-registry.v5
+    readable_versions: [idol-harness-surface-version-registry.v5]
+    producer: automation/harness-surface-version-registry.yaml
+    consumers: [harness_maintenance, validate_harness_surface_version_registry]
+
+  - contract_id: instruction_surface_policy
+    owner: idol-orchestrator
+    schema: schemas/instruction-surface-policy.schema.json
+    current_authoring_version: idol-instruction-surface-policy.v18
+    readable_versions: [idol-instruction-surface-policy.v18]
+    producer: automation/instruction-surface-policy.yaml
+    consumers: [harness_maintenance, idol_instruction_surface_audit]
+
+  - contract_id: idol_script_registry
+    owner: idol-orchestrator
+    schema: schemas/idol-script-registry.schema.json
+    current_authoring_version: idol-script-registry.v1
+    readable_versions: [idol-script-registry.v1]
+    producer: automation/idol-script-registry.yaml
+    consumers: [idol_script_registry_check, harness_state_check, harness_maintenance]
+
+  - contract_id: department_dispatch
+    owner: assigned_director
+    schema: schemas/department-dispatch.schema.json
+    current_authoring_version: idol-department-dispatch.v8
+    readable_versions: [idol-department-dispatch.v8]
+    producer: overall_creative_development_or_edit_director
+    consumers: [song_room, department_worker, member_visual_identity_owner, section_owner, edit_director, edit_shard_worker, director_review, canonical_promotion, graph_run_controller, company_ops_idol_bridge]
+
+  - contract_id: company_ops_idol_bridge
+    owner: mechanical_coordinator
+    schema: schemas/company-ops-idol-bridge.schema.json
+    current_authoring_version: idol-company-ops-idol-bridge.v1
+    readable_versions: [idol-company-ops-idol-bridge.v1]
+    producer: automation/company-ops-idol-bridge.yaml
+    consumers: [harness_maintenance, validate_company_ops_idol_bridge, kurisu_idol_graph_cdd, company_ops_grok_runner]
+
+  - contract_id: department_transport_refresh
+    owner: mechanical_coordinator
+    schema: schemas/department-transport-refresh.schema.json
+    current_authoring_version: idol-department-transport-refresh.v1
+    readable_versions: [idol-department-transport-refresh.v1]
+    producer: scripts/idol_department_transport_refresh.rb
+    consumers: [department_dispatch_validator, director_dispatch_index, workbench_transport_preflight, recipient_director]
+
+  - contract_id: director_dispatch_index
+    owner: mechanical_coordinator
+    schema: schemas/director-dispatch-index.schema.json
+    current_authoring_version: idol-director-dispatch-index.v4
+    readable_versions: [idol-director-dispatch-index.v4]
+    producer: scripts/idol_director_dispatch_index.rb
+    consumers: [overall_director, creative_development_director, edit_director, director_boot_pack, founder_workbench, graph_run_controller]
+
+  - contract_id: director_boot_pack
+    owner: creative_development_director
+    schema: schemas/director-boot-pack.schema.json
+    current_authoring_version: idol-director-boot-pack.v3
+    readable_versions: [idol-director-boot-pack.v3]
+    producer: scripts/idol_director_dispatch_index.rb
+    consumers: [embedded_workbench_or_direct_cdd_successor_preflight, creative_development_director, founder_confirmation]
+
+  - contract_id: cdd_session_router_state
+    owner: idol-orchestrator
+    schema: schemas/cdd-session-router-state.schema.json
+    current_authoring_version: idol-cdd-session-router-state.v1
+    readable_versions: [idol-cdd-session-router-state.v1]
+    producer: scripts/idol_director_dispatch_index.rb
+    consumers: [codex_direct_session_adapter, grok_direct_session_adapter, cdd_successor_authorization_gate, provider_readiness_validation]
+
+  - contract_id: reference_working_index
+    owner: creative_development_director
+    schema: schemas/reference-working-index.schema.json
+    current_authoring_version: idol-reference-working-index.v3
+    readable_versions: [idol-reference-working-index.v3]
+    producer: mechanical_coordinator_after_cdd_review
+    consumers: [reference_research_generalist, creative_development_director, front_planning, stage_01, stage_02a]
+
+  - contract_id: harness_skill_load_profiles
+    owner: idol-orchestrator
+    schema: schemas/harness-skill-load-profiles.schema.json
+    current_authoring_version: idol-harness-skill-load-profiles.v2
+    readable_versions: [idol-harness-skill-load-profiles.v2]
+    producer: automation/harness-skill-load-profiles.yaml
+    consumers: [department_dispatch, codex_role_adapters, grok_role_adapters, runtime_skill_application_review]
+
+  - contract_id: harness_provider_profile_registry
+    owner: idol-orchestrator
+    schema: schemas/harness-provider-profile-registry.schema.json
+    current_authoring_version: idol-harness-provider-profile-registry.v1
+    readable_versions: [idol-harness-provider-profile-registry.v1]
+    producer: automation/harness-provider-profile-registry.yaml
+    consumers: [model_routing_validation, execution_contract_resolution, grok_role_adapters, cursor_role_adapters, media_lane_selection, assignment_model_routing]
+
+  - contract_id: harness_assignment_model_routing
+    owner: idol-orchestrator
+    schema: schemas/harness-assignment-model-routing.schema.json
+    current_authoring_version: idol-harness-assignment-model-routing.v1
+    readable_versions: [idol-harness-assignment-model-routing.v1]
+    producer: automation/harness-assignment-model-routing.yaml
+    consumers: [model_routing_validation, department_dispatch, workbench_model_routing]
+
+  - contract_id: cursor_agent_provider_profiles
+    owner: idol-orchestrator
+    schema: schemas/cursor-agent-provider-profiles.schema.json
+    current_authoring_version: idol-cursor-agent-provider-profiles.v2
+    readable_versions: [idol-cursor-agent-provider-profiles.v2]
+    producer: automation/providers/cursor-agent-profiles.yaml
+    consumers: [harness_provider_profile_registry, assignment_model_routing, cursor_assignment_adapter]
+
+  - contract_id: cursor_external_goal
+    owner: idol-orchestrator
+    schema: schemas/cursor-external-goal.schema.json
+    current_authoring_version: idol-cursor-external-goal.v1
+    readable_versions: [idol-cursor-external-goal.v1]
+    producer: scripts/idol_cursor_assignment_adapter.py
+    consumers: [cursor_project_hooks, cursor_assignment_adapter]
+
+  - contract_id: cursor_cli_runtime_receipt
+    owner: idol-orchestrator
+    schema: schemas/cursor-cli-runtime-receipt.schema.json
+    current_authoring_version: idol-cursor-cli-runtime-receipt.v2
+    readable_versions: [idol-cursor-cli-runtime-receipt.v2]
+    producer: scripts/idol_cursor_assignment_adapter.py
+    consumers: [cursor_assignment_adapter, director_review]
+
+  - contract_id: front_planning_workbench_artifact_layout
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/artifact-layout.schema.json
+    current_authoring_version: front-planning-workbench.artifact-layout.v5
+    readable_versions: [front-planning-workbench.artifact-layout.v5]
+    producer: human_or_model_workbench_maintainer
+    consumers: [overall_director_workbench, front_planning, image_generation, video_motion, edit, final_delivery]
+
+  - contract_id: front_planning_workbench_closeout
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/front-planning-closeout.schema.json
+    current_authoring_version: front-planning-workbench.closeout.v8
+    readable_versions: [front-planning-workbench.closeout.v8]
+    producer: human_or_model_front_planning_director
+    consumers: [front_planning_workbench_direction_alignment_review]
+
+  - contract_id: front_planning_workbench_reference_intake
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/reference-intake.schema.json
+    current_authoring_version: front-planning-workbench.reference-intake.v2
+    readable_versions: [front-planning-workbench.reference-intake.v2]
+    producer: development/front-planning-workbench/tools/reference_intake_from_crop_lock.py
+    consumers: [overall_director_workbench, scene_build_rail, front_planning_reference_binding]
+
+  - contract_id: front_planning_workbench_canvas_state
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/canvas-state.schema.json
+    current_authoring_version: front-planning-workbench.canvas-state.v5
+    readable_versions: [front-planning-workbench.canvas-state.v5]
+    producer: development/front-planning-workbench/tools/workbench.py
+    consumers: [overall_director_workbench, front_planning_canvas, contact_sheet_renderer]
+
+  - contract_id: front_planning_workbench_native_bridge
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/native-bridge.schema.json
+    current_authoring_version: front-planning-workbench.bridge.v6
+    readable_versions: [front-planning-workbench.bridge.v6]
+    producer: human_or_model_workbench_maintainer
+    consumers: [front_planning_workbench_native_host, bundled_ui_bridge, native_contract_validation]
+
+  - contract_id: front_planning_workbench_shared_context_checkpoint
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/shared-context-checkpoint.schema.json
+    current_authoring_version: front-planning-workbench.shared-context.v4
+    readable_versions: [front-planning-workbench.shared-context.v4]
+    producer: development/front-planning-workbench/ui/app.js
+    consumers: [overall_director_workbench, creative_development_director_workbench, cdd_successor_admission, native_role_opening]
+
+  - contract_id: front_planning_workbench_model_routing
+    owner: idol-front-planning-director
+    schema: development/front-planning-workbench/contracts/model-routing.schema.json
+    current_authoring_version: front-planning-workbench.model-routing.v15
+    readable_versions: [front-planning-workbench.model-routing.v15]
+    producer: development/front-planning-workbench/contracts/model-routing.json
+    consumers: [overall_director_workbench, model_routing_validation, active_harness_execution]
+
+  - contract_id: front_planning_workbench_run_route_manifest
+    owner: overall_director
+    schema: development/front-planning-workbench/contracts/run-route-manifest.schema.json
+    current_authoring_version: front-planning-workbench.run-route-manifest.v4
+    readable_versions: [front-planning-workbench.run-route-manifest.v4]
+    producer: founder_authorized_run_route_manifest
+    consumers: [overall_director_workbench, native_role_opening, model_routing_validation]
+
+  - contract_id: front_planning_workbench_founder_briefing
+    owner: overall_director
+    schema: development/front-planning-workbench/founder-briefing/founder-briefing.schema.json
+    current_authoring_version: front-planning-workbench.founder-briefing.v1
+    readable_versions: [front-planning-workbench.founder-briefing.v1]
+    producer: development/front-planning-workbench/tools/founder_briefing.py
+    consumers: [founder_briefing_ui, founder, overall_director, creative_development_director]
+
+  - contract_id: front_planning_workbench_founder_briefing_source_set
+    owner: overall_director
+    schema: development/front-planning-workbench/founder-briefing/founder-briefing-source-set.schema.json
+    current_authoring_version: front-planning-workbench.founder-briefing-source-set.v1
+    readable_versions: [front-planning-workbench.founder-briefing-source-set.v1]
+    producer: development/front-planning-workbench/tools/founder_briefing.py
+    consumers: [founder_briefing_projection, founder_briefing_review, workbench_startup_admission]
+
+  - contract_id: front_planning_workbench_founder_briefing_milestone_review
+    owner: assigned_director
+    schema: development/front-planning-workbench/founder-briefing/founder-briefing-milestone-review.schema.json
+    current_authoring_version: front-planning-workbench.founder-briefing-milestone-review.v1
+    readable_versions: [front-planning-workbench.founder-briefing-milestone-review.v1]
+    producer: overall_or_creative_development_director
+    consumers: [founder_briefing_projection, overall_director_review, founder_briefing_ui]
+
+  - contract_id: front_planning_workbench_founder_briefing_review
+    owner: overall_director
+    schema: development/front-planning-workbench/founder-briefing/founder-briefing-review.schema.json
+    current_authoring_version: front-planning-workbench.founder-briefing-review.v1
+    readable_versions: [front-planning-workbench.founder-briefing-review.v1]
+    producer: overall_director
+    consumers: [founder_briefing_projection, founder_briefing_ui, mechanical_promotion_gate]
+
+  - contract_id: founder_intervention_receipt
+    owner: active_stage_owner
+    schema: schemas/founder-intervention-receipt.schema.json
+    current_authoring_version: idol-founder-intervention-receipt.v2
+    readable_versions: [idol-founder-intervention-receipt.v2]
+    producer: human_or_model_stage_owner
+    consumers: [idol-orchestrator, affected_scope_reprojection]
+
+  - contract_id: harness_improvement_review
+    owner: idol-orchestrator
+    schema: schemas/harness-improvement-review.schema.json
+    current_authoring_version: idol_harness_improvement_review.v3
+    readable_versions: [idol_harness_improvement_review.v3]
+    producer: human_or_model_run_coordinator
+    consumers: [stage_05_briefing, run_reset_or_discard_closeout, harness_maintenance_review, validate_run_followup_sidecar, role_context_pack]
+
+  - contract_id: html_review_board
+    owner: idol-generation
+    schema: schemas/html-review-board.schema.json
+    current_authoring_version: idol-html-review-board.v12
+    readable_versions: [idol-html-review-board.v12]
+    producer: scripts/idol_html_review_board.rb
+    consumers: [front_planning_review, storyboard_review, generated_branch_cut_review, motion_playback_review]
+
+  - contract_id: review_projection_source_set
+    owner: idol-orchestrator
+    schema: schemas/review-projection-source-set.schema.json
+    current_authoring_version: idol-review-projection-source-set.v2
+    readable_versions: [idol-review-projection-source-set.v2]
+    producer: scripts/idol_review_projection_assembler.rb_from_stable_owner_index
+    consumers: [idol_review_projection_assembler, founder_workbench_drift_check]
+
+  - contract_id: review_projection_owner_index
+    owner: idol-orchestrator
+    schema: schemas/review-projection-owner-index.schema.json
+    current_authoring_version: idol-review-projection-owner-index.v1
+    readable_versions: [idol-review-projection-owner-index.v1]
+    producer: human_or_model_coordinator_registering_current_canonical_owners
+    consumers: [idol_review_projection_assembler, founder_workbench_refresh, founder_direct_update_commit]
+
+  - contract_id: review_projection_pending
+    owner: idol-orchestrator
+    schema: schemas/review-projection-pending.schema.json
+    current_authoring_version: idol-review-projection-pending.v1
+    readable_versions: [idol-review-projection-pending.v1]
+    producer: scripts/idol_review_projection_assembler.rb
+    consumers: [director_dispatch_index, harness_current_next, overall_director]
+
+  - contract_id: html_review_decision_export
+    owner: idol-generation
+    schema: schemas/html-review-decision-export.schema.json
+    current_authoring_version: idol-html-review-board.decision-export.v12
+    readable_versions: [idol-html-review-board.decision-export.v12]
+    producer: scripts/idol_html_review_board.rb
+    consumers: [founder_review_decision_intake]
+
+  - contract_id: founder_review_decision_intake
+    owner: idol-generation
+    schema: schemas/founder-review-decision-intake.schema.json
+    current_authoring_version: idol_founder_review_decision_intake.v12
+    readable_versions: [idol_founder_review_decision_intake.v12]
+    producer: scripts/idol_review_decision_intake.rb
+    consumers: [smallest_owner_revision, affected_scope_resume]
+
+  - contract_id: harness_context_pack
+    owner: idol-orchestrator
+    schema: schemas/harness-context-pack.schema.json
+    current_authoring_version: idol-harness-context-pack.v7
+    readable_versions: [idol-harness-context-pack.v7]
+    producer: scripts/idol_harness_context_pack.rb
+    consumers: [image_prompt_compilation, post_02a_section_lineage]
+
+  - contract_id: front_planning_review
+    owner: idol-front-planning-director
+    schema: schemas/front-planning-review.schema.json
+    current_authoring_version: front-planning-review.v3
+    readable_versions: [front-planning-review.v3]
+    producer: idol-front-planning-director
+    consumers: [front_planning_readiness, founder_intervention]
+
+  - contract_id: idol_founder_sequence_control
+    owner: idol-front-planning-director
+    schema: schemas/idol-founder-sequence-control.schema.json
+    current_authoring_version: idol_founder_sequence_control.v3
+    readable_versions: [idol_founder_sequence_control.v3]
+    producer: founder_start_input_transcribed_and_completed_by_assigned_director
+    consumers: [idol_front_planning, idol_director_room_sequence_discovery]
+
+  - contract_id: front_planning_readiness
+    owner: idol-front-planning-director
+    schema: schemas/front-planning-readiness.schema.json
+    current_authoring_version: front-planning-readiness.v17
+    readable_versions: [front-planning-readiness.v17]
+    producer: idol-front-planning-director
+    consumers: [mv_performance_direction, mv_storyboard_direction]
+
+  - contract_id: kinetic_change_point_slot_sheet
+    owner: idol-planning-cdd
+    schema: schemas/kinetic-change-point-slot-sheet.schema.json
+    current_authoring_version: kinetic_change_point_slot_sheet.v1
+    readable_versions: [kinetic_change_point_slot_sheet.v1]
+    producer: planning_cdd_p3_ci_or_fp_close_model_writer
+    consumers: [front_planning_close, official_core_01, branch_coverage_02a]
+
+  - contract_id: sequence_motion_analysis
+    owner: idol-front-planning-director
+    schema: schemas/sequence-motion-analysis.schema.json
+    current_authoring_version: idol_sequence_motion_analysis.v1
+    readable_versions: [idol_sequence_motion_analysis.v1]
+    producer: reference_research_generalist_sequence_motion_worker
+    consumers: [front_planning_readiness, mv_performance_direction, mv_storyboard_direction, video_prompt_storyboard_assist]
+
+  - contract_id: sequence_motion_machine_measurement
+    owner: idol-front-planning-director
+    schema: schemas/sequence-motion-machine-measurement.schema.json
+    current_authoring_version: idol_sequence_motion_machine_measurement.v1
+    readable_versions: [idol_sequence_motion_machine_measurement.v1]
+    producer: scripts/idol_measure_sequence_motion_timeline.py
+    consumers: [validate_sequence_motion_analysis, reference_research_generalist_sequence_motion_worker]
+
+  - contract_id: front_planning_reference_comparison_worklist
+    owner: idol-front-planning-director
+    schema: schemas/01r-reference-gap-worklist.schema.json
+    current_authoring_version: idol_01r_reference_gap_worklist.v6
+    readable_versions: [idol_01r_reference_gap_worklist.v6]
+    producer: scripts/idol_01r_reference_gap_worklist.rb
+    consumers: [front_planning_01r, front_planning_closeout]
+
+  - contract_id: video_reference_analysis_registry
+    owner: idol-video-reference-hub
+    schema: schemas/video-reference-analysis-registry.schema.json
+    current_authoring_version: idol_video_reference_analysis_registry.v2
+    readable_versions: [idol_video_reference_analysis_registry.v2]
+    producer: scripts/idol_video_reference_analysis_registry.py
+    consumers: [idol-video-reference-hub, idol-front-planning-handoff, front_planning_01r]
+
+  - contract_id: reference_evaluation
+    owner: idol-video-reference-hub
+    schema: schemas/reference-evaluation.schema.json
+    current_authoring_version: idol-reference-evaluation.v1
+    readable_versions: [idol-reference-evaluation.v1]
+    producer: assigned_model_or_human
+    consumers: [scripts/idol_reference_evaluation.rb, idol-video-reference-hub]
+
+  - contract_id: reference_management_catalog
+    owner: idol-front-planning-director
+    schema: schemas/reference-management-catalog.schema.json
+    current_authoring_version: idol_reference_management_catalog.v3
+    readable_versions: [idol_reference_management_catalog.v3]
+    producer: human_or_model_reference_catalog_owner
+    consumers: [front_planning_01r, title_reference_lookup, cf_reference_bridge, final_lineage_lookup]
+
+  - contract_id: image_reference_source_catalog
+    owner: idol-orchestrator
+    schema: schemas/image-reference-source-catalog.schema.json
+    current_authoring_version: idol_image_reference_source_catalog.v1
+    readable_versions: [idol_image_reference_source_catalog.v1]
+    producer: human_or_model_reference_source_registrar
+    consumers: [reference_management_catalog, front_planning_01r, reference_management_validation]
+
+  - contract_id: image_reference_source_manifest
+    owner: idol-orchestrator
+    schema: schemas/image-reference-source-manifest.schema.json
+    current_authoring_version: idol_image_reference_source_manifest.v1
+    readable_versions: [idol_image_reference_source_manifest.v1]
+    producer: human_or_model_reference_source_registrar
+    consumers: [image_reference_source_catalog, front_planning_01r, reference_management_validation]
+
+  - contract_id: pre_00_research_radar
+    owner: idol-research-radar
+    schema: schemas/pre-00-research-radar.schema.json
+    current_authoring_version: "1.8"
+    readable_versions: ["1.8"]
+    producer: idol-research-radar
+    consumers: [pre_00_selection_handoff, song_direction_design, candidate_track_analysis, idol_front_planning]
+
+  - contract_id: pre_00_selection_handoff
+    owner: idol-orchestrator
+    schema: schemas/pre-00-selection-handoff.schema.json
+    current_authoring_version: idol-pre00-selection-handoff.v4
+    readable_versions: [idol-pre00-selection-handoff.v4]
+    producer: scripts/idol_pre00_selection_handoff.rb
+    consumers: [front_planning_workbench_first_director_context, song_room_context, creative_development_visual_preparation]
+
+  - contract_id: selected_audio_analysis
+    owner: idol-song-lock
+    schema: schemas/selected-audio-analysis.schema.json
+    current_authoring_version: idol_selected_audio_analysis.v1
+    readable_versions: [idol_selected_audio_analysis.v1]
+    producer: idol-song-lock
+    consumers: [audio_screen_motion_map, song_production_lock]
+
+  - contract_id: audio_motion_director_map
+    owner: idol-song-lock
+    schema: schemas/audio-motion-director-map.schema.json
+    current_authoring_version: idol_audio_motion_director_map.v1
+    readable_versions: [idol_audio_motion_director_map.v1]
+    producer: idol-song-lock
+    consumers: [song_production_lock, front_planning_readiness]
+
+  - contract_id: song_lock
+    owner: idol-song-lock
+    schema: schemas/song-lock.schema.json
+    current_authoring_version: "1.5"
+    readable_versions: ["1.5"]
+    producer: idol-song-lock
+    consumers: [front_planning_readiness, mv_performance_direction]
+
+  - contract_id: mv_direction
+    owner: idol-mv-director
+    schema: schemas/song-choreography-performance-mv-map.schema.json
+    current_authoring_version: "3.0"
+    readable_versions: ["3.0"]
+    producer: mv_performance_direction
+    consumers: [mv_storyboard_direction]
+
+  - contract_id: master_storyboard
+    owner: idol-front-planning-development-block
+    schema: schemas/master-storyboard.schema.json
+    current_authoring_version: "3.0"
+    readable_versions: ["3.0"]
+    producer: mv_storyboard_direction
+    consumers: [storyboard_review, image_prompt_compilation]
+
+  - contract_id: storyboard_context_review
+    owner: idol-generation
+    schema: schemas/02a-creative-context-review.schema.json
+    current_authoring_version: idol-02a-creative-context-review.v7
+    readable_versions: [idol-02a-creative-context-review.v7]
+    producer: continuing_creative_development_director
+    consumers: [storyboard_review, image_prompt_compilation]
+
+  - contract_id: prompt_packet_delta
+    owner: idol-generation
+    schema: schemas/prompt-packet-delta.schema.json
+    current_authoring_version: "1.6"
+    readable_versions: ["1.6"]
+    producer: human_or_model_image_prompt_director_after_source_bound_conditional_detail_review
+    consumers: [idol_prompt_packet_compile]
+
+  - contract_id: prompt_packets
+    owner: idol-generation
+    schema: schemas/prompt-packets.schema.json
+    current_authoring_version: "2.6"
+    readable_versions: ["2.6"]
+    producer: scripts/idol_prompt_packet_compile.rb
+    consumers: [image_generation_release_gate, production_cut_generation, idol_export_02b_prompt_manifests, validate_02b_imagegen_contract]
+
+  - contract_id: image_generation_request
+    owner: idol-generation
+    schema: schemas/image-generation-request.schema.json
+    current_authoring_version: idol_image_generation_request.v12
+    readable_versions: [idol_image_generation_request.v12]
+    producer: scripts/idol_prepare_image_generation_request.rb
+    consumers: [production_cut_generation, codex_imagegen, openai_api_gpt_image_2, grok_image, xai_api_media, section_image_capable_worker]
+
+  - contract_id: image_render_correction
+    owner: idol-generation
+    schema: schemas/image-render-correction.schema.json
+    current_authoring_version: idol_image_render_correction.v8
+    readable_versions: [idol_image_render_correction.v8]
+    producer: scripts/idol_prepare_image_render_correction.rb
+    consumers: [branch_cut_generation, generated_branch_cut_review, luna_section_lifecycle]
+
+  - contract_id: xai_api_media_provider_profiles
+    owner: idol-generation
+    schema: schemas/xai-api-media-provider-profiles.schema.json
+    current_authoring_version: idol-xai-api-media-provider-profiles.v1
+    readable_versions: [idol-xai-api-media-provider-profiles.v1]
+    producer: founder_authorized_exact_xai_provider_profile_source
+    consumers: [harness_provider_profile_registry, idol_xai_api_media_profile_contract, idol_execute_image_generation_request]
+
+  - contract_id: codex_native_media_provider_profiles
+    owner: idol-generation
+    schema: schemas/codex-native-media-provider-profiles.schema.json
+    current_authoring_version: idol-codex-native-media-provider-profiles.v2
+    readable_versions: [idol-codex-native-media-provider-profiles.v2]
+    producer: legacy_pinned_codex_native_media_evidence
+    consumers: [historical_audit_only]
+
+  - contract_id: image_generation_section_approval
+    owner: idol-generation
+    schema: schemas/image-generation-section-approval.schema.json
+    current_authoring_version: idol_image_generation_section_approval.v6
+    readable_versions: [idol_image_generation_section_approval.v6]
+    producer: founder_or_authorized_run_owner
+    consumers: [idol_prepare_image_generation_request]
+
+  - contract_id: generated_branch_cut_review
+    owner: idol-generation
+    schema: schemas/review.schema.json
+    current_authoring_version: idol_generated_branch_cut_review.v4
+    readable_versions: [idol_generated_branch_cut_review.v4]
+    producer: image_review_director_and_founder
+    consumers: [founder_review_decision_intake, image_render_correction, production_cut_review]
+
+  - contract_id: production_cut_review
+    owner: idol-generation
+    schema: schemas/production-cut-review.schema.json
+    current_authoring_version: idol-production-cut-review.v2
+    readable_versions: [idol-production-cut-review.v2]
+    producer: scripts/idol_prepare_production_cut_review.rb
+    consumers: [audio_branch_cut_placement, video_motion_direction]
+
+  - contract_id: local_image_upscale_receipt
+    owner: idol-generation
+    schema: schemas/local-image-upscale-receipt.schema.json
+    current_authoring_version: idol_local_image_upscale_receipt.v1
+    readable_versions: [idol_local_image_upscale_receipt.v1]
+    producer: scripts/idol_local_image_upscale.py
+    consumers: [member_visual_identity, generated_branch_cut_review, audio_branch_cut_placement, video_motion_direction]
+
+  - contract_id: audio_branch_cut_placement
+    owner: idol-video-prompt
+    schema: schemas/audio-branch-cut-placement.schema.json
+    current_authoring_version: idol_audio_production_cut_placement.v5
+    readable_versions: [idol_audio_production_cut_placement.v5]
+    producer: idol-video-prompt
+    consumers: [video_motion_direction]
+
+  - contract_id: video_prompt_storyboard_assist
+    owner: idol-video-prompt
+    schema: schemas/video-prompt-storyboard-assist.schema.json
+    current_authoring_version: idol_video_prompt_storyboard_assist.v4
+    readable_versions: [idol_video_prompt_storyboard_assist.v4]
+    producer: motion_director
+    consumers: [video_prompt_manifest, video_generation]
+
+  - contract_id: source_pack_03v_authoring
+    owner: idol-video-prompt
+    schema: schemas/03v-authoring-source-pack.schema.json
+    current_authoring_version: idol_03v_authoring_source_pack.v5
+    readable_versions: [idol_03v_authoring_source_pack.v5]
+    producer: scripts/idol_prepare_video_prompt_authoring.rb
+    consumers: [video_motion_direction, grok_video_prompt_reference_pack]
+
+  - contract_id: video_prompt_manifest
+    owner: idol-video-prompt
+    schema: schemas/video-prompt-manifest.schema.json
+    current_authoring_version: idol_video_prompt_manifest.v8
+    readable_versions: [idol_video_prompt_manifest.v8]
+    producer: motion_director
+    consumers: [video_generation, video_playback_review, section_edit_qc]
+
+  - contract_id: video_source_intake
+    owner: idol-editing-qc
+    schema: schemas/video-source-intake.schema.json
+    current_authoring_version: idol_video_source_intake.v2
+    readable_versions: [idol_video_source_intake.v2]
+    producer: scripts/idol_video_source_intake.py
+    consumers: [edit_marker_plan, edit_recipe, edit_source_qc]
+
+  - contract_id: edit_map
+    owner: idol-editing-qc
+    schema: schemas/edit-map.schema.json
+    current_authoring_version: idol_edit_map.v4
+    readable_versions: [idol_edit_map.v4]
+    producer: picture_editor
+    consumers: [edit_map_readiness, edit_recipe, edit_finishing_fx, master_package]
+
+  - contract_id: edit_marker_plan
+    owner: idol-editing-qc
+    schema: schemas/edit-marker-plan.schema.json
+    current_authoring_version: idol_edit_marker_plan.v6
+    readable_versions: [idol_edit_marker_plan.v6]
+    producer: picture_editor
+    consumers: [edit_recipe, edit_cutpoint_review, edit_finishing_fx]
+
+  - contract_id: edit_recipe
+    owner: idol-editing-qc
+    schema: schemas/edit-recipe.schema.json
+    current_authoring_version: idol_edit_recipe.v3
+    readable_versions: [idol_edit_recipe.v3]
+    producer: picture_editor
+    consumers: [edit_finishing_fx, final_render, edit_closeout]
+
+  - contract_id: edit_finishing_fx
+    owner: idol-edit-finishing-fx
+    schema: schemas/edit-finishing-fx.schema.json
+    current_authoring_version: idol_edit_finishing_fx.v2
+    readable_versions: [idol_edit_finishing_fx.v2]
+    producer: finishing_fx_director
+    consumers: [edit_finishing_fx_compile, final_render, edit_closeout]
+
+  - contract_id: package
+    owner: idol-social-metadata-upload
+    schema: schemas/package.schema.json
+    current_authoring_version: idol_package.v2
+    readable_versions: [idol_package.v2]
+    producer: human_or_model_package_owner
+    consumers: [package_readiness, final_delivery_manifest, platform_draft_projection, public_release_gate, social_evidence_snapshot]
+
+  - contract_id: signal_deck_traffic
+    owner: idol-social-metadata-upload
+    schema: schemas/signal-deck-traffic.schema.json
+    current_authoring_version: loom_metric_collector.v1
+    readable_versions: [loom_metric_collector.v1]
+    producer: scripts/idol_collect_platform_metrics.py
+    consumers: [validate_signal_deck_traffic, phase_1_brand_growth_measurement]
+
+  - contract_id: tiktok_studio_export
+    owner: idol-social-metadata-upload
+    schema: schemas/tiktok-studio-export.schema.json
+    current_authoring_version: idol_tiktok_studio_export.v1
+    readable_versions: [idol_tiktok_studio_export.v1]
+    producer: scripts/idol_import_tiktok_studio_exports.py
+    consumers: [validate_tiktok_studio_exports, social_analytics_weekly_import]
+
+  - contract_id: signal_deck_publication
+    owner: idol-social-metadata-upload
+    schema: schemas/signal-deck-publication.schema.json
+    current_authoring_version: idol_signal_deck_publication.v1
+    readable_versions: [idol_signal_deck_publication.v1]
+    producer: human_or_model_social_public_closeout_owner
+    consumers: [idol_social_public_closeout, signal_deck_member_track_cf_projection, social_analytics]
+
+  - contract_id: grok_video_prompt_reference_pack
+    owner: idol-video-prompt
+    schema: schemas/grok-video-prompt-reference-pack.schema.json
+    current_authoring_version: idol_grok_video_prompt_reference_pack.v7
+    readable_versions: [idol_grok_video_prompt_reference_pack.v7]
+    producer: scripts/idol_prepare_grok_video_prompt_handoff.rb
+    consumers: [founder_requested_grok_handoff]
+
+  - contract_id: downloaded_reference_hub
+    owner: idol-video-reference-hub
+    schema: schemas/downloaded-reference-hub.schema.json
+    current_authoring_version: idol_downloaded_reference_hub.v1
+    readable_versions: [idol_downloaded_reference_hub.v1]
+    producer: scripts/idol_reference_hub.py
+    consumers: [reference_source_catalog, video_reference_analysis_registry, reference_research]
+
+  - contract_id: video_reference_sequence_unit_registry
+    owner: idol-video-reference-hub
+    schema: schemas/video-reference-sequence-unit-registry.schema.json
+    current_authoring_version: idol_video_reference_sequence_unit_registry.v1
+    readable_versions: [idol_video_reference_sequence_unit_registry.v1]
+    producer: scripts/idol_video_reference_sequence_unit_registry.py
+    consumers: [video_reference_analysis_registry, reference_catalog_lookup, reference_research]
+
+  - contract_id: edit_cutpoint_sheet_manifest
+    owner: idol-editing-qc
+    schema: schemas/edit-cutpoint-sheet-manifest.schema.json
+    current_authoring_version: idol_edit_cutpoint_sheet_manifest.v1
+    readable_versions: [idol_edit_cutpoint_sheet_manifest.v1]
+    producer: scripts/idol_edit_marker_contact_sheets.py
+    consumers: [edit_map_readiness, final_edit_qc]
+
+  - contract_id: edit_effect_registry
+    owner: idol-edit-finishing-fx
+    schema: schemas/edit-effect-registry.schema.json
+    current_authoring_version: idol_edit_effect_registry.v1
+    readable_versions: [idol_edit_effect_registry.v1]
+    producer: scripts/lib/idol_edit_effect_registry.py
+    consumers: [edit_recipe_validation, edit_finishing_fx_compile, final_render]
+
+  - contract_id: edit_qc_closeout
+    owner: idol-editing-qc
+    schema: schemas/edit-qc-closeout.schema.json
+    current_authoring_version: idol_edit_qc_closeout.v3
+    readable_versions: [idol_edit_qc_closeout.v3]
+    producer: human_or_model_edit_closeout_owner
+    consumers: [edit_map_readiness, master_package_release]
+
+  - contract_id: harness_frontier_check
+    owner: idol-orchestrator
+    schema: schemas/harness-frontier-check.schema.json
+    current_authoring_version: idol-harness-frontier-check.v1
+    readable_versions: [idol-harness-frontier-check.v1]
+    producer: scripts/idol_harness_frontier_check.rb
+    consumers: [harness_operator, active_frontier_validation]
+
+  - contract_id: llm_review_execution_record
+    owner: creative_development_director
+    schema: schemas/llm-review-execution-record.schema.json
+    current_authoring_version: idol-llm-review-execution-record.v2
+    readable_versions: [idol-llm-review-execution-record.v2]
+    producer: registered_llm_reviewer_runner
+    consumers: [storyboard_context_review, whole_film_reconciliation, video_playback_review]
+
+  - contract_id: reference_fragment_crop_lock
+    owner: idol-front-planning-director
+    schema: schemas/reference-fragment-crop-lock.schema.json
+    current_authoring_version: idol_reference_fragment_crop_lock.v3
+    readable_versions: [idol_reference_fragment_crop_lock.v3]
+    producer: human_or_model_reference_selection_owner
+    consumers: [front_planning_workbench_reference_intake, stage_01_reference_application]
+
+  - contract_id: reference_song_fit
+    owner: idol-research-radar
+    schema: schemas/reference-song-fit.schema.json
+    current_authoring_version: "1.2"
+    readable_versions: ["1.2"]
+    producer: human_or_model_song_reference_analyst
+    consumers: [idol-research-radar, idol-suno-prompt, song_direction_design]
+
+  - contract_id: video_reference_hub_cadence_audit
+    owner: idol-video-reference-hub
+    schema: schemas/video-reference-hub-cadence-audit.schema.json
+    current_authoring_version: idol-video-reference-hub-cadence-audit.v1
+    readable_versions: [idol-video-reference-hub-cadence-audit.v1]
+    producer: scripts/idol_video_reference_hub_audit.rb
+    consumers: [reference_source_review, front_planning_reference_preflight]
+
+  - contract_id: harness_contract_version_registry
+    owner: idol-orchestrator
+    schema: schemas/harness-contract-version-registry.schema.json
+    current_authoring_version: idol-harness-contract-version-registry.v3
+    readable_versions: [idol-harness-contract-version-registry.v3]
+    producer: automation/harness-contract-version-registry.yaml
+    consumers: [active_contract_validation, harness_state_check]
+
+  - contract_id: harness_current_next
+    owner: idol-orchestrator
+    schema: schemas/harness-current-next.schema.json
+    current_authoring_version: harness-current-next.v2
+    readable_versions: [harness-current-next.v2]
+    producer: scripts/idol_harness_current_next.rb
+    consumers: [active_run_resume, founder_decision_application, current_stage_resolution, post_02a_03v_admission, founder_briefing_admission, graph_run_controller]
+
+  - contract_id: harness_next_unit
+    owner: idol-orchestrator
+    schema: schemas/harness-next-unit.schema.json
+    current_authoring_version: harness-next-unit.v1
+    readable_versions: [harness-next-unit.v1]
+    producer: scripts/idol_harness_refresh.rb
+    consumers: [active_run_resume, founder_decision_application]
+
+  - contract_id: harness_action_queue
+    owner: idol-orchestrator
+    schema: schemas/harness-action-queue.schema.json
+    current_authoring_version: harness-action-queue.v1
+    readable_versions: [harness-action-queue.v1]
+    producer: scripts/idol_harness_refresh.rb
+    consumers: [active_run_resume, founder_decision_application, generated_clip_intake]
+
+  - contract_id: harness_founder_gate
+    owner: founder
+    schema: schemas/harness-founder-gate.schema.json
+    current_authoring_version: harness-founder-gate.v1
+    readable_versions: [harness-founder-gate.v1]
+    producer: founder_gate_record
+    consumers: [idol_harness_apply_founder_decision, active_run_resume]
+
+  - contract_id: harness_founder_decision
+    owner: founder
+    schema: schemas/harness-founder-decision.schema.json
+    current_authoring_version: harness-founder-decision.v1
+    readable_versions: [harness-founder-decision.v1]
+    producer: founder_decision_record
+    consumers: [idol_harness_apply_founder_decision]
+
+  - contract_id: harness_blocker_worklist
+    owner: idol-orchestrator
+    schema: schemas/harness-blocker-worklist.schema.json
+    current_authoring_version: harness-blocker-worklist.v2
+    readable_versions: [harness-blocker-worklist.v2]
+    producer: scripts/idol_harness_state_check.rb
+    consumers: [active_run_resume, stage_owner_remediation]
+
+  - contract_id: harness_shadow_eval_result
+    owner: idol-orchestrator
+    schema: schemas/harness-shadow-eval-result.schema.json
+    current_authoring_version: idol-harness-shadow-eval-result.v10
+    readable_versions: [idol-harness-shadow-eval-result.v10]
+    producer: scripts/idol_harness_shadow_eval.rb
+    consumers: [model_routing_validation, harness_optimization_acceptance]
+
+  - contract_id: audio_input_lineage
+    owner: idol-song-lock
+    schema: schemas/audio-input-lineage.schema.json
+    current_authoring_version: idol-audio-input-lineage.v1
+    readable_versions: [idol-audio-input-lineage.v1]
+    producer: human_or_model_song_owner
+    consumers: [audio_analysis, audio_motion, harness_state_check]
+
+  - contract_id: album_reference_index
+    owner: idol-video-reference-hub
+    schema: schemas/album-reference-index.schema.json
+    current_authoring_version: album-reference-index.v1
+    readable_versions: [album-reference-index.v1]
+    producer: idol-video-reference-hub
+    consumers: [front_planning_01r, title_reference_integrity]
+
+  - contract_id: track_creative_board
+    owner: idol-song-lock
+    schema: schemas/track-creative-board.schema.json
+    current_authoring_version: "1.1"
+    readable_versions: ["1.1"]
+    producer: idol-song-lock
+    consumers: [front_planning, harness_state_check]
+
+  - contract_id: artifact_archive_manifest
+    owner: idol-orchestrator
+    schema: schemas/artifact-archive-manifest.schema.json
+    current_authoring_version: idol-artifact-archive-manifest.v2
+    readable_versions: [idol-artifact-archive-manifest.v2]
+    producer: scripts/idol_safe_workspace_cleanup.py
+    consumers: [archive_validation, reverse_reference_cleanup_review]
+
+  - contract_id: schema_repair_candidate
+    owner: active_stage_owner
+    schema: schemas/schema-repair-candidate.schema.json
+    current_authoring_version: idol-schema-repair-candidate.v3
+    readable_versions: [idol-schema-repair-candidate.v3]
+    producer: registered_maintenance_script
+    consumers: [human_or_model_canonical_repair]
+
+  - contract_id: image_generation_request_selection
+    owner: idol-generation
+    schema: schemas/image-generation-request-selection.schema.json
+    current_authoring_version: idol_image_generation_request_selection.v3
+    readable_versions: [idol_image_generation_request_selection.v3]
+    producer: scripts/idol_image_generation_request_selection.rb
+    consumers: [image_generation_section_worklist, image_generation_dispatch]
+
+  - contract_id: image_generation_section_worklist
+    owner: idol-generation
+    schema: schemas/image-generation-section-worklist.schema.json
+    current_authoring_version: idol_image_generation_section_worklist.v9
+    readable_versions: [idol_image_generation_section_worklist.v9]
+    producer: scripts/idol_image_generation_section_worklist.rb
+    consumers: [image_generation_dispatch, assigned_section_image_motion_execution]
+
+  - contract_id: image_generation_dispatch_ledger
+    owner: idol-generation
+    schema: schemas/image-generation-dispatch-ledger.schema.json
+    current_authoring_version: idol_image_generation_dispatch_ledger.v4
+    readable_versions: [idol_image_generation_dispatch_ledger.v4]
+    producer: scripts/idol_image_generation_dispatch.rb
+    consumers: [generation_result_intake, generation_cost_audit]
+
+  - contract_id: image_generation_execution_receipt
+    owner: idol-generation
+    schema: schemas/image-generation-execution-receipt.schema.json
+    current_authoring_version: idol_image_generation_execution_receipt.v4
+    readable_versions: [idol_image_generation_execution_receipt.v4]
+    producer: scripts/idol_execute_image_generation_request.py
+    consumers: [image_generation_dispatch, generated_branch_cut_review]
+
+  - contract_id: luna_section_lifecycle_execution_record
+    owner: idol-generation
+    schema: schemas/luna-section-lifecycle-execution-record.schema.json
+    current_authoring_version: idol_luna_section_lifecycle_execution_record.v2
+    readable_versions: [idol_luna_section_lifecycle_execution_record.v2]
+    producer: registered_section_image_motion_lifecycle_runner
+    consumers: [luna_section_lifecycle_receipt]
+
+  - contract_id: luna_section_lifecycle_receipt
+    owner: idol-generation
+    schema: schemas/luna-section-lifecycle-receipt.schema.json
+    current_authoring_version: idol_luna_section_lifecycle_receipt.v2
+    readable_versions: [idol_luna_section_lifecycle_receipt.v2]
+    producer: registered_section_image_motion_lifecycle_runner_and_cdd_review_binding
+    consumers: [production_cut_review, video_motion_direction, model_routing_validation]
+
+  - contract_id: video_prompt_section_qa
+    owner: idol-video-prompt
+    schema: schemas/video-prompt-section-qa.schema.json
+    current_authoring_version: idol_video_prompt_section_qa.v6
+    readable_versions: [idol_video_prompt_section_qa.v6]
+    producer: creative_development_director_or_founder_direct_delta_owner
+    consumers: [video_playback_review, edit_assembly_playback_qc]
+
+  - contract_id: source_snapshot_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-source-snapshot.schema.json
+    current_authoring_version: idol_03v_source_snapshot.v3
+    readable_versions: [idol_03v_source_snapshot.v3]
+    producer: scripts/lib/idol_03v_source_discovery.rb
+    consumers: [audio_branch_cut_placement, video_motion_direction]
+
+  - contract_id: generated_clip_import_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-generated-clip-import.schema.json
+    current_authoring_version: idol_03v_generated_clip_import.v1
+    readable_versions: [idol_03v_generated_clip_import.v1]
+    producer: scripts/idol_03v_import_generated_clips.rb
+    consumers: [video_playback_review]
+
+  - contract_id: generated_playback_intake_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-generated-playback-intake.schema.json
+    current_authoring_version: idol_03v_generated_playback_intake.v1
+    readable_versions: [idol_03v_generated_playback_intake.v1]
+    producer: scripts/idol_03v_refresh_playback_surfaces.rb
+    consumers: [founder_playback_decision, video_playback_review]
+
+  - contract_id: playback_decision_sheet_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-playback-decision-sheet.schema.json
+    current_authoring_version: idol_03v_playback_decision_sheet.v1
+    readable_versions: [idol_03v_playback_decision_sheet.v1]
+    producer: scripts/idol_03v_playback_decision_sheet.rb
+    consumers: [founder_playback_decision, playback_review_application]
+
+  - contract_id: playback_refresh_state_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-playback-refresh-state.schema.json
+    current_authoring_version: idol_03v_playback_refresh_state.v1
+    readable_versions: [idol_03v_playback_refresh_state.v1]
+    producer: scripts/idol_03v_refresh_playback_surfaces.rb
+    consumers: [video_playback_review]
+
+  - contract_id: playback_review_record_03v
+    owner: founder
+    schema: schemas/03v-playback-review-record.schema.json
+    current_authoring_version: idol_03v_playback_review_record.v1
+    readable_versions: [idol_03v_playback_review_record.v1]
+    producer: scripts/idol_03v_record_playback_review.rb
+    consumers: [playback_review_application, video_motion_completion]
+
+  - contract_id: playback_review_worklist_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-playback-review-worklist.schema.json
+    current_authoring_version: idol_03v_playback_review_worklist.v1
+    readable_versions: [idol_03v_playback_review_worklist.v1]
+    producer: scripts/idol_03v_refresh_playback_surfaces.rb
+    consumers: [founder_playback_review]
+
+  - contract_id: section_qa_patch_record_03v
+    owner: idol-video-prompt
+    schema: schemas/03v-section-qa-patch-record.schema.json
+    current_authoring_version: idol_03v_section_qa_patch_record.v3
+    readable_versions: [idol_03v_section_qa_patch_record.v3]
+    producer: scripts/idol_03v_apply_playback_review_record.rb
+    consumers: [video_prompt_section_qa, edit_assembly_playback_qc]
+
+  - contract_id: edit_delivery_qc
+    owner: idol-editing-qc
+    schema: schemas/edit-delivery-qc.schema.json
+    current_authoring_version: idol_edit_delivery_qc.v1
+    readable_versions: [idol_edit_delivery_qc.v1]
+    producer: scripts/idol_edit_delivery_qc.py
+    consumers: [master_package_release, platform_release]
+
+  - contract_id: edit_finishing_fx_compile_manifest
+    owner: idol-edit-finishing-fx
+    schema: schemas/edit-finishing-fx-compile-manifest.schema.json
+    current_authoring_version: idol_04fx_compile_manifest.v1
+    readable_versions: [idol_04fx_compile_manifest.v1]
+    producer: scripts/idol_04fx_compile_recipe_effects.py
+    consumers: [final_render, master_package_release]
+
+  - contract_id: edit_render_manifest
+    owner: idol-editing-qc
+    schema: schemas/edit-render-manifest.schema.json
+    current_authoring_version: idol_edit_render_manifest.v1
+    readable_versions: [idol_edit_render_manifest.v1]
+    producer: scripts/idol_video_ffmpeg_revise_render.py
+    consumers: [edit_delivery_qc, master_package_release]
+
+  - contract_id: api_upload_video_receipt
+    owner: idol-social-metadata-upload
+    schema: schemas/api-upload-video.schema.json
+    current_authoring_version: idol_api_upload_video.v1
+    readable_versions: [idol_api_upload_video.v1]
+    producer: scripts/idol_prepare_api_upload_video.py
+    consumers: [platform_draft_upload, x_public_video_preflight, platform_release]
+
+  - contract_id: title_output_registry
+    owner: idol-social-metadata-upload
+    schema: schemas/title-output-registry.schema.json
+    current_authoring_version: "1.1"
+    readable_versions: ["1.1"]
+    producer: scripts/idol_title_output_registry.py
+    consumers: [active_run_inventory, publishing_plan, platform_release]
+
+  - contract_id: platform_release_approval
+    owner: founder
+    schema: schemas/platform-release-approval.schema.json
+    current_authoring_version: idol_platform_release_approval.v1
+    readable_versions: [idol_platform_release_approval.v1]
+    producer: founder_release_decision
+    consumers: [platform_draft_upload, public_release]
+
+  - contract_id: publishing_plan
+    owner: idol-social-metadata-upload
+    schema: schemas/publishing-plan.schema.json
+    current_authoring_version: active_plan
+    readable_versions: [active_plan]
+    producer: human_or_model_release_coordinator
+    consumers: [platform_draft_upload, social_release_sync]
+
+  - contract_id: publishing_record
+    owner: idol-social-metadata-upload
+    schema: schemas/publishing-record.schema.json
+    current_authoring_version: immutable_closed
+    readable_versions: [immutable_closed]
+    producer: human_or_model_release_coordinator
+    consumers: [social_release_closeout, archive_validation]
+
+  - contract_id: social_release_session
+    owner: idol-social-release-orchestrator
+    schema: schemas/social-release-session.schema.json
+    current_authoring_version: idol_social_release_session.v1
+    readable_versions: [idol_social_release_session.v1]
+    producer: scripts/idol_social_release_session.py
+    consumers: [founder_social_release_review, platform_release_resume, social_public_closeout, fixed_checkpoint_collection]
+
+  - contract_id: social_evidence_snapshot
+    owner: idol-social-metadata-upload
+    schema: schemas/social-evidence-snapshot.schema.json
+    current_authoring_version: idol_social_evidence_snapshot.v3
+    readable_versions: [idol_social_evidence_snapshot.v3]
+    producer: scripts/idol_social_evidence_snapshot.rb
+    consumers: [publishing_plan, social_analytics, platform_release_review]
+
+  - contract_id: graph_node
+    owner: graph_engineering_maintenance
+    schema: schemas/graph-node.schema.json
+    current_authoring_version: idol-graph-node.v1
+    readable_versions: [idol-graph-node.v1]
+    producer: scripts/idol_graph_projector.rb
+    consumers: [graph_run_projection, graph_structural_validation]
+
+  - contract_id: graph_edge
+    owner: graph_engineering_maintenance
+    schema: schemas/graph-edge.schema.json
+    current_authoring_version: idol-graph-edge.v1
+    readable_versions: [idol-graph-edge.v1]
+    producer: scripts/idol_graph_projector.rb
+    consumers: [graph_run_projection, graph_structural_validation]
+
+  - contract_id: graph_event
+    owner: graph_engineering_maintenance
+    schema: schemas/graph-event.schema.json
+    current_authoring_version: idol-graph-event.v1
+    readable_versions: [idol-graph-event.v1]
+    producer: scripts/idol_graph_projector.rb
+    consumers: [graph_run_projection, graph_structural_validation]
+
+  - contract_id: graph_run_projection
+    owner: graph_engineering_maintenance
+    schema: schemas/graph-run-projection.schema.json
+    current_authoring_version: idol-graph-run-projection.v1
+    readable_versions: [idol-graph-run-projection.v1]
+    producer: scripts/idol_graph_projector.rb
+    consumers: [overall_director, graph_runtime_projection_validation]
+
+  - contract_id: graph_director_lineage
+    owner: overall_director
+    schema: schemas/graph-director-lineage.schema.json
+    current_authoring_version: idol-graph-director-lineage.v1
+    readable_versions: [idol-graph-director-lineage.v1]
+    producer: overall_or_assigned_director
+    consumers: [graph_director_lineage_validation, overall_director, assigned_director, graph_director_session_router]
+
+  - contract_id: graph_section_cohort_map
+    owner: planning_cdd_p1
+    schema: schemas/graph-section-cohort-map.schema.json
+    current_authoring_version: idol-graph-section-cohort-map.v1
+    readable_versions: [idol-graph-section-cohort-map.v1]
+    producer: planning_cdd_p1_exact_link
+    consumers: [planning_cdd_p3_ci, section_cluster_cdd_ci, section_image_motion_worker, graph_cohort_validation]
+
+  - contract_id: graph_department_dispatch
+    owner: assigned_director
+    schema: schemas/graph-department-dispatch.schema.json
+    current_authoring_version: idol-graph-department-dispatch.v1
+    readable_versions: [idol-graph-department-dispatch.v1]
+    producer: assigned_director
+    consumers: [graph_runtime_receiver, recipient_director, graph_runtime_projection_validation, graph_run_controller]
+
+  - contract_id: planning_contextual_grade_vector
+    owner: planning_cdd_p3_ci
+    schema: schemas/planning-contextual-grade-vector.schema.json
+    current_authoring_version: idol_planning_contextual_grade_vector.v1
+    readable_versions: [idol_planning_contextual_grade_vector.v1]
+    producer: assigned_model_or_human
+    consumers: [planning_contextual_grade_vector_validation, legacy_pinned_planning_reader]
+
+  - contract_id: 03v_contextual_grade_vector
+    owner: section_cluster_cdd_v_ci
+    schema: schemas/03v-contextual-grade-vector.schema.json
+    current_authoring_version: idol_03v_contextual_grade_vector.v1
+    readable_versions: [idol_03v_contextual_grade_vector.v1]
+    producer: assigned_model_or_human
+    consumers: [03v_contextual_grade_vector_validation, legacy_pinned_03v_reader]
+
+  - contract_id: graph_creative_judgment_registry
+    owner: idol-orchestrator
+    schema: schemas/graph-creative-judgment-registry.schema.json
+    current_authoring_version: idol-graph-creative-judgment-registry.v1
+    readable_versions: [idol-graph-creative-judgment-registry.v1]
+    producer: automation/graph-creative-judgment-registry.yaml
+    consumers: [graph_role_context_projection, graph_role_context_pack, graph_contextual_judgment_profile_release, graph_contextual_judgment_validation, graph_run_controller, assigned_creative_roles]
+
+  - contract_id: graph_creative_judgment_profile_release
+    owner: idol-orchestrator
+    schema: schemas/graph-creative-judgment-profile-release.schema.json
+    current_authoring_version: idol-graph-creative-judgment-profile-release.v1
+    readable_versions: [idol-graph-creative-judgment-profile-release.v1]
+    producer: assigned_human_or_model_profile_maintenance
+    consumers: [graph_creative_judgment_registry, graph_role_context_pack, graph_contextual_judgment_validation, graph_run_controller]
+
+  - contract_id: graph_creative_judgment_profile_promotion
+    owner: idol-orchestrator
+    schema: schemas/graph-creative-judgment-profile-promotion.schema.json
+    current_authoring_version: idol-graph-creative-judgment-profile-promotion.v1
+    readable_versions: [idol-graph-creative-judgment-profile-promotion.v1]
+    producer: assigned_human_or_model_profile_maintenance
+    consumers: [graph_creative_judgment_registry, graph_role_context_pack, graph_judgment_profile_promotion_validation]
+
+  - contract_id: graph_creative_judgment_profile_evolution_evidence
+    owner: idol-orchestrator
+    schema: schemas/graph-creative-judgment-profile-evolution-evidence.schema.json
+    current_authoring_version: idol-graph-creative-judgment-profile-evolution-evidence.v1
+    readable_versions: [idol-graph-creative-judgment-profile-evolution-evidence.v1]
+    producer: assigned_profile_maintainer_director_or_founder
+    consumers: [graph_creative_judgment_profile_promotion, graph_role_context_pack, graph_default_switch_validation]
+
+  - contract_id: graph_production_review
+    owner: assigned_review_director
+    schema: schemas/graph-production-review.schema.json
+    current_authoring_version: idol-graph-production-review.v1
+    readable_versions: [idol-graph-production-review.v1]
+    producer: scripts/idol_graph_production_review.rb
+    consumers: [assigned_review_director, graph_projector_promotion_validation, scripts/lib/idol_graph_production_review_contract.rb]
+
+  - contract_id: graph_contextual_judgment
+    owner: assigned_checkpoint_owner
+    schema: schemas/graph-contextual-judgment.schema.json
+    current_authoring_version: idol_graph_contextual_judgment.v2
+    readable_versions: [idol_graph_contextual_judgment.v2]
+    producer: assigned_model_or_human
+    consumers: [recipient_director, graph_contextual_judgment_validation, graph_department_dispatch_validation, graph_projector_promotion_validation, graph_run_controller, graph_next_edge_selection]
+
+  - contract_id: graph_director_session_router_state
+    owner: idol-orchestrator
+    schema: schemas/graph-director-session-router-state.schema.json
+    current_authoring_version: idol-graph-director-session-router-state.v1
+    readable_versions: [idol-graph-director-session-router-state.v1]
+    producer: scripts/idol_graph_director_session_router.rb
+    consumers: [graph_director_shadow_readiness_review, graph_default_switch_pilot]
+
+  - contract_id: graph_run_controller_state
+    owner: idol-orchestrator
+    schema: schemas/graph-run-controller-state.schema.json
+    current_authoring_version: idol-graph-run-controller-state.v1
+    readable_versions: [idol-graph-run-controller-state.v1]
+    producer: scripts/idol_graph_run_controller.rb
+    consumers: [overall_director, graph_shadow_runtime_review, graph_default_switch_pilot]
+
+  - contract_id: graph_skill_load_profiles
+    owner: idol-orchestrator
+    schema: schemas/graph-skill-load-profiles.schema.json
+    current_authoring_version: idol-graph-skill-load-profiles.v1
+    readable_versions: [idol-graph-skill-load-profiles.v1]
+    producer: automation/graph-skill-load-profiles.yaml
+    consumers: [graph_role_context_projection, graph_role_context_pack, graph_runtime_projection_validation]
+
+  - contract_id: graph_role_context_projection
+    owner: idol-orchestrator
+    schema: schemas/graph-role-context-projection.schema.json
+    current_authoring_version: idol-graph-role-context-projection.v1
+    readable_versions: [idol-graph-role-context-projection.v1]
+    producer: automation/graph-role-context-projection.yaml
+    consumers: [graph_role_context_pack, graph_runtime_projection_validation]
+
+  - contract_id: graph_default_routing
+    owner: idol-orchestrator
+    schema: schemas/graph-default-routing.schema.json
+    current_authoring_version: idol-graph-default-routing.v1
+    readable_versions: [idol-graph-default-routing.v1]
+    producer: automation/graph-default-routing.yaml
+    consumers: [graph_role_context_pack, graph_director_session_router, graph_runtime_projection_validation, atomic_default_switch_review]
+
+  - contract_id: graph_stage_registry
+    owner: idol-orchestrator
+    schema: schemas/graph-stage-registry.schema.json
+    current_authoring_version: idol-graph-stage-registry.v1
+    readable_versions: [idol-graph-stage-registry.v1]
+    producer: automation/graph-stage-registry.yaml
+    consumers: [idol_graph_projector, graph_runtime_projection_validation, graph_role_context_projection, graph_run_controller]
+
+  - contract_id: graph_ledger
+    owner: graph_engineering_maintenance
+    schema: schemas/graph-ledger.schema.json
+    current_authoring_version: idol-graph-ledger.v1
+    readable_versions: [idol-graph-ledger.v1]
+    producer: assigned_human_or_model_exact_copy_only
+    consumers: [scripts/idol_graph_projector.rb, graph_structural_validation]
+
+non_authoring_schemas:
+  - schema: schemas/founder-sequence-control.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: retired_evidence
+    replacement_contracts: []
+    allowed_consumers: [scripts/validate_founder_sequence_control.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: CF production is inactive under the Founder direction. Preserve exact v1 bytes for explicit historical_audit only; current IDOL authoring uses its separate v3 contract, not a migration or a new CF lane.
+    migration_blocker: null
+    sha256: 8431515fc6a74d5eae8a26d50b5f712ef3e1a8c8a903f5b3df479b78e2997c48
+  - schema: schemas/graph-contextual-judgment-v1-legacy.schema.json
+    owner: assigned_checkpoint_owner
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [graph_contextual_judgment]
+    allowed_consumers: [scripts/validate_graph_contextual_judgment.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves v1 prose-only criterion locators for explicit historical audit; current v2 requires resolved typed evidence and never silently promotes v1.
+    migration_blocker: null
+    sha256: 845ea15581e80b4f099e74dac73228ec8f6ab70d9631bb9fa277ebd859312cc2
+  - schema: schemas/cursor-cli-runtime-receipt-v1-legacy.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [cursor_cli_runtime_receipt]
+    allowed_consumers: [scripts/idol_cursor_assignment_adapter.py, explicit_legacy_cursor_runtime_receipt_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves pre-Graph Cursor v1 receipts whose successful rows did not require persisted result or hook hashes; all new Cursor work authors fail-closed v2 evidence.
+    migration_blocker: null
+    sha256: 5773d29f5940c9849474a29f43c0974eac1352a3446d6e64a231e17e934642dc
+
+  - schema: schemas/grok-video-prompt-reference-pack-v6-legacy.schema.json
+    owner: idol-video-prompt
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [grok_video_prompt_reference_pack]
+    allowed_consumers: [explicit_legacy_grok_video_prompt_reference_pack_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v6 Grok handoff packs while v7 exact-carries the section cohort through the 03V handoff; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 9d6fe69632a59c7d953f2e149c14ae9058a427f2eca15eb959b1aaa1fd8ddea2
+
+  - schema: schemas/prompt-packet-delta-v1.5-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packet_delta]
+    allowed_consumers: [explicit_legacy_prompt_delta_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v1.5 prompt-delta evidence while v1.6 alone authors the four-role reference plan; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 99244bd6c09e0efd122845a2f339ccde15442c1a091d46f9f9eb4b797888898b
+
+  - schema: schemas/prompt-packets-v2.5-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packets]
+    allowed_consumers: [explicit_legacy_prompt_packet_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v2.5 packet evidence while v2.6 alone authors the four-role multi-reference packet; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: fafc62307481816115899d8c86a274ea137069b3547937ebe54d9d962139b0ee
+
+  - schema: schemas/image-generation-request-v11-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_request]
+    allowed_consumers: [scripts/idol_prepare_image_render_correction.rb, explicit_legacy_image_generation_request_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v11 request evidence while v12 alone carries the exact reference-role plan and cohort; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 8f68f16ec782bce25f3d4c090c737a4e325242f75897b0b1781fc1d09fce5ceb
+
+  - schema: schemas/image-render-correction-v7-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_render_correction]
+    allowed_consumers: [scripts/idol_prepare_image_render_correction.rb, explicit_legacy_image_render_correction_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v7 correction evidence while v8 alone carries v12 reference-role and cohort truth; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 084c10f5f423d7b6316b9a0747524802f9e5052a71d1f11917b16a84d10649d3
+
+  - schema: schemas/image-generation-execution-receipt-v3-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_execution_receipt]
+    allowed_consumers: [explicit_legacy_image_generation_receipt_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v3 execution receipts while v4 binds v12 reference-role and cohort execution; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: e10defdbaaa466d94d73e1283cb2a352b75c147972203c2098db4c731e275c09
+
+  - schema: schemas/production-cut-review-v1-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [production_cut_review]
+    allowed_consumers: [explicit_legacy_production_cut_review_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v1 Production Cut review evidence while v2 exact-carries P3-Ci to V-Ci; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 481e069971abb458b80381eedd2d4fc2c27db198e7a424090e03a2fb5196362d
+
+  - schema: schemas/03v-authoring-source-pack-v4-legacy.schema.json
+    owner: idol-video-prompt
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [source_pack_03v_authoring]
+    allowed_consumers: [explicit_legacy_03v_source_pack_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v4 03V authoring packs while v5 exact-carries section cohorts; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 7a2947bb6f5568582d9210243fd7c523d425a76e673d6d39f571c00f03eaa75c
+
+  - schema: schemas/video-prompt-manifest-v7-legacy.schema.json
+    owner: idol-video-prompt
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [video_prompt_manifest]
+    allowed_consumers: [explicit_legacy_video_prompt_manifest_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v7 video prompt manifests while v8 binds every cue and execution job to the exact section cohort; no migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 331a504b06e4c33e7e16063d1f8a0a92f89ac3734c88352d33ea679014b4e7f8
+
+  - schema: schemas/prompt-packet-delta-v1.4-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packet_delta]
+    allowed_consumers: [explicit_legacy_prompt_delta_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v1.4 Delta evidence while v1.5 alone authors new prompt deltas; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 93b035a75451797e60d56ef2304b928cdb0fa82d77eb06ec32b6d0f83b12971c
+
+  - schema: schemas/prompt-packets-v2.4-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packets]
+    allowed_consumers: [explicit_legacy_prompt_packet_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v2.4 packet evidence while v2.5 alone authors new packets; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 78335c3b52f3ccab7d456c6193dde5bc7753d11f9d7fcfd54ce7223f5495169a
+
+  - schema: schemas/image-generation-request-v10-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_request]
+    allowed_consumers: [explicit_legacy_image_generation_request_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v10 request evidence while v11 alone authors new requests; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 72d82393500d178b86e715e3be775f4023a455d0c958b81a6fbd5cce9d5abb84
+
+  - schema: schemas/image-generation-section-approval-v5-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_section_approval]
+    allowed_consumers: [explicit_legacy_image_generation_approval_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v5 section approval evidence while v6 alone authors new approvals.
+    migration_blocker: null
+    sha256: b8ceec1be02c14bcadd1c8d8b47c09a87531e22b26f83df6d082b78c3066b891
+
+  - schema: schemas/image-generation-request-selection-v2-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_request_selection]
+    allowed_consumers: [explicit_legacy_image_generation_selection_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v2 selection evidence while v3 alone authors new selections.
+    migration_blocker: null
+    sha256: 53e4f234c07c2e3bef2f3a9f88a935c8cdbfa1056fe952d5d96ea26a2824cfc4
+
+  - schema: schemas/image-generation-section-worklist-v8-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_section_worklist]
+    allowed_consumers: [explicit_legacy_image_generation_worklist_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v8 worklist evidence while v9 alone authors new worklists.
+    migration_blocker: null
+    sha256: 437459c7650c290636363c21b4e9f5c1526f33b17fffbbdf9238ef6755e43499
+
+  - schema: schemas/image-generation-dispatch-ledger-v3-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_dispatch_ledger]
+    allowed_consumers: [explicit_legacy_image_generation_dispatch_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v3 dispatch evidence while v4 alone records new dispatch state.
+    migration_blocker: null
+    sha256: 916f2b09e95eca514a9a9d9cfd1e3cf3cc66c243e672db9a8cbb43c1897ce519
+
+  - schema: schemas/image-generation-execution-receipt-v2-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_execution_receipt]
+    allowed_consumers: [explicit_legacy_image_generation_receipt_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v2 receipt evidence while v3 alone records current provider-specific native or explicit API execution.
+    migration_blocker: null
+    sha256: 9d40ae1512d54f18ceb5f1f07fae65df4ffbec7464d508073ed551b35aaacc5b
+
+  - schema: schemas/image-render-correction-v6-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_render_correction]
+    allowed_consumers: [explicit_legacy_image_render_correction_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the frozen active-predecessor v6 correction evidence while v7 alone authors corrections against v11 requests.
+    migration_blocker: null
+    sha256: 5370c98b7075e393442e84bb6c28d5fee7ecb925bd91259c7dd148420e9ee3d6
+
+  - schema: schemas/prompt-packet-delta-v1.3-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packet_delta]
+    allowed_consumers: [explicit_legacy_prompt_delta_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v1.3 Delta evidence while v1.5 alone authors new prompt deltas; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: c3cadb13abfc50fedd18950b435b28706a004485912677769ab5239462291e00
+
+  - schema: schemas/prompt-packets-v2.3-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packets]
+    allowed_consumers: [explicit_legacy_prompt_packet_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v2.3 packet evidence while v2.5 alone authors new packets; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 3f57e80b27e414e907a06937cb26a2ec0e51b89de641cc39cdc25045c63fb089
+
+  - schema: schemas/image-generation-request-v9-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_request]
+    allowed_consumers: [explicit_legacy_image_generation_request_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v9 request evidence while v11 alone authors new requests; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 81fc2b17aec6967e62174a05c0b50958de471031d62fb78db7b7a5a5dd828d0f
+
+  - schema: schemas/image-render-correction-v5-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_render_correction]
+    allowed_consumers: [explicit_legacy_image_render_correction_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v5 correction evidence while v7 alone authors corrections against v11 requests; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 8c5407ce8a618b1223cd3ddb48ead32eab2d3dc0eb015bd7da061bd19100c243
+
+  - schema: schemas/image-generation-execution-receipt-v1-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_execution_receipt]
+    allowed_consumers: [explicit_legacy_image_generation_receipt_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v1 receipt evidence while v3 alone records current provider-specific native or explicit API execution; no legacy run migration or backfill is authorized.
+    migration_blocker: null
+    sha256: 51fc81e6dcd8cdcee9085fa828d3a882f5892127b13bb9cdf1ba11233f92dfa4
+
+  - schema: schemas/harness-current-next-v1-legacy.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [harness_current_next]
+    allowed_consumers: [scripts/idol_harness_current_next.rb, historical_current_next_evidence_reader]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Frozen v1 current-next artifacts remain readable historical evidence but have no selection authority; all current authoring and canonical next-action projection use DDI-v4-bound v2.
+    migration_blocker: Existing v1 read-model bytes may remain in place until an explicit v2 refresh; missing, stale, or ambiguous v2 evidence holds rather than selecting from v1.
+    sha256: dddc6e81e4227b9a6eaf0f5c7f0f6d2a2026db38c9364d25a347db0ab72191c7
+
+  - schema: schemas/package-v1-legacy.schema.json
+    owner: idol-social-metadata-upload
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [package]
+    allowed_consumers: [preserved_package_v1_run_evidence, explicit_legacy_package_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v1 package evidence while v2 alone binds 04 Edit Segment and screen-node provenance for new release work.
+    migration_blocker: Historical package evidence remains readable but cannot authorize a new release or analytics trace.
+    sha256: 012b8a5c42c620dce4184b35aa18c4bb937cbd0324ca54837347d5707c8bebaa
+
+  - schema: schemas/final-delivery-manifest-v1-legacy.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [final_delivery_manifest]
+    allowed_consumers: [preserved_final_delivery_v1_run_evidence, explicit_legacy_final_delivery_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v1 delivery evidence while v2 alone exact-binds the active package graph and release provenance.
+    migration_blocker: Historical final-delivery manifests remain evidence-only and are not rewritten.
+    sha256: ea74fe81bb2e8625a7117b43b89bac7eceb038476bc5908392720d4c7eea8857
+
+  - schema: schemas/harness-improvement-review-v1-legacy.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [harness_improvement_review]
+    allowed_consumers: [scripts/lib/idol_run_followup_sidecar.rb, explicit_legacy_harness_improvement_review_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v1 run_followup sidecar evidence while v3 alone authors pointer-bound compact Founder creative-feedback closures.
+    migration_blocker: Historical v1 sidecars remain evidence-only and are not rewritten.
+    sha256: 2be24cf934cd3dfe5ea60745bc3175245d126bb9016eae20b07e1a61cdec3e6c
+
+  - schema: schemas/harness-improvement-review-v2-legacy.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [harness_improvement_review]
+    allowed_consumers: [scripts/lib/idol_run_followup_sidecar.rb, explicit_legacy_harness_improvement_review_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v2 raw-feedback sidecar evidence while v3 alone authors canonical-source pointers and compact runtime quality context.
+    migration_blocker: Historical v2 sidecars remain evidence-only and are never copied into new Role Context Packs.
+    sha256: 43abc4755822258e3bea395b916092aed18fe4cc79e93976ec069452e2527b12
+
+  - schema: schemas/social-evidence-snapshot-v2-legacy.schema.json
+    owner: idol-social-metadata-upload
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [social_evidence_snapshot]
+    allowed_consumers: [preserved_social_evidence_v2_run_evidence, explicit_legacy_social_evidence_validation]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v2 social evidence while v3 alone reports complete, partial, or absent 05-to-04 traceability.
+    migration_blocker: Historical social evidence remains readable and can never impersonate active v3 provenance.
+    sha256: a92ba56481ca27ec6ef57a0bde2fc6374866bfbb4c27e7e49271d14217e67e0b
+
+  - schema: schemas/front-planning-readiness-v16-legacy.schema.json
+    owner: idol-front-planning-director
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [front_planning_readiness]
+    allowed_consumers: [legacy_front_planning_v16_fixtures, preserved_front_planning_v16_run_evidence]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves the pre-v17 Front Planning shape for historical v16 runs while v17 alone authors selected-route storyline bindings and exact duplicate-candidate guards.
+    migration_blocker: Existing run evidence still contains exact v16 Front Planning and imported-head bytes; those artifacts remain evidence-only and must not be rewritten.
+    sha256: 00544f2be3b3c62d99277373bfb07c3c97674592a44555d2299158d1f06339ef
+
+  - schema: schemas/skill-application-receipt.schema.json
+    owner: historical_stage_evidence
+    lifecycle_state: retired_evidence
+    replacement_contracts: [department_dispatch]
+    allowed_consumers: [scripts/validate_skill_application_receipt.rb, scripts/idol_harness_state_check.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen manual skill-application receipts as historical evidence while active Department Dispatch runtime fulfillment carries input, result, and output-hash evidence.
+    migration_blocker: Historical runs and the compatibility state reader still inspect the exact v3 receipt bytes.
+    sha256: e7ee1405b905a743829fe58dfdbe4bae4ef2aaea28a7cc49bbe0236e20bfd9ec
+
+  - schema: schemas/image-generation-request-v8-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_request]
+    allowed_consumers: [legacy_image_generation_request_fixtures]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v8 Branch-only request structure for historical evidence while v11 is the only new authoring route.
+    migration_blocker: Historical fixtures and run evidence still resolve the v8 schema.
+    sha256: 99a9c7e3951ad040b6cff1a3522f3ca0bce6477b0438bc593420a501735f99ec
+
+  - schema: schemas/image-generation-section-approval-v4-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_section_approval]
+    allowed_consumers: [legacy_image_generation_approval_fixtures]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v4 Branch-only section approval structure while v6 is the only new authoring route.
+    migration_blocker: Historical fixtures and run evidence still resolve the v4 schema.
+    sha256: 268ffa2cc88775e9f71b4758224be2baad9e05979bf7d98ed63bb3191efc2077
+
+  - schema: schemas/prompt-packet-delta-v1.2-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packet_delta]
+    allowed_consumers: [prompt_packet_delta, legacy_prompt_compile_fixtures]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves frozen v1.2 prompt-delta evidence without permitting legacy authoring while v1.5 is the sole current authoring contract.
+    migration_blocker: Historical v1.2 evidence remains readable and is not migrated or backfilled.
+    sha256: 50adffc0ec3a3f9161b22ebb054448ae166909455f0afaa727cdfc16d1b70fe6
+
+  - schema: schemas/prompt-packets-v2.2-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [prompt_packets]
+    allowed_consumers: [legacy_prompt_packet_fixtures]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v2.2 Branch-only packet evidence while v2.5 is the only new authoring route.
+    migration_blocker: Historical packet fixtures and run evidence still resolve v2.2.
+    sha256: d198908712bee1f58c4da74107180c61d7923b45ab5eaf98e470b18d29fcbc87
+
+  - schema: schemas/image-generation-section-worklist-v7-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_section_worklist]
+    allowed_consumers: [legacy_image_generation_worklist_fixtures, scripts/idol_image_generation_section_worklist_v7_legacy.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v7 Branch-only worklist reads while v9 is the only new Production-Cut authoring route.
+    migration_blocker: Historical worklist fixtures and run evidence still resolve v7.
+    sha256: 38310397d59924d7bfa64e4f3b608aea7943933ce1ccbd8e25e52233b064d14e
+
+  - schema: schemas/image-generation-dispatch-ledger-v2-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [image_generation_dispatch_ledger]
+    allowed_consumers: [legacy_image_generation_dispatch_fixtures]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Preserves exact v2 dispatch evidence while v4 records provider-specific native or explicit API Production-Cut execution and pixel state.
+    migration_blocker: Historical dispatch-ledger fixtures and run evidence still resolve v2.
+    sha256: 87a17c1d851f41bb94a992f26e0cdcb44c4b8d457c952c598cfa28bcdc4fcbd6
+
+  - schema: schemas/03v-creative-context-review-execution-record.schema.json
+    owner: idol-video-prompt
+    lifecycle_state: retired_evidence
+    replacement_contracts: [llm_review_execution_record]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Replaced by the provider-neutral hash-bound LLM review execution record.
+    migration_blocker: The active uncapped-section compatibility test and historical authority audit still inspect this exact schema path.
+    sha256: 6345eee3133d56ed0e124acd8f36baf0365c1f76aaba6ec87739f63f183cbb33
+
+  - schema: schemas/creative-nucleus.schema.json
+    owner: idol-song-lock
+    lifecycle_state: retired_evidence
+    replacement_contracts: [song_lock, front_planning_readiness]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Active song and Front Planning contracts absorbed its useful authoring truth.
+    migration_blocker: Preserved PRE-00 radar snapshots, skill matrices, and the Grok handoff map still cite the exact root path.
+    sha256: 25540f8816d61a2122f81b018d45f9ef010efae9b748a2ca7a7499afe19bcb62
+
+  - schema: schemas/cue-bpm-map.schema.json
+    owner: idol-video-prompt
+    lifecycle_state: retired_evidence
+    replacement_contracts: [audio_branch_cut_placement]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Edit Marker Plan v6 and Edit Map v4 now bind the complete PRE-00-rooted full-storyline lineage, screen-progression node, and current Audio Motion Director Map by hash.
+    migration_blocker: Preserved skill-purpose matrices still cite the exact root path; moving it would break their historical read instructions without improving the active route.
+    sha256: 921c45b418dc8026df204225681c188f0a02f0d31f9f2e89334f1413e20c6f46
+
+  - schema: schemas/generation-map.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [master_storyboard, prompt_packets]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Active 02A storyboard and 02B prompt contracts supersede the generation map.
+    migration_blocker: Historical authority audits, surface history, skill matrices, and handoff notes still cite the exact root path.
+    sha256: 31a66c6643f423b5c18efa1f30bddd9d5979fc6b797b1540b65ae3597213d98c
+
+  - schema: schemas/harness-artifact-envelope.schema.json
+    owner: idol-orchestrator
+    lifecycle_state: compatibility_read_only
+    replacement_contracts: [harness_artifact_routing]
+    allowed_consumers: [scripts/validate_harness_artifact_contract.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Broad state validation still reads the legacy envelope while active routing owns new work.
+    migration_blocker: The compatibility validator must be migrated before this file can be archived.
+    sha256: 725a8876319429edc1206aa7d51901d6950741cb73286aa235d8bd37e81c657b
+
+  - schema: schemas/mv-direction-reference-mining.schema.json
+    owner: idol-front-planning-director
+    lifecycle_state: retired_evidence
+    replacement_contracts: [front_planning_reference_comparison_worklist, video_reference_analysis_registry]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Current reference comparison and registered source analysis replaced the mining artifact.
+    migration_blocker: Historical run evidence and contract tests still cite its schema path.
+    sha256: 6316c9fb4d87fff10629cdad7ca9b7326cc105118856d1cebe2dbd10e2c0cdb5
+
+  - schema: schemas/prompt-packets-v1.3-legacy.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [prompt_packets]
+    allowed_consumers: [scripts/validate_terminology_guard.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Prompt packets v2.4 is the sole active authoring contract.
+    migration_blocker: Terminology guards and historical evidence intentionally identify the legacy surface.
+    sha256: cef4f9892a1f60e4929db677f1115b84a90d65bed7b109c82dcd8c3d1dc5f323
+
+  - schema: schemas/single-cut-beat-source-generation-manifest.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [image_generation_request, image_generation_dispatch_ledger]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: New authoring and paid submission now fail closed; the current section-scoped request and dispatch ledger are the only active route.
+    migration_blocker: Reverse-reference audit found no active authoring consumer, but the 2026-07-08 efficiency closeout preserves an exact root-path validation command; relocation would break evidence replay without an active-quality gain.
+    sha256: 0a32f7cb521530140fd4128332bddc0e508dea90f42518a1e5832a80fcd2acd0
+
+  - schema: schemas/social-analytics.schema.json
+    owner: idol-social-metadata-upload
+    lifecycle_state: definitions_only
+    replacement_contracts: [signal_deck_traffic, signal_deck_publication, social_evidence_snapshot]
+    allowed_consumers: [scripts/lib/idol_social_release_contracts.py]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Shared social analytics definitions support active publication and metric contracts but are not an authoring artifact.
+    migration_blocker: null
+    sha256: 613d9a8b68d4cedb573967d9dafb92c34fcbf7d9444b2639e4087bc7d899eb6d
+
+  - schema: schemas/terra-section-lifecycle-execution-record.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [luna_section_lifecycle_execution_record]
+    allowed_consumers: [scripts/validate_terra_section_lifecycle_receipt.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Luna section lifecycle execution is the active post-02A contract.
+    migration_blocker: Historical Terra receipts remain validator-readable evidence.
+    sha256: 098ecd85486fd7e6164e0ea9b8a6238103eb6e38f59a8d247b2b0291ba4d6833
+
+  - schema: schemas/terra-section-lifecycle-receipt.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [luna_section_lifecycle_receipt]
+    allowed_consumers: [scripts/validate_terra_section_lifecycle_receipt.rb]
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Luna section lifecycle receipt is the active post-02A handoff contract.
+    migration_blocker: Historical Terra receipts remain validator-readable evidence.
+    sha256: 457a6d0a010f55b325e53a4f432c0475670cbd8d57fe70354efbdeccf9e7b740
+
+  - schema: schemas/track-visual-board.schema.json
+    owner: idol-front-planning-director
+    lifecycle_state: retired_evidence
+    replacement_contracts: [front_planning_readiness]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Current-title member visuals bind through Front Planning instead of a standalone track visual board.
+    migration_blocker: Historical title packages preserve this schema identity.
+    sha256: e9a5072038391da200fa89e32987a1ff7d24bd1ab14c569a616db21d4c0bcf51
+
+  - schema: schemas/two-cut-beat-source-generation-manifest.schema.json
+    owner: idol-generation
+    lifecycle_state: retired_evidence
+    replacement_contracts: [image_generation_request, image_generation_dispatch_ledger]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: New authoring and paid submission now fail closed; the current section-scoped request and dispatch ledger are the only active route.
+    migration_blocker: Reverse-reference audit found no active authoring consumer, but the 2026-07-08 efficiency closeout preserves an exact root-path validation command; relocation would break evidence replay without an active-quality gain.
+    sha256: 1232e91efe8e0a20791ce4afb495c75c3c653d3504a82239e0a26ed47cdaab50
+
+  - schema: schemas/wardrobe-style-review.schema.json
+    owner: idol-front-planning-director
+    lifecycle_state: retired_evidence
+    replacement_contracts: [front_planning_readiness]
+    allowed_consumers: []
+    new_authoring: false
+    physical_disposition: keep_in_place
+    reason: Current-title member visual and section direction contracts now own wardrobe continuity.
+    migration_blocker: Historical run evidence still references the retired review schema.
+    sha256: f1ae37baab60fb1e79ab750e39c302d50d3b854b8c1deedc9561b47cde91bbf5

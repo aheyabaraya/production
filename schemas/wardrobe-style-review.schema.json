@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/wardrobe-style-review.schema.json",
+  "title": "IDOL Wardrobe Style Review",
+  "description": "Retired evidence-only wardrobe review contract. New appearance and wardrobe continuity is owned by passed current-title member visuals and active Front Planning section direction; this schema must not open a separate review lane.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "content_id",
+    "status",
+    "date",
+    "song_title",
+    "source_audio_analysis",
+    "flow_position",
+    "canonical_terms",
+    "automation_loop",
+    "preview_use_rule",
+    "wardrobe_system",
+    "wardrobe_lanes",
+    "member_application",
+    "section_rotation",
+    "reject_terms",
+    "carry_forward"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "idol-wardrobe-style-review.v1",
+        "idol-wardrobe-style-review.v2"
+      ]
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "minLength": 1
+    },
+    "song_title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_audio_analysis": {
+      "type": "string",
+      "minLength": 1
+    },
+    "flow_position": {
+      "type": "string",
+      "minLength": 1
+    },
+    "canonical_terms": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "automation_loop": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "preview_use_rule": {
+      "type": "string",
+      "minLength": 1
+    },
+    "wardrobe_system": {
+      "type": "string",
+      "minLength": 1
+    },
+    "wardrobe_lanes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "function", "image_ref", "garment_inventory", "use"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "function": {
+            "type": "string",
+            "minLength": 1
+          },
+          "image_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "garment_inventory": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "use": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "member_application": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "section_rotation": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "reject_terms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "carry_forward": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "member_style_evidence_mode": {
+      "type": "object",
+      "description": "Optional Founder-requested, noncanonical idol-source member styling evidence review. It is a candidate review only and never promotes a celebrity look or a canonical binding by itself.",
+      "additionalProperties": false,
+      "required": [
+        "activation",
+        "review_status",
+        "source_scope",
+        "candidate_requirements",
+        "makeup_strategy",
+        "trend_basis",
+        "member_evidence_sets",
+        "candidates",
+        "review_presentation",
+        "promotion_guard"
+      ],
+      "properties": {
+        "activation": {
+          "const": "founder_requested_idol_source_style_evidence"
+        },
+        "review_status": {
+          "const": "founder_review_pending"
+        },
+        "source_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_class",
+            "weekly_idol_evidence_status",
+            "source_identity_guard"
+          ],
+          "properties": {
+            "source_class": {"const": "idol_editorial_or_performance"},
+            "weekly_idol_evidence_status": {
+              "enum": [
+                "completed_weekly_bundle",
+                "weekly_radar_unavailable_official_editorial_fallback"
+              ]
+            },
+            "weekly_radar_unavailable_reason": {"type": "string", "minLength": 1},
+            "source_identity_guard": {
+              "const": "style_reference_not_member_identity_reference"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "weekly_idol_evidence_status": {
+                    "const": "weekly_radar_unavailable_official_editorial_fallback"
+                  }
+                },
+                "required": ["weekly_idol_evidence_status"]
+              },
+              "then": {"required": ["weekly_radar_unavailable_reason"]}
+            }
+          ]
+        },
+        "candidate_requirements": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["outfit_candidates_per_member", "hair_candidates_per_member", "makeup_selection"],
+          "properties": {
+            "outfit_candidates_per_member": {"const": 3},
+            "hair_candidates_per_member": {"const": 3},
+            "makeup_selection": {
+              "const": "defer_to_displayed_outfit_and_hair_images"
+            }
+          }
+        },
+        "makeup_strategy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {
+              "enum": [
+                "defer_to_displayed_outfit_and_hair_images",
+                "primary_screen_problem_exception"
+              ]
+            },
+            "exception_reason": {"type": "string", "minLength": 1}
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {"mode": {"const": "primary_screen_problem_exception"}},
+                "required": ["mode"]
+              },
+              "then": {"required": ["exception_reason"]}
+            }
+          ]
+        },
+        "trend_basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_path", "sha256", "observed_signal", "current_run_translation"],
+          "properties": {
+            "source_path": {"type": "string", "minLength": 1},
+            "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "observed_signal": {"type": "string", "minLength": 1},
+            "current_run_translation": {"type": "string", "minLength": 1}
+          }
+        },
+        "member_evidence_sets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["member_id", "face_only_identity_check", "outfit_candidate_ids", "hair_candidate_ids"],
+            "properties": {
+              "member_id": {"type": "string", "pattern": "^M[0-9]{2}$"},
+              "face_only_identity_check": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["asset_path", "sha256", "pixel_inspection", "fit_observation"],
+                "properties": {
+                  "asset_path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                  "pixel_inspection": {"type": "string", "minLength": 1},
+                  "fit_observation": {"type": "string", "minLength": 1}
+                }
+              },
+              "outfit_candidate_ids": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "hair_candidate_ids": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "member_id",
+              "category",
+              "comparison_role",
+              "source_class",
+              "source_identity",
+              "source_page_url",
+              "original_image_url",
+              "source_record_path",
+              "local_asset",
+              "observed_facts",
+              "take",
+              "discard",
+              "lock_fit",
+              "section_fit",
+              "risk",
+              "trend_translation",
+              "hard_conflict_axes",
+              "director_recommendation",
+              "founder_decision"
+            ],
+            "properties": {
+              "candidate_id": {"type": "string", "minLength": 1},
+              "member_id": {"type": "string", "pattern": "^M[0-9]{2}$"},
+              "category": {"enum": ["outfit", "hair"]},
+              "comparison_role": {"enum": ["lead", "alternative", "boundary_test"]},
+              "source_class": {"const": "idol_editorial_or_performance"},
+              "source_identity": {"type": "string", "minLength": 1},
+              "source_page_url": {"type": "string", "pattern": "^https?://.+"},
+              "original_image_url": {"type": "string", "pattern": "^https?://.+"},
+              "source_record_path": {"type": "string", "minLength": 1},
+              "local_asset": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256", "pixel_inspection"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                  "pixel_inspection": {"type": "string", "minLength": 1}
+                }
+              },
+              "observed_facts": {"type": "string", "minLength": 1},
+              "take": {"type": "string", "minLength": 1},
+              "discard": {"type": "string", "minLength": 1},
+              "lock_fit": {"type": "string", "minLength": 1},
+              "section_fit": {"type": "string", "minLength": 1},
+              "risk": {"type": "string", "minLength": 1},
+              "trend_translation": {"type": "string", "minLength": 1},
+              "hard_conflict_axes": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "director_recommendation": {"enum": ["pass", "hold", "revise"]},
+              "founder_decision": {"const": "pending"}
+            }
+          }
+        },
+        "review_presentation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["html", "source_index", "remote_delivery_requested", "static_contact_sheets"],
+          "properties": {
+            "html": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+              }
+            },
+            "source_index": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+              }
+            },
+            "remote_delivery_requested": {"type": "boolean"},
+            "static_contact_sheets": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["member_id", "path", "sha256"],
+                "properties": {
+                  "member_id": {"type": "string", "pattern": "^M[0-9]{2}$"},
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+                }
+              }
+            }
+          }
+        },
+        "promotion_guard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_state", "selection_scope", "automatic_promotion"],
+          "properties": {
+            "candidate_state": {"const": "founder_review_pending"},
+            "selection_scope": {"const": "elements_not_full_celebrity_look"},
+            "automatic_promotion": {"const": false}
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"required": ["member_style_evidence_mode"]},
+      "then": {
+        "required": ["schema_version"],
+        "properties": {"schema_version": {"const": "idol-wardrobe-style-review.v2"}}
+      }
+    }
+  ]
+}

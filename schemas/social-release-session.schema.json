@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/social-release-session.schema.json",
+  "title": "IDOL Post-05 Social Release Session",
+  "description": "Run-owned read model for one finished-content social release. It binds the exact queue, package, plan, registry, assets, approvals, publication closeout, Web projection, and fixed metric checkpoints without granting external authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "session_id",
+    "run_root",
+    "content_id",
+    "status",
+    "registered_at",
+    "refreshed_at",
+    "state_digest",
+    "source_bindings",
+    "assets",
+    "targets",
+    "approval_artifacts",
+    "decision_packet",
+    "manual_package",
+    "next_action",
+    "blockers",
+    "external_actions_performed"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_social_release_session.v1"},
+    "session_id": {"type": "string", "pattern": "^SOCIAL_[A-Z0-9_]{3,120}$"},
+    "run_root": {"type": "string", "pattern": "^runs/.+"},
+    "content_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"},
+    "status": {
+      "enum": [
+        "founder_review",
+        "approved_waiting_external",
+        "publication_facts_required",
+        "closed_metrics_due",
+        "measured",
+        "hold"
+      ]
+    },
+    "registered_at": {"type": "string", "format": "date-time"},
+    "refreshed_at": {"type": "string", "format": "date-time"},
+    "state_digest": {"$ref": "#/$defs/sha256"},
+    "source_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queue", "package_contract", "publishing_plan", "title_registry"],
+      "properties": {
+        "queue": {"$ref": "#/$defs/queueBinding"},
+        "package_contract": {"$ref": "#/$defs/packageBinding"},
+        "publishing_plan": {"$ref": "#/$defs/fileBinding"},
+        "title_registry": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "post_id",
+          "path",
+          "sha256",
+          "package_output_id",
+          "package_output_role",
+          "linkage"
+        ],
+        "properties": {
+          "post_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "pattern": "^runs/.+"},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "package_output_id": {"type": "string", "minLength": 1},
+          "package_output_role": {"type": "string", "minLength": 1},
+          "linkage": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "post_id",
+          "platform",
+          "delivery_mode",
+          "post_status",
+          "approval_actions",
+          "published",
+          "web_projection",
+          "metric_windows"
+        ],
+        "properties": {
+          "post_id": {"type": "string", "minLength": 1},
+          "platform": {"enum": ["x", "tiktok", "youtube", "youtube_shorts", "instagram_reels"]},
+          "delivery_mode": {"type": "string", "minLength": 1},
+          "post_status": {"enum": ["planned", "scheduled", "published", "skipped", "failed"]},
+          "draft_status": {"type": "string"},
+          "approval_actions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"enum": ["platform_draft_upload", "manual_draft_upload", "public_publish"]}
+          },
+          "published": {"type": "boolean"},
+          "published_url": {"type": "string"},
+          "published_at": {"type": "string"},
+          "web_projection": {"enum": ["registered", "not_registered", "not_applicable_x"]},
+          "metric_windows": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"enum": ["T+24h", "T+72h", "T+7d"]}
+          }
+        }
+      }
+    },
+    "approval_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "allowed_actions", "approved_post_ids"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^runs/.+/review/platform-release-approval-.+\\.(?:json|ya?ml)$"},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "allowed_actions": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["platform_draft_upload", "manual_draft_upload", "public_publish"]}
+          },
+          "approved_post_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+        }
+      }
+    },
+    "decision_packet": {"$ref": "#/$defs/fileBinding"},
+    "manual_package": {"type": "string", "pattern": "^runs/.+/exports/social/.+"},
+    "next_action": {
+      "enum": [
+        "founder_decision",
+        "external_action_requires_current_authority",
+        "public_url_and_published_at",
+        "fixed_checkpoint_collection",
+        "none",
+        "resolve_blocker"
+      ]
+    },
+    "blockers": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "external_actions_performed": {"const": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "queueBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "action_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "action_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "packageBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "deliverable_manifest_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "deliverable_manifest_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

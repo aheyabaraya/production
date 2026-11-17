@@ -1,0 +1,4 @@
+interface:
+  display_name: "Idol Video Reference Hub"
+  short_description: "Capture and register IDOL video references safely"
+  default_prompt: "Use $idol-video-reference-hub to read the analysis index first, then safely register or reuse this approved local video reference with exact analysis inputs and scene-detail status."

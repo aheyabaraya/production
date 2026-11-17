@@ -1,0 +1,190 @@
+schema_version: idol-graph-creative-judgment-registry.v1
+status: shadow_not_default
+authority: criteria_registry_no_creative_or_promotion_authority
+
+scale:
+  minimum: 0
+  maximum: 4
+  aggregate_score: forbidden
+  automatic_creative_pass: forbidden
+  base_applicable_floor: 3
+  hard_gate_precedence: true
+
+decision_edges:
+  eligible_for_director_review: director_review
+  combine_or_correct: revise_same_owner
+  hold: return_to_smallest_owner
+  reject: stop
+
+decision_status:
+  eligible_for_director_review: ready_for_director_review
+  combine_or_correct: draft
+  hold: hold
+  reject: rejected
+
+grade_routing:
+  grade_zero: hold
+  grade_one: reject
+  grade_two_or_below_profile_floor: [combine_or_correct, hold]
+  all_applicable_floors_and_critical_fours: eligible_for_director_review
+  hard_gate: hold
+
+current_profile_releases:
+  pre_fp_storyline:
+    path: automation/graph-creative-judgment-profile-releases/pre_fp_storyline/9acb8808d3a04745198f91ed2a5e1650bc8d2e3a2ac158e1774f7d9e1f2372c4.yaml
+    sha256: 233ffaefbb475c9b83789b42777ebd431ce3b16a111f370ddab1c60258ab331c
+    release_value_sha256: 9acb8808d3a04745198f91ed2a5e1650bc8d2e3a2ac158e1774f7d9e1f2372c4
+    profile_value_sha256: 661fc28c69525ea4a96444a1d3303d90fd6f96b48001577352b0f68752b7bc19
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/pre_fp_storyline.yaml
+      sha256: 2ba38773ddc269736cdb9b37ae2f701868455610ab33d8ec75fcf1bf19d08608
+  reference_candidate:
+    path: automation/graph-creative-judgment-profile-releases/reference_candidate/61a1c28b8a298fc985818a0bf3ba6a62fba32377bd12eac6f05125cb48fae29d.yaml
+    sha256: 8e6cab949bbdbbba85562935c550e0638da4b7a53591273fef3e02c0a466b93e
+    release_value_sha256: 61a1c28b8a298fc985818a0bf3ba6a62fba32377bd12eac6f05125cb48fae29d
+    profile_value_sha256: 83da36aebbc732aa642912887859df02cc3112b92aafbcc78bb4629339b377c2
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/reference_candidate.yaml
+      sha256: c42348669500108a000604b3d3cbfd6c06a98f313c04b03ddc326c456d7b10eb
+  front_planning_close:
+    path: automation/graph-creative-judgment-profile-releases/front_planning_close/78455593bc2ecc0fd1051ed41c11db5b9b2e33dc934bb66dbdd9891d561b95fb.yaml
+    sha256: c04d91388b3eb271053be30250e8997fdd29187d6db22cec401aef81210bcc55
+    release_value_sha256: 78455593bc2ecc0fd1051ed41c11db5b9b2e33dc934bb66dbdd9891d561b95fb
+    profile_value_sha256: cebb0bd53195b5d0b9b3ac07cf872f33f26d6e1c24066001361636cf9c483b0d
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/front_planning_close.yaml
+      sha256: daa3c60b9f8708f9af6e464e4f5428891d58bd605849b2d7fdbce418c31448f5
+  draft_keyframe_proof:
+    path: automation/graph-creative-judgment-profile-releases/draft_keyframe_proof/1f21557329c7801ff141ab2916df96be7733aea277103e23de12064ade772540.yaml
+    sha256: 80167470d110ebd026e5a4c69a1df99172db2a302f3a4ff5e2aa20fd80222338
+    release_value_sha256: 1f21557329c7801ff141ab2916df96be7733aea277103e23de12064ade772540
+    profile_value_sha256: d142382705883b40ba48580c1f9d914f1f586caf3d3671484b24e1a76800cc8a
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/draft_keyframe_proof.yaml
+      sha256: a1f8b842fd1d87d56e57ada113eec6b426010676fca9e83cfb69c025a82be14b
+  pixel_02b:
+    path: automation/graph-creative-judgment-profile-releases/pixel_02b/b4494c251e1cfd110cd3d4bf9b4e209317f659c2b0ab7467eacad739598dbfd3.yaml
+    sha256: c298dbd197f0f60a6559a62d9596c70ec7cc6c358752ab21db28345d849b9291
+    release_value_sha256: b4494c251e1cfd110cd3d4bf9b4e209317f659c2b0ab7467eacad739598dbfd3
+    profile_value_sha256: ede44c65a84e2c592f40a5b7da95f8a9e1907cf460ea59e5e2df15dda9270e72
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/pixel_02b.yaml
+      sha256: 7d5e335b052394089aa808d23c7c68e32b7d4f5511cd2ea7e535d32c922e8854
+  playback_03v:
+    path: automation/graph-creative-judgment-profile-releases/playback_03v/c94b9bc99a6a2db949d4f8f561024dbc25aa39c431738bac38c22984618e3fda.yaml
+    sha256: 87816bcb054dfe9b046a1fee313cc8bc067a5d1e7656b6741bdd3e24b5dd20bf
+    release_value_sha256: c94b9bc99a6a2db949d4f8f561024dbc25aa39c431738bac38c22984618e3fda
+    profile_value_sha256: c9ac4ddf4b37d5fc315edc0e9d8c08c18a382655d3e313df5a2c604d1441031c
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/playback_03v.yaml
+      sha256: 4b7ce624185a26262fdfb5a175af36fcc917e407c0f9bf1bd8c950d6647822ff
+  edit_04_playback:
+    path: automation/graph-creative-judgment-profile-releases/edit_04_playback/540b8233629516732d9dd43e67d494dc882fb5dacb546d689c05089d8a5068e6.yaml
+    sha256: d313232257ea09e5503c4806a4a76d3f65e073a32dbdaa0d559cac789862d514
+    release_value_sha256: 540b8233629516732d9dd43e67d494dc882fb5dacb546d689c05089d8a5068e6
+    profile_value_sha256: 6568cd8a144a8aabcf4e35780a0c0d45b0ca04c686a72743b6d839a768472309
+    promotion_binding:
+      path: automation/graph-creative-judgment-profile-promotions/bootstrap-shadow-seed/edit_04_playback.yaml
+      sha256: 7ea70e8e18937ad8dfd3192b805f9a6c7bdfd68309bd34580060d56501374f61
+
+profiles:
+  - profile_id: pre_fp_storyline
+    stages: [creative_route_discovery]
+    checkpoints: [p1_story_audience_lead]
+    owner_roles: [planning_cdd_p1, overall_director]
+    target_message_treatment: score_and_lock_pre_fp_only
+    evidence_surface: hash_bound_storyline_and_audience_sources
+    criteria:
+      - {criterion_id: whole_film_opening_to_ending_causality, minimum: 4, critical_four: true}
+      - {criterion_id: target_audience_promise_lock, minimum: 3, critical_four: false}
+      - {criterion_id: message_progression_without_repetition, minimum: 3, critical_four: false}
+      - {criterion_id: storyline_reference_influence_accounting, minimum: 3, critical_four: false}
+
+  - profile_id: reference_candidate
+    stages: [creative_route_discovery, front_planning_integration]
+    checkpoints: [p2_visual_reference_development]
+    owner_roles: [planning_cdd_p2]
+    target_message_treatment: inherit_pre_fp_locks_check_alignment_only
+    evidence_surface: actual_reference_units_and_contiguous_motion_samples
+    criteria:
+      - {criterion_id: current_work_function_specificity, minimum: 3, critical_four: false}
+      - {criterion_id: source_evidence_legibility_and_provenance, minimum: 3, critical_four: false}
+      - {criterion_id: target_section_or_story_gap_fit, minimum: 3, critical_four: false}
+      - {criterion_id: source_to_screen_transfer_boundary, minimum: 3, critical_four: false}
+      - {criterion_id: motion_temporal_change_and_landing, minimum: 4, critical_four: true, applies_when: motion_reference}
+      - {criterion_id: still_camera_composition_depth_value, minimum: 4, critical_four: true, applies_when: composition_function_present}
+      - {criterion_id: role_synthesis_collision_risk, minimum: 3, critical_four: false}
+
+  - profile_id: front_planning_close
+    stages: [front_planning_integration, mv_storyboard_direction]
+    checkpoints: [p1_g40_integration_handoff, p3_section_kinetic_architecture, g40_planning_cell_handoff]
+    owner_roles: [planning_cdd_p1, planning_cdd_p3_ci, overall_director]
+    target_message_treatment: inherit_pre_fp_locks_check_progression_only
+    evidence_surface: complete_fp_route_major_sequence_core_and_reference_bindings
+    criteria:
+      - {criterion_id: storyline_section_major_causality, minimum: 3, critical_four: false}
+      - {criterion_id: selected_audio_kinetic_edit_usefulness, minimum: 3, critical_four: false}
+      - {criterion_id: contiguous_motion_change_and_landing, minimum: 4, critical_four: true}
+      - {criterion_id: still_camera_composition_depth_edit_value, minimum: 4, critical_four: true}
+      - {criterion_id: four_role_coverage_and_synthesis, minimum: 3, critical_four: false}
+      - {criterion_id: major_core_whole_film_non_duplication, minimum: 3, critical_four: false}
+      - {criterion_id: transfer_provenance_feasibility, minimum: 3, critical_four: false}
+
+  - profile_id: draft_keyframe_proof
+    stages: [front_planning_integration, mv_storyboard_direction, storyboard_review]
+    checkpoints: [p1_g40_integration_handoff, p3_section_kinetic_architecture, p3_draft_keyframe_proof]
+    owner_roles: [planning_cdd_p1, planning_cdd_p3_ci]
+    target_message_treatment: inherit_pre_fp_locks_check_visible_realization_only
+    evidence_surface: existing_fp_hero_core_pixels
+    criteria:
+      - {criterion_id: cut_screen_job_neighbor_delta, minimum: 3, critical_four: false}
+      - {criterion_id: character_visual, minimum: 3, critical_four: false, not_applicable: member_absent}
+      - {criterion_id: scene_visual_package, minimum: 4, critical_four: true}
+      - {criterion_id: action_pose_motion_readiness, minimum: 4, critical_four: true}
+      - {criterion_id: angle_distance_depth_crop_transition_diversity, minimum: 4, critical_four: true}
+      - {criterion_id: reference_transfer_generation_feasibility, minimum: 3, critical_four: false}
+      - {criterion_id: prop_interaction_readability, minimum: 3, critical_four: false, not_applicable: no_material_prop}
+
+  - profile_id: pixel_02b
+    stages: [storyboard_review, branch_cut_generation, generated_branch_cut_review, audio_branch_cut_placement]
+    checkpoints: [v_ci_02b_pixel_review, section_02b_image]
+    owner_roles: [section_cluster_cdd_ci, section_image_motion_worker]
+    target_message_treatment: inherit_pre_fp_locks_check_visible_realization_only
+    evidence_surface: actual_generated_production_cut_pixels
+    criteria:
+      - {criterion_id: visible_scene_job_and_neighbor_delta, minimum: 3, critical_four: false}
+      - {criterion_id: identity_and_character_visual, minimum: 3, critical_four: false, not_applicable: member_absent}
+      - {criterion_id: scene_visual_package_pixels, minimum: 4, critical_four: true}
+      - {criterion_id: still_composition_camera_depth_crop, minimum: 4, critical_four: true}
+      - {criterion_id: motion_pose_action_anchor, minimum: 4, critical_four: true}
+      - {criterion_id: prop_interaction_pixels, minimum: 3, critical_four: false, not_applicable: no_material_prop}
+      - {criterion_id: continuity_and_generation_artifact_stability, minimum: 3, critical_four: false}
+
+  - profile_id: playback_03v
+    stages: [storyboard_review, video_motion_direction, video_playback_review]
+    checkpoints: [v_ci_03v_playback_review, section_03v_motion]
+    owner_roles: [section_cluster_cdd_ci, section_image_motion_worker]
+    target_message_treatment: inherit_pre_fp_locks_check_playback_realization_only
+    evidence_surface: actual_section_playback
+    criteria:
+      - {criterion_id: subject_body_action_pose_transition, minimum: 4, critical_four: true}
+      - {criterion_id: temporal_camera_route_or_locked_hold, minimum: 4, critical_four: true}
+      - {criterion_id: audio_trigger_landing_edit_handoff, minimum: 4, critical_four: true}
+      - {criterion_id: depth_parallax_occlusion_reveal_stop, minimum: 3, critical_four: false}
+      - {criterion_id: neighbor_whole_section_motion_diversity, minimum: 3, critical_four: false}
+      - {criterion_id: identity_light_state_geometry_stability, minimum: 3, critical_four: false}
+      - {criterion_id: performance_readability, minimum: 3, critical_four: false, not_applicable: no_performance_job}
+
+  - profile_id: edit_04_playback
+    stages: [master_package_release, edit_assembly_playback_qc, edit_finishing_fx]
+    checkpoints: [edit_qc_section]
+    owner_roles: [edit_director]
+    target_message_treatment: inherit_pre_fp_locks_check_whole_film_payoff_only
+    evidence_surface: actual_section_and_whole_film_edit_playback
+    criteria:
+      - {criterion_id: cut_rhythm_audio_landing, minimum: 4, critical_four: true}
+      - {criterion_id: section_boundary_continuity, minimum: 3, critical_four: false}
+      - {criterion_id: camera_motion_progression, minimum: 4, critical_four: true}
+      - {criterion_id: whole_film_narrative_payoff, minimum: 4, critical_four: true}
+      - {criterion_id: identity_visual_stability, minimum: 3, critical_four: false}
+      - {criterion_id: performance_readability, minimum: 3, critical_four: false, not_applicable: no_performance_job}

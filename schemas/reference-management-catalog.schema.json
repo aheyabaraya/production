@@ -1,0 +1,626 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/reference-management-catalog.schema.json",
+  "title": "IDOL Unified Reference Management Catalog",
+  "description": "Pointer-only cross-run lookup for reusable video and still-image sources, source-owned reusable observations, run-owned dispositions, purpose classifications, and usage history. It never replaces source bytes, current-run interpretation receipts, title indexes, or downstream bindings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "catalog_path",
+    "ownership",
+    "purpose_classes",
+    "retrieval_views",
+    "source_indexes",
+    "reference_units",
+    "usage_history",
+    "automation_boundaries",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_reference_management_catalog.v3"
+    },
+    "artifact_type": {
+      "const": "unified_reference_management_catalog"
+    },
+    "status": {
+      "enum": [
+        "active",
+        "hold"
+      ]
+    },
+    "catalog_path": {
+      "const": "catalog/references/reference-catalog.yaml"
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_is_pointer_only",
+        "media_bytes_allowed",
+        "creative_analysis_owner",
+        "current_run_disposition_owner",
+        "idol_current_run_binding_owner",
+        "cf_current_run_binding_owner",
+        "history_owner",
+        "scripts_may_author_creative_truth"
+      ],
+      "properties": {
+        "catalog_is_pointer_only": {
+          "const": true
+        },
+        "media_bytes_allowed": {
+          "const": false
+        },
+        "creative_analysis_owner": {
+          "const": "source_materials_video_source_for_reusable_layer_a_b"
+        },
+        "current_run_disposition_owner": {
+          "const": "front_planning_01r_or_cf20_or_other_named_research_stage"
+        },
+        "idol_current_run_binding_owner": {
+          "const": "front_planning_then_01_then_02a_then_02b"
+        },
+        "cf_current_run_binding_owner": {
+          "const": "cf_reference_bridge_then_cf20_then_cf30_then_cf40_then_cf50_then_cf60_then_cf70"
+        },
+        "history_owner": {
+          "const": "git_for_catalog_text_and_immutable_usage_rows"
+        },
+        "scripts_may_author_creative_truth": {
+          "const": false
+        }
+      }
+    },
+    "purpose_classes": {
+      "const": [
+        "major_scene_grammar_or_feeling",
+        "background_and_space",
+        "still_camera_and_composition",
+        "lighting_color_material",
+        "subject_state_or_pose",
+        "visible_action_or_hold",
+        "object_environment_response",
+        "edit_or_transition"
+      ]
+    },
+    "retrieval_views": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "major_or_feeling",
+        "background_and_light",
+        "action",
+        "camera",
+        "edit"
+      ],
+      "properties": {
+        "major_or_feeling": {
+          "const": [
+            "major_scene_grammar_or_feeling"
+          ]
+        },
+        "background_and_light": {
+          "const": [
+            "background_and_space",
+            "lighting_color_material"
+          ]
+        },
+        "action": {
+          "const": [
+            "subject_state_or_pose",
+            "visible_action_or_hold",
+            "object_environment_response"
+          ]
+        },
+        "camera": {
+          "const": [
+            "still_camera_and_composition"
+          ]
+        },
+        "edit": {
+          "const": [
+            "edit_or_transition"
+          ]
+        }
+      }
+    },
+    "source_indexes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/sourceIndex"
+      }
+    },
+    "reference_units": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/referenceUnit"
+      }
+    },
+    "usage_history": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/usageEvent"
+      }
+    },
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "read_only_validation",
+        "creative_authoring",
+        "purpose_classification_inference",
+        "download_or_generation_approval"
+      ],
+      "properties": {
+        "read_only_validation": {
+          "const": true
+        },
+        "creative_authoring": {
+          "const": false
+        },
+        "purpose_classification_inference": {
+          "const": false
+        },
+        "download_or_generation_approval": {
+          "const": false
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "fileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "sourceIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "index_id",
+        "media_scope",
+        "locator_kind",
+        "locator",
+        "schema_version",
+        "snapshot_sha256",
+        "status",
+        "persistence_scope",
+        "lookup"
+      ],
+      "properties": {
+        "index_id": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]{2,100}$"
+        },
+        "media_scope": {
+          "enum": [
+            "video",
+            "image",
+            "mixed",
+            "title_indexes",
+            "reusable_functions"
+          ]
+        },
+        "locator_kind": {
+          "enum": [
+            "file",
+            "path_pattern"
+          ]
+        },
+        "locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "snapshot_sha256": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "active",
+            "ready_no_sources",
+            "hold",
+            "stale"
+          ]
+        },
+        "persistence_scope": {
+          "enum": [
+            "repo_tracked_metadata_with_local_media",
+            "repo_tracked_metadata",
+            "run_owned",
+            "title_pointer"
+          ]
+        },
+        "lookup": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "locator_kind": {
+                "const": "file"
+              }
+            },
+            "required": [
+              "locator_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "snapshot_sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "snapshot_sha256": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "referenceUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_unit_id",
+        "source_identity",
+        "title",
+        "media_type",
+        "source_manifest",
+        "analysis_ref",
+        "source_locator",
+        "inspection_status",
+        "reuse_status",
+        "direct_use_mode",
+        "purpose_classes",
+        "classification_basis",
+        "search_terms",
+        "selected_evidence",
+        "function_note_refs",
+        "future_use_rule",
+        "notes"
+      ],
+      "properties": {
+        "reference_unit_id": {
+          "type": "string",
+          "pattern": "^REF_[A-Z0-9_]{3,100}$"
+        },
+        "source_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "media_type": {
+          "enum": [
+            "video",
+            "image",
+            "video_selected_range",
+            "image_selected_crop"
+          ]
+        },
+        "source_manifest": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "analysis_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/fileRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_locator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inspection_status": {
+          "enum": [
+            "complete",
+            "hold_incomplete",
+            "not_analyzed",
+            "rejected"
+          ]
+        },
+        "reuse_status": {
+          "enum": [
+            "candidate_for_reuse",
+            "reviewed_reusable",
+            "current_title_only",
+            "rejected"
+          ]
+        },
+        "direct_use_mode": {
+          "enum": [
+            "not_authorized_by_catalog",
+            "function_only",
+            "bounded_surface_direct",
+            "full_scene_direct",
+            "sequence_direct"
+          ]
+        },
+        "purpose_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "major_scene_grammar_or_feeling",
+              "background_and_space",
+              "still_camera_and_composition",
+              "lighting_color_material",
+              "subject_state_or_pose",
+              "visible_action_or_hold",
+              "object_environment_response",
+              "edit_or_transition"
+            ]
+          }
+        },
+        "classification_basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "search_terms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "selected_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fileRef"
+          }
+        },
+        "function_note_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fileRef"
+          }
+        },
+        "future_use_rule": {
+          "const": "read_full_analysis_then_admit_exact_source_locator_and_function_into_the_current_run_before_downstream_use"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "inspection_status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "inspection_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "analysis_ref": {
+                "$ref": "#/$defs/fileRef"
+              },
+              "purpose_classes": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "usageEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "usage_id",
+        "production_lane",
+        "event_type",
+        "reference_unit_id",
+        "run_root",
+        "stage",
+        "section_ids",
+        "purpose_classes",
+        "disposition",
+        "binding_ref",
+        "founder_state",
+        "recorded_on",
+        "notes"
+      ],
+      "properties": {
+        "usage_id": {
+          "type": "string",
+          "pattern": "^USE_[A-Z0-9_]{3,120}$"
+        },
+        "production_lane": {
+          "enum": [
+            "idol",
+            "cf"
+          ]
+        },
+        "event_type": {
+          "enum": [
+            "analysis_registered",
+            "reference_applied",
+            "reference_combined",
+            "reference_held",
+            "reference_rejected",
+            "final_lineage_closed"
+          ]
+        },
+        "reference_unit_id": {
+          "type": "string",
+          "pattern": "^REF_[A-Z0-9_]{3,100}$"
+        },
+        "run_root": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "album_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "title_key": {
+          "type": "string",
+          "pattern": "^[0-9a-z][0-9a-z-]{1,120}$"
+        },
+        "stage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "purpose_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "major_scene_grammar_or_feeling",
+              "background_and_space",
+              "still_camera_and_composition",
+              "lighting_color_material",
+              "subject_state_or_pose",
+              "visible_action_or_hold",
+              "object_environment_response",
+              "edit_or_transition"
+            ]
+          }
+        },
+        "disposition": {
+          "enum": [
+            "analysis_registered",
+            "applied",
+            "combined",
+            "held",
+            "rejected",
+            "final_dependency"
+          ]
+        },
+        "binding_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/fileRef"
+            },
+            {
+              "$ref": "#/$defs/cfBridgeEntrySetRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "founder_state": {
+          "enum": [
+            "not_claimed",
+            "passed",
+            "held",
+            "rejected"
+          ]
+        },
+        "recorded_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "cfBridgeEntrySetRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_kind",
+        "path",
+        "schema_version",
+        "entry_ids",
+        "entry_set_sha256"
+      ],
+      "properties": {
+        "binding_kind": {
+          "const": "cf_reference_bridge_entry_set"
+        },
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "schema_version": {
+          "const": "cf_reference_bridge_record.v4"
+        },
+        "entry_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^CFREFBR_[A-Z0-9_]{3,120}$"
+          }
+        },
+        "entry_set_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

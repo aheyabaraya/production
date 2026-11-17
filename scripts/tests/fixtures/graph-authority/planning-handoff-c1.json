@@ -1,0 +1,6 @@
+{
+  "artifact_type": "graph_planning_cell_handoff_fixture",
+  "section_cohort_id": "C1",
+  "planning_lane_id": "planning_p3_c1",
+  "note": "Pointer-only fixture bytes for P3-Ci to V-Ci carry hash binding. Not creative truth."
+}

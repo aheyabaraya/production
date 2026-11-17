@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/skill-application-receipt.schema.json",
+  "title": "IDOL Skill Read And Application Receipt",
+  "description": "A model- or human-authored, hash-bound receipt proving which owning skill and activated sources were read to EOF, which concrete output decisions applied them, and which exact output bytes existed when the receipt closed. A script may validate this receipt but may not create its creative application evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run",
+    "stage_id",
+    "scope",
+    "owner",
+    "session_contract",
+    "owning_skill",
+    "activated_reads",
+    "application_evidence",
+    "output_targets",
+    "creative_authorship",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol-skill-application-receipt.v3"
+    },
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "stage_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "section_id"],
+      "properties": {
+        "mode": {"enum": ["whole_run", "section"]},
+        "section_id": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]*$"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "whole_run"}}, "required": ["mode"]},
+          "then": {"properties": {"section_id": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"mode": {"const": "section"}}, "required": ["mode"]},
+          "then": {"properties": {"section_id": {"type": "string", "minLength": 1}}}
+        }
+      ]
+    },
+    "owner": {"type": "string", "minLength": 1},
+    "session_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "continuity_id", "new_chat_per_pre_02a_section"],
+      "properties": {
+        "lane": {"enum": ["continuous_director_pre_02a", "fresh_terra_section_post_02a", "checkpointed_luna_section_post_02a", "grok_root_director", "bounded_support"]},
+        "continuity_id": {"type": "string", "minLength": 1},
+        "new_chat_per_pre_02a_section": {"const": false},
+        "ordered_section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "owning_skill": {"$ref": "#/$defs/readEvidence"},
+    "activated_reads": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/readEvidence"}
+    },
+    "application_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "source_path", "applied_to", "application"],
+        "properties": {
+          "rule_id": {"type": "string", "minLength": 1},
+          "source_path": {"$ref": "#/$defs/repositoryPath"},
+          "applied_to": {"type": "string", "minLength": 1},
+          "application": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "output_targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/repositoryPath"}
+    },
+    "output_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"$ref": "#/$defs/repositoryPath"},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "creative_authorship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_values_origin", "script_role", "missing_creative_truth_action"],
+      "properties": {
+        "creative_values_origin": {"const": "human_or_model_authored"},
+        "script_role": {"const": "validation_hashing_or_hash_bound_exact_copy_only"},
+        "missing_creative_truth_action": {"const": "hold"},
+        "authorship_actor": {"enum": ["founder_human", "codex_model", "grok_model"]},
+        "authorship_continuity_id": {"type": "string", "minLength": 1},
+        "script_authored_creative_values": {"const": false},
+        "script_claimed_model_authorship": {"const": false}
+      }
+    },
+    "status": {"enum": ["complete", "hold"]},
+    "hold_reason": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"enum": ["idol-skill-application-receipt.v2", "idol-skill-application-receipt.v3"]}
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "creative_authorship": {
+            "required": [
+              "creative_values_origin",
+              "script_role",
+              "missing_creative_truth_action",
+              "authorship_actor",
+              "authorship_continuity_id",
+              "script_authored_creative_values",
+              "script_claimed_model_authorship"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"enum": ["idol-skill-application-receipt.v2", "idol-skill-application-receipt.v3"]},
+          "status": {"const": "complete"}
+        },
+        "required": ["schema_version", "status"]
+      },
+      "then": {"required": ["output_evidence"]}
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"const": "idol-skill-application-receipt.v3"}
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "session_contract": {
+            "properties": {
+              "lane": {"enum": ["continuous_director_pre_02a", "checkpointed_luna_section_post_02a", "grok_root_director", "bounded_support"]}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "hold"}}, "required": ["status"]},
+      "then": {"required": ["hold_reason"]}
+    }
+  ],
+  "$defs": {
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.grok/|automation/|assets/|catalog/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/).+)"
+    },
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "readEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "read_complete", "reason"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "read_complete": {"const": true},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

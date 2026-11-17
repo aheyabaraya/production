@@ -1,0 +1,648 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/company-ops-idol-bridge.schema.json",
+  "title": "IDOL Company Ops Bridge Contract And Ingress Record",
+  "description": "Pointer-only Company Ops to IDOL admission bridge. Company Ops packets may request work but cannot bypass IDOL Goal, Dispatch, Role Context Pack, review, promotion, paid/media, external, publication, or release gates.",
+  "oneOf": [
+    {"$ref": "#/$defs/bridgeContract"},
+    {"$ref": "#/$defs/ingressRecord"}
+  ],
+  "$defs": {
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "schemaVersion": {"const": "idol-company-ops-idol-bridge.v1"},
+    "bridgeContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "status",
+        "canonical_byte_owner",
+        "graph_v2",
+        "company_ops_role_bindings",
+        "ingress_mapping",
+        "provider_identity",
+        "capacity_separation",
+        "authority_boundary",
+        "command_representation",
+        "improvement_loop",
+        "invalidation",
+        "restart",
+        "cursor_cloud",
+        "creative_truth_copy",
+        "path_allowlist",
+        "company_ops_runner_hold"
+      ],
+      "properties": {
+        "schema_version": {"$ref": "#/$defs/schemaVersion"},
+        "artifact_type": {"const": "company_ops_idol_bridge_contract"},
+        "status": {"const": "active"},
+        "canonical_byte_owner": {"const": "idol"},
+        "graph_v2": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "default_switch"],
+          "properties": {
+            "status": {"const": "shadow_not_default"},
+            "default_switch": {"const": "forbidden_without_verified_founder_receipt"}
+          }
+        },
+        "company_ops_role_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/roleBinding"}
+        },
+        "ingress_mapping": {"$ref": "#/$defs/ingressMapping"},
+        "provider_identity": {"$ref": "#/$defs/providerIdentity"},
+        "capacity_separation": {"$ref": "#/$defs/capacitySeparation"},
+        "authority_boundary": {"$ref": "#/$defs/authorityBoundary"},
+        "command_representation": {"$ref": "#/$defs/commandRepresentation"},
+        "improvement_loop": {"$ref": "#/$defs/improvementLoop"},
+        "invalidation": {"$ref": "#/$defs/invalidation"},
+        "restart": {"$ref": "#/$defs/restart"},
+        "cursor_cloud": {"$ref": "#/$defs/cursorCloud"},
+        "creative_truth_copy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["into_company_ops_department_indexes", "into_company_ops_bot_defaults", "from_company_ops_organization_policy_into_idol"],
+          "properties": {
+            "into_company_ops_department_indexes": {"const": "forbidden"},
+            "into_company_ops_bot_defaults": {"const": "forbidden"},
+            "from_company_ops_organization_policy_into_idol": {"const": "forbidden"}
+          }
+        },
+        "path_allowlist": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["prefixes", "denied_prefixes"],
+          "properties": {
+            "prefixes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"$ref": "#/$defs/nonEmpty"}
+            },
+            "denied_prefixes": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"$ref": "#/$defs/nonEmpty"}
+            }
+          }
+        },
+        "company_ops_runner_hold": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "hole_id",
+            "smallest_owner",
+            "correction",
+            "idol_validator_latches_company_ops_runner"
+          ],
+          "properties": {
+            "status": {"const": "latched"},
+            "hole_id": {"const": "HOLE-1"},
+            "smallest_owner": {"const": "company-ops/company_ops/grok_runner.py"},
+            "correction": {"$ref": "#/$defs/nonEmpty"},
+            "idol_validator_latches_company_ops_runner": {"const": true}
+          }
+        }
+      }
+    },
+    "roleBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "company_ops_role_id",
+        "company_ops_pointers",
+        "idol_profile_id",
+        "idol_logical_role",
+        "idol_logical_profile_alias",
+        "idol_execution_profile_id",
+        "provider",
+        "runtime_surface",
+        "may",
+        "must_not"
+      ],
+      "properties": {
+        "company_ops_role_id": {"const": "kurisu.idol_graph_cdd"},
+        "company_ops_pointers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repository_root_relative", "director_profile", "department_index", "navigation_skill", "bot_defaults"],
+          "properties": {
+            "repository_root_relative": {"const": "../../company-ops"},
+            "director_profile": {"const": "organization/generated/director-profiles/kurisu.idol_graph_cdd.md"},
+            "department_index": {"const": "organization/generated/department-indexes/idol-operations.md"},
+            "navigation_skill": {"const": "skills/company-ops-agent-navigation/references/kurisu-idol-graph-cdd.md"},
+            "bot_defaults": {"const": "organization/generated/bot-defaults/kurisu.idol_graph_cdd.json"}
+          }
+        },
+        "idol_profile_id": {"const": "harness_maintenance"},
+        "idol_logical_role": {"const": "mechanical_coordinator"},
+        "idol_logical_profile_alias": {"const": "worker_high"},
+        "idol_execution_profile_id": {"const": "grok_worker_high"},
+        "provider": {"const": "grok"},
+        "runtime_surface": {"const": "grok_build_cli_acp"},
+        "may": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "coordinate_bounded_harness_maintenance",
+              "return_reviewed_milestones"
+            ]
+          }
+        },
+        "must_not": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "second_overall_director",
+              "creative_promotion_authority",
+              "public_release_authority",
+              "universal_worker",
+              "founder_conversation_owner"
+            ]
+          }
+        }
+      }
+    },
+    "ingressMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from",
+        "packet_schema",
+        "required_before_execution",
+        "after_execution",
+        "packet_may_request_work",
+        "packet_may_bypass_idol_gates"
+      ],
+      "properties": {
+        "from": {"const": "admitted_company_ops_grok_build_work_packet"},
+        "packet_schema": {"const": "company-ops-grok-build-work.v1"},
+        "required_before_execution": {
+          "const": [
+            "idol_department_dispatch_v8",
+            "idol_native_goal_admitted",
+            "idol_role_context_pack_v1"
+          ]
+        },
+        "after_execution": {
+          "const": [
+            "result_and_output_hashes",
+            "recipient_director_review",
+            "terminal_return_or_wake"
+          ]
+        },
+        "packet_may_request_work": {"const": true},
+        "packet_may_bypass_idol_gates": {"const": false}
+      }
+    },
+    "providerIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grok_cli",
+        "cursor_cli",
+        "cursor_cloud",
+        "cursor_grok",
+        "grok_bot",
+        "codex",
+        "silent_substitution"
+      ],
+      "properties": {
+        "grok_cli": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "registered_provider", "runtime_surface", "fallback"],
+          "properties": {
+            "status": {"const": "preferred_non_media_execution"},
+            "registered_provider": {"const": "grok"},
+            "runtime_surface": {"const": "grok_build_cli_acp"},
+            "fallback": {"const": "none"}
+          }
+        },
+        "cursor_cli": {"const": "distinct_not_grok_cli"},
+        "cursor_cloud": {"$ref": "#/$defs/cursorCloud"},
+        "cursor_grok": {"const": "distinct_not_grok_cli_equivalent"},
+        "grok_bot": {"const": "record_intake_not_canonical_queue"},
+        "codex": {"const": "distinct"},
+        "silent_substitution": {"const": "forbidden"}
+      }
+    },
+    "cursorCloud": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "live_post", "auto_create_pr", "return_kind"],
+      "properties": {
+        "lane": {"const": "distinct_authority_gated_web_implementation"},
+        "live_post": {"const": false},
+        "auto_create_pr": {"const": false},
+        "return_kind": {"const": "branch_return_only"}
+      }
+    },
+    "capacitySeparation": {
+      "description": "The v1 idol_native_helper_* keys are retained for wire compatibility and denote physical grok_nonroot capacity in automation/harness-execution-contract.yaml. They do not cap provider-native spawn_subagent helpers; automation/providers/grok-build-profiles.yaml owns that separate policy.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idol_native_helper_ordinary_maximum",
+        "idol_native_helper_reviewed_maximum",
+        "company_ops_physical_session_maximum",
+        "company_ops_worker_slots",
+        "company_ops_reserved_slots",
+        "company_ops_may_mutate_idol_ceilings",
+        "ceilings_are_multiplied",
+        "cross_process_occupancy_synchronized"
+      ],
+      "properties": {
+        "idol_native_helper_ordinary_maximum": {"const": 8, "description": "Legacy field name for physical grok_nonroot session capacity; not a provider-native helper limit."},
+        "idol_native_helper_reviewed_maximum": {"const": 8, "description": "Legacy field name for physical grok_nonroot session capacity; not a provider-native helper limit."},
+        "company_ops_physical_session_maximum": {"const": 15},
+        "company_ops_worker_slots": {"const": 13},
+        "company_ops_reserved_slots": {"const": 2},
+        "company_ops_may_mutate_idol_ceilings": {"const": false},
+        "ceilings_are_multiplied": {"const": false},
+        "cross_process_occupancy_synchronized": {"const": false}
+      }
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "self_review",
+        "self_promote",
+        "creative_grandchildren",
+        "maximum_submissions_including_initial",
+        "other_lane_write",
+        "founder_or_external_authority_inheritance"
+      ],
+      "properties": {
+        "self_review": {"const": "forbidden"},
+        "self_promote": {"const": "forbidden"},
+        "creative_grandchildren": {"const": "forbidden", "description": "No new logical creative owner or inherited authority. Internal provider-native helpers remain inside their assigned parent scope."},
+        "maximum_submissions_including_initial": {"const": 3},
+        "other_lane_write": {"const": "forbidden"},
+        "founder_or_external_authority_inheritance": {"const": "forbidden"}
+      }
+    },
+    "commandRepresentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "human_or_director_general_instruction",
+        "model_judgment_and_policy_rubric",
+        "executable_transport",
+        "raw_markdown_yaml_json_judgment_evidence",
+        "second_generic_command_language"
+      ],
+      "properties": {
+        "human_or_director_general_instruction": {"const": "strict_markdown_intent"},
+        "model_judgment_and_policy_rubric": {"const": "schema_validated_yaml"},
+        "executable_transport": {"const": "validated_json_plus_local_canonical_ledger"},
+        "raw_markdown_yaml_json_judgment_evidence": {"const": "non_executable"},
+        "second_generic_command_language": {"const": "forbidden"}
+      }
+    },
+    "improvementLoop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reuse_wiki",
+        "reuse_sidecar",
+        "reuse_schema",
+        "competing_loop",
+        "routine_route",
+        "governing_change_route",
+        "proposer_only_approval",
+        "active_goal_hot_swap",
+        "automatic_preference_promotion",
+        "machine_authored_creative_truth",
+        "maximum_submissions_including_initial",
+        "remaining_defect"
+      ],
+      "properties": {
+        "reuse_wiki": {"const": "wiki/harness-improvement-review-loop.md"},
+        "reuse_sidecar": {"const": "RUN/review/harness-improvement-review.yaml"},
+        "reuse_schema": {"const": "schemas/harness-improvement-review.schema.json"},
+        "competing_loop": {"const": "forbidden"},
+        "routine_route": {"const": "worker_to_reporting_director"},
+        "governing_change_route": {"const": "independent_review_then_founder_approval"},
+        "proposer_only_approval": {"const": "forbidden"},
+        "active_goal_hot_swap": {"const": "forbidden"},
+        "automatic_preference_promotion": {"const": "forbidden"},
+        "machine_authored_creative_truth": {"const": "forbidden"},
+        "maximum_submissions_including_initial": {"const": 3},
+        "remaining_defect": {"const": "upstream_or_hold"}
+      }
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reopen_scope", "unaffected_hashes"],
+      "properties": {
+        "reopen_scope": {"const": "invalidated_outputs_only"},
+        "unaffected_hashes": {"const": "frozen"}
+      }
+    },
+    "restart": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["durable_claim_required", "lost_wake_resume", "duplicate_claim", "duplicate_promotion", "claim_ledger_path"],
+      "properties": {
+        "durable_claim_required": {"const": true},
+        "lost_wake_resume": {"const": "last_durable_claim_or_admission"},
+        "duplicate_claim": {"const": "hold"},
+        "duplicate_promotion": {"const": "hold"},
+        "claim_ledger_path": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "ingressRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "company_ops_packet",
+        "idol_admission",
+        "authority",
+        "capacity",
+        "cursor_cloud",
+        "command_kind",
+        "improvement",
+        "invalidation_state",
+        "restart_state",
+        "execution"
+      ],
+      "properties": {
+        "schema_version": {"$ref": "#/$defs/schemaVersion"},
+        "artifact_type": {"const": "company_ops_idol_ingress_record"},
+        "company_ops_packet": {"$ref": "#/$defs/packet"},
+        "idol_admission": {"$ref": "#/$defs/admission"},
+        "authority": {"$ref": "#/$defs/recordAuthority"},
+        "capacity": {"$ref": "#/$defs/recordCapacity"},
+        "cursor_cloud": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["live_post", "auto_create_pr", "return_kind"],
+          "properties": {
+            "live_post": {"type": "boolean"},
+            "auto_create_pr": {"type": "boolean"},
+            "return_kind": {"enum": ["branch_return_only", "live_post"]}
+          }
+        },
+        "command_kind": {
+          "enum": [
+            "validated_json",
+            "compiled_intent_md",
+            "raw_markdown",
+            "raw_yaml",
+            "judgment_evidence"
+          ]
+        },
+        "improvement": {"$ref": "#/$defs/recordImprovement"},
+        "invalidation_state": {"$ref": "#/$defs/recordInvalidation"},
+        "restart_state": {"$ref": "#/$defs/recordRestart"},
+        "execution": {"$ref": "#/$defs/execution"}
+      }
+    },
+    "packet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "packet_digest",
+        "author_agent_id",
+        "assigned_role_id",
+        "profile_id",
+        "session_id",
+        "writer_lease_id",
+        "writer_lease_version",
+        "lane_id",
+        "input_digest",
+        "repository",
+        "model",
+        "fallback",
+        "native_goal_name",
+        "allowed_paths",
+        "authority"
+      ],
+      "properties": {
+        "provider": {"enum": ["grok-build", "cursor-cloud", "cursor-cli", "codex", "grok-bot"]},
+        "packet_digest": {"$ref": "#/$defs/sha256"},
+        "author_agent_id": {"$ref": "#/$defs/nonEmpty"},
+        "assigned_role_id": {"$ref": "#/$defs/nonEmpty"},
+        "profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "session_id": {"$ref": "#/$defs/nonEmpty"},
+        "writer_lease_id": {"$ref": "#/$defs/nonEmpty"},
+        "writer_lease_version": {"type": "integer", "minimum": 1},
+        "lane_id": {"$ref": "#/$defs/nonEmpty"},
+        "input_digest": {"$ref": "#/$defs/sha256"},
+        "repository": {"enum": ["idol", "company-ops"]},
+        "model": {"$ref": "#/$defs/nonEmpty"},
+        "reasoning_effort": {"$ref": "#/$defs/nonEmpty"},
+        "fallback": {"enum": ["none"]},
+        "native_goal_name": {"$ref": "#/$defs/nonEmpty"},
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonEmpty"}
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commit", "push", "merge", "deploy", "publish", "spend", "auth_material"],
+          "properties": {
+            "commit": {"type": "boolean"},
+            "push": {"type": "boolean"},
+            "merge": {"type": "boolean"},
+            "deploy": {"type": "boolean"},
+            "publish": {"type": "boolean"},
+            "spend": {"type": "boolean"},
+            "auth_material": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native_goal_id",
+        "native_goal_status",
+        "native_goal_path",
+        "native_goal_sha256",
+        "dispatch_path",
+        "dispatch_sha256",
+        "role_context_pack_path",
+        "role_context_pack_sha256",
+        "profile_id",
+        "lane_id",
+        "provider",
+        "runtime_surface",
+        "execution_profile_id",
+        "graph_v2_status"
+      ],
+      "properties": {
+        "native_goal_id": {"$ref": "#/$defs/nonEmpty"},
+        "native_goal_status": {"enum": ["admitted", "missing", "held"]},
+        "native_goal_path": {"$ref": "#/$defs/nonEmpty"},
+        "native_goal_sha256": {"$ref": "#/$defs/sha256"},
+        "dispatch_path": {"$ref": "#/$defs/nonEmpty"},
+        "dispatch_sha256": {"$ref": "#/$defs/sha256"},
+        "role_context_pack_path": {"$ref": "#/$defs/nonEmpty"},
+        "role_context_pack_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "lane_id": {"$ref": "#/$defs/nonEmpty"},
+        "provider": {"$ref": "#/$defs/nonEmpty"},
+        "runtime_surface": {"$ref": "#/$defs/nonEmpty"},
+        "execution_profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "graph_v2_status": {"enum": ["shadow_not_default", "verified_default"]},
+        "graph_v2_switch_receipt": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/nonEmpty"}
+          ]
+        }
+      }
+    },
+    "recordAuthority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assigned_owner",
+        "director_owner",
+        "promotion_owner",
+        "self_review",
+        "self_promote",
+        "may_create_grandchildren",
+        "submission_number",
+        "founder_conversation_owner",
+        "inherits_founder_or_external_authority"
+      ],
+      "properties": {
+        "assigned_owner": {"$ref": "#/$defs/nonEmpty"},
+        "director_owner": {"$ref": "#/$defs/nonEmpty"},
+        "promotion_owner": {"$ref": "#/$defs/nonEmpty"},
+        "self_review": {"type": "boolean"},
+        "self_promote": {"type": "boolean"},
+        "may_create_grandchildren": {"type": "boolean"},
+        "submission_number": {"type": "integer", "minimum": 1},
+        "founder_conversation_owner": {"type": "boolean"},
+        "inherits_founder_or_external_authority": {"type": "boolean"}
+      }
+    },
+    "recordCapacity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idol_native_helper_maximum",
+        "company_ops_physical_session_maximum",
+        "company_ops_may_mutate_idol_ceilings",
+        "ceilings_are_multiplied"
+      ],
+      "properties": {
+        "idol_native_helper_maximum": {"type": "integer", "minimum": 0, "description": "Legacy v1 field for the admitted physical grok_nonroot ceiling. Do not use it to gate provider-native helper count or depth."},
+        "company_ops_physical_session_maximum": {"type": "integer", "minimum": 0},
+        "company_ops_may_mutate_idol_ceilings": {"type": "boolean"},
+        "ceilings_are_multiplied": {"type": "boolean"}
+      }
+    },
+    "recordImprovement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "competing_loop",
+        "kind",
+        "founder_approval",
+        "proposer_only_approval",
+        "active_goal_hot_swap",
+        "automatic_preference_promotion"
+      ],
+      "properties": {
+        "competing_loop": {"type": "boolean"},
+        "kind": {"enum": ["none", "routine", "governing"]},
+        "founder_approval": {"type": "boolean"},
+        "proposer_only_approval": {"type": "boolean"},
+        "active_goal_hot_swap": {"type": "boolean"},
+        "automatic_preference_promotion": {"type": "boolean"}
+      }
+    },
+    "recordInvalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repair_targets", "frozen_outputs"],
+      "properties": {
+        "repair_targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"$ref": "#/$defs/nonEmpty"},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        },
+        "frozen_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"$ref": "#/$defs/nonEmpty"},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "recordRestart": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "resume_from_durable_claim"],
+      "properties": {
+        "claim_id": {"$ref": "#/$defs/nonEmpty"},
+        "resume_from_durable_claim": {"type": "boolean"},
+        "ledger_path": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "claimed", "promoted", "state"],
+      "properties": {
+        "allowed": {"type": "boolean"},
+        "claimed": {"type": "boolean"},
+        "promoted": {"type": "boolean"},
+        "state": {"enum": ["blocked", "admitted", "claimed", "returned", "promoted", "hold"]},
+        "output_digest": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "claimRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "packet_digest", "state"],
+      "properties": {
+        "claim_id": {"$ref": "#/$defs/nonEmpty"},
+        "packet_digest": {"$ref": "#/$defs/sha256"},
+        "state": {"enum": ["claimed", "promoted", "hold"]}
+      }
+    }
+  }
+}

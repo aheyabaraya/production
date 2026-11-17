@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-run-controller-state.schema.json",
+  "title": "IDOL Graph Run Controller Shadow-Probe State",
+  "description": "Provider-neutral, read-only shadow probe over current-next v2, Director Dispatch Index v4, the shadow Graph stage registry, an optional formally validated contextual judgment, and the exact Director disposition. It emits an append-only event intent but never launches a provider, writes an event, authors creative judgment, grants PASS, or authorizes execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "authority",
+    "run",
+    "frontier",
+    "frontier_set",
+    "input_bindings",
+    "decision",
+    "correction_plan",
+    "validation",
+    "migration_bridge",
+    "evidence",
+    "event_intent"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-run-controller-state.v1"},
+    "artifact_type": {"const": "graph_run_controller_state"},
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "graph_shadow_only", "provider_launch_performed", "write_performed", "creative_judgment_authored", "creative_pass_inferred", "execution_enabled", "activation_status", "activation_blockers"],
+      "properties": {
+        "mode": {"const": "read_only_dry_run"},
+        "graph_shadow_only": {"const": true},
+        "provider_launch_performed": {"const": false},
+        "write_performed": {"const": false},
+        "creative_judgment_authored": {"const": false},
+        "creative_pass_inferred": {"const": false},
+        "execution_enabled": {"const": false},
+        "activation_status": {"const": "blocked_shadow_probe"},
+        "activation_blockers": {
+          "const": [
+            "graph_v2_default_switch_receipt_not_consumed",
+            "provider_launcher_not_connected",
+            "event_writer_not_connected",
+            "founder_decision_receipt_reducer_not_connected",
+            "root_goal_progression_not_bound",
+            "graph_batch_scheduler_not_connected",
+            "typed_ddi_material_authority_requirements_not_registered",
+            "legacy_dispatch_v8_full_schema_and_policy_validation_not_embedded"
+          ]
+        }
+      }
+    },
+    "run": {"$ref": "#/$defs/repositoryPath"},
+    "frontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_kind", "selection_id", "dispatch_id", "stage_id", "owner"],
+      "properties": {
+        "selection_kind": {"enum": ["open_hold", "review_queue", "next_action", "no_actionable_unit", "migration_hold"]},
+        "selection_id": {"$ref": "#/$defs/nullableString"},
+        "dispatch_id": {"$ref": "#/$defs/nullableString"},
+        "stage_id": {"$ref": "#/$defs/nullableString"},
+        "owner": {"$ref": "#/$defs/nullableString"}
+      }
+    },
+    "frontier_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready_actions", "ready_action_count", "mode", "all_section_scopes_disjoint", "single_stage", "current_head_count", "current_head_stage_ids", "join_required", "join_dependency_role", "join_action_id", "join_verified_head_ids", "join_status", "execution_allowed"],
+      "properties": {
+        "ready_actions": {"type": "array", "items": {"$ref": "#/$defs/readyAction"}},
+        "ready_action_count": {"type": "integer", "minimum": 0},
+        "mode": {"enum": ["none", "single", "cohort_set_shadow_blocked", "conflicting_set_hold"]},
+        "all_section_scopes_disjoint": {"oneOf": [{"type": "boolean"}, {"type": "null"}]},
+        "single_stage": {"oneOf": [{"type": "boolean"}, {"type": "null"}]},
+        "current_head_count": {"type": "integer", "minimum": 0},
+        "current_head_stage_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "join_required": {"type": "boolean"},
+        "join_dependency_role": {"const": "canonical_head_join_dependency"},
+        "join_action_id": {"$ref": "#/$defs/nullableString"},
+        "join_verified_head_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+        "join_status": {"enum": ["actionable_frontier_present", "no_heads", "single_head", "multi_head_same_stage_verified", "multi_stage_verified", "multi_head_same_stage_unresolved", "multi_stage_unresolved"]},
+        "execution_allowed": {"const": false}
+      }
+    },
+    "input_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_next", "director_dispatch_index", "graph_stage_registry", "judgment_registry", "selected_dispatch", "contextual_judgment", "graph_dispatch", "judgment_profile_release"],
+      "properties": {
+        "current_next": {"$ref": "#/$defs/pointer"},
+        "director_dispatch_index": {"$ref": "#/$defs/pointer"},
+        "graph_stage_registry": {"$ref": "#/$defs/pointer"},
+        "judgment_registry": {"$ref": "#/$defs/pointer"},
+        "selected_dispatch": {"$ref": "#/$defs/nullablePointer"},
+        "contextual_judgment": {"$ref": "#/$defs/nullablePointer"},
+        "graph_dispatch": {"$ref": "#/$defs/nullablePointer"},
+        "judgment_profile_release": {"$ref": "#/$defs/nullablePointer"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "reason_code", "action_code", "owner", "founder_stop", "authority_requirements", "authority_receipt_contract", "execution_authorized", "state_semantics", "provider_action", "write_action"],
+      "properties": {
+        "state": {"enum": ["dispatch_or_resume_model", "await_director_review", "route_bounded_correction", "await_founder_decision", "hold"]},
+        "reason_code": {"$ref": "#/$defs/identifier"},
+        "action_code": {"$ref": "#/$defs/nonEmptyString"},
+        "owner": {"$ref": "#/$defs/nullableString"},
+        "founder_stop": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "authority_kind", "gate_id"],
+          "properties": {
+            "required": {"type": "boolean"},
+            "authority_kind": {"enum": ["none", "creative_gate", "paid", "download", "capture", "upload", "external", "destructive", "release"]},
+            "gate_id": {
+              "oneOf": [
+                {"enum": ["G0", "G1", "G2", "G3", "G4"]},
+                {"type": "null"}
+              ]
+            }
+          }
+        },
+        "authority_requirements": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/authorityRequirement"}},
+        "authority_receipt_contract": {"$ref": "#/$defs/authorityReceiptContract"},
+        "execution_authorized": {"const": false},
+        "state_semantics": {"const": "advisory_shadow_plan_only"},
+        "provider_action": {"const": "not_performed_plan_only"},
+        "write_action": {"const": "not_performed_stdout_only"}
+      }
+    },
+    "correction_plan": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "plan_kind", "same_owner", "owner", "new_immutable_attempt", "new_native_goal_required",
+            "review_cycle_id", "previous_attempt_id", "next_submission_number", "maximum_submissions",
+            "retry_route", "correction_action", "invalidated_outputs", "frozen_outputs",
+            "acceptance_criteria", "fourth_submission_forbidden"
+          ],
+          "properties": {
+            "plan_kind": {"const": "bounded_correction"},
+            "same_owner": {"const": true},
+            "owner": {"$ref": "#/$defs/nonEmptyString"},
+            "new_immutable_attempt": {"const": true},
+            "new_native_goal_required": {"const": true},
+            "review_cycle_id": {"$ref": "#/$defs/nonEmptyString"},
+            "previous_attempt_id": {"$ref": "#/$defs/nonEmptyString"},
+            "next_submission_number": {"type": "integer", "minimum": 2, "maximum": 3},
+            "maximum_submissions": {"const": 3},
+            "retry_route": {"enum": ["same_session_new_attempt", "new_session_new_lineage"]},
+            "correction_action": {"$ref": "#/$defs/nonEmptyString"},
+            "invalidated_outputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/hashedArtifact"}},
+            "frozen_outputs": {"type": "array", "items": {"$ref": "#/$defs/hashedArtifact"}},
+            "acceptance_criteria": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/nonEmptyString"}},
+            "fourth_submission_forbidden": {"const": true}
+          }
+        }
+      ]
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contextual_judgment", "legacy_current_next_ddi_boundary"],
+      "properties": {
+        "contextual_judgment": {"$ref": "#/$defs/judgmentValidation"},
+        "legacy_current_next_ddi_boundary": {"const": "structural_subset_only_activation_blocked"}
+      }
+    },
+    "migration_bridge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "legacy_dispatch", "graph_dispatch", "checks", "activation_authority"],
+      "properties": {
+        "status": {"enum": ["not_applicable_before_judgment", "verified_shadow_bridge"]},
+        "legacy_dispatch": {"$ref": "#/$defs/nullablePointer"},
+        "graph_dispatch": {"$ref": "#/$defs/nullablePointer"},
+        "checks": {"$ref": "#/$defs/bridgeChecks"},
+        "activation_authority": {"const": false}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_lifecycle", "judgment_decision", "judgment_next_edge", "director_disposition", "submission_number", "stage_founder_gate"],
+      "properties": {
+        "dispatch_lifecycle": {"$ref": "#/$defs/nullableString"},
+        "judgment_decision": {"$ref": "#/$defs/nullableString"},
+        "judgment_next_edge": {"$ref": "#/$defs/nullableString"},
+        "director_disposition": {"$ref": "#/$defs/nullableString"},
+        "submission_number": {
+          "oneOf": [
+            {"type": "integer", "minimum": 1, "maximum": 3},
+            {"type": "null"}
+          ]
+        },
+        "stage_founder_gate": {
+          "oneOf": [
+            {"enum": ["G0", "G1", "G2", "G3", "G4"]},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "event_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["append_only", "write_performed", "intent_type", "previous_event_sha256", "payload_sha256", "event_sha256", "idempotency_key"],
+      "properties": {
+        "append_only": {"const": true},
+        "write_performed": {"const": false},
+        "intent_type": {"enum": ["dispatch_or_resume_planned", "director_review_wait_planned", "bounded_correction_planned", "founder_decision_wait_planned", "hold_planned"]},
+        "previous_event_sha256": {
+          "oneOf": [
+            {"$ref": "#/$defs/sha256"},
+            {"type": "null"}
+          ]
+        },
+        "payload_sha256": {"$ref": "#/$defs/sha256"},
+        "event_sha256": {"$ref": "#/$defs/sha256"},
+        "idempotency_key": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"properties": {"state": {"const": "route_bounded_correction"}}}}},
+      "then": {"properties": {"correction_plan": {"type": "object"}}},
+      "else": {"properties": {"correction_plan": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"decision": {"properties": {"state": {"const": "await_founder_decision"}}}}},
+      "then": {"properties": {"decision": {"properties": {"founder_stop": {"properties": {"required": {"const": true}}}, "authority_requirements": {"minItems": 1}}}}},
+      "else": {"properties": {"decision": {"properties": {"founder_stop": {"properties": {"required": {"const": false}, "authority_kind": {"const": "none"}, "gate_id": {"type": "null"}}}}}}}
+    },
+    {
+      "if": {"properties": {"decision": {"properties": {"founder_stop": {"properties": {"authority_kind": {"const": "creative_gate"}}}}}}},
+      "then": {"properties": {"decision": {"properties": {"founder_stop": {"properties": {"gate_id": {"enum": ["G0", "G1", "G2", "G3", "G4"]}}}}}}},
+      "else": {"properties": {"decision": {"properties": {"founder_stop": {"properties": {"gate_id": {"type": "null"}}}}}}}
+    },
+    {
+      "if": {"properties": {"migration_bridge": {"properties": {"status": {"const": "verified_shadow_bridge"}}}}},
+      "then": {
+        "properties": {
+          "migration_bridge": {
+            "properties": {
+              "legacy_dispatch": {"$ref": "#/$defs/pointer"},
+              "graph_dispatch": {"$ref": "#/$defs/pointer"},
+              "checks": {"$ref": "#/$defs/verifiedBridgeChecks"}
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "migration_bridge": {
+            "properties": {
+              "graph_dispatch": {"type": "null"},
+              "checks": {"$ref": "#/$defs/notApplicableBridgeChecks"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {"type": "string", "minLength": 1},
+    "nullableString": {"oneOf": [{"$ref": "#/$defs/nonEmptyString"}, {"type": "null"}]},
+    "identifier": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "repositoryPath": {"type": "string", "pattern": "^(?:automation/|cf/runs/|runs/|schemas/|scripts/|skills/|policies/|wiki/).+"},
+    "readyAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action_id", "dispatch_id", "dispatch_pointer", "stage_id", "section_ids", "owner", "state", "evidence_status"],
+      "properties": {
+        "action_id": {"$ref": "#/$defs/nonEmptyString"},
+        "dispatch_id": {"$ref": "#/$defs/nonEmptyString"},
+        "dispatch_pointer": {"$ref": "#/$defs/pointer"},
+        "stage_id": {"$ref": "#/$defs/nullableString"},
+        "section_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}},
+        "owner": {"$ref": "#/$defs/nonEmptyString"},
+        "state": {"enum": ["open", "ready", "in_progress"]},
+        "evidence_status": {"const": "verified_legacy_shadow_input"}
+      }
+    },
+    "authorityRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "authority_kind", "gate_id", "source", "must_precede_action", "receipt_binding", "receipt_status"],
+      "properties": {
+        "requirement_id": {"$ref": "#/$defs/identifier"},
+        "authority_kind": {"enum": ["creative_gate", "paid", "download", "capture", "upload", "external", "destructive", "release"]},
+        "gate_id": {"oneOf": [{"enum": ["G0", "G1", "G2", "G3", "G4"]}, {"type": "null"}]},
+        "source": {"enum": ["graph_stage_registry_founder_gate", "graph_stage_registry_existing_paid_gate", "graph_stage_registry_existing_release_gate", "ddi_action_code_conservative_guard"]},
+        "must_precede_action": {"type": "boolean"},
+        "receipt_binding": {"type": "null"},
+        "receipt_status": {"const": "missing_unconsumed_shadow"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"authority_kind": {"const": "creative_gate"}}, "required": ["authority_kind"]},
+          "then": {"properties": {"gate_id": {"enum": ["G0", "G1", "G2", "G3", "G4"]}}},
+          "else": {"properties": {"gate_id": {"type": "null"}}}
+        }
+      ]
+    },
+    "authorityReceiptContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "producer_contract", "legacy_action_code", "legacy_action_code_is_execution_authority", "typed_ddi_authority_requirements_present", "receipt_bindings", "all_required_receipts_verified", "execution_authority"],
+      "properties": {
+        "status": {"enum": ["legacy_action_code_untyped_shadow_hold", "stage_registry_requirements_unconsumed_shadow", "no_material_action_projection_shadow"]},
+        "producer_contract": {"const": "typed_ddi_authority_requirements_and_receipt_bindings_not_registered"},
+        "legacy_action_code": {"$ref": "#/$defs/nullableString"},
+        "legacy_action_code_is_execution_authority": {"const": false},
+        "typed_ddi_authority_requirements_present": {"const": false},
+        "receipt_bindings": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["requirement_id", "receipt", "verification_status"],
+            "properties": {
+              "requirement_id": {"$ref": "#/$defs/identifier"},
+              "receipt": {"type": "null"},
+              "verification_status": {"const": "missing_unconsumed_shadow"}
+            }
+          }
+        },
+        "all_required_receipts_verified": {"const": false},
+        "execution_authority": {"const": false}
+      }
+    },
+    "judgmentValidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status", "validator", "boundary"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "status": {"enum": ["not_supplied", "pass"]},
+        "validator": {"$ref": "#/$defs/nullableString"},
+        "boundary": {"enum": ["not_run_no_judgment", "formal_contextual_judgment_validator", "test_stub"]}
+      },
+      "allOf": [
+        {"if": {"properties": {"required": {"const": true}}, "required": ["required"]}, "then": {"properties": {"status": {"const": "pass"}, "validator": {"$ref": "#/$defs/nonEmptyString"}}}},
+        {"if": {"properties": {"required": {"const": false}}, "required": ["required"]}, "then": {"properties": {"status": {"const": "not_supplied"}, "validator": {"type": "null"}, "boundary": {"const": "not_run_no_judgment"}}}}
+      ]
+    },
+    "bridgeChecks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id_exact_match", "run_exact_match", "owner_exact_match", "stage_exact_match", "section_scope_exact_match", "output_set_exact_match"],
+      "properties": {
+        "dispatch_id_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]},
+        "run_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]},
+        "owner_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]},
+        "stage_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]},
+        "section_scope_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]},
+        "output_set_exact_match": {"oneOf": [{"const": true}, {"type": "null"}]}
+      }
+    },
+    "verifiedBridgeChecks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id_exact_match", "run_exact_match", "owner_exact_match", "stage_exact_match", "section_scope_exact_match", "output_set_exact_match"],
+      "properties": {
+        "dispatch_id_exact_match": {"const": true},
+        "run_exact_match": {"const": true},
+        "owner_exact_match": {"const": true},
+        "stage_exact_match": {"const": true},
+        "section_scope_exact_match": {"const": true},
+        "output_set_exact_match": {"const": true}
+      }
+    },
+    "notApplicableBridgeChecks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_id_exact_match", "run_exact_match", "owner_exact_match", "stage_exact_match", "section_scope_exact_match", "output_set_exact_match"],
+      "properties": {
+        "dispatch_id_exact_match": {"type": "null"},
+        "run_exact_match": {"type": "null"},
+        "owner_exact_match": {"type": "null"},
+        "stage_exact_match": {"type": "null"},
+        "section_scope_exact_match": {"type": "null"},
+        "output_set_exact_match": {"type": "null"}
+      }
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    },
+    "nullablePointer": {"oneOf": [{"$ref": "#/$defs/pointer"}, {"type": "null"}]},
+    "hashedArtifact": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["path", "sha256", "role"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmptyString"}
+      }
+    }
+  }
+}

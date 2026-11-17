@@ -1,0 +1,1139 @@
+schema_version: idol-script-registry.v1
+status: active
+script_roots:
+  - id: top_level_scripts
+    path: scripts
+    include_globs: ["*.rb", "*.py", "*.sh", "idol-edit-desk", "idol-video-python"]
+    exclude_paths: ["scripts/README.md", "scripts/INDEX.md", "scripts/idol_tiktok_oauth_reauth.py", "scripts/idol_x_oauth_reauth.py", "scripts/idol_youtube_oauth_reauth.py"]
+  - id: shared_library_scripts
+    path: scripts/lib
+    include_globs: ["*.rb", "*.py"]
+    exclude_paths: []
+documentation_surfaces:
+  start_here:
+    id: start_here
+    path: scripts/README.md
+    kind: start_here
+    required: true
+  index:
+    id: full_index
+    path: scripts/INDEX.md
+    kind: full_index
+    required: true
+  role_guides:
+    - id: state_contracts
+      path: scripts/registry/state-and-contracts.md
+      kind: role_guide
+      required: true
+      role: "Graph Engineering state, startup admission, queues, dispatch, and contract routing"
+    - id: validators
+      path: scripts/registry/validators.md
+      kind: role_guide
+      required: true
+      role: "Schema, semantic, readiness, and release validators"
+    - id: research_evidence
+      path: scripts/registry/research-and-evidence.md
+      kind: role_guide
+      required: true
+      role: "Audio, reference, source, and measurable evidence routes"
+    - id: review_planning
+      path: scripts/registry/review-and-planning.md
+      kind: role_guide
+      required: true
+      role: "Front Planning, review boards, contact sheets, and decision projections"
+    - id: image_title
+      path: scripts/registry/image-and-title.md
+      kind: role_guide
+      required: true
+      role: "02B prompt, image-generation preparation, title assets, and output registry"
+    - id: video_playback
+      path: scripts/registry/video-and-playback.md
+      kind: role_guide
+      required: true
+      role: "03V prompt authoring, playback intake, and motion handoff"
+    - id: edit_qc
+      path: scripts/registry/edit-and-qc.md
+      kind: role_guide
+      required: true
+      role: "04 edit source, marker, recipe, FX, QC, and worklists"
+    - id: release_platform
+      path: scripts/registry/release-and-platform.md
+      kind: role_guide
+      required: true
+      role: "05 package, platform, Drive, workspace, and social evidence"
+    - id: runtime_libraries
+      path: scripts/registry/runtime-and-libraries.md
+      kind: role_guide
+      required: true
+      role: "Runtime launchers and shared deterministic libraries"
+    - id: legacy_one_off
+      path: scripts/registry/legacy-and-one-off.md
+      kind: role_guide
+      required: true
+      role: "Historical, inactive, compatibility, and one-off evidence surfaces"
+authority_profiles:
+  mechanical_default:
+    creative_truth: forbidden
+    founder_approval: never_inferred
+    external_action: closed_by_default
+    caveat: "Measures, validates, projects, or transports declared inputs only; never authors creative truth or Founder approval."
+  startup_admission_transport_only:
+    creative_truth: forbidden
+    founder_approval: never_granted
+    external_action: forbidden
+    caveat: "Verifies the exact run/profile/checkpoint, mechanically validated Role Context Pack receipt, and Current Assignment Delta envelope and compiles transport only; it never launches workers, writes canonical files, or performs paid/external/public action."
+  historical_evidence_only:
+    creative_truth: forbidden
+    founder_approval: never_inferred
+    external_action: forbidden
+    caveat: "Historical evidence only; no active route, compatibility fallback, canonical promotion, or creative authoring."
+  one_off_measurement_only:
+    creative_truth: forbidden
+    founder_approval: never_inferred
+    external_action: forbidden
+    caveat: "Named one-off measurement scope only; preserve the result as diagnostic evidence and do not generalize it."
+  founder_permission_external_capture:
+    creative_truth: forbidden
+    founder_approval: required_current_task
+    external_action: capture_only_after_permission
+    caveat: "Exact public source capture requires current-task Founder permission and canonical source-hub registration."
+  founder_approved_read_only_external:
+    creative_truth: forbidden
+    founder_approval: required_current_task
+    external_action: read_only_after_permission
+    caveat: "Read-only metric collection requires explicit current-task approval; it never publishes or infers performance."
+  founder_approved_credential_write:
+    creative_truth: forbidden
+    founder_approval: required_current_task
+    external_action: credential_write_after_permission
+    caveat: "Credential setup/rotation is explicit, value-free, and never prints or exposes secrets."
+  founder_approved_external_write:
+    creative_truth: forbidden
+    founder_approval: required_hash_bound_approval
+    external_action: write_after_permission
+    caveat: "Upload/post/reply writes require exact hash-bound Founder approval and unresolved-intent safety."
+  founder_scoped_cleanup:
+    creative_truth: forbidden
+    founder_approval: required_scoped_cleanup
+    external_action: local_low_risk_only
+    caveat: "Dry-run first; production artifacts and canonical bytes remain report-only without a separate cleanup plan."
+  founder_decision_transport:
+    creative_truth: forbidden
+    founder_approval: explicit_input_only
+    external_action: local_only
+    caveat: "Records/applies explicit Founder decisions but never infers locks, edits creative truth, or widens scope."
+  runtime_wrapper:
+    creative_truth: forbidden
+    founder_approval: never_inferred
+    external_action: closed_by_default
+    caveat: "Runtime launcher/wrapper only; it does not add authority to the underlying command."
+local_optional_entries:
+  - path: scripts/idol_tiktok_oauth_reauth.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_credential_write
+  - path: scripts/idol_x_oauth_reauth.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_credential_write
+  - path: scripts/idol_youtube_oauth_reauth.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_credential_write
+script_entries:
+  - path: scripts/lib/idol_graph_production_review_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_criterion_evidence_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_graph_production_review.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol-edit-desk
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol-video-python
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_01r_reference_gap_worklist.rb
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_02b_batch_api_runner.py
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_03v_apply_playback_decision.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_apply_playback_review_record.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_generated_playback_intake.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_import_generated_clips.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_playback_decision_sheet.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_playback_review_worklist.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_record_playback_review.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_refresh_playback_surfaces.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_03v_source_snapshot.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_04fx_compile_recipe_effects.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_04fx_transition_opportunity_seed.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_artifact_integrity.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_asset_drive_sync.py
+    guide_id: release_platform
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_audio_precision_markers.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_bilibili_reference_fetch.py
+    guide_id: research_evidence
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_build_two_cut_source_manifest.py
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_candidate_audio_probe.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_collect_platform_metrics.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_read_only_external
+  - path: scripts/idol_compile_brief_cards.rb
+    guide_id: research_evidence
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_creative_truth_guard.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_cue_bpm_map.rb
+    guide_id: research_evidence
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_cut_keyframe_batch_api_runner.py
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_director_dispatch_index.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_department_transport_refresh.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_edit_delivery_qc.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_edit_marker_contact_sheets.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_edit_readiness_worklist.rb
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_edit_recipe_alignment_evidence.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_execute_image_generation_request.py
+    guide_id: image_title
+    status: active
+    authority_profile: founder_approved_external_write
+  - path: scripts/idol_export_02b_prompt_manifests.py
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_founder_direct_update_commit.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: founder_decision_transport
+  - path: scripts/idol_founder_pass_harness.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: founder_decision_transport
+  - path: scripts/idol_g2_delegated_pixel_close_intake.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_grok_imagine_drive_sync.py
+    guide_id: video_playback
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_graph_projector.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_graph_director_session_router.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_graph_run_controller.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_action_queue.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_apply_founder_decision.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: founder_decision_transport
+  - path: scripts/idol_harness_context_pack.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_department_context.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_role_context_pack.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_current_next.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_expert_gate.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_founder_gate_packet.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_frontier_check.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_next_unit.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_optimization_acceptance.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_record_founder_decision.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: founder_decision_transport
+  - path: scripts/idol_harness_refresh.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_run_inventory.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_mv_git_worktree.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_sections.rb
+    guide_id: state_contracts
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_harness_shadow_eval.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_stage.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_harness_state_check.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_html_review_board.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_image_generation_dispatch.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_image_generation_request_selection.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_image_generation_section_worklist.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_image_generation_section_worklist_v7_legacy.rb
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_import_tiktok_studio_exports.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_instruction_surface_audit.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_local_image_upscale.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_low_source_first_rebuild_plan.py
+    guide_id: state_contracts
+    status: one_off
+    authority_profile: one_off_measurement_only
+  - path: scripts/idol_measure_sequence_motion_timeline.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_media_execution_adapter.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_openai_image_model_policy.py
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_pinterest_public_capture.py
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_planning_image_contact_sheet.py
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_platform_auth_status.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_platform_draft_upload.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_external_write
+  - path: scripts/idol_pre00_selection_handoff.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_api_upload_video.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_grok_video_prompt_handoff.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_image_generation_request.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_image_generation_request_v8_legacy.rb
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_prepare_image_render_correction.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_production_cut_review.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_sequence_motion_analysis.rb
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prepare_video_prompt_authoring.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prompt_packet_compile.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_prompt_packet_section_merge.rb
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_audio_metrics.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_catalog_lookup.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_comparison_packet.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_evaluation.rb
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_hub.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_intro_audio_metrics.py
+    guide_id: research_evidence
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_reference_music_feature_extract.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_reference_section_segments.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_review_decision_intake.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_review_projection_assembler.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_review_to_grok_handoff.rb
+    guide_id: video_playback
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_run_layout.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_safe_workspace_cleanup.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_scoped_cleanup
+  - path: scripts/idol_script_registry_check.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_skill_contract_check.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_skill_contract_matrix.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_social_evidence_snapshot.rb
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_social_public_closeout.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_social_release_session.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_social_release_sync.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_split_beat_source_manifest_by_section.py
+    guide_id: image_title
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_stamp_source_connections.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_startup_admission.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: startup_admission_transport_only
+  - path: scripts/idol_storyboard_probe_contract.rb
+    guide_id: video_playback
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_title_output_registry.py
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_two_cut_sheet_crop.py
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_validate_kinetic_slot_sheet.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_validate_storyline_density_locators.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_vercel_analytics_setup.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_ffmpeg_revise_render.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_prompt_drive_sync.rb
+    guide_id: video_playback
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/idol_video_prompt_section_qa_worklist.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_qc_sheet.py
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_reference_analysis_registry.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_reference_sequence_unit_registry.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_reference_hub_audit.rb
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_reference_segments.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_source_intake.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_video_sync_workbench.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_weekly_report_reference_extract.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_worldcup_reference_audio_instrument_probe.py
+    guide_id: research_evidence
+    status: one_off
+    authority_profile: one_off_measurement_only
+  - path: scripts/idol_x_scheduled_thread.py
+    guide_id: release_platform
+    status: active
+    authority_profile: founder_approved_external_write
+  - path: scripts/lib/idol_02a_storyboard_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_03v_language_contract.rb
+    guide_id: runtime_libraries
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/lib/idol_03v_source_discovery.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_api_video_quality.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_artifact_integrity.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_artifact_integrity.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_camera_direction_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_source_connection_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_storyboard_collected_angle_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_kinetic_slot_sheet_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_storyline_density_locator_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_checkpoint_closure_catalog.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_front_planning_local_pairwise_global.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_front_planning_sequence_core_hold.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_generated_review_post_pass.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_current_next_v2.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_direction_projection_contract.rb
+    guide_id: runtime_libraries
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/lib/idol_edit_effect_registry.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_handoff_keys.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_helper_consumption_receipts.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_image_execution_lane_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_grok_video_execution_package.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_platform_credentials.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_prompt_presence_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_production_cut_review_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_reference_interpretation_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_reference_evaluation_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_goal_evidence_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_judgment_profile_promotion_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_output_manifest_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_provider_binding_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_graph_run_controller.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_reference_role_plan_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_department_context.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_role_context_pack.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_run_followup_sidecar.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_run_layout.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_run_layout.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_post05_trace.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_skill_contract_paths.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_social_release_contracts.py
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_social_taxonomy.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/lib/idol_video_prompt_section_qa_contract.rb
+    guide_id: runtime_libraries
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/lib/idol_xai_api_media_profile_contract.rb
+    guide_id: runtime_libraries
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_01_section_direction.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_02a_creative_context_review.rb
+    guide_id: review_planning
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_02b_imagegen_contract.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_03v_front_playback_gate.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_audio_branch_cut_placement.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_audio_motion_director_map.rb
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_cue_bpm_map.rb
+    guide_id: validators
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/validate_department_dispatch.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_company_ops_idol_bridge.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_edit_finishing_fx.rb
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_edit_finishing_fx_compile.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_edit_map_readiness.rb
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_edit_marker_plan.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_edit_recipe.py
+    guide_id: edit_qc
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_final_delivery_manifest.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_founder_intervention_receipt.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_founder_sequence_control.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_front_planning_readiness.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_sequence_motion_analysis.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_generated_branch_cut_review.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_graph_director_lineage.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_graph_runtime_projection.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_graph_section_cohort_map.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_graph_contextual_judgment.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_graph_judgment_profile_promotion.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_planning_contextual_grade_vector.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_03v_contextual_grade_vector.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_artifact_contract.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_artifact_routing.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_checkpoint_closure_catalog.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_standing_constraint_catalog.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_helper_consumption_receipt.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_front_planning_sequence_core_hold.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_front_planning_local_pairwise_global.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_run_followup_sidecar.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_context_pack.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_contract_version_registry.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_skill_load_profiles.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_surface_version_registry.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_session_helper_operating_lock.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_idol_model_routing_agents.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_provider_profiles.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_harness_assignment_model_routing.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_cursor_assignment_adapter.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_cursor_model_guard.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_employer_boundary_guard.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_luna_to_grok_section_transfer.py
+    guide_id: image_title
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/idol_concurrency_migration.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_json_schema.py
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_local_image_upscale_receipt.py
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_luna_section_lifecycle_receipt.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_master_storyboard.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_package_readiness.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_production_cut_review.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_publishing_plan.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_reference_interpretation_contract.rb
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_reference_management_catalog.py
+    guide_id: research_evidence
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_schema_repair_candidate.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_selected_audio_analysis.rb
+    guide_id: validators
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_signal_deck_traffic.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_skill_application_receipt.rb
+    guide_id: validators
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/validate_social_analytics.rb
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_terminology_guard.rb
+    guide_id: state_contracts
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_terra_section_lifecycle_receipt.rb
+    guide_id: validators
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/validate_tiktok_studio_exports.py
+    guide_id: release_platform
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_video_prompt_index.rb
+    guide_id: video_playback
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/validate_video_prompt_manifest.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_video_prompt_section_qa_readiness.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_video_prompt_storyboard_assist.rb
+    guide_id: video_playback
+    status: active
+    authority_profile: mechanical_default
+  - path: scripts/validate_wardrobe_style_review.rb
+    guide_id: validators
+    status: historical
+    authority_profile: historical_evidence_only
+  - path: scripts/yt-dlp-bilibili.sh
+    guide_id: research_evidence
+    status: active
+    authority_profile: founder_permission_external_capture
+  - path: scripts/yt-dlp-instagram-reference.sh
+    guide_id: research_evidence
+    status: active
+    authority_profile: founder_permission_external_capture
+  - path: scripts/yt-dlp-youtube-reference.sh
+    guide_id: research_evidence
+    status: active
+    authority_profile: founder_permission_external_capture

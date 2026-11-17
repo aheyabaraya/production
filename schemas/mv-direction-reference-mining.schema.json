@@ -1,0 +1,3480 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/mv-direction-reference-mining.schema.json",
+  "title": "IDOL 01R MV Direction Reference Mining",
+  "description": "Retired evidence-only compatibility schema for historical 01R records. It is readable for preserved v4 bytes but must not be authored, profile-loaded, selected, or section-bound in the active route. Active reference research lives inside front-planning-readiness.v17 and reaches section use only through the CDD-reviewed Reference Working Index. Historical AMV/MAD or other restricted rows remain readable evidence and never gain current-task permission from this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "source_files",
+    "automation_gate",
+    "purpose",
+    "selection_policy",
+    "mining_scope",
+    "reference_captures",
+    "integration_contract",
+    "open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "idol_mv_direction_reference_mining.v4"
+    },
+    "visual_reference_application_policy": {
+      "const": "founder_visual_direct_follow_only.v1",
+      "description": "Required by v2. An applied visual use must select bounded_surface_direct, full_scene_direct, or sequence_direct; directorial_function remains research-only legacy vocabulary."
+    },
+    "interpretation_contract_version": {
+      "type": "string",
+      "const": "reference_interpretation_receipt.v1",
+      "description": "Opt in for new/resumed 01R work. Legacy v1 artifacts without this field remain schema-readable; a resumed ready handoff must migrate selected rows before 01 consumes them."
+    },
+    "reference_gap_contract_version": {
+      "type": "string",
+      "const": "reference_function_coverage.v1",
+      "description": "Opt in for new/resumed function-gap closure within the Front Planning 01R substage. Legacy 01R artifacts remain readable; a resumed pass enables this contract after projecting the Front Planning coverage seed."
+    },
+    "audience_connection_contract_version": {
+      "type": "string",
+      "const": "audience_connection_reference_binding.v1",
+      "description": "Opt in for new/resumed 01R work inside Front Planning. Selected sources and section cards must bind a validated audience connection and a whole-MV content role; performance/choreography remains an optional role, never the default. Legacy artifacts remain readable but migrate before material resume."
+    },
+    "reference_comparison_contract_version": {
+      "type": "string",
+      "const": "section_reference_comparison.v1",
+      "description": "Opt in for new/resumed per-visual-section reference comparison. Each active section reviews at least three independently inspectable units from at least two original source identities across at least two functions before closeout."
+    },
+    "video_sequence_contract_version": {
+      "type": "string",
+      "const": "duration_aware_selected_sequence.v1",
+      "description": "Opt in for new/resumed duration-aware video reference review. Hub sheets remain non-counting navigation surfaces; each reviewed video unit attaches its exact selected range as hash-bound one-second evidence, then records event-driven phase frames and a conditional upstream/Core-Cut/Branch-Cut realization plan without a fixed frame count."
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "founder_review",
+        "codex_applied_for_02a_review",
+        "approved_for_01",
+        "assigned_to_front_planning",
+        "adapted_to_01",
+        "hold",
+        "rejected"
+      ]
+    },
+    "operating_mode": {
+      "type": "string",
+      "enum": [
+        "post_song_lock_direction_mining",
+        "post_01_reference_reinforcement",
+        "front_planning_reference_connection"
+      ],
+      "description": "Active v3 uses front_planning_reference_connection. The other modes remain readable for legacy runs."
+    },
+    "source_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "founder_approval_ref"
+      ],
+      "properties": {
+        "creative_nucleus": {
+          "type": "string"
+        },
+        "song_lock": {
+          "type": "string"
+        },
+        "selected_audio_analysis": {
+          "type": "string",
+          "description": "Run-owned selected-audio analysis used for actual section map, lyrics read, pulse, onset, and song energy context in post-song-lock 01R."
+        },
+        "audio_motion_director_map": {
+          "type": "string",
+          "description": "Run-owned selected-song rhythm-to-screen evidence required by the active Front Planning reference-connection mode."
+        },
+        "lyrics_direction_bridge": {
+          "type": "string",
+          "description": "Legacy compatibility pointer for historical direction-mining artifacts. Active 01R uses selected_audio_analysis and audio_motion_director_map directly."
+        },
+        "track_creative_board": {
+          "type": "string",
+          "description": "Optional album/title read-model pointer when it already carries song, space, wardrobe, 01A, 01R, or 02A decisions."
+        },
+        "front_planning_readiness": {
+          "type": "string",
+          "description": "Run-owned Front Planning draft/readiness carrier. It is required by active v3 so 01R answers named target, message, section, and screen-function gaps rather than building a generic pool."
+        },
+        "reference_registry": {
+          "type": "string",
+          "description": "Optional run-owned reference registry that classifies song, lyric/message, planning, visual, direction, object, performance, identity, and operations references before 01R selects current-song uses."
+        },
+        "visual_identity_refs": {
+          "type": "array",
+          "description": "Optional identity or member asset refs that constrain how reference functions may be adapted.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prior_research_refs": {
+          "type": "array",
+          "description": "Optional previously gathered run or related-run research refs intentionally reused by this 01R pass.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reference_image_manifest": {
+          "type": "string",
+          "description": "Optional run-owned image-reference manifest or INDEX path for grouped visual candidates used by this 01R pass. Missing local images should be recorded as needs_asset_reingest in reference_image_intake rather than silently treated as available."
+        },
+        "local_reference_cache_manifest": {
+          "type": "string",
+          "description": "Optional run-local ignored cache manifest, usually research/_local_reference_cache/manifest.local.yaml, when 01R downloaded or extracted public video/still evidence."
+        },
+        "album_reference_index": {
+          "type": "string",
+          "description": "Optional pointer-only catalog/albums/ALBUM_KEY/TITLE_KEY/reference-index.yaml used to find run-local or durable reference evidence without broad rediscovery."
+        },
+        "album_contact_sheet_index": {
+          "type": "string",
+          "description": "Optional pointer-only catalog/albums/ALBUM_KEY/TITLE_KEY/contact-sheet-index.yaml used to find broad or dense contact-sheet parts."
+        },
+        "source_materials_video_index_refs": {
+          "type": "array",
+          "description": "Optional durable source-material video index paths reused by this 01R pass across titles or albums.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reference_library_refs": {
+          "type": "array",
+          "description": "Optional reference-library notes used for reusable camera, body, object, wardrobe, scene, or edit functions. These do not replace source identity or current-song translation.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "song_choreography_performance_mv_map": {
+          "description": "Required for legacy post-01 reinforcement. Optional for post-song-lock direction mining before 01 exists.",
+          "type": "string"
+        },
+        "founder_approval_ref": {
+          "type": "string",
+          "description": "Thread note, review note, or local artifact showing founder approval to use external references for this pass."
+        }
+      }
+    },
+    "automation_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "current_step",
+        "next_allowed_step",
+        "founder_review_required",
+        "adapted_to_01",
+        "blockers"
+      ],
+      "properties": {
+        "current_step": {
+          "type": "string",
+          "const": "01R_mv_direction_reference_mining"
+        },
+        "next_allowed_step": {
+          "type": "string",
+          "enum": [
+            "front_planning_direction_lock",
+            "01_song_choreography_performance_mv_map_update",
+            "02_generation_map",
+            "hold_for_founder_review",
+            "blocked"
+          ]
+        },
+        "founder_review_required": {
+          "type": "boolean"
+        },
+        "adapted_to_01": {
+          "type": "boolean",
+          "description": "True only after chosen application candidates have been recombined into the 01 map."
+        },
+        "assigned_to_front_planning": {
+          "type": "boolean",
+          "description": "True only after the selected reference units and exact interpretation ids are assigned to named Front Planning sections."
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "purpose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "use_rule"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "use_rule": {
+          "type": "string",
+          "description": "State that 01R informs 01 only; it must not replace song message, member identity, selected audio timing, wardrobe lanes, or founder locks."
+        },
+        "what_this_file_decides": {
+          "type": "array",
+          "description": "Optional explicit decision scope preserved for handoff readability.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "what_this_file_does_not_decide": {
+          "type": "array",
+          "description": "Optional explicit non-decision scope preserved so downstream agents do not overread 01R.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "selection_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_mode",
+        "founder_delegation_ref",
+        "selection_strictness",
+        "codex_may_apply_to_01",
+        "post_apply_founder_review_required",
+        "post_apply_review_stage",
+        "score_thresholds",
+        "selection_criteria",
+        "review_surface"
+      ],
+      "properties": {
+        "selection_mode": {
+          "type": "string",
+          "enum": [
+            "founder_selects",
+            "codex_recommends_founder_approves",
+            "codex_preselects_then_founder_reviews",
+            "codex_selects_when_delegated",
+            "mixed"
+          ],
+          "description": "Founder selection remains available, but the preferred 01R flow is Codex researches, preselects, applies selected director_chain_effect values to 01, then founder reviews the result at 02A preview/storyboard review."
+        },
+        "founder_delegation_ref": {
+          "type": "string",
+          "description": "Thread note, review note, or local artifact that records the founder's instruction for Codex-first selection/application. Use an empty string only when Codex is recommending but not applying."
+        },
+        "selection_strictness": {
+          "type": "string",
+          "enum": [
+            "conservative",
+            "balanced",
+            "aggressive"
+          ],
+          "description": "How assertively Codex may carry source observations into 01 director_chain_effect values. IDOL 01R defaults to aggressive: preserve useful raw details, then review them at 02A."
+        },
+        "codex_may_apply_to_01": {
+          "type": "boolean",
+          "description": "True when selection_mode allows Codex to update 01 from selected 01R candidates before founder review."
+        },
+        "post_apply_founder_review_required": {
+          "type": "boolean",
+          "description": "True when Codex may apply first but the founder must review the result at the declared downstream review stage."
+        },
+        "post_apply_review_stage": {
+          "type": "string",
+          "enum": [
+            "01_founder_review",
+            "02A_preview_storyboard_review"
+          ],
+          "description": "Where the founder reviews Codex's applied 01R decisions. Default IDOL 01R flow reviews them at 02A preview/storyboard review."
+        },
+        "score_thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "apply_to_01_min_fit_score",
+            "review_only_min_fit_score",
+            "reject_below_fit_score"
+          ],
+          "properties": {
+            "apply_to_01_min_fit_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "review_only_min_fit_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "reject_below_fit_score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        },
+        "selection_criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "message_fit",
+              "target_empathy_fit",
+              "audio_timing_fit",
+              "member_asset_fit",
+              "action_depth",
+              "scene_variety",
+              "camera_edit_value",
+              "performance_readability",
+              "wardrobe_lane_fit",
+              "reference_direct_use",
+              "downstream_efficiency"
+            ]
+          }
+        },
+        "review_surface": {
+          "type": "string",
+          "description": "Compatibility field name for the founder review material or review stage. For Codex-first mode, this should name 02A preview/storyboard review."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "enum": [
+                  "codex_preselects_then_founder_reviews",
+                  "codex_selects_when_delegated"
+                ]
+              }
+            },
+            "required": [
+              "selection_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "codex_may_apply_to_01": {
+                "const": true
+              },
+              "selection_strictness": {
+                "const": "aggressive"
+              },
+              "post_apply_founder_review_required": {
+                "const": true
+              },
+              "post_apply_review_stage": {
+                "const": "02A_preview_storyboard_review"
+              },
+              "score_thresholds": {
+                "properties": {
+                  "apply_to_01_min_fit_score": {
+                    "const": 70
+                  },
+                  "review_only_min_fit_score": {
+                    "const": 60
+                  },
+                  "reject_below_fit_score": {
+                    "const": 60
+                  }
+                }
+              },
+              "selection_criteria": {
+                "allOf": [
+                  {
+                    "contains": {
+                      "const": "message_fit"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "target_empathy_fit"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "audio_timing_fit"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "member_asset_fit"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "action_depth"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "scene_variety"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "camera_edit_value"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "performance_readability"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "wardrobe_lane_fit"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "reference_direct_use"
+                    }
+                  },
+                  {
+                    "contains": {
+                      "const": "downstream_efficiency"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "selection_mode": {
+                "enum": [
+                  "founder_selects",
+                  "codex_recommends_founder_approves"
+                ]
+              }
+            },
+            "required": [
+              "selection_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "codex_may_apply_to_01": {
+                "const": false
+              },
+              "post_apply_founder_review_required": {
+                "const": false
+              },
+              "post_apply_review_stage": {
+                "const": "01_founder_review"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "mining_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger",
+        "target_gaps",
+        "allowed_reference_types"
+      ],
+      "properties": {
+        "trigger": {
+          "type": "string"
+        },
+        "target_gaps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "gap",
+                  "needed_reference_function"
+                ],
+                "properties": {
+                  "gap": {
+                    "type": "string"
+                  },
+                  "needed_reference_function": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "allowed_reference_types": {
+          "type": "array",
+          "minItems": 1,
+          "description": "For section/function-first MV research, official/original professional primary sources are the active default. The amv_or_mad_edit and short_form_response_edit tokens remain historical compatibility vocabulary only and never authorize query, opening, inspection, registration, response-pattern use, candidacy, or binding; an exact current-task Founder permission must be recorded on the capture before any allowed action.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "official_mv",
+              "official_performance",
+              "official_teaser",
+              "concept_photo",
+              "album_or_single_cover",
+              "promo_still",
+              "key_visual",
+              "choreography_video",
+              "live_stage",
+              "fashion_editorial",
+              "cinema_or_series_scene",
+              "other_artist_official_mv_or_visual",
+              "animation_scene",
+              "film_drama_or_series_scene",
+              "webtoon_manga_or_graphic_novel",
+              "amv_or_mad_edit",
+              "short_form_response_edit",
+              "object_or_space_reference",
+              "founder_local_reference",
+              "other"
+            ]
+          }
+        },
+        "banned_reference_types": {
+          "type": "array",
+          "description": "Compatibility field for safety, identity, or tone stop-states that are too specific for allowed_reference_types, such as literal weapon scenes or source-world genre traps. This field must not ban direct following of selected references.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_diversity_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Required for post-song-lock direction mining. Records the source-lane mix and raw-intake scope before section/beat direction cards are selected.",
+          "required": [
+            "minimum_distinct_reference_types",
+            "minimum_search_lanes",
+            "search_lanes",
+            "raw_intake_scope",
+            "redundancy_check"
+          ],
+          "properties": {
+            "minimum_distinct_reference_types": {
+              "type": "integer",
+              "minimum": 2,
+              "description": "Minimum distinct allowed_reference_types that should be represented unless founder-local-only or web-unavailable status is recorded."
+            },
+            "minimum_search_lanes": {
+              "type": "integer",
+              "minimum": 3,
+              "description": "Minimum source-search lanes to sample before applying 01R choices."
+            },
+            "search_lanes": {
+              "type": "array",
+              "minItems": 3,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": [
+                  "mv_section_function",
+                  "mv_scene_direction",
+                  "performance_or_choreography",
+                  "fashion_or_styling",
+                  "camera_or_edit_grammar",
+                  "stage_or_live_blocking",
+                  "teaser_concept_or_key_visual",
+                  "object_space_or_environment",
+                  "cinema_series_or_non_idol_scene",
+                  "animation",
+                  "other_artist_domestic_or_international",
+                  "film_drama_or_series",
+                  "webtoon_manga_or_graphic_novel",
+                  "founder_local_reference"
+                ]
+              }
+            },
+            "raw_intake_scope": {
+              "type": "string",
+              "description": "State how literally source section jobs, scenes, outfits, choreography, camera, identity, staging, and edit grammar should be observed before later selection."
+            },
+            "redundancy_check": {
+              "type": "string",
+              "description": "How Codex tracks repeated source details or repeated source functions across selected 01R cards."
+            },
+            "max_single_source_dependency": {
+              "type": "string",
+              "description": "Plain-language policy for using one source family, including cases where a founder-selected source is followed directly as the visual standard."
+            },
+            "required_mix": {
+              "type": "array",
+              "description": "Optional AI/model-readable mix of source lanes that must be represented.",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "reference_function_coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "01R's semantic closure of the stable Front Planning function/section rows. A derived worklist may compare these rows and hashes, but Sol owns candidate interpretation, selection, and closure.",
+      "required": [
+        "source_front_planning",
+        "status",
+        "coverage_matrix",
+        "closure_owner"
+      ],
+      "properties": {
+        "source_front_planning": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          }
+        },
+        "status": {
+          "enum": ["gaps_open", "coverage_closed", "hold"]
+        },
+        "coverage_matrix": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "coverage_id",
+              "function_id",
+              "target_section_ids",
+              "coverage_status",
+              "evidence_reference_ids",
+              "closure_summary",
+              "next_action"
+            ],
+            "properties": {
+              "coverage_id": {
+                "type": "string",
+                "pattern": "^RFC_[A-Z0-9][A-Z0-9_-]{2,80}$"
+              },
+              "function_id": {
+                "enum": [
+                  "song_or_hook",
+                  "target_or_message",
+                  "story_or_section_progression",
+                  "world_space_or_object",
+                  "body_action_or_performance",
+                  "camera_composition_or_edit",
+                  "wardrobe_light_or_material",
+                  "member_identity",
+                  "generation_or_shoot_feasibility"
+                ]
+              },
+              "target_section_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{1,40}$"}
+              },
+              "coverage_status": {
+                "enum": ["covered", "partial", "missing", "not_needed"]
+              },
+              "evidence_reference_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 1}
+              },
+              "closure_summary": {"type": ["string", "null"]},
+              "next_action": {
+                "enum": [
+                  "none",
+                  "reuse_founder_reference",
+                  "reuse_local_reference_hub",
+                  "approved_public_gap_search",
+                  "request_founder_asset",
+                  "sol_semantic_review"
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {"coverage_status": {"const": "covered"}},
+                  "required": ["coverage_status"]
+                },
+                "then": {
+                  "properties": {
+                    "evidence_reference_ids": {"minItems": 1},
+                    "closure_summary": {"type": "string", "minLength": 1},
+                    "next_action": {"const": "none"}
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {"coverage_status": {"enum": ["partial", "missing"]}},
+                  "required": ["coverage_status"]
+                },
+                "then": {
+                  "properties": {
+                    "next_action": {
+                      "enum": [
+                        "reuse_founder_reference",
+                        "reuse_local_reference_hub",
+                        "approved_public_gap_search",
+                        "request_founder_asset",
+                        "sol_semantic_review"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {"coverage_status": {"const": "not_needed"}},
+                  "required": ["coverage_status"]
+                },
+                "then": {
+                  "properties": {
+                    "closure_summary": {"type": "string", "minLength": 1},
+                    "next_action": {"const": "none"}
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "closure_owner": {"const": "sol_semantic_owner"},
+        "derived_worklist_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "input_set_sha256"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "input_set_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          }
+        }
+      }
+    },
+    "reference_image_intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional class/lane map for 01R image-reference work. Use it when the pass searches, inventories, or applies still-image, key-visual, concept-photo, founder-local, object/space, or contact-sheet references. It is a management and gap-check layer; downstream 01/02A consume adapted text locks and trace refs, not raw images by default.",
+      "required": [
+        "status",
+        "management_rule",
+        "coverage_matrix",
+        "gap_actions"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_needed",
+            "local_covered",
+            "partial_needs_public_search",
+            "needs_asset_reingest",
+            "ready_for_01a",
+            "blocked"
+          ]
+        },
+        "reference_registry_ref": {
+          "type": "string"
+        },
+        "image_manifest_ref": {
+          "type": "string"
+        },
+        "management_rule": {
+          "type": "string",
+          "description": "State where image candidates are indexed, how source names remain traceable, and how each selected image is translated into a current-song function before 01/01A/02A use."
+        },
+        "coverage_matrix": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "lane_id",
+              "reference_classes",
+              "local_coverage",
+              "selected_reference_ids",
+              "visual_function",
+              "gap_action",
+              "asset_status",
+              "downstream_target"
+            ],
+            "properties": {
+              "lane_id": {
+                "type": "string",
+                "description": "Stable lane id from the registry or this 01R pass, such as VR-01 or intro_lens_threshold."
+              },
+              "reference_classes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "SNG",
+                    "LYR",
+                    "PLN",
+                    "VIS",
+                    "DIR",
+                    "OBJ",
+                    "PERF",
+                    "ID",
+                    "OPS"
+                  ]
+                }
+              },
+              "target_sections": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "local_coverage": {
+                "type": "string",
+                "enum": [
+                  "covered",
+                  "partial",
+                  "missing",
+                  "not_needed"
+                ]
+              },
+              "selected_reference_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_paths_or_urls": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "use_for": {
+                "type": "string"
+              },
+              "visual_function": {
+                "type": "string",
+                "description": "The transferable current-song function, such as intro camera threshold, practice evidence, object wall, voice-room intimacy, or transition memory."
+              },
+              "composition_or_texture_note": {
+                "type": "string"
+              },
+              "gap_action": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "search_public_refs",
+                  "request_founder_asset",
+                  "create_01a_text_lock",
+                  "promote_to_01a",
+                  "reject"
+                ]
+              },
+              "asset_status": {
+                "type": "string",
+                "enum": [
+                  "available",
+                  "source_page_only",
+                  "needs_download",
+                  "needs_asset_reingest",
+                  "text_only",
+                  "blocked"
+                ]
+              },
+              "downstream_target": {
+                "type": "string",
+                "enum": [
+                  "01_source_ref",
+                  "01A_visual_lock",
+                  "02A_reference_contact_sheet_contract",
+                  "02B_text_lock_only",
+                  "03V_motion_reference_later",
+                  "research_only",
+                  "none"
+                ]
+              },
+              "do_not_use": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "gap_actions": {
+          "type": "array",
+          "description": "Concrete next actions for missing or weak lanes. Public search entries must name the missing question; asset issues must name the needed file or reingest route.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rejected_or_deferred_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "local_reference_cache": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional management surface for run-local 01R video/still captures and contact-sheet evidence. Use when public references are downloaded, frame-extracted, or dense-sheeted during 01R.",
+      "required": [
+        "status",
+        "storage_rule",
+        "cache_manifest",
+        "pointer_indexes",
+        "dense_sheet_policy"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_used",
+            "local_indexed",
+            "needs_index_update",
+            "promoted_to_source_materials",
+            "blocked"
+          ]
+        },
+        "storage_rule": {
+          "type": "string",
+          "description": "State that run-specific downloads and extracted media stay in the ignored run-local cache, while catalog stores pointer rows only."
+        },
+        "cache_manifest": {
+          "type": "string",
+          "description": "Run-local manifest path such as runs/YYYY-MM-DD/CONTENT_ID/research/_local_reference_cache/manifest.local.yaml."
+        },
+        "pointer_indexes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "album_reference_index",
+            "album_contact_sheet_index"
+          ],
+          "properties": {
+            "album_reference_index": {
+              "type": "string"
+            },
+            "album_contact_sheet_index": {
+              "type": "string"
+            }
+          }
+        },
+        "dense_sheet_policy": {
+          "type": "string",
+          "description": "State whether 2-3 second dense sheets are unused, selected-range only, or split by section/source range/fixed parts; one full-MV dense sheet is not acceptable review material."
+        },
+        "cache_sets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cache_id",
+              "source_ref_ids",
+              "section_ids",
+              "status",
+              "downstream_use"
+            ],
+            "properties": {
+              "cache_id": {
+                "type": "string"
+              },
+              "source_ref_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "section_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "broad_contact_sheets": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dense_contact_sheet_parts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "selected_cells_or_frames": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "status": {
+                "type": "string"
+              },
+              "downstream_use": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "promotion_note": {
+          "type": "string",
+          "description": "Optional note when evidence remains current-title only, moves to source-materials/video-sources, or is summarized in reference-library."
+        }
+      }
+    },
+    "reference_captures": {
+      "type": "array",
+      "description": "Compatibility field name for 01R source observation records. Values should preserve what was observed, then separate source-use/current-song adaptation from final downstream prompt language. The transferable_variables field remains for legacy compatibility; new post-song-lock work should emphasize source_use and section_direction_cards.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reference_id",
+          "source_title",
+          "url_or_path",
+          "timestamp_or_scene",
+          "raw_capture",
+          "function_labels",
+          "transferable_variables",
+          "application_candidates"
+        ],
+        "properties": {
+          "reference_id": {
+            "type": "string",
+            "pattern": "^01R-[A-Z0-9_-]{2,40}$"
+          },
+          "source_title": {
+            "type": "string"
+          },
+          "source_type": {
+            "type": "string",
+            "description": "Per-capture source classification. Restricted edit tokens remain readable for historical held/rejected rows but need exact current-task Founder permission before any active action or reuse.",
+            "enum": [
+              "official_mv",
+              "official_performance",
+              "official_teaser",
+              "concept_photo",
+              "album_or_single_cover",
+              "promo_still",
+              "key_visual",
+              "choreography_video",
+              "live_stage",
+              "fashion_editorial",
+              "cinema_or_series_scene",
+              "other_artist_official_mv_or_visual",
+              "animation_scene",
+              "film_drama_or_series_scene",
+              "webtoon_manga_or_graphic_novel",
+              "amv_or_mad_edit",
+              "short_form_response_edit",
+              "object_or_space_reference",
+              "founder_local_reference",
+              "other"
+            ]
+          },
+          "restricted_source_permission": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "approval_scope",
+              "source_identity_or_url",
+              "purpose",
+              "allowed_actions",
+              "founder_approval_pointer",
+              "provided_link_or_file_is_approval",
+              "rhythm_permission_implies_scene_binding"
+            ],
+            "properties": {
+              "approval_scope": {"const": "exact_current_task_founder_approval"},
+              "source_identity_or_url": {"type": "string", "minLength": 1},
+              "purpose": {"type": "string", "minLength": 1},
+              "allowed_actions": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "enum": ["query", "search", "open", "download", "capture", "playback", "pixel_inspection", "analysis", "source_registration", "citation", "response_pattern_use", "candidate_use", "section_binding", "direct_use"]
+                }
+              },
+              "founder_approval_pointer": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+                }
+              },
+              "direct_scene_binding_lock_pointer": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+                }
+              },
+              "provided_link_or_file_is_approval": {"const": false},
+              "rhythm_permission_implies_scene_binding": {"const": false}
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {"allowed_actions": {"contains": {"enum": ["section_binding", "direct_use"]}}},
+                  "required": ["allowed_actions"]
+                },
+                "then": {"required": ["direct_scene_binding_lock_pointer"]}
+              }
+            ]
+          },
+          "url_or_path": {
+            "type": "string"
+          },
+          "short_description": {
+            "type": "string",
+            "description": "Optional compact current-run reason this reference was captured."
+          },
+          "captured_by": {
+            "type": "string"
+          },
+          "capture_status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "selected_for_01",
+              "review_only",
+              "hold",
+              "rejected"
+            ]
+          },
+          "source_identity_preserved": {
+            "type": "boolean",
+            "description": "True when the source title/path is intentionally preserved for audit while downstream prompts still adapt the function."
+          },
+          "timestamp_or_scene": {
+            "type": "string"
+          },
+          "capture_mode": {
+            "type": "string",
+            "enum": [
+              "single_observation",
+              "contact_sheet_observation",
+              "mixed_observation"
+            ],
+            "description": "How the reference was observed before adaptation. Image bundles such as teaser photos, concept photos, album covers, promo stills, thumbnails, and key visuals should use contact_sheet_observation instead of one-record-per-image capture."
+          },
+          "contact_sheet_ref": {
+            "type": "string",
+            "description": "Run-owned contact sheet path or source page used as the grouped visual observation material. Required by graph-engineering prose for image bundles, optional in schema for non-image references."
+          },
+          "audience_connection_binding": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Binds this source to the validated target/response-mechanism/screen-translation map and the whole-MV content role it validates or implements.",
+            "required": [
+              "connection_ids",
+              "content_role_ids",
+              "evidence_role",
+              "content_source_lane",
+              "connection_test_or_implementation",
+              "surface_similarity_guard",
+              "performance_rule"
+            ],
+            "properties": {
+              "connection_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^AUDX_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+              },
+              "content_role_ids": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^CR_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+              },
+              "evidence_role": {"enum": ["original_context", "response_pattern_evidence", "direct_screen_function", "local_or_founder_evidence"]},
+              "content_source_lane": {"enum": ["animation", "other_artist_domestic_or_international", "film_drama_or_series", "webtoon_manga_or_graphic_novel", "local_or_founder_evidence", "named_gap_exception"]},
+              "connection_test_or_implementation": {"type": "string", "minLength": 1},
+              "surface_similarity_guard": {"type": "string", "minLength": 1},
+              "performance_rule": {"const": "performance_choreography_is_optional_not_a_default_reference_target"}
+            }
+          },
+          "source_context_verification": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Proves that the title, original work or artist, and scene/segment context are clear enough to identify and reject a wrong original, AMV, MAD, or short before capture or use.",
+            "required": [
+              "content_title",
+              "content_category",
+              "original_work_or_artist",
+              "scene_or_segment_context",
+              "identity_status",
+              "verification_source_ids",
+              "wrong_download_rejection_test",
+              "response_signal_use"
+            ],
+            "properties": {
+              "content_title": {"type": "string", "minLength": 1},
+              "content_category": {"enum": ["animation", "other_artist_domestic_or_international", "film_drama_or_series", "webtoon_manga_or_graphic_novel", "local_or_founder_evidence", "named_gap_exception"]},
+              "original_work_or_artist": {"type": "string", "minLength": 1},
+              "scene_or_segment_context": {"type": "string", "minLength": 1},
+              "identity_status": {"enum": ["original_or_official_confirmed", "clear_titled_response_edit_with_original_confirmed", "founder_or_local_identity_confirmed", "hold_unclear"], "description": "The response-edit value is historical compatibility evidence and does not grant active access or reuse without restricted_source_permission."},
+              "verification_source_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+              "wrong_download_rejection_test": {"type": "string", "minLength": 1},
+              "response_signal_use": {"enum": ["original_context_only", "high_response_amv_mad_or_short_validation", "no_public_response_signal_used"], "description": "The AMV/MAD/short value may be used only within the exact actions named by restricted_source_permission; otherwise the row remains held/rejected historical evidence."}
+            }
+          },
+        "contact_sheet_review": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Optional structured pointer to broad or dense contact-sheet evidence used for this capture. Use it when 01R observed source video through sheet parts or selected cells/frames.",
+            "required": [
+              "review_mode",
+              "segmentation_rule",
+              "sheet_parts"
+            ],
+            "properties": {
+              "review_mode": {
+                "type": "string",
+                "enum": [
+                  "broad_scan",
+                  "dense_2s",
+                  "dense_3s",
+                  "mixed_broad_dense",
+                  "selected_range_only"
+                ]
+              },
+              "interval_seconds": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0.1
+              },
+              "segmentation_rule": {
+                "type": "string",
+                "description": "How the sheet was split for readability: active section, source time range, fixed 30-60 second parts, or selected repair range. A one-sheet full-MV dense scan should be marked as a blocker in prose, not as ready evidence."
+              },
+              "sheet_parts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "path",
+                    "source_time_range",
+                    "selected_cells_or_frames"
+                  ],
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "source_time_range": {
+                      "type": "string"
+                    },
+                    "section_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "selected_cells_or_frames": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  }
+                }
+            }
+          }
+        },
+        "discovery_evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Public-video discovery evidence. Raw popularity is retained only as a tie-break after target/message relevance and diversity; upload age is intentionally absent.",
+          "required": [
+            "canonical_source_manifest",
+            "duration_seconds",
+            "discovery_lane",
+            "raw_view_count",
+            "query_binding",
+            "relevance_gate",
+            "diversity_gate",
+            "diversity_additions",
+            "ranking_policy",
+            "upload_age_normalization_applied"
+          ],
+          "properties": {
+            "canonical_source_manifest": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+              }
+            },
+            "duration_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 270},
+            "discovery_lane": {"enum": ["shorts_reference", "music_reference"]},
+            "raw_view_count": {"type": ["integer", "null"], "minimum": 0},
+            "query_binding": {"type": "string", "minLength": 1},
+            "relevance_gate": {"enum": ["passed", "failed", "hold"]},
+            "diversity_gate": {"enum": ["passed", "failed", "hold"]},
+            "diversity_additions": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "story_situation",
+                  "space_or_background",
+                  "subject_or_cast_relation",
+                  "body_or_action",
+                  "camera_geometry_or_route",
+                  "object_or_world_behavior",
+                  "light_or_material"
+                ]
+              }
+            },
+            "rank_after_relevance_and_diversity": {"type": ["integer", "null"], "minimum": 1},
+            "ranking_policy": {"const": "relevance_and_diversity_then_raw_view_count_descending"},
+            "upload_age_normalization_applied": {"const": false}
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "relevance_gate": {"const": "passed"},
+                  "diversity_gate": {"const": "passed"}
+                },
+                "required": ["relevance_gate", "diversity_gate"]
+              },
+              "then": {
+                "properties": {"diversity_additions": {"minItems": 1}}
+              }
+            }
+          ]
+        },
+        "visual_direction_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Prompt-contract-level visual reading of the selected source surface. This records observable action, gaze, camera, composition, depth, and transfer rules; it is not a pixel-audit checklist or final provider prompt.",
+          "required": [
+            "visible_subject_and_relation",
+            "ordered_action_route",
+            "body_orientation_and_travel",
+            "expression_and_gaze",
+            "camera_geometry",
+            "composition_and_depth",
+            "space_object_light_change",
+            "audible_or_section_trigger",
+            "prompt_transfer_contract"
+          ],
+          "properties": {
+            "visible_subject_and_relation": {"type": "string", "minLength": 1},
+            "ordered_action_route": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"type": "string", "minLength": 1}
+            },
+            "body_orientation_and_travel": {"type": "string", "minLength": 1},
+            "expression_and_gaze": {"type": "string", "minLength": 1},
+            "camera_geometry": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["height", "distance_or_shot_scale", "direction_or_angle", "movement_or_hold", "movement_speed"],
+              "properties": {
+                "height": {"type": "string", "minLength": 1},
+                "distance_or_shot_scale": {"type": "string", "minLength": 1},
+                "direction_or_angle": {"type": "string", "minLength": 1},
+                "movement_or_hold": {"type": "string", "minLength": 1},
+                "movement_speed": {"type": "string", "minLength": 1},
+                "lens_or_perspective_cue": {"type": "string"}
+              }
+            },
+            "composition_and_depth": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["subject_placement", "crop_or_negative_space", "foreground", "background"],
+              "properties": {
+                "subject_placement": {"type": "string", "minLength": 1},
+                "crop_or_negative_space": {"type": "string", "minLength": 1},
+                "foreground": {"type": "string", "minLength": 1},
+                "midground": {"type": "string"},
+                "background": {"type": "string", "minLength": 1}
+              }
+            },
+            "space_object_light_change": {"type": "string", "minLength": 1},
+            "audible_or_section_trigger": {"type": "string", "minLength": 1},
+            "prompt_transfer_contract": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["preserve", "transform", "reject", "must_show", "target_section_ids"],
+              "properties": {
+                "preserve": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "transform": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "reject": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "must_show": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+                "target_section_ids": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{1,40}$"}
+                },
+                "target_core_or_branch_cut_ids": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
+        "interpretation_receipt": {
+            "$ref": "#/$defs/interpretationReceipt"
+          },
+          "raw_capture": {
+            "type": "object",
+            "description": "Compatibility field name for the literal source observation before adaptation. Values should describe what is visible or audible in the source, not final prompt language.",
+            "additionalProperties": false,
+            "required": [
+              "scene",
+              "wardrobe",
+              "body_or_choreography_action",
+              "expression_or_gaze",
+              "camera_or_edit",
+              "space_or_object",
+              "music_cue"
+            ],
+            "properties": {
+              "scene": {
+                "type": "string"
+              },
+              "wardrobe": {
+                "type": "string"
+              },
+              "body_or_choreography_action": {
+                "type": "string"
+              },
+              "expression_or_gaze": {
+                "type": "string"
+              },
+              "camera_or_edit": {
+                "type": "string"
+              },
+              "space_or_object": {
+                "type": "string"
+              },
+              "music_cue": {
+                "type": "string"
+              }
+            }
+          },
+          "function_labels": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "scene_direction",
+                "section_function_solution",
+                "intro_or_opening",
+                "reveal_or_entry",
+                "hook_structure",
+                "section_transition",
+                "gaze_expression",
+                "body_action",
+                "choreography_phrase",
+                "space_behavior",
+                "camera_angle",
+                "camera_motion",
+                "edit_grammar",
+                "styling_behavior",
+                "object_behavior",
+                "foreground_detail",
+                "environment_insert",
+                "empty_scene_beat",
+                "memory_frame",
+                "lens_or_screen_mediation",
+                "member_interaction"
+              ]
+            }
+          },
+          "transferable_variables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "raw_bundle_observation": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Literal bundled source details worth preserving for later review or selection.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "non_selected_bundle_drift": {
+            "type": "array",
+            "description": "Legacy compatibility field. Treat as reference-use notes for how founder/current-run selected details may travel downstream, not as a ban on direct reference use.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "application_candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "current_song_adaptation",
+                "selection_recommendation",
+                "changed_variables",
+                "downstream_targets"
+              ],
+              "properties": {
+                "current_song_adaptation": {
+                  "type": "string"
+                },
+                "selection_recommendation": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "codex_rank",
+                    "fit_score",
+                    "recommendation",
+                    "reason",
+                    "apply_when_delegated",
+                    "requires_founder_review"
+                  ],
+                  "properties": {
+                    "codex_rank": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "fit_score": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "recommendation": {
+                  "type": "string",
+                      "enum": [
+                        "select",
+                        "review_only",
+                        "reject"
+                      ]
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "apply_when_delegated": {
+                      "type": "boolean",
+                      "description": "True when Codex should apply this candidate to 01 in Codex-first or delegated application mode."
+                    },
+                "requires_founder_review": {
+                  "type": "boolean",
+                  "description": "True when the candidate changes message meaning, member owner, wardrobe lane, or a major section route."
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "recommendation": {
+                        "const": "select"
+                      }
+                    },
+                    "required": [
+                      "recommendation"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "fit_score": {
+                        "minimum": 70
+                      },
+                      "apply_when_delegated": {
+                        "const": true
+                      },
+                      "requires_founder_review": {
+                        "const": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "recommendation": {
+                        "const": "review_only"
+                      }
+                    },
+                    "required": [
+                      "recommendation"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "fit_score": {
+                        "minimum": 60,
+                        "maximum": 69
+                      },
+                      "apply_when_delegated": {
+                        "const": false
+                      },
+                      "requires_founder_review": {
+                        "const": true
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "recommendation": {
+                        "const": "reject"
+                      }
+                    },
+                    "required": [
+                      "recommendation"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "fit_score": {
+                        "maximum": 59
+                      },
+                      "apply_when_delegated": {
+                        "const": false
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+                "changed_variables": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "source_mix",
+                      "member_owner",
+                      "space",
+                      "garment_construction",
+                      "camera_distance",
+                      "camera_angle",
+                      "action_order",
+                      "timing",
+                      "emotional_result",
+                      "object_behavior",
+                      "foreground_behavior",
+                      "music_cue"
+                    ]
+                  }
+                },
+                "target_sections": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^S[0-9]{2}[A-Z]?$"
+                  }
+                },
+                "director_chain_effect": {
+                  "type": "object",
+                  "description": "Current-song values that may update the existing 01 screen_cause_effect or director_chain while preserving explicit raw-source trace.",
+                  "additionalProperties": false,
+                  "properties": {
+                    "screen_cause_effect": {
+                      "$ref": "#/$defs/screenCauseEffect"
+                    },
+                    "visible_action": {
+                      "type": "string"
+                    },
+                    "body_camera_evidence": {
+                      "type": "string",
+                      "description": "Compatibility field name; write body/camera readability detail here, not abstract validation labels."
+                    },
+                    "body_camera_details": {
+                      "type": "string",
+                      "description": "Compatibility alias used by existing run artifacts; write body/camera readability detail here."
+                    },
+                    "space_or_object": {
+                      "type": "string"
+                    },
+                    "wardrobe_motion": {
+                      "type": "string",
+                      "description": "Compatibility compact wardrobe-motion field. New current-song applications should also fill wardrobe_read."
+                    },
+                    "wardrobe_read": {
+                      "$ref": "#/$defs/wardrobeRead"
+                    },
+                    "camera_or_edit": {
+                      "type": "string"
+                    },
+                    "environment_insert_or_foreground_detail": {
+                      "type": "string"
+                    },
+                    "director_treatment": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "downstream_targets": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "lyric_to_scene_thinking",
+                      "mv_direction_map",
+                      "performance_direction_map",
+                      "choreography_map",
+                      "generation_implications",
+                      "open_questions"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "section_reference_comparisons": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One comparison pool per active visual section. The minimum applies to reviewed candidates, not to the number of references finally applied or combined.",
+      "items": {
+        "$ref": "#/$defs/sectionReferenceComparison"
+      }
+    },
+    "section_direction_cards": {
+      "type": "array",
+      "description": "Optional post-song-lock 01R section/cut cards. Use selected-audio sections first, then cut-level cards when useful. These cards combine lyric context, audio context, source use, concrete screen translation, 03 video-prompt readiness, and 04 edit-readiness without becoming final edit truth.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_id",
+          "time_range",
+          "lyric_cue",
+          "lyric_context",
+          "audio_context",
+          "source_use",
+          "screen_translation",
+          "director_chain_target",
+          "video_prompt_readiness_seed",
+          "edit_readiness_seed"
+        ],
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "pattern": "^S[0-9]{2}[A-Z]?$"
+          },
+          "beat_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "time_range": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "done", "blocked", "needs_founder"],
+            "description": "Section-gate status for this 01R card when it is used as a slice handoff."
+          },
+          "section_goal": {
+            "type": "string"
+          },
+          "reference_comparison_id": {
+            "type": "string",
+            "pattern": "^01RCMP-[A-Z0-9_-]{2,60}$",
+            "description": "Matching section_reference_comparisons row for the active visual section."
+          },
+          "audience_connection_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^AUDX_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+          },
+          "content_role_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^CR_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+          },
+          "dominant_content_role": {
+            "enum": ["narrative_situation", "character_arc", "relationship_emotion", "world_system", "action_conflict", "object_symbol", "space_image_material", "camera_composition", "edit_time", "performance_choreography"]
+          },
+          "lyric_cue": {
+            "type": "string",
+            "description": "Actual lyric surface or no-lyric cue. Lyrics may be quoted here as cue context; do not use this field as visible action by itself."
+          },
+          "lyric_context": {
+            "type": "string",
+            "description": "What the lyric or no-lyric cue is doing in the song: message job, emotional turn, target-empathy receive, or section function."
+          },
+          "audio_context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "music_function",
+              "onset_or_trigger",
+              "tempo_pulse",
+              "energy_or_texture"
+            ],
+            "properties": {
+              "music_function": {
+                "type": "string"
+              },
+              "onset_or_trigger": {
+                "type": "string"
+              },
+              "tempo_pulse": {
+                "type": "string"
+              },
+              "energy_or_texture": {
+                "type": "string"
+              },
+              "vocal_or_rap_pressure": {
+                "type": "string"
+              }
+            }
+          },
+          "source_use": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "reference_id",
+                "use_for",
+                "source_note"
+              ],
+              "properties": {
+                "reference_id": {
+                  "type": "string",
+                  "description": "Reference capture id or local source note id."
+                },
+                "use_for": {
+                  "type": "string",
+                  "enum": [
+                    "background",
+                    "section_function",
+                    "intro_or_reveal",
+                    "hook_or_bridge_structure",
+                    "transition_or_ending_memory",
+                    "wardrobe",
+                    "body_action",
+                    "choreography",
+                    "choreography_phrase",
+                    "face_gaze",
+                    "gaze_expression",
+                    "camera",
+                    "camera_route",
+                    "hook_structure",
+                    "section_function_solution",
+                    "object_behavior",
+                    "space_behavior",
+                    "empty_scene_beat",
+                    "foreground_detail",
+                    "lens_or_screen_mediation",
+                    "member_interaction",
+                    "space_object",
+                    "foreground_or_environment_insert",
+                    "edit_grammar",
+                    "video_motion",
+                    "other"
+                  ]
+                },
+                "source_note": {
+                  "type": "string",
+                  "description": "Direct observation or source-use note. It may describe the source, but the downstream screen_translation must adapt it to the current song."
+                }
+              }
+            }
+          },
+          "screen_translation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "visible_subject",
+              "background_or_space",
+              "wardrobe_or_material",
+              "visible_action",
+              "face_or_gaze",
+              "camera",
+              "space_or_object_response"
+            ],
+            "properties": {
+              "visible_subject": {
+                "type": "string"
+              },
+              "background_or_space": {
+                "type": "string"
+              },
+              "wardrobe_or_material": {
+                "type": "string"
+              },
+              "visible_action": {
+                "type": "string",
+                "description": "Concrete observable action. Do not leave this as lyric interpretation or abstract emotion."
+              },
+              "face_or_gaze": {
+                "type": "string"
+              },
+              "camera": {
+                "type": "string"
+              },
+              "space_or_object_response": {
+                "type": "string"
+              },
+              "visible_cause": {
+                "type": "string"
+              },
+              "visible_effect": {
+                "type": "string"
+              },
+              "viewer_or_camera_change": {
+                "type": "string"
+              },
+              "next_section_bridge": {
+                "type": "string"
+              },
+              "outfit_description": {
+                "type": "string"
+              },
+              "wardrobe_motion": {
+                "type": "string"
+              },
+              "wardrobe_read": {
+                "$ref": "#/$defs/wardrobeRead"
+              }
+            }
+          },
+          "director_chain_target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target_fields",
+              "current_song_adaptation",
+              "raw_source_trace"
+            ],
+            "properties": {
+              "target_fields": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "lyric_to_scene_thinking",
+                    "lyric_to_scene_thinking.screen_cause_effect",
+                    "director_chain.visible_action",
+                    "director_chain.must_show.body",
+                    "director_chain.must_show.camera",
+                    "director_chain.space_or_object",
+                    "director_chain.wardrobe_read",
+                    "director_chain.wardrobe_motion",
+                    "director_chain.background_or_object_reaction",
+                    "director_chain.cuttable_motion_event",
+                    "director_chain.motion_density",
+                    "director_chain.edit_handoff_intent",
+                    "choreography_map",
+                    "mv_direction_map",
+                    "performance_direction_map",
+                    "generation_implications"
+                  ]
+                }
+              },
+              "current_song_adaptation": {
+                "type": "string"
+              },
+              "raw_source_trace": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "video_prompt_readiness_seed": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_image_assumption",
+              "expected_motion",
+              "camera_action",
+              "pacing_timing",
+              "choreography_bridge",
+              "performance_direction_bridge",
+              "generation_qc"
+            ],
+            "properties": {
+              "source_image_assumption": {
+                "type": "string",
+                "description": "Expected 03 source mode: one Branch-Cut image, ordered Branch-Cut image set, pass-through image set, or review board image."
+              },
+              "expected_motion": {
+                "type": "string"
+              },
+              "camera_action": {
+                "type": "string"
+              },
+              "pacing_timing": {
+                "type": "string"
+              },
+              "choreography_bridge": {
+                "type": "string"
+              },
+              "performance_direction_bridge": {
+                "type": "string"
+              },
+              "generation_qc": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "must_carry": {
+                "type": "array",
+                "description": "Optional compact list of non-negotiable visible details for later video prompts.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "do_not_show": {
+                "type": "array",
+                "description": "Optional compact list of forbidden visible outcomes for later video prompts.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "edit_readiness_seed": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "cue_function",
+              "wanted_source_motion",
+              "cuttable_motion_event",
+              "motion_density",
+              "edit_handoff_intent",
+              "not_decided_here"
+            ],
+            "properties": {
+              "cue_function": {
+                "type": "string"
+              },
+              "wanted_source_motion": {
+                "type": "string"
+              },
+              "cuttable_motion_event": {
+                "type": "string"
+              },
+              "motion_density": {
+                "type": "string"
+              },
+              "edit_handoff_intent": {
+                "type": "string"
+              },
+              "not_decided_here": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "source_in",
+                    "source_out",
+                    "speed_factor",
+                    "final_cutpoint",
+                    "final_candidate_selection",
+                    "final_geometry_override"
+                  ]
+                },
+                "uniqueItems": true
+              }
+            }
+          },
+          "transition_in": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": { "type": "string" },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": { "type": "string" },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "transition_out": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["audio_or_lyric_trigger", "body_or_formation_bridge", "camera_or_edit_bridge", "space_or_object_change", "continuity_lock"],
+            "properties": {
+              "audio_or_lyric_trigger": { "type": "string" },
+              "body_or_formation_bridge": { "type": "string" },
+              "camera_or_edit_bridge": { "type": "string" },
+              "space_or_object_change": { "type": "string" },
+              "continuity_lock": { "type": "string" }
+            }
+          },
+          "output_paths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "open_questions": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "integration_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_capture_boundary",
+        "adaptation_rule",
+        "propagation_rule",
+        "blocked_override_rule"
+      ],
+      "properties": {
+        "raw_capture_boundary": {
+          "type": "string",
+          "description": "Literal source observations may describe the source as seen or heard, but must stay in 01R."
+        },
+        "adaptation_rule": {
+          "type": "string",
+          "description": "Only recombined current-song adaptations can enter 01."
+        },
+        "propagation_rule": {
+          "type": "string",
+          "description": "02/02A/02B consume the selected 01 director_chain, generation implications, and trace refs while 01R keeps the raw observation audit. 03 may use video_prompt_readiness_seed only after actual image pixels are available. 04 may use edit_readiness_seed only as candidate-narrowing intent before source-motion proof."
+        },
+        "blocked_override_rule": {
+          "type": "string",
+          "description": "01R cannot override locked message, member identity, selected audio timing, wardrobe lane approvals, or founder review gates by itself."
+        }
+      }
+    },
+    "selection_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional record of the final selected 01R applications, whether chosen by founder or by delegated Codex selection.",
+      "required": [
+        "selected_by",
+        "selection_ref",
+        "selected_application_refs",
+        "application_summary"
+      ],
+      "properties": {
+        "selected_by": {
+          "type": "string",
+          "enum": [
+            "not_selected_yet",
+            "founder",
+            "codex_delegated",
+            "codex_preselected_pending_02a_review",
+            "mixed"
+          ]
+        },
+        "selection_ref": {
+          "type": "string"
+        },
+        "selected_application_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Stable local reference such as 01R-REF01#candidate-1."
+          }
+        },
+        "application_summary": {
+          "type": "string"
+        },
+        "rejected_or_held_references": {
+          "type": "array",
+          "description": "Optional record of reference ideas intentionally rejected or held after selection.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference_id",
+              "status",
+              "reason"
+            ],
+            "properties": {
+              "reference_id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "rejected",
+                  "hold",
+                  "review_only"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "sectionReferenceComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comparison_id",
+        "section_id",
+        "status",
+        "counting_policy",
+        "reviewed_units",
+        "distinct_source_identity_keys",
+        "covered_functions",
+        "selected_unit_ids",
+        "decision_summary"
+      ],
+      "properties": {
+        "comparison_id": {
+          "type": "string",
+          "pattern": "^01RCMP-[A-Z0-9_-]{2,60}$"
+        },
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2}[A-Z]?$"
+        },
+        "status": {
+          "enum": ["passed", "hold"]
+        },
+        "counting_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum_reviewed_units",
+            "minimum_distinct_source_identities",
+            "minimum_distinct_functions",
+            "ordinary_target_range",
+            "complex_target_range",
+            "maximum_is_capped",
+            "whole_contact_sheet_counts_as_unit",
+            "selected_surface_count_rule",
+            "contiguous_sequence_count_rule",
+            "application_rule",
+            "founder_direct_source_rule"
+          ],
+          "properties": {
+            "minimum_reviewed_units": {"const": 3},
+            "minimum_distinct_source_identities": {"const": 2},
+            "minimum_distinct_functions": {"const": 2},
+            "ordinary_target_range": {"const": "3_to_5"},
+            "complex_target_range": {"const": "5_to_8"},
+            "maximum_is_capped": {"const": false},
+            "whole_contact_sheet_counts_as_unit": {"const": false},
+            "selected_surface_count_rule": {"const": "one_hash_bound_selected_image_cell_crop_frame_or_time_bounded_segment_counts_as_one_unit"},
+            "contiguous_sequence_count_rule": {"const": "one_contiguous_start_change_or_collision_endpoint_bundle_counts_as_one_sequence_unit_regardless_of_sampled_cell_count"},
+            "application_rule": {"const": "comparison_minimum_does_not_require_three_applied_or_combined_references"},
+            "founder_direct_source_rule": {"const": "support_units_validate_continuity_feasibility_risk_or_secondary_functions_and_may_not_replace_or_dilute_a_founder_locked_direct_scene"}
+          }
+        },
+        "reviewed_units": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "unit_id",
+              "reference_id",
+              "source_identity_key",
+              "unit_type",
+              "evidence_locator",
+              "dominant_function",
+              "evidence_role",
+              "disposition",
+              "disposition_reason"
+            ],
+            "properties": {
+              "unit_id": {
+                "type": "string",
+                "pattern": "^01RU-[A-Z0-9_-]{2,60}$"
+              },
+              "reference_id": {
+                "type": "string",
+                "pattern": "^01R-[A-Z0-9_-]{2,40}$"
+              },
+              "source_identity_key": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Stable identity for the original work/source. Multiple crops or segments from the same original keep the same key."
+              },
+              "unit_type": {
+                "enum": [
+                  "standalone_image",
+                  "selected_contact_sheet_cell_or_crop",
+                  "selected_board_cell_or_crop",
+                  "selected_video_frame",
+                  "time_bounded_video_segment",
+                  "contiguous_sequence_bundle",
+                  "local_or_founder_visual_asset"
+                ]
+              },
+              "evidence_locator": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["locator_type", "path_or_url", "selected_surface_or_time_range", "inspection_status"],
+                "properties": {
+                  "locator_type": {
+                    "enum": ["local_path_sha256", "stable_source_url", "source_manifest_time_range", "selected_surface_artifact"]
+                  },
+                  "path_or_url": {"type": "string", "minLength": 1},
+                  "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+                  "selected_surface_or_time_range": {"type": "string", "minLength": 1},
+                  "parent_contact_sheet_or_board_ref": {"type": "string"},
+                  "inspection_status": {"const": "pixel_or_segment_inspected"}
+                }
+              },
+              "audience_connection_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^AUDX_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+              },
+              "content_role_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "string", "pattern": "^CR_[A-Z0-9][A-Z0-9_-]{2,80}$"}
+              },
+              "dominant_function": {"type": "string", "minLength": 1},
+              "evidence_role": {
+                "enum": ["original_context", "response_pattern_evidence", "direct_screen_function", "local_or_founder_evidence", "support_check"]
+              },
+              "disposition": {
+                "enum": ["applied", "combined", "held", "rejected"]
+              },
+              "disposition_reason": {"type": "string", "minLength": 1},
+              "sequence_integrity_note": {"type": "string"},
+              "video_sequence_review": {
+                "$ref": "#/$defs/videoSequenceReview",
+                "description": "Required for video-derived units when duration_aware_selected_sequence.v1 is active."
+              }
+            }
+          }
+        },
+        "distinct_source_identity_keys": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "covered_functions": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "selected_unit_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^01RU-[A-Z0-9_-]{2,60}$"},
+          "description": "Subset of applied/combined units carried into selected applications. May contain fewer than three ids."
+        },
+        "remaining_gap": {
+          "type": ["string", "null"]
+        },
+        "decision_summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "videoSequenceReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_duration_seconds",
+        "source_duration_lane",
+        "navigation_surface",
+        "navigation_surface_counts_as_reference_unit",
+        "selected_event_range",
+        "selected_reference_attachment",
+        "selected_event_identity",
+        "event_phase_map",
+        "frame_selection_basis",
+        "reference_unit_count",
+        "realization_plan"
+      ],
+      "properties": {
+        "source_duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 270
+        },
+        "source_duration_lane": {
+          "enum": [
+            "short_at_or_below_60_seconds",
+            "long_above_60_at_or_below_270_seconds"
+          ]
+        },
+        "navigation_surface": {
+          "enum": [
+            "hub_one_second_samples_in_five_second_parts",
+            "hub_three_second_samples_in_fifteen_second_parts",
+            "existing_local_equivalent_or_direct_playback"
+          ],
+          "description": "First-pass source navigation only. Selected-event review may use explicit timestamps or a denser selected range."
+        },
+        "navigation_surface_counts_as_reference_unit": {"const": false},
+        "selected_event_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start_seconds", "end_seconds", "range_validation_status"],
+          "properties": {
+            "start_seconds": {"type": "number", "minimum": 0, "maximum": 270},
+            "end_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 270},
+            "source_timecode_label": {"type": "string", "minLength": 1},
+            "range_validation_status": {"const": "start_before_end_and_within_source_verified"}
+          }
+        },
+        "selected_reference_attachment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sampling_interval_seconds",
+            "range_scope",
+            "attachment_surface",
+            "manifest_path",
+            "manifest_sha256",
+            "downstream_frame_rule"
+          ],
+          "properties": {
+            "sampling_interval_seconds": {"const": 1},
+            "range_scope": {"const": "selected_event_range_only"},
+            "attachment_surface": {"const": "hash_bound_one_second_selected_range_contact_sheet"},
+            "manifest_path": {"type": "string", "minLength": 1},
+            "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+            "downstream_frame_rule": {
+              "const": "event_phase_derivatives_are_selected_separately_no_branch_cut_per_second"
+            }
+          },
+          "description": "Mandatory one-second-cadence evidence attached for the exact selected range in both duration lanes. It is an analysis/receipt surface, not a downstream frame quota."
+        },
+        "selected_event_identity": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The one contiguous action, relation, camera, object, world, or edit event represented by this unit."
+        },
+        "event_phase_map": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "phase_id",
+              "phase_role",
+              "source_timestamp_seconds",
+              "observable_state_or_change",
+              "derivative_status"
+            ],
+            "properties": {
+              "phase_id": {"type": "string", "pattern": "^VPH_[A-Z0-9][A-Z0-9_-]{1,60}$"},
+              "phase_role": {
+                "enum": [
+                  "entry",
+                  "anticipation",
+                  "start",
+                  "turn",
+                  "contact",
+                  "impact",
+                  "peak",
+                  "reaction",
+                  "endpoint",
+                  "hold",
+                  "insert",
+                  "camera_reveal",
+                  "transition_exit"
+                ]
+              },
+              "source_timestamp_seconds": {"type": "number", "minimum": 0, "maximum": 270},
+              "observable_state_or_change": {"type": "string", "minLength": 1},
+              "derivative_status": {
+                "enum": [
+                  "no_derivative_needed_for_evidence_job",
+                  "selected_hash_bound_frame",
+                  "selected_hash_bound_cell_or_crop"
+                ]
+              },
+              "derivative_ref_id": {"type": "string", "pattern": "^VDER_[A-Z0-9][A-Z0-9_-]{1,60}$"}
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "derivative_status": {
+                      "enum": ["selected_hash_bound_frame", "selected_hash_bound_cell_or_crop"]
+                    }
+                  },
+                  "required": ["derivative_status"]
+                },
+                "then": {"required": ["derivative_ref_id"]}
+              }
+            ]
+          }
+        },
+        "frame_selection_basis": {
+          "const": "observable_event_phase_change_not_fixed_interval_or_fixed_count"
+        },
+        "reference_unit_count": {"const": 1},
+        "realization_plan": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_use_mode",
+            "downstream_scope",
+            "branch_cut_visual_binding_required",
+            "selected_derivative_refs",
+            "mapping_reason"
+          ],
+          "properties": {
+            "source_use_mode": {
+              "enum": [
+                "response_pattern_evidence",
+                "directorial_function",
+                "bounded_surface_direct",
+                "full_scene_direct",
+                "sequence_direct",
+                "held_or_rejected"
+              ]
+            },
+            "downstream_scope": {
+              "enum": [
+                "response_evidence_upstream_only",
+                "directorial_function_parent_only",
+                "bounded_visual_surface_to_branch_cut",
+                "ordered_visual_sequence_to_core_and_branch_cuts",
+                "no_downstream_rejected_or_held"
+              ]
+            },
+            "branch_cut_visual_binding_required": {"type": "boolean"},
+            "selected_derivative_refs": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "derivative_ref_id",
+                  "phase_id",
+                  "path",
+                  "sha256",
+                  "source_timestamp_seconds",
+                  "selected_surface_id",
+                  "derivative_kind"
+                ],
+                "properties": {
+                  "derivative_ref_id": {"type": "string", "pattern": "^VDER_[A-Z0-9][A-Z0-9_-]{1,60}$"},
+                  "phase_id": {"type": "string", "pattern": "^VPH_[A-Z0-9][A-Z0-9_-]{1,60}$"},
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+                  "source_timestamp_seconds": {"type": "number", "minimum": 0, "maximum": 270},
+                  "selected_surface_id": {"type": "string", "minLength": 1},
+                  "derivative_kind": {"enum": ["selected_frame", "selected_contact_sheet_cell", "selected_crop"]}
+                }
+              }
+            },
+            "mapping_reason": {"type": "string", "minLength": 1},
+            "target_application_or_function_hint": {"type": "string"}
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "downstream_scope": {
+                    "enum": ["bounded_visual_surface_to_branch_cut", "ordered_visual_sequence_to_core_and_branch_cuts"]
+                  }
+                },
+                "required": ["downstream_scope"]
+              },
+              "then": {
+                "properties": {
+                  "branch_cut_visual_binding_required": {"const": true},
+                  "selected_derivative_refs": {"minItems": 1}
+                }
+              },
+              "else": {
+                "properties": {
+                  "branch_cut_visual_binding_required": {"const": false},
+                  "selected_derivative_refs": {"maxItems": 0}
+                }
+              }
+            },
+            {
+              "if": {"properties": {"source_use_mode": {"const": "response_pattern_evidence"}}, "required": ["source_use_mode"]},
+              "then": {"properties": {"downstream_scope": {"const": "response_evidence_upstream_only"}}}
+            },
+            {
+              "if": {"properties": {"source_use_mode": {"const": "directorial_function"}}, "required": ["source_use_mode"]},
+              "then": {"properties": {"downstream_scope": {"const": "directorial_function_parent_only"}}}
+            },
+            {
+              "if": {"properties": {"source_use_mode": {"const": "bounded_surface_direct"}}, "required": ["source_use_mode"]},
+              "then": {"properties": {"downstream_scope": {"const": "bounded_visual_surface_to_branch_cut"}}}
+            },
+            {
+              "if": {"properties": {"source_use_mode": {"enum": ["full_scene_direct", "sequence_direct"]}}, "required": ["source_use_mode"]},
+              "then": {"properties": {"downstream_scope": {"const": "ordered_visual_sequence_to_core_and_branch_cuts"}}}
+            },
+            {
+              "if": {"properties": {"source_use_mode": {"const": "held_or_rejected"}}, "required": ["source_use_mode"]},
+              "then": {"properties": {"downstream_scope": {"const": "no_downstream_rejected_or_held"}}}
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"source_duration_lane": {"const": "short_at_or_below_60_seconds"}},
+            "required": ["source_duration_lane"]
+          },
+          "then": {"properties": {"source_duration_seconds": {"maximum": 60}}}
+        },
+        {
+          "if": {
+            "properties": {"source_duration_lane": {"const": "long_above_60_at_or_below_270_seconds"}},
+            "required": ["source_duration_lane"]
+          },
+          "then": {"properties": {"source_duration_seconds": {"exclusiveMinimum": 60, "maximum": 270}}}
+        },
+        {
+          "if": {
+            "properties": {"navigation_surface": {"const": "hub_one_second_samples_in_five_second_parts"}},
+            "required": ["navigation_surface"]
+          },
+          "then": {"properties": {"source_duration_lane": {"const": "short_at_or_below_60_seconds"}}}
+        },
+        {
+          "if": {
+            "properties": {"navigation_surface": {"const": "hub_three_second_samples_in_fifteen_second_parts"}},
+            "required": ["navigation_surface"]
+          },
+          "then": {"properties": {"source_duration_lane": {"const": "long_above_60_at_or_below_270_seconds"}}}
+        }
+      ]
+    },
+    "interpretationReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interpretation_id",
+        "component_owner",
+        "components",
+        "inspected_sources",
+        "revision",
+        "disposition",
+        "target_section_ids",
+        "target_scopes",
+        "consume_mode"
+      ],
+      "properties": {
+        "interpretation_id": {
+          "type": "string",
+          "pattern": "^RINT_[A-Z0-9][A-Z0-9_-]{2,100}$"
+        },
+        "component_owner": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode"],
+          "properties": {
+            "mode": {"type": "string", "enum": ["self", "front_planning_source_ref"]},
+            "source_ref_id": {"type": "string", "minLength": 1},
+            "artifact_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          },
+          "allOf": [
+            {
+              "if": {"properties": {"mode": {"const": "self"}}, "required": ["mode"]},
+              "then": {
+                "not": {
+                  "anyOf": [
+                    {"required": ["source_ref_id"]},
+                    {"required": ["artifact_sha256"]}
+                  ]
+                }
+              }
+            },
+            {
+              "if": {"properties": {"mode": {"const": "front_planning_source_ref"}}, "required": ["mode"]},
+              "then": {"required": ["source_ref_id", "artifact_sha256"]}
+            }
+          ]
+        },
+        "components": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "json_pointer", "value_sha256"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": ["source_observation", "evidence_locator", "selected_function", "preserve_discard_guard"]
+              },
+              "json_pointer": {"type": "string", "pattern": "^/(?:[^/~]|~[01])+(?:/(?:[^/~]|~[01])*)*$"},
+              "value_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          },
+          "allOf": [
+            {"contains": {"type": "object", "properties": {"role": {"const": "source_observation"}}, "required": ["role"]}},
+            {"contains": {"type": "object", "properties": {"role": {"const": "evidence_locator"}}, "required": ["role"]}},
+            {"contains": {"type": "object", "properties": {"role": {"const": "selected_function"}}, "required": ["role"]}}
+          ]
+        },
+        "inspected_sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/inspectedInterpretationSource"}
+        },
+        "revision": {"$ref": "#/$defs/interpretationRevision"},
+        "disposition": {"type": "string", "enum": ["applied", "combined", "held", "rejected"]},
+        "target_section_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{1,80}$"}
+        },
+        "target_scopes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "consume_mode": {"type": "string", "const": "consume_bound_interpretation_without_source_reread"}
+      }
+    },
+    "inspectedInterpretationSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "media_kind", "inspection_scope", "selected_cells_or_frames"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "media_kind": {
+          "type": "string",
+          "enum": ["image", "video", "video_frame", "contact_sheet", "board", "crop", "generated_image", "other"]
+        },
+        "inspection_scope": {
+          "type": "string",
+          "enum": ["full_image", "full_frame", "selected_sheet_cells", "selected_frame", "selected_crop", "selected_board_cells"]
+        },
+        "selected_cells_or_frames": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "selected_surface_artifacts": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["surface_id", "path", "sha256"],
+            "properties": {
+              "surface_id": {"type": "string", "minLength": 1},
+              "path": {"type": "string", "minLength": 1},
+              "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "source_path": {"type": "string", "minLength": 1},
+              "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "derivation_kind": {"enum": ["contact_sheet_cell_crop", "board_cell_crop"]}
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {"properties": {"media_kind": {"const": "contact_sheet"}}, "required": ["media_kind"]},
+              {"properties": {"inspection_scope": {"enum": ["selected_sheet_cells", "selected_board_cells"]}}, "required": ["inspection_scope"]}
+            ]
+          },
+          "then": {
+            "required": ["selected_surface_artifacts"],
+            "properties": {
+              "selected_cells_or_frames": {"minItems": 1},
+              "selected_surface_artifacts": {
+                "minItems": 1,
+                "items": {"required": ["source_path", "source_sha256", "derivation_kind"]}
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"inspection_scope": {"enum": ["selected_frame", "selected_crop"]}},
+            "required": ["inspection_scope"]
+          },
+          "then": {"properties": {"selected_cells_or_frames": {"minItems": 1}}}
+        }
+      ]
+    },
+    "interpretationRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["number", "reopen_trigger", "previous_receipt_sha256", "invalidates_from_stage", "reason"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1},
+        "reopen_trigger": {
+          "type": "string",
+          "enum": [
+            "initial_analysis",
+            "source_bytes_changed",
+            "selected_surface_changed_or_missing",
+            "interpretation_incomplete_or_held",
+            "selected_audio_materially_changes_function",
+            "identity_safety_feasibility_conflict",
+            "founder_explicit_reinterpretation"
+          ]
+        },
+        "previous_receipt_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "invalidates_from_stage": {"type": "string", "enum": ["none", "creative_nucleus_lock", "mv_performance_direction"]},
+        "reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"number": {"const": 1}}, "required": ["number"]},
+          "then": {
+            "properties": {
+              "reopen_trigger": {"const": "initial_analysis"},
+              "previous_receipt_sha256": {"type": "null"},
+              "invalidates_from_stage": {"const": "none"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"number": {"minimum": 2}}, "required": ["number"]},
+          "then": {
+            "properties": {
+              "reopen_trigger": {
+                "enum": [
+                  "source_bytes_changed",
+                  "selected_surface_changed_or_missing",
+                  "interpretation_incomplete_or_held",
+                  "selected_audio_materially_changes_function",
+                  "identity_safety_feasibility_conflict",
+                  "founder_explicit_reinterpretation"
+                ]
+              },
+              "previous_receipt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "invalidates_from_stage": {"enum": ["creative_nucleus_lock", "mv_performance_direction"]}
+            }
+          }
+        }
+      ]
+    },
+    "screenCauseEffect": {
+      "type": "object",
+      "description": "Current-song screen-flow application: visible cause -> visible effect -> viewer/camera change -> next-section bridge.",
+      "additionalProperties": false,
+      "properties": {
+        "visible_cause": {
+          "type": "string"
+        },
+        "visible_effect": {
+          "type": "string"
+        },
+        "viewer_or_camera_change": {
+          "type": "string"
+        },
+        "next_section_bridge": {
+          "type": "string"
+        },
+        "continuity_lock": {
+          "type": "string"
+        }
+      }
+    },
+    "wardrobeRead": {
+      "type": "object",
+      "description": "Current-song outfit application. Use this when a source observation changes what must be visibly worn, not only how fabric moves.",
+      "additionalProperties": false,
+      "properties": {
+        "outfit_description": {
+          "type": "string"
+        },
+        "wardrobe_motion": {
+          "type": "string"
+        },
+        "readability_reason": {
+          "type": "string"
+        },
+        "reject_guard": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"schema_version": {"const": "idol_mv_direction_reference_mining.v4"}},
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "reference_captures": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {"capture_status": {"enum": ["selected_for_01", "review_only"]}},
+                    "required": ["capture_status"]
+                  },
+                  "then": {"required": ["source_type"]}
+                },
+                {
+                  "if": {
+                    "properties": {"source_type": {"enum": ["amv_or_mad_edit", "short_form_response_edit"]}},
+                    "required": ["source_type"]
+                  },
+                  "then": {
+                    "anyOf": [
+                      {
+                        "required": ["capture_status"],
+                        "properties": {"capture_status": {"enum": ["hold", "rejected"]}}
+                      },
+                      {"required": ["restricted_source_permission"]}
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"schema_version": {"const": "idol_mv_direction_reference_mining.v4"}},
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": ["visual_reference_application_policy"],
+        "properties": {
+          "section_reference_comparisons": {
+            "items": {
+              "properties": {
+                "reviewed_units": {
+                  "items": {
+                    "properties": {
+                      "video_sequence_review": {
+                        "properties": {
+                          "realization_plan": {
+                            "properties": {
+                              "source_use_mode": {
+                                "enum": [
+                                  "response_pattern_evidence",
+                                  "bounded_surface_direct",
+                                  "full_scene_direct",
+                                  "sequence_direct",
+                                  "held_or_rejected"
+                                ]
+                              },
+                              "downstream_scope": {
+                                "enum": [
+                                  "response_evidence_upstream_only",
+                                  "bounded_visual_surface_to_branch_cut",
+                                  "ordered_visual_sequence_to_core_and_branch_cuts",
+                                  "no_downstream_rejected_or_held"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {"const": "idol_mv_direction_reference_mining.v4"}
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": [
+          "operating_mode",
+          "visual_reference_application_policy",
+          "interpretation_contract_version",
+          "reference_gap_contract_version",
+          "reference_comparison_contract_version",
+          "video_sequence_contract_version",
+          "section_reference_comparisons"
+        ],
+        "properties": {
+          "operating_mode": {"const": "front_planning_reference_connection"},
+          "automation_gate": {
+            "required": ["assigned_to_front_planning"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "video_sequence_contract_version": {"const": "duration_aware_selected_sequence.v1"}
+        },
+        "required": ["video_sequence_contract_version"]
+      },
+      "then": {
+        "required": ["reference_comparison_contract_version", "section_reference_comparisons"],
+        "properties": {
+          "section_reference_comparisons": {
+            "items": {
+              "properties": {
+                "reviewed_units": {
+                  "items": {
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "unit_type": {
+                              "enum": [
+                                "selected_video_frame",
+                                "time_bounded_video_segment",
+                                "contiguous_sequence_bundle"
+                              ]
+                            }
+                          },
+                          "required": ["unit_type"]
+                        },
+                        "then": {"required": ["video_sequence_review"]}
+                      },
+                      {
+                        "if": {
+                          "allOf": [
+                            {
+                              "properties": {
+                                "unit_type": {
+                                  "enum": [
+                                    "selected_video_frame",
+                                    "time_bounded_video_segment",
+                                    "contiguous_sequence_bundle"
+                                  ]
+                                }
+                              },
+                              "required": ["unit_type"]
+                            },
+                            {
+                              "properties": {"disposition": {"enum": ["held", "rejected"]}},
+                              "required": ["disposition"]
+                            }
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "video_sequence_review": {
+                              "properties": {
+                                "realization_plan": {
+                                  "properties": {
+                                    "source_use_mode": {"const": "held_or_rejected"},
+                                    "downstream_scope": {"const": "no_downstream_rejected_or_held"}
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference_comparison_contract_version": {"const": "section_reference_comparison.v1"}
+        },
+        "required": ["reference_comparison_contract_version"]
+      },
+      "then": {
+        "required": ["section_reference_comparisons"],
+        "properties": {
+          "section_direction_cards": {
+            "items": {
+              "required": ["reference_comparison_id"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "reference_comparison_contract_version": {"const": "section_reference_comparison.v1"}
+            },
+            "required": ["reference_comparison_contract_version"]
+          },
+          {
+            "properties": {
+              "status": {"enum": ["codex_applied_for_02a_review", "approved_for_01", "adapted_to_01"]}
+            },
+            "required": ["status"]
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "section_reference_comparisons": {
+            "items": {
+              "properties": {
+                "status": {"const": "passed"}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "audience_connection_contract_version": {"const": "audience_connection_reference_binding.v1"}
+        },
+        "required": ["audience_connection_contract_version"]
+      },
+      "then": {
+        "properties": {
+          "reference_captures": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {"capture_status": {"const": "selected_for_01"}},
+                    "required": ["capture_status"]
+                  },
+                  "then": {"required": ["audience_connection_binding", "source_context_verification"]}
+                }
+              ]
+            }
+          },
+          "section_direction_cards": {
+            "items": {
+              "required": ["audience_connection_ids", "content_role_ids", "dominant_content_role"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "interpretation_contract_version": {"const": "reference_interpretation_receipt.v1"}
+        },
+        "required": ["interpretation_contract_version"]
+      },
+      "then": {
+        "properties": {
+          "reference_captures": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {"capture_status": {"const": "selected_for_01"}},
+                    "required": ["capture_status"]
+                  },
+                  "then": {"required": ["interpretation_receipt"]}
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference_gap_contract_version": {"const": "reference_function_coverage.v1"}
+        },
+        "required": ["reference_gap_contract_version"]
+      },
+      "then": {
+        "required": ["reference_function_coverage"],
+        "properties": {
+          "reference_captures": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {"capture_status": {"const": "selected_for_01"}},
+                    "required": ["capture_status"]
+                  },
+                  "then": {"required": ["visual_direction_read"]}
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "reference_gap_contract_version": {"const": "reference_function_coverage.v1"}
+            },
+            "required": ["reference_gap_contract_version"]
+          },
+          {
+            "properties": {
+              "status": {
+                "enum": ["codex_applied_for_02a_review", "approved_for_01", "adapted_to_01"]
+              }
+            },
+            "required": ["status"]
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "reference_function_coverage": {
+            "properties": {
+              "status": {"const": "coverage_closed"},
+              "coverage_matrix": {
+                "items": {
+                  "properties": {
+                    "coverage_status": {"enum": ["covered", "not_needed"]}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operating_mode": {
+            "const": "front_planning_reference_connection"
+          }
+        },
+        "required": [
+          "operating_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_files": {
+            "required": [
+              "front_planning_readiness",
+              "selected_audio_analysis",
+              "audio_motion_director_map",
+              "founder_approval_ref"
+            ]
+          },
+          "automation_gate": {
+            "properties": {
+              "next_allowed_step": {
+                "enum": [
+                  "front_planning_direction_lock",
+                  "hold_for_founder_review",
+                  "blocked"
+                ]
+              }
+            }
+          },
+          "mining_scope": {
+            "required": [
+              "source_diversity_policy"
+            ]
+          },
+          "section_direction_cards": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "section_direction_cards"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operating_mode": {
+            "const": "post_song_lock_direction_mining"
+          }
+        },
+        "required": [
+          "operating_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_files": {
+            "required": [
+              "creative_nucleus",
+              "song_lock",
+              "selected_audio_analysis",
+              "founder_approval_ref"
+            ]
+          },
+          "mining_scope": {
+            "required": [
+              "source_diversity_policy"
+            ]
+          },
+          "section_direction_cards": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "section_direction_cards"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operating_mode": {
+            "const": "post_01_reference_reinforcement"
+          }
+        },
+        "required": [
+          "operating_mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_files": {
+            "required": [
+              "creative_nucleus",
+              "song_lock",
+              "song_choreography_performance_mv_map",
+              "founder_approval_ref"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "codex_applied_for_02a_review"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "automation_gate": {
+            "properties": {
+              "next_allowed_step": {
+                "const": "02_generation_map"
+              },
+              "founder_review_required": {
+                "const": false
+              },
+              "adapted_to_01": {
+                "const": true
+              }
+            }
+          },
+          "selection_policy": {
+            "properties": {
+              "selection_mode": {
+                "const": "codex_preselects_then_founder_reviews"
+              },
+              "codex_may_apply_to_01": {
+                "const": true
+              },
+              "post_apply_founder_review_required": {
+                "const": true
+              },
+              "post_apply_review_stage": {
+                "const": "02A_preview_storyboard_review"
+              }
+            }
+          },
+          "selection_output": {
+            "properties": {
+              "selected_by": {
+                "const": "codex_preselected_pending_02a_review"
+              },
+              "selected_application_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        "required": [
+          "selection_output"
+        ]
+      }
+    }
+  ]
+}

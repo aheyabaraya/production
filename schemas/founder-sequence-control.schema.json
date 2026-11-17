@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/founder-sequence-control.schema.json",
+  "title": "Founder Sequence Control",
+  "description": "Shared Founder input contract for IDOL Front Planning and CF initial planning. The Founder controls the whole story order and exact reference use in ordinary language; the assigned director transcribes and translates that input into observable execution truth. This is an input contract, not a new production stage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "lane",
+    "status",
+    "source_capture",
+    "story_flow",
+    "reference_plan",
+    "director_translation",
+    "lane_contract",
+    "founder_gate"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_founder_sequence_control.v1"},
+    "content_id": {"type": "string", "minLength": 1},
+    "lane": {"enum": ["idol_mv", "cf_code"]},
+    "status": {"enum": ["draft", "founder_review", "passed", "hold", "rejected"]},
+    "source_capture": {"$ref": "#/$defs/sourceCapture"},
+    "story_flow": {"$ref": "#/$defs/storyFlow"},
+    "reference_plan": {"$ref": "#/$defs/referencePlan"},
+    "director_translation": {"$ref": "#/$defs/directorTranslation"},
+    "lane_contract": {"$ref": "#/$defs/laneContract"},
+    "founder_gate": {"$ref": "#/$defs/founderGate"}
+  },
+  "$defs": {
+    "sourceCapture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capture_mode",
+        "founder_verbatim_inputs",
+        "transcription_owner",
+        "founder_does_not_fill_schema_fields"
+      ],
+      "properties": {
+        "capture_mode": {"enum": ["founder_conversation_transcribed_by_director", "founder_authored_file"]},
+        "founder_verbatim_inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "transcription_owner": {"const": "assigned_director_codex_or_grok"},
+        "founder_does_not_fill_schema_fields": {"const": true}
+      }
+    },
+    "majorScene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_major_id",
+        "order_index",
+        "founder_direction",
+        "major_scene_boundaries",
+        "required_subject_or_member_ids",
+        "required_action_or_hold",
+        "space_direction",
+        "reference_ids",
+        "entry_state",
+        "endpoint",
+        "continuity_to_next"
+      ],
+      "properties": {
+        "control_major_id": {"type": "string", "pattern": "^FSC_MAJOR_[A-Z0-9_]{2,100}$"},
+        "order_index": {"type": "integer", "minimum": 1},
+        "founder_direction": {"type": "string", "minLength": 1},
+        "major_scene_boundaries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_subject_or_member_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "required_action_or_hold": {"type": "string", "minLength": 1},
+        "space_direction": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Text or scene-reference direction only. It does not authorize a separate background/world asset package."
+        },
+        "reference_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "entry_state": {"type": "string", "minLength": 1},
+        "endpoint": {"type": "string", "minLength": 1},
+        "continuity_to_next": {"type": "string", "minLength": 1}
+      }
+    },
+    "storyFlow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "one_line_direction",
+        "message_or_viewer_result",
+        "opening_state",
+        "ordered_major_scenes",
+        "ending_or_afterimage",
+        "hard_locks",
+        "forbidden_outcomes"
+      ],
+      "properties": {
+        "one_line_direction": {"type": "string", "minLength": 1},
+        "message_or_viewer_result": {"type": "string", "minLength": 1},
+        "opening_state": {"type": "string", "minLength": 1},
+        "ordered_major_scenes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/majorScene"}
+        },
+        "ending_or_afterimage": {"type": "string", "minLength": 1},
+        "hard_locks": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "forbidden_outcomes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "referenceUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_id",
+        "source_identity",
+        "source_path_or_url",
+        "selected_range_or_surface",
+        "exact_use_function",
+        "target_control_major_ids",
+        "preserve",
+        "replace_or_discard",
+        "disposition"
+      ],
+      "properties": {
+        "reference_id": {"type": "string", "minLength": 1},
+        "source_identity": {"type": "string", "minLength": 1},
+        "source_path_or_url": {"type": "string", "minLength": 1},
+        "selected_range_or_surface": {"type": "string", "minLength": 1},
+        "exact_use_function": {"type": "string", "minLength": 1},
+        "target_control_major_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^FSC_MAJOR_[A-Z0-9_]{2,100}$"}
+        },
+        "preserve": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "replace_or_discard": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "disposition": {"enum": ["applied", "combined", "held", "rejected"]}
+      }
+    },
+    "referencePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["governing_reference_ids", "references", "unresolved_reference_choices"],
+      "properties": {
+        "governing_reference_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/referenceUse"}
+        },
+        "unresolved_reference_choices": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "observableMajor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_major_id",
+        "visible_action_or_hold",
+        "screen_change",
+        "camera_and_composition_read",
+        "sound_opportunity",
+        "endpoint",
+        "continuity_to_next"
+      ],
+      "properties": {
+        "control_major_id": {"type": "string", "pattern": "^FSC_MAJOR_[A-Z0-9_]{2,100}$"},
+        "visible_action_or_hold": {"type": "string", "minLength": 1},
+        "screen_change": {"type": "string", "minLength": 1},
+        "camera_and_composition_read": {"type": "string", "minLength": 1},
+        "sound_opportunity": {"type": "string", "minLength": 1},
+        "endpoint": {"type": "string", "minLength": 1},
+        "continuity_to_next": {"type": "string", "minLength": 1}
+      }
+    },
+    "conflictResolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conflict", "resolution", "founder_decision_required"],
+      "properties": {
+        "conflict": {"type": "string", "minLength": 1},
+        "resolution": {"type": "string", "minLength": 1},
+        "founder_decision_required": {"type": "boolean"}
+      }
+    },
+    "directorTranslation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "translation_owner",
+        "translated_message",
+        "observable_sequence",
+        "conflicts_and_resolutions",
+        "translation_preserves_founder_order",
+        "reference_roles_preserved"
+      ],
+      "properties": {
+        "translation_owner": {"const": "assigned_director_codex_or_grok"},
+        "translated_message": {"type": "string", "minLength": 1},
+        "observable_sequence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/observableMajor"}
+        },
+        "conflicts_and_resolutions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/conflictResolution"}
+        },
+        "translation_preserves_founder_order": {"const": true},
+        "reference_roles_preserved": {"const": true}
+      }
+    },
+    "laneContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "founder_controls_whole_story_flow",
+        "director_translates_to_execution_truth",
+        "planning_may_not_close_before_founder_pass",
+        "founder_authors_idol_major_scenes",
+        "idol_major_and_member_visual_same_review_unit",
+        "idol_key_screens_require_founder_review",
+        "idol_separate_background_asset_generation"
+      ],
+      "properties": {
+        "founder_controls_whole_story_flow": {"const": true},
+        "director_translates_to_execution_truth": {"const": true},
+        "planning_may_not_close_before_founder_pass": {"const": true},
+        "founder_authors_idol_major_scenes": {"type": "boolean"},
+        "idol_major_and_member_visual_same_review_unit": {"type": "boolean"},
+        "idol_key_screens_require_founder_review": {"type": "boolean"},
+        "idol_separate_background_asset_generation": {"const": false}
+      }
+    },
+    "founderGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "reviewed_control_major_ids",
+        "reviewed_reference_ids",
+        "unresolved_material_choices",
+        "projection_authorized",
+        "note"
+      ],
+      "properties": {
+        "decision": {"enum": ["pending", "pass", "hold", "reject"]},
+        "reviewed_control_major_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^FSC_MAJOR_[A-Z0-9_]{2,100}$"}
+        },
+        "reviewed_reference_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "unresolved_material_choices": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "projection_authorized": {"type": "boolean"},
+        "note": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"lane": {"const": "idol_mv"}},
+        "required": ["lane"]
+      },
+      "then": {
+        "properties": {
+          "lane_contract": {
+            "properties": {
+              "founder_authors_idol_major_scenes": {"const": true},
+              "idol_major_and_member_visual_same_review_unit": {"const": true},
+              "idol_key_screens_require_founder_review": {"const": true}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "passed"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "reference_plan": {
+            "properties": {"unresolved_reference_choices": {"maxItems": 0}}
+          },
+          "founder_gate": {
+            "properties": {
+              "decision": {"const": "pass"},
+              "unresolved_material_choices": {"maxItems": 0},
+              "projection_authorized": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

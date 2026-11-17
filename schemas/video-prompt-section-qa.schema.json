@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/video-prompt-section-qa.schema.json",
+  "title": "IDOL Video Prompt Section QA",
+  "description": "Active v6 only. Contextual mode records integrated CDD review per physical section plus one whole-timeline reconciliation against the exact active 03V video-prompt manifest. The logical CDD authority is provider-neutral and the exact provider capability is immutable hash-bound evidence, never a role or fallback route. Founder-direct mode records a manifest delta against the last passed contextual baseline: only affected sections are rebound, no additional creative-advisory review is inserted, and hash/integrity plus post-rerun playback QA remain mandatory. Machines verify source hashes, cue coverage, execution provenance, ids, and status; they do not recreate creative judgments from checklist fields, words, tokens, or similarity. Historical video-prompt indexes are not accepted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "review_unit",
+    "overall_status",
+    "source_video_prompt_manifest_path",
+    "source_video_prompt_manifest_sha256",
+    "review_mode",
+    "sections"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_video_prompt_section_qa.v6"},
+    "content_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review_unit": {
+      "const": "section"
+    },
+    "overall_status": {
+      "type": "string",
+      "enum": ["pass", "blocked", "partial", "needs_review"]
+    },
+    "source_video_prompt_manifest_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_video_prompt_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "review_mode": {
+      "enum": [
+        "contextual_llm_section_and_whole_timeline",
+        "founder_direct_delta"
+      ]
+    },
+    "review_owner": {"$ref": "#/$defs/reviewOwner"},
+    "affected_section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^S[0-9]{2,}[A-Z]?$"
+      }
+    },
+    "baseline_contextual_qa": {"$ref": "#/$defs/hashedRecord"},
+    "founder_direct_intervention": {"$ref": "#/$defs/hashedRecord"},
+    "unchanged_scope_policy": {
+      "const": "reuse_last_passed_contextual_review_without_rerun"
+    },
+    "playback_followup_policy": {
+      "const": "rerun_affected_packets_then_hash_bound_playback_qa"
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section_key",
+          "status",
+          "reviewed_prompt_count",
+          "cue_ids"
+        ],
+        "properties": {
+          "section_key": {
+            "type": "string",
+            "description": "Section id, section-to-section transition id, or explicit alternate section review id.",
+            "pattern": "^S[0-9]{2,}[A-Z]?$"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pass", "blocked", "partial", "needs_review"]
+          },
+          "reviewed_prompt_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cue_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"
+            }
+          },
+          "section_entry_continuity": {"type": "string", "minLength": 1},
+          "section_exit_continuity": {"type": "string", "minLength": 1},
+          "section_transition_audit": {"type": "string", "minLength": 1},
+          "qa_summary": {"type": "string", "minLength": 1},
+          "review_summary": {
+            "type": "string",
+            "minLength": 1,
+            "description": "One integrated contextual judgment of source images, prompt motion/camera, audio cue, endpoint, boundaries, and section function."
+          },
+          "findings": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/finding"}
+          },
+          "review_execution_record": {"$ref": "#/$defs/hashedRecord"}
+        }
+      }
+    },
+    "whole_timeline_review": {"$ref": "#/$defs/wholeTimelineReview"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"review_mode": {"const": "contextual_llm_section_and_whole_timeline"}},
+        "required": ["review_mode"]
+      },
+      "then": {
+        "required": ["review_owner", "whole_timeline_review"],
+        "properties": {
+          "sections": {
+            "items": {
+              "required": ["review_summary", "findings", "review_execution_record"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"review_mode": {"const": "founder_direct_delta"}},
+        "required": ["review_mode"]
+      },
+      "then": {
+        "required": [
+          "affected_section_ids",
+          "baseline_contextual_qa",
+          "founder_direct_intervention",
+          "unchanged_scope_policy",
+          "playback_followup_policy"
+        ],
+        "not": {
+          "anyOf": [
+            {"required": ["review_owner"]},
+            {"required": ["whole_timeline_review"]}
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reviewOwner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "logical_role",
+        "logical_profile_alias",
+        "provider_profile_snapshot_ref",
+        "provider_capability_snapshot_sha256",
+        "automatic_fallback"
+      ],
+      "properties": {
+        "logical_role": {"const": "creative_development_director"},
+        "logical_profile_alias": {"const": "director_deep"},
+        "provider_profile_snapshot_ref": {
+          "type": "string",
+          "pattern": "^automation/harness-provider-profile-registry\\.yaml#/logical_profiles/director_deep/providers/[a-z0-9_-]+(?:/role_profiles/creative_development_director)?$"
+        },
+        "provider_capability_snapshot_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "automatic_fallback": {"const": "none"}
+      }
+    },
+    "hashedRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["severity", "affected_cue_ids", "issue", "required_action"],
+      "properties": {
+        "severity": {"enum": ["block", "revise", "note"]},
+        "affected_cue_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"
+          }
+        },
+        "issue": {"type": "string", "minLength": 1},
+        "required_action": {"type": "string", "minLength": 1}
+      }
+    },
+    "wholeTimelineReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "review_summary", "findings", "review_execution_record"],
+      "properties": {
+        "status": {"enum": ["pass", "blocked", "partial", "needs_review"]},
+        "review_summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Separate root judgment of cross-section recurrence, continuity, pacing, camera progression, endpoint carry, and ending resolution."
+        },
+        "findings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/finding"}
+        },
+        "review_execution_record": {"$ref": "#/$defs/hashedRecord"}
+      }
+    }
+  }
+}

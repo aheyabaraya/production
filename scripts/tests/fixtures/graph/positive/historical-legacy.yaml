@@ -1,0 +1,196 @@
+schema_version: idol-graph-ledger.v1
+authority: read_only_projection
+run_id: historical_read_only_one_section
+section_roster: [S01]
+declared_cohorts:
+  - cohort_id: C1
+    section_ids: [S01]
+nodes:
+  - schema_version: idol-graph-node.v1
+    node_id: n_g0
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g0
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G0
+    required_closed_before: []
+  - schema_version: idol-graph-node.v1
+    node_id: n_g1
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g1
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G1
+    required_closed_before: [n_g0]
+  - schema_version: idol-graph-node.v1
+    node_id: n_g2
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g2
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G2
+    required_closed_before: [n_g1]
+  - schema_version: idol-graph-node.v1
+    node_id: n_g3
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g3
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G3
+    required_closed_before: [n_g2]
+  - schema_version: idol-graph-node.v1
+    node_id: n_g4
+    node_class: founder_gate
+    view: authority_ownership
+    logical_id: g4
+    scope_id: run
+    state: planned
+    owner_role: founder
+    truth_kind: authority
+    may_write: false
+    gate_id: G4
+    required_closed_before: [n_g3]
+  - schema_version: idol-graph-node.v1
+    node_id: n_overall
+    node_class: overall_lane
+    view: authority_ownership
+    logical_id: overall_r00
+    scope_id: overall_lane
+    state: running
+    owner_role: overall_director
+    writer_id: od_primary
+    truth_kind: authority
+    may_write: true
+  - schema_version: idol-graph-node.v1
+    node_id: n_p1
+    node_class: planning_cdd_lane
+    view: authority_ownership
+    logical_id: planning_p1
+    scope_id: p1
+    state: running
+    owner_role: planning_cdd_p1
+    writer_id: p1_primary
+    truth_kind: authority
+    may_write: true
+    integration_writer: true
+    write_scope_ids: [story_audience]
+  - schema_version: idol-graph-node.v1
+    node_id: n_p2
+    node_class: planning_cdd_lane
+    view: authority_ownership
+    logical_id: planning_p2
+    scope_id: p2
+    state: running
+    owner_role: planning_cdd_p2
+    writer_id: p2_primary
+    truth_kind: authority
+    may_write: true
+    write_scope_ids: [visual_reference]
+  - schema_version: idol-graph-node.v1
+    node_id: n_p3_c1
+    node_class: planning_section_cohort_lane
+    view: authority_ownership
+    logical_id: planning_p3_c1
+    scope_id: p3_c1
+    state: running
+    owner_role: planning_cdd_p3
+    writer_id: p3_c1_primary
+    truth_kind: authority
+    may_write: true
+    cohort_id: C1
+    section_ids: [S01]
+    write_scope_ids: [c1_section_kinetic]
+  - schema_version: idol-graph-node.v1
+    node_id: n_v_c1
+    node_class: section_cluster_cdd_lane
+    view: authority_ownership
+    logical_id: section_v_c1
+    scope_id: v_c1
+    state: planned
+    owner_role: section_cluster_cdd
+    truth_kind: authority
+    may_write: false
+    cohort_id: C1
+    section_ids: [S01]
+  - schema_version: idol-graph-node.v1
+    node_id: n_fp_stage
+    node_class: stage_checkpoint
+    view: execution_session
+    logical_id: front_planning_integration
+    scope_id: front_planning
+    state: running
+    owner_role: planning_cdd_p1
+    truth_kind: structural
+    may_write: false
+    legacy_source:
+      capsule: parse_only
+      path: automation/harness-stage-registry.yaml
+      local_fixture_path: evidence/legacy-stage-pointer.yaml
+      legacy_id: front_planning_integration
+      json_pointer: /legacy_id
+      sha256: 674024d9694556b30191130490f380d6024738d21d2da27bfd26b8f3424cdce3
+  - schema_version: idol-graph-node.v1
+    node_id: n_od_session
+    node_class: provider_session
+    view: provider_capability
+    logical_id: overall_primary
+    scope_id: overall_session
+    state: running
+    owner_role: overall_director
+    truth_kind: structural
+    may_write: false
+    lane_id: overall
+    stage_id: planning_cell
+    session_role: primary
+    logical_tier: frontier_director
+    fallback_policy: forbidden
+    resolved_profile_id: grok_frontier_director
+edges:
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_overall_owns_p1
+    family: authority
+    edge_type: owns
+    view: authority_ownership
+    from_node_id: n_overall
+    to_node_id: n_p1
+  - schema_version: idol-graph-edge.v1
+    edge_id: e_p3_carries_v
+    family: lineage
+    edge_type: exact_carries
+    view: authority_ownership
+    from_node_id: n_p3_c1
+    to_node_id: n_v_c1
+events:
+  - schema_version: idol-graph-event.v1
+    event_id: evt_001
+    sequence: 1
+    event_type: node_recorded
+    actor_role: overall_director
+    actor_id: od_primary
+    payload_kind: structural
+    node_ids: [n_fp_stage]
+    edge_ids: []
+legacy_source_pointers:
+  - capsule: parse_only
+    path: automation/harness-stage-registry.yaml
+    local_fixture_path: evidence/legacy-stage-pointer.yaml
+    legacy_id: front_planning_integration
+    json_pointer: /legacy_id
+    sha256: 674024d9694556b30191130490f380d6024738d21d2da27bfd26b8f3424cdce3
+    node_id: n_fp_stage

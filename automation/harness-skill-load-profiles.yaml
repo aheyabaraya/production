@@ -1,0 +1,1789 @@
+schema_version: idol-harness-skill-load-profiles.v2
+status: active
+
+registry_policy:
+  provider_neutral: true
+  exact_paths_only: true
+  phase_loaded: true
+  no_implicit_fallback: true
+  hash_binding: sha256_current_bytes
+  runtime_proof: department_dispatch_lifecycle
+
+# A profile-level required set is the complete set of bindings that the profile
+# may use across its declared checkpoints. Each checkpoint is the exact runtime
+# load set for that phase; bindings omitted there are not implicitly inherited.
+
+# A binding is a copyable path/revision/hash tuple. Profiles refer to binding
+# ids so the dispatch can copy exact values without selecting a provider or
+# silently falling back to a neighboring skill.
+skill_bindings:
+  - binding_id: orchestrator
+    path: skills/idol-orchestrator/SKILL.md
+    revision: "40"
+    sha256: f4285f4b5f2c2a587cde2d4082aad53d386c981a418ccc4b1e005723e2b85e5c
+    eof_required: true
+    purpose: overall_director_route
+  - binding_id: front_planning_director
+    path: skills/idol-front-planning-director/SKILL.md
+    revision: "75"
+    sha256: 82cf9551ed2aa5dac370cf0c97c4ea3b64c809414a83ee3f4ccdfecdd6cf5bfc
+    eof_required: true
+    purpose: cdd_front_planning_route
+  - binding_id: research_radar
+    path: skills/idol-research-radar/SKILL.md
+    revision: "15"
+    sha256: 2676b8764accfe6eaf71b90288d450140d85aeddd58b64debeaaf17f4ce43d28
+    eof_required: true
+    purpose: pre00_target_and_trend_route
+  - binding_id: suno_prompt
+    path: skills/idol-suno-prompt/SKILL.md
+    revision: "16"
+    sha256: 8d61a37127cd82f1ff772750d46dce2e6dea605978249aa2c6944989bec0a5a0
+    eof_required: true
+    purpose: song_direction_route
+  - binding_id: song_lock
+    path: skills/idol-song-lock/SKILL.md
+    revision: "17"
+    sha256: e74050082d37acbe5f96c67703d54a0d541e50d3f00205ec3e60476a61d3f7ef
+    eof_required: true
+    purpose: selected_audio_and_00a_route
+  - binding_id: video_reference_hub
+    path: skills/idol-video-reference-hub/SKILL.md
+    revision: "26"
+    sha256: dd907d8e36a6eaa2df295a226ed4c9ad529b13090520764d7311e8e6ac55b8d0
+    eof_required: true
+    purpose: source_hub_consumption_boundary
+  - binding_id: reference_research_department
+    path: skills/idol-reference-research-department/SKILL.md
+    revision: "13"
+    sha256: c8627253018dbce4f52b2f34b4346731a06aa2edf425235c0eefaeb9144b8fd1
+    eof_required: true
+    purpose: bounded_reference_decision_set
+  - binding_id: world_still_reference_department
+    path: skills/idol-world-still-reference-department/SKILL.md
+    revision: "9"
+    sha256: f0226fe11ab9e88c110183e4241afef36621cebb211ebfd9281b536c66726608
+    eof_required: true
+    purpose: image_only_world_space_object_contact_sheet_decision_set
+  - binding_id: pinterest_reference_worker
+    path: skills/idol-pinterest-reference-worker/SKILL.md
+    revision: "5"
+    sha256: e4301c1a67f003347143702d8c5c576503d3f8f6b4f86b38af1f9196d90e8d29
+    eof_required: true
+    purpose: section_scoped_public_pinterest_visual_composition_decision_set
+  - binding_id: review_board_coordinator
+    path: skills/idol-review-board-coordinator/SKILL.md
+    revision: "2"
+    sha256: 67a61f2a5215fb2a5047aedeca1b0e86557a90aba5a9cb05f5c5df1d008f7bdb
+    eof_required: true
+    purpose: mechanical_founder_workbench_projection
+  - binding_id: member_visual_identity
+    path: skills/idol-member-visual-identity/SKILL.md
+    revision: "15"
+    sha256: 44763f1893a8696819e73ede8379dca34c50d06392bcb6aa02e19eec25e1ff30
+    eof_required: true
+    purpose: current_title_member_visual_route
+  - binding_id: front_planning_development_block
+    path: skills/idol-front-planning-development-block/SKILL.md
+    revision: "11"
+    sha256: 3471b95b15aae90d0dd090a25c0e35e841612f714613e97bde22b2d1a0001a11
+    eof_required: true
+    purpose: bounded_pre02a_section_shard
+  - binding_id: mv_director
+    path: skills/idol-mv-director/SKILL.md
+    revision: "20"
+    sha256: d6d4ed2e9177eab6a53008635f15697b73c30b685041528a3da0ea2f89d1ed2e
+    eof_required: true
+    purpose: section_01_direction
+  - binding_id: choreography_performance
+    path: skills/idol-choreography-performance/SKILL.md
+    revision: "6"
+    sha256: 4d429ce778b377e1b3867d8459a5f6ade47997fa2dff629b05fa2ad1cade59dc
+    eof_required: true
+    purpose: optional_source_bound_performance
+  - binding_id: choreography_board
+    path: skills/idol-choreography-board/SKILL.md
+    revision: "3"
+    sha256: 09a1c318fff6b4052a602f41f0283471e130e30d1e8b64ba94883cde063f064a
+    eof_required: true
+    purpose: conditional_source_bound_choreography_coverage_board
+  - binding_id: generation
+    path: skills/idol-generation/SKILL.md
+    revision: "58"
+    sha256: c977a84e6d92a504c0cff233b12d7e3a3280c5547046e58df812c99b08753cf1
+    eof_required: true
+    purpose: post02a_section_generation_route
+  - binding_id: video_prompt
+    path: skills/idol-video-prompt/SKILL.md
+    revision: "24"
+    sha256: 592d03567c16ca36e79fb7cf3e20d4b35682ae9d6ff8d8622fa3df313ff7fc67
+    eof_required: true
+    purpose: post02a_03v_route
+  - binding_id: editing_qc
+    path: skills/idol-editing-qc/SKILL.md
+    revision: "19"
+    sha256: 174253a0da649af74bae12e44e5ca460df0e16ffd9e156940caf6886042ed124
+    eof_required: true
+    purpose: edit_playback_qc_route
+  - binding_id: edit_finishing_fx
+    path: skills/idol-edit-finishing-fx/SKILL.md
+    revision: "11"
+    sha256: 14f88e3205e151d9f237b00cdc6346936943f36fe8aad5c6fd822d22b3005e36
+    eof_required: true
+    purpose: edit_finishing_fx_route
+  - binding_id: shot_vfx
+    path: skills/idol-shot-vfx/SKILL.md
+    revision: "8"
+    sha256: cab5f64e9da65d9cf993f1500c25933d739047d2c7f031b4977040bc00a57514
+    eof_required: true
+    purpose: shot_scoped_vfx_route
+  - binding_id: grok_harness_owner
+    path: .grok/skills/idol-grok-harness-owner/SKILL.md
+    revision: "12"
+    sha256: 19742cef95c330e37aa23d3b8c7dea58654c40db92c2ff3b8c471fc5536a9c88
+    eof_required: true
+    purpose: provider_neutral_grok_role_adapter
+  - binding_id: founder_briefing_assistant
+    path: skills/idol-founder-briefing-assistant/SKILL.md
+    revision: "1"
+    sha256: 8026ac806edacabd0969e21a9661b3ded36b5f75a82255406b75637409527a17
+    eof_required: true
+    purpose: founder_visible_noncanonical_reviewed_milestone_briefing
+
+read_bindings:
+  - binding_id: agents
+    path: AGENTS.md
+    revision: content-addressed
+    sha256: 6f0bba6591c7e216d51fa56d9f561be56b4aec0baabb1fdca3155466870408b5
+    eof_required: true
+  - binding_id: routing_policy
+    path: policies/harness-routing-and-sources.md
+    revision: "content-addressed"
+    sha256: f95a034b8d89f73563c4565107b74ec4f72706aed394cba6fd9e23b4f73b0f7c
+    eof_required: true
+  - binding_id: media_security_policy
+    path: policies/repository-media-security.md
+    revision: content-addressed
+    sha256: 9bda3d83b4e0805fbb7ae4f8e0652b147a998c87927ae4e23f1c6751a1be0813
+    eof_required: true
+  - binding_id: section_production_policy
+    path: policies/section-production.md
+    revision: content-addressed
+    sha256: e704d36b3f1afcdc1471e8fef90b9f6255d01450b09e7aa76f81cc2dd83aed20
+    eof_required: true
+  - binding_id: section_production_front_planning
+    path: policies/section-production-front-planning.md
+    revision: "11"
+    sha256: 7047b2ec9f01fa88d4c1d5fffcb426f96447440dc65952bd7e8d576393a56b69
+    eof_required: true
+    purpose: front_planning_section_spine
+  - binding_id: section_production_01_02a
+    path: policies/section-production-01-02a.md
+    revision: "8"
+    sha256: 6cf47e85d41b1a770e05e5c3ed7a99205218f8419972ebc512fb86e116021acb
+    eof_required: true
+    purpose: official_core_and_branch_coverage
+  - binding_id: section_production_02b_pixel
+    path: policies/section-production-02b-pixel.md
+    revision: "5"
+    sha256: 5e6e3a84580e3ac0380bf708bc8d223944bb145f564d8625a1f8d672995d4671
+    eof_required: true
+    purpose: image_translation_pixel_and_audio_placement
+  - binding_id: section_production_03v
+    path: policies/section-production-03v.md
+    revision: "5"
+    sha256: 9bc6f7caea20e780fa2ea8b60db630e63da4e458147c08b5f306449eb8f9ebb9
+    eof_required: true
+    purpose: motion_storyboard_and_playback
+  - binding_id: section_production_04
+    path: policies/section-production-04.md
+    revision: "2"
+    sha256: 6dac8b7161a4b2f36cbf7ccda9f0f98900de8de6f949faa3924405059147a5f4
+    eof_required: true
+    purpose: edit_units_and_production_cut_lineage
+  - binding_id: section_production_workbench
+    path: policies/section-production-workbench.md
+    revision: "5"
+    sha256: 881e62e47d1f822c939521e2617ededcb0a60ca1760c2ee9c868ce2640fadc44
+    eof_required: true
+    purpose: founder_workbench_review_projection
+  - binding_id: creative_constitution
+    path: policies/creative-production-constitution.md
+    revision: content-addressed
+    sha256: 7419694d705eb0e96c59731346049e4fd0f074904fe3c8882af8649d66184098
+    eof_required: true
+  - binding_id: maintenance_rules
+    path: wiki/harness-maintenance-rules.md
+    revision: content-addressed
+    sha256: bd6ebfd11d9e6c7bff68bf52ff5452638c498a367cc5d0fc6a66966ca93c8412
+    eof_required: true
+  - binding_id: maintenance_instruction_policy_wiki
+    path: wiki/harness-maintenance/instruction-policy-wiki.md
+    revision: content-addressed
+    sha256: 5063036824e7cd00d0c747f04c73834dfbcc3cb5e3730bef03eefcc2038f9b58
+    eof_required: true
+  - binding_id: maintenance_schema_contract_registry
+    path: wiki/harness-maintenance/schema-contract-registry.md
+    revision: content-addressed
+    sha256: 6c350b71d7b87cedd1d4ba63f50d0b46466f7a46065d3ba5698bfd875a8d0260
+    eof_required: true
+  - binding_id: maintenance_skill_profile_routing
+    path: wiki/harness-maintenance/skill-profile-routing.md
+    revision: content-addressed
+    sha256: cc35d861c4c8a280314890c1a3b9a8c10ad7d3a27c90d2b4734eb289db140ed4
+    eof_required: true
+  - binding_id: maintenance_script_validator_registry
+    path: wiki/harness-maintenance/script-validator-registry.md
+    revision: content-addressed
+    sha256: 952864622ecae398a5e655a8433d41d8bd345270d6bec910daac0a26a4a42ade
+    eof_required: true
+  - binding_id: maintenance_workbench_runtime_ui
+    path: wiki/harness-maintenance/workbench-runtime-ui.md
+    revision: content-addressed
+    sha256: 84948209f2d326d2461cd78325b29d14fd28021f44eaa75ea50e5ee99e8e9491
+    eof_required: true
+  - binding_id: production_system
+    path: wiki/production-system.md
+    revision: content-addressed
+    sha256: 07ff04ece27a9c62e03df72fb221ad8801f5e296c606953f1f435180f892d09f
+    eof_required: true
+  - binding_id: harness_stage_registry
+    path: automation/harness-stage-registry.yaml
+    revision: content-addressed
+    sha256: 2c6a215478baeeea1944ed6e500e1a8f7252219832b3934eab0c306fed595eb0
+    eof_required: true
+  - binding_id: harness_execution_contract
+    path: automation/harness-execution-contract.yaml
+    revision: content-addressed
+    sha256: 9d91e85835489895096c8b8d83a96dc6291741b2a07a2a757f446ef186ee954b
+    eof_required: true
+  - binding_id: cdd_session_router_state_schema
+    path: schemas/cdd-session-router-state.schema.json
+    revision: content-addressed
+    sha256: 038d70b8d2af28347822fbb40fce2949c9b7688e5b94c60fedbb9f8c165aa677
+    eof_required: true
+  - binding_id: artifact_management
+    path: wiki/artifact-management-system.md
+    revision: content-addressed
+    sha256: ba28d3994de181b0472c65df9bec1f8da45106e4b64fa4b3f624c3e17787aa8b
+    eof_required: true
+  - binding_id: harness_current_next_schema
+    path: schemas/harness-current-next.schema.json
+    revision: content-addressed
+    sha256: f8e66fd057abdbc74e99d3094f607a93060d306f836f25bcb53dfec17c2e8866
+    eof_required: true
+  - binding_id: workbench_run_route_manifest_schema
+    path: development/front-planning-workbench/contracts/run-route-manifest.schema.json
+    revision: content-addressed
+    sha256: 9df3473751d9d9a502cc255f475a3fec63933bf23fe32470b007c2c4902ca6db
+    eof_required: true
+  - binding_id: founder_briefing_schema
+    path: development/front-planning-workbench/founder-briefing/founder-briefing.schema.json
+    revision: content-addressed
+    sha256: 671d1547d6603df81a679b9f06dd70ce3f3768448f9f294fda0a70ef3bc170a7
+    eof_required: true
+  - binding_id: provider_neutral_studio_kernel
+    path: skills/idol-orchestrator/references/provider-neutral-studio-kernel.md
+    revision: "18"
+    sha256: 8e7c1c062c6d63d134b893fa025aba2fe192384bdd49683695843354668ce3ff
+    eof_required: true
+  - binding_id: orchestration_routing_detail
+    path: skills/idol-orchestrator/references/orchestration-routing-detail.md
+    revision: content-addressed
+    sha256: 0db8ca35655f3ddf3a703e690e45f22ff6a59eb0275327710c9d058f2481810e
+    eof_required: true
+  - binding_id: department_dispatch_schema
+    path: schemas/department-dispatch.schema.json
+    revision: content-addressed
+    sha256: cabc527c372bd49b4558327bed8e907d527678d227994356c75a4ddda05d7c29
+    eof_required: true
+  - binding_id: front_planning_schema
+    path: schemas/front-planning-readiness.schema.json
+    revision: content-addressed
+    sha256: d8bf72fa64da84eb75c5432c9bc6569235ad3149df503ad1d39315d8974cf3c7
+    eof_required: true
+  - binding_id: sequence_motion_analysis_schema
+    path: schemas/sequence-motion-analysis.schema.json
+    revision: content-addressed
+    sha256: a6f31d42596b2f0928cef62d8b06e409b3794f959ec8142bf9c31d859747ba6f
+    eof_required: true
+  - binding_id: kinetic_slot_sheet_schema
+    path: schemas/kinetic-change-point-slot-sheet.schema.json
+    revision: content-addressed
+    sha256: 7a0ae7b30acde3e46ffaf36ad349087eee57a4bcb1da0345676603fbacf87fc3
+    eof_required: true
+  - binding_id: sequence_motion_analysis_validator
+    path: scripts/validate_sequence_motion_analysis.rb
+    revision: content-addressed
+    sha256: 7c1d3fa1bef340a5de097837ed26345a1a6253d9bc724e90fcc0f9515010c00e
+    eof_required: true
+  - binding_id: director_dispatch_index_schema
+    path: schemas/director-dispatch-index.schema.json
+    revision: content-addressed
+    sha256: 0f37583c72669272b6032db0e785b0007789d05331ac59fb6792e0582aa199e5
+    eof_required: true
+  - binding_id: reference_working_index_schema
+    path: schemas/reference-working-index.schema.json
+    revision: content-addressed
+    sha256: 98cd28bf5cab99e15e380d73b56d3e472eae4fbd03c3137e91f633feae9d8d2b
+    eof_required: true
+  - binding_id: section_slice_schema
+    path: schemas/harness-section-slice.schema.json
+    revision: content-addressed
+    sha256: 99b8a21f24d29ee6ed5e10b02bf81d46dec9cca69ca1831df857d831ee316df8
+    eof_required: true
+  - binding_id: fp_operating_contract
+    path: skills/idol-front-planning-director/references/director-operating-contract.md
+    revision: content-addressed
+    sha256: 34e065ea9a5687d175dae278cf0a61d05ee500b4c95dec860bbe0129b3d5b0cc
+    eof_required: true
+  - binding_id: radar_authoring_detail
+    path: skills/idol-research-radar/references/research-radar-authoring-detail.md
+    revision: content-addressed
+    sha256: aa09e550185de946e19a2d9dfe7452e5055c167cb7106eeb6354a02c1b216de4
+    eof_required: true
+  - binding_id: pre00_radar_schema
+    path: schemas/pre-00-research-radar.schema.json
+    revision: content-addressed
+    sha256: 672caabc9c57d32f80c921bb9848a79b6eaf43fdbd084055d8b7b1a6b672f5c4
+    eof_required: true
+  - binding_id: pre00_selection_handoff_schema
+    path: schemas/pre-00-selection-handoff.schema.json
+    revision: content-addressed
+    sha256: bd1300f89c2b007d6c37bb96ed7a2e263457f5b4f53b91e21c569a6173966a17
+    eof_required: true
+  - binding_id: pre00_song_system
+    path: wiki/pre-00-song-system.md
+    revision: content-addressed
+    sha256: 842ba9d3cfebd08051657c46493b7484eb782a5a6db5527e27597686d729f574
+    eof_required: true
+  - binding_id: social_automation_system
+    path: wiki/social-automation-system.md
+    revision: content-addressed
+    sha256: 94f62523b848b017643c102e736b37bf4681e9f74e789ee1b0c31077577a45ea
+    eof_required: true
+  - binding_id: production_bible
+    path: AURORA-IDOL-PRODUCTION-BIBLE-VALIDATED.md
+    revision: content-addressed
+    sha256: 03c1af947aa7c4052d45bdbba596f04c87120a1f9a0b20d1ef212e974fdea121
+    eof_required: true
+  - binding_id: trend_pulse_latest
+    path: source-materials/trend-pulse-records/latest.md
+    revision: content-addressed
+    sha256: d694b696816e8ee417c6e161d6165dd029e5e32e8d49fe827496e24b43c85af6
+    eof_required: true
+  - binding_id: voice_style_index
+    path: assets/voice-style-index.md
+    revision: content-addressed
+    sha256: 2e5ff0c4748507f09950e2037aaef1fcf5760b8e6bb1ec5b293fd1e07fc33b65
+    eof_required: true
+  - binding_id: suno_prompt_authoring_detail
+    path: skills/idol-suno-prompt/references/suno-prompt-authoring-detail.md
+    revision: content-addressed
+    sha256: af71a63bfff3b0d5c3b912f2e32ea81c98aa46555417cd4aab326b42386d89a4
+    eof_required: true
+  - binding_id: reference_song_fit_schema
+    path: schemas/reference-song-fit.schema.json
+    revision: content-addressed
+    sha256: fb836765ffe1883c7e68880ae56b40708f7446ad8c1844fbb0a5ca94d0a5baca
+    eof_required: true
+  - binding_id: selected_audio_schema
+    path: schemas/selected-audio-analysis.schema.json
+    revision: content-addressed
+    sha256: 7da6d99590bea742cb5fbe34a9ccc093442b3e9f999480fad4e286cb523297b9
+    eof_required: true
+  - binding_id: audio_motion_schema
+    path: schemas/audio-motion-director-map.schema.json
+    revision: content-addressed
+    sha256: ba043114786706854a4311044da7de6610f745749c0c7e1ce3b7f39bd653c6bf
+    eof_required: true
+  - binding_id: song_lock_schema
+    path: schemas/song-lock.schema.json
+    revision: content-addressed
+    sha256: b8957aedebd44074165bb3bae0968de4a04b7d8f9debae5b87b0446b24ac3f45
+    eof_required: true
+  - binding_id: song_lock_detail
+    path: skills/idol-song-lock/references/selected-audio-song-lock-detail.md
+    revision: content-addressed
+    sha256: 31871f10cbc55d469e46e20b2c09497cc1888ae29e41867b94717656bdb0ee3e
+    eof_required: true
+  - binding_id: fp_reference_management
+    path: wiki/reference-management-system.md
+    revision: "content-addressed"
+    sha256: bfc0f35a8db4b7650435e967a6bc0e8d2c72d8bfc40af30f64d48803735436e8
+    eof_required: true
+  - binding_id: director_room_discovery
+    path: wiki/director-room-sequence-discovery.md
+    revision: content-addressed
+    sha256: dec941325e5d187bd973790d90b398863c1629a437ebdb03d7b0facac8bfa3f5
+    eof_required: true
+  - binding_id: fp_harness_wiki
+    path: wiki/front-planning-centered-mv-director-harness.md
+    revision: content-addressed
+    sha256: 5485503903e1a707b9573af7c2005127180f63825c2ebc70fdba13ae2c87e912
+    eof_required: true
+  - binding_id: fp_founder_visual_contract
+    path: skills/idol-front-planning-director/references/founder-visual-review-board-contract.md
+    revision: content-addressed
+    sha256: 23d3921dfdfe3665717006d83b47a84f84e5e845cc7e40f579bce94834441837
+    eof_required: true
+  - binding_id: source_image_readme
+    path: source-materials/image-sources/README.md
+    revision: content-addressed
+    sha256: 25874c0a92ac86652085955aa288cf8acff78376c20b0173b6ecd9895fbf8f54
+    eof_required: true
+  - binding_id: world_still_contact_sheet_contract
+    path: skills/idol-world-still-reference-department/references/world-still-contact-sheet-contract.md
+    revision: content-addressed
+    sha256: 89667228c6349395c972e840238b068c261f19a54951444bdebd5a9fdd5418c7
+    eof_required: true
+  - binding_id: pinterest_section_comparison_detail
+    path: skills/idol-pinterest-reference-worker/references/pinterest-section-comparison-detail.md
+    revision: content-addressed
+    sha256: e83cde87cc7987945c8f0621644cc68f6010baef595cac2b4a9e102a837af5ad
+    eof_required: true
+  - binding_id: pinterest_2d_to_photoreal_wardrobe_method
+    path: skills/idol-pinterest-reference-worker/references/2d-source-to-photoreal-wardrobe-method.md
+    revision: content-addressed
+    sha256: ef42ec2b52c0358ac26ddc371757e830a4b22ff2ef8ed7ca6a4a2c890cf8a780
+    eof_required: true
+  - binding_id: source_video_readme
+    path: source-materials/video-sources/README.md
+    revision: content-addressed
+    sha256: e35fc070f2123588186070cd3490c7904ba8e9cde5b467b02a96965c4919d98d
+    eof_required: true
+  - binding_id: source_video_read_first
+    path: source-materials/video-sources/READ-FIRST.md
+    revision: content-addressed
+    sha256: 9ace595ded6267079c77034791064237f7963fffdfb658016920f857040fbbf7
+    eof_required: true
+  - binding_id: video_first_read_contract
+    path: skills/idol-video-reference-hub/references/video-reference-analysis-first-read-contract.md
+    revision: content-addressed
+    sha256: 3b37589b8fc3f662831d69e5f9c954d85c9408c06eb3b1866a497c7e1ad1e77c
+    eof_required: true
+  - binding_id: video_analysis_example
+    path: skills/idol-video-reference-hub/references/video-reference-analysis-example.md
+    revision: content-addressed
+    sha256: 3badaff2ff433d8e3fb450ffa417098fe014a1e905f883ac6eefdb19e69d39d2
+    eof_required: true
+  - binding_id: scripts_start_here
+    path: scripts/README.md
+    revision: content-addressed
+    sha256: c135adcd30498071b3f7d50a507953736c4eed278442699803f059e6913c6200
+    eof_required: true
+  - binding_id: scripts_full_index
+    path: scripts/INDEX.md
+    revision: "content-addressed"
+    sha256: 1bb705e71fbe8e70ab7600af90ff94585260b06a300f2bc4e964c2313cdd3763
+    eof_required: true
+  - binding_id: idol_script_registry
+    path: automation/idol-script-registry.yaml
+    revision: "content-addressed"
+    sha256: a0c581028b817b7bbf8a448e852a21e492f62b2e5343b30aa63a855de6fedb3d
+    eof_required: true
+  - binding_id: idol_script_registry_schema
+    path: schemas/idol-script-registry.schema.json
+    revision: content-addressed
+    sha256: cba7d94df75a31c627f057fbaaa39501a4a63b412f1c103b84150851d5a8ac17
+    eof_required: true
+  - binding_id: idol_script_registry_check
+    path: scripts/idol_script_registry_check.rb
+    revision: content-addressed
+    sha256: 8b32302c9dc96752ed0eb3ff7e861864a2aa6a368e90c6cfb9d9c8467833124e
+    eof_required: true
+  - binding_id: scripts_guide_state_contracts
+    path: scripts/registry/state-and-contracts.md
+    revision: "content-addressed"
+    sha256: 1e854f89a77fc49b3a0563dc078c1942be24dc5ecbc83a7a1d02008aa0f9ac16
+    eof_required: true
+  - binding_id: scripts_guide_validators
+    path: scripts/registry/validators.md
+    revision: content-addressed
+    sha256: dac8da3d475203dc9449515046f102b43c0020193caf91a71f79c40562bec34c
+    eof_required: true
+  - binding_id: scripts_guide_research_evidence
+    path: scripts/registry/research-and-evidence.md
+    revision: content-addressed
+    sha256: 2d9e319e64b40e96b18440bcaf7684c9ab39da1e1e64d4db89f902e6366d1283
+    eof_required: true
+  - binding_id: scripts_guide_review_planning
+    path: scripts/registry/review-and-planning.md
+    revision: content-addressed
+    sha256: 5602c5adbac0e9e9945c22e4fb61e2d0d813f3fc2db29fd9fa9a62c1a3cce927
+    eof_required: true
+  - binding_id: scripts_guide_image_title
+    path: scripts/registry/image-and-title.md
+    revision: content-addressed
+    sha256: a4d077fbe9af34c7d3151217ed00dc6f36a08844f6cdfa4a4bd19c4109d63719
+    eof_required: true
+  - binding_id: scripts_guide_video_playback
+    path: scripts/registry/video-and-playback.md
+    revision: content-addressed
+    sha256: 1122301accb9b38be9a0a43a9c9a959b5abd3379a5270b4106dea976f9cf39c5
+    eof_required: true
+  - binding_id: scripts_guide_edit_qc
+    path: scripts/registry/edit-and-qc.md
+    revision: content-addressed
+    sha256: 19b342f3768ca9619c97d3c012a0b7e5346801aae8a6506be2e81818ffacaaac
+    eof_required: true
+  - binding_id: scripts_guide_release_platform
+    path: scripts/registry/release-and-platform.md
+    revision: content-addressed
+    sha256: 9ffa1a94834d5133b1fd00c03894d6e2e1b5b16047cbceb667a7f3af0288762e
+    eof_required: true
+  - binding_id: scripts_guide_runtime_libraries
+    path: scripts/registry/runtime-and-libraries.md
+    revision: "content-addressed"
+    sha256: b3229cd4edfe8fd0aa757a1b4724bc91bb31e685a380fc1bea02a864d23e3265
+    eof_required: true
+  - binding_id: scripts_guide_legacy_one_off
+    path: scripts/registry/legacy-and-one-off.md
+    revision: content-addressed
+    sha256: f88cd474582c372be66e2a06986fab9f6608100981ebd636a7760c053af32f0c
+    eof_required: true
+  - binding_id: mv_direction_module
+    path: skills/idol-mv-director/modules/mv-direction.md
+    revision: content-addressed
+    sha256: b36e84ad02710af47fbb7d7f8e9d1daae75b483dcf390f6cf57efd79a16801ce
+    eof_required: true
+  - binding_id: mv_camera_module
+    path: skills/idol-mv-director/modules/camera-coverage-vocabulary.md
+    revision: content-addressed
+    sha256: cdfbb1947aff60d8e478d3754e953309e9617b2a679a94965386caa829a1c372
+    eof_required: true
+  - binding_id: mv_song_module
+    path: skills/idol-mv-director/modules/song.md
+    revision: content-addressed
+    sha256: 63e5b1352d6c7d20a9039632b1c033ab41515edd1e3fbdfc87287f10d6b05b88
+    eof_required: true
+  - binding_id: mv_screen_flow_wardrobe_module
+    path: skills/idol-mv-director/modules/screen-flow-wardrobe.md
+    revision: content-addressed
+    sha256: d24431c1ea083701988a32cc5fb9663dae5290118f42cc98cac1dd8b8d6a1ba1
+    eof_required: true
+  - binding_id: mv_choreography_module
+    path: skills/idol-mv-director/modules/choreography.md
+    revision: content-addressed
+    sha256: 6b1752654a741663f554c541e577ecf833b0f1db384680696f32fd5d2be66c9a
+    eof_required: true
+  - binding_id: choreography_body_module
+    path: skills/idol-choreography-performance/modules/choreography.md
+    revision: content-addressed
+    sha256: 03b16beed3e939653d12ff78e8fdd98be7e9593bee690335bd33abf19ab222b2
+    eof_required: true
+  - binding_id: choreography_capture_module
+    path: skills/idol-choreography-performance/modules/performance-direction.md
+    revision: content-addressed
+    sha256: 9c54a5de1ae41a846af5ce2038487de4f6bb3de0df986e7ecfb335c4d1a871c2
+    eof_required: true
+  - binding_id: mv_performance_module
+    path: skills/idol-mv-director/modules/performance-direction.md
+    revision: content-addressed
+    sha256: 34309f1376b50ddb7954a619e35e18c9eb9b73c021de14f7f2726969b91f04fa
+    eof_required: true
+  - binding_id: mv_integration_module
+    path: skills/idol-mv-director/modules/integration.md
+    revision: content-addressed
+    sha256: 778077d4a7d16adc87a5cff4a9b779e359d537305f199498c30494888b2e9bea
+    eof_required: true
+  - binding_id: mv_bundle_detail
+    path: skills/idol-mv-director/references/01-bundle-authoring-detail.md
+    revision: content-addressed
+    sha256: 25681cd88a6a16f7276c7b07e16d31a090ea5fd1fec2cc6fe56f8e8c13de0d80
+    eof_required: true
+  - binding_id: fp_02a_coverage_detail
+    path: skills/idol-front-planning-development-block/references/02a-coverage-authoring-detail.md
+    revision: content-addressed
+    sha256: 0e1e8db70707cc1cd5a05217038c9cd434f5b00ed648e8038a5d1a5a23318e55
+    eof_required: true
+  - binding_id: generation_02a_handoff
+    path: skills/idol-generation/references/02a-preview-harness-handoff.md
+    revision: content-addressed
+    sha256: 5a9bcda6efd16f0c97f21d3a53fd4f7d6f47bac9de2b55babaf968666202b41f
+    eof_required: true
+  - binding_id: generation_prompt_compile
+    path: skills/idol-generation/references/prompt-packet-compile-detail.md
+    revision: content-addressed
+    sha256: e7600f2b8d5439c15233ff94643f5df3cdbfbe76d4483c0dc1f2d51bf01b8bea
+    eof_required: true
+  - binding_id: generation_render_correction
+    path: skills/idol-generation/references/image-render-correction-fast-lane.md
+    revision: content-addressed
+    sha256: 651f18202c4e6c9df973559ae2de71027ab910c6f91fe808593ba50e48ad133c
+    eof_required: true
+  - binding_id: master_storyboard_schema
+    path: schemas/master-storyboard.schema.json
+    revision: content-addressed
+    sha256: 4631320ae9aa6615406b8dc6a681fa2872cb272dc7ceebff4789c18055e7edef
+    eof_required: true
+  - binding_id: song_choreography_performance_schema
+    path: schemas/song-choreography-performance-mv-map.schema.json
+    revision: content-addressed
+    sha256: 1d64835d7bf65f6a7ee998806392369ca09e97f9883ee15885c17f50d39882a2
+    eof_required: true
+  - binding_id: creative_context_review_schema
+    path: schemas/02a-creative-context-review.schema.json
+    revision: content-addressed
+    sha256: 1376d9e19cff78e96074559942337c5b7168b48da2d3cc8627270985fd51234b
+    eof_required: true
+  - binding_id: founder_review_decision_intake_schema
+    path: schemas/founder-review-decision-intake.schema.json
+    revision: content-addressed
+    sha256: c2a87ba6a01affc85536849e0db0d14bde2bd5e02c9614ac09e16f1efa5961f7
+    eof_required: true
+  - binding_id: provider_profile_registry
+    path: automation/harness-provider-profile-registry.yaml
+    revision: content-addressed
+    sha256: b2106ed9528390a6cf324dc72a8cc7c806458bbe1bbab1b63e1153dbe26a8f86
+    eof_required: true
+  - binding_id: provider_profile_registry_schema
+    path: schemas/harness-provider-profile-registry.schema.json
+    revision: content-addressed
+    sha256: a006748473675e39f1d55fb56bb4895a5f10e02d41f098dd6b3aa0a7af2ebb4b
+    eof_required: true
+  - binding_id: codex_native_media_profiles
+    path: automation/providers/codex-native-media-profiles.yaml
+    revision: content-addressed
+    sha256: cfb2e4aec30e813aae172e6a11bd36c01aaa7fe554a76a23f2d7eaf738818e3e
+    eof_required: true
+  - binding_id: codex_native_media_profile_schema
+    path: schemas/codex-native-media-provider-profiles.schema.json
+    revision: content-addressed
+    sha256: df1fe902a506d81aba1c8262bbcc21085e735c2af1c740df766e04088db47ce1
+    eof_required: true
+  - binding_id: grok_build_profiles
+    path: automation/providers/grok-build-profiles.yaml
+    revision: content-addressed
+    sha256: 99f82a3f4b4591d3b0e8ec9eba27050fa1c01628104b5a6b789ff2ceb23f494d
+    eof_required: true
+  - binding_id: openai_image_profiles
+    path: automation/providers/openai-image-profiles.yaml
+    revision: content-addressed
+    sha256: d7c30f0cb5a1a0cf28dd3c0977960725abe2c5f120faf8e589d25ad2b82e2774
+    eof_required: true
+  - binding_id: xai_api_media_profile_schema
+    path: schemas/xai-api-media-provider-profiles.schema.json
+    revision: content-addressed
+    sha256: 6e31703cd50f2b48d905062854abe706243855e74ec2ce1a2e59f4a29a261079
+    eof_required: true
+  - binding_id: prompt_packet_delta_schema
+    path: schemas/prompt-packet-delta.schema.json
+    revision: content-addressed
+    sha256: 405e5c82c864e51cc8a8c332747119c94ced4241d5f70a086d0396a534e75baa
+    eof_required: true
+  - binding_id: prompt_packets_schema
+    path: schemas/prompt-packets.schema.json
+    revision: content-addressed
+    sha256: 74d4f04a4c9644a63a7225860a482fea74bea87927da0185d90ea9dc0fd8cc8a
+    eof_required: true
+  - binding_id: image_generation_request_schema
+    path: schemas/image-generation-request.schema.json
+    revision: content-addressed
+    sha256: e23bb429370957716cbbd8d7ed6e073da9ce6b733e2503c2a74adcb68e0aa17a
+    eof_required: true
+  - binding_id: harness_context_pack_schema
+    path: schemas/harness-context-pack.schema.json
+    revision: content-addressed
+    sha256: 0ef110561f2ff1b5e21124f1b821eb7ccf3e164b0d8a6550a546578a2f112bf7
+    eof_required: true
+  - binding_id: image_generation_section_approval_schema
+    path: schemas/image-generation-section-approval.schema.json
+    revision: content-addressed
+    sha256: ca130f5e1ddde8d6128a5b4609dd4aa6ff7e2ddbe95416fe796d3fc083bf6716
+    eof_required: true
+  - binding_id: generated_review_schema
+    path: schemas/review.schema.json
+    revision: content-addressed
+    sha256: 61d1ba7455f68307417f6bbd84a5542db364ba72d3d3e4c64709994692d8bf82
+    eof_required: true
+  - binding_id: production_cut_review_schema
+    path: schemas/production-cut-review.schema.json
+    revision: content-addressed
+    sha256: f816bc65de124f0f04e76d1ddb9ce6f677e7b864ba1afaeec0c8db34d3a16799
+    eof_required: true
+  - binding_id: image_generation_execution_receipt_schema
+    path: schemas/image-generation-execution-receipt.schema.json
+    revision: content-addressed
+    sha256: ecd83a681328a7b90660276bb62d7f97e53b2626d0c947be795c001b146ebba9
+    eof_required: true
+  - binding_id: luna_section_lifecycle_execution_schema
+    path: schemas/luna-section-lifecycle-execution-record.schema.json
+    revision: content-addressed
+    sha256: de0e29bbe761aa4ea27590627d05fb06b85d73306825207c0858347a7ada13d3
+    eof_required: true
+  - binding_id: luna_section_lifecycle_receipt_schema
+    path: schemas/luna-section-lifecycle-receipt.schema.json
+    revision: content-addressed
+    sha256: bc8d4f911c3fe04435a81cdfa07c74b16ffa88caa91d426d8899d14ba61e343b
+    eof_required: true
+  - binding_id: video_prompt_section_qa_schema
+    path: schemas/video-prompt-section-qa.schema.json
+    revision: content-addressed
+    sha256: 0479cde8a1145a1129375b9c80c880894335f3d04ab75451aa0ba1d2cf7a03c0
+    eof_required: true
+  - binding_id: llm_review_execution_record_schema
+    path: schemas/llm-review-execution-record.schema.json
+    revision: content-addressed
+    sha256: 747bef76d75e7b47806a58c75fbfa737e19694de8fd632412041d08570903ac7
+    eof_required: true
+  - binding_id: html_review_board_schema
+    path: schemas/html-review-board.schema.json
+    revision: content-addressed
+    sha256: be73804b83dff3962fd9fc7513918fcaaec24febdfcfef99e396fd0d417b96ce
+    eof_required: true
+  - binding_id: audio_branch_cut_placement_schema
+    path: schemas/audio-branch-cut-placement.schema.json
+    revision: content-addressed
+    sha256: 0db2e470eaae6f092f4b828d83140c40d277001d4001e0490fea2668e9a15d4e
+    eof_required: true
+  - binding_id: video_prompt_storyboard_assist_schema
+    path: schemas/video-prompt-storyboard-assist.schema.json
+    revision: content-addressed
+    sha256: 4f804b179dde1fa139370fee3f892d3f3b295e468d0e8e37a4ea4fc168cba29c
+    eof_required: true
+  - binding_id: authoring_source_pack_03v_schema
+    path: schemas/03v-authoring-source-pack.schema.json
+    revision: content-addressed
+    sha256: e572df1ee55263475637f93dc7944db12c946c7602c79d7b0b9a2ff9e328f0bf
+    eof_required: true
+  - binding_id: video_prompt_manifest_schema
+    path: schemas/video-prompt-manifest.schema.json
+    revision: content-addressed
+    sha256: b89e3023d343d1263d1909fcbc319e59fe6fa38c28ed92c44b585d3d4d0a1e88
+    eof_required: true
+  - binding_id: video_prompt_authoring_detail
+    path: skills/idol-video-prompt/references/video-prompt-authoring-detail.md
+    revision: content-addressed
+    sha256: 29a837ef59f851543d42dfe344361b0ef7df4e7558f232d73ec2342cf86476d1
+    eof_required: true
+  - binding_id: video_storyboard_assist_detail
+    path: skills/idol-video-prompt/references/storyboard-assisted-branch-cuts.md
+    revision: content-addressed
+    sha256: d8a618023faeaf3db96c8974ab91ac82977c128ad1228c0126064f958e9ae381
+    eof_required: true
+  - binding_id: generation_review_system
+    path: wiki/generation-review-system.md
+    revision: content-addressed
+    sha256: e9b9c685a4ebcc9e1541a2c0540402d9988b654c670645dc658de3b76ea3b86f
+    eof_required: true
+  - binding_id: edit_map_schema
+    path: schemas/edit-map.schema.json
+    revision: content-addressed
+    sha256: a9cde4715d23c847027d95e0392914af4f4122adad8c60a6c988ca21bcdfaa28
+    eof_required: true
+  - binding_id: edit_marker_plan_schema
+    path: schemas/edit-marker-plan.schema.json
+    revision: content-addressed
+    sha256: 5b061f806ce948b85f69c025e68a9fa2f434e1de92b6f477c75a669cbeeb9755
+    eof_required: true
+  - binding_id: edit_recipe_schema
+    path: schemas/edit-recipe.schema.json
+    revision: content-addressed
+    sha256: a4fc6f699a5d11d45d6d19dd32270c2f47c4e4fd9b8d44e94f54c50132124d19
+    eof_required: true
+  - binding_id: edit_finishing_fx_schema
+    path: schemas/edit-finishing-fx.schema.json
+    revision: content-addressed
+    sha256: 727b5e7514ed015e7c537f48fef2b3affa64d1d6f98d298c209af3806cbee03d
+    eof_required: true
+  - binding_id: edit_finishing_compile_schema
+    path: schemas/edit-finishing-fx-compile-manifest.schema.json
+    revision: content-addressed
+    sha256: 4938c18fa118df43f7e24459918ab5a7d760f88aea54d0430505bba1fe5f3356
+    eof_required: true
+  - binding_id: edit_render_manifest_schema
+    path: schemas/edit-render-manifest.schema.json
+    revision: content-addressed
+    sha256: 17690c65e808faf44c8278184d3b1d507eab6c71f626f39ff583da15eb2858ee
+    eof_required: true
+  - binding_id: edit_cutpoint_sheet_schema
+    path: schemas/edit-cutpoint-sheet-manifest.schema.json
+    revision: content-addressed
+    sha256: f1f2d3e47bc4c48f816f52f754dd72219cf7ad9d2487852eb206226030e29d60
+    eof_required: true
+  - binding_id: edit_delivery_qc_schema
+    path: schemas/edit-delivery-qc.schema.json
+    revision: content-addressed
+    sha256: dae0413f90e892f70602850f28c5e1058bf2fd79bab4e8e4030184122837c157
+    eof_required: true
+  - binding_id: edit_qc_closeout_schema
+    path: schemas/edit-qc-closeout.schema.json
+    revision: content-addressed
+    sha256: ad94cb022a4f5f2cbe22705b435a09f9b45df9b5fbb12ff9ee3278c3472403be
+    eof_required: true
+  - binding_id: package_schema
+    path: schemas/package.schema.json
+    revision: content-addressed
+    sha256: f9665e5a42632c1e9acd3a543e72cc931305c6299a5f822bfa96c28947de2d9b
+    eof_required: true
+  - binding_id: editing_qc_detail
+    path: skills/idol-editing-qc/references/editing-qc-detail.md
+    revision: content-addressed
+    sha256: c8cce9afc95fff0b0177817d8902e83a8511afc6ec21f30cd5b72bbc9b84984d
+    eof_required: true
+  - binding_id: editing_casebook
+    path: skills/idol-editing-qc/references/professional-edit-decision-casebook.md
+    revision: content-addressed
+    sha256: bf4a64b4e259b8959c037d197fa4e641aeb6d0fe6bdd8d29c501980517fd9358
+    eof_required: true
+  - binding_id: edit_effect_registry
+    path: automation/edit-effect-registry.yaml
+    revision: content-addressed
+    sha256: 1522da6fb226cb8d0cca0864ab884386e2dfd58fedf49e3b6352d6ab929ac7fa
+    eof_required: true
+  - binding_id: local_ffmpeg_effect_catalog
+    path: skills/idol-edit-finishing-fx/references/local-ffmpeg-transition-effect-catalog.md
+    revision: content-addressed
+    sha256: 092480b1db3f5cfcb247ec1ddd11f7b528c84a85a98b909a366fd3ff2f7e8fd9
+    eof_required: true
+  - binding_id: professional_effect_casebook
+    path: skills/idol-edit-finishing-fx/references/professional-edit-effect-casebook.md
+    revision: content-addressed
+    sha256: c8eaac7fb76c84cd2ac9f8130282827b999e9098a79c695121e0eef3cd65a9da
+    eof_required: true
+  - binding_id: ae_like_effect_map
+    path: skills/idol-edit-finishing-fx/references/ae-like-effect-map.md
+    revision: content-addressed
+    sha256: 911932f37ea73970ca644329e986905670354a142e576474d9cec359a69e88fd
+    eof_required: true
+  - binding_id: shot_vfx_manual
+    path: skills/idol-shot-vfx/references/04vfx-manual-use-and-runtime.md
+    revision: content-addressed
+    sha256: 10ae5707d2a363865edf9a18ef4e295aaaa07d236afe64e210bce2c687442e72
+    eof_required: true
+  - binding_id: shot_vfx_catalog
+    path: skills/idol-shot-vfx/references/shot-vfx-catalog.md
+    revision: content-addressed
+    sha256: 7d0a6919194b7059a584e6b46ecdda4d657f17f538112144f22cb23853e6f614
+    eof_required: true
+  - binding_id: member_visual_character_card_contract
+    path: skills/idol-member-visual-identity/references/character-card-contract.md
+    revision: content-addressed
+    sha256: 356713c5181dcc7b18dceea15217a8364b7d45bbe0038ac5aa53d791ce6fb173
+    eof_required: true
+  - binding_id: member_visual_prompt_field_guide
+    path: skills/idol-member-visual-identity/references/character-card-prompt-field-guide.md
+    revision: content-addressed
+    sha256: 79c4f92f4d584bd54edc4ba2cf66f0b165c3dfcd09446c77f15af90c7c80b38b
+    eof_required: true
+  - binding_id: grok_subagent_roster
+    path: .grok/skills/idol-grok-harness-owner/references/subagent-roster.md
+    revision: content-addressed
+    sha256: cefe3a66bc93de9f92272da5d8c856d4eae7407476b395a6f0065b3001ec1cd4
+    eof_required: true
+
+profiles:
+  - profile_id: overall_director
+    role: overall_director
+    provider_neutral: true
+    stage_ids: [creative_route_discovery, front_planning_integration, mv_storyboard_direction, master_package_release]
+    required_skill_ids: [orchestrator]
+    required_read_ids: [agents, routing_policy, section_production_policy, production_system, harness_stage_registry, harness_execution_contract, cdd_session_router_state_schema, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: director_startup
+          activation: dispatch_launch
+          required_skill_ids: [orchestrator]
+          required_read_ids: [agents, routing_policy, section_production_policy, production_system, harness_stage_registry, harness_execution_contract, cdd_session_router_state_schema, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_return
+    output_contract:
+      kinds: [director_development_report, decision_set]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: overall_director
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [route_recommendation, director_promotion, founder_presentation]
+      must_not: [secret_exposure, unapproved_external_action, automatic_founder_lock]
+    return_route:
+      recipient_role: founder
+      director_review_required: true
+      promotion_route: role_owner_after_required_review
+    hold_conditions: [missing_required_read, stale_input_digest, unresolved_founder_gate]
+
+  - profile_id: creative_development_director
+    role: creative_development_director
+    provider_neutral: true
+    stage_ids: [front_planning_integration, storyboard_review]
+    required_skill_ids: [front_planning_director]
+    required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_workbench, section_production_01_02a, section_production_front_planning, creative_constitution, production_system, harness_execution_contract, cdd_session_router_state_schema, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, pre00_selection_handoff_schema, front_planning_schema, sequence_motion_analysis_schema, sequence_motion_analysis_validator, director_dispatch_index_schema, reference_working_index_schema, section_slice_schema, creative_context_review_schema, llm_review_execution_record_schema, founder_review_decision_intake_schema, html_review_board_schema, fp_operating_contract, fp_reference_management, director_room_discovery, fp_harness_wiki, fp_founder_visual_contract]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: cdd_startup
+          activation: dispatch_launch
+          required_skill_ids: [front_planning_director]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, creative_constitution, production_system, harness_execution_contract, cdd_session_router_state_schema, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, pre00_selection_handoff_schema, front_planning_schema, director_dispatch_index_schema, reference_working_index_schema, fp_operating_contract, fp_reference_management]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_development_checkpoint
+        - checkpoint_id: cdd_direction_alignment
+          activation: founder_direction_alignment_review_same_cdd_lineage
+          required_skill_ids: [front_planning_director]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_workbench, section_production_front_planning, creative_constitution, production_system, harness_execution_contract, provider_neutral_studio_kernel, orchestration_routing_detail, department_dispatch_schema, pre00_selection_handoff_schema, front_planning_schema, director_dispatch_index_schema, reference_working_index_schema, fp_operating_contract, director_room_discovery, fp_founder_visual_contract]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_development_checkpoint
+        - checkpoint_id: cdd_sequence_motion_review
+          activation: sequence_motion_analysis_returned_for_cdd_review
+          required_skill_ids: [front_planning_director]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, creative_constitution, production_system, department_dispatch_schema, front_planning_schema, reference_working_index_schema, sequence_motion_analysis_schema, sequence_motion_analysis_validator, fp_operating_contract, fp_reference_management]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+        - checkpoint_id: cdd_02a_final_planning_review
+          activation: fp_close_01_02a_returns_reviewed_same_cdd_lineage
+          required_skill_ids: [front_planning_director]
+          required_read_ids: [agents, section_production_policy, section_production_workbench, section_production_01_02a, section_production_front_planning, production_system, department_dispatch_schema, reference_working_index_schema, section_slice_schema, creative_context_review_schema, llm_review_execution_record_schema, founder_review_decision_intake_schema, html_review_board_schema, fp_operating_contract, fp_reference_management, fp_harness_wiki, fp_founder_visual_contract]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+    output_contract:
+      kinds: [director_development_report, decision_set, section_dispatch_map]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: creative_development_director
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [bounded_dispatch, reference_working_index_review, section_shard_review]
+      must_not: [founder_lock, source_hub_promotion, canonical_promotion_without_overall]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_dispatch_scope, missing_reference_floor, stale_required_read, overlapping_owner, compiled_launch_profile_mismatch, founder_permission_missing, unresolved_origin, cdd_successor_boot_pack_incomplete]
+
+  - profile_id: pre_song_research
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [creative_route_discovery]
+    required_skill_ids: [research_radar]
+    required_read_ids: [agents, production_system, routing_policy, media_security_policy, radar_authoring_detail, pre00_radar_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: pre00_scan
+          activation: dispatch_launch
+          required_skill_ids: [research_radar]
+          required_read_ids: [agents, production_system, routing_policy, media_security_policy, radar_authoring_detail, pre00_radar_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [decision_set, director_development_report]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [evidence_curation]
+      must_not: [target_lock, song_lock, section_direction]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_audience_evidence, unsupported_target_connection, external_permission_missing, founder_permission_missing, unresolved_origin]
+
+  - profile_id: song_room_prompt
+    role: song_room
+    provider_neutral: true
+    stage_ids: [song_direction_design]
+    required_skill_ids: [suno_prompt]
+    required_read_ids: [agents, production_system, routing_policy, pre00_selection_handoff_schema, pre00_song_system, production_bible, trend_pulse_latest, voice_style_index, department_dispatch_schema, suno_prompt_authoring_detail, reference_song_fit_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: song_prompt_authoring
+          activation: dispatch_launch
+          required_skill_ids: [suno_prompt]
+          required_read_ids: [agents, production_system, routing_policy, pre00_selection_handoff_schema, pre00_song_system, production_bible, trend_pulse_latest, voice_style_index, department_dispatch_schema, suno_prompt_authoring_detail]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+        - checkpoint_id: song_prompt_reference_fit
+          activation: founder_song_reference_or_selected_sound_anchor
+          required_skill_ids: [suno_prompt]
+          required_read_ids: [agents, production_system, routing_policy, pre00_selection_handoff_schema, pre00_song_system, production_bible, trend_pulse_latest, voice_style_index, department_dispatch_schema, suno_prompt_authoring_detail, reference_song_fit_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+    output_contract:
+      kinds: [decision_set]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: song_room
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [prompt_candidates]
+      must_not: [selected_song_lock, external_paid_generation]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [target_mismatch, unsupported_song_reward, missing_audio_boundary, reference_song_fit_missing]
+
+  - profile_id: song_room_00a
+    role: song_room
+    provider_neutral: true
+    stage_ids: [candidate_track_analysis, audio_screen_motion_map, song_production_lock]
+    required_skill_ids: [song_lock]
+    required_read_ids: [agents, production_system, routing_policy, creative_constitution, pre00_selection_handoff_schema, pre00_song_system, department_dispatch_schema, selected_audio_schema, audio_motion_schema, song_lock_schema, song_lock_detail, scripts_start_here, scripts_guide_research_evidence]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: selected_audio_analysis
+          activation: dispatch_launch
+          required_skill_ids: [song_lock]
+          required_read_ids: [agents, production_system, routing_policy, creative_constitution, pre00_selection_handoff_schema, pre00_song_system, department_dispatch_schema, selected_audio_schema, song_lock_detail, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: song_room_checkpoint
+        - checkpoint_id: audio_screen_motion_map
+          activation: selected_audio_analysis_accepted_same_song_room_lineage
+          required_skill_ids: [song_lock]
+          required_read_ids: [agents, production_system, routing_policy, creative_constitution, pre00_selection_handoff_schema, pre00_song_system, department_dispatch_schema, selected_audio_schema, audio_motion_schema, song_lock_detail, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: song_room_checkpoint
+        - checkpoint_id: song_production_lock
+          activation: audio_screen_motion_map_accepted_same_song_room_lineage
+          required_skill_ids: [song_lock]
+          required_read_ids: [agents, production_system, routing_policy, creative_constitution, pre00_selection_handoff_schema, pre00_song_system, department_dispatch_schema, selected_audio_schema, audio_motion_schema, song_lock_schema, song_lock_detail]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [decision_set, director_development_report]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: song_room
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [audio_analysis, screen_motion_map]
+      must_not: [founder_song_lock, target_redefinition]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_audio_source, target_song_mismatch, unresolved_founder_decision]
+
+  - profile_id: reference_research_generalist
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [reference_research_department]
+    required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, sequence_motion_analysis_schema, sequence_motion_analysis_validator, mv_camera_module, source_video_readme, source_video_read_first, video_first_read_contract, scripts_start_here, scripts_guide_research_evidence, source_image_readme, world_still_contact_sheet_contract]
+    phase_load:
+      preload_skill_ids: [reference_research_department]
+      preload_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema]
+      checkpoints:
+        - checkpoint_id: reference_story_sequence_role
+          activation: dispatch_role_story_or_sequence
+          required_skill_ids: [reference_research_department]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, sequence_motion_analysis_schema, sequence_motion_analysis_validator, source_video_readme, source_video_read_first, video_first_read_contract, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_checkpoint
+        - checkpoint_id: reference_camera_composition_role
+          activation: dispatch_role_camera_or_composition
+          required_skill_ids: [reference_research_department]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, mv_camera_module, source_video_readme, source_video_read_first, video_first_read_contract, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_checkpoint
+        - checkpoint_id: reference_world_object_material_role
+          activation: dispatch_role_world_object_or_material_challenge
+          required_skill_ids: [reference_research_department]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_checkpoint
+        - checkpoint_id: reference_performance_role
+          activation: section_declares_source_bound_performance_gap
+          required_skill_ids: [reference_research_department]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, source_video_readme, source_video_read_first, video_first_read_contract, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_checkpoint
+        - checkpoint_id: reference_named_gap
+          activation: cdd_named_gap_after_role_return
+          required_skill_ids: [reference_research_department]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [section_reference_set, reference_working_index_delta]
+      canonical_write: forbidden
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [evidence_curation, bounded_source_to_screen_delta]
+      must_not: [source_hub_promotion, canonical_index_write, founder_lock, external_capture_without_permission]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_pixels_or_sequence, missing_read_first, source_overlap, reference_floor_unmet, permission_missing, founder_permission_missing, unresolved_origin, compiled_launch_profile_mismatch]
+
+  - profile_id: world_still_reference_department
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [world_still_reference_department]
+    required_read_ids: [agents, production_system, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract]
+    phase_load:
+      preload_skill_ids: [world_still_reference_department]
+      preload_read_ids: [agents, production_system, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, world_still_contact_sheet_contract]
+      checkpoints:
+        - checkpoint_id: world_still_pass_a
+          activation: dispatch_launch
+          required_skill_ids: [world_still_reference_department]
+          required_read_ids: [agents, production_system, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_contact_sheet_checkpoint
+        - checkpoint_id: world_still_pass_b
+          activation: cdd_named_still_gap_after_pass_a
+          required_skill_ids: [world_still_reference_department]
+          required_read_ids: [agents, production_system, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [decision_set, reference_working_index_delta]
+      canonical_write: forbidden
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [still_image_evidence_curation, bounded_source_to_screen_delta, contact_sheet_comparison]
+      must_not: [video_search, video_open, video_download, video_playback, video_sampling, frame_extraction, video_hub_load, pinterest_search, pinterest_open, pinterest_capture, pinterest_quota_ownership, canonical_index_write, founder_lock, generation, stage_01_or_02a_authoring, creative_child_spawn]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [video_route_touched, pinterest_route_touched_instead_of_pointer_handoff, multi_image_comparison_without_contact_sheet, contact_sheet_missing, contact_sheet_stale_or_cropped, candidate_missing_from_sheet, individual_candidate_path_or_hash_missing, function_coverage_missing, source_overlap, permission_missing, founder_permission_missing, unresolved_origin, compiled_launch_profile_mismatch]
+
+  - profile_id: pinterest_visual_composition_worker
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [pinterest_reference_worker]
+    required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract, pinterest_section_comparison_detail, pinterest_2d_to_photoreal_wardrobe_method]
+    phase_load:
+      preload_skill_ids: [pinterest_reference_worker]
+      preload_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema]
+      checkpoints:
+        - checkpoint_id: pinterest_section_comparison
+          activation: direction_alignment_section_cohorts_ready
+          required_skill_ids: [pinterest_reference_worker]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_front_planning, department_dispatch_schema, reference_working_index_schema, section_slice_schema, fp_operating_contract, fp_reference_management, source_image_readme, world_still_contact_sheet_contract, pinterest_section_comparison_detail, pinterest_2d_to_photoreal_wardrobe_method]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [decision_set, reference_working_index_delta]
+      canonical_write: forbidden
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [public_pin_evidence_curation, bounded_source_to_screen_delta, contact_sheet_comparison]
+      must_not: [video_search, video_open, private_or_logged_in_pinterest, bulk_scrape, face_identity_inference, world_still_canonical_ownership, canonical_index_write, founder_lock, generation, stage_01_or_02a_authoring, creative_child_spawn]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [named_section_gap_lacks_professionally_decision_ready_public_pin_evidence, public_pin_identity_missing, candidate_role_missing, multi_image_comparison_without_contact_sheet, contact_sheet_stale_or_cropped, ordinary_reference_floor_replaced, private_or_video_surface_touched, permission_missing, source_overlap, compiled_launch_profile_mismatch, sentence_query_or_storyline_lyric_camera_essay, extra_same_work_event_grammar_lacks_named_alternative]
+
+  - profile_id: source_hub_registration
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [video_reference_hub]
+    required_read_ids: [agents, routing_policy, media_security_policy, department_dispatch_schema, fp_reference_management, source_video_readme, source_video_read_first, video_first_read_contract, video_analysis_example, scripts_start_here, scripts_guide_research_evidence]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: source_registration_and_reusable_analysis
+          activation: cdd_selected_unregistered_or_stale_source_candidate
+          required_skill_ids: [video_reference_hub]
+          required_read_ids: [agents, routing_policy, media_security_policy, department_dispatch_schema, fp_reference_management, source_video_readme, source_video_read_first, video_first_read_contract, video_analysis_example, scripts_start_here, scripts_guide_research_evidence]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [bounded_artifact]
+      canonical_write: owner_only
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: mechanical_coordinator
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [source_identity_evidence, reusable_layer_a_b_analysis]
+      must_not: [current_run_disposition, section_binding, founder_lock, current_run_direction, unapproved_external_capture]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: role_owner_after_required_review
+    hold_conditions: [source_bytes_missing, source_revision_stale, permission_missing, reusable_analysis_incomplete, founder_permission_missing, unresolved_origin, compiled_launch_profile_mismatch]
+
+  - profile_id: member_visual_identity
+    role: member_visual_identity_owner
+    provider_neutral: true
+    stage_ids: [front_planning_integration]
+    required_skill_ids: [member_visual_identity]
+    required_read_ids: [agents, production_system, section_production_policy, section_production_front_planning, department_dispatch_schema, member_visual_character_card_contract, member_visual_prompt_field_guide]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: member_visual_review
+          activation: dispatch_launch
+          required_skill_ids: [member_visual_identity]
+          required_read_ids: [agents, production_system, section_production_policy, section_production_front_planning, department_dispatch_schema, member_visual_character_card_contract, member_visual_prompt_field_guide]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: founder_review_return
+    output_contract:
+      kinds: [decision_set]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: member_visual_identity_owner
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [appearance_candidate_analysis]
+      must_not: [identity_source_substitution, founder_promotion, downstream_face_only_lane]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_face_only_source, identity_conflict, member_visibility_unproven]
+
+  - profile_id: pre_02a_development_block_fp
+    role: department_worker
+    provider_neutral: true
+    stage_ids: [front_planning_integration, mv_performance_direction, mv_storyboard_direction]
+    required_skill_ids: [front_planning_development_block, mv_director, choreography_performance, choreography_board]
+    required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_01_02a, section_production_front_planning, creative_constitution, production_system, department_dispatch_schema, section_slice_schema, fp_operating_contract, fp_reference_management, mv_direction_module, mv_camera_module, kinetic_slot_sheet_schema, mv_song_module, mv_screen_flow_wardrobe_module, mv_choreography_module, mv_performance_module, mv_integration_module, mv_bundle_detail, choreography_body_module, choreography_capture_module, song_choreography_performance_schema, fp_02a_coverage_detail, master_storyboard_schema]
+    phase_load:
+      preload_skill_ids: [front_planning_development_block]
+      preload_read_ids: [agents, routing_policy, section_production_policy, section_production_front_planning, creative_constitution, production_system, department_dispatch_schema, section_slice_schema]
+      checkpoints:
+        - checkpoint_id: fp_close_shard
+          activation: founder_direction_aligned_same_development_epoch
+          required_skill_ids: [front_planning_development_block]
+          required_read_ids: [agents, routing_policy, section_production_policy, section_production_front_planning, creative_constitution, production_system, department_dispatch_schema, section_slice_schema, fp_operating_contract, fp_reference_management, mv_camera_module, kinetic_slot_sheet_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_checkpoint
+        - checkpoint_id: section_01_core_direction
+          activation: director_closed_fp_checkpoint
+          required_skill_ids: [mv_director]
+          required_read_ids: [agents, routing_policy, section_production_policy, section_production_01_02a, creative_constitution, production_system, department_dispatch_schema, section_slice_schema, fp_operating_contract, mv_direction_module, mv_camera_module, mv_bundle_detail, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_role_detail_checkpoints
+        - checkpoint_id: section_01_song_story_detail
+          activation: section_role_song_or_story_progression
+          required_skill_ids: [mv_director]
+          required_read_ids: [agents, section_production_policy, section_production_01_02a, section_slice_schema, fp_operating_contract, mv_song_module, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_01_integration
+        - checkpoint_id: section_01_world_wardrobe_detail
+          activation: section_role_world_object_wardrobe_styling_or_material
+          required_skill_ids: [mv_director]
+          required_read_ids: [agents, section_production_policy, section_production_01_02a, section_slice_schema, fp_operating_contract, mv_screen_flow_wardrobe_module, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_01_integration
+        - checkpoint_id: section_01_choreography_detail
+          activation: section_role_source_bound_choreography
+          required_skill_ids: [mv_director, choreography_performance]
+          required_read_ids: [agents, routing_policy, section_production_policy, section_production_01_02a, creative_constitution, production_system, department_dispatch_schema, section_slice_schema, fp_operating_contract, mv_choreography_module, choreography_body_module, choreography_capture_module, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_01_choreography_board_or_integration
+        - checkpoint_id: section_01_choreography_board
+          activation: primary_or_supporting_full_choreography_phrase_requires_image_board
+          required_skill_ids: [choreography_board]
+          required_read_ids: [agents, creative_constitution, section_production_policy, section_production_01_02a, section_slice_schema, song_choreography_performance_schema, master_storyboard_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_01_integration
+        - checkpoint_id: section_01_performance_detail
+          activation: section_role_performance_body_or_gaze_without_choreography_authority
+          required_skill_ids: [mv_director]
+          required_read_ids: [agents, section_production_policy, section_production_01_02a, section_slice_schema, fp_operating_contract, mv_performance_module, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_01_integration
+        - checkpoint_id: section_01_integration
+          activation: all_declared_section_role_details_complete
+          required_skill_ids: [mv_director]
+          required_read_ids: [agents, section_production_policy, section_production_01_02a, section_slice_schema, fp_operating_contract, mv_integration_module, mv_bundle_detail, song_choreography_performance_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_checkpoint
+        - checkpoint_id: section_02a_coverage
+          activation: director_accepted_01_checkpoint_same_development_epoch
+          required_skill_ids: [front_planning_development_block]
+          required_read_ids: [agents, routing_policy, media_security_policy, section_production_policy, section_production_01_02a, creative_constitution, production_system, department_dispatch_schema, section_slice_schema, fp_operating_contract, mv_camera_module, fp_02a_coverage_detail, master_storyboard_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: cdd_review_return
+    output_contract:
+      kinds: [pre_02a_section_working_shard]
+      canonical_write: forbidden
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [section_evidence_shard, bounded_action_camera_branch_coverage]
+      must_not: [canonical_merge, founder_lock, target_song_member_reselection, prompt_compilation, image_generation, post02a_execution]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [section_scope_overlap, missing_reference_floor, stale_checkpoint, missing_current_title_binding, declared_role_module_missing, integration_checkpoint_missing, material_departure_requires_founder_exception, anti_flat_unproven]
+
+  - profile_id: post_02a_02b_image
+    role: section_owner
+    provider_neutral: true
+    stage_ids: [image_prompt_compilation, image_generation_release_gate, branch_cut_generation, generated_branch_cut_review]
+    required_skill_ids: [generation]
+    required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, creative_constitution, department_dispatch_schema, master_storyboard_schema, provider_profile_registry, provider_profile_registry_schema, grok_build_profiles, openai_image_profiles, prompt_packet_delta_schema, prompt_packets_schema, harness_context_pack_schema, image_generation_section_approval_schema, image_generation_request_schema, image_generation_execution_receipt_schema, generated_review_schema, production_cut_review_schema, generation_prompt_compile, generation_render_correction]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: section_02b_image
+          activation: exact_02a_section_approval
+          required_skill_ids: [generation]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, creative_constitution, department_dispatch_schema, master_storyboard_schema, provider_profile_registry, provider_profile_registry_schema, grok_build_profiles, prompt_packet_delta_schema, prompt_packets_schema, harness_context_pack_schema, generation_prompt_compile]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: image_generation_release_checkpoint
+        - checkpoint_id: section_image_generation_release
+          activation: founder_paid_generation_approval_for_exact_section
+          required_skill_ids: [generation]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, department_dispatch_schema, provider_profile_registry, provider_profile_registry_schema, grok_build_profiles, openai_image_profiles, prompt_packets_schema, harness_context_pack_schema, image_generation_section_approval_schema, image_generation_request_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: generated_pixels_return
+        - checkpoint_id: section_generated_image_review
+          activation: generated_pixels_and_request_receipt_exist
+          required_skill_ids: [generation]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, department_dispatch_schema, image_generation_request_schema, image_generation_execution_receipt_schema, generated_review_schema, production_cut_review_schema]
+          fresh_input_digest: true
+          same_lineage: false
+          unload_after: generated_image_review_return
+        - checkpoint_id: section_image_render_correction
+          activation: named_render_local_defect_after_held_or_rejected_pixel_review
+          required_skill_ids: [generation]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, department_dispatch_schema, provider_profile_registry, provider_profile_registry_schema, grok_build_profiles, prompt_packets_schema, image_generation_request_schema, generated_review_schema, generation_render_correction]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: corrected_image_review_return
+    output_contract:
+      kinds: [section_dispatch_map]
+      canonical_write: forbidden
+      expected_scope: section
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: section_owner
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [prompt_translation, prompt_compile, generation_execution, pixel_review]
+      must_not: [gpt_image_1, provider_specific_creative_rewrite, paid_generation_without_permission, another_section_load, pre02a_chat_load]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_exact_02a_approval, binding_hash_mismatch, image_permission_missing, pixel_review_missing]
+
+  - profile_id: post_02a_03v
+    role: section_owner
+    provider_neutral: true
+    stage_ids: [audio_branch_cut_placement, video_motion_direction, video_playback_review]
+    required_skill_ids: [video_prompt]
+    required_read_ids: [agents, media_security_policy, section_production_policy, section_production_03v, section_production_02b_pixel, creative_constitution, department_dispatch_schema, mv_camera_module, generated_review_schema, production_cut_review_schema, audio_branch_cut_placement_schema, video_prompt_storyboard_assist_schema, authoring_source_pack_03v_schema, video_prompt_manifest_schema, video_prompt_section_qa_schema, llm_review_execution_record_schema, video_prompt_authoring_detail, video_storyboard_assist_detail]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: section_03v_audio_placement
+          activation: passed_02b_and_image_pixel_review
+          required_skill_ids: [video_prompt]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_02b_pixel, department_dispatch_schema, generated_review_schema, production_cut_review_schema, audio_branch_cut_placement_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_03v_motion_direction
+        - checkpoint_id: section_03v_motion_direction
+          activation: audio_branch_cut_placement_accepted_same_section_lineage
+          required_skill_ids: [video_prompt]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_03v, creative_constitution, department_dispatch_schema, mv_camera_module, generated_review_schema, production_cut_review_schema, audio_branch_cut_placement_schema, video_prompt_storyboard_assist_schema, authoring_source_pack_03v_schema, video_prompt_manifest_schema, video_prompt_section_qa_schema, llm_review_execution_record_schema, video_prompt_authoring_detail, video_storyboard_assist_detail]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: section_03v_playback_review
+        - checkpoint_id: section_03v_playback_review
+          activation: motion_output_and_playback_evidence_exist
+          required_skill_ids: [video_prompt]
+          required_read_ids: [agents, media_security_policy, section_production_policy, section_production_03v, department_dispatch_schema, generated_review_schema, production_cut_review_schema, video_prompt_manifest_schema, video_prompt_section_qa_schema, llm_review_execution_record_schema]
+          fresh_input_digest: true
+          same_lineage: false
+          unload_after: playback_review_return
+    output_contract:
+      kinds: [section_dispatch_map]
+      canonical_write: forbidden
+      expected_scope: section
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: section_owner
+      review_owner: creative_development_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [motion_route, playback_evidence]
+      must_not: [image_regeneration, 02a_rewrite, edit_assembly]
+    return_route:
+      recipient_role: creative_development_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_passed_02b, missing_pixels, playback_unavailable, identity_or_camera_drift]
+
+  - profile_id: edit_director
+    role: edit_director
+    provider_neutral: true
+    stage_ids: [edit_assembly_playback_qc, edit_finishing_fx, master_package_release]
+    required_skill_ids: [editing_qc]
+    required_read_ids: [agents, section_production_policy, section_production_04, production_system, social_automation_system, generation_review_system, generated_review_schema, edit_map_schema, edit_marker_plan_schema, edit_recipe_schema, edit_render_manifest_schema, edit_cutpoint_sheet_schema, edit_delivery_qc_schema, edit_qc_closeout_schema, package_schema, editing_qc_detail, editing_casebook, scripts_start_here, scripts_guide_edit_qc, scripts_guide_release_platform, harness_execution_contract, provider_neutral_studio_kernel, department_dispatch_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: edit_qc_section
+          activation: passed_03v_playback_handoff
+          required_skill_ids: [editing_qc]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, generation_review_system, generated_review_schema, edit_map_schema, edit_marker_plan_schema, edit_recipe_schema, editing_qc_detail, editing_casebook, scripts_start_here, scripts_guide_edit_qc, harness_execution_contract, provider_neutral_studio_kernel, department_dispatch_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: edit_shard_or_master_checkpoint
+        - checkpoint_id: edit_master_closeout
+          activation: assembled_master_candidate_edit_qc_pass_and_completed_full_master_04fx_audit_exist
+          required_skill_ids: [editing_qc]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, edit_map_schema, edit_recipe_schema, edit_render_manifest_schema, edit_cutpoint_sheet_schema, edit_delivery_qc_schema, edit_qc_closeout_schema, package_schema, editing_qc_detail, scripts_start_here, scripts_guide_edit_qc, department_dispatch_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+        - checkpoint_id: edit_social_release
+          activation: social_or_release_package_requested_after_edit_qc
+          required_skill_ids: [editing_qc]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, social_automation_system, edit_render_manifest_schema, edit_delivery_qc_schema, edit_qc_closeout_schema, package_schema, editing_qc_detail, scripts_start_here, scripts_guide_edit_qc, scripts_guide_release_platform, department_dispatch_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_review_return
+    output_contract:
+      kinds: [section_dispatch_map, director_development_report]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: edit_director
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [edit_assembly, playback_qc, edit_shard_dispatch, canonical_edit_map_merge]
+      must_not: [image_prompt_rewrite, source_reselection, founder_lock, canonical_promotion]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_03v_handoff, playback_mismatch, unresolved_identity_or_audio_drift]
+
+  - profile_id: edit_shard
+    role: edit_shard_worker
+    provider_neutral: true
+    stage_ids: [edit_finishing_fx]
+    required_skill_ids: [edit_finishing_fx, shot_vfx]
+    required_read_ids: [agents, section_production_policy, section_production_04, production_system, edit_map_schema, edit_recipe_schema, edit_finishing_fx_schema, edit_finishing_compile_schema, edit_render_manifest_schema, edit_effect_registry, local_ffmpeg_effect_catalog, professional_effect_casebook, ae_like_effect_map, shot_vfx_manual, shot_vfx_catalog, scripts_start_here, scripts_guide_edit_qc]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: finishing_fx_section
+          activation: passed_edit_qc
+          required_skill_ids: [edit_finishing_fx]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, edit_map_schema, edit_recipe_schema, edit_finishing_fx_schema, edit_finishing_compile_schema, edit_render_manifest_schema, edit_effect_registry, local_ffmpeg_effect_catalog, professional_effect_casebook, scripts_start_here, scripts_guide_edit_qc]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: edit_director_review_return
+        - checkpoint_id: finishing_fx_ae_like_detail
+          activation: founder_or_edit_director_requests_ae_like_local_compositing
+          required_skill_ids: [edit_finishing_fx]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, edit_map_schema, edit_recipe_schema, edit_finishing_fx_schema, edit_finishing_compile_schema, edit_render_manifest_schema, edit_effect_registry, local_ffmpeg_effect_catalog, professional_effect_casebook, ae_like_effect_map, scripts_start_here, scripts_guide_edit_qc]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: edit_director_review_return
+        - checkpoint_id: shot_vfx_section
+          activation: edit_director_passed_manual_04vfx_route
+          required_skill_ids: [shot_vfx]
+          required_read_ids: [agents, section_production_policy, section_production_04, production_system, edit_map_schema, edit_recipe_schema, shot_vfx_manual, shot_vfx_catalog, scripts_start_here, scripts_guide_edit_qc]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: edit_director_review_return
+    output_contract:
+      kinds: [section_dispatch_map]
+      canonical_write: forbidden
+      expected_scope: section
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: edit_shard_worker
+      review_owner: edit_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [shot_scoped_fx, finishing_qc]
+      must_not: [upstream_story_rewrite, unapproved_public_release, founder_lock]
+    return_route:
+      recipient_role: edit_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_edit_handoff, source_media_mismatch, safety_or_identity_conflict]
+
+  - profile_id: board_coordinator
+    role: board_coordinator
+    provider_neutral: true
+    stage_ids: [storyboard_review, generated_branch_cut_review, video_playback_review]
+    required_skill_ids: [review_board_coordinator]
+    required_read_ids: [agents, production_system, section_production_policy, section_production_03v, section_production_02b_pixel, section_production_workbench, section_slice_schema, fp_founder_visual_contract, creative_context_review_schema, llm_review_execution_record_schema, founder_review_decision_intake_schema, html_review_board_schema, generation_02a_handoff, image_generation_request_schema, generated_review_schema, production_cut_review_schema, video_prompt_manifest_schema, video_prompt_section_qa_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: board_direction_alignment
+          activation: overall_promoted_direction_alignment_projection
+          required_skill_ids: [review_board_coordinator]
+          required_read_ids: [agents, production_system, section_production_policy, section_production_workbench, section_slice_schema, fp_founder_visual_contract, html_review_board_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+        - checkpoint_id: board_02a_final_planning
+          activation: overall_promoted_fp_close_01_02a_projection
+          required_skill_ids: [review_board_coordinator]
+          required_read_ids: [agents, production_system, section_production_policy, section_production_workbench, section_slice_schema, fp_founder_visual_contract, creative_context_review_schema, founder_review_decision_intake_schema, html_review_board_schema, generation_02a_handoff]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+        - checkpoint_id: board_generated_branch_cut_review
+          activation: overall_reviewed_generated_image_projection
+          required_skill_ids: [review_board_coordinator]
+          required_read_ids: [agents, production_system, section_production_policy, section_production_02b_pixel, section_production_workbench, section_slice_schema, image_generation_request_schema, generated_review_schema, html_review_board_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+        - checkpoint_id: board_video_playback_review
+          activation: overall_reviewed_03v_playback_projection
+          required_skill_ids: [review_board_coordinator]
+          required_read_ids: [agents, production_system, section_production_policy, section_production_03v, section_production_workbench, section_slice_schema, generated_review_schema, production_cut_review_schema, html_review_board_schema, video_prompt_manifest_schema, video_prompt_section_qa_schema, llm_review_execution_record_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: director_review_return
+    output_contract:
+      kinds: [director_development_report]
+      canonical_write: forbidden
+      expected_scope: section_set
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: board_coordinator
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [review_surface_integrity, evidence_routing]
+      must_not: [creative_promotion, founder_lock, canonical_truth_authoring]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_expected_artifact, hash_mismatch, wrong_review_scope]
+
+  - profile_id: founder_briefing
+    role: department_worker
+    provider_neutral: true
+    projection_only: true
+    stage_ids: []
+    required_skill_ids: [founder_briefing_assistant]
+    required_read_ids: [agents, routing_policy, production_system, artifact_management, harness_execution_contract, director_dispatch_index_schema, harness_current_next_schema, workbench_run_route_manifest_schema, founder_briefing_schema]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: briefing_refresh
+          activation: reviewed_milestone_source_set_digest_changed_or_founder_explicit_refresh_never_ui_open_alone
+          required_skill_ids: [founder_briefing_assistant]
+          required_read_ids: [agents, routing_policy, production_system, artifact_management, harness_execution_contract, director_dispatch_index_schema, harness_current_next_schema, workbench_run_route_manifest_schema, founder_briefing_schema]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: overall_director_review_return
+    output_contract:
+      kinds: [founder_briefing_projection]
+      canonical_write: forbidden
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: department_worker
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [reviewed_milestone_status_projection]
+      must_not: [creative_truth_authoring, creative_selection, canonical_promotion, worker_dispatch, generation, release, external_action, raw_terminal_admission]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_review_then_mechanical_projection_publication_no_creative_promotion
+    hold_conditions: [missing_or_stale_source, stale_or_incomplete_current_next_upstream, multiply_current_head, unreviewed_milestone, run_route_profile_mismatch, source_set_digest_mismatch, authority_ambiguity]
+
+  - profile_id: harness_maintenance
+    role: mechanical_coordinator
+    provider_neutral: true
+    maintenance_only: true
+    maintenance_surface_ids: [instruction_policy_wiki, schema_contract_registry, skill_profile_routing, script_validator_registry, workbench_runtime_ui]
+    stage_ids: []
+    required_skill_ids: []
+    required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_instruction_policy_wiki, maintenance_schema_contract_registry, maintenance_skill_profile_routing, maintenance_script_validator_registry, maintenance_workbench_runtime_ui, scripts_start_here, scripts_full_index, idol_script_registry, idol_script_registry_schema, idol_script_registry_check, scripts_guide_state_contracts, scripts_guide_validators, scripts_guide_research_evidence, scripts_guide_review_planning, scripts_guide_image_title, scripts_guide_video_playback, scripts_guide_edit_qc, scripts_guide_release_platform, scripts_guide_runtime_libraries, scripts_guide_legacy_one_off]
+    phase_load:
+      preload_skill_ids: []
+      preload_read_ids: []
+      checkpoints:
+        - checkpoint_id: instruction_policy_wiki
+          activation: maintenance_surface_instruction_policy_or_wiki
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_instruction_policy_wiki]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+        - checkpoint_id: schema_contract_registry
+          activation: maintenance_surface_schema_contract_or_registry
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_schema_contract_registry]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+        - checkpoint_id: skill_profile_routing
+          activation: maintenance_surface_skill_or_profile_routing
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_skill_profile_routing]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+        - checkpoint_id: script_validator_registry
+          activation: maintenance_surface_script_or_validator
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_script_validator_registry, scripts_start_here, scripts_full_index, idol_script_registry, idol_script_registry_schema, idol_script_registry_check, scripts_guide_state_contracts, scripts_guide_validators, scripts_guide_research_evidence, scripts_guide_review_planning, scripts_guide_image_title, scripts_guide_video_playback, scripts_guide_edit_qc, scripts_guide_release_platform, scripts_guide_runtime_libraries, scripts_guide_legacy_one_off]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+        - checkpoint_id: workbench_runtime_ui
+          activation: maintenance_surface_workbench_runtime_or_ui
+          required_skill_ids: []
+          required_read_ids: [agents, production_system, maintenance_rules, department_dispatch_schema, maintenance_workbench_runtime_ui]
+          fresh_input_digest: true
+          same_lineage: true
+          unload_after: maintenance_review_return
+    output_contract:
+      kinds: [bounded_artifact]
+      canonical_write: owner_only
+      expected_scope: run
+      aggregate_manifest_when_multiple: true
+      director_review_required: true
+    authority:
+      assigned_owner: mechanical_coordinator
+      review_owner: overall_director
+      promotion_owner: overall_director
+      founder_lock_owner: founder
+      external_action_owner: founder
+      may_decide: [structural_maintenance_delta, validator_evidence, load_measurement]
+      must_not: [creative_authoring, creative_stage_creation, founder_lock, production_promotion, unapproved_external_action, secret_exposure]
+    return_route:
+      recipient_role: overall_director
+      director_review_required: true
+      promotion_route: overall_director_after_review
+    hold_conditions: [missing_maintenance_core, missing_selected_surface_module, maintenance_context_in_creative_profile, unregistered_change_surface, stale_binding_hash, missing_goal, missing_runtime_digest, owner_scope_collision]

@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Front Planning Handoff"
+  short_description: "Build compact Front Planning and reference-reuse handoffs."
+  default_prompt: "Prepare a bounded file or reference-reuse handoff for the current IDOL Front Planning run without synchronizing provider sessions or copying prior creative content."

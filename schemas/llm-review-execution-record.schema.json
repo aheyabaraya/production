@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/llm-review-execution-record.schema.json",
+  "title": "IDOL LLM Review Execution Record",
+  "description": "Active v2 provider-neutral runner completion evidence for one hash-bound 02A review or 03V Core/Branch playback review. It pins the logical director_deep profile to one exact provider snapshot and proves execution identity and scope only; it never judges creative adequacy.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "producer",
+    "surface_owner",
+    "session_type",
+    "role_id",
+    "session_id",
+    "profile",
+    "provider_profile_snapshot_ref",
+    "provider_capability_snapshot_sha256",
+    "assigned_section_ids",
+    "completion_state",
+    "canonical_semantic_write_performed"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-llm-review-execution-record.v2"},
+    "producer": {"enum": ["registered_codex_reviewer_runner", "registered_grok_native_reviewer_runner", "registered_grok_root_reviewer_runner"]},
+    "surface_owner": {"enum": ["codex", "grok"]},
+    "session_type": {"enum": ["codex_section_review", "codex_root_reconciliation", "native_subagent", "grok_root_section_review", "root_reconciliation", "codex_03v_playback_review", "grok_03v_playback_review"]},
+    "role_id": {"enum": ["idol-02a-section-context-reviewer", "idol-02a-whole-film-reconciler", "grok-root-section-context-reviewer", "grok-root-whole-film-reconciler", "idol-03v-cdd-playback-reviewer", "grok-03v-cdd-playback-reviewer"]},
+    "session_id": {"type": "string", "minLength": 1},
+    "profile": {"const": "director_deep", "description": "Provider-neutral logical profile alias; exact provider, model, effort, auth, and capability values belong to the run-resolved provider snapshot."},
+    "provider_profile_snapshot_ref": {"type": "string", "pattern": "^automation/harness-provider-profile-registry\\.yaml#/logical_profiles/director_deep/providers/(codex|grok)(/.*)?$"},
+    "provider_capability_snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_02a_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_03v_video_prompt_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_03v_storyboard_assist_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_03v_production_cut_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["official_core", "branch"]}},
+    "review_stage": {"enum": ["02a_section_context", "02a_whole_film_reconciliation", "03v_480p_playback", "03v_720p_candidate_playback"]},
+    "return_recipient_role": {"const": "creative_development_director"},
+    "assigned_section_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+      "uniqueItems": true
+    },
+    "completion_state": {"const": "completed"},
+    "canonical_semantic_write_performed": {"const": false}
+  },
+  "oneOf": [
+    {
+      "required": ["source_02a_sha256", "review_stage"],
+      "properties": {"review_stage": {"enum": ["02a_section_context", "02a_whole_film_reconciliation"]}},
+      "not": {"anyOf": [{"required": ["source_03v_video_prompt_manifest_sha256"]}, {"required": ["source_03v_storyboard_assist_sha256"]}]}
+    },
+    {
+      "required": ["source_03v_video_prompt_manifest_sha256", "source_03v_storyboard_assist_sha256", "source_03v_production_cut_types", "review_stage", "return_recipient_role"],
+      "properties": {
+        "role_id": {"enum": ["idol-03v-cdd-playback-reviewer", "grok-03v-cdd-playback-reviewer"]},
+        "review_stage": {"enum": ["03v_480p_playback", "03v_720p_candidate_playback"]}
+      },
+      "not": {"required": ["source_02a_sha256"]}
+    }
+  ]
+}

@@ -1,0 +1,575 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/reference-song-fit.schema.json",
+  "title": "IDOL Reference Song Fit",
+  "description": "Pre-generation analysis of founder-provided reference songs, sections, or timestamps for wanted functions, BPM/tempo and lyric-density fit, arrangement/instrumentation function, melody/topline function, repeated motif behavior, vocal pitch/color evidence, meaning-delivery fit, rejected traits, unit fit, and Suno/manual prompt handoff. This is not selected-audio analysis of a generated candidate take.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "date",
+    "status",
+    "source_context",
+    "founder_references",
+    "tempo_lyric_density_fit",
+    "function_breakdown",
+    "unit_fit",
+    "prompt_handoff",
+    "founder_decision_needed"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.2" },
+    "content_id": { "type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$" },
+    "date": { "type": "string", "format": "date" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "founder_review", "selected_for_prompt", "hold", "rejected"]
+    },
+    "source_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "stage", "source_route"],
+      "properties": {
+        "purpose": { "type": "string" },
+        "stage": {
+          "type": "string",
+          "enum": ["pre_00s_reference_fit", "pre_00_route_fit", "nucleus_revision_fit"]
+        },
+        "source_route": { "type": ["string", "null"] }
+      }
+    },
+    "founder_references": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref_id", "title", "artist_or_source", "section_or_timestamp", "founder_note"],
+        "properties": {
+          "ref_id": { "type": "string" },
+          "title": { "type": "string" },
+          "artist_or_source": { "type": "string" },
+          "section_or_timestamp": { "type": "string" },
+          "founder_note": { "type": "string" },
+          "path_or_url": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "tempo_lyric_density_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "analysis_status",
+        "reference_metrics",
+        "density_read",
+        "target_translation",
+        "suno_policy"
+      ],
+      "properties": {
+        "analysis_status": {
+          "type": "string",
+          "enum": ["complete", "partial", "lyrics_unavailable", "source_unverified"]
+        },
+        "reference_metrics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref_id",
+              "bpm",
+              "bpm_feel",
+              "bpm_source",
+              "duration_seconds",
+              "duration_source",
+              "section_or_timestamp_basis",
+              "lyrics_or_transcript_status",
+              "lyric_density_basis"
+            ],
+            "properties": {
+              "ref_id": { "type": "string" },
+              "bpm": { "type": ["number", "null"], "minimum": 1 },
+              "bpm_feel": {
+                "type": "string",
+                "description": "Perceived pulse such as half-time, double-time, swung, clipped, relaxed, or rushed. Required even when numeric BPM is unavailable."
+              },
+              "bpm_source": {
+                "type": "string",
+                "description": "Where the BPM came from, or a note that it was estimated by listening."
+              },
+              "duration_seconds": { "type": ["number", "null"], "minimum": 1 },
+              "duration_source": {
+                "type": "string",
+                "description": "Where the duration came from, or a note that only a timestamp/section was analyzed."
+              },
+              "section_or_timestamp_basis": { "type": "string" },
+              "lyrics_or_transcript_status": {
+                "type": "string",
+                "enum": [
+                  "available_verified",
+                  "available_unverified",
+                  "partial",
+                  "instrumental_or_no_lyrics",
+                  "unavailable"
+                ]
+              },
+              "lyric_density_basis": {
+                "type": "string",
+                "description": "Count or estimate source: lyric lines, phrase hits, syllable clusters, repeated hooks, vocal entries, or audible phrase density."
+              }
+            }
+          }
+        },
+        "density_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "line_or_phrase_count_summary",
+            "short_phrase_pattern",
+            "repetition_pattern",
+            "section_density_map",
+            "speed_implication"
+          ],
+          "properties": {
+            "line_or_phrase_count_summary": { "type": "string" },
+            "short_phrase_pattern": { "type": "string" },
+            "repetition_pattern": { "type": "string" },
+            "section_density_map": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["section_label", "time_range_or_position", "density_note", "function"],
+                "properties": {
+                  "section_label": { "type": "string" },
+                  "time_range_or_position": { "type": "string" },
+                  "density_note": { "type": "string" },
+                  "function": { "type": "string" }
+                }
+              }
+            },
+            "speed_implication": {
+              "type": "string",
+              "description": "How lyric density should influence perceived speed, runtime, section length, and hook spacing."
+            }
+          }
+        },
+        "target_translation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target_bpm_or_pulse",
+            "target_runtime_range",
+            "target_phrase_hit_count",
+            "target_section_density",
+            "lyrics_box_instruction"
+          ],
+          "properties": {
+            "target_bpm_or_pulse": { "type": "string" },
+            "target_runtime_range": { "type": "string" },
+            "target_phrase_hit_count": { "type": "string" },
+            "target_section_density": { "type": "string" },
+            "lyrics_box_instruction": {
+              "type": "string",
+              "description": "Concrete instruction for line length and section lyric density in the Suno/manual lyrics box."
+            }
+          }
+        },
+        "suno_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["style_box_bpm_policy", "lyrics_box_density_policy"],
+          "properties": {
+            "style_box_bpm_policy": {
+              "type": "string",
+              "description": "Whether numeric BPM should be pasted into Suno, and why. Default should use pulse/body function unless exact BPM is founder-locked or required."
+            },
+            "lyrics_box_density_policy": {
+              "type": "string",
+              "description": "How much lyric text to include per section so Suno produces the intended speed and runtime."
+            },
+            "reference_following_note": {
+              "type": "string",
+              "description": "Legacy compatibility field. Treat as a reference-use note, not a ban on using named references, lyric phrasing, topline, chant order, language, artist, or reference identity when founder/current-run direction wants them."
+            }
+          }
+        }
+      }
+    },
+    "meaning_delivery_fit": {
+      "type": "object",
+      "description": "Optional but expected when reference lyrics, reliable translations, founder meaning notes, or a usable listener-read are available. Compare how the reference song delivers meaning and record which reference wording, structure, cadence, or meaning surface should be followed directly when founder/current-run direction wants it.",
+      "additionalProperties": false,
+      "required": [
+        "analysis_status",
+        "reference_meaning_read",
+        "current_lyric_message_target",
+        "transfer_method",
+        "mismatch_risks",
+        "meaning_reference_following_note"
+      ],
+      "properties": {
+        "analysis_status": {
+          "type": "string",
+          "enum": ["complete", "partial", "lyrics_unavailable", "meaning_unavailable"]
+        },
+        "reference_meaning_read": {
+          "type": "string",
+          "description": "What the reference makes the listener understand or feel: message, hook claim, emotional stance, self-image, or situation."
+        },
+        "current_lyric_message_target": {
+          "type": "string",
+          "description": "What the new IDOL lyric/message should make the listener understand or feel."
+        },
+        "transfer_method": {
+          "type": "string",
+          "description": "How to adapt the delivery method: lyric placement, repetition, silence, contrast, section turn, vocal emphasis, release, or hook clarity."
+        },
+        "mismatch_risks": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "meaning_reference_following_note": {
+          "type": "string",
+          "description": "Legacy compatibility field. Treat as a reference-following or mismatch note for lyric/message wording, topline, and identity surface, not as a ban on direct reference use."
+        }
+      }
+    },
+    "arrangement_instrumentation_fit": {
+      "type": "object",
+      "description": "Reference-song read of how instruments, arrangement layers, and production texture function. This is Codex/human analysis; scripts may only provide evidence metrics.",
+      "additionalProperties": false,
+      "required": [
+        "analysis_status",
+        "evidence_basis",
+        "drum_percussion_function",
+        "bass_low_end_function",
+        "melodic_texture_function",
+        "harmony_pad_function",
+        "fx_sound_design_function",
+        "section_arrangement_map",
+        "target_translation",
+        "suno_prompt_implications"
+      ],
+      "properties": {
+        "analysis_status": {
+          "type": "string",
+          "enum": ["complete", "partial", "audio_unavailable", "not_applicable"]
+        },
+        "evidence_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_ref_id", "basis_type", "note"],
+            "properties": {
+              "source_ref_id": {"type": "string"},
+              "basis_type": {
+                "type": "string",
+                "enum": ["listening", "lyric_structure", "audio_feature_extract", "audio_precision_sidecar", "founder_note", "published_note", "other"]
+              },
+              "path_or_url": {"type": ["string", "null"]},
+              "note": {"type": "string"}
+            }
+          }
+        },
+        "drum_percussion_function": {
+          "type": "string",
+          "description": "How kick, snare, clap, hat, shaker, rim, Latin/Afro/Brazilian/club percussion, or other transient layers shape body timing and section pressure."
+        },
+        "bass_low_end_function": {
+          "type": "string",
+          "description": "How bass, sub, low drums, or low-end gaps create groove, stop/drop, weight, or transition."
+        },
+        "melodic_texture_function": {
+          "type": "string",
+          "description": "How lead instruments, synth riffs, guitar, piano, plucks, brass, strings, vocal chops, or other melodic/texture layers create hook memory or scene pressure."
+        },
+        "harmony_pad_function": {
+          "type": "string",
+          "description": "How chords, pads, guitar bed, strings, or harmonic emptiness shape song feel/temperature and lift."
+        },
+        "fx_sound_design_function": {
+          "type": "string",
+          "description": "How risers, drops, glitches, crowd/room sounds, phone/noise/ambience, breath, or silence create transitions and image pressure."
+        },
+        "section_arrangement_map": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["section_label", "time_range_or_position", "dominant_layers", "arrangement_change", "function"],
+            "properties": {
+              "section_label": {"type": "string"},
+              "time_range_or_position": {"type": "string"},
+              "dominant_layers": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string"}
+              },
+              "arrangement_change": {"type": "string"},
+              "function": {"type": "string"}
+            }
+          }
+        },
+        "target_translation": {
+          "type": "string",
+          "description": "Which arrangement functions should transfer into the new song, and which should stay reference-only."
+        },
+        "suno_prompt_implications": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["style_box_candidates", "negative_box_candidates", "do_not_over_specify"],
+          "properties": {
+            "style_box_candidates": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "negative_box_candidates": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "do_not_over_specify": {
+              "type": "string",
+              "description": "What should not be over-locked in Suno because it is only evidence, not a desired musical decision."
+            }
+          }
+        }
+      }
+    },
+    "melody_topline_fit": {
+      "type": "object",
+      "description": "Reference-song read of melody, topline, phrase contour, and hook shape. This is functional analysis, not note-by-note transcription.",
+      "additionalProperties": false,
+      "required": [
+        "analysis_status",
+        "evidence_basis",
+        "topline_contour",
+        "hook_motif_behavior",
+        "phrase_length_and_spacing",
+        "landing_and_release_points",
+        "section_contrast",
+        "vocal_event_map",
+        "meaning_delivery_connection",
+        "target_translation",
+        "suno_prompt_implications"
+      ],
+      "properties": {
+        "analysis_status": {
+          "type": "string",
+          "enum": ["complete", "partial", "audio_unavailable", "not_applicable"]
+        },
+        "evidence_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_ref_id", "basis_type", "note"],
+            "properties": {
+              "source_ref_id": {"type": "string"},
+              "basis_type": {
+                "type": "string",
+                "enum": ["listening", "lyric_structure", "audio_feature_extract", "audio_precision_sidecar", "founder_note", "published_note", "other"]
+              },
+              "path_or_url": {"type": ["string", "null"]},
+              "note": {"type": "string"}
+            }
+          }
+        },
+        "topline_contour": {
+          "type": "string",
+          "description": "Whether the melody rises, falls, repeats one pitch, stair-steps, arcs, chants, talks, or stretches, and what that does for the listener."
+        },
+        "hook_motif_behavior": {
+          "type": "string",
+          "description": "The repeatable melodic/phonetic hook behavior: short motif, chant, call-response, long lift, delayed answer, or other function."
+        },
+        "phrase_length_and_spacing": {
+          "type": "string",
+          "description": "Short hit phrases versus long lines, rests, pickup spacing, and how this changes perceived speed."
+        },
+        "landing_and_release_points": {
+          "type": "string",
+          "description": "Where the melody stops, resolves, holds, drops, or opens."
+        },
+        "section_contrast": {
+          "type": "string",
+          "description": "How verse, pre-hook, hook, bridge, post-hook, or final sections contrast in register, contour, density, or vocal attack."
+        },
+        "vocal_event_map": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["event_id", "section_or_time", "event_type", "function"],
+            "properties": {
+              "event_id": {"type": "string"},
+              "section_or_time": {"type": "string"},
+              "event_type": {
+                "type": "string",
+                "enum": ["lead_phrase", "rap_phrase", "chant", "ad_lib", "vocal_burst", "falsetto_or_high_lift", "whisper_or_soft_attack", "group_stack", "call_response", "silence_or_breath", "other"]
+              },
+              "function": {"type": "string"}
+            }
+          }
+        },
+        "meaning_delivery_connection": {
+          "type": "string",
+          "description": "How melody/topline makes meaning readable through repetition, register, emphasis, delay, silence, or release."
+        },
+        "target_translation": {
+          "type": "string",
+          "description": "Which melody/topline functions should transfer into the new song, and which should stay reference-only."
+        },
+        "suno_prompt_implications": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["style_box_candidates", "lyrics_box_candidates", "negative_box_candidates"],
+          "properties": {
+            "style_box_candidates": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "lyrics_box_candidates": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "negative_box_candidates": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "function_breakdown": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["function_id", "source_ref_ids", "wanted_function", "section_use", "prompt_translation"],
+        "properties": {
+          "function_id": { "type": "string" },
+          "source_ref_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "wanted_function": { "type": "string" },
+          "section_use": {
+            "type": "string",
+            "enum": [
+              "intro",
+              "verse",
+              "pre_chorus",
+              "chorus",
+              "post_hook",
+              "rap_reset",
+              "bridge",
+              "final_tag",
+              "overall"
+            ]
+          },
+          "prompt_translation": { "type": "string" },
+          "reference_mismatch_note": {
+            "type": "string",
+            "description": "Legacy compatibility field. Treat as a reference-use note, not a prohibition."
+          }
+        }
+      }
+    },
+    "rejected_traits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unit_fit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recommended_unit", "fit_reason", "not_recommended_units", "full_code_justification"],
+      "properties": {
+        "recommended_unit": {
+          "type": "string",
+          "enum": [
+            "EXEC_06",
+            "TUI_06",
+            "CACHE_05",
+            "SYNC_05",
+            "ECHO_05",
+            "CURL_06",
+            "CLI_05",
+            "REPO",
+            "custom_founder_locked"
+          ]
+        },
+        "fit_reason": { "type": "string" },
+        "not_recommended_units": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["unit", "reason"],
+            "properties": {
+              "unit": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          }
+        },
+        "full_code_justification": { "type": "string" }
+      }
+    },
+    "prompt_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ready_for_suno_prompt", "style_priorities", "negative_priorities", "lyrics_seed_policy"],
+      "properties": {
+        "ready_for_suno_prompt": { "type": "boolean" },
+        "style_priorities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "negative_priorities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "lyrics_seed_policy": { "type": "string" }
+      }
+    },
+    "founder_decision_needed": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string" }
+    },
+    "source_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "path_or_url", "short_note"],
+        "properties": {
+          "title": { "type": "string" },
+          "path_or_url": { "type": "string" },
+          "short_note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"schema_version": {"const": "1.2"}},
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": ["arrangement_instrumentation_fit", "melody_topline_fit"]
+      }
+    }
+  ]
+}

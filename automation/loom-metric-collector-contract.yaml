@@ -1,0 +1,189 @@
+schema_version: loom_metric_collector.v1
+status: founder_approved
+owner: idol-social-metadata-upload
+approval:
+  decision_id: AURORA-M-BM-2026-07-30-METRICS-001
+  approval_log: business-marketing/approvals/outbound-approval-log.md
+  approved_at: 2026-07-30
+purpose: >-
+  Capture raw, aggregate performance snapshots only at each published Loom
+  social post's fixed checkpoints, aggregate production traffic for Loom Signal
+  Deck, and Founder-provided weekly TikTok Studio ZIP exports. This contract
+  does not interpret performance or change creative, release, or advertising
+  decisions.
+per_post_metric_checkpoints:
+  basis: published_at
+  publication_fact_check:
+    checkpoint: T+1h
+    job: local_url_id_public_state_caption_and_asset_verification
+    performance_interpretation: forbidden
+    platform_metric_api_call: not_required
+  performance_checkpoints:
+    - checkpoint: T+24h
+      capture_grace_hours: 24
+    - checkpoint: T+72h
+      capture_grace_hours: 24
+    - checkpoint: T+7d
+      capture_grace_hours: 24
+  selection_rule: published_and_one_uncaptured_performance_checkpoint_due_now
+  completed_or_missed_checkpoint_action: skip_before_auth_or_platform_api_call
+  existing_metrics: preserve_in_local_ledger_and_never_refresh_the_same_checkpoint
+  missing_or_invalid_published_at: stop_before_external_api_call_and_report_value_free_gap
+rolling_28_day_boundary:
+  use: weekly_platform_cohort_and_target_aggregation_only
+  post_level_daily_collection: forbidden
+cadence:
+  timezone: Asia/Seoul
+  frequency: daily
+  intended_local_time: "09:30"
+  execution_owner: idol-sns-management
+  invocation: exactly_once_before_founder_sns_brief
+  standalone_metric_cron: forbidden
+manual_weekly_tiktok_studio_export_ingest:
+  delivery_day: Sunday
+  delivery_owner: founder
+  invocation: manual_local_import_after_zip_delivery
+  scheduled_job: forbidden
+  reason: >-
+    The ZIP is Founder-provided local evidence, not an API pull. It is imported
+    only after the actual files are supplied and must not be replaced with a
+    guessed recurring download.
+automation:
+  canonical_id: idol-sns-management
+  retired_duplicate_id: loom-read-only-metric-collector
+  consolidation_rule: >-
+    The existing SNS management automation invokes this runner exactly once per
+    scheduled pass before composing the founder brief. No second metric-only
+    cron may call this runner.
+runner:
+  command: python3 scripts/idol_collect_platform_metrics.py --apply --json
+  tiktok_studio_zip_command: >-
+    python3 scripts/idol_import_tiktok_studio_exports.py --apply --json
+    --input /path/to/Overview.zip --input /path/to/Viewers.zip
+    --input /path/to/Content.zip
+  read_only_upstream: true
+  local_outputs_only:
+    - analytics/records/platform-metrics.jsonl
+    - analytics/records/signal-deck-traffic.jsonl
+    - analytics/records/tiktok-studio-imports.jsonl
+    - analytics/records/tiktok-studio-account-daily.jsonl
+    - analytics/records/tiktok-studio-video-snapshots.jsonl
+sources:
+  x:
+    endpoint_family: X API v2 post metrics
+    platform_post_status: published_and_fixed_checkpoint_due
+  tiktok:
+    endpoint_family: TikTok API v2 video query
+    platform_post_status: published_and_fixed_checkpoint_due
+    required_scope: video.list
+  tiktok_studio_weekly_zip:
+    endpoint_family: local_founder_provided_tiktok_studio_creator_export
+    reports:
+      - Overview.csv
+      - Viewers.csv
+      - Content.csv
+    source_integrity: zip_and_member_sha256
+    overlap_rule: exact_values_only_else_stop_before_local_write
+    post_mapping: exact_published_platform_post_id_only
+    checkpoint_boundary: >-
+      Content.csv values are cumulative export snapshots, not T+24h, T+72h,
+      or T+7d checkpoint measurements and never replace those API rows.
+    unavailable_detail_dimensions:
+      - country
+      - age_gender
+      - traffic_source
+      - average_watch_time
+      - completion_rate
+      - retention_curve
+  youtube_and_shorts:
+    endpoint_family: YouTube Analytics Reports API
+    platform_post_status: published_and_fixed_checkpoint_due
+    required_scopes:
+      - https://www.googleapis.com/auth/youtube.readonly
+      - https://www.googleapis.com/auth/yt-analytics.readonly
+    base_video_metrics:
+      - views
+      - likes
+      - comments
+      - shares
+      - estimatedMinutesWatched
+      - averageViewDuration
+      - averageViewPercentage
+    optional_video_metrics:
+      - subscribersGained
+      - subscribersLost
+      - engagedViews
+    aggregate_breakdown_dimensions:
+      - country
+      - ageGroup
+      - gender
+      - deviceType
+      - operatingSystem
+      - insightTrafficSourceType
+      - playbackLocationType
+      - subscribedStatus
+      - youtubeProduct
+      - sharingService
+    retention_dimensions:
+      dimension: elapsedVideoTimeRatio
+      metrics:
+        - audienceWatchRatio
+        - relativeRetentionPerformance
+    completion_rate_boundary: >-
+      YouTube Analytics does not expose a single-pass completion rate in this
+      collector; preserve average percentage viewed and retention points, and
+      leave completion_rate null unless a direct provider field is returned.
+  signal_deck:
+    endpoint_family: Vercel Web Analytics aggregate visits count
+    environment: production
+    metric: visits_count
+    measurement_window: provider_default_window
+boundaries:
+  never:
+    - publish
+    - upload
+    - schedule
+    - edit_caption_or_link
+    - create_ad_or_campaign
+    - modify_production_direction_or_idol_harness
+    - edit_skills_policies_schemas_scripts_automations_registries_or_canonical_run_truth
+    - retrieve_personal_identifiers_or_raw_clickstream
+    - infer_country_demographic_traffic_or_retention_from_tiktok_csv
+    - create_or_modify_platform_post_rows_from_tiktok_csv
+    - archive_raw_tiktok_studio_zip_inside_repository_without_explicit_approval
+    - write_to_google_drive_or_public_surfaces
+  instagram:
+    collection: manual_attachment_only
+    automation: excluded
+failure_handling:
+  missing_or_expired_auth: report_value_free_readiness_gap
+  no_published_ledger_row: skip_without_guessing_public_status
+  no_per_post_checkpoint_due: skip_before_external_api_call
+  tiktok_studio_conflicting_overlap: stop_before_local_write
+  tiktok_studio_unavailable_detail_field: record_not_in_export_without_inference
+  api_or_network_error: preserve_existing_ledgers_and_report_safe_error_code
+  changed_source_ledger_during_run: stop_before_local_write
+oauth_bootstrap:
+  x:
+    required_scope: tweet.read
+    runner: scripts/idol_x_oauth_reauth.py
+  tiktok:
+    required_scopes:
+      - video.upload
+      - video.list
+    runner: scripts/idol_tiktok_oauth_reauth.py
+  youtube:
+    required_scopes:
+      - https://www.googleapis.com/auth/youtube.upload
+      - https://www.googleapis.com/auth/youtube.readonly
+      - https://www.googleapis.com/auth/yt-analytics.readonly
+    runner: scripts/idol_youtube_oauth_reauth.py
+  vercel:
+    runner: scripts/idol_vercel_analytics_setup.py
+    local_secret_file: .runtime/secrets/vercel.env
+    required_field_names:
+      - VERCEL_TOKEN
+      - VERCEL_PROJECT_ID
+    optional_field_names:
+      - VERCEL_TEAM_ID
+      - VERCEL_ANALYTICS_FILTER

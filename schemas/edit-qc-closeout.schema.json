@@ -1,0 +1,877 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-qc-closeout.schema.json",
+  "title": "IDOL Edit QC Closeout",
+  "description": "Active v3 04 closeout inventory for a locked idol_edit_recipe.v3 edit. It records final master truth, recipe/source keeper state, cache cleanup, social derivative policy, QC artifacts, and reusable graph-engineering deltas.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "final_master",
+    "final_recipe",
+    "source_inventory",
+    "qc_artifacts",
+    "cache_cleanup",
+    "social_derivative_policy"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "idol_edit_qc_closeout.v3",
+      "description": "The sole active authoring version. Historical v1/v2 closeouts remain immutable run evidence and are not accepted as new closeout inputs."
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string"
+    },
+    "final_master": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "duration_seconds",
+        "fps",
+        "geometry_policy"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fps": {
+          "oneOf": [
+            {
+              "type": [
+                "number",
+                "string"
+              ]
+            },
+            {
+              "$ref": "#/$defs/fps"
+            }
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "frame_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "pixel_format": {
+          "type": "string",
+          "minLength": 1
+        },
+        "container": {
+          "enum": ["mp4", "mov", "mkv"]
+        },
+        "video_codec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audio_codec": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sample_aspect_ratio": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*[/:][1-9][0-9]*$"
+        },
+        "color_tags": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "color_range",
+            "color_space",
+            "color_transfer",
+            "color_primaries"
+          ],
+          "properties": {
+            "color_range": { "type": "string", "minLength": 1 },
+            "color_space": { "type": "string", "minLength": 1 },
+            "color_transfer": { "type": "string", "minLength": 1 },
+            "color_primaries": { "type": "string", "minLength": 1 }
+          }
+        },
+        "delivery_geometry": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Founder-provided or founder-approved delivery geometry, not a graph-engineering-wide fixed ratio."
+        },
+        "geometry_policy": {
+          "type": "string",
+          "enum": [
+            "founder_specified",
+            "founder_approved_source_intent",
+            "platform_derivative_explicit"
+          ]
+        }
+      }
+    },
+    "final_recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "source_clean_lineage_checked"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_clean_lineage_checked": {
+          "type": "boolean"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "validation_status": {
+          "type": "string",
+          "enum": ["pending", "pass", "fail", "stale"]
+        },
+        "render_engine": {
+          "type": "string"
+        }
+      }
+    },
+    "runtime_cache_ladder": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Actual runtime/cache ladder used for the locked edit, including proxy iteration and final source normalization state.",
+      "properties": {
+        "completed_stages": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "proxy_cache_policy": { "type": "string" },
+        "normalized_final_cache_policy": { "type": "string" },
+        "full_quality_final_render_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "source_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipe_source_count",
+        "missing_source_count",
+        "source_keeper_index"
+      ],
+      "properties": {
+        "recipe_source_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_source_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_keeper_index": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_keeper_index_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "recipe_source_hashes_verified": {
+          "type": "boolean"
+        },
+        "raw_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generated_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "preserved_range_locks": {
+      "type": "array",
+      "description": "Founder-accepted ranges that were preserved, expanded to source-clean lineage, or intentionally changed during the final lock.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["range", "status"],
+        "properties": {
+          "range": { "type": "string" },
+          "status": { "type": "string" },
+          "source_lineage": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "generated_source_handoff_summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "How generated or section-directed source material was treated during final editing.",
+      "properties": {
+        "generated_clip_role": { "type": "string" },
+        "internal_events_checked": { "type": "boolean" },
+        "first_useful_action_checked": { "type": "boolean" },
+        "visible_reference_panel_check": { "type": "string" }
+      }
+    },
+    "qc_artifacts": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "final_contact_sheet"
+      ],
+      "properties": {
+        "final_contact_sheet": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cutpoint_sheets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blackdetect_report": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "silence_report": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_family_mismatch_report": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "audio_delivery_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "color_metadata_report": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retime_cadence_report": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "tone_quality_qc": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Closeout record for tone, source-family, and quality mismatch checks.",
+      "properties": {
+        "tone_grade_consistency_checked": { "type": "boolean" },
+        "source_family_mismatch_checked": { "type": "boolean" },
+        "quality_mismatch_checked": { "type": "boolean" },
+        "remaining_watch_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "cache_cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_path",
+        "kept_artifacts",
+        "deleted_artifacts"
+      ],
+      "properties": {
+        "manifest_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kept_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "deleted_artifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preserve_exceptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "review_status": {
+          "type": "string",
+          "enum": ["pending", "complete", "not_requested", "hold"]
+        },
+        "protected_artifacts_preserved": {
+          "type": "boolean"
+        }
+      }
+    },
+    "render_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Derived render lineage only. The closeout does not re-own cut truth; it binds the final 04FX compile and renderer receipts that consumed the final recipe.",
+      "required": [
+        "fx_compile_manifest",
+        "final_render_manifest",
+        "hash_chain_status"
+      ],
+      "properties": {
+        "fx_compile_manifest": {
+          "$ref": "#/$defs/validated_binding"
+        },
+        "final_render_manifest": {
+          "$ref": "#/$defs/validated_binding"
+        },
+        "hash_chain_status": {
+          "type": "string",
+          "enum": ["pending", "pass", "fail", "stale"]
+        }
+      }
+    },
+    "professional_qc": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Measured delivery evidence plus required human playback review. It records results; it does not normalize audio, choose cuts, or infer Founder approval.",
+      "required": [
+        "delivery_qc_report",
+        "frame_step_cutpoint_manifest",
+        "program_integrity",
+        "color_delivery",
+        "audio_delivery",
+        "retime_cadence",
+        "black_silence",
+        "manual_playback"
+      ],
+      "properties": {
+        "delivery_qc_report": {
+          "$ref": "#/$defs/validated_binding"
+        },
+        "frame_step_cutpoint_manifest": {
+          "$ref": "#/$defs/validated_binding"
+        },
+        "program_integrity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "expected_frame_count",
+            "actual_frame_count",
+            "duration_delta_frames",
+            "fps_match",
+            "geometry_match",
+            "sample_aspect_ratio_match",
+            "frame_step_cutpoints_checked",
+            "status"
+          ],
+          "properties": {
+            "expected_frame_count": { "type": "integer", "minimum": 1 },
+            "actual_frame_count": { "type": "integer", "minimum": 1 },
+            "duration_delta_frames": { "type": "integer", "minimum": 0 },
+            "fps_match": { "type": "boolean" },
+            "geometry_match": { "type": "boolean" },
+            "sample_aspect_ratio_match": { "type": "boolean" },
+            "frame_step_cutpoints_checked": { "type": "boolean" },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        },
+        "color_delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "metadata_checked",
+            "source_interpretation_checked",
+            "working_to_delivery_transform_checked",
+            "pixel_format",
+            "color_range",
+            "color_space",
+            "color_transfer",
+            "color_primaries",
+            "status"
+          ],
+          "properties": {
+            "metadata_checked": { "type": "boolean" },
+            "source_interpretation_checked": { "type": "boolean" },
+            "working_to_delivery_transform_checked": { "type": "boolean" },
+            "pixel_format": { "type": "string", "minLength": 1 },
+            "color_range": { "type": "string", "minLength": 1 },
+            "color_space": { "type": "string", "minLength": 1 },
+            "color_transfer": { "type": "string", "minLength": 1 },
+            "color_primaries": { "type": "string", "minLength": 1 },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        },
+        "audio_delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "selected_audio_sha256",
+            "sample_rate",
+            "channel_layout",
+            "integrated_lufs",
+            "lra_lu",
+            "true_peak_dbtp",
+            "clipping_sample_count",
+            "lead_silence_seconds",
+            "trail_silence_seconds",
+            "audio_video_duration_delta_seconds",
+            "normalization_policy",
+            "status"
+          ],
+          "properties": {
+            "selected_audio_sha256": { "$ref": "#/$defs/sha256" },
+            "sample_rate": { "type": "integer", "minimum": 8000 },
+            "channel_layout": { "type": "string", "minLength": 1 },
+            "integrated_lufs": { "type": "number" },
+            "lra_lu": { "type": "number", "minimum": 0 },
+            "true_peak_dbtp": { "type": "number" },
+            "clipping_sample_count": { "type": "integer", "minimum": 0 },
+            "lead_silence_seconds": { "type": "number", "minimum": 0 },
+            "trail_silence_seconds": { "type": "number", "minimum": 0 },
+            "audio_video_duration_delta_seconds": { "type": "number", "minimum": 0 },
+            "normalization_policy": { "const": "analysis_only_no_auto_normalize" },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        },
+        "retime_cadence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "retimed_segment_count",
+            "duplicate_candidate_count",
+            "judder_candidate_count",
+            "cadence_measurement_checked",
+            "body_identity_playback_checked",
+            "status"
+          ],
+          "properties": {
+            "retimed_segment_count": { "type": "integer", "minimum": 0 },
+            "duplicate_candidate_count": { "type": "integer", "minimum": 0 },
+            "judder_candidate_count": { "type": "integer", "minimum": 0 },
+            "cadence_measurement_checked": { "type": "boolean" },
+            "body_identity_playback_checked": { "type": "boolean" },
+            "note": { "type": "string" },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        },
+        "black_silence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "blackdetect_checked",
+            "unintended_black_frame_count",
+            "silence_checked",
+            "unintended_silence_count",
+            "status"
+          ],
+          "properties": {
+            "blackdetect_checked": { "type": "boolean" },
+            "unintended_black_frame_count": { "type": "integer", "minimum": 0 },
+            "silence_checked": { "type": "boolean" },
+            "unintended_silence_count": { "type": "integer", "minimum": 0 },
+            "black_candidate_interval_count": { "type": "integer", "minimum": 0 },
+            "intentional_black_interval_count": { "type": "integer", "minimum": 0 },
+            "unintended_black_interval_count": { "type": "integer", "minimum": 0 },
+            "silence_candidate_interval_count": { "type": "integer", "minimum": 0 },
+            "intentional_silence_interval_count": { "type": "integer", "minimum": 0 },
+            "unintended_silence_interval_count": { "type": "integer", "minimum": 0 },
+            "candidate_disposition_note": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Required by closeout validation when delivery QC reports black or silence candidates; records why each interval is intentional or unintended."
+            },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        },
+        "manual_playback": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "identity_body_preserved",
+            "hands_feet_cadence_reviewed",
+            "story_continuity_reviewed",
+            "mobile_readability_reviewed",
+            "status"
+          ],
+          "properties": {
+            "identity_body_preserved": { "type": "boolean" },
+            "hands_feet_cadence_reviewed": { "type": "boolean" },
+            "story_continuity_reviewed": { "type": "boolean" },
+            "mobile_readability_reviewed": { "type": "boolean" },
+            "review_note": { "type": "string" },
+            "status": { "$ref": "#/$defs/qc_status" }
+          }
+        }
+      }
+    },
+    "social_derivative_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_source",
+        "raw_source_public_use"
+      ],
+      "properties": {
+        "public_source": {
+          "type": "string",
+          "enum": [
+            "final_master",
+            "source_clean_recipe",
+            "platform_derivative_from_final"
+          ]
+        },
+        "raw_source_public_use": {
+          "type": "string",
+          "enum": [
+            "not_allowed",
+            "historical_only",
+            "founder_exception"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "platform_derivatives": {
+      "type": "array",
+      "description": "Optional delivery derivatives derived from the exact final-master bytes. An empty array is valid unless v2 public_source explicitly selects platform_derivative_from_final.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "derivative_id",
+          "path",
+          "sha256",
+          "derived_from_master_sha256",
+          "width",
+          "height",
+          "geometry_policy",
+          "crop_pad_background",
+          "reframe_safe_area",
+          "status"
+        ],
+        "properties": {
+          "derivative_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "derived_from_master_sha256": {"$ref": "#/$defs/sha256"},
+          "width": {"type": "integer", "minimum": 2},
+          "height": {"type": "integer", "minimum": 2},
+          "geometry_policy": {"enum": ["crop", "pad", "background_extend", "reframe"]},
+          "crop_pad_background": {"type": "string", "minLength": 1},
+          "reframe_safe_area": {"type": "string", "minLength": 1},
+          "status": {"enum": ["draft", "qc_pass", "hold"]}
+        }
+      }
+    },
+    "harness_deltas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": { "const": "idol_edit_qc_closeout.v3" }
+        },
+        "required": ["schema_version"]
+      },
+      "then": {
+        "required": [
+          "runtime_cache_ladder",
+          "tone_quality_qc",
+          "render_lineage",
+          "professional_qc",
+          "platform_derivatives"
+        ],
+        "properties": {
+          "status": {
+            "enum": ["draft", "hold", "ready_for_05"]
+          },
+          "final_master": {
+            "required": [
+              "sha256",
+              "frame_count",
+              "width",
+              "height",
+              "pixel_format",
+              "container",
+              "video_codec",
+              "audio_codec",
+              "sample_aspect_ratio",
+              "color_tags"
+            ],
+            "properties": {
+              "fps": { "$ref": "#/$defs/fps" }
+            }
+          },
+          "final_recipe": {
+            "required": [
+              "sha256",
+              "schema_version",
+              "status",
+              "validation_status"
+            ],
+            "properties": {
+              "schema_version": { "const": "idol_edit_recipe.v3" },
+              "status": { "const": "final_render_ready" }
+            }
+          },
+          "source_inventory": {
+            "required": [
+              "source_keeper_index_sha256",
+              "recipe_source_hashes_verified"
+            ]
+          },
+          "qc_artifacts": {
+            "required": [
+              "cutpoint_sheets",
+              "blackdetect_report",
+              "silence_report",
+              "source_family_mismatch_report",
+              "audio_delivery_report",
+              "color_metadata_report",
+              "retime_cadence_report"
+            ],
+            "properties": {
+              "blackdetect_report": { "type": "string", "minLength": 1 },
+              "silence_report": { "type": "string", "minLength": 1 },
+              "source_family_mismatch_report": { "type": "string", "minLength": 1 }
+            }
+          },
+          "cache_cleanup": {
+            "required": [
+              "review_status",
+              "protected_artifacts_preserved"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": { "const": "idol_edit_qc_closeout.v3" },
+          "status": { "const": "ready_for_05" }
+        },
+        "required": ["schema_version", "status"]
+      },
+      "then": {
+        "properties": {
+          "final_recipe": {
+            "properties": {
+              "source_clean_lineage_checked": { "const": true },
+              "validation_status": { "const": "pass" }
+            }
+          },
+          "source_inventory": {
+            "properties": {
+              "missing_source_count": { "const": 0 },
+              "recipe_source_hashes_verified": { "const": true }
+            }
+          },
+          "runtime_cache_ladder": {
+            "required": ["completed_stages", "full_quality_final_render_count"],
+            "properties": {
+              "full_quality_final_render_count": { "minimum": 1 }
+            }
+          },
+          "tone_quality_qc": {
+            "required": [
+              "tone_grade_consistency_checked",
+              "source_family_mismatch_checked",
+              "quality_mismatch_checked",
+              "remaining_watch_items"
+            ],
+            "properties": {
+              "tone_grade_consistency_checked": { "const": true },
+              "source_family_mismatch_checked": { "const": true },
+              "quality_mismatch_checked": { "const": true },
+              "remaining_watch_items": { "maxItems": 0 }
+            }
+          },
+          "cache_cleanup": {
+            "properties": {
+              "review_status": { "enum": ["complete", "not_requested"] },
+              "protected_artifacts_preserved": { "const": true }
+            }
+          },
+          "render_lineage": {
+            "properties": {
+              "hash_chain_status": { "const": "pass" },
+              "fx_compile_manifest": {
+                "properties": { "validation_status": { "const": "pass" } }
+              },
+              "final_render_manifest": {
+                "properties": { "validation_status": { "const": "pass" } }
+              }
+            }
+          },
+          "professional_qc": {
+            "properties": {
+              "program_integrity": {
+                "properties": {
+                  "duration_delta_frames": { "maximum": 0 },
+                  "fps_match": { "const": true },
+                  "geometry_match": { "const": true },
+                  "sample_aspect_ratio_match": { "const": true },
+                  "frame_step_cutpoints_checked": { "const": true },
+                  "status": { "const": "pass" }
+                }
+              },
+              "color_delivery": {
+                "properties": {
+                  "metadata_checked": { "const": true },
+                  "source_interpretation_checked": { "const": true },
+                  "working_to_delivery_transform_checked": { "const": true },
+                  "status": { "const": "pass" }
+                }
+              },
+              "audio_delivery": {
+                "properties": {
+                  "clipping_sample_count": { "const": 0 },
+                  "status": { "const": "pass" }
+                }
+              },
+              "retime_cadence": {
+                "properties": {
+                  "cadence_measurement_checked": { "const": true },
+                  "body_identity_playback_checked": { "const": true },
+                  "status": { "const": "pass" }
+                }
+              },
+              "black_silence": {
+                "properties": {
+                  "blackdetect_checked": { "const": true },
+                  "unintended_black_frame_count": { "const": 0 },
+                  "unintended_black_interval_count": { "const": 0 },
+                  "silence_checked": { "const": true },
+                  "unintended_silence_count": { "const": 0 },
+                  "unintended_silence_interval_count": { "const": 0 },
+                  "status": { "const": "pass" }
+                }
+              },
+              "manual_playback": {
+                "properties": {
+                  "identity_body_preserved": { "const": true },
+                  "hands_feet_cadence_reviewed": { "const": true },
+                  "story_continuity_reviewed": { "const": true },
+                  "mobile_readability_reviewed": { "const": true },
+                  "status": { "const": "pass" }
+                }
+              },
+              "delivery_qc_report": {
+                "properties": {"validation_status": {"const": "pass"}}
+              },
+              "frame_step_cutpoint_manifest": {
+                "properties": {"validation_status": {"const": "pass"}}
+              }
+            }
+          },
+          "platform_derivatives": {
+            "items": {
+              "properties": {
+                "status": {"const": "qc_pass"}
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": { "const": "idol_edit_qc_closeout.v3" },
+          "social_derivative_policy": {
+            "properties": {
+              "public_source": { "const": "platform_derivative_from_final" }
+            },
+            "required": ["public_source"]
+          }
+        },
+        "required": ["schema_version", "social_derivative_policy"]
+      },
+      "then": {
+        "required": ["platform_derivatives"],
+        "properties": {
+          "platform_derivatives": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "fps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["numerator", "denominator"],
+      "properties": {
+        "numerator": { "type": "integer", "minimum": 1 },
+        "denominator": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "qc_status": {
+      "type": "string",
+      "enum": ["pending", "pass", "hold", "fail"]
+    },
+    "validated_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "validation_status"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "validation_status": {
+          "type": "string",
+          "enum": ["pending", "pass", "fail", "stale"]
+        }
+      }
+    }
+  }
+}

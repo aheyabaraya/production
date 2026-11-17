@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-execution-receipt-v1-legacy.schema.json",
+  "title": "IDOL Image Generation Execution Receipt v1 Legacy Reader",
+  "description": "Pinned read-only copy of the committed OpenAI-only v1 receipt contract. It must never receive new execution events; active execution receipts use image-generation-execution-receipt.schema.json v2.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "artifact_type", "status", "external_call_performed",
+    "request_path", "request_sha256", "approval_path", "approval_sha256",
+    "packet_id", "mode", "cut_id", "execution_adapter_id", "provider",
+    "provider_model_or_tool", "auth_lane", "provider_profile_id",
+    "provider_profile_sha256", "provider_capability_snapshot_sha256",
+    "founder_generation_authority_id", "spend_envelope", "prompt_sha256",
+    "attachment_order_sha256", "endpoint", "transport", "output_count",
+    "output_path", "output_sha256", "automatic_fallback",
+    "prompt_rewrite_policy", "full_size_pixel_review_status",
+    "03v_handoff_allowed", "secret_values_recorded"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_execution_receipt.v1"},
+    "artifact_type": {"const": "image_generation_execution_receipt"},
+    "status": {"const": "generated_pending_pixel_review"},
+    "external_call_performed": {"const": true},
+    "request_path": {"type": "string", "minLength": 1},
+    "request_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_path": {"type": "string", "minLength": 1},
+    "approval_sha256": {"$ref": "#/$defs/sha256"},
+    "packet_id": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+    "cut_id": {"type": "string", "minLength": 1},
+    "execution_adapter_id": {"const": "openai_api_gpt_image_2"},
+    "provider": {"const": "openai"},
+    "provider_model_or_tool": {"const": "gpt-image-2"},
+    "auth_lane": {"const": "founder_approved_api"},
+    "provider_profile_id": {"const": "openai_image_api_current"},
+    "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "founder_generation_authority_id": {"type": "string", "minLength": 1},
+    "spend_envelope": {"type": "string", "minLength": 1},
+    "prompt_sha256": {"$ref": "#/$defs/sha256"},
+    "attachment_order_sha256": {"$ref": "#/$defs/sha256"},
+    "endpoint": {"enum": ["/v1/images/generations", "/v1/images/edits"]},
+    "transport": {"enum": ["json", "multipart_form_data_image_array"]},
+    "output_count": {"const": 1},
+    "output_path": {"type": "string", "minLength": 1},
+    "output_sha256": {"$ref": "#/$defs/sha256"},
+    "automatic_fallback": {"const": "none"},
+    "prompt_rewrite_policy": {"const": "forbidden"},
+    "full_size_pixel_review_status": {"const": "pending"},
+    "03v_handoff_allowed": {"const": false},
+    "secret_values_recorded": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"endpoint": {"const": "/v1/images/edits"}}, "required": ["endpoint"]},
+      "then": {"properties": {"transport": {"const": "multipart_form_data_image_array"}}}
+    },
+    {
+      "if": {"properties": {"endpoint": {"const": "/v1/images/generations"}}, "required": ["endpoint"]},
+      "then": {"properties": {"transport": {"const": "json"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

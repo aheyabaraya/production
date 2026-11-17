@@ -1,0 +1,796 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/edit-marker-plan.schema.json",
+  "title": "IDOL Edit Marker Plan v6",
+  "description": "Active v6 04-owned bridge. Before edit timing, 04 exact-projects storyline and screen progression from a passed 03V v7 Production Cut manifest.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "storyline_lineage_projection",
+    "screen_progression_projection",
+    "production_cut_lineage_sources",
+    "source_audio",
+    "source_audio_motion_director_map",
+    "timebase",
+    "audio_phase_lock",
+    "upstream_intent_context",
+    "initial_alignment_pass",
+    "timeline_slots"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_edit_marker_plan.v6"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "type": "string"
+    },
+    "storyline_lineage_projection": {"$ref": "#/$defs/storylineLineageProjection"},
+    "screen_progression_projection": {"$ref": "#/$defs/screenProgressionProjection"},
+    "production_cut_lineage_sources": {
+      "type": "object",
+      "description": "Exact passed sources from which 04 reads Branch-Cut screen states, Audio Production Cut Placement v5, 03V motion/continuity/edit handoff, and playback truth. Multiple section-owned artifacts are allowed.",
+      "additionalProperties": false,
+      "required": [
+        "audio_branch_cut_placements",
+        "video_prompt_manifests",
+        "playback_review_records"
+      ],
+      "properties": {
+        "audio_branch_cut_placements": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "video_prompt_manifests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        },
+        "playback_review_records": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifactRef"}
+        }
+      }
+    },
+    "source_audio": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_selected_audio_analysis": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_audio_motion_director_map": {
+      "$ref": "#/$defs/artifactRef"
+    },
+    "source_audio_beat_onset_summary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source_recipe": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "const": "04_edit"
+    },
+    "timebase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fps", "frame_interval"],
+      "properties": {
+        "fps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["numerator", "denominator"],
+          "properties": {
+            "numerator": {"type": "integer", "minimum": 1},
+            "denominator": {"type": "integer", "minimum": 1}
+          }
+        },
+        "frame_interval": {"const": "start_inclusive_end_exclusive"},
+        "drop_frame": {"type": "boolean"},
+        "start_timecode": {
+          "type": "string",
+          "pattern": "^[0-9]{2}:[0-9]{2}:[0-9]{2}[:;][0-9]{2}$"
+        }
+      }
+    },
+    "audio_phase_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "meter_beats", "phase_source", "use_rule"],
+      "properties": {
+        "status": {"enum": ["unverified_candidate", "manual_locked"]},
+        "meter_beats": {"type": "integer", "minimum": 1, "maximum": 32},
+        "phase_source": {"type": "string", "minLength": 1},
+        "anchor_seconds": {"type": ["number", "null"], "minimum": 0},
+        "anchor_beat_in_bar": {"type": ["integer", "null"], "minimum": 1, "maximum": 32},
+        "use_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "use_rule": {
+      "type": "string",
+      "description": "Use this plan to choose source windows and recipe timing. Do not move exact source in/out or speed locks into 00A, 01, 02A, or 02B."
+    },
+    "upstream_intent_context": {
+      "type": "object",
+      "description": "Front graph-engineering context used as intent and candidate narrowing only. 04 must prove final timing from actual sources before recipe lock.",
+      "additionalProperties": true,
+      "required": [
+        "available",
+        "use_as",
+        "not_edit_truth",
+        "proof_required_in_04"
+      ],
+      "properties": {
+        "available": { "type": "boolean" },
+        "sources": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "song_lock": { "type": ["string", "null"] },
+            "song_choreography_performance_mv_map": { "type": ["string", "null"] },
+            "master_storyboard": { "type": ["string", "null"] },
+            "prompt_packets": { "type": ["string", "null"] },
+            "audio_branch_cut_placement": { "type": ["string", "null"] },
+            "video_prompt_manifest": { "type": ["string", "null"] },
+            "playback_review_record": { "type": ["string", "null"] },
+            "review_board_or_cue_sheet": { "type": ["string", "null"] }
+          }
+        },
+        "use_as": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "intent_map",
+              "candidate_narrowing",
+              "cue_function_seed",
+              "expected_motion_seed",
+              "review_priority_seed"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "not_edit_truth": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "source_in",
+              "source_out",
+              "speed_factor",
+              "final_cutpoint",
+              "final_candidate_selection",
+              "final_geometry_override"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "proof_required_in_04": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "actual_source_exists",
+              "first_useful_action",
+              "motion_peak",
+              "beat_or_onset_alignment",
+              "cue_function_alignment",
+              "contact_sheet_qc",
+              "preview_qc",
+              "source_quality_qc"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "efficiency_note": { "type": "string" },
+        "quality_note": { "type": "string" }
+      }
+    },
+    "initial_alignment_pass": {
+      "type": "object",
+      "description": "Required first analysis pass learned from early editing: read the selected audio and the active Audio Motion Director Map beat/onset evidence, scan rough/current recipe behavior, inspect source motion peaks, then align music markers, source-action markers, and cue-function markers before recipe lock.",
+      "additionalProperties": true,
+      "required": [
+        "analysis_inputs",
+        "baseline_cut_read",
+        "alignment_method",
+        "source_motion_scan",
+        "marker_lock_required_before_recipe"
+      ],
+      "properties": {
+        "analysis_inputs": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["selected_audio", "audio_motion_director_map"],
+          "properties": {
+            "selected_audio": { "type": "string" },
+            "cue_sheet": { "type": "string" },
+            "song_lock": { "type": ["string", "null"] },
+            "song_choreography_performance_mv_map": { "type": ["string", "null"] },
+            "master_storyboard": { "type": ["string", "null"] },
+            "prompt_packets": { "type": ["string", "null"] },
+            "audio_branch_cut_placement": { "type": ["string", "null"] },
+            "video_prompt_manifest": { "type": ["string", "null"] },
+            "playback_review_record": { "type": ["string", "null"] },
+            "selected_audio_analysis": { "type": ["string", "null"] },
+            "audio_motion_director_map": { "type": "string", "minLength": 1 },
+            "audio_beat_onset_summary": { "type": ["string", "null"] },
+            "roughcut_or_current_recipe": { "type": ["string", "null"] },
+            "source_motion_csv_dir": { "type": ["string", "null"] },
+            "automatic_recognition_reports": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "baseline_cut_read": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "roughcut_or_recipe": { "type": "string" },
+            "what_already_works": { "type": "array", "items": { "type": "string" } },
+            "what_is_not_marker_locked_yet": { "type": "array", "items": { "type": "string" } },
+            "first_pass_goal": { "type": "string" }
+          }
+        },
+        "alignment_method": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "enum": [
+              "music_marker",
+              "source_action_marker",
+              "cue_function_marker",
+              "motion_peak",
+              "duration_fit",
+              "contact_sheet_qc",
+              "roughcut_flow_read"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "source_motion_scan": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "motion_csv_dir": { "type": ["string", "null"] },
+            "source_first_seconds_scan": { "type": "boolean" },
+            "motion_peak_scan": { "type": "boolean" },
+            "candidate_source_contact_sheet": { "type": "boolean" }
+          }
+        },
+        "marker_lock_required_before_recipe": {
+          "type": "boolean",
+          "const": true
+        },
+        "pass_fail_rule": {
+          "type": "string",
+          "description": "A slot passes when music marker, source action marker, and cue function overlap enough for the cut to read."
+        }
+      }
+    },
+    "timeline_slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "slot",
+          "section_id",
+          "output_range",
+          "cue_role",
+          "nearby_markers",
+          "source_lineage",
+          "source_candidates",
+          "source_action_marker",
+          "incoming_cut_decision",
+          "cut_density",
+          "alignment_basis",
+          "motion_continuity",
+          "story_flow_continuity",
+          "space_visible_feeling_progression",
+          "directorial_transition_intent",
+          "audio_marker_alignment",
+          "slot_status",
+          "pass_fail_note"
+        ],
+        "properties": {
+          "slot": {
+            "type": "string",
+            "pattern": "^R[0-9]{2}[A-Z]?$"
+          },
+          "section_id": {
+            "type": "string",
+            "pattern": "^S[0-9]{2,}[A-Z]?$"
+          },
+          "transition_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "output_range": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "start_seconds",
+              "end_seconds",
+              "start_frame",
+              "end_frame",
+              "duration_frames"
+            ],
+            "properties": {
+              "start_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "end_seconds": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "label": {
+                "type": "string"
+              },
+              "start_frame": {"type": "integer", "minimum": 0},
+              "end_frame": {"type": "integer", "minimum": 1},
+              "duration_frames": {"type": "integer", "minimum": 1}
+            }
+          },
+          "cue_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nearby_markers": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "beats_seconds": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              },
+              "strong_onsets_seconds": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              },
+              "feature_boundaries_seconds": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              },
+              "lyric_or_section_handoff": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "source_lineage": {
+            "type": "object",
+            "description": "Maps this planned edit slot to the exact upstream Branch-Cut/03V screen job without forcing one Branch Cut to equal one final Edit Segment. One Branch Cut may support several edit slots, and one edit slot may combine several Branch Cuts when playback and continuity justify it.",
+            "additionalProperties": false,
+            "required": [
+              "screen_progression_node",
+              "source_origin",
+              "source_03v_cue_ids",
+              "source_core_cut_ids",
+              "source_branch_cut_ids",
+              "continuity_target_branch_cut_ids",
+              "lineage_note"
+            ],
+            "properties": {
+              "screen_progression_node": {"$ref": "#/$defs/editUnitScreenProgressionNode"},
+              "source_origin": {
+                "enum": [
+                  "03v_production_cut_derived",
+                  "current_run_non_production_cut_source"
+                ]
+              },
+              "source_03v_cue_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^03VCUE_[A-Z0-9_]{2,80}$"
+                }
+              },
+              "source_core_cut_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^C[0-9]{2,}[A-Z0-9_]*$"
+                }
+              },
+              "source_branch_cut_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "description": "Exact Branch Production Cut ids from the bound 03V cue. Empty is valid only when the cue is sourced solely from its Official Core Production Cut; validators must not fabricate a Branch id.",
+                "items": {
+                  "type": "string",
+                  "pattern": "^BC[0-9A-Z_]{2,80}$"
+                }
+              },
+              "continuity_target_branch_cut_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^BC[0-9A-Z_]{2,80}$"
+                }
+              },
+              "lineage_note": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "source_origin": {
+                      "const": "03v_production_cut_derived"
+                    }
+                  },
+                  "required": ["source_origin"]
+                },
+                "then": {
+                  "properties": {
+                    "source_03v_cue_ids": {"minItems": 1},
+                    "source_core_cut_ids": {"minItems": 1}
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "continuity_target_branch_cut_ids": {"minItems": 1}
+                  }
+                }
+              }
+            ]
+          },
+          "source_candidates": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "candidate_id",
+                "source"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_in": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                },
+                "source_out": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "exclusiveMinimum": 0
+                },
+                "speed_hint": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "exclusiveMinimum": 0
+                },
+                "automatic_recognition_evidence": {
+                  "type": "array",
+                  "description": "Evidence-only automatic recognition signals used to find or rank this candidate. These signals cannot lock final candidate selection, exact source timing, speed, geometry, or member identity.",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "required": [
+                      "signal_type",
+                      "artifact_or_method",
+                      "evidence_note"
+                    ],
+                    "properties": {
+                      "signal_type": {
+                        "type": "string",
+                        "enum": [
+                          "audio_marker",
+                          "motion_peak",
+                          "scene_cut_candidate",
+                          "pose_or_hand_candidate",
+                          "object_or_space_tag",
+                          "transcript_hint",
+                          "source_health_flag"
+                        ]
+                      },
+                      "artifact_or_method": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "time_seconds": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0
+                      },
+                      "confidence": {
+                        "type": [
+                          "number",
+                          "null"
+                        ],
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "evidence_note": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "human_review_status": {
+                        "type": "string",
+                        "enum": [
+                          "pending",
+                          "accepted_as_evidence",
+                          "rejected_as_noise"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "source_action_marker": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "visible_event",
+              "source_frame",
+              "source_fps"
+            ],
+            "properties": {
+              "visible_event": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_time_seconds": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "body_part_or_motion": {
+                "type": "string"
+              },
+              "camera_event": {
+                "type": "string"
+              },
+              "source_frame": {"type": ["integer", "null"], "minimum": 0},
+              "source_fps": {
+                "type": ["object", "null"],
+                "additionalProperties": false,
+                "required": ["numerator", "denominator"],
+                "properties": {
+                  "numerator": {"type": "integer", "minimum": 1},
+                  "denominator": {"type": "integer", "minimum": 1}
+                }
+              }
+            }
+          },
+          "incoming_cut_decision": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": [
+              "method",
+              "timing_relation",
+              "timing_offset_frames",
+              "pre_cut_evidence",
+              "cut_frame_evidence",
+              "post_cut_evidence",
+              "story_attention_handoff",
+              "screen_direction_or_composition",
+              "no_effect_pass",
+              "route"
+            ],
+            "properties": {
+              "method": {
+                "enum": [
+                  "clean_hard_cut",
+                  "cut_on_action",
+                  "eyeline_match",
+                  "screen_direction_match",
+                  "graphic_match",
+                  "object_state_match",
+                  "reaction_or_reveal",
+                  "motivated_contrast",
+                  "deliberate_discontinuity",
+                  "hold_or_negative_space"
+                ]
+              },
+              "timing_relation": {"enum": ["anticipation", "exact_hit", "afterbeat_hold", "intentional_offbeat"]},
+              "timing_offset_frames": {"type": "integer"},
+              "pre_cut_evidence": {"type": "string", "minLength": 1},
+              "cut_frame_evidence": {"type": "string", "minLength": 1},
+              "post_cut_evidence": {"type": "string", "minLength": 1},
+              "story_attention_handoff": {"type": "string", "minLength": 1},
+              "screen_direction_or_composition": {"type": "string", "minLength": 1},
+              "no_effect_pass": {"type": "boolean"},
+              "route": {"enum": ["keep_04", "send_04fx", "return_04"]},
+              "route_reason": {"type": "string"}
+            }
+          },
+          "cut_density": {
+            "type": "string",
+            "enum": [
+              "hold",
+              "light",
+              "medium",
+              "dense",
+              "hit_insert",
+              "formation_drive",
+              "deceleration"
+            ]
+          },
+          "alignment_basis": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "beat_or_onset",
+                "feature_boundary",
+                "lyric_or_section_handoff",
+                "visible_body_landing",
+                "hand_hit",
+                "foot_hit",
+                "gaze_lock",
+                "camera_move",
+                "cue_role"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "motion_continuity": {
+            "type": "string",
+            "description": "How body route, camera motion, or object movement remains continuous across this slot or transition."
+          },
+          "story_flow_continuity": {
+            "type": "string",
+            "description": "How the slot's story state, viewer attention, object/space consequence, or visible-feeling beat flows into the edit choice. This prevents the marker plan from passing on motion alone."
+          },
+          "space_visible_feeling_progression": {
+            "type": "string",
+            "description": "How the slot preserves or intentionally changes background/space and screen-read feeling compared with adjacent slots."
+          },
+          "directorial_transition_intent": {
+            "type": "string",
+            "description": "The intended edit technique or natural flow reason, such as action match, object-state handoff, gaze-led reveal, camera-direction match, hold for story clarity, contrast cut, or motivated hard reset."
+          },
+          "audio_marker_alignment": {
+            "type": "string",
+            "description": "How music marker, source action marker, and cue function marker align before recipe lock."
+          },
+          "derivative_impact": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "slot_status": {
+            "type": "string",
+            "enum": ["pass", "fail", "hold", "blocked", "needs_founder"]
+          },
+          "open_questions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "pass_fail_note": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "storylineLineageProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_video_prompt_manifest", "source_video_prompt_manifest_json_pointer", "source_value_sha256", "projected_value", "consumption_rule"],
+      "properties": {
+        "source_video_prompt_manifest": {"$ref": "#/$defs/artifactRef"},
+        "source_video_prompt_manifest_json_pointer": {"const": "/storyline_lineage_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"},
+        "consumption_rule": {"const": "read_complete_pre00_original_active_full_text_revision_history_density_review_and_reference_receipts_before_edit_timing_or_cutpoint_authorship"}
+      }
+    },
+    "screenProgressionProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_video_prompt_manifest", "source_video_prompt_manifest_json_pointer", "source_value_sha256", "projected_value", "consumption_rule"],
+      "properties": {
+        "source_video_prompt_manifest": {"$ref": "#/$defs/artifactRef"},
+        "source_video_prompt_manifest_json_pointer": {"const": "/screen_progression_projection/projected_value"},
+        "source_value_sha256": {"$ref": "#/$defs/sha256"},
+        "projected_value": {"type": "object"},
+        "consumption_rule": {"const": "exact_copy_no_paraphrase_or_default"}
+      }
+    },
+    "editUnitScreenProgressionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["screen_progression_map_id", "screen_progression_node_id", "section_id", "major_scene_id", "core_cut_id", "branch_cut_ids", "source_03v_cue_ids", "storyline_role", "observable_screen_proof"],
+      "properties": {
+        "screen_progression_map_id": {"type": "string", "minLength": 1},
+        "screen_progression_node_id": {"type": "string", "minLength": 1},
+        "section_id": {"type": "string", "minLength": 1},
+        "major_scene_id": {"type": "string", "minLength": 1},
+        "core_cut_id": {"type": "string", "minLength": 1},
+        "branch_cut_ids": {"type": "array", "uniqueItems": true, "description": "Exact Branch ids from the source 03V cue. Empty denotes an Official Core-only cue and must never be filled with a synthetic Branch id.", "items": {"type": "string", "minLength": 1}},
+        "source_03v_cue_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "storyline_role": {"type": "string", "minLength": 1},
+        "observable_screen_proof": {"type": "string", "minLength": 1}
+      }
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

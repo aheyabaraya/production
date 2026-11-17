@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-execution-receipt-v3-legacy.schema.json",
+  "title": "IDOL Image Generation Execution Receipt v3 Legacy Reader",
+  "description": "Pinned read-only copy of the committed v3 receipt contract for exact v11 evidence. New v12 execution emits image-generation-execution-receipt.schema.json v4.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "artifact_type", "status", "external_call_performed",
+    "request_path", "request_sha256", "approval_path", "approval_sha256",
+    "packet_id", "mode", "cut_id", "execution_adapter_id", "provider",
+    "provider_model_or_tool", "selected_native_tool", "auth_lane", "provider_profile_id", "runtime_version",
+    "provider_profile_sha256", "provider_capability_snapshot_sha256",
+    "founder_generation_authority_id", "spend_envelope", "prompt_sha256",
+    "attachment_order_sha256", "endpoint", "transport", "response_image_encoding", "native_session_binding", "output_count",
+    "output_path", "output_sha256", "automatic_fallback",
+    "prompt_rewrite_policy", "full_size_pixel_review_status",
+    "03v_handoff_allowed", "secret_values_recorded"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_execution_receipt.v3"},
+    "artifact_type": {"const": "image_generation_execution_receipt"},
+    "status": {"const": "generated_pending_pixel_review"},
+    "external_call_performed": {"const": true},
+    "request_path": {"type": "string", "minLength": 1},
+    "request_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_path": {"type": "string", "minLength": 1},
+    "approval_sha256": {"$ref": "#/$defs/sha256"},
+    "packet_id": {"type": "string", "minLength": 1},
+    "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+    "cut_id": {"type": "string", "minLength": 1},
+    "execution_adapter_id": {"enum": ["codex_imagegen", "grok_image", "openai_api_gpt_image_2", "xai_api_media"]},
+    "provider": {"enum": ["codex", "xai_grok_build", "openai", "xai_api"]},
+    "provider_model_or_tool": {"type": "string", "minLength": 1},
+    "selected_native_tool": {"enum": ["imagegen", "image_gen", "image_edit", null]},
+    "auth_lane": {"enum": ["codex_session", "subscription_oauth", "founder_approved_api"]},
+    "provider_profile_id": {"type": "string", "minLength": 1},
+    "runtime_version": {"type": "string", "minLength": 1},
+    "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "founder_generation_authority_id": {"type": "string", "minLength": 1},
+    "spend_envelope": {"type": "string", "minLength": 1},
+    "prompt_sha256": {"$ref": "#/$defs/sha256"},
+    "attachment_order_sha256": {"$ref": "#/$defs/sha256"},
+    "endpoint": {"oneOf": [{"type": "null"}, {"type": "string", "pattern": "^/[A-Za-z0-9][A-Za-z0-9._~!$&'()*+,;=:@%/-]{0,240}$"}]},
+    "transport": {"enum": ["provider_native_tool", "json", "json_data_url_array", "json_base64_array", "multipart_form_data_image_array"]},
+    "response_image_encoding": {"enum": ["provider_native_file", "base64_json", "https_url", "raw_body"]},
+    "native_session_binding": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/nativeSessionBinding"}]},
+    "output_count": {"const": 1},
+    "output_path": {"type": "string", "minLength": 1},
+    "output_sha256": {"$ref": "#/$defs/sha256"},
+    "automatic_fallback": {"const": "none"},
+    "prompt_rewrite_policy": {"const": "forbidden"},
+    "full_size_pixel_review_status": {"const": "pending"},
+    "03v_handoff_allowed": {"const": false},
+    "secret_values_recorded": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"execution_adapter_id": {"const": "codex_imagegen"}}, "required": ["execution_adapter_id"]},
+      "then": {
+        "properties": {
+          "provider": {"const": "codex"},
+          "provider_model_or_tool": {"const": "codex_imagegen"},
+          "selected_native_tool": {"const": "imagegen"},
+          "auth_lane": {"const": "codex_session"},
+          "endpoint": {"const": null},
+          "transport": {"const": "provider_native_tool"},
+          "response_image_encoding": {"const": "provider_native_file"},
+          "native_session_binding": {"$ref": "#/$defs/codexSessionBinding"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"execution_adapter_id": {"const": "grok_image"}}, "required": ["execution_adapter_id"]},
+      "then": {
+        "properties": {
+          "provider": {"const": "xai_grok_build"},
+          "provider_model_or_tool": {"const": "grok_image"},
+          "selected_native_tool": {"enum": ["image_gen", "image_edit"]},
+          "auth_lane": {"const": "subscription_oauth"},
+          "endpoint": {"const": null},
+          "transport": {"const": "provider_native_tool"},
+          "response_image_encoding": {"const": "provider_native_file"},
+          "native_session_binding": {"$ref": "#/$defs/grokSessionBinding"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"execution_adapter_id": {"const": "openai_api_gpt_image_2"}}, "required": ["execution_adapter_id"]},
+      "then": {
+        "properties": {
+          "provider": {"const": "openai"},
+          "provider_model_or_tool": {"const": "gpt-image-2"},
+          "selected_native_tool": {"const": null},
+          "provider_profile_id": {"const": "openai_image_api_current"},
+          "endpoint": {"enum": ["/v1/images/generations", "/v1/images/edits"]},
+          "transport": {"enum": ["json", "multipart_form_data_image_array"]},
+          "response_image_encoding": {"const": "base64_json"},
+          "native_session_binding": {"const": null}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"execution_adapter_id": {"const": "xai_api_media"}}, "required": ["execution_adapter_id"]},
+      "then": {
+        "properties": {
+          "provider": {"const": "xai_api"},
+          "provider_model_or_tool": {"not": {"const": "unregistered_selection_only"}},
+          "selected_native_tool": {"const": null},
+          "native_session_binding": {"const": null}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_adapter_id": {"const": "openai_api_gpt_image_2"},
+          "endpoint": {"const": "/v1/images/edits"}
+        },
+        "required": ["execution_adapter_id", "endpoint"]
+      },
+      "then": {"properties": {"transport": {"const": "multipart_form_data_image_array"}}}
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_adapter_id": {"const": "openai_api_gpt_image_2"},
+          "endpoint": {"const": "/v1/images/generations"}
+        },
+        "required": ["execution_adapter_id", "endpoint"]
+      },
+      "then": {"properties": {"transport": {"const": "json"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nativeSessionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assignment_id", "provider_session_id_sha256", "native_goal_id_sha256", "runtime_tool_inventory_sha256", "tool_call_event_sha256", "durable_terminal_event_sha256", "current_assignment_provider", "provider_tool", "cross_provider_tool_or_auth_used"],
+      "properties": {
+        "assignment_id": {"type": "string", "minLength": 1},
+        "provider_session_id_sha256": {"$ref": "#/$defs/sha256"},
+        "native_goal_id_sha256": {"$ref": "#/$defs/sha256"},
+        "runtime_tool_inventory_sha256": {"$ref": "#/$defs/sha256"},
+        "tool_call_event_sha256": {"$ref": "#/$defs/sha256"},
+        "durable_terminal_event_sha256": {"$ref": "#/$defs/sha256"},
+        "current_assignment_provider": {"enum": ["codex", "grok_build"]},
+        "provider_tool": {"enum": ["imagegen", "image_gen", "image_edit"]},
+        "cross_provider_tool_or_auth_used": {"const": false}
+      }
+    },
+    "codexSessionBinding": {
+      "allOf": [
+        {"$ref": "#/$defs/nativeSessionBinding"},
+        {"properties": {"current_assignment_provider": {"const": "codex"}, "provider_tool": {"const": "imagegen"}}}
+      ]
+    },
+    "grokSessionBinding": {
+      "allOf": [
+        {"$ref": "#/$defs/nativeSessionBinding"},
+        {"properties": {"current_assignment_provider": {"const": "grok_build"}, "provider_tool": {"enum": ["image_gen", "image_edit"]}}}
+      ]
+    }
+  }
+}

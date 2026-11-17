@@ -1,0 +1,4 @@
+interface:
+  display_name: "Idol Photoreal Human Face Lock"
+  short_description: "Build distinctive photosource face locks"
+  default_prompt: "Use $idol-photoreal-human-face-lock to draft an early-20s beautiful girl face-lock prompt that avoids generic idol averaging."

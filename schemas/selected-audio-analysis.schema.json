@@ -1,0 +1,813 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/selected-audio-analysis.schema.json",
+  "title": "IDOL Selected Audio Analysis",
+  "description": "Active idol_selected_audio_analysis.v1 contract. It analyzes an actual candidate or Founder-selected take as music: source identity, lyrics, craft, form, sections, audible triggers, and unresolved screen questions. It must not author target, MV message, member allocation, current-title visuals, references, scene action, choreography, styling, still-camera geometry, temporal camera motion, or prompt prose.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "content_id",
+    "status",
+    "title",
+    "source_audio",
+    "lyrics_original",
+    "sonic_function_read",
+    "song_craft_evaluation",
+    "selected_cut",
+    "lyrics_full_read",
+    "section_map",
+    "audio_motion_handoff",
+    "promotion_readiness",
+    "open_questions",
+    "hold_reasons"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_selected_audio_analysis.v1"
+    },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,80}$"
+    },
+    "status": {
+      "enum": [
+        "candidate_review",
+        "founder_selected",
+        "hold",
+        "rejected"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_audio": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "take_id",
+        "source_kind",
+        "founder_selection_status"
+      ],
+      "properties": {
+        "source_ref": {
+          "$ref": "#/$defs/artifactRef"
+        },
+        "take_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "enum": [
+            "suno_return",
+            "manual_production",
+            "founder_return",
+            "licensed_source",
+            "other"
+          ]
+        },
+        "founder_selection_status": {
+          "enum": [
+            "candidate",
+            "selected",
+            "rejected"
+          ]
+        }
+      }
+    },
+    "lyrics_original": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "source_type",
+        "completeness",
+        "exact_text_or_pointer",
+        "uncertain_lines"
+      ],
+      "properties": {
+        "source_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/artifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_type": {
+          "enum": [
+            "lyrics",
+            "transcript",
+            "instrumental_or_vocalise",
+            "unavailable"
+          ]
+        },
+        "completeness": {
+          "enum": [
+            "complete",
+            "partial",
+            "not_applicable",
+            "unavailable"
+          ]
+        },
+        "exact_text_or_pointer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uncertain_lines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "sonic_function_read": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sound_texture",
+        "hook_mechanics",
+        "tempo_speed_groove",
+        "feeling_temperature",
+        "vocal_rap_color",
+        "production_dynamics",
+        "reference_fit_delta",
+        "screen_readability_questions"
+      ],
+      "properties": {
+        "sound_texture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hook_mechanics": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tempo_speed_groove": {
+          "type": "string",
+          "minLength": 1
+        },
+        "feeling_temperature": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vocal_rap_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "production_dynamics": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_fit_delta": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen_readability_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "song_craft_evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evaluation_mode",
+        "candidate_ids",
+        "selected_candidate_id",
+        "dimensions",
+        "audition_scorecard",
+        "selection_reason",
+        "rejection_consequences"
+      ],
+      "properties": {
+        "evaluation_mode": {
+          "enum": [
+            "single_take",
+            "comparative"
+          ]
+        },
+        "candidate_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "selected_candidate_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "audition_scorecard": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "candidate_id",
+              "dimension_scores",
+              "observed_strength",
+              "observed_risk"
+            ],
+            "properties": {
+              "candidate_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "dimension_scores": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 10
+                }
+              },
+              "observed_strength": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observed_risk": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "selection_reason": {
+          "type": "string"
+        },
+        "rejection_consequences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "selected_cut": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_duration_seconds",
+        "active_start_seconds",
+        "active_end_seconds",
+        "selected_duration_seconds",
+        "cut_policy"
+      ],
+      "properties": {
+        "source_duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "active_start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "active_end_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "selected_duration_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "cut_policy": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "lyrics_full_read": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "whole_song_summary",
+        "song_meaning_arc",
+        "repeated_phrases_or_hooks",
+        "literal_misread_risks",
+        "front_planning_interpretation_questions"
+      ],
+      "properties": {
+        "whole_song_summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "song_meaning_arc": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "repeated_phrases_or_hooks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "literal_misread_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "front_planning_interpretation_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "section_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/audioSection"
+      }
+    },
+    "audio_motion_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "next_contract",
+        "cues_to_map",
+        "precision_marker_sources",
+        "timing_risks",
+        "boundary"
+      ],
+      "properties": {
+        "owner": {
+          "const": "idol-song-lock"
+        },
+        "next_contract": {
+          "const": "idol_audio_motion_director_map.v1"
+        },
+        "cues_to_map": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "precision_marker_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/markerRef"
+          }
+        },
+        "timing_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "boundary": {
+          "const": "audio_evidence_and_questions_only"
+        }
+      }
+    },
+    "promotion_readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_take_confirmed",
+        "craft_evaluation_complete",
+        "lyrics_or_instrumental_status_confirmed",
+        "section_map_complete",
+        "next_action",
+        "notes"
+      ],
+      "properties": {
+        "selected_take_confirmed": {
+          "type": "boolean"
+        },
+        "craft_evaluation_complete": {
+          "type": "boolean"
+        },
+        "lyrics_or_instrumental_status_confirmed": {
+          "type": "boolean"
+        },
+        "section_map_complete": {
+          "type": "boolean"
+        },
+        "next_action": {
+          "enum": [
+            "build_audio_motion_map",
+            "founder_track_selection",
+            "hold",
+            "reject"
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "hold_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "founder_selected"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "source_audio": {
+            "properties": {
+              "founder_selection_status": {
+                "const": "selected"
+              }
+            }
+          },
+          "song_craft_evaluation": {
+            "properties": {
+              "selected_candidate_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "promotion_readiness": {
+            "properties": {
+              "selected_take_confirmed": {
+                "const": true
+              },
+              "craft_evaluation_complete": {
+                "const": true
+              },
+              "lyrics_or_instrumental_status_confirmed": {
+                "const": true
+              },
+              "section_map_complete": {
+                "const": true
+              },
+              "next_action": {
+                "const": "build_audio_motion_map"
+              }
+            }
+          },
+          "hold_reasons": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "hold"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "hold_reasons": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lyrics_original": {
+            "properties": {
+              "source_type": {
+                "enum": [
+                  "lyrics",
+                  "transcript"
+                ]
+              }
+            },
+            "required": [
+              "source_type"
+            ]
+          }
+        },
+        "required": [
+          "lyrics_original"
+        ]
+      },
+      "then": {
+        "properties": {
+          "lyrics_original": {
+            "properties": {
+              "source_ref": {
+                "$ref": "#/$defs/artifactRef"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "markerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "marker_id",
+        "marker_type",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "marker_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "marker_type": {
+          "enum": [
+            "beat_grid",
+            "onset_candidates",
+            "pitch_contour_proxy",
+            "motif_candidates",
+            "manual_cue_sheet"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "audioSection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section_id",
+        "label",
+        "section_family",
+        "reserve_status",
+        "start_seconds",
+        "end_seconds",
+        "energy_read",
+        "sonic_read",
+        "lyric_source",
+        "lyric_function",
+        "music_function",
+        "audio_triggers",
+        "audio_motion_questions",
+        "front_planning_questions",
+        "editability_evidence"
+      ],
+      "properties": {
+        "section_id": {
+          "type": "string",
+          "pattern": "^S[0-9]{2,}(?:[A-Z])?$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_family": {
+          "enum": [
+            "intro",
+            "verse",
+            "pre_chorus",
+            "chorus",
+            "post_chorus",
+            "interlude",
+            "bridge",
+            "outro",
+            "other"
+          ]
+        },
+        "reserve_status": {
+          "enum": [
+            "active",
+            "reserve_only",
+            "omitted"
+          ]
+        },
+        "start_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "energy_read": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sonic_read": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sound_texture",
+            "hook_or_motif",
+            "speed_groove",
+            "feeling_shift",
+            "production_detail"
+          ],
+          "properties": {
+            "sound_texture": {
+              "type": "string",
+              "minLength": 1
+            },
+            "hook_or_motif": {
+              "type": "string",
+              "minLength": 1
+            },
+            "speed_groove": {
+              "type": "string",
+              "minLength": 1
+            },
+            "feeling_shift": {
+              "type": "string",
+              "minLength": 1
+            },
+            "production_detail": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "lyric_source": {
+          "enum": [
+            "literal_lyric",
+            "transcript",
+            "instrumental",
+            "vocalise",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "lyric_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "music_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audio_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/audioTrigger"
+          }
+        },
+        "audio_motion_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "front_planning_questions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "editability_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "audioTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_id",
+        "trigger_type",
+        "time_seconds",
+        "audible_fact",
+        "evidence_refs"
+      ],
+      "properties": {
+        "trigger_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trigger_type": {
+          "enum": [
+            "lyric",
+            "vocal_entry",
+            "vocal_hold",
+            "adlib",
+            "drum_or_percussion",
+            "bass",
+            "high_transient",
+            "texture_change",
+            "silence_or_breath",
+            "motif_return",
+            "section_boundary"
+          ]
+        },
+        "time_seconds": {
+          "type": "number",
+          "minimum": 0
+        },
+        "audible_fact": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

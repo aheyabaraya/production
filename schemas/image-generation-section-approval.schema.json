@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-section-approval.schema.json",
+  "title": "IDOL Image Generation Scope Approval",
+  "description": "Active v6 Founder authorization for an exact production scope, current-session-native or explicit provider lane, provider-specific auth/profile snapshot, prompt bytes, locked attachments, count, spend envelope, and output paths. It never equates provider tools or implies fallback or creative PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "content_id", "section_id", "production_scope_id", "source_prompt_packets_sha256", "run_execution_selection", "execution_adapter_id", "provider", "auth_lane", "provider_profile_id", "provider_profile_sha256", "provider_capability_snapshot_sha256", "founder_generation_authority_id", "external_execution_approved", "paid_generation_approved", "approved_output_count", "spend_envelope", "automatic_fallback", "packets"],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_section_approval.v6"},
+    "artifact_type": {"const": "image_generation_scope_approval"},
+    "content_id": {"type": "string", "minLength": 1},
+    "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "production_scope_id": {"type": "string", "minLength": 1},
+    "source_prompt_packets_sha256": {"$ref": "#/$defs/sha256"},
+    "run_execution_selection": {"$ref": "#/$defs/runExecutionSelection"},
+    "execution_adapter_id": {"enum": ["codex_imagegen", "openai_api_gpt_image_2", "grok_image", "xai_api_media"]},
+    "provider": {"enum": ["codex", "openai", "xai_grok_build", "xai_api"]},
+    "auth_lane": {"enum": ["codex_session", "subscription_oauth", "founder_approved_api"]},
+    "provider_profile_id": {"type": "string", "minLength": 1},
+    "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+    "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "founder_generation_authority_id": {"type": "string", "minLength": 1},
+    "external_execution_approved": {"const": true},
+    "paid_generation_approved": {"const": true},
+    "approved_output_count": {"type": "integer", "minimum": 1},
+    "spend_envelope": {"type": "string", "minLength": 1},
+    "automatic_fallback": {"const": "none"},
+    "packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["packet_id", "mode", "cut_id", "prompt_sha256", "approved_attachment_sha256s", "approved_attachment_paths", "expected_output_path", "output_count", "decision"],
+        "properties": {
+          "packet_id": {"type": "string", "minLength": 1},
+          "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+          "cut_id": {"type": "string", "minLength": 1},
+          "prompt_sha256": {"$ref": "#/$defs/sha256"},
+          "approved_attachment_sha256s": {"type": "array", "items": {"$ref": "#/$defs/sha256"}},
+          "approved_attachment_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "expected_output_path": {"type": "string", "minLength": 1},
+          "output_count": {"const": 1},
+          "decision": {"const": "approved_for_current_job"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "runExecutionSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_role_provider", "image_execution_request", "image_execution_request_origin", "image_execution_session_provider", "image_execution_lane", "video_execution_lane", "automatic_fallback"],
+      "properties": {
+        "creative_role_provider": {"enum": ["codex", "grok_build"]},
+        "image_execution_request": {"enum": ["current_session_native", "openai_api_gpt_image_2", "grok_build_oauth_subscription", "xai_api_media"]},
+        "image_execution_request_origin": {"enum": ["founder_omitted_current_session_default", "founder_explicit"]},
+        "image_execution_session_provider": {"enum": ["codex", "grok_build"]},
+        "image_execution_lane": {"enum": ["codex_session_native", "openai_api_gpt_image_2", "grok_build_oauth_subscription", "xai_api_media"]},
+        "video_execution_lane": {"enum": ["grok_build_oauth_subscription", "xai_api_media", "other_registered"]},
+        "automatic_fallback": {"const": "none"}
+      },
+      "allOf": [
+        {"if": {"properties": {"image_execution_request_origin": {"const": "founder_omitted_current_session_default"}}}, "then": {"properties": {"image_execution_request": {"const": "current_session_native"}}}},
+        {"if": {"properties": {"image_execution_request": {"const": "current_session_native"}}}, "then": {"oneOf": [
+          {"properties": {"creative_role_provider": {"const": "codex"}, "image_execution_session_provider": {"const": "codex"}, "image_execution_lane": {"const": "codex_session_native"}}},
+          {"properties": {"creative_role_provider": {"const": "grok_build"}, "image_execution_session_provider": {"const": "grok_build"}, "image_execution_lane": {"const": "grok_build_oauth_subscription"}}}
+        ]}},
+        {"if": {"properties": {"image_execution_request": {"const": "openai_api_gpt_image_2"}}}, "then": {"properties": {"image_execution_lane": {"const": "openai_api_gpt_image_2"}}}},
+        {"if": {"properties": {"image_execution_request": {"const": "grok_build_oauth_subscription"}}}, "then": {"properties": {"image_execution_lane": {"const": "grok_build_oauth_subscription"}}}},
+        {"if": {"properties": {"image_execution_request": {"const": "xai_api_media"}}}, "then": {"properties": {"image_execution_lane": {"const": "xai_api_media"}}}}
+      ]
+    }
+  }
+}

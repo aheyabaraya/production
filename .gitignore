@@ -1,0 +1,211 @@
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local secrets
+.env
+.env.*
+!.env.example
+.runtime/
+.vercel/
+# Keep Grok's machine-local state private while versioning the two IDOL-native
+# harness entry skills that every Grok checkout must discover.
+.grok/*
+!.grok/config.toml
+!.grok/sandbox.toml
+!.grok/hooks/
+!.grok/hooks/**
+!.grok/skills/
+.grok/skills/*
+!.grok/skills/idol-grok-harness-owner/
+!.grok/skills/idol-grok-harness-owner/**
+!.grok/skills/idol-harness-step/
+!.grok/skills/idol-harness-step/**
+!.grok/skills/idol-cli-bridge/
+!.grok/skills/idol-cli-bridge/**
+*.pem
+*.p12
+*.p8
+*.key
+*.crt
+*token*.json
+*oauth*.json
+*credential*.json
+*credentials*.json
+*service-account*.json
+scripts/*oauth*reauth*.py
+
+# Dependencies and build outputs
+node_modules/
+.venv*/
+dist/
+build/
+coverage/
+.cache/
+.pip-cache/
+.tmp/
+tmp/
+.playwright-cli/
+__pycache__/
+*.pyc
+
+# Generated sync/export surfaces
+drive-sync/
+output/
+/outputs/
+/exports/*
+!/exports/.gitkeep
+/contact-sheets/
+runs/**/work/
+runs/**/exports/
+runs/**/generations/
+runs/**/generations*/
+runs/**/archive/*
+!runs/**/archive/manifest.yaml
+runs/**/face-reference-grid-test/
+runs/**/research/bilibili-reference-cache/
+runs/**/research/_local_reference_cache/
+runs/**/research/*-cache/
+runs/**/research/**/*-cache/
+runs/**/research/_tmp_*/
+runs/**/research/source-audio/
+runs/**/research/**/images/
+runs/**/research/**/contact-sheets/
+runs/**/research/amv-references/**/*.png
+runs/**/research/amv-references/**/*.jpg
+runs/**/research/amv-references/**/*.jpeg
+runs/**/research/amv-references/**/*.webp
+runs/**/research/reference-crops/**/*.png
+runs/**/research/reference-crops/**/*.jpg
+runs/**/research/reference-crops/**/*.jpeg
+runs/**/research/reference-crops/**/*.webp
+runs/**/research/**/*.wav
+runs/**/research/**/*.mp3
+runs/**/research/**/*.mp4
+runs/**/research/**/*.mov
+runs/**/research/**/*.webm
+runs/**/research/**/*.heic
+runs/**/research/**/*.HEIC
+runs/**/handoff/02-03-grok-imagine-*/
+runs/**/handoff/grok-imagine-*/
+runs/**/handoff/slot-compile-index-*.yaml
+runs/**/audio/
+runs/**/video/
+runs/**/renders/
+runs/**/frames/
+runs/**/review/contact-sheets/
+runs/**/review/storyboard-preview*/
+runs/**/review/**/images/
+runs/**/review/**/*.png
+runs/**/review/**/*.jpg
+runs/**/review/**/*.jpeg
+runs/**/review/**/*.webp
+
+# The complete source-materials tree is machine-local. Its manifests, analyses,
+# reports, contact sheets, and media must not enter Git or a later push.
+/source-materials/
+
+# Legacy fine-grained rules below remain as documentation for older checkouts.
+source-materials/video-sources/**/videos/
+source-materials/video-sources/**/audio/
+source-materials/video-sources/**/raw/
+source-materials/video-sources/**/source-cache/
+source-materials/video-sources/**/clips/
+source-materials/video-sources/**/downloads/
+source-materials/video-sources/**/contact-sheets/
+source-materials/video-sources/**/*.mp4
+source-materials/video-sources/**/*.m4s
+source-materials/video-sources/**/*.wav
+source-materials/video-sources/**/*.webm
+source-materials/video-sources/**/*.mov
+source-materials/video-sources/**/analysis/scenedetect-v1/**/stats.csv
+
+# Reusable still-image originals stay local; commit source manifests, the
+# pointer catalog, and run-owned selected derivatives only when their owner
+# contract requires it.
+source-materials/image-sources/**/originals/
+source-materials/image-sources/**/*.png
+source-materials/image-sources/**/*.jpg
+source-materials/image-sources/**/*.jpeg
+source-materials/image-sources/**/*.webp
+source-materials/image-sources/**/*.tif
+source-materials/image-sources/**/*.tiff
+source-materials/image-sources/**/*.heic
+
+# Misplaced local media mirrors stay protected until a separate hash-bound
+# migration/cleanup closes their source-material owner and reverse references.
+/reference-library/one-move-domain-expansion-climax-source-library-v1/
+
+# Local one-off exports and migrated raw reference caches.
+/exports/
+/ink-s00-s03-preview-v6-cosmic-intro-testTEMP_MPY_wvf_snd.mp4
+/젤로버스/
+
+# CF-code generated local surfaces
+cf/.playwright-cli/
+cf/drive-sync-notes/**/social/
+cf/runs/**/exports/
+cf/runs/**/generations/
+# Keep generated media local, but version the compact metadata that identifies
+# exact output bytes and closes final delivery lineage.
+!cf/runs/**/generations/
+cf/runs/**/generations/**
+!cf/runs/**/generations/**/
+!cf/runs/**/generations/cf-code/output-registry.yaml
+!cf/runs/**/generations/cf-code/package/final-delivery/manifest.yaml
+cf/runs/**/audio/
+cf/runs/**/video/
+cf/runs/**/renders/
+cf/runs/**/frames/
+cf/runs/**/research/current-draft-assets/
+cf/runs/**/research/**/*-assets/
+cf/runs/**/handoff/seedance/
+cf/musinsa/concepts/**/*-images/
+
+# API/batch payloads and generated machine output
+runs/**/*.jsonl
+runs/**/batch-api-run.json
+runs/**/import-report.json
+runs/**/request.json
+runs/**/response.json
+
+# Local research probes and repeated prompt drafts.
+# Promote a selected prompt by saving it as suno-prompt-packet-selected.md
+# or by force-adding a specific version intentionally.
+runs/**/research/drafts/
+runs/**/research/probes/
+runs/**/research/tmp/
+runs/**/research/style-drafts/
+runs/**/research/suno-prompt-packet-v*.md
+runs/**/research/suno-style-pack-*.md
+runs/**/research/suno-style-probe-*.md
+runs/**/research/audio-analysis-*.json
+runs/**/research/*-image-refs/
+!runs/**/research/suno-prompt-packet-selected.md
+!runs/**/research/suno-prompt-packet-final.md
+
+# Generated local visual previews. Force-add selected images only when they
+# become durable source material or a final review asset.
+docs/**/previews/
+
+# Candidate banks stay local until promoted.
+creative-bank/message-hooks/candidates/*.yaml
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+
+# Local test sandboxes and superseded Company staging copies.
+/runs/graph-contextual-judgment-*/
+/development/company-ops-v2-4/candidates/
+/development/company-ops-v2-4/integration/
+/work/founder-minimal-reference-motion-plan-20260903/agent-returns/tmp-w4/
+/work/founder-minimal-reference-motion-plan-20260903/scratch/
+/work/company-ops-grok-finalization-20260905/work/role-context-packs/
+
+# Loom Web is an independent nested repository; its checkout is optional for IDOL.
+/web/

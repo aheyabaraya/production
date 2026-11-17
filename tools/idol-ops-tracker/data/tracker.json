@@ -1,0 +1,608 @@
+{
+  "schema_version": "idol-ops-tracker.v1",
+  "meta": {
+    "revision": 1,
+    "updated_at": "2026-08-12T17:12:49+09:00",
+    "timezone": "Asia/Seoul",
+    "workspace_name": "IDOL Ops Control",
+    "source_scope": "IDOL repository only",
+    "write_scope": "tools/idol-ops-tracker/data/tracker.json only"
+  },
+  "lanes": [
+    {
+      "id": "idol",
+      "name": "IDOL Production",
+      "short_name": "IDOL",
+      "color": "#8b5cf6",
+      "source_ref": "wiki/production-system.md",
+      "privacy": "founder_private",
+      "source_policy": "metadata_and_explicit_evidence_only"
+    },
+    {
+      "id": "business_marketing",
+      "name": "Business & Marketing",
+      "short_name": "BIZ",
+      "color": "#ec4899",
+      "source_ref": "business-marketing/README.md",
+      "privacy": "founder_private",
+      "source_policy": "metadata_only_no_body_ingestion"
+    },
+    {
+      "id": "cf",
+      "name": "CF Production",
+      "short_name": "CF",
+      "color": "#f59e0b",
+      "source_ref": "cf/AGENTS.md",
+      "privacy": "founder_private",
+      "source_policy": "metadata_and_explicit_evidence_only"
+    },
+    {
+      "id": "web",
+      "name": "Loom Web",
+      "short_name": "WEB",
+      "color": "#22c55e",
+      "source_ref": "web/README.md",
+      "privacy": "founder_private",
+      "source_policy": "metadata_and_git_signals_only"
+    }
+  ],
+  "source_repositories": [
+    {
+      "id": "idol_root",
+      "label": "IDOL root",
+      "path": ".",
+      "scan_tracked_changes": false
+    },
+    {
+      "id": "loom_web",
+      "label": "Loom Web",
+      "path": "web"
+    }
+  ],
+  "projects": [
+    {
+      "id": "idol-mv-active-run",
+      "lane_id": "idol",
+      "title": "IDOL MV — 활성 run 연결 대기",
+      "objective": "Founder가 선택한 한 곡의 전체 MV를 PRE-00에서 05 패키지까지 증거와 gate를 보존하며 완성한다.",
+      "owner": "Founder / Overall Director",
+      "status": "baseline_pending",
+      "declared_health": "unknown",
+      "priority": "P1",
+      "start_date": null,
+      "target_date": null,
+      "next_review_at": null,
+      "review_cadence_days": 7,
+      "next_action": "현재 관리할 ALBUM_KEY / TITLE_KEY / RUN_ID를 선택하고 마일스톤 날짜와 증거 경로를 연결",
+      "source_refs": [
+        "wiki/production-system.md",
+        "automation/harness-stage-registry.yaml"
+      ],
+      "baseline": {
+        "state": "draft",
+        "revision": 0,
+        "locked_at": null,
+        "locked_by": null
+      },
+      "milestones": [
+        {
+          "id": "idol-pre00",
+          "title": "PRE-00 타깃·약속 lock",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Overall Director",
+          "note": "Founder target/promise lock 증거 필요"
+        },
+        {
+          "id": "idol-song-00a",
+          "title": "Song Room·선택 오디오·00A",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Song Room",
+          "note": "선택 오디오와 audio-motion map 포함"
+        },
+        {
+          "id": "idol-front-planning",
+          "title": "Front Planning·01R close",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "CDD",
+          "note": "전체곡 progression과 section/reference evidence"
+        },
+        {
+          "id": "idol-01-02a",
+          "title": "01 확장·02A Founder PASS",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "CDD / Overall Director",
+          "note": "02A exact Founder PASS 전에는 downstream 진행 불가"
+        },
+        {
+          "id": "idol-02b-03v",
+          "title": "02B·pixel review·03V playback",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Post-02A section owner",
+          "note": "생성 파일 수가 아니라 passed pixels와 playback이 증거"
+        },
+        {
+          "id": "idol-edit-04fx",
+          "title": "04 edit·04FX audit",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Edit Director",
+          "note": "04FX는 complete_no_fx_needed도 유효한 close"
+        },
+        {
+          "id": "idol-package-05",
+          "title": "05 master·release package",
+          "weight": 5,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Overall Director / Founder",
+          "note": "공개·업로드는 별도 승인"
+        }
+      ],
+      "blockers": [],
+      "created_at": "2026-08-12T17:12:49+09:00"
+    },
+    {
+      "id": "loom-business-marketing",
+      "lane_id": "business_marketing",
+      "title": "Loom Business & Marketing 운영",
+      "objective": "Loom의 사업·브랜드·마케팅 방향을 목표, 실행 계획, 측정, Founder decision으로 연결한다.",
+      "owner": "Founder",
+      "status": "baseline_pending",
+      "declared_health": "unknown",
+      "priority": "P1",
+      "start_date": null,
+      "target_date": null,
+      "next_review_at": null,
+      "review_cadence_days": 7,
+      "next_action": "현재 active intention 중 이번 30일에 실행할 initiative 1~3개와 KPI 기준선을 선택",
+      "source_refs": [
+        "business-marketing/README.md",
+        "business-marketing/decisions/2026-08-06-dual-track-tool-expansion-intent.md",
+        "business-marketing/planning/loom-branding-to-vote-bridge-v1.md"
+      ],
+      "baseline": {
+        "state": "draft",
+        "revision": 0,
+        "locked_at": null,
+        "locked_by": null
+      },
+      "milestones": [
+        {
+          "id": "biz-direction-lock",
+          "title": "방향·우선순위 decision lock",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "계획과 승인·공개 authority는 분리"
+        },
+        {
+          "id": "biz-kpi-baseline",
+          "title": "KPI·측정 기준선",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "측정 가능하고 의사결정에 쓰이는 지표만"
+        },
+        {
+          "id": "biz-operating-plan",
+          "title": "실행 계획·일정·owner",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "다음 행동과 review cadence 포함"
+        },
+        {
+          "id": "biz-execution",
+          "title": "캠페인·콘텐츠·사업 실행",
+          "weight": 30,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder / assigned lane",
+          "note": "외부 mutation은 별도 승인"
+        },
+        {
+          "id": "biz-review-learning",
+          "title": "성과 검토·다음 decision",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "미측정 수치는 0으로 만들지 않음"
+        }
+      ],
+      "blockers": [],
+      "created_at": "2026-08-12T17:12:49+09:00"
+    },
+    {
+      "id": "cf-active-content",
+      "lane_id": "cf",
+      "title": "CF — 활성 CF_CONTENT_ID 연결 대기",
+      "objective": "광고 대상의 증명과 commercial logic을 CF00에서 CF70까지 일관되게 완성한다.",
+      "owner": "Founder / Advertising Director",
+      "status": "baseline_pending",
+      "declared_health": "unknown",
+      "priority": "P2",
+      "start_date": null,
+      "target_date": null,
+      "next_review_at": null,
+      "review_cadence_days": 7,
+      "next_action": "현재 관리할 CF_CONTENT_ID를 선택하고 CF00~CF70 evidence path와 기간을 연결",
+      "source_refs": [
+        "cf/AGENTS.md",
+        "cf/wiki/cf-v2-stage-name-map.md"
+      ],
+      "baseline": {
+        "state": "draft",
+        "revision": 0,
+        "locked_at": null,
+        "locked_by": null
+      },
+      "milestones": [
+        {
+          "id": "cf-cf00",
+          "title": "CF00 research·Founder workbench",
+          "weight": 12,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": "타깃·트렌드·main/support·story order consolidated review"
+        },
+        {
+          "id": "cf-cf10",
+          "title": "CF10 subject·platform contract",
+          "weight": 8,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": ""
+        },
+        {
+          "id": "cf-cf20",
+          "title": "CF20 reference research",
+          "weight": 12,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "CDD / departments",
+          "note": ""
+        },
+        {
+          "id": "cf-cf30",
+          "title": "CF30 route lab·concept selection",
+          "weight": 13,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": ""
+        },
+        {
+          "id": "cf-cf40",
+          "title": "CF40 Core·Branch Cut architecture",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": ""
+        },
+        {
+          "id": "cf-cf50",
+          "title": "CF50 frame·prompt packet",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": "CF-ALL은 ready_for_image_generation 전 정지"
+        },
+        {
+          "id": "cf-cf60",
+          "title": "CF60 video generation packet",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": "생성은 별도 Founder 승인"
+        },
+        {
+          "id": "cf-cf70",
+          "title": "CF70 edit·package QC",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Advertising Director",
+          "note": ""
+        }
+      ],
+      "blockers": [],
+      "created_at": "2026-08-12T17:12:49+09:00"
+    },
+    {
+      "id": "loom-web-product",
+      "lane_id": "web",
+      "title": "Loom Web Product",
+      "objective": "Loom의 콘텐츠·멤버·참여 경험을 검증 가능한 웹 제품으로 연결한다.",
+      "owner": "Founder / Web owner",
+      "status": "baseline_pending",
+      "declared_health": "unknown",
+      "priority": "P2",
+      "start_date": null,
+      "target_date": null,
+      "next_review_at": null,
+      "review_cadence_days": 7,
+      "next_action": "현재 prototype에서 이번 릴리스에 포함할 범위와 preview 목표일을 확정",
+      "source_refs": [
+        "web/README.md",
+        "web/package.json"
+      ],
+      "baseline": {
+        "state": "draft",
+        "revision": 0,
+        "locked_at": null,
+        "locked_by": null
+      },
+      "milestones": [
+        {
+          "id": "web-scope",
+          "title": "제품 목표·release scope",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "prototype와 public release를 분리"
+        },
+        {
+          "id": "web-contract",
+          "title": "콘텐츠·데이터·privacy contract",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Web owner",
+          "note": ""
+        },
+        {
+          "id": "web-build",
+          "title": "기능·화면 구현",
+          "weight": 30,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Web owner",
+          "note": ""
+        },
+        {
+          "id": "web-validation",
+          "title": "validation·type-check·build",
+          "weight": 20,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Web owner",
+          "note": "실제 검증 결과가 증거"
+        },
+        {
+          "id": "web-preview",
+          "title": "preview review",
+          "weight": 10,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder / Web owner",
+          "note": "preview deploy는 별도 승인"
+        },
+        {
+          "id": "web-release",
+          "title": "Founder release decision",
+          "weight": 15,
+          "status": "not_started",
+          "gate_status": "pending",
+          "evidence_required": true,
+          "evidence_refs": [],
+          "start_date": null,
+          "target_date": null,
+          "owner": "Founder",
+          "note": "production deploy·공개는 명시 승인"
+        }
+      ],
+      "blockers": [],
+      "created_at": "2026-08-12T17:12:49+09:00"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "decision-tracker-boundary",
+      "title": "트래커 범위는 IDOL repo로 한정하고 하네스 원본은 읽기 전용으로 유지",
+      "project_id": null,
+      "owner": "Founder",
+      "status": "approved",
+      "needed_by": null,
+      "impact": "트래커가 production truth, gate, schema, automation, run artifact를 수정하거나 대체하지 않는다.",
+      "source_refs": [
+        "AGENTS.md"
+      ],
+      "created_at": "2026-08-12T17:12:49+09:00",
+      "resolved_at": "2026-08-12T17:12:49+09:00",
+      "resolution": "tools/idol-ops-tracker 내부 자체 데이터만 쓰기 허용"
+    }
+  ],
+  "executions": [],
+  "templates": [
+    {
+      "id": "template-idol-mv",
+      "name": "IDOL MV",
+      "lane_id": "idol",
+      "source_refs": [
+        "wiki/production-system.md",
+        "automation/harness-stage-registry.yaml"
+      ],
+      "milestones": [
+        {"id": "pre00", "title": "PRE-00 타깃·약속 lock", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "song-00a", "title": "Song Room·선택 오디오·00A", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "front-planning", "title": "Front Planning·01R close", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "01-02a", "title": "01 확장·02A Founder PASS", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "02b-03v", "title": "02B·pixel review·03V playback", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "edit-04fx", "title": "04 edit·04FX audit", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "package-05", "title": "05 master·release package", "weight": 5, "status": "not_started", "gate_status": "pending", "evidence_required": true}
+      ]
+    },
+    {
+      "id": "template-business-marketing",
+      "name": "Business & Marketing",
+      "lane_id": "business_marketing",
+      "source_refs": [
+        "business-marketing/README.md"
+      ],
+      "milestones": [
+        {"id": "direction-lock", "title": "방향·우선순위 decision lock", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "kpi-baseline", "title": "KPI·측정 기준선", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "operating-plan", "title": "실행 계획·일정·owner", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "execution", "title": "캠페인·콘텐츠·사업 실행", "weight": 30, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "review-learning", "title": "성과 검토·다음 decision", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true}
+      ]
+    },
+    {
+      "id": "template-cf",
+      "name": "CF",
+      "lane_id": "cf",
+      "source_refs": [
+        "cf/AGENTS.md",
+        "cf/wiki/cf-v2-stage-name-map.md"
+      ],
+      "milestones": [
+        {"id": "cf00", "title": "CF00 research·Founder workbench", "weight": 12, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf10", "title": "CF10 subject·platform contract", "weight": 8, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf20", "title": "CF20 reference research", "weight": 12, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf30", "title": "CF30 route lab·concept selection", "weight": 13, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf40", "title": "CF40 Core·Branch Cut architecture", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf50", "title": "CF50 frame·prompt packet", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf60", "title": "CF60 video generation packet", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "cf70", "title": "CF70 edit·package QC", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true}
+      ]
+    },
+    {
+      "id": "template-web",
+      "name": "Loom Web",
+      "lane_id": "web",
+      "source_refs": [
+        "web/README.md",
+        "web/package.json"
+      ],
+      "milestones": [
+        {"id": "scope", "title": "제품 목표·release scope", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "contract", "title": "콘텐츠·데이터·privacy contract", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "build", "title": "기능·화면 구현", "weight": 30, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "validation", "title": "validation·type-check·build", "weight": 20, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "preview", "title": "preview review", "weight": 10, "status": "not_started", "gate_status": "pending", "evidence_required": true},
+        {"id": "release", "title": "Founder release decision", "weight": 15, "status": "not_started", "gate_status": "pending", "evidence_required": true}
+      ]
+    }
+  ]
+}

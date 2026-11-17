@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/local-image-upscale-receipt.schema.json",
+  "title": "IDOL Local Image Upscale Receipt",
+  "description": "Mechanical provenance for local, non-generative, aspect-preserving PNG upscaling of registered face-only assets, passed Branch-Cut stills, and other exact Founder-passed generated visuals. It records source and output bytes, dimensions, the fixed no-sharpening policy, and black-pixel damage diagnostics without granting a creative or Founder pass.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "policy", "runtime", "operations"],
+  "properties": {
+    "schema_version": {"const": "idol_local_image_upscale_receipt.v1"},
+    "status": {"const": "complete"},
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "output_format",
+        "preserve_aspect_ratio",
+        "crop",
+        "sharpening",
+        "generative_enhancement",
+        "no_downscale"
+      ],
+      "properties": {
+        "method": {"const": "pillow_lanczos_v1"},
+        "output_format": {"const": "PNG"},
+        "preserve_aspect_ratio": {"const": true},
+        "crop": {"const": false},
+        "sharpening": {"const": false},
+        "generative_enhancement": {"const": false},
+        "no_downscale": {"const": true}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python", "pillow"],
+      "properties": {
+        "python": {"type": "string", "minLength": 1},
+        "pillow": {"type": "string", "minLength": 1}
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/operation"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "dimensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "width": {"type": "integer", "minimum": 1},
+        "height": {"type": "integer", "minimum": 1}
+      }
+    },
+    "imageRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "pixel_dimensions", "format", "mode"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "pixel_dimensions": {"$ref": "#/$defs/dimensions"},
+        "format": {"type": "string", "minLength": 1},
+        "mode": {"type": "string", "minLength": 1}
+      }
+    },
+    "pixelQc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decode_pass",
+        "aspect_ratio_delta",
+        "source_near_black_ratio",
+        "output_near_black_ratio",
+        "near_black_ratio_delta",
+        "source_solid_black_tile_count",
+        "output_solid_black_tile_count",
+        "solid_black_tile_count_delta"
+      ],
+      "properties": {
+        "decode_pass": {"const": true},
+        "aspect_ratio_delta": {"type": "number", "minimum": 0, "maximum": 0.001},
+        "source_near_black_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "output_near_black_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "near_black_ratio_delta": {"type": "number", "minimum": -1, "maximum": 1},
+        "source_solid_black_tile_count": {"type": "integer", "minimum": 0},
+        "output_solid_black_tile_count": {"type": "integer", "minimum": 0},
+        "solid_black_tile_count_delta": {"type": "integer"}
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "action",
+        "target_long_edge",
+        "scale_factor",
+        "source",
+        "output",
+        "pixel_qc"
+      ],
+      "properties": {
+        "purpose": {
+          "enum": [
+            "member_face_only",
+            "post_02b_passed_image",
+            "founder_passed_generated_visual",
+            "general"
+          ]
+        },
+        "action": {"enum": ["lanczos_upscale", "normalized_png_no_downscale"]},
+        "target_long_edge": {"type": "integer", "minimum": 64},
+        "scale_factor": {"type": "number", "minimum": 1},
+        "source": {"$ref": "#/$defs/imageRef"},
+        "output": {"$ref": "#/$defs/imageRef"},
+        "pixel_qc": {"$ref": "#/$defs/pixelQc"}
+      }
+    }
+  }
+}

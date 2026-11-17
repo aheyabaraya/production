@@ -1,0 +1,59 @@
+{
+  "observed_at": "2026-09-16T17:00:23.387716+00:00",
+  "evidence_scope": "authenticated_native_OD_goals_frozen_plans_claimed_handoffs_and_real_main_turns_only_not_CDD_or_production_PASS",
+  "auth": "grok.com subscription verified by live CLI",
+  "sessions": [
+    {
+      "title": "COLOR STAY",
+      "session_id": "01a0ab1f-6a8f-7481-8300-e204b59a648b",
+      "process_id_at_launch": 29641,
+      "tty_at_launch": "ttys004",
+      "cwd": "/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL",
+      "model": "grok-4.6",
+      "reasoning_effort": "xhigh",
+      "sandbox_profile": "idol-repo",
+      "native_goal_id": "68142bc5-bac2-4298-8d89-1827a229be34",
+      "goal_objective_sha256": "33a2f3eb9b989c37d63ba5383bbb1911c9eaf4afd0a049e3bd4b02fc33921039",
+      "goal_status_at_observation": "active",
+      "native_goal_state_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6a8f-7481-8300-e204b59a648b/goal/state.json",
+      "native_updates_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6a8f-7481-8300-e204b59a648b/updates.jsonl",
+      "native_summary_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6a8f-7481-8300-e204b59a648b/summary.json",
+      "cli_bus_handoff_id": "e14911a0b8a5",
+      "production_admission": "not_yet_verified",
+      "cdd_first_action": "not_yet_verified",
+      "goal_plan_saved": true,
+      "native_goal_plan_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6a8f-7481-8300-e204b59a648b/goal/plan.md",
+      "main_OD_turn_started": true,
+      "main_OD_first_turn_at": "2026-09-16T16:58:24.769Z",
+      "handoff_processing_paths": [
+        ".grok/cli-bus/processing/1789553234-e14911a0b8a5.json"
+      ]
+    },
+    {
+      "title": "KDA",
+      "session_id": "01a0ab1f-6dd8-7113-820b-4dcf59cfeabf",
+      "process_id_at_launch": 30059,
+      "tty_at_launch": "ttys005",
+      "cwd": "/Users/yuminseog/aheyabaraya_hq_root/hq-control/creative/IDOL",
+      "model": "grok-4.6",
+      "reasoning_effort": "xhigh",
+      "sandbox_profile": "idol-repo",
+      "native_goal_id": "fff44368-72e8-4803-a730-0674c7a0f7a7",
+      "goal_objective_sha256": "186734fb516cf1b553313800953cea979a31230ddb3dd0ffbbf641ce17607fac",
+      "goal_status_at_observation": "active",
+      "native_goal_state_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6dd8-7113-820b-4dcf59cfeabf/goal/state.json",
+      "native_updates_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6dd8-7113-820b-4dcf59cfeabf/updates.jsonl",
+      "native_summary_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6dd8-7113-820b-4dcf59cfeabf/summary.json",
+      "cli_bus_handoff_id": "f03ed8751c90",
+      "production_admission": "not_yet_verified",
+      "cdd_first_action": "not_yet_verified",
+      "goal_plan_saved": true,
+      "native_goal_plan_path": "/Users/yuminseog/.grok/sessions/%2FUsers%2Fyuminseog%2Faheyabaraya_hq_root%2Fhq-control%2Fcreative%2FIDOL/01a0ab1f-6dd8-7113-820b-4dcf59cfeabf/goal/plan.md",
+      "main_OD_turn_started": true,
+      "main_OD_first_turn_at": "2026-09-16T16:55:57.017Z",
+      "handoff_processing_paths": [
+        ".grok/cli-bus/processing/1789553234-f03ed8751c90.json"
+      ]
+    }
+  ]
+}

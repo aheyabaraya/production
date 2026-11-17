@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-reference-source-catalog.schema.json",
+  "title": "IDOL Reusable Still-Image Source Catalog",
+  "description": "Pointer-only source-identity catalog for reusable still-image originals under source-materials/image-sources. It does not own creative analysis or attachment approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "hub_root",
+    "catalog_path",
+    "storage_policy",
+    "sources",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_image_reference_source_catalog.v1"
+    },
+    "artifact_type": {
+      "const": "reusable_still_image_source_catalog"
+    },
+    "status": {
+      "enum": [
+        "ready_no_sources",
+        "active",
+        "hold"
+      ]
+    },
+    "hub_root": {
+      "const": "source-materials/image-sources"
+    },
+    "catalog_path": {
+      "const": "source-materials/image-sources/reference-image-catalog.yaml"
+    },
+    "storage_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_is_pointer_only",
+        "original_byte_owner",
+        "run_selected_derivative_owner",
+        "missing_registered_source_behavior",
+        "catalog_grants_attachment_authority"
+      ],
+      "properties": {
+        "catalog_is_pointer_only": {
+          "const": true
+        },
+        "original_byte_owner": {
+          "const": "source_materials_image_sources_by_source_source_id"
+        },
+        "run_selected_derivative_owner": {
+          "const": "runs_album_title_run_id_research_reference_intake"
+        },
+        "missing_registered_source_behavior": {
+          "const": "hold_never_silent_redownload"
+        },
+        "catalog_grants_attachment_authority": {
+          "const": false
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_access",
+        "creative_authoring",
+        "analysis_completion_inference",
+        "download_or_generation_approval"
+      ],
+      "properties": {
+        "network_access": {
+          "const": false
+        },
+        "creative_authoring": {
+          "const": false
+        },
+        "analysis_completion_inference": {
+          "const": false
+        },
+        "download_or_generation_approval": {
+          "const": false
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "active"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "sources": {
+            "minItems": 1
+          }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "status": {
+              "const": "ready_no_sources"
+            }
+          },
+          "required": [
+            "status"
+          ]
+        },
+        "then": {
+          "properties": {
+            "sources": {
+              "maxItems": 0
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "fileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "source_identity",
+        "source_title",
+        "source_kind",
+        "manifest",
+        "primary_original",
+        "local_state",
+        "backup_state",
+        "status"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "pattern": "^IMG_[A-Z0-9_]{3,100}$"
+        },
+        "source_identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_kind": {
+          "enum": [
+            "public_web_still",
+            "public_official_still",
+            "founder_supplied_file",
+            "existing_local_still"
+          ]
+        },
+        "manifest": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "primary_original": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "local_state": {
+          "enum": [
+            "present",
+            "missing",
+            "hold"
+          ]
+        },
+        "backup_state": {
+          "enum": [
+            "local_only",
+            "verified_external_backup",
+            "founder_preserved_original"
+          ]
+        },
+        "status": {
+          "enum": [
+            "registered",
+            "hold",
+            "retired"
+          ]
+        }
+      }
+    }
+  }
+}

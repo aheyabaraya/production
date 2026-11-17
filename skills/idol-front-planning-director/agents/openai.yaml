@@ -1,0 +1,4 @@
+interface:
+  display_name: "IDOL Front Planning Director"
+  short_description: "음악·MV를 함께 검증하는 Front Planning 디렉터"
+  default_prompt: "Use $idol-front-planning-director to critically direct a song and MV Front Planning pass."

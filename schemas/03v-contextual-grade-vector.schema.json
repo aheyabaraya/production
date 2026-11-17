@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/03v-contextual-grade-vector.schema.json",
+  "title": "IDOL 03V Contextual Playback Grade Vector",
+  "description": "Playback-only contextual 0--4 grades. This contract never reuses planning or 02B pixel criteria, never aggregates scores, and never grants creative PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "stage", "scope_id", "section_cohort_id", "section_ids", "authoring_owner", "reviewer_role", "performance_mode", "source_playbacks", "criteria", "decision", "actual_playback_reviewed", "aggregate_score_present", "automatic_creative_pass", "planning_or_pixel_rubric_reuse", "status"],
+  "properties": {
+    "schema_version": {"const": "idol_03v_contextual_grade_vector.v1"},
+    "artifact_type": {"const": "03v_contextual_grade_vector"},
+    "stage": {"const": "03v_playback"},
+    "scope_id": {"type": "string", "minLength": 1},
+    "section_cohort_id": {"type": "string", "pattern": "^C[0-9]+$"},
+    "section_ids": {"type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"}},
+    "authoring_owner": {"const": "human_or_assigned_model"},
+    "reviewer_role": {"const": "section_cluster_cdd_ci"},
+    "performance_mode": {"enum": ["none", "supporting", "primary"]},
+    "source_playbacks": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/artifactRef"}},
+    "criteria": {"type": "array", "minItems": 6, "maxItems": 7, "uniqueItems": true, "items": {"$ref": "#/$defs/criterion"}},
+    "decision": {"enum": ["eligible_for_director_review", "combine_or_correct", "hold", "reject"]},
+    "actual_playback_reviewed": {"const": true},
+    "aggregate_score_present": {"const": false},
+    "automatic_creative_pass": {"const": false},
+    "planning_or_pixel_rubric_reuse": {"const": "forbidden"},
+    "status": {"enum": ["reviewed", "hold", "rejected"]}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "playback_locator": {"type": "string", "minLength": 1}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "result", "evidence_locator", "review_note"],
+      "properties": {
+        "criterion_id": {"enum": ["subject_body_action_pose_transition", "temporal_camera_route_or_locked_hold", "audio_trigger_landing_edit_handoff", "depth_parallax_occlusion_reveal_stop", "neighbor_whole_section_motion_diversity", "identity_light_state_geometry_stability", "performance_readability"]},
+        "result": {"oneOf": [{"type": "integer", "minimum": 0, "maximum": 4}, {"const": "not_applicable"}]},
+        "evidence_locator": {"type": "string", "minLength": 1},
+        "review_note": {"type": "string", "minLength": 1},
+        "not_applicable_reason": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {"if": {"properties": {"result": {"const": "not_applicable"}}, "required": ["result"]}, "then": {"required": ["not_applicable_reason"]}, "else": {"not": {"required": ["not_applicable_reason"]}}}
+      ]
+    }
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/instruction-surface-policy.schema.json",
+  "title": "IDOL Instruction Surface Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "priority",
+    "measurement",
+    "runtime_load_measurement",
+    "surfaces",
+    "startup_profiles",
+    "conditional_references",
+    "protected_invariants",
+    "routing_consistency_contracts",
+    "maintenance_history",
+    "reviewed_size_exceptions"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-instruction-surface-policy.v18"},
+    "status": {"const": "active"},
+    "priority": {"const": "quality_first_efficiency_second"},
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "word_counter",
+        "target_behavior",
+        "reviewed_ceiling_behavior",
+        "size_finding_authority",
+        "size_remediation_authority",
+        "automatic_size_remediation",
+        "conditional_detail_global_cap",
+        "long_section_detail_index_threshold_words"
+      ],
+      "properties": {
+        "word_counter": {"const": "whitespace_words_v1"},
+        "target_behavior": {"const": "warning"},
+        "reviewed_ceiling_behavior": {"const": "error"},
+        "size_finding_authority": {"const": "diagnostic_or_hold_only"},
+        "size_remediation_authority": {"const": "founder_explicit_current_request_only"},
+        "automatic_size_remediation": {"const": false},
+        "conditional_detail_global_cap": {"const": false},
+        "long_section_detail_index_threshold_words": {"type": "integer", "minimum": 1000}
+      }
+    },
+    "runtime_load_measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registry_path",
+        "target_words",
+        "reviewed_ceiling_words",
+        "target_paths",
+        "reviewed_ceiling_paths",
+        "profile_checkpoint_overrides"
+      ],
+      "properties": {
+        "registry_path": {"$ref": "#/$defs/relativePath"},
+        "projection_registry_path": {"$ref": "#/$defs/relativePath"},
+        "receiver_measurement": {"enum": ["registered_full_source_closure", "projected_instruction_content"]},
+        "target_words": {"type": "integer", "minimum": 1},
+        "reviewed_ceiling_words": {"type": "integer", "minimum": 1},
+        "target_paths": {"type": "integer", "minimum": 1},
+        "reviewed_ceiling_paths": {"type": "integer", "minimum": 1},
+        "profile_checkpoint_overrides": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/runtimeLoadOverride"}
+        }
+      }
+    },
+    "surfaces": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sizedSurface"}
+    },
+    "startup_profiles": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "paths", "target_words", "reviewed_ceiling_words"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["static_bootstrap_diagnostic"]},
+          "paths": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/relativePath"}
+          },
+          "target_words": {"type": "integer", "minimum": 1},
+          "reviewed_ceiling_words": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "conditional_references": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "path",
+          "indexed_by",
+          "indexed_token",
+          "routed_by",
+          "routed_token",
+          "activation_pattern",
+          "load_mode",
+          "required_headings"
+        ],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"$ref": "#/$defs/relativePath"},
+          "indexed_by": {"$ref": "#/$defs/relativePath"},
+          "indexed_token": {"type": "string", "minLength": 1},
+          "routed_by": {"$ref": "#/$defs/relativePath"},
+          "routed_token": {"type": "string", "minLength": 1},
+          "activation_pattern": {"type": "string", "minLength": 1},
+          "load_mode": {"enum": ["full", "section"]},
+          "required_headings": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^#{1,4} "}
+          }
+        }
+      }
+    },
+    "protected_invariants": {
+      "type": "array",
+      "minItems": 20,
+      "maxItems": 22,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "marker"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"$ref": "#/$defs/relativePath"},
+          "marker": {"type": "string", "pattern": "^<!-- idol-invariant: [a-z0-9_]+ -->$"},
+          "required_terms": {
+            "type": "array",
+            "minItems": 3,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "root_required_terms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "detail_path": {"$ref": "#/$defs/relativePath"},
+          "detail_heading": {"type": "string", "minLength": 1},
+          "detail_required_terms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "additional_detail_sources": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/detailSource"}
+          }
+        },
+        "anyOf": [
+          {"required": ["required_terms"]},
+          {"required": ["root_required_terms"]}
+        ],
+        "allOf": [
+          {
+            "if": {
+              "anyOf": [
+                {"required": ["detail_heading"]},
+                {"required": ["detail_required_terms"]},
+                {"required": ["additional_detail_sources"]}
+              ]
+            },
+            "then": {"required": ["detail_path"]}
+          }
+        ]
+      }
+    },
+    "routing_consistency_contracts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "path", "required_terms", "forbidden_terms"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"$ref": "#/$defs/relativePath"},
+          "canonical_owner_path": {"$ref": "#/$defs/relativePath"},
+          "consumer_cite_term": {"type": "string", "minLength": 1},
+          "required_terms": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "forbidden_terms": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "maintenance_history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active_path",
+        "frozen_path",
+        "frozen_status_marker",
+        "active_pointer_required",
+        "frozen_max_words",
+        "frozen_excluded_from_startup_profiles",
+        "active_forbidden_patterns"
+      ],
+      "properties": {
+        "active_path": {"$ref": "#/$defs/relativePath"},
+        "frozen_path": {"$ref": "#/$defs/relativePath"},
+        "frozen_status_marker": {"type": "string", "minLength": 1},
+        "active_pointer_required": {"type": "string", "minLength": 1},
+        "frozen_max_words": {"type": "integer", "minimum": 1},
+        "frozen_excluded_from_startup_profiles": {"const": true},
+        "active_forbidden_patterns": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "reviewed_size_exceptions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "approved_by", "reason"],
+        "properties": {
+          "path": {"$ref": "#/$defs/relativePath"},
+          "approved_by": {"const": "founder"},
+          "reason": {"type": "string", "minLength": 20}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "sizedSurface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "role", "target_words", "reviewed_ceiling_words"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "path": {"$ref": "#/$defs/relativePath"},
+        "role": {"type": "string", "minLength": 1},
+        "target_words": {"type": "integer", "minimum": 1},
+        "reviewed_ceiling_words": {"type": "integer", "minimum": 1}
+      }
+    },
+    "runtimeLoadOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "target_words", "reviewed_ceiling_words", "target_paths", "reviewed_ceiling_paths"],
+      "properties": {
+        "profile_id": {"type": "string", "minLength": 1},
+        "checkpoint_id": {"type": "string", "minLength": 1},
+        "target_words": {"type": "integer", "minimum": 1},
+        "reviewed_ceiling_words": {"type": "integer", "minimum": 1},
+        "target_paths": {"type": "integer", "minimum": 1},
+        "reviewed_ceiling_paths": {"type": "integer", "minimum": 1}
+      }
+    },
+    "detailSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "heading", "required_terms"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "heading": {"type": "string", "minLength": 1},
+        "required_terms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

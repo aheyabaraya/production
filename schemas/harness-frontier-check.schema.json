@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/schemas/harness-frontier-check.schema.json",
+  "title": "IDOL Graph Engineering Active Frontier Check",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "status",
+    "elapsed_ms",
+    "run",
+    "pointer",
+    "scope",
+    "checked",
+    "blockers",
+    "full_audit"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "idol-harness-frontier-check.v1"
+    },
+    "generated_at": {
+      "type": ["string", "null"]
+    },
+    "status": {
+      "enum": ["pass", "blocked"]
+    },
+    "elapsed_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "run": {
+      "type": ["string", "null"]
+    },
+    "pointer": {
+      "type": "object",
+      "required": ["path", "schema", "schema_status"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "schema": {"type": "string", "minLength": 1},
+        "schema_status": {"enum": ["pass", "blocked"]}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "mode",
+        "selected_unit_id",
+        "selected_unit_type",
+        "selected_unit_status",
+        "section_ids",
+        "checked_path_count",
+        "unrelated_files_scanned"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"enum": ["active_frontier", "full_audit"]},
+        "selected_unit_id": {"type": "string"},
+        "selected_unit_type": {"type": "string"},
+        "selected_unit_status": {"type": "string"},
+        "section_ids": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^S[0-9]{2,}$"},
+          "uniqueItems": true
+        },
+        "checked_path_count": {"type": "integer", "minimum": 0},
+        "unrelated_files_scanned": {"const": 0}
+      }
+    },
+    "checked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "path",
+          "declared_sha256",
+          "actual_sha256",
+          "detail"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "kind": {
+            "enum": ["pointer_schema", "selected_run", "selected_path", "sha256", "full_audit"]
+          },
+          "status": {"enum": ["pass", "blocked", "skipped"]},
+          "path": {"type": "string"},
+          "declared_sha256": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "actual_sha256": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "detail": {"type": "string"}
+        }
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "code", "path", "message"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^B[0-9]{3,}$"},
+          "code": {"type": "string", "minLength": 1},
+          "path": {"type": "string"},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "full_audit": {
+      "type": ["object", "null"],
+      "required": [
+        "exit_status",
+        "overall_status",
+        "counts",
+        "blocking_checks",
+        "state_pointer_drift"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "exit_status": {"type": "integer", "minimum": 0},
+        "overall_status": {"type": ["string", "null"]},
+        "counts": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0}
+        },
+        "blocking_checks": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "state_pointer_drift": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

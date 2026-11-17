@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-section-approval-v4-legacy.schema.json",
+  "title": "IDOL Image Generation Section Approval v4 Legacy Reader",
+  "description": "Active v4 Founder approval for one section's exact 02B Branch-Cut prompt hashes, combined attachment order, current-title member-visual inputs, scene-reference inputs, and expected output paths. It grants neither legacy keyframe packets, cross-album substitution, nor a separate face-reference route.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "content_id",
+    "section_id",
+    "adapter",
+    "source_02b_sha256",
+    "external_execution_approved",
+    "paid_generation_approved",
+    "packets"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_section_approval.v4"},
+    "artifact_type": {"const": "image_generation_section_approval"},
+    "content_id": {"type": "string", "minLength": 1},
+    "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "adapter": {
+      "enum": [
+        "openai_api",
+        "codex_builtin_imagegen",
+        "grok_image",
+        "section_image_capable_worker"
+      ]
+    },
+    "source_02b_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "external_execution_approved": {"const": true},
+    "paid_generation_approved": {"const": true},
+    "packets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "packet_id",
+          "prompt_sha256",
+          "approved_member_visual_sha256s",
+          "approved_scene_reference_sha256s",
+          "approved_attachment_binding_ids",
+          "approved_attachment_sha256s",
+          "expected_output_path",
+          "decision"
+        ],
+        "properties": {
+          "packet_id": {"type": "string", "pattern": "^PKT_BC[0-9]{2,}_[A-Z0-9_]+$"},
+          "prompt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "approved_member_visual_sha256s": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          },
+          "approved_scene_reference_sha256s": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          },
+          "approved_attachment_binding_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^VRB_[A-Z0-9_]{2,80}$"}
+          },
+          "approved_attachment_sha256s": {
+            "type": "array",
+            "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+          },
+          "expected_output_path": {"type": "string", "minLength": 1},
+          "decision": {"const": "approved_for_current_job"}
+        }
+      }
+    }
+  }
+}

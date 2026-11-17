@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/artifact-lifecycle-policy.schema.json",
+  "title": "IDOL Artifact Lifecycle Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "scope",
+    "run_layout",
+    "placements",
+    "canonical",
+    "versions",
+    "research",
+    "final_closeout",
+    "archive",
+    "ephemeral",
+    "mirrors",
+    "storage",
+    "integrity",
+    "cleanup",
+    "legacy"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-artifact-lifecycle-policy.v3"},
+    "status": {"const": "active"},
+    "scope": {"const": "active_authoring_and_promotion_closeout"},
+    "run_layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active_template", "manifest_name", "manifest_schema", "new_run_date_first_layout_forbidden", "run_id_owns_attempt_or_major_run_revision", "ordinary_artifact_revision_owner", "in_flight_migration_requires_validated_plan", "transition_registry", "registered_in_flight_exception_only"],
+      "properties": {
+        "active_template": {"const": "runs/ALBUM_KEY/TITLE_KEY/RUN_ID"},
+        "manifest_name": {"const": "run-manifest.yaml"},
+        "manifest_schema": {"const": "schemas/run-manifest.schema.json"},
+        "new_run_date_first_layout_forbidden": {"const": true},
+        "run_id_owns_attempt_or_major_run_revision": {"const": true},
+        "ordinary_artifact_revision_owner": {"const": "git"},
+        "in_flight_migration_requires_validated_plan": {"const": true},
+        "transition_registry": {"const": "automation/run-layout-transition.yaml"},
+        "registered_in_flight_exception_only": {"const": true}
+      }
+    },
+    "placements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_stage_truth", "research_and_source_interpretation", "noncanonical_work_and_receipts", "founder_and_pixel_playback_review", "reproducible_exports", "generated_media_and_renders", "worker_handoffs", "release_package", "exceptional_archive", "durable_cross_run_sources", "current_title_assets", "pointer_read_models"],
+      "properties": {
+        "canonical_stage_truth": {"const": "RUN_ROOT"},
+        "research_and_source_interpretation": {"const": "RUN_ROOT/research"},
+        "noncanonical_work_and_receipts": {"const": "RUN_ROOT/work"},
+        "founder_and_pixel_playback_review": {"const": "RUN_ROOT/review"},
+        "reproducible_exports": {"const": "RUN_ROOT/exports"},
+        "generated_media_and_renders": {"const": "RUN_ROOT/generations"},
+        "worker_handoffs": {"const": "RUN_ROOT/handoff"},
+        "release_package": {"const": "RUN_ROOT/package"},
+        "exceptional_archive": {"const": "RUN_ROOT/archive"},
+        "durable_cross_run_sources": {"const": "source-materials"},
+        "current_title_assets": {"const": "assets/members/album-assets/ALBUM_KEY/TITLE_KEY"},
+        "pointer_read_models": {"const": ["catalog", "automation", "handoff"]}
+      }
+    },
+    "canonical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["one_active_path_per_logical_artifact", "patch_stable_stage_contracts_in_place", "ordinary_text_history_owner", "multi_file_lane_pointer"],
+      "properties": {
+        "one_active_path_per_logical_artifact": {"const": true},
+        "patch_stable_stage_contracts_in_place": {"const": true},
+        "ordinary_text_history_owner": {"const": "git"},
+        "multi_file_lane_pointer": {"const": "aggregate_manifest_or_index"}
+      }
+    },
+    "versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["creative_candidate_count_unbounded_before_selection", "selection_or_review_close_triggers_lifecycle_check", "max_active_supporting_revisions_per_family", "max_rollback_checkpoints_per_family", "older_revision_action", "stable_filename_and_internal_revision_preferred", "versioned_directory_families_follow_same_active_limit", "immutable_binary_revision_uses_new_artifact_id", "immutable_event_records_are_append_only", "rebuildable_projection_keeps_one_current"],
+      "properties": {
+        "creative_candidate_count_unbounded_before_selection": {"const": true},
+        "selection_or_review_close_triggers_lifecycle_check": {"const": true},
+        "max_active_supporting_revisions_per_family": {"type": "integer", "const": 2},
+        "max_rollback_checkpoints_per_family": {"type": "integer", "const": 1},
+        "older_revision_action": {"const": "reference_check_then_archive_or_cleanup"},
+        "stable_filename_and_internal_revision_preferred": {"const": true},
+        "versioned_directory_families_follow_same_active_limit": {"const": true},
+        "immutable_binary_revision_uses_new_artifact_id": {"const": true},
+        "immutable_event_records_are_append_only": {"const": true},
+        "rebuildable_projection_keeps_one_current": {"const": true}
+      }
+    },
+    "research": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["durable_root", "durable_selected_reference_root", "ephemeral_research_directories", "reusable_video_source_hub", "selected_still_or_crop_must_leave_ephemeral_cache", "selected_reference_requires_source_identity_sha256_disposition_sections_and_downstream_use", "large_folder_manifest_or_index_required", "optional_empty_directories_forbidden", "folder_version_pileups_checked"],
+      "properties": {
+        "durable_root": {"const": "RUN_ROOT/research"},
+        "durable_selected_reference_root": {"const": "RUN_ROOT/research/reference-intake"},
+        "ephemeral_research_directories": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 5,
+          "items": {"enum": ["drafts", "probes", "tmp", "style-drafts", "_local_reference_cache"]}
+        },
+        "reusable_video_source_hub": {"const": "source-materials/video-sources/{platform}/by-source/SOURCE_ID"},
+        "selected_still_or_crop_must_leave_ephemeral_cache": {"const": true},
+        "selected_reference_requires_source_identity_sha256_disposition_sections_and_downstream_use": {"const": true},
+        "large_folder_manifest_or_index_required": {"const": true},
+        "optional_empty_directories_forbidden": {"const": true},
+        "folder_version_pileups_checked": {"const": true}
+      }
+    },
+    "final_closeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["final_delivery_root", "manifest_path", "manifest_schema", "required_before_production_cleanup", "adds_stage_or_founder_gate", "final_only_definition", "final_delivery_manifest_is_pointer_first", "original_generated_image_bytes_required", "used_raw_video_bytes_required", "lossy_derivative_cannot_replace_only_original", "all_planned_derivatives_close_before_unused_passed_media_becomes_cleanup_candidate", "manifest_never_authorizes_deletion"],
+      "properties": {
+        "final_delivery_root": {"const": "RUN_ROOT/package/final-delivery"},
+        "manifest_path": {"const": "RUN_ROOT/package/final-delivery/manifest.yaml"},
+        "manifest_schema": {"const": "schemas/final-delivery-manifest.schema.json"},
+        "required_before_production_cleanup": {"const": true},
+        "adds_stage_or_founder_gate": {"const": false},
+        "final_only_definition": {"const": "deliverables_plus_exact_used_originals_reference_dependencies_and_lineage"},
+        "final_delivery_manifest_is_pointer_first": {"const": true},
+        "original_generated_image_bytes_required": {"const": true},
+        "used_raw_video_bytes_required": {"const": true},
+        "lossy_derivative_cannot_replace_only_original": {"const": true},
+        "all_planned_derivatives_close_before_unused_passed_media_becomes_cleanup_candidate": {"const": true},
+        "manifest_never_authorizes_deletion": {"const": true}
+      }
+    },
+    "archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["directory_name", "manifest_name", "manifest_schema", "physical_archive_exception_only", "derived_rebuildable_archive_forbidden", "allowed_retention_reasons"],
+      "properties": {
+        "directory_name": {"const": "archive"},
+        "manifest_name": {"const": "manifest.yaml"},
+        "manifest_schema": {"const": "schemas/artifact-archive-manifest.schema.json"},
+        "physical_archive_exception_only": {"const": true},
+        "derived_rebuildable_archive_forbidden": {"const": true},
+        "allowed_retention_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["founder_selected_irreproducible_source", "paid_generation_provenance", "release_or_publishing_proof", "legal_or_source_provenance", "reviewed_learning", "rollback_checkpoint"]},
+          "minItems": 6,
+          "maxItems": 6
+        }
+      }
+    },
+    "ephemeral": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_authority", "allowed_path_markers", "allowed_path_globs", "cleanup_gate"],
+      "properties": {
+        "gate_authority": {"const": "none"},
+        "allowed_path_markers": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^/.+/$"}},
+        "allowed_path_globs": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^runs/\\*\\*/.+"}},
+        "cleanup_gate": {"const": "canonical_promoted_and_review_closed"}
+      }
+    },
+    "mirrors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pointer_over_copy_default", "canonical_owner_required", "cleanup_after_gate_required", "may_be_latest_pointer"],
+      "properties": {
+        "pointer_over_copy_default": {"const": true},
+        "canonical_owner_required": {"const": true},
+        "cleanup_after_gate_required": {"const": true},
+        "may_be_latest_pointer": {"const": false}
+      }
+    },
+    "storage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duplicate_scan_min_bytes", "large_file_bytes", "manifest_required_file_count", "manifest_required_total_bytes", "forbidden_new_root_directories", "tracked_large_binary_metadata_required"],
+      "properties": {
+        "duplicate_scan_min_bytes": {"type": "integer", "minimum": 1048576},
+        "large_file_bytes": {"type": "integer", "minimum": 1048576},
+        "manifest_required_file_count": {"type": "integer", "minimum": 1},
+        "manifest_required_total_bytes": {"type": "integer", "minimum": 1048576},
+        "forbidden_new_root_directories": {"const": ["output", "outputs", "exports"]},
+        "tracked_large_binary_metadata_required": {"const": ["canonical_owner", "sha256", "size_bytes", "retention_reason", "provenance"]}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_version", "purpose", "profiles", "cache_path", "cache_has_no_gate_authority", "promotion_forces_sha256", "alternate_digest_requires_measured_local_speed_win_and_contract_migration"],
+      "properties": {
+        "policy_version": {"const": "idol-artifact-integrity.v1"},
+        "purpose": {"const": "artifact_identity_and_change_detection_not_security"},
+        "profiles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["canonical_gate", "promotion_or_external_transfer", "repeat_local_validation", "working_derived_media", "ephemeral"],
+          "properties": {
+            "canonical_gate": {"$ref": "#/$defs/forcedSha256Profile"},
+            "promotion_or_external_transfer": {"$ref": "#/$defs/forcedSha256Profile"},
+            "repeat_local_validation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["algorithm", "cache_mode", "applies_to"],
+              "properties": {
+                "algorithm": {"const": "sha256"},
+                "cache_mode": {"const": "reuse_when_size_mtime_ns_device_inode_match"},
+                "applies_to": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+              }
+            },
+            "working_derived_media": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["algorithm", "cache_mode", "applies_to"],
+              "properties": {
+                "algorithm": {"const": "stat-v1"},
+                "cache_mode": {"const": "none"},
+                "applies_to": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+              }
+            },
+            "ephemeral": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["algorithm", "cache_mode", "applies_to"],
+              "properties": {
+                "algorithm": {"const": "none"},
+                "cache_mode": {"const": "none"},
+                "applies_to": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+              }
+            }
+          }
+        },
+        "cache_path": {"const": ".runtime/cache/artifact-integrity-sha256-v1.json"},
+        "cache_has_no_gate_authority": {"const": true},
+        "promotion_forces_sha256": {"const": true},
+        "alternate_digest_requires_measured_local_speed_win_and_contract_migration": {"const": true}
+      }
+    },
+    "cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_auto_delete_allowed", "harmless_cache_apply_only", "founder_approval_required", "exact_hash_and_size_required", "reverse_reference_check_required", "canonical_replacement_check_required_when_applicable", "protected_classes"],
+      "properties": {
+        "production_auto_delete_allowed": {"const": false},
+        "harmless_cache_apply_only": {"const": true},
+        "founder_approval_required": {"const": true},
+        "exact_hash_and_size_required": {"const": true},
+        "reverse_reference_check_required": {"const": true},
+        "canonical_replacement_check_required_when_applicable": {"const": true},
+        "protected_classes": {"type": "array", "minItems": 9, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "legacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["existing_debt_nonblocking_by_default", "explicit_migration_or_cleanup_required", "historical_artifacts_evidence_only", "active_authoring_compatibility", "generic_old_layout_authoring_forbidden", "registered_in_flight_exception_may_finish", "new_old_layout_run_forbidden"],
+      "properties": {
+        "existing_debt_nonblocking_by_default": {"const": true},
+        "explicit_migration_or_cleanup_required": {"const": true},
+        "historical_artifacts_evidence_only": {"const": true},
+        "active_authoring_compatibility": {"const": "forbidden"},
+        "generic_old_layout_authoring_forbidden": {"const": true},
+        "registered_in_flight_exception_may_finish": {"const": true},
+        "new_old_layout_run_forbidden": {"const": true}
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "forcedSha256Profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "cache_mode", "applies_to"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "cache_mode": {"const": "force_recompute"},
+        "applies_to": {"$ref": "#/$defs/nonEmptyUniqueStrings"}
+      }
+    }
+  }
+}

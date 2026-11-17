@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/run-manifest.schema.json",
+  "title": "IDOL Active Album Run Manifest",
+  "description": "Binds one active song/MV run to its album/title address and the unchanged active stage sequence. It owns routing metadata, never creative truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "album_key",
+    "title_key",
+    "run_id",
+    "content_id",
+    "canonical_run_root",
+    "created_at",
+    "run_sequence",
+    "previous_run_root",
+    "migrated_from",
+    "artifact_revision_owner",
+    "compatibility_authoring",
+    "integrity_policy_version",
+    "flow_lock"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-run-manifest.v1"},
+    "status": {"enum": ["active", "hold", "closed", "discarded"]},
+    "album_key": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,120}$"},
+    "title_key": {"type": "string", "pattern": "^[a-z0-9가-힣][a-z0-9가-힣-]{1,120}$"},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"},
+    "content_id": {"type": "string", "minLength": 1, "maxLength": 160},
+    "canonical_run_root": {
+      "type": "string",
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "run_sequence": {"type": "integer", "minimum": 1},
+    "previous_run_root": {
+      "type": ["string", "null"],
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "migrated_from": {"type": ["string", "null"], "minLength": 1},
+    "artifact_revision_owner": {"const": "git"},
+    "compatibility_authoring": {"const": "forbidden"},
+    "integrity_policy_version": {"const": "idol-artifact-integrity.v1"},
+    "flow_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_registry_path",
+        "stage_registry_sha256",
+        "stage_sequence_sha256",
+        "stage_codes"
+      ],
+      "properties": {
+        "stage_registry_path": {"const": "automation/harness-stage-registry.yaml"},
+        "stage_registry_sha256": {"$ref": "#/$defs/sha256"},
+        "stage_sequence_sha256": {"$ref": "#/$defs/sha256"},
+        "stage_codes": {
+          "type": "array",
+          "minItems": 19,
+          "maxItems": 19,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

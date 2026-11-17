@@ -1,0 +1,63 @@
+{
+  "schema_version": "idol-graph-department-dispatch.v1",
+  "artifact_type": "graph_department_dispatch",
+  "dispatch_id": "DISPATCH_G6_PLANNING_P2",
+  "run": "runs/graph-authority-fixture/title-one/RUN_G6_AUTHORITY",
+  "lane_id": "planning_p2",
+  "section_cohort_id": null,
+  "section_ids": [],
+  "logical_role": "planning_cdd",
+  "assigned_owner": "fixture-p2",
+  "output_writer": {
+    "owner": "fixture-p2",
+    "role": "planning_cdd"
+  },
+  "reviewer": {
+    "owner": "fixture-p1",
+    "role": "planning_cdd_p1",
+    "lane_id": "planning_p1"
+  },
+  "return_recipient": {
+    "owner": "fixture-p1",
+    "role": "planning_cdd_p1",
+    "return_route": "planning_cdd_p1_exact_link"
+  },
+  "provider_binding": {
+    "registered_provider": "grok",
+    "runtime_surface": "grok_build_cli_acp",
+    "logical_profile_alias": "frontier_director",
+    "execution_profile_id": "grok_director_frontier",
+    "resolved_provider_model": "grok-4.6",
+    "reasoning_effort": "xhigh",
+    "provider_capability_snapshot_sha256": "4902392f855d3c8c1881bf2a4c62a6af102a28223edbd70cf49ae0adaf5c70d5",
+    "fallback_allowed": false,
+    "silent_substitution_allowed": false
+  },
+  "goal_evidence": {
+    "native_goal_id": "GOAL_G6_PLANNING_P2",
+    "goal_text_sha256": "6de17e6841ca1de1fc34152c42a5f00f7a8d4f48d1ff76700c2e8d3169bb5ae2",
+    "goal_semantics": "grok_goal_completed_admission",
+    "goal_terminal_state": "complete",
+    "goal_last_event": "goal_completed",
+    "goal_terminal_event_sha256": "a00bc3daa7b6e46e5a7d6be74658354ae96206ab41fbb338e5da8160b472b03c",
+    "terminal_event": {
+      "path": "scripts/tests/fixtures/graph-authority/evidence/goal-events/goal-g6-planning-p2.yaml",
+      "sha256": "a00bc3daa7b6e46e5a7d6be74658354ae96206ab41fbb338e5da8160b472b03c"
+    }
+  },
+  "input_digest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "bounded_output": {
+    "output_kind": "planning_visual_reference_decision_set",
+    "expected_paths": ["work/graph-authority-fixture/planning-p2-decision-set.yaml"],
+    "maximum_artifact_count": 1
+  },
+  "output_manifest": null,
+  "stop_conditions": [
+    "third_session_requested",
+    "planning_decision_set_conflict",
+    "provider_fallback_attempt"
+  ],
+  "lifecycle_state": "launched",
+  "legal_next": ["returned", "hold"],
+  "assignment_pass": false
+}

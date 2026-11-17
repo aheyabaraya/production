@@ -1,0 +1,354 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/graph-department-dispatch.schema.json",
+  "title": "IDOL Graph Department Dispatch",
+  "description": "Graph Engineering Work Package contract: native Goal first, exact profile and hash evidence, one output writer, one Director reviewer, one return recipient, and no provider fallback. Scripts validate structure and provenance only; they never author creative truth or PASS.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "dispatch_id",
+    "run",
+    "lane_id",
+    "section_cohort_id",
+    "section_ids",
+    "logical_role",
+    "assigned_owner",
+    "output_writer",
+    "reviewer",
+    "return_recipient",
+    "provider_binding",
+    "goal_evidence",
+    "input_digest_sha256",
+    "bounded_output",
+    "output_manifest",
+    "stop_conditions",
+    "lifecycle_state",
+    "legal_next"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-graph-department-dispatch.v1"},
+    "artifact_type": {"const": "graph_department_dispatch"},
+    "dispatch_id": {"$ref": "#/$defs/token"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "lane_id": {"$ref": "#/$defs/laneId"},
+    "section_cohort_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/cohortId"},
+        {"type": "null"}
+      ]
+    },
+    "section_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/sectionId"}
+    },
+    "logical_role": {"$ref": "#/$defs/logicalRole"},
+    "assigned_owner": {"$ref": "#/$defs/nonEmpty"},
+    "output_writer": {"$ref": "#/$defs/writer"},
+    "reviewer": {"$ref": "#/$defs/reviewer"},
+    "return_recipient": {"$ref": "#/$defs/recipient"},
+    "provider_binding": {"$ref": "#/$defs/providerBinding"},
+    "goal_evidence": {"$ref": "#/$defs/goalEvidence"},
+    "input_digest_sha256": {"$ref": "#/$defs/sha256"},
+    "bounded_output": {"$ref": "#/$defs/boundedOutput"},
+    "output_manifest": {"$ref": "#/$defs/nullablePointer"},
+    "review_checkpoint": {"enum": ["02b_pixel", "03v_playback"]},
+    "judgment_profile_id": {
+      "enum": [
+        "pre_fp_storyline",
+        "reference_candidate",
+        "front_planning_close",
+        "draft_keyframe_proof",
+        "pixel_02b",
+        "playback_03v",
+        "edit_04_playback"
+      ]
+    },
+    "contextual_judgment": {"$ref": "#/$defs/contextualJudgmentPointer"},
+    "stop_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/nonEmpty"}
+    },
+    "lifecycle_state": {
+      "enum": ["prepared", "launched", "returned", "reviewed", "hold"]
+    },
+    "legal_next": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["prepared", "launched", "returned", "reviewed", "hold"]
+      }
+    },
+    "lifecycle_from": {
+      "enum": ["prepared", "launched", "returned", "reviewed", "hold"]
+    },
+    "assignment_pass": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lane_id": {
+            "anyOf": [
+              {"const": "planning_p2"},
+              {"pattern": "^planning_p3_c[1-9][0-9]*$"}
+            ]
+          }
+        },
+        "required": ["lane_id"]
+      },
+      "then": {
+        "properties": {
+          "reviewer": {
+            "properties": {
+              "role": {"const": "planning_cdd_p1"},
+              "lane_id": {"const": "planning_p1"}
+            }
+          },
+          "return_recipient": {
+            "properties": {
+              "role": {"const": "planning_cdd_p1"},
+              "return_route": {"const": "planning_cdd_p1_exact_link"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"logical_role": {"const": "section_image_motion_worker"}},
+        "required": ["logical_role"]
+      },
+      "then": {
+        "required": ["review_checkpoint"],
+        "properties": {
+          "lane_id": {"pattern": "^section_cluster_v_c[1-9][0-9]*$"},
+          "reviewer": {
+            "required": ["session_id", "logical_lineage_id"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"lifecycle_state": {"enum": ["returned", "reviewed"]}},
+        "required": ["lifecycle_state"]
+      },
+      "then": {"properties": {"output_manifest": {"$ref": "#/$defs/pointer"}}}
+    },
+    {
+      "if": {
+        "properties": {"lifecycle_state": {"const": "reviewed"}},
+        "required": ["lifecycle_state"]
+      },
+      "then": {
+        "required": ["judgment_profile_id", "contextual_judgment"],
+        "properties": {
+          "output_writer": {"required": ["session_id"]}
+        }
+      }
+    },
+    {
+      "if": {"required": ["contextual_judgment"]},
+      "then": {"required": ["judgment_profile_id"]}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "token": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,180}$"},
+    "runPath": {
+      "type": "string",
+      "pattern": "^(?:runs/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Z0-9][A-Z0-9_-]{2,80}|runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|cf/runs/CF_[A-Z0-9][A-Z0-9_-]{2,120})$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:AGENTS\\.md|(?:\\.codex/|\\.cursor/|\\.grok/|automation/|assets/|catalog/|cf/|development/|handoff/|policies/|reference-library/|references/|runs/|schemas/|scripts/|skills/|source-materials/|wiki/|work/).+)"
+    },
+    "sectionId": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+    "cohortId": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+    "laneId": {
+      "type": "string",
+      "pattern": "^(?:overall|planning_p1|planning_p2|planning_p3_c[1-9][0-9]*|section_cluster_v_c[1-9][0-9]*|edit_director)$"
+    },
+    "logicalRole": {
+      "enum": [
+        "overall_director",
+        "planning_cdd",
+        "section_cluster_cdd",
+        "edit_director",
+        "section_image_motion_worker",
+        "department_worker"
+      ]
+    },
+    "pointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "nullablePointer": {
+      "oneOf": [
+        {"$ref": "#/$defs/pointer"},
+        {"type": "null"}
+      ]
+    },
+    "boundedOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output_kind", "expected_paths", "maximum_artifact_count"],
+      "properties": {
+        "output_kind": {"$ref": "#/$defs/token"},
+        "expected_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "maximum_artifact_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "contextualJudgmentPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "profile_id"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "profile_id": {
+          "enum": [
+            "pre_fp_storyline",
+            "reference_candidate",
+            "front_planning_close",
+            "draft_keyframe_proof",
+            "pixel_02b",
+            "playback_03v",
+            "edit_04_playback"
+          ]
+        }
+      }
+    },
+    "writer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmpty"},
+        "role": {"$ref": "#/$defs/logicalRole"},
+        "session_id": {"$ref": "#/$defs/token"}
+      }
+    },
+    "reviewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "lane_id"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmpty"},
+        "role": {
+          "enum": [
+            "overall_director",
+            "planning_cdd_p1",
+            "creative_development_director",
+            "edit_director"
+          ]
+        },
+        "lane_id": {"$ref": "#/$defs/laneId"},
+        "session_id": {"$ref": "#/$defs/token"},
+        "logical_lineage_id": {"$ref": "#/$defs/token"}
+      }
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "role", "return_route"],
+      "properties": {
+        "owner": {"$ref": "#/$defs/nonEmpty"},
+        "role": {
+          "enum": [
+            "overall_director",
+            "planning_cdd_p1",
+            "creative_development_director",
+            "edit_director"
+          ]
+        },
+        "return_route": {"$ref": "#/$defs/nonEmpty"}
+      }
+    },
+    "providerBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registered_provider",
+        "runtime_surface",
+        "logical_profile_alias",
+        "execution_profile_id",
+        "resolved_provider_model",
+        "reasoning_effort",
+        "provider_capability_snapshot_sha256",
+        "fallback_allowed",
+        "silent_substitution_allowed"
+      ],
+      "properties": {
+        "registered_provider": {"enum": ["grok", "cursor"]},
+        "runtime_surface": {"$ref": "#/$defs/nonEmpty"},
+        "logical_profile_alias": {
+          "enum": ["frontier_director", "worker_high", "research_medium"]
+        },
+        "execution_profile_id": {"$ref": "#/$defs/nonEmpty"},
+        "resolved_provider_model": {"$ref": "#/$defs/nonEmpty"},
+        "reasoning_effort": {"$ref": "#/$defs/nonEmpty"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "fallback_allowed": {"const": false},
+        "silent_substitution_allowed": {"const": false}
+      }
+    },
+    "goalEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "native_goal_id",
+        "goal_text_sha256",
+        "goal_semantics",
+        "goal_terminal_state",
+        "goal_last_event",
+        "goal_terminal_event_sha256",
+        "terminal_event"
+      ],
+      "properties": {
+        "native_goal_id": {"$ref": "#/$defs/nonEmpty"},
+        "goal_text_sha256": {"$ref": "#/$defs/sha256"},
+        "goal_semantics": {
+          "enum": [
+            "grok_goal_completed_admission",
+            "cursor_external_goal_runtime_receipt"
+          ]
+        },
+        "goal_terminal_state": {"enum": ["complete", "success"]},
+        "goal_last_event": {
+          "enum": ["goal_completed", "cli_terminal_success"]
+        },
+        "goal_terminal_event_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_event": {"$ref": "#/$defs/goalTerminalEventPointer"},
+        "goal_completed_closes": {"const": "successor_admission_only"},
+        "idol_assignment_pass": {"const": false}
+      }
+    },
+    "goalTerminalEventPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

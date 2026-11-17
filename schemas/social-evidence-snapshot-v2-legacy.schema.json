@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/social-evidence-snapshot-v2-legacy.schema.json",
+  "title": "IDOL Social Evidence Snapshot v2 Legacy Reader",
+  "description": "Compatibility-only reader for preserved idol_social_evidence_snapshot.v2 bytes. New snapshot authoring is forbidden here and uses schemas/social-evidence-snapshot.schema.json v3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "run",
+    "content_id",
+    "status",
+    "evidence_status",
+    "ledger_scope",
+    "source_ledgers",
+    "source_set_sha256",
+    "summary",
+    "post_facts",
+    "metric_facts",
+    "automation_boundaries"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "idol_social_evidence_snapshot.v2"
+    },
+    "generated_at": {"type": "string", "format": "date-time"},
+    "run": {"type": "string", "pattern": "^(?:runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9가-힣][a-z0-9가-힣-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}|runs/2026-07-29/0729_ONE_MOVE)$"},
+    "content_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"},
+    "status": {"enum": ["observed", "no_evidence_yet"]},
+    "evidence_status": {
+      "enum": [
+        "no_post_records",
+        "posts_without_published_facts",
+        "published_without_metrics",
+        "published_partial_metrics",
+        "measured"
+      ]
+    },
+    "ledger_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "override_reason"],
+      "properties": {
+        "mode": {"enum": ["canonical", "audited_override"]},
+        "override_reason": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "canonical"}}, "required": ["mode"]},
+          "then": {"properties": {"override_reason": {"type": "null"}}}
+        },
+        {
+          "if": {"properties": {"mode": {"const": "audited_override"}}, "required": ["mode"]},
+          "then": {"properties": {"override_reason": {"type": "string", "minLength": 12}}}
+        }
+      ]
+    },
+    "source_ledgers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/source_ledger"}
+    },
+    "source_set_sha256": {"$ref": "#/$defs/sha256"},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["post_count", "published_count", "metric_count", "latest_metric_count", "missing_metric_post_ids"],
+      "properties": {
+        "post_count": {"type": "integer", "minimum": 0},
+        "published_count": {"type": "integer", "minimum": 0},
+        "metric_count": {"type": "integer", "minimum": 0},
+        "latest_metric_count": {"type": "integer", "minimum": 0},
+        "selected_metric_count": {"type": "integer", "minimum": 0},
+        "content_family_post_counts": {"$ref": "#/$defs/count_map"},
+        "published_content_family_counts": {"$ref": "#/$defs/count_map"},
+        "content_lane_post_counts": {"$ref": "#/$defs/count_map"},
+        "format_family_post_counts": {"$ref": "#/$defs/count_map"},
+        "measurement_window_counts": {"$ref": "#/$defs/count_map"},
+        "shared_media_post_count": {"type": "integer", "minimum": 0},
+        "unclassified_learning_post_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "missing_metric_post_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "post_facts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/post_fact"}
+    },
+    "metric_facts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/metric_fact"}
+    },
+    "automation_boundaries": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "count_map": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "source_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "sha256", "byte_count", "row_count", "matching_row_count"],
+      "properties": {
+        "role": {"enum": ["platform_posts", "platform_metrics"]},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 0},
+        "row_count": {"type": "integer", "minimum": 0},
+        "matching_row_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "post_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["post_id", "platform", "template_type", "message", "asset_or_clip", "status", "scheduled_at", "published_at", "platform_post_id", "published_url", "row_sha256"],
+      "properties": {
+        "post_id": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "template_type": {"type": "string", "minLength": 1},
+        "content_lane": {"type": "string", "minLength": 1},
+        "content_family": {"type": "string", "minLength": 1},
+        "format_family": {"type": "string", "minLength": 1},
+        "media_kind": {"type": "string", "minLength": 1},
+        "shared_media_source_post_id": {"type": "string", "minLength": 1},
+        "reply_to_post_id": {"type": "string", "minLength": 1},
+        "thread_role": {"type": "string", "minLength": 1},
+        "harness_intensity": {"type": "integer", "minimum": 0, "maximum": 3},
+        "member_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "member_intro_line": {"type": "string"},
+        "content_pillar": {"type": "string", "minLength": 1},
+        "primary_channel_job": {"type": "string", "minLength": 1},
+        "duration_band": {"type": "string", "minLength": 1},
+        "hook_type": {"type": "string", "minLength": 1},
+        "first_frame_type": {"type": "string", "minLength": 1},
+        "payoff_timestamp": {"type": ["number", "string"]},
+        "edit_density": {"type": ["number", "string"]},
+        "data_completeness": {"type": "string", "minLength": 1},
+        "known_gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "message": {"type": "string"},
+        "asset_or_clip": {"type": "string"},
+        "status": {"type": "string", "minLength": 1},
+        "scheduled_at": {"type": "string"},
+        "published_at": {"type": "string"},
+        "platform_post_id": {"type": "string"},
+        "published_url": {"type": "string"},
+        "row_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "metric_fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["post_id", "platform", "observed_date", "captured_at", "views", "engagement", "source", "row_sha256"],
+      "properties": {
+        "post_id": {"type": "string", "minLength": 1},
+        "platform": {"type": "string", "minLength": 1},
+        "observed_date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "captured_at": {"type": "string", "format": "date-time"},
+        "views": {"type": "number", "minimum": 0},
+        "engagement": {"type": "number", "minimum": 0},
+        "likes": {"type": ["number", "null"], "minimum": 0},
+        "comments": {"type": ["number", "null"], "minimum": 0},
+        "shares": {"type": ["number", "null"], "minimum": 0},
+        "saves": {"type": ["number", "null"], "minimum": 0},
+        "quotes": {"type": ["number", "null"], "minimum": 0},
+        "watch_retention": {"type": ["number", "null"], "minimum": 0},
+        "completion_rate": {"type": ["number", "null"], "minimum": 0},
+        "measurement_window": {"enum": ["T+24h", "T+72h", "T+7d"]},
+        "checkpoint_target_at": {"type": "string", "format": "date-time"},
+        "checkpoint_lag_seconds": {"type": "integer", "minimum": 0},
+        "source": {"type": "string", "minLength": 1},
+        "source_locator": {"type": "string", "minLength": 1},
+        "metric_scope": {"type": "string", "minLength": 1},
+        "views_semantics": {"type": "string", "minLength": 1},
+        "known_gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "data_completeness": {"type": "string", "minLength": 1},
+        "snapshot_id": {"type": "string", "minLength": 1},
+        "snapshot_kind": {"type": "string", "minLength": 1},
+        "decision": {"type": "string"},
+        "row_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

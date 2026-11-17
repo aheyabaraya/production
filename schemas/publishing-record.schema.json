@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/publishing-record.schema.json",
+  "title": "IDOL Immutable Publishing Record Extract",
+  "description": "Machine-checkable closeout contract extracted from a run-owned publishing-plan.md that has become an immutable completed publishing record.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "record_kind",
+    "content_id",
+    "public_group_name",
+    "public_fan_name",
+    "status",
+    "created_at_kst",
+    "updated_at_kst",
+    "sections",
+    "platform_completion",
+    "closed_upload_history"
+  ],
+  "properties": {
+    "record_kind": { "const": "immutable_closed" },
+    "content_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9][A-Z0-9_-]{2,120}$"
+    },
+    "public_group_name": { "const": "Loom" },
+    "public_fan_name": { "const": "Harne" },
+    "status": {
+      "type": "string",
+      "pattern": "^(?:.*closed.*|.*final_complete.*|archived)$"
+    },
+    "created_at_kst": { "type": "string", "minLength": 1 },
+    "updated_at_kst": { "type": "string", "minLength": 1 },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "allOf": [
+        { "contains": { "const": "Scope" } },
+        { "contains": { "const": "Tracking Convention" } },
+        { "contains": { "const": "Approval State" } },
+        { "contains": { "const": "Platform Completion" } },
+        { "contains": { "const": "Closed Upload History" } }
+      ]
+    },
+    "selected_master": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/selected_master" }
+    },
+    "platform_completion": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/platform_completion" }
+    },
+    "closed_upload_history": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/closed_upload" }
+    },
+    "approval_text": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "platform": {
+      "type": "string",
+      "enum": ["x", "tiktok", "youtube", "youtube_shorts", "instagram_reels"]
+    },
+    "selected_master": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["clip_id", "public_pointer", "why_selected"],
+      "properties": {
+        "clip_id": { "type": "string", "minLength": 1 },
+        "public_pointer": { "type": "string", "minLength": 1 },
+        "why_selected": { "type": "string", "minLength": 1 }
+      }
+    },
+    "platform_completion": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["platform", "status", "id_or_url", "evidence"],
+      "properties": {
+        "platform": { "$ref": "#/$defs/platform" },
+        "status": { "type": "string", "minLength": 1 },
+        "id_or_url": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "closed_upload": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["post_id", "platform", "record", "status"],
+      "properties": {
+        "post_id": { "type": "string", "minLength": 1 },
+        "platform": { "$ref": "#/$defs/platform" },
+        "record": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

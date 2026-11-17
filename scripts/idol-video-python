@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
+PYTHON_BIN="$ROOT/.venv-video/bin/python"
+
+usage() {
+  cat >&2 <<'EOF'
+Usage:
+  scripts/idol-video-python --check
+  scripts/idol-video-python scripts/<video_or_audio_script>.py [args...]
+  scripts/idol-video-python -m pip list
+
+This launcher is the required IDOL entrypoint for local audio/video Python work.
+It pins Python to .venv-video and exposes Homebrew ffmpeg/ffprobe to the session.
+EOF
+}
+
+if [[ ! -x "$PYTHON_BIN" ]]; then
+  cat >&2 <<EOF
+Missing IDOL video Python environment:
+  $PYTHON_BIN
+
+Create or restore .venv-video before running audio/video analysis scripts.
+EOF
+  exit 127
+fi
+
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PYTHONPATH="$ROOT/scripts${PYTHONPATH:+:$PYTHONPATH}"
+export IDOL_ROOT="$ROOT"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$ROOT/.runtime/cache}"
+export MPLCONFIGDIR="${MPLCONFIGDIR:-$XDG_CACHE_HOME/matplotlib}"
+export PIP_CACHE_DIR="${PIP_CACHE_DIR:-$XDG_CACHE_HOME/pip}"
+mkdir -p "$XDG_CACHE_HOME" "$MPLCONFIGDIR" "$PIP_CACHE_DIR"
+
+check_tool() {
+  local tool="$1"
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    echo "MISSING: $tool (expected in /opt/homebrew/bin, /usr/local/bin, or PATH)" >&2
+    return 1
+  fi
+}
+
+if [[ "${1:-}" == "--check" ]]; then
+  "$PYTHON_BIN" - <<'PY'
+import importlib.util
+from importlib import metadata
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+
+ROOT = Path(os.environ["IDOL_ROOT"])
+
+print(f"python: {sys.executable}")
+print(f"version: {sys.version.split()[0]}")
+system_python = shutil.which("python3")
+system_version = "MISSING"
+if system_python:
+    try:
+        system_version = subprocess.run(
+            [system_python, "--version"],
+            check=False,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        ).stdout.strip()
+    except OSError as exc:
+        system_version = f"ERROR: {exc}"
+print("system_python:")
+print(f"  executable: {system_python or 'MISSING'}")
+print(f"  version: {system_version}")
+print(f"  differs_from_video_runtime: {system_python != sys.executable if system_python else 'unknown'}")
+required = [
+    "numpy",
+    "scipy",
+    "librosa",
+    "soundfile",
+    "moviepy",
+    "cv2",
+    "matplotlib",
+    "imageio",
+    "imageio_ffmpeg",
+    "PIL",
+    "yaml",
+    "jsonschema",
+]
+extended = [
+    "pandas",
+    "sklearn",
+    "scenedetect",
+    "numba",
+    "audioread",
+    "soxr",
+    "pooch",
+    "demucs",
+]
+optional_not_installed = [
+    "pydub",
+    "av",
+    "ffmpeg",
+    "whisper",
+    "torch",
+    "torchaudio",
+    "mediapipe",
+]
+
+missing_required = []
+pin_mismatches = []
+
+print("required:")
+for name in required:
+    spec = importlib.util.find_spec(name)
+    status = "FOUND" if spec else "MISSING"
+    print(f"  {name}: {status}")
+    if not spec:
+        missing_required.append(name)
+
+print("requirements pins:")
+installed_versions = {
+    dist.metadata["Name"].lower().replace("_", "-"): dist.version
+    for dist in metadata.distributions()
+    if dist.metadata.get("Name")
+}
+requirements_path = ROOT / "requirements-video.txt"
+if requirements_path.exists():
+    for raw_line in requirements_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "==" not in line:
+            continue
+        package, expected = line.split("==", 1)
+        key = package.strip().lower().replace("_", "-")
+        expected = expected.strip()
+        actual = installed_versions.get(key)
+        status = "OK" if actual == expected else "MISMATCH"
+        print(f"  {package.strip()}: expected={expected} installed={actual or 'MISSING'} {status}")
+        if actual != expected:
+            pin_mismatches.append(f"{package.strip()} expected {expected}, installed {actual or 'MISSING'}")
+else:
+    print("  requirements-video.txt: MISSING")
+    pin_mismatches.append("requirements-video.txt missing")
+
+print("extended installed analysis:")
+for name in extended:
+    spec = importlib.util.find_spec(name)
+    print(f"  {name}: {'FOUND' if spec else 'MISSING'}")
+
+print("optional not required by current IDOL scripts:")
+for name in optional_not_installed:
+    spec = importlib.util.find_spec(name)
+    print(f"  {name}: {'FOUND' if spec else 'MISSING'}")
+
+print("tools:")
+for tool in ["ffmpeg", "ffprobe", "ffplay", "sox", "mediainfo", "exiftool"]:
+    print(f"  {tool}: {shutil.which(tool) or 'MISSING'}")
+
+print("policy:")
+print("  media/runtime isolation: use scripts/idol-video-python for audio/video/media/schema Python work; bare python3 may point to a newer system interpreter.")
+
+if missing_required:
+    raise SystemExit(f"missing required Python modules: {', '.join(missing_required)}")
+if pin_mismatches:
+    raise SystemExit(f"requirements pin mismatch: {', '.join(pin_mismatches)}")
+PY
+  check_tool ffmpeg
+  check_tool ffprobe
+  exit 0
+fi
+
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 64
+fi
+
+cd "$ROOT"
+exec "$PYTHON_BIN" "$@"

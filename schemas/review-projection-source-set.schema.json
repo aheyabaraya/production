@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/review-projection-source-set.schema.json",
+  "title": "IDOL Founder Review Projection Source Set",
+  "description": "A run-owned, hash-bound query plan for mechanically projecting existing owner artifacts into the stable Founder Workbench. It selects and exact-copies pointers and owner-authored states; it does not own media, author creative meaning, infer approval, or write stage truth.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "status",
+    "run",
+    "base_manifest",
+    "projection_revision",
+    "source_set_digest",
+    "director_dispatch_index",
+    "sources",
+    "outputs",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "idol-review-projection-source-set.v2"},
+    "artifact_type": {"const": "review_projection_source_set"},
+    "status": {"const": "prepared"},
+    "run": {"$ref": "#/$defs/runPath"},
+    "base_manifest": {"$ref": "#/$defs/artifactBinding"},
+    "projection_revision": {"type": "integer", "minimum": 1},
+    "source_set_digest": {"$ref": "#/$defs/sourceSetDigest"},
+    "director_dispatch_index": {"$ref": "#/$defs/artifactBinding"},
+    "ordered_review": {
+      "oneOf": [
+        {"type": "null"},
+        {"$ref": "#/$defs/orderedReview"}
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sourceAdapter"}
+    },
+    "outputs": {"$ref": "#/$defs/outputs"},
+    "authority_boundary": {"$ref": "#/$defs/authorityBoundary"}
+  },
+  "$defs": {
+    "token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{1,160}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "runPath": {
+      "type": "string",
+      "pattern": "^runs/[a-z0-9][a-z0-9-]{1,120}/[a-z0-9\\uac00-\\ud7a3][a-z0-9\\uac00-\\ud7a3-]{1,120}/[A-Za-z0-9][A-Za-z0-9._-]{2,120}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?:automation/|assets/|runs/|schemas/|scripts/|source-materials/).+"
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "role": {"type": "string", "minLength": 1}
+      }
+    },
+    "sourceSetDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "basis", "sha256", "entry_count"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "basis": {"const": "canonical_projection_query_and_owner_bindings_v1"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "entry_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "jsonPointer": {
+      "type": "string",
+      "pattern": "^/(?:[^~]|~[01])*(?:/(?:[^~]|~[01])*)*$"
+    },
+    "optionalJsonPointer": {
+      "oneOf": [
+        {"$ref": "#/$defs/jsonPointer"},
+        {"type": "null"}
+      ]
+    },
+    "assetFieldPointers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_id",
+        "surface_locator",
+        "canonical_path",
+        "sha256",
+        "alt",
+        "label",
+        "media_kind",
+        "original_owner",
+        "role",
+        "inspection_action",
+        "display_lane"
+      ],
+      "properties": {
+        "asset_id": {"$ref": "#/$defs/jsonPointer"},
+        "surface_locator": {"$ref": "#/$defs/jsonPointer"},
+        "canonical_path": {"$ref": "#/$defs/jsonPointer"},
+        "sha256": {"$ref": "#/$defs/jsonPointer"},
+        "alt": {"$ref": "#/$defs/jsonPointer"},
+        "label": {"$ref": "#/$defs/jsonPointer"},
+        "note": {"$ref": "#/$defs/optionalJsonPointer"},
+        "media_kind": {"$ref": "#/$defs/jsonPointer"},
+        "original_owner": {"$ref": "#/$defs/jsonPointer"},
+        "role": {"$ref": "#/$defs/jsonPointer"},
+        "inspection_action": {"$ref": "#/$defs/jsonPointer"},
+        "display_lane": {"$ref": "#/$defs/jsonPointer"},
+        "receipt": {"$ref": "#/$defs/optionalJsonPointer"},
+        "supersedes_asset_id": {"$ref": "#/$defs/optionalJsonPointer"},
+        "superseded_by_asset_id": {"$ref": "#/$defs/optionalJsonPointer"}
+      }
+    },
+    "bindingFieldPointers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "assignment_state",
+        "target_id",
+        "target_level",
+        "declared_order",
+        "lane_role",
+        "disposition",
+        "review_state",
+        "state_receipt"
+      ],
+      "properties": {
+        "binding_id": {"$ref": "#/$defs/jsonPointer"},
+        "assignment_state": {"$ref": "#/$defs/jsonPointer"},
+        "target_id": {"$ref": "#/$defs/jsonPointer"},
+        "target_level": {"$ref": "#/$defs/jsonPointer"},
+        "section_id": {"$ref": "#/$defs/optionalJsonPointer"},
+        "core_cut_id": {"$ref": "#/$defs/optionalJsonPointer"},
+        "branch_cut_id": {"$ref": "#/$defs/optionalJsonPointer"},
+        "declared_order": {"$ref": "#/$defs/jsonPointer"},
+        "lane_role": {"$ref": "#/$defs/jsonPointer"},
+        "disposition": {"$ref": "#/$defs/jsonPointer"},
+        "review_state": {"$ref": "#/$defs/jsonPointer"},
+        "state_receipt": {"$ref": "#/$defs/jsonPointer"},
+        "routing_dispatch_id": {"$ref": "#/$defs/optionalJsonPointer"}
+      }
+    },
+    "sourceAdapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "adapter_kind",
+        "source_stage",
+        "owner_artifact",
+        "expected_schema_version",
+        "inventory_pointer",
+        "projection_state_pointer",
+        "project_values",
+        "excluded_values",
+        "exclusion_reason_pointer",
+        "asset_fields",
+        "binding_fields"
+      ],
+      "properties": {
+        "source_id": {"$ref": "#/$defs/token"},
+        "adapter_kind": {
+          "enum": [
+            "reference_working_index",
+            "current_title_member_visual",
+            "stage_01",
+            "stage_02a",
+            "stage_02b",
+            "generated_branch_review",
+            "stage_03v",
+            "stage_04"
+          ]
+        },
+        "source_stage": {"enum": ["front_planning", "01", "02A", "02B", "generated_branch_review", "03V", "04"]},
+        "owner_artifact": {"$ref": "#/$defs/artifactBinding"},
+        "expected_schema_version": {"type": "string", "minLength": 1},
+        "inventory_pointer": {"$ref": "#/$defs/jsonPointer"},
+        "projection_state_pointer": {"$ref": "#/$defs/jsonPointer"},
+        "project_values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "excluded_values": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "exclusion_reason_pointer": {"$ref": "#/$defs/optionalJsonPointer"},
+        "asset_fields": {"$ref": "#/$defs/assetFieldPointers"},
+        "binding_fields": {"$ref": "#/$defs/bindingFieldPointers"}
+      }
+    },
+    "orderedReview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fp_close_source", "planning_02a_source"],
+      "properties": {
+        "fp_close_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Internal Director-closed FP source displayed as exact read-only storyline lineage, never as another Founder PASS gate.",
+          "required": ["owner_artifact", "status_pointer", "closed_values"],
+          "properties": {
+            "owner_artifact": {"$ref": "#/$defs/artifactBinding"},
+            "status_pointer": {"$ref": "#/$defs/jsonPointer"},
+            "closed_values": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "planning_02a_source": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "02A rows eligible for Founder Final Planning; PASS authorizes affected 02B routing only.",
+          "required": ["owner_artifact", "rows_pointer", "target_id_pointer", "status_pointer", "ready_values"],
+          "properties": {
+            "owner_artifact": {"$ref": "#/$defs/artifactBinding"},
+            "rows_pointer": {"$ref": "#/$defs/jsonPointer"},
+            "target_id_pointer": {"$ref": "#/$defs/jsonPointer"},
+            "status_pointer": {"$ref": "#/$defs/jsonPointer"},
+            "ready_values": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": ["string", "boolean", "integer"]}
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_path", "html_path", "pending_path"],
+      "properties": {
+        "manifest_path": {"type": "string", "pattern": "^runs/.+/review/manifests/founder-workbench\\.yaml$"},
+        "html_path": {"type": "string", "pattern": "^runs/.+/review/founder-workbench\\.html$"},
+        "pending_path": {"type": "string", "pattern": "^runs/.+/work/review-projection-pending\\.yaml$"}
+      }
+    },
+    "authorityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pointer_only",
+        "exact_copy_only",
+        "media_copy_allowed",
+        "creative_authority",
+        "stage_write_allowed",
+        "approval_inference_allowed",
+        "new_state_is_revision_derived",
+        "compare_and_swap_required",
+        "atomic_write_required"
+      ],
+      "properties": {
+        "pointer_only": {"const": true},
+        "exact_copy_only": {"const": true},
+        "media_copy_allowed": {"const": false},
+        "creative_authority": {"const": false},
+        "stage_write_allowed": {"const": false},
+        "approval_inference_allowed": {"const": false},
+        "new_state_is_revision_derived": {"const": true},
+        "compare_and_swap_required": {"const": true},
+        "atomic_write_required": {"const": true}
+      }
+    }
+  }
+}

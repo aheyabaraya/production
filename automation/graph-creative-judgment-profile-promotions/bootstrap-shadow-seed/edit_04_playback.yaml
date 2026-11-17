@@ -1,0 +1,18 @@
+schema_version: idol-graph-creative-judgment-profile-promotion.v1
+artifact_type: graph_creative_judgment_profile_promotion
+promotion_id: BOOTSTRAP_SHADOW_SEED_EDIT_04_PLAYBACK
+profile_id: edit_04_playback
+mode: bootstrap_shadow_seed
+new_release:
+  path: automation/graph-creative-judgment-profile-releases/edit_04_playback/540b8233629516732d9dd43e67d494dc882fb5dacb546d689c05089d8a5068e6.yaml
+  sha256: d313232257ea09e5503c4806a4a76d3f65e073a32dbdaa0d559cac789862d514
+  release_value_sha256: 540b8233629516732d9dd43e67d494dc882fb5dacb546d689c05089d8a5068e6
+  profile_value_sha256: 6568cd8a144a8aabcf4e35780a0c0d45b0ca04c686a72743b6d839a768472309
+authority:
+  scripts_author_creative_truth: false
+  automatic_profile_tuning: false
+  automatic_pointer_change: false
+  pointer_change_authority: none
+  execution_authority: false
+  default_cutover_authority: false
+status: bootstrap_shadow_seed_only

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/image-generation-section-worklist.schema.json",
+  "title": "IDOL Provider-Neutral Image Generation Section Worklist",
+  "description": "Active v9 exact request worklist. It preserves every current-session-native or explicit provider selection, provider-specific tool/auth/profile snapshot, authorized Production Cut job, failure isolation, CDD return, and no-fallback boundary. It performs no model call.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "run", "source_prompt_packets", "source_selection", "request_set_sha256", "status", "summary", "sections", "coordinator_contract", "automation_boundaries"],
+  "properties": {
+    "schema_version": {"const": "idol_image_generation_section_worklist.v9"},
+    "artifact_type": {"const": "derived_image_generation_section_worklist"},
+    "run": {"type": "string", "pattern": "^runs/"},
+    "source_prompt_packets": {"$ref": "#/$defs/sourcePointer"},
+    "source_selection": {"$ref": "#/$defs/sourcePointer"},
+    "request_set_sha256": {"$ref": "#/$defs/sha256"},
+    "status": {"enum": ["ready", "hold"]},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_count", "request_count", "ready_section_count", "hold_section_count"],
+      "properties": {
+        "section_count": {"type": "integer", "minimum": 0},
+        "request_count": {"type": "integer", "minimum": 0},
+        "ready_section_count": {"type": "integer", "minimum": 0},
+        "hold_section_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["section_id", "production_scope_ids", "status", "requests", "output_paths", "hold_reasons", "dispatch_contract", "return_recipient"],
+        "properties": {
+          "section_id": {"type": "string", "pattern": "^S[0-9]{2,}[A-Z]?$"},
+          "production_scope_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "status": {"enum": ["ready", "hold"]},
+          "requests": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/request"}},
+          "output_paths": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "hold_reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "dispatch_contract": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["request_unit", "all_authorized_jobs_preserved", "failure_isolation", "prompt_or_attachment_rewrite", "provider_auth_model_fallback", "result_barrier", "controller_script", "ledger_schema"],
+            "properties": {
+              "request_unit": {"const": "one_exact_packet_per_generation_call"},
+              "all_authorized_jobs_preserved": {"const": true},
+              "failure_isolation": {"const": "affected_job_only_unless_shared_locked_input_is_invalid"},
+              "prompt_or_attachment_rewrite": {"const": "forbidden"},
+              "provider_auth_model_fallback": {"const": "none"},
+              "result_barrier": {"const": "exact_expected_path_sha256_and_full_size_pixel_review_before_03v"},
+              "controller_script": {"const": "scripts/idol_image_generation_dispatch.rb"},
+              "ledger_schema": {"const": "schemas/image-generation-dispatch-ledger.schema.json"}
+            }
+          },
+          "return_recipient": {"const": "creative_development_director"}
+        }
+      }
+    },
+    "coordinator_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["single_writer_per_job", "bounded_parallel_disjoint_jobs", "same_output_parallel_write_forbidden", "promotion_authority"],
+      "properties": {
+        "single_writer_per_job": {"const": true},
+        "bounded_parallel_disjoint_jobs": {"const": true},
+        "same_output_parallel_write_forbidden": {"const": true},
+        "promotion_authority": {"const": "founder_only_after_cdd_pixel_review"}
+      }
+    },
+    "automation_boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derived_noncanonical", "model_called", "external_mutation_performed", "paid_generation_performed", "approval_granted"],
+      "properties": {
+        "derived_noncanonical": {"const": true},
+        "model_called": {"const": false},
+        "external_mutation_performed": {"const": false},
+        "paid_generation_performed": {"const": false},
+        "approval_granted": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sourcePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "packet_id", "mode", "cut_id", "cut_type", "production_scope_id", "image_execution_request", "image_execution_request_origin", "image_execution_session_provider", "image_execution_lane", "execution_adapter_id", "provider", "auth_lane", "provider_profile_id", "provider_profile_sha256", "provider_capability_snapshot_sha256", "selected_native_tool", "request_status", "prompt_sha256", "attachment_order_sha256", "expected_output_path"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "packet_id": {"type": "string", "minLength": 1},
+        "mode": {"enum": ["fp_hero_core", "official_core", "official_branch"]},
+        "cut_id": {"type": "string", "minLength": 1},
+        "cut_type": {"enum": ["hero_core", "official_core", "branch"]},
+        "parent_core_cut_id": {"type": "string", "minLength": 1},
+        "production_scope_id": {"type": "string", "minLength": 1},
+        "image_execution_request": {"enum": ["current_session_native", "openai_api_gpt_image_2", "grok_build_oauth_subscription", "xai_api_media"]},
+        "image_execution_request_origin": {"enum": ["founder_omitted_current_session_default", "founder_explicit"]},
+        "image_execution_session_provider": {"enum": ["codex", "grok_build"]},
+        "image_execution_lane": {"enum": ["codex_session_native", "openai_api_gpt_image_2", "grok_build_oauth_subscription", "xai_api_media"]},
+        "execution_adapter_id": {"enum": ["codex_imagegen", "openai_api_gpt_image_2", "grok_image", "xai_api_media"]},
+        "provider": {"enum": ["codex", "openai", "xai_grok_build", "xai_api"]},
+        "auth_lane": {"enum": ["codex_session", "subscription_oauth", "founder_approved_api"]},
+        "provider_profile_id": {"type": "string", "minLength": 1},
+        "provider_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "provider_capability_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+        "selected_native_tool": {"enum": ["imagegen", "image_edit", "image_gen", null]},
+        "request_status": {"enum": ["ready", "hold"]},
+        "prompt_sha256": {"$ref": "#/$defs/sha256"},
+        "attachment_order_sha256": {"$ref": "#/$defs/sha256"},
+        "expected_output_path": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+schema_version: idol-graph-creative-judgment-profile-promotion.v1
+artifact_type: graph_creative_judgment_profile_promotion
+promotion_id: BOOTSTRAP_SHADOW_SEED_PIXEL_02B
+profile_id: pixel_02b
+mode: bootstrap_shadow_seed
+new_release:
+  path: automation/graph-creative-judgment-profile-releases/pixel_02b/b4494c251e1cfd110cd3d4bf9b4e209317f659c2b0ab7467eacad739598dbfd3.yaml
+  sha256: c298dbd197f0f60a6559a62d9596c70ec7cc6c358752ab21db28345d849b9291
+  release_value_sha256: b4494c251e1cfd110cd3d4bf9b4e209317f659c2b0ab7467eacad739598dbfd3
+  profile_value_sha256: ede44c65a84e2c592f40a5b7da95f8a9e1907cf460ea59e5e2df15dda9270e72
+authority:
+  scripts_author_creative_truth: false
+  automatic_profile_tuning: false
+  automatic_pointer_change: false
+  pointer_change_authority: none
+  execution_authority: false
+  default_cutover_authority: false
+status: bootstrap_shadow_seed_only

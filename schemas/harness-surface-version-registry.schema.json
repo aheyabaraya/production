@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aheyabaraya.local/idol/schemas/harness-surface-version-registry.schema.json",
+  "title": "IDOL Graph Engineering Surface Version Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "history_policy", "change_control_policy", "skill_shape_policy", "shared_script_write_guard", "surfaces", "skill_shape_reviews", "overlap_reviews", "creative_adjacent_script_authority"],
+  "properties": {
+    "schema_version": {"const": "idol-harness-surface-version-registry.v5"},
+    "status": {"const": "active"},
+    "history_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_state_record", "revision_history", "same_patch_update", "append_only_changelog"],
+      "properties": {
+        "current_state_record": {"const": "path_revision_sha256"},
+        "revision_history": {"const": "git"},
+        "same_patch_update": {"const": true},
+        "append_only_changelog": {"const": false}
+      }
+    },
+    "change_control_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tracked_surface_change", "contract_authoring_version_change", "stale_or_missing_registry_update", "size_finding_authority", "size_remediation_authority", "automatic_size_remediation"],
+      "properties": {
+        "tracked_surface_change": {"const": "same_patch_revision_and_sha256_update_required"},
+        "contract_authoring_version_change": {"const": "same_patch_contract_version_registry_update_required"},
+        "stale_or_missing_registry_update": {"const": "hold"},
+        "size_finding_authority": {"const": "diagnostic_or_hold_only"},
+        "size_remediation_authority": {"const": "founder_explicit_current_request_only"},
+        "automatic_size_remediation": {"const": false}
+      }
+    },
+    "skill_shape_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_lines", "reviewed_ceiling_lines", "target_behavior", "ceiling_behavior", "remediation_authority", "automatic_refactor"],
+      "properties": {
+        "target_lines": {"const": 500},
+        "reviewed_ceiling_lines": {"const": 720},
+        "target_behavior": {"const": "review_cohesion_and_linked_detail_before_split"},
+        "ceiling_behavior": {"const": "hold_and_request_founder_instruction"},
+        "remediation_authority": {"const": "founder_explicit_current_request_only"},
+        "automatic_refactor": {"const": false}
+      }
+    },
+    "shared_script_write_guard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detection_rule", "unclassified_behavior", "canonical_filename_tokens", "noncanonical_exemptions"],
+      "properties": {
+        "detection_rule": {"const": "write_operation_and_canonical_filename_token"},
+        "unclassified_behavior": {"const": "hold"},
+        "canonical_filename_tokens": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 3}
+        },
+        "noncanonical_exemptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "reason"],
+            "properties": {
+              "path": {"type": "string", "pattern": "^scripts/[A-Za-z0-9._-]+$"},
+              "reason": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "surfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["surface_id", "path", "surface_type", "owner", "role", "current_revision", "sha256"],
+        "properties": {
+          "surface_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "path": {"type": "string", "minLength": 1},
+          "surface_type": {"enum": ["constitution", "policy", "wiki_router", "contract", "skill", "script_registry", "validator", "creative_adjacent_script"]},
+          "owner": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "current_revision": {"type": "integer", "minimum": 1},
+          "sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "skill_shape_reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "observed_lines", "disposition", "rationale"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(?:skills|\\.grok/skills)/[^/]+/SKILL\\.md$"},
+          "observed_lines": {"type": "integer", "minimum": 1},
+          "disposition": {"enum": ["keep_cohesive", "founder_review_required_before_refactor", "split_required_after_founder_instruction"]},
+          "rationale": {"type": "string", "minLength": 1},
+          "ceiling_exception": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "maximum_lines", "basis"],
+            "properties": {
+              "status": {"const": "founder_approved_existing_exception"},
+              "maximum_lines": {"type": "integer", "minimum": 721},
+              "basis": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "overlap_reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cluster_id", "skills", "disposition", "rationale"],
+        "properties": {
+          "cluster_id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+          "skills": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9-]+$"}},
+          "disposition": {"enum": ["keep_separate", "consolidate_router", "merge"]},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "creative_adjacent_script_authority": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "authority", "may_write_canonical", "creative_value_creation", "constraint"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^scripts/[A-Za-z0-9._-]+$"},
+          "authority": {"enum": ["validation", "hash_bound_exact_copy", "lossless_projection", "derived_read_model"]},
+          "may_write_canonical": {"type": "boolean"},
+          "creative_value_creation": {"const": false},
+          "constraint": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

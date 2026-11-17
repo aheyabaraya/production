@@ -1,0 +1,149 @@
+schema_version: idol-harness-checkpoint-closure-catalog.v1
+status: active
+authority: recipe_owned_mechanical_presence_count_hash_enum_only
+append_policy:
+  recipe_rows: immutable
+  director_may_append_assignment_delta_rows: true
+  recipe_row_deletion: forbidden
+checkpoints:
+  - checkpoint_group: front_planning_cdd_readiness
+    profile_ids:
+      - creative_development_director
+    checkpoint_ids:
+      - cdd_startup
+      - cdd_direction_alignment
+    consume_validators:
+      - scripts/validate_front_planning_readiness.rb
+      - scripts/validate_front_planning_sequence_core_hold.rb
+      - scripts/idol_validate_storyline_density_locators.rb
+    rows:
+      - requirement_id: OUTPUT-FP-ROUTES-ABC
+        category: output
+        source_locator: skills/idol-front-planning-director/SKILL.md#Active Output
+        check_kind: count
+        expected: exactly the three route ids FP-A, FP-B, and FP-C
+        evidence_type: artifact
+      - requirement_id: OUTPUT-SEQUENCE-UNIT-FIVE-FRAME
+        category: output
+        source_locator: skills/idol-front-planning-director/SKILL.md#Active Output
+        check_kind: count
+        expected: exactly five frames at exact one-second cadence with path and SHA-256
+        evidence_type: artifact
+      - requirement_id: POLICY-REFERENCE-DISPOSITION
+        category: policy
+        source_locator: policies/harness-routing-and-sources.md#Reference Interpretation Carry
+        check_kind: enum
+        expected: applied, combined, held, or rejected
+        evidence_type: field
+      - requirement_id: CONTRACT-STORYLINE-ORIGINAL-ACTIVE-HASH
+        category: contract
+        source_locator: policies/harness-routing-and-sources.md#PRE-00 Full-Storyline Lineage
+        check_kind: hash
+        expected: original and active full-storyline text SHA-256 preserved
+        evidence_type: artifact
+      - requirement_id: HOLD-CORE-BINDING-OR-FOUNDER-WAIVER
+        category: hold
+        source_locator: skills/idol-front-planning-director/SKILL.md#Active Output
+        check_kind: presence
+        expected: selected Core path and SHA-256, or a Founder-authored waiver naming the exact Core and reason
+        evidence_type: hold
+      - requirement_id: OUTPUT-CAMERA-FOUR-AXIS
+        category: output
+        source_locator: skills/idol-front-planning-director/SKILL.md#Active Output
+        check_kind: presence
+        expected: still-camera height, distance, direction, and angle non-empty when those fields exist
+        evidence_type: field
+      - requirement_id: FOUNDER-KINETIC-START
+        category: founder
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: verbatim Founder kinetic start is planned from Sequence placement through Major lock, Core expansion, and Branch expansion; machine counts the closed row and evidence hash only and does not count seconds
+        evidence_type: artifact
+      - requirement_id: HOLD-SEQUENCE-BEFORE-CORE
+        category: hold
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: Sequence Composition is selected before Core stills are gathered; Core-first then Sequence-attached is CDD HOLD
+        evidence_type: hold
+      - requirement_id: HOLD-SAME-EVENT-ANCHOR-NOT-HYPOTHESIS-FLOOR
+        category: hold
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: frames 1, 3, 5, start/middle/end, or any subset of one Sequence Unit do not count as three creative_hypothesis Core candidates; one event typically leaves one or two key Cores; same_event_anchor chooses phase after a hypothesis exists
+        evidence_type: hold
+      - requirement_id: POLICY-CORE-FROM-MAJOR-SEQUENCE
+        category: policy
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: a section may hold several events with uncapped Major count; selected Cores are one or two key marks on each event Sequence or a better still of the same moment, not a start/middle/end dump
+        evidence_type: artifact
+      - requirement_id: POLICY-PRE00-EXPAND-PLANT-MAJOR-ADD-CORE
+        category: policy
+        source_locator: policies/section-production-front-planning.md#Front Planning As The Section Spine
+        check_kind: director_judgment
+        expected: Front Planning expands the PRE-00 original as an append-only full-text descendant, plants Majors in that expansion, marks Cores from those Sequence sheets, and adds further Cores or Majors the expanded story requires; extracting Sequence frames alone is not expansion
+        evidence_type: artifact
+      - requirement_id: POLICY-EXTRA-CORE-FAST-TEMPO
+        category: policy
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: further Cores are added when the Founder kinetic start needs another must-remain still for the named 2-3 second transition tendency and continuous camera energy; machines do not count seconds; one Core per 2-3 second interval is forbidden; a new governing event is a new Major; same-event cut density that is not a new still is Branch
+        evidence_type: artifact
+      - requirement_id: OUTPUT-CORE-MARKS-ON-SEQUENCE-PARENT
+        category: output
+        source_locator: policies/section-production-workbench.md#Unified Founder Workbench Review
+        check_kind: director_judgment
+        expected: G-30 presents Sequence sheets as Major parents with one or two Core marks per event; a still gallery does not replace Major; Major count is uncapped
+        evidence_type: artifact
+  - checkpoint_group: official_core_01_closure
+    profile_ids:
+      - pre_02a_development_block_fp
+    checkpoint_ids:
+      - section_01_core_direction
+    consume_validators:
+      - scripts/validate_01_section_direction.rb
+    rows:
+      - requirement_id: OUTPUT-OFFICIAL-CORE-ONE-PRIMARY-IMAGE
+        category: output
+        source_locator: policies/section-production-01-02a.md#01 Direction Expansion
+        check_kind: count
+        expected: each Official Core has exactly one passed primary image
+        evidence_type: artifact
+      - requirement_id: HOLD-CORE-GOVERNING-EVENT-NOT-SEQUENCE-PHASE
+        category: hold
+        source_locator: policies/section-production-01-02a.md#01 Direction Expansion
+        check_kind: director_judgment
+        expected: a new governing event is a new Major; one event typically leaves one or two key Cores; start/middle/end Sequence phases are not separate Cores
+        evidence_type: hold
+      - requirement_id: POLICY-KINETIC-CARRY-01
+        category: policy
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: Core expansion carries the Founder kinetic start as named transition tendency, camera energy, Major-Core in/out, and hold reason plus in/out; no 2-3 second numeric quota
+        evidence_type: artifact
+  - checkpoint_group: official_branch_02a_closure
+    profile_ids:
+      - pre_02a_development_block_fp
+    checkpoint_ids:
+      - section_02a_coverage
+    consume_validators:
+      - scripts/validate_master_storyboard.rb
+    rows:
+      - requirement_id: OUTPUT-BRANCH-IMPORTS-CORE-UNCHANGED
+        category: output
+        source_locator: policies/section-production-01-02a.md#02A Branch Coverage
+        check_kind: presence
+        expected: 02A imports each Official Core id, path, and SHA-256 unchanged
+        evidence_type: artifact
+      - requirement_id: HOLD-BRANCH-NOT-NEW-CORE
+        category: hold
+        source_locator: policies/section-production-01-02a.md#02A Branch Coverage
+        check_kind: director_judgment
+        expected: Branch Cuts realize the imported Core event and do not replace it; a new governing event routes to a new Major
+        evidence_type: hold
+      - requirement_id: POLICY-KINETIC-CARRY-02A
+        category: policy
+        source_locator: policies/section-production-front-planning.md#Sequence Parent And Core Marks
+        check_kind: director_judgment
+        expected: Branch expansion carries the Founder kinetic start as named transition tendency, camera energy, and hold reason plus in/out; no 2-3 second numeric quota
+        evidence_type: artifact
